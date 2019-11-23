@@ -993,7 +993,10 @@ function get_price_itinerary(val){
             }
         }
         console.log(airline_pick_list);
-        airline_pick_mc('all');
+        if(airline_request.direction == 'MC')
+            airline_pick_mc('all');
+        else
+            airline_pick_mc('change');
         get_price_itinerary_request();
     }
 }

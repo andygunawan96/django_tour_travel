@@ -242,12 +242,13 @@ function activity_table_detail(){
    text = '';
    name = response.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
-   $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
-           '\nVisit Date : '+document.getElementById('activity_date').value+
+   $test = '';
+   $test += response.name+'\n';
+   if(response.name != document.getElementById('product_type_title').innerHTML)
+       $test += document.getElementById('product_type_title').innerHTML + '\n';
+   $test +='Visit Date : '+document.getElementById('activity_date').value+
            '\n\n';
    try{
-        console.log(document.getElementById('timeslot_1').value);
-        console.log(document.getElementById('timeslot_1').text);
         if(document.getElementById('timeslot_1').value != undefined)
             $test += 'Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n';
    }catch(err){
@@ -262,14 +263,14 @@ function activity_table_detail(){
             {
                 if(document.getElementById(low_sku_id+'_passenger').value != 0){
                    text+= `<div class="row">
-                                <div class="col-xs-3">`+skus[sku].sku_title+`</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`</div>
-                                <div class="col-xs-3"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `;
+                                <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`x</div>
+                                <div class="col-xs-1">`+skus[sku].sku_title+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR @`;
 
                    if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
                    {
+                       text+= getrupiah(parseInt(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price);
                        $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].sale_price;
@@ -277,6 +278,7 @@ function activity_table_detail(){
                    }
                    else
                    {
+                       text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price);
                        $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price;
@@ -290,11 +292,11 @@ function activity_table_detail(){
        {
             if(document.getElementById('infant_passenger').value != 0){
                text+= `<div class="row">
-                            <div class="col-xs-3">Infant</div>
-                            <div class="col-xs-1">X</div>
-                            <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`</div>
-                            <div class="col-xs-3"></div>
-                            <div class="col-xs-4" style="text-align: right;">IDR `;
+                            <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`x</div>
+                            <div class="col-xs-1">Infant</div>
+                            <div class="col-xs-2"></div>
+                            <div class="col-xs-4" style="text-align: right;">IDR @0></div>
+                            <div class="col-xs-4">`;
 
                text+= getrupiah(0);
                $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
@@ -420,13 +422,14 @@ function activity_table_detail2(pagetype){
             if(passenger[low_sku_id] && passenger[low_sku_id] != 0)
             {
                text+= `<div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`+skus[sku].sku_title+`</div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`</div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">IDR `;
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`x</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+skus[sku].sku_title+`</div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`;
 
                if(passenger[low_sku_id] in skus[sku])
                {
+                   text+= getrupiah(parseInt(skus[sku][passenger[low_sku_id]].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price);
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
@@ -434,6 +437,7 @@ function activity_table_detail2(pagetype){
                }
                else
                {
+                   text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price);
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
@@ -445,10 +449,11 @@ function activity_table_detail2(pagetype){
        if (passenger['infant'] && passenger['infant'] != 0)
        {
            text+= `<div class="row">
-                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Infant</div>
-                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
-                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger['infant']+`</div>
-                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">IDR `;
+                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger['infant']+`x</div>
+                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Infant</div>
+                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @0</div>
+                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`;
 
            text+= getrupiah(0);
            $test += passenger['infant'].toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';

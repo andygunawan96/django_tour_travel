@@ -418,32 +418,33 @@ def assign_seats(request):
         provider_bookings = []
 
         for idx, pax in enumerate(passengers):
-            for idy, seat in enumerate(pax['seat']):
-                journeys = []
-                seats = []
-                if seat['wagon'] != '':
-                    if len(provider_bookings) > idy:
-                        seats = provider_bookings[idy]['journeys'][0]['seats']
-                    seats.append({
-                        "cabin_code": seat['wagon'],
-                        "seat_row": int(seat['seat']),
-                        "seat_column": seat['column'],
-                        "passenger_sequence": idx + 1
-                    })
-                    journeys.append({
-                        "sequence": 1,
-                        "seats": seats
-                    })
-                    if len(provider_bookings) > idy:
-                        provider_bookings[idy].update({
-                            "journeys": journeys
+            for idy, seat in enumerate(pax['seat_pick']):
+                if pax['seat_pick'][idy]['wagon'] != pax['seat'][idy]['wagon'] or pax['seat_pick'][idy]['seat'] != pax['seat'][idy]['seat'] or pax['seat_pick'][idy]['column'] != pax['seat'][idy]['column']:
+                    journeys = []
+                    seats = []
+                    if seat['wagon'] != '':
+                        if len(provider_bookings) > idy:
+                            seats = provider_bookings[idy]['journeys'][0]['seats']
+                        seats.append({
+                            "cabin_code": seat['wagon'],
+                            "seat_row": int(seat['seat']),
+                            "seat_column": seat['column'],
+                            "passenger_sequence": idx + 1
                         })
-                    else:
-                        provider_bookings.append({
-                            "provider": provider_kai,
-                            "sequence": idy + 1,
-                            "journeys": journeys
+                        journeys.append({
+                            "sequence": 1,
+                            "seats": seats
                         })
+                        if len(provider_bookings) > idy:
+                            provider_bookings[idy].update({
+                                "journeys": journeys
+                            })
+                        else:
+                            provider_bookings.append({
+                                "provider": provider_kai,
+                                "sequence": idy + 1,
+                                "journeys": journeys
+                            })
         data = {
             "order_number": request.POST['order_number'],
             "provider_bookings": provider_bookings

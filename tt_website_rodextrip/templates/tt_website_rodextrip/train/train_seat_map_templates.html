@@ -20,13 +20,19 @@
     {% for pax in paxs %}
         pax.push({
             name: `{{pax.name}}`,
-            seat: []
+            seat: [],
+            seat_pick: []
         })
         {% for seat in pax.seat_list%}
             pax[pax.length-1].seat.push({
-                'wagon': '',
-                'seat': '',
-                'column': ''
+                'wagon': '{{seat.seat}}'.split(',')[0],
+                'seat': parseInt('{{seat.seat}}'.split(',')[1]),
+                'column': '{{seat.seat}}'.split(',')[1].replace(/[0-9]/g, '')
+            });
+            pax[pax.length-1].seat_pick.push({
+                'wagon': '{{seat.seat}}'.split(',')[0],
+                'seat': parseInt('{{seat.seat}}'.split(',')[1]),
+                'column': '{{seat.seat}}'.split(',')[1].replace(/[0-9]/g, '')
             });
         {% endfor %}
     {% endfor %}

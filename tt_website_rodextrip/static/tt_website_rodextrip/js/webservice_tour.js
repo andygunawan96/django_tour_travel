@@ -1436,17 +1436,17 @@ function get_price_itinerary(request) {
                     {
                         if(price_data[i].pax_type == 'ADT')
                         {
-                            adt_price += price_data[i].total;
+                            adt_price += price_data[i].amount;
                             adt_amt = price_data[i].pax_count;
                         }
                         else if(price_data[i].pax_type == 'CHD')
                         {
-                            chd_price += price_data[i].total;
+                            chd_price += price_data[i].amount;
                             chd_amt = price_data[i].pax_count;
                         }
                         else if(price_data[i].pax_type == 'INF')
                         {
-                            inf_price += price_data[i].total;
+                            inf_price += price_data[i].amount;
                             inf_amt = price_data[i].pax_count;
                         }
                     }
@@ -1477,10 +1477,9 @@ function get_price_itinerary(request) {
                         if(pax_type_str)
                         {
                             price_txt2 += `<div class="row">
-                                            <div class="col-xs-4">`+pax_type_str+` `+desc_str+`</div>
-                                            <div class="col-xs-1">x</div>
-                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
-                                            <div class="col-xs-2"></div>
+                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+price_data[i].pax_count+`x</div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+pax_type_str+` `+desc_str+`</div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
                             temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
@@ -1488,10 +1487,9 @@ function get_price_itinerary(request) {
                         else
                         {
                             price_txt2 += `<div class="row">
-                                            <div class="col-xs-4">`+desc_str+`</div>
-                                            <div class="col-xs-1">x</div>
-                                            <div class="col-xs-1">`+price_data[i].pax_count+`</div>
-                                            <div class="col-xs-2"></div>
+                                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+price_data[i].pax_count+`x</div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
                                             <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                            </div>`;
                             temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
@@ -1536,11 +1534,10 @@ function get_price_itinerary(request) {
                         }
                         found_room_price = true;
                         price_txt2 += `<div class="row">
-                                        <div class="col-xs-4">`+desc_str+`</div>
-                                        <div class="col-xs-1">x</div>
-                                        <div class="col-xs-1">`+room_prices[k].pax_count+`</div>
-                                        <div class="col-xs-2"></div>
-                                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].total)+`</div>
+                                        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+room_prices[k].pax_count+`x</div>
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(room_prices[k].amount)+`</div>
+                                        <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].amount * room_prices[k].pax_count)+`</div>
                                        </div>`;
                         grand_total += room_prices[k].total;
                         temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
@@ -1549,49 +1546,45 @@ function get_price_itinerary(request) {
                 if (!found_room_price)
                 {
                     price_txt2 += `<div class="row">
-                                    <div class="col-xs-4">(No Charge)</div>
-                                    <div class="col-xs-1"></div>
-                                    <div class="col-xs-1">N/A</div>
-                                    <div class="col-xs-2"></div>
-                                    <div class="col-xs-4" style="text-align: right;">N/A</div>
+                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">(No Charge)</div>
+                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @N/A</div>
+                                    <div class="col-xs-4" style="text-align: right;">IDR N/A</div>
                                    </div>`;
                 }
             }
             if(adt_amt > 0)
             {
                 price_txt1 += `<div class="row">
-                                <div class="col-xs-4">Adult Price</div>
-                                <div class="col-xs-1">x</div>
-                                <div class="col-xs-1">`+adt_amt+`</div>
-                                <div class="col-xs-2"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price)+`</div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+adt_amt+`x</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Adult Price</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(adt_price)+`</div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price * adt_amt)+`</div>
                                </div>`;
-                grand_total += adt_price;
-                temp_copy += 'Adult Price IDR ' + getrupiah(adt_price) + '\n';
+                grand_total += adt_price * adt_amt;
+                temp_copy += 'Adult Price IDR ' + getrupiah(adt_price * adt_amt) + '\n';
             }
             if(chd_amt > 0)
             {
                 price_txt1 += `<div class="row">
-                                <div class="col-xs-4">Child Price</div>
-                                <div class="col-xs-1">x</div>
-                                <div class="col-xs-1">`+chd_amt+`</div>
-                                <div class="col-xs-2"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price)+`</div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+chd_amt+`x</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Child Price</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(chd_price)+`</div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price * chd_amt)+`</div>
                                </div>`;
-                grand_total += chd_price;
-                temp_copy += 'Child Price IDR ' + getrupiah(chd_price) + '\n';
+                grand_total += chd_price * chd_amt;
+                temp_copy += 'Child Price IDR ' + getrupiah(chd_price * chd_amt) + '\n';
             }
             if(inf_amt > 0)
             {
                 price_txt1 += `<div class="row">
-                                <div class="col-xs-4">Infant Price</div>
-                                <div class="col-xs-1">x</div>
-                                <div class="col-xs-1">`+inf_amt+`</div>
-                                <div class="col-xs-2"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price)+`</div>
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+inf_amt+`x</div>
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">Infant Price</div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(inf_price)+`</div>
+                                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price * inf_amt)+`</div>
                                </div>`;
-                grand_total += inf_price;
-                temp_copy += 'Infant Price IDR ' + getrupiah(inf_price) + '\n';
+                grand_total += inf_price * inf_amt;
+                temp_copy += 'Infant Price IDR ' + getrupiah(inf_price * inf_amt) + '\n';
             }
             price_txt = price_txt1 + price_txt2;
             $test += temp_copy + temp_copy2;

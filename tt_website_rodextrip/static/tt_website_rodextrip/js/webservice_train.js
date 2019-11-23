@@ -299,7 +299,7 @@ function train_get_booking(data){
 
         if(msg.result.error_code == 0){
             train_get_detail = msg;
-            if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'){
+            if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued'){
                 get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
             }
             $text = '';
@@ -320,7 +320,7 @@ function train_get_booking(data){
                         if(msg.result.response.provider_bookings[i].error_msg.length != 0)
                             text += `<div class="alert alert-danger">
                                 `+msg.result.response.provider_bookings[i].error_msg+`
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
                             </div>`;
                         tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
                         var localTime  = moment.utc(tes).toDate();
@@ -870,7 +870,7 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').style.display = 'block';
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
-                   airline_get_booking(msg.result.response.order_number);
+                   train_get_booking(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                }else{
