@@ -273,7 +273,7 @@ function activity_table_detail(){
                    {
                        text+= getrupiah(parseInt(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price);
-                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
+                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].sale_price;
                        grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].commission_price;
                    }
@@ -281,7 +281,7 @@ function activity_table_detail(){
                    {
                        text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price);
-                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
+                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price;
                        grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].commission_price;
                    }
@@ -300,7 +300,7 @@ function activity_table_detail(){
                             <div class="col-xs-4">`;
 
                text+= getrupiah(0);
-               $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
+               $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
                text+= `</div></div>`;
            }
        }
@@ -309,7 +309,7 @@ function activity_table_detail(){
    }
 
    if(additional_price != 0)
-       $test += 'Additional price IDR '+getrupiah(additional_price)+'\n';
+       $test += 'Additional price @IDR '+getrupiah(additional_price)+'\n';
 
    if(grand_total != 0)
        $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
@@ -432,7 +432,7 @@ function activity_table_detail2(pagetype){
                {
                    text+= getrupiah(parseInt(skus[sku][passenger[low_sku_id]].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price);
-                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
+                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].commission_price;
                }
@@ -440,7 +440,7 @@ function activity_table_detail2(pagetype){
                {
                    text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price);
-                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
+                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku]['1'].commission_price;
                }
@@ -457,7 +457,7 @@ function activity_table_detail2(pagetype){
                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`;
 
            text+= getrupiah(0);
-           $test += passenger['infant'].toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
+           $test += passenger['infant'].toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
            text+= `</div></div>`;
        }
 
@@ -466,7 +466,7 @@ function activity_table_detail2(pagetype){
    }
 
    if(additional_price != 0)
-       $test += 'Additional price IDR '+getrupiah(additional_price)+'\n';
+       $test += 'Additional price @IDR '+getrupiah(additional_price)+'\n';
 
 
    $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
@@ -1787,7 +1787,7 @@ function sort_button(value){
 function filter_name(){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-        change_filter('','');
+        change_filter('', 1);
     }, 500);
 }
 
@@ -1800,7 +1800,6 @@ function filtering(type, check){
    var temp_data = [];
    var searched_name = $('#activity_filter_name').val();
    data = activity_data;
-   console.log(data);
 
    if (searched_name){
             data.forEach((obj)=> {

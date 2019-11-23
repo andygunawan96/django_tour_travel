@@ -1437,7 +1437,7 @@ function activity_get_booking(data){
             $test += msg.result.response.activity.name+'\n';
             if(msg.result.response.activity.name != msg.result.response.activity.type)
                 $test +=msg.result.response.activity.type+'\n';
-            $test += 'Visit Date : '+msg.result.response.visit_date.split('-')[2] +'-'+msg.result.response.visit_date.split('-')[1]+'-'+msg.result.response.visit_date.split('-')[0]+'\n\n';
+            $test += 'Visit Date : '+msg.result.response.visit_date+'\n\n';
             if(msg.result.response.timeslot != '')
                 $test += 'Time slot: '+ msg.result.response.timeslot+'\n';
             //detail
@@ -1520,24 +1520,16 @@ function activity_get_booking(data){
                     price_text+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
-                        price_text+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` </span>`;
                         price_text+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
 
                         if(counter_service_charge == 0){
                         price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>`;
                         }else{
                             price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
                         }
                         price_text+=`
                         </div>

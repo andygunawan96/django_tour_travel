@@ -501,7 +501,7 @@ def get_booking(request):
                         month[res['result']['response']['return_date'].split('-')[1]],
                         res['result']['response']['return_date'].split('-')[0])
             res['result']['response']['tour_details']['departure_date'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['departure_date'])
-            res['result']['response']['tour_details']['arrival_date'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['arrival_date'])
+            res['result']['response']['tour_details']['return_date'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['return_date'])
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
