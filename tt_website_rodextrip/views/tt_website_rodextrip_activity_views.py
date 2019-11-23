@@ -1205,6 +1205,7 @@ def review(request):
             'skus': skus,
             "timeslot": timeslot and timeslot or False,
             'price': all_price,
+            'visit_date': all_price.get('date') and datetime.strptime(all_price['date'], '%Y-%m-%d').strftime('%d %b %Y') or '',
             'detail': request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])],
             'printout_rec': json.dumps(printout_rec),
             'username': request.session['user_account'],
