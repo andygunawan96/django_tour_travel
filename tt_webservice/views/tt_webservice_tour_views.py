@@ -483,6 +483,28 @@ def get_booking(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            for pax in res['result']['response']['passengers']:
+                pax.update({
+                    'birth_date': '%s %s %s' % (
+                        pax['birth_date'].split(' ')[0].split('-')[2],
+                        month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                        pax['birth_date'].split(' ')[0].split('-')[0])
+                })
+            res['result']['response']['departure_date'] = '%s %s %s' % (
+                        res['result']['response']['departure_date'].split('-')[2],
+                        month[res['result']['response']['departure_date'].split('-')[1]],
+                        res['result']['response']['departure_date'].split('-')[0])
+            res['result']['response']['return_date'] = '%s %s %s' % (
+                        res['result']['response']['return_date'].split('-')[2],
+                        month[res['result']['response']['return_date'].split('-')[1]],
+                        res['result']['response']['return_date'].split('-')[0])
+            res['result']['response']['tour_details']['departure_date'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['departure_date'])
+            res['result']['response']['tour_details']['arrival_date'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['arrival_date'])
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
     return res
 
 
