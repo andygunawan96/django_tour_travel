@@ -157,7 +157,15 @@ def search(request):
 
         for i in res['result']['response']['result']:
             i.update({
-                'sequence': counter
+                'sequence': counter,
+                'departure_date_f': i.get('departure_date') and datetime.strptime(str(i['departure_date']),'%Y-%m-%d').strftime("%A, %d-%m-%Y") or '',
+                'return_date_f': i.get('return_date') and datetime.strptime(str(i['return_date']), '%Y-%m-%d').strftime("%A, %d-%m-%Y") or '',
+                'start_period_f': i.get('start_period') and datetime.strptime(str(i['start_period']),'%Y-%m-%d').strftime('%B') or '',
+                'end_period_f': i.get('end_period') and datetime.strptime(str(i['end_period']), '%Y-%m-%d').strftime('%B') or '',
+                'departure_date_str': i.get('departure_date') and datetime.strptime(str(i['departure_date']),'%Y-%m-%d').strftime('%d %b %Y') or '',
+                'return_date_str': i.get('return_date') and datetime.strptime(str(i['return_date']), '%Y-%m-%d').strftime('%d %b %Y') or '',
+                'start_period_str': i.get('start_period') and datetime.strptime(str(i['start_period']),'%Y-%m-%d').strftime('%B') or '',
+                'end_period_str': i.get('end_period') and datetime.strptime(str(i['end_period']), '%Y-%m-%d').strftime('%B') or '',
             })
             data_tour.append(i)
             counter += 1
@@ -184,6 +192,19 @@ def get_details(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    try:
+        res['result']['response']['selected_tour']['departure_date_str'] = '%s %s %s' % (
+            res['result']['response']['selected_tour']['departure_date'].split('-')[2],
+            month[res['result']['response']['selected_tour']['departure_date'].split('-')[1]],
+            res['result']['response']['selected_tour']['departure_date'].split('-')[0])
+        res['result']['response']['selected_tour']['return_date_str'] = '%s %s %s' % (
+            res['result']['response']['selected_tour']['return_date'].split('-')[2],
+            month[res['result']['response']['selected_tour']['return_date'].split('-')[1]],
+            res['result']['response']['selected_tour']['return_date'].split('-')[0])
+        res['result']['response']['selected_tour']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['selected_tour']['departure_date'])
+        res['result']['response']['selected_tour']['return_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['selected_tour']['return_date'])
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -492,16 +513,27 @@ def get_booking(request):
                         month[pax['birth_date'].split(' ')[0].split('-')[1]],
                         pax['birth_date'].split(' ')[0].split('-')[0])
                 })
-            res['result']['response']['departure_date'] = '%s %s %s' % (
-                        res['result']['response']['departure_date'].split('-')[2],
-                        month[res['result']['response']['departure_date'].split('-')[1]],
-                        res['result']['response']['departure_date'].split('-')[0])
-            res['result']['response']['return_date'] = '%s %s %s' % (
-                        res['result']['response']['return_date'].split('-')[2],
-                        month[res['result']['response']['return_date'].split('-')[1]],
-                        res['result']['response']['return_date'].split('-')[0])
-            res['result']['response']['tour_details']['departure_date'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['departure_date'])
-            res['result']['response']['tour_details']['return_date'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['return_date'])
+            res['result']['response']['tour_details']['departure_date_str'] = '%s %s %s' % (
+                        res['result']['response']['tour_details']['departure_date'].split('-')[2],
+                        month[res['result']['response']['tour_details']['departure_date'].split('-')[1]],
+                        res['result']['response']['tour_details']['departure_date'].split('-')[0])
+            res['result']['response']['tour_details']['return_date_str'] = '%s %s %s' % (
+                        res['result']['response']['tour_details']['return_date'].split('-')[2],
+                        month[res['result']['response']['tour_details']['return_date'].split('-')[1]],
+                        res['result']['response']['tour_details']['return_date'].split('-')[0])
+            res['result']['response']['tour_details']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['departure_date'])
+            res['result']['response']['tour_details']['return_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['tour_details']['return_date'])
+
+            res['result']['response']['departure_date_str'] = '%s %s %s' % (
+                res['result']['response']['departure_date'].split('-')[2],
+                month[res['result']['response']['departure_date'].split('-')[1]],
+                res['result']['response']['departure_date'].split('-')[0])
+            res['result']['response']['return_date_str'] = '%s %s %s' % (
+                res['result']['response']['return_date'].split('-')[2],
+                month[res['result']['response']['return_date'].split('-')[1]],
+                res['result']['response']['return_date'].split('-')[0])
+            res['result']['response']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['departure_date'])
+            res['result']['response']['return_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['return_date'])
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

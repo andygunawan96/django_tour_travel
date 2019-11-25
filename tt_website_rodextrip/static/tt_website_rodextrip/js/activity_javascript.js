@@ -1697,7 +1697,7 @@ function activity_filter_render(){
         <div class="form-wrap" style="padding:0px; text-align:left;">
             <h6 class="filter_general" onclick="show_hide_general('activityName');">Activity Name <i class="fas fa-chevron-down" id="activityName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityName_generalUp" style="float:right; display:block;"></i></h6>
             <div id="activityName_generalShow" style="display:inline-block;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name();"/>
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(1);"/>
             </div>
             <hr/>
             <h6 class="filter_general" onclick="show_hide_general('activityPrice');">Price Range <i class="fas fa-chevron-down" id="activityPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityPrice_generalUp" style="float:right; display:block;"></i></h6>
@@ -1739,12 +1739,17 @@ function activity_filter_render(){
     node.innerHTML = text;
     document.getElementById("sorting-flight").appendChild(node);
 
-
     var node2 = document.createElement("div");
     text = '';
     text+= `<h4>Filter</h4>
             <hr/>
-            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+            <h6 style="padding-bottom:10px;">Activity Name</h6>`;
+    text+= `<div style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name2" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+            </div>`;
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
 
     text='';
     text+=`<h4>Sorting</h4>
@@ -1802,15 +1807,21 @@ function sort_button(value){
    filtering('filter', 1);
 }
 
-function filter_name(){
+function filter_name(name_num){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-        change_filter('', 1);
+        change_filter('activity_name' + String(name_num), 1);
     }, 500);
 }
 
 function change_filter(type, value){
     var check = 0;
+    if(type == 'activity_name1'){
+        document.getElementById('activity_filter_name2').value = document.getElementById('activity_filter_name').value;
+    }
+    else if(type == 'activity_name2'){
+        document.getElementById('activity_filter_name').value = document.getElementById('activity_filter_name2').value;
+    }
     filtering('filter', value);
 }
 
