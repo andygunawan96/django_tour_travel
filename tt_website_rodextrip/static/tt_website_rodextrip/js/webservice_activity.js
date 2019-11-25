@@ -621,6 +621,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
     document.getElementById('activity_detail_table').innerHTML = '';
     document.getElementById('activity_detail_next_btn').innerHTML = '';
     document.getElementById('activity_detail_next_btn2').innerHTML = '';
+    document.getElementById('product_visit_date').innerHTML = '';
     document.getElementById('pax').innerHTML = '';
     document.getElementById('event').innerHTML = '';
     document.getElementById('timeslot').innerHTML = '';
@@ -1437,9 +1438,15 @@ function activity_get_booking(data){
             $test += msg.result.response.activity.name+'\n';
             if(msg.result.response.activity.name != msg.result.response.activity.type)
                 $test +=msg.result.response.activity.type+'\n';
-            $test += 'Visit Date : '+msg.result.response.visit_date+'\n\n';
+            var visit_date_txt = msg.result.response.visit_date;
+            $test += 'Visit Date : '+msg.result.response.visit_date+'\n';
             if(msg.result.response.timeslot != '')
+            {
                 $test += 'Time slot: '+ msg.result.response.timeslot+'\n';
+                visit_date_txt += ' (' + msg.result.response.timeslot + ')';
+            }
+
+            document.getElementById('product_visit_date').innerHTML = visit_date_txt;
             //detail
             text = '';
             tax = 0;

@@ -247,14 +247,20 @@ function activity_table_detail(){
    $test += response.name+'\n';
    if(response.name != document.getElementById('product_type_title').innerHTML)
        $test += document.getElementById('product_type_title').innerHTML + '\n';
+
+   var visit_date_txt = document.getElementById('activity_date').value;
    $test +='Visit Date : '+document.getElementById('activity_date').value+
-           '\n\n';
+           '\n';
    try{
-        if(document.getElementById('timeslot_1').value != undefined)
-            $test += 'Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n';
+        if(document.getElementById('timeslot_1').value)
+        {
+            $test += 'Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n\n';
+            visit_date_txt += ' (' + document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text + ')';
+        }
    }catch(err){
 
    }
+   document.getElementById('product_visit_date').innerHTML = visit_date_txt;
    try{
        skus = activity_date[event_pick][activity_date_pick].prices;
        for (sku in skus)
@@ -397,14 +403,26 @@ function activity_table_detail2(pagetype){
    text = '';
    name = response.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
-   $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
+   $test = response.name+'\n';
+   if (document.getElementById('product_type_title'))
+   {
+       $test += document.getElementById('product_type_title').innerHTML+
            '\n';
+   }
+   var visit_date_txt = price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0];
    $test += 'Visit Date : '+price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0]+
            '\n';
    if(time_slot_pick != '')
-        $test += 'Time slot: ' + time_slot_pick + '\n\n';
+   {
+       $test += 'Time slot: ' + time_slot_pick + '\n\n';
+       visit_date_txt += ' (' + time_slot_pick + ')';
+   }
    else
-        $test += '\n';
+   {
+       $test += '\n';
+   }
+
+   document.getElementById('product_visit_date').innerHTML = visit_date_txt;
 
    try{
         for(i in all_pax){
