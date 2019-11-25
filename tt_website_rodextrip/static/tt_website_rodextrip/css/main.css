@@ -101,7 +101,25 @@ body {
 }
 @media (max-width: 767px) {
   #mybuttonsticky {
-    top:114px !important;
+    top:0px !important;
+  }
+  .change_search_area{
+    position:unset !important;
+    top:unset !important;
+  }
+}
+
+@media (max-width: 405px) {
+  .span_icon_fixed{
+    display:none !important;
+  }
+  .btn_icon_fixed{
+    width:50px !important;
+  }
+}
+@media (min-width: 406px) {
+  .span_icon_fixed{
+    display:inline-block !important;
   }
 }
 
@@ -111,6 +129,12 @@ body {
   }
 
   .myticket {
+    display:block;
+  }
+  .mystickycopybot {
+    display:block;
+  }
+  .mystickyticket {
     display:block !important;
   }
 
@@ -131,6 +155,9 @@ body {
   }
 
   #mybuttonsticky {
+    display:none !important;
+  }
+  .my_sticky_button {
     display:none !important;
   }
 
@@ -150,7 +177,17 @@ body {
     display:none !important;
   }
 
+  #breadcrumbs_create{
+    margin-top:15px;
+  }
+
   .myticket {
+    display:none;
+  }
+  .mystickycopybot {
+    display:none;
+  }
+  .mystickyticket {
     display:none !important;
   }
 
@@ -171,6 +208,9 @@ body {
   }
 
   #mybuttonsticky {
+    display:block !important;
+  }
+  .my_sticky_button {
     display:block !important;
   }
 
@@ -191,8 +231,8 @@ body {
     bottom: 12px !important;
   }
 
-  #mybuttonsticky {
-    top:0 !important;
+  .my_sticky_button{
+    bottom: 12px !important;
   }
 
   .b24-widget-button-wrapper.b24-widget-button-position-bottom-right, .b24-widget-button-wrapper.b24-widget-button-position-bottom-middle, .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{
@@ -208,6 +248,9 @@ body {
     font-size: 18px !important;
   }
 
+  .mystickypaxs{
+    right: 22px !important;
+  }
 
   .b24-widget-button-wrapper.b24-widget-button-position-bottom-right, .b24-widget-button-wrapper.b24-widget-button-position-bottom-middle, .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{
     right: 18px !important;
@@ -2931,6 +2974,29 @@ body.mobile-nav-active #mobile-nav-toggle {
   position: relative;
 }
 
+.primary-btn-all-sticky:hover{
+  background: #C04B21;
+}
+
+.primary-btn-all-sticky {
+  background: #f15a22;
+  line-height: 38px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
 .primary-btn-sorting {
   background: transparent;
   line-height: 17px;
@@ -5637,16 +5703,72 @@ div.scrollmenu li {
   float: right;
 }
 
-.myticket {
+.mystickyticket {
   position: fixed;
   top: 85px;
   right: 55px;
   z-index: 99;
+  height:55px;
+  cursor: pointer;
+  outline: none;
+  cursor: pointer;
+}
+
+.mystickycopybot {
+    position: fixed;
+    bottom: 180px;
+    right: 58px;
+    z-index: 99;
+    font-size: 20px;
+    border: 1px solid gray;
+    outline: none;
+    background-color: #f15a22;
+    color: white;
+    cursor: pointer;
+    height: 55px;
+    width: 55px;
+    border-radius: 30px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.mystickycopybot:hover {
+  background-color: #C04B21;
+}
+
+
+.mystickypaxs {
+    position: fixed;
+    bottom: 120px;
+    right: 58px;
+    z-index: 99;
+    font-size: 20px;
+    border: 1px solid gray;
+    outline: none;
+    background-color: #f15a22;
+    color: white;
+    cursor: pointer;
+    height: 55px;
+    width: 55px;
+    border-radius: 30px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.mystickypaxs:hover {
+  background-color: #C04B21;
+}
+
+.myticket {
+  position: fixed;
+  top: 85px;
+  right: 55px;
+  z-index: 999;
   background-color: #f15a22;
   color: white;
   height:55px;
   width:55px;
-  border: 1px solid gray;
+  border: 1px solid #cdcdcd;
   border-radius: 28px;
   cursor: pointer;
   outline: none;
@@ -5701,6 +5823,7 @@ div.scrollmenu li {
   position: absolute;
   top: -10px;
   right: -25px;
+  font-size:13px;
   padding: 10px 16px;
   border-radius: 21px;
   background-color: white;
@@ -7815,8 +7938,8 @@ display: block;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
   z-index: 2;
+  background-color: rgba(0,0,0,0.2);
   cursor: pointer;
 }
 

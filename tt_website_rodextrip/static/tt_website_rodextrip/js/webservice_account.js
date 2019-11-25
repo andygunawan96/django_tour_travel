@@ -37,10 +37,14 @@ function get_balance(val){
         }else{
           text = `Balance: Timeout`;
           document.getElementById("balance").innerHTML = text;
-          document.getElementById("balance_mob").innerHTML = text;
+          try{
+            document.getElementById("balance_mob").innerHTML = text;
+          }catch(err){}
           text = `Credit Limit: Timeout`;
           document.getElementById("credit_limit").innerHTML = text;
-          document.getElementById("credit_mob").innerHTML = text;
+          try{
+            document.getElementById("credit_mob").innerHTML = text;
+          }catch(err){}
 
 //            Swal.fire({
 //              type: 'error',
@@ -53,10 +57,14 @@ function get_balance(val){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           text = `Balance: Failed`;
           document.getElementById("balance").innerHTML = text;
-          document.getElementById("balance_mob").innerHTML = text;
+          try{
+                document.getElementById("balance_mob").innerHTML = text;
+          }catch(err){}
           text = `Credit Limit: Failed`;
           document.getElementById("credit_limit").innerHTML = text;
-          document.getElementById("credit_mob").innerHTML = text;
+          try{
+            document.getElementById("credit_mob").innerHTML = text;
+          }catch(err){}
 
 //            Swal.fire({
 //              type: 'error',

@@ -777,7 +777,7 @@ function visa_get_data(data){
                                     text+=`
                                         </table>
                                     </div>
-                                </div><br/><hr/>`;
+                                </div><hr/>`;
                             }
                             text+=`
                         </div>
