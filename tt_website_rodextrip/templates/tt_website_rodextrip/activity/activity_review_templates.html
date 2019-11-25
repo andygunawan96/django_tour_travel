@@ -17,7 +17,16 @@
     price = price.replace(/&#39;/g,'"');
     price = JSON.parse(price.replace(/True/g,'true'));
     try{
-        time_slot_pick = `{{timeslot.startTime}} - {{timeslot.endTime}}`;
+        temp_timeslot_start = `{{timeslot.startTime}}`;
+        temp_timeslot_end = `{{timeslot.endTime}}`;
+        if (temp_timeslot_start && temp_timeslot_end)
+        {
+            time_slot_pick = temp_timeslot_start + ' - ' + temp_timeslot_end;
+        }
+        else
+        {
+            time_slot_pick = '';
+        }
     }catch(err){}
     detail = `{{detail.options}}`;
     detail = detail.replace(/&#39;/g,'"');
@@ -250,6 +259,7 @@
                             {% if response.name != detail.name %}
                                 <br/><span id="product_type_title">{{detail.name}}</span>
                             {% endif %}
+                            <br/><span id="product_visit_date">{{visit_date}}</span>
                             <br/><br/>
                             <div class="row">
                                 <div class="col-lg-12" id="activity_detail_table">
