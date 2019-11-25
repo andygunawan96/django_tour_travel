@@ -33,7 +33,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
+<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -129,7 +129,7 @@
                                                     <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_adult" name="train_adult" value="1" min="1" value="{{train_request.adult}}" readonly>
+                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" value="{{train_request.adult}}" readonly>
                                                     <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
@@ -149,7 +149,7 @@
                                                     <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_infant" name="train_infant" value="0" value="{{train_request.infant}}" readonly>
+                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" value="{{train_request.infant}}" readonly>
                                                     <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
@@ -276,17 +276,19 @@
     </div>
 </section>
 
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
+    <span style="color:white; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
+</button>
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
+    <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
+</button>
+
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="position:sticky; top:67px; margin-bottom:15px; z-index:997; display:none;" id="mybuttonsticky">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:2px;">
-                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
-                            <span style="color:white; font-size:12px;"> Filter & Sorting </span>
-                        </button>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:2px;">
+                    <div class="col-lg-12" style="padding-left:2px;">
                         <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalTicketTrain">
                             <span style="color:white; font-size:12px;"> My Order </span>
                             <span class="badge-notif2 animated bounceIn" id="badge-flight-notif2">0</span>
@@ -309,22 +311,39 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="myModalFilterSort" role="dialog">
+
+                <div class="modal fade" id="myModalFilter" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">CLOSE X</button>
+                                <h4 class="modal-title" style="color:white;"> Filter</i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-12">
                                         <div id="filter2">
 
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 col-md-6 col-sm-6 col-xs-6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="myModalSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> Sort </i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-12">
                                         <div id="sorting-train2">
 
                                         </div>
@@ -389,7 +408,8 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"><i class="fas fa-shopping-cart"></i></i></h4>
+                                <h4 class="modal-title" style="color:white;"><i class="fas fa-shopping-cart"></i></i> My Order</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <form action="{% url 'tt_website_rodextrip:train_passenger'%}" method="POST" id="train_passenger">
@@ -399,9 +419,6 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -410,94 +427,10 @@
     </div>
 </section>
 
-<footer class="footer-area section-gap">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>About RODEX TRIP</h6>
-                    <p>
-                        PT. Roda Express Sukses Mandiri adalah perusahaan yang bergerak di bidang Tour & Travel dan dikenal dengan nama RODEX TOUR & TRAVEL. Rodex Tour & Travel didirikan pertama kali pada tanggal 09 September 2009 bertempat di sebuah pusat perbelanjaan terkemuka di Surabaya yaitu Mall Pakuwon Trade Center (PTC). Di bawah kepemimpinan Bapak Galuh Suryono Cipto Adi, Rodex Tour & Travel mengalami perkembangan yang signifikan dari tahun ke tahun.
-                    </p>
-                    <p>
-                        Hingga saat ini kami telah memiliki  lebih kurang 1.000 orang reseller yang teregister dan puluhan Cabang Mitra (Citra) yang tersebar di seluruh indonesia.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Navigation Links</h6>
-                    <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Home</a></li>
-                                <li><a href="#">Feature</a></li>
-                                <li><a href="#">Services</a></li>
-                                <li><a href="#">Portfolio</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Team</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6>Newsletter</h6>
-                    <p>
-                        For business professionals caught between high OEM price and mediocre print and graphic output.
-                    </p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01" method="get" class="subscription relative">
-                            <div class="input-group d-flex flex-row">
-                                <input name="EMAIL" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" required="" type="email">
-                                <button class="btn primary-btn"><span class="lnr lnr-location"></span></button>
-                            </div>
-                            <div class="mt-10 info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3  col-md-6 col-sm-6">
-                <div class="single-footer-widget mail-chimp">
-                    <h6 class="mb-20">InstaFeed</h6>
-                    <ul class="instafeed d-flex flex-wrap">
-                        <li><img src="{{static_path}}img/i1.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i2.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i3.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i4.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i5.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i6.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i7.jpg" alt=""></li>
-                        <li><img src="{{static_path}}img/i8.jpg" alt=""></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row footer-bottom d-flex justify-content-between align-items-center">
-            <p class="col-lg-8 col-sm-12 footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by RODEX TRIP
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-            <div class="col-lg-4 col-sm-12 footer-social">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
-            </div>
-        </div>
-    </div>
-</footer>
+{% include 'tt_website_rodextrip/footer.html' %}
 
 <div id="mybuttonticket">
-    <button class="myticket" data-toggle="modal" data-target="#myModalTicketTrain">
+    <button class="myticket" id="button_chart_train" style="display:none;" data-toggle="modal" data-target="#myModalTicketTrain">
         <span style="color:white; font-size:20px;"><i class="fas fa-shopping-cart"></i></span>
         <span class="badge-notif animated bounceIn" id="badge-train-notif">0</span>
     </button>

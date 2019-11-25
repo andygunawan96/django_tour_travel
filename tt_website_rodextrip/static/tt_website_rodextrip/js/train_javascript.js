@@ -327,8 +327,7 @@ function train_filter_render(){
     document.getElementById("filter2").appendChild(node2);
     node2 = document.createElement("div");
 
-    text = `<hr/>
-            <h6 style="padding-bottom:10px;">Sorting</h6>`;
+    text = `<h6 style="padding-bottom:10px;">Sorting</h6><hr/>`;
     for(i in sorting_list){
         if(i == 0){
             text+=`
@@ -515,6 +514,7 @@ function choose_train(data,key){
     $("#show-cart").addClass("minus");
     $(".img-plus-ticket").hide();
     $(".img-min-ticket").show();
+
 //        document.getElementById("show-cart").style.display = "block";
     journeys.push(train_data[key]);
     if(journeys.length < train_request.departure.length){
@@ -555,12 +555,15 @@ function change_train(val){
     journeys.splice(val,1);
     document.getElementById("train_pick_ticket").innerHTML = '';
     document.getElementById("train_ticket").innerHTML = '';
+    $('#button_chart_train').hide();
+    document.getElementById("badge-train-notif").innerHTML = "0";
     train_ticket_pick();
     filtering('filter');
 }
 
 function train_get_detail(){
     document.getElementById("badge-train-notif").innerHTML = "1";
+    $('#button_chart_train').show();
     $("#badge-train-notif").addClass("infinite");
     $("#myModalTicketTrain").modal('show');
     train_detail_text = '';
@@ -670,17 +673,39 @@ function train_get_detail(){
     train_detail_text += `<hr/>
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="color:white;font-size:13px;"><b>Total</b></span><br>
+                <span style="color:white;font-size:13px;font-weight:bold;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+                <span style="color:white;font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+            </div>
+
+            <div class="col-lg-12" style="padding-bottom:10px;">
+            <hr/>
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            $text += '1x Convenience fee'+price['currency']+' '+ journeys[i].fares[0].service_charge_summary[0].total_tax + '\n\n';
+            $text += 'Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                train_detail_text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            } else {
+                train_detail_text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            }
+        train_detail_text +=`
             </div>
         </div>
-
         <div class="row" id="show_commission" style="display:none;">
             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                 <div class="alert alert-success">
-                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
                 </div>
             </div>
         </div>
@@ -700,8 +725,6 @@ function train_get_detail(){
                 </button>
             </div>
         </div>`
-    $text += '1x Convenience fee'+price['currency']+' '+ journeys[i].fares[0].service_charge_summary[0].total_tax + '\n\n';
-    $text += 'Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
     console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;
 }
@@ -864,6 +887,28 @@ function train_detail(){
     }
 
     $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(total_tax)));
+    text+=`
+    <div class="row">
+        <div class="col-lg-12" style="padding-bottom:10px;">
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            } else {
+                text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            }
+    text+=`
+        </div>
+    </div>`;
 
     document.getElementById('train_detail').innerHTML = text;
 }
@@ -875,6 +920,19 @@ function copy_data(){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+
 }
 
 function show_commission(){

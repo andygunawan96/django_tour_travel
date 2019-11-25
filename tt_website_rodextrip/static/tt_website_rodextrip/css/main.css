@@ -146,6 +146,10 @@ body {
     display:block !important;
   }
 
+  #sorting-search-hotel{
+    display:block !important;
+  }
+
   #filter-search-train {
     display:block !important;
   }
@@ -196,6 +200,10 @@ body {
   }
 
   #sorting-search-flight {
+    display:none !important;
+  }
+
+  #sorting-search-hotel {
     display:none !important;
   }
 
