@@ -190,6 +190,13 @@ function check_issued_offline(){
         error_log += 'Please fill line\n';
     else{
         for(i=0; i < counter_line; i++){
+            if(document.getElementById('pnr'+i).value == ''){
+                error_log += 'Please fill pnr for line '+ (i+1) + '\n';
+                document.getElementById('pnr'+i).style['border-color'] = 'red';
+            }else{
+                document.getElementById('pnr'+i).style['border-color'] = '#EFEFEF';
+                request["line_pnr"+i] = document.getElementById('pnr'+i).value;
+            }
             if(document.getElementById('transaction_type').value == 'airline' || document.getElementById('transaction_type').value == 'train'){
                 if(document.getElementById('origin'+i).value == ''){
                     error_log += 'Please fill origin for line '+ (i+1) + '\n';
@@ -341,12 +348,6 @@ function check_issued_offline(){
     }else{
         request["total_sale_price"] = document.getElementById('total_sale_price').value;
         document.getElementById('total_sale_price').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('pnr').value == ''){
-        error_log += 'Please fill pnr\n';
-        document.getElementById('pnr').style['border-color'] = 'red';
-    }else{
-        document.getElementById('pnr').style['border-color'] = '#EFEFEF';
-        request["pnr"] = document.getElementById('pnr').value;
     }if(document.getElementById('social_media').value == ''){
         error_log += 'Please fill social media\n';
         document.getElementById('social_media').style['border-color'] = 'red';
@@ -402,6 +403,13 @@ function issued_offline_signin(){
 
 function set_data_issued_offline(){
     for(i=0; i < counter_line; i++){
+        if(document.getElementById('pnr'+i).value == ''){
+            error_log += 'Please fill pnr for line '+ (i+1) + '\n';
+            document.getElementById('pnr'+i).style['border-color'] = 'red';
+        }else{
+            document.getElementById('pnr'+i).style['border-color'] = '#EFEFEF';
+            request["line_pnr"+i] = document.getElementById('pnr'+i).value;
+        }
         if(document.getElementById('transaction_type').value == 'airline' || document.getElementById('transaction_type').value == 'train'){
             if(document.getElementById('origin'+i).value == ''){
                 error_log += 'Please fill origin for line '+ (i+1) + '\n';
@@ -551,12 +559,6 @@ function set_data_issued_offline(){
     }else{
         request["total_sale_price"] = document.getElementById('total_sale_price').value;
         document.getElementById('total_sale_price').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('pnr').value == ''){
-        error_log += 'Please fill pnr\n';
-        document.getElementById('pnr').style['border-color'] = 'red';
-    }else{
-        document.getElementById('pnr').style['border-color'] = '#EFEFEF';
-        request["pnr"] = document.getElementById('pnr').value;
     }if(document.getElementById('social_media').value == ''){
         error_log += 'Please fill social media\n';
         document.getElementById('social_media').style['border-color'] = 'red';
@@ -798,7 +800,6 @@ function commit_booking(){
                document.getElementById('transaction_type').value = '';
                document.getElementById('sector').value = '';
                document.getElementById('description').value = '';
-               document.getElementById('pnr').value = '';
                document.getElementById('social_media').value = '';
                document.getElementById('total_sale_price').value = '';
 

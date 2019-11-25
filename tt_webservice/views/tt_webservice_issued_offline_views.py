@@ -128,7 +128,8 @@ def set_data_issued_offline(request):
                     "carrier_code": request.POST['line_carrier_code'+str(i)],
                     "carrier_number": request.POST['line_carrier_number'+str(i)],
                     "sub_class": request.POST['line_sub_class'+str(i)],
-                    "class_of_service": request.POST['line_class_of_service'+str(i)]
+                    "class_of_service": request.POST['line_class_of_service'+str(i)],
+                    "pnr": request.POST['line_pnr'+str(i)],
                 })
             elif request.POST['type'] == 'hotel':
                 departure = request.POST['line_hotel_check_in' + str(i)].split('T')
@@ -139,7 +140,8 @@ def set_data_issued_offline(request):
                     "qty": request.POST['line_hotel_qty' + str(i)],
                     "check_in": departure[0] + ' ' + departure[1],
                     "check_out": arrival[0] + ' ' + arrival[1],
-                    "description": request.POST['line_hotel_description' + str(i)]
+                    "description": request.POST['line_hotel_description' + str(i)],
+                    "pnr": request.POST['line_pnr' + str(i)],
                 })
             elif request.POST['type'] == 'activity':
                 departure = request.POST['line_activity_datetime' + str(i)].split('T')
@@ -148,7 +150,8 @@ def set_data_issued_offline(request):
                     "package": request.POST['line_activity_package' + str(i)],
                     "qty": request.POST['line_activity_qty' + str(i)],
                     "visit_date": departure[0] + ' ' + departure[1],
-                    "description": request.POST['line_activity_description' + str(i)]
+                    "description": request.POST['line_activity_description' + str(i)],
+                    "pnr": request.POST['line_pnr' + str(i)],
                 })
         temp_date = request.POST['expired_date'].split(' ')
         exp_date = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],
@@ -157,7 +160,6 @@ def set_data_issued_offline(request):
             "type": request.POST['type'],
             "total_sale_price": int(request.POST['total_sale_price']),
             "desc": request.POST['desc'],
-            "pnr": request.POST['pnr'],
             "social_media_id": request.POST['social_media'],
             "expired_date": exp_date[0] + ' ' + exp_date[1],
             "line_ids": line,
