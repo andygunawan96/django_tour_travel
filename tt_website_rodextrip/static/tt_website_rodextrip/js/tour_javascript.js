@@ -1,4 +1,5 @@
 $test = '';
+var myVar;
 var tourAutoCompleteVar;
 var tour_choices = [];
 sorting_value = '';
@@ -922,7 +923,15 @@ function tour_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
             <hr/>
-            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+            <div class="banner-right">
+                <div class="form-wrap" style="padding:0px; text-align:left;">
+                    <h6 class="filter_general" onclick="show_hide_general('tourName');">Tour Name <i class="fas fa-chevron-down" id="tourName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourName_generalUp" style="float:right; display:block;"></i></h6>
+                    <div id="tourName_generalShow" style="display:inline-block;">
+                        <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name();"/>
+                    </div>
+                    <hr/>
+                    <h6 class="filter_general" onclick="show_hide_general('tourType');">Tour Type <i class="fas fa-chevron-down" id="tourType_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourType_generalUp" style="float:right; display:block;"></i></h6>
+                    <div id="tourType_generalShow" style="display:inline-block;">`;
     for(i in tour_type_list){
         if(i == 0)
             text += `
@@ -939,6 +948,7 @@ function tour_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
+    text += `</div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -947,8 +957,8 @@ function tour_filter_render(){
 
     text=`
         <hr/>
-        <h6 style="padding-bottom:10px;">Price Range</h6>
-        <div class="wrapper">
+        <h6 class="filter_general" onclick="show_hide_general('tourPrice');">Price Range <i class="fas fa-chevron-down" id="tourPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourPrice_generalUp" style="float:right; display:block;"></i></h6>
+        <div class="wrapper" id="tourPrice_generalShow" style="display:inline-block;">
             <div class="range-slider">
                 <input type="text" class="js-range-slider"/>
             </div>
@@ -962,7 +972,7 @@ function tour_filter_render(){
                     <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
                 </div>
             </div>
-        </div>`;
+        </div></div></div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -1077,6 +1087,13 @@ function sort_button(value){
    filtering('filter', 1);
 }
 
+function filter_name(){
+    clearTimeout(myVar);
+    myVar = setTimeout(function() {
+        change_filter('tour_name', 1);
+    }, 500);
+}
+
 function change_filter(type, value){
     var check = 0;
     if(type == 'tour_type'){
@@ -1106,11 +1123,34 @@ function change_filter(type, value){
     {
         filtering('filter', value);
     }
+    else if (type == 'tour_name')
+    {
+        filtering('filter', value);
+    }
 }
 
 function filtering(type, exist_check){
    var temp_data = [];
+   var searched_name = $('#tour_filter_name').val();
    data = tour_data;
+
+   if (searched_name){
+            data.forEach((obj)=> {
+                var test = 1;
+                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
+                    if (obj.name.toLowerCase().includes( search_str ) == false){
+                        test = 0;
+                    }
+                });
+                if(test == 1){
+                    temp_data.push(obj);
+                }
+            });
+            data = temp_data;
+            tour_filter = data;
+            temp_data = [];
+   }
+
    if(type == 'filter'){
        check_tour_type = 0;
        for(i in tour_type_list)

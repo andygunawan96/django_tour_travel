@@ -1369,6 +1369,10 @@ function tour_get_booking(order_number)
                get_payment_rules(tour_package.id);
                get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
            }
+           else
+           {
+               $('#final_issued_btn').remove();
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -1405,7 +1409,7 @@ function get_price_itinerary(request,type) {
 }
 
 function table_price_update(msg,type){
-    var grand_total = 0;
+    grand_total = 0;
     var grand_commission = 0;
     $test = '';
     temp_copy = '';
@@ -1489,7 +1493,7 @@ function table_price_update(msg,type){
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
                                     <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                    </div>`;
-                    temp_copy2 += pax_type_str + ' ' + desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
+                    temp_copy2 += String(price_data[i].pax_count) + ' ' + pax_type_str + ' ' + desc_str + ' Price @IDR ' + getrupiah(price_data[i].total) + '\n';
                 }
                 else
                 {
@@ -1499,7 +1503,7 @@ function table_price_update(msg,type){
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`+getrupiah(price_data[i].amount)+`</div>
                                     <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(price_data[i].total)+`</div>
                                    </div>`;
-                    temp_copy2 += desc_str + ' Price IDR ' + getrupiah(price_data[i].total) + '\n';
+                    temp_copy2 += String(price_data[i].pax_count) + ' ' + desc_str + ' Price @IDR ' + getrupiah(price_data[i].total) + '\n';
                 }
                 grand_total += price_data[i].total;
             }
@@ -1547,17 +1551,18 @@ function table_price_update(msg,type){
                                 <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(room_prices[k].amount * room_prices[k].pax_count)+`</div>
                                </div>`;
                 grand_total += room_prices[k].total;
-                temp_copy2 += desc_str + ' Price IDR ' + getrupiah(room_prices[k].total) + '\n';
+                temp_copy2 += String(room_prices[k].pax_count) + ' ' + desc_str + ' Price @IDR ' + getrupiah(room_prices[k].total) + '\n';
             }
         }
         if (!found_room_price)
         {
             price_txt2 += `<div class="row">
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">(No Charge)</div>
-                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`+desc_str+`</div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @N/A</div>
-                            <div class="col-xs-4" style="text-align: right;">IDR N/A</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">-</div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">(No Charge)</div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">N/A</div>
+                            <div class="col-xs-4" style="text-align: right;">N/A</div>
                            </div>`;
+            temp_copy2 += '(No Charge)\n';
         }
     }
     if(adt_amt > 0)
@@ -1569,7 +1574,7 @@ function table_price_update(msg,type){
                         <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(adt_price * adt_amt)+`</div>
                        </div>`;
         grand_total += adt_price * adt_amt;
-        temp_copy += 'Adult Price IDR ' + getrupiah(adt_price * adt_amt) + '\n';
+        temp_copy += String(adt_amt) + ' Adult Price @IDR ' + getrupiah(adt_price * adt_amt) + '\n';
     }
     if(chd_amt > 0)
     {
@@ -1580,7 +1585,7 @@ function table_price_update(msg,type){
                         <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(chd_price * chd_amt)+`</div>
                        </div>`;
         grand_total += chd_price * chd_amt;
-        temp_copy += 'Child Price IDR ' + getrupiah(chd_price * chd_amt) + '\n';
+        temp_copy += String(chd_amt) + ' Child Price @IDR ' + getrupiah(chd_price * chd_amt) + '\n';
     }
     if(inf_amt > 0)
     {
@@ -1591,7 +1596,7 @@ function table_price_update(msg,type){
                         <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(inf_price * inf_amt)+`</div>
                        </div>`;
         grand_total += inf_price * inf_amt;
-        temp_copy += 'Infant Price IDR ' + getrupiah(inf_price * inf_amt) + '\n';
+        temp_copy += String(inf_amt) + ' Infant Price @IDR ' + getrupiah(inf_price * inf_amt) + '\n';
     }
     price_txt = price_txt1 + price_txt2;
     $test += temp_copy + temp_copy2;
@@ -1656,7 +1661,7 @@ function table_price_update(msg,type){
         document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
     }else if(type == 'passenger'){
         next_btn_txt = `<center>
-                        <button type="button" class="primary-btn-ticket" value="Next" onclick="next_disabled();check_passenger(adt_amt, chd_amt, inf_amt);" style="width:100%;">
+                        <button type="button" class="primary-btn-ticket" value="Next" onclick="next_disabled();check_passenger(adult, child, infant);" style="width:100%;">
                             Next
                             <i class="fas fa-angle-right"></i>
                         </button>
