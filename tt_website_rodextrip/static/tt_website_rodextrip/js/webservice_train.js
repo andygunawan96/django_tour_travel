@@ -246,6 +246,8 @@ function hold_booking(){
 }
 
 function train_create_booking(){
+    $('.hold-seat-booking-train').addClass("running");
+    $('.hold-seat-booking-train').attr("disabled", true);
     getToken();
     $.ajax({
        type: "POST",
@@ -260,6 +262,8 @@ function train_create_booking(){
        console.log(msg);
         if(msg.result.error_code == 0){
             //send order number
+            $('.hold-seat-booking-train').removeClass("running");
+            $('.hold-seat-booking-train').attr("disabled", false);
             document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
             document.getElementById('train_booking').submit();
 //            gotoForm();
@@ -269,7 +273,8 @@ function train_create_booking(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error train create booking </span>' + msg.result.error_msg,
             })
-            // back to home
+            $('.hold-seat-booking-train').removeClass("running");
+            $('.hold-seat-booking-train').attr("disabled", false);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -278,9 +283,10 @@ function train_create_booking(){
               title: 'Oops!',
               html: '<span style="color: red;">Error train create booking </span>' + errorThrown,
            })
+           $('.hold-seat-booking-train').removeClass("running");
+           $('.hold-seat-booking-train').attr("disabled", false);
        },timeout: 180000
     });
-    $('.hold-seat-booking-train').addClass("running");
 }
 
 function train_get_booking(data){
@@ -370,7 +376,7 @@ function train_get_booking(data){
                             text+= `
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <img data-toggle="tooltip" style="width:20vh; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>
+                                    <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>
                                 </div>
                             </div>`;
                             text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
@@ -569,6 +575,7 @@ function train_get_booking(data){
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/4'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
+                            $(".issued_booking_btn").remove();
                         }
                     }
                         text+=`
@@ -576,6 +583,8 @@ function train_get_booking(data){
                 </div>
             </div>`;
             document.getElementById('train_booking').innerHTML = text;
+            $(".issued_booking_btn").show();
+
             //detail
             text = '';
             tax = 0;
@@ -869,6 +878,7 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').style.display = 'block';
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
+                   document.getElementById("overlay-div-box").style.display = "none";
                    train_get_booking(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
@@ -881,6 +891,7 @@ function train_issued(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
+                    document.getElementById("overlay-div-box").style.display = "none";
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -891,6 +902,7 @@ function train_issued(data){
                 })
                $('.hold-seat-booking-train').prop('disabled', false);
                $('.hold-seat-booking-train').removeClass("running");
+               document.getElementById("overlay-div-box").style.display = "none";
            },timeout: 60000
         });
       }

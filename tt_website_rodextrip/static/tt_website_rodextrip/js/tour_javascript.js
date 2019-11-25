@@ -927,7 +927,7 @@ function tour_filter_render(){
                 <div class="form-wrap" style="padding:0px; text-align:left;">
                     <h6 class="filter_general" onclick="show_hide_general('tourName');">Tour Name <i class="fas fa-chevron-down" id="tourName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourName_generalUp" style="float:right; display:block;"></i></h6>
                     <div id="tourName_generalShow" style="display:inline-block;">
-                        <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name();"/>
+                        <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(1);"/>
                     </div>
                     <hr/>
                     <h6 class="filter_general" onclick="show_hide_general('tourType');">Tour Type <i class="fas fa-chevron-down" id="tourType_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourType_generalUp" style="float:right; display:block;"></i></h6>
@@ -997,6 +997,10 @@ function tour_filter_render(){
     var node2 = document.createElement("div");
     text = '';
     text+= `<h4>Filter</h4>
+            <h6 style="padding-bottom:10px;">Tour Name</h6>
+            <div id="tourName_generalShow" style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name2" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+            </div>
             <hr/>
             <h6 style="padding-bottom:10px;">Tour Type</h6>`;
     for(i in tour_type_list){
@@ -1087,15 +1091,16 @@ function sort_button(value){
    filtering('filter', 1);
 }
 
-function filter_name(){
+function filter_name(name_numb){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-        change_filter('tour_name', 1);
+        change_filter('tour_name'+String(name_numb), 1);
     }, 500);
 }
 
 function change_filter(type, value){
     var check = 0;
+
     if(type == 'tour_type'){
         if(value == 0)
             for(i in tour_type_list){
@@ -1123,8 +1128,14 @@ function change_filter(type, value){
     {
         filtering('filter', value);
     }
-    else if (type == 'tour_name')
+    else if (type == 'tour_name1')
     {
+        document.getElementById("tour_filter_name2").value = document.getElementById("tour_filter_name").value;
+        filtering('filter', value);
+    }
+    else if (type == 'tour_name2')
+    {
+        document.getElementById("tour_filter_name").value = document.getElementById("tour_filter_name2").value;
         filtering('filter', value);
     }
 }
