@@ -879,10 +879,10 @@ function sort(response, check_filter){
         }*/
     }
 
-function filter_name(){
+function filter_name(name_num){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-        change_filter('','');
+        change_filter('hotel_name'+ String(name_num),'');
     }, 500);
 }
 
@@ -901,6 +901,10 @@ function change_filter(type, value){
         } else {
             selected_fac.push(value);
         }
+    } else if(type == 'hotel_name1'){
+        document.getElementById('hotel_filter_name2').value = document.getElementById('hotel_filter_name').value;
+    } else if(type == 'hotel_name2'){
+        document.getElementById('hotel_filter_name').value = document.getElementById('hotel_filter_name2').value;
     };
     filtering('filter', 1);
 }
@@ -926,7 +930,7 @@ function hotel_filter_render(){
         <div class="form-wrap" style="padding:0px; text-align:left;">
             <h6 class="filter_general" onclick="show_hide_general('hotelName');">Hotel Name <i class="fas fa-chevron-down" id="hotelName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelName_generalUp" style="float:right; display:block;"></i></h6>
             <div id="hotelName_generalShow" style="display:inline-block;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name();"/>
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(1);"/>
             </div>
             <hr/>
             <h6 class="filter_general" onclick="show_hide_general('hotelPrice');">Price Range <i class="fas fa-chevron-down" id="hotelPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelPrice_generalUp" style="float:right; display:block;"></i></h6>
@@ -1007,7 +1011,18 @@ function hotel_filter_render(){
     node.className = 'sorting-box';
     node.innerHTML = text;
     document.getElementById("sorting-hotel").appendChild(node);
-    node = document.createElement("div");
+
+    var node2 = document.createElement("div");
+    text = '';
+    text+= `<h4>Filter</h4>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
+    text+= `<div id="hotelName_generalShow" style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+            </div>`;
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
 }
 
 

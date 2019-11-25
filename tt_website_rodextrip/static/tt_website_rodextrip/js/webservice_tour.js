@@ -175,12 +175,12 @@ function tour_search(){
 
                    if (tour_data[i].state_tour == 'sold')
                    {
-                       dat_content1 = ``+tour_data[i].departure_date+` - `+tour_data[i].return_date;
+                       dat_content1 = ``+tour_data[i].departure_date_str+` - `+tour_data[i].return_date_str;
                        dat_content2 = `Sold Out`;
                    }
                    else
                    {
-                       dat_content1 = ``+tour_data[i].departure_date+` - `+tour_data[i].return_date;
+                       dat_content1 = ``+tour_data[i].departure_date_str+` - `+tour_data[i].return_date_str;
                        var count_quota = tour_data[i].quota - tour_data[i].seat;
                        dat_content2 = ``+count_quota+`/`+tour_data[i].quota;
                    }
@@ -1180,9 +1180,9 @@ function tour_get_booking(order_number)
                `;
             document.getElementById('tour_final_info').innerHTML = text;
             document.getElementById('product_title').innerHTML = tour_package.name;
-            document.getElementById('product_type_title').innerHTML = tour_package.departure_date_f+' - '+tour_package.return_date_f;
+            document.getElementById('product_type_title').innerHTML = book_obj.departure_date_str+' - '+book_obj.return_date_str;
             price_text = '';
-            $test = tour_package.name+'\n'+tour_package.departure_date_f+' - '+tour_package.return_date_f+'\n\n';
+            $test = tour_package.name+'\n'+book_obj.departure_date_str+' - '+book_obj.return_date_str+'\n\n';
 
             //detail
             text = '';
@@ -1418,7 +1418,7 @@ function table_price_update(msg,type){
     $('#loading-price-tour').hide();
     price_tour_info = msg.result.tour_info;
     $test += price_tour_info.name + '\n';
-    $test += price_tour_info.departure_date + ' - ' + price_tour_info.return_date + '\n\n';
+    $test += price_tour_info.departure_date_str + ' - ' + price_tour_info.return_date_str + '\n\n';
 
     try{
         for(i in all_pax){
