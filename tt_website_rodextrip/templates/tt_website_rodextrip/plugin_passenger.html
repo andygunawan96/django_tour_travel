@@ -20,22 +20,7 @@
     }
 </script>
 {%if "p_cache_1" in username.co_agent_frontend_security%}
-<button type="button" style="
-    position: fixed;
-    bottom: 120px;
-    right: 58px;
-    z-index: 99;
-    font-size: 20px;
-    border: 1px solid gray;
-    outline: none;
-    background-color: #f15a22;
-    color: white;
-    cursor: pointer;
-    height: 55px;
-    width: 55px;
-    border-radius: 30px;
-    padding-left: 0px !important;
-    padding-right: 0px !important;" class="primary-btn" data-toggle="modal" data-target="#myModalPlugin" onclick="get_passenger_cache();">
+<button type="button" class="mystickypaxs" class="primary-btn" data-toggle="modal" data-target="#myModalPlugin" onclick="get_passenger_cache();">
     <i class="fas fa-address-card"></i>
 </button>
 <div class="modal fade" id="myModalPlugin" role="dialog" data-keyboard="false">

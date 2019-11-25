@@ -7,6 +7,7 @@ var hotelAutoCompleteVar;
 var hotel_choices = [];
 var checking_price = 0;
 var checking_slider = 0;
+var hotel_ids_length = 0;
 var rating_list = [
     {
         value:'1',
@@ -203,6 +204,7 @@ function triggered(){
 }
 
 function filtering(type, update){
+    $('#badge-copy-notif').html("0");
     var data = JSON.parse(JSON.stringify(hotel_data));
     checking_slider = update;
     if(type == 'filter'){
@@ -572,7 +574,7 @@ function sort(response, check_filter){
         document.getElementById("hotel_result").innerHTML = '';
         text = '';
         var node = document.createElement("div");
-        var hotel_ids_length = parseInt(response.hotel_ids.length);
+        hotel_ids_length = parseInt(response.hotel_ids.length);
         text+=`
         <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> Hotel - `+hotel_ids_length+` results</span>
@@ -629,7 +631,7 @@ function sort(response, check_filter){
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 checkbox_search_hotel" style="text-align:right;">
                                 <label class="check_box_custom">
                                     <span class="span-search-ticket"></span>
-                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
+                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`, `+hotel_ids_length+`);"/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
                                 <span class="id_copy_result" hidden>`+i+`</span>
@@ -1414,8 +1416,21 @@ function checkboxCopy(){
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }
 
+function checkboxCopyBox(id, co_hotel){
+    if(document.getElementById('copy_result'+id).checked) {
+        var copycount = $(".copy_result:checked").length;
+        if(copycount == co_hotel){
+            document.getElementById("check_all_copy").checked = true;
+        }
+
+    } else {
+        document.getElementById("check_all_copy").checked = false;
+    }
+    checkboxCopy();
+}
+
 function check_all_result(){
-   var selectAllCheckbox=document.getElementById("check_all_copy");
+   var selectAllCheckbox = document.getElementById("check_all_copy");
    if(selectAllCheckbox.checked==true){
         var checkboxes = document.getElementsByClassName("copy_result");
         for(var i=0, n=checkboxes.length;i<n;i++) {
@@ -1438,13 +1453,13 @@ function get_checked_copy_result(){
     var search_params = document.getElementById("show-list-copy-hotel").innerHTML = '';
 
     var value_idx = [];
-    $("#hotel_search_params span").each(function(obj) {
+    $("#hotel_search_params .copy_span").each(function(obj) {
         value_idx.push( $(this).text() );
     })
 
     text='';
     //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
-    $text= value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
+    $text= value_idx[0]+'\n'+value_idx[1].trim()+'\n\n';
     var hotel_number = 0;
     node = document.createElement("div");
     text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
@@ -1544,7 +1559,7 @@ function get_checked_copy_result(){
 function delete_checked_copy_result(id){
     $("#div_list"+id).remove();
     $("#copy_result"+id).prop("checked", false);
-
+    checkboxCopyBox(id, hotel_ids_length)
     var count_copy = $(".copy_result:checked").length;
     if (count_copy == 0){
         $('#choose-hotel-copy').show();
