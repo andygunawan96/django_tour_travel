@@ -364,7 +364,7 @@ function add_table_of_line(type){
                 <div class="col-lg-12">
                     <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-4 col-md-4">
                     <span>Origin</span><br/>
                     <div class="input-container-search-ticket">`;
                         if(type == 'airline'){
@@ -378,7 +378,7 @@ function add_table_of_line(type){
 
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6">
+                <div class="col-lg-4 col-md-4">
                     <span>Destination</span><br/>
                     <div class="input-container-search-ticket">`;
                         if(type == 'airline'){
@@ -389,6 +389,12 @@ function add_table_of_line(type){
                         }
                         text+=`
                         <input id="destination`+counter_line+`" name="destination`+counter_line+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <span>PNR</span><br/>
+                    <div class="input-container-search-ticket">
+                        <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
@@ -550,20 +556,24 @@ function add_table_of_line(type){
                     <span>Qty</span><br/>
                     <input type="input" id='hotel_qty`+counter_line+`' class="form-control" name='hotel_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6 col-xs-6">
+                <div class="col-lg-4 col-xs-4">
                     <span>Check-in Date</span><br/>
                     <div class="input-container-search-ticket">
                         <i class="fas fa-calendar-alt icon-search-ticket"></i>
                         <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in"/>
                     </div>
                 </div>
-                <div class="col-lg-6 col-xs-6">
+                <div class="col-lg-4 col-xs-4">
                     <span>Check-out Date</span><br/>
                     <div class="input-container-search-ticket">
                         <i class="fas fa-calendar-alt icon-search-ticket"></i>
                         <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out"/>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xs-4">
+                    <span>PNR</span><br/>
+                    <div class="input-container-search-ticket">
+                        <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -571,7 +581,6 @@ function add_table_of_line(type){
                     <textarea id='hotel_description`+counter_line+`' class="form-control" name='hotel_description`+counter_line+`'></textarea>
                 </div>
             </div>
-
         </div><hr/>`;
         node.innerHTML = text;
         $('#class'+counter_line).niceSelect('update');
@@ -637,7 +646,13 @@ function add_table_of_line(type){
                         <input type="text" id='activity_datetime`+counter_line+`' class="form-control visit_date" name='activity_datetime`+counter_line+`' placeholder="Datetime"/>
                     </div>
                 </div>
-                <div class="col-lg-12">
+                <div class="col-lg-4 col-md-4">
+                    <span>PNR</span><br/>
+                    <div class="input-container-search-ticket">
+                        <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-lg-8">
                     <span>Description</span><br/>
                     <textarea id='activity_description`+counter_line+`' class="form-control" name='activity_description`+counter_line+`'></textarea>
                 </div>

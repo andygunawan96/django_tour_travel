@@ -271,17 +271,17 @@ function get_transactions(type){
                 var localTime = '';
                 for(i in msg.result.response){
                     if(msg.result.response[i].hold_date != '' && msg.result.response[i].hold_date != false){
-                        date = moment.utc(msg.result.response[i].hold_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        date = moment.utc(msg.result.response[i].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                         localTime  = moment.utc(date).toDate();
                         msg.result.response[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     }
                     if(msg.result.response[i].booked_date != '' && msg.result.response[i].booked_date != false){
-                        date = moment.utc(msg.result.response[i].booked_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        date = moment.utc(msg.result.response[i].booked_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                         localTime  = moment.utc(date).toDate();
                         msg.result.response[i].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     }
                     if(msg.result.response[i].issued_date != '' && msg.result.response[i].issued_date != false){
-                        date = moment.utc(msg.result.response[i].issued_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        date = moment.utc(msg.result.response[i].issued_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                         localTime  = moment.utc(date).toDate();
                         msg.result.response[i].issued_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     }

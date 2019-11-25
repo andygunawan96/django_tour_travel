@@ -1883,9 +1883,7 @@ function sort(airline){
             }
         }
         airline_data_filter = airline;
-
         //change sort render
-
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         for(i in airline){
@@ -2662,7 +2660,7 @@ function sort(airline){
                                            }
                                            text+=`</div>`;
                                         }
-                                       break;
+                                        break;
                                    }
                                }
                            text+=`</div>
