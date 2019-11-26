@@ -67,7 +67,7 @@ function add_table_of_equation(){
             <div class="banner-right">
                 <div class="form-wrap" style="padding:0px;">
                     <div class="input-container-search-ticket">
-                        <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;"/>
+                        <input class="form-control" id="calculation`+counter+`" type="text" style="width:100%;" onkeyup= "add_repricing_number(`+counter+`);"/>
                     </div>
                 </div>
             </div>
@@ -78,6 +78,13 @@ function add_table_of_equation(){
     document.getElementById("table_of_equation").appendChild(node);
     $('select').niceSelect();
     counter++;
+}
+
+function add_repricing_number(val){
+    console.log('here');
+    var amount = document.getElementById('calculation'+val).value.split(',');
+    amount = amount.join('');
+    document.getElementById('calculation'+val).value = getrupiah(amount);
 }
 
 function delete_table_of_equation(){
@@ -105,7 +112,8 @@ function calculate(type){
         price_duplication[i].Repricing = 0;
     }
     for(i=0;i<counter;i++){
-        var selection_calculation = document.getElementById('calculation'+i).value;
+        var selection_calculation = document.getElementById('calculation'+i).value.split(',');
+        selection_calculation = selection_calculation.join('');
         var selection_pax = document.getElementById('selection_pax'+i).value;
         if(selection_calculation == '' || selection_calculation == null)
             selection_calculation = '0';
