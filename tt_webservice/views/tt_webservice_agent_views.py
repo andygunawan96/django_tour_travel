@@ -185,7 +185,8 @@ def get_new_cache(signature):
                         destination_train.append({
                             'name': destination['name'],
                             'code': destination['code'],
-                            'country': country['name']
+                            'country': country['name'],
+                            'city': destination['city']
                         })
                 file = open(var_log_path() + "train_cache_data.txt", "w+")
                 file.write(json.dumps(destination_train))

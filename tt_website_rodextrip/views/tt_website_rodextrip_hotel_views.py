@@ -65,7 +65,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/hotel/hotel_search_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def detail(request):
@@ -105,7 +105,7 @@ def detail(request):
 
         return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def detail_static(request):
@@ -181,7 +181,7 @@ def passengers(request):
         }
         return render(request, MODEL_NAME+'/hotel/hotel_passenger_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def review(request):
     if 'user_account' in request.session._session:
@@ -433,4 +433,4 @@ def booking(request):
             }
             return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)

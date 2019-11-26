@@ -1528,7 +1528,7 @@ function clear_passenger(type, sequence){
         }
         document.getElementById('booker_title').value = 'MR';
         for(i in document.getElementById('booker_title').options){
-            document.getElementById('booker_title').options[i].disabled = true;
+            document.getElementById('booker_title').options[i].disabled = false;
         }
         if(template != 4){
             $('#booker_title').niceSelect('update');
@@ -1558,7 +1558,7 @@ function clear_passenger(type, sequence){
         try{
             document.getElementById('adult_title'+sequence).value = 'MR';
             for(i in document.getElementById('adult_title'+sequence).options){
-                document.getElementById('adult_title'+sequence).options[i].disabled = true;
+                document.getElementById('adult_title'+sequence).options[i].disabled = false;
             }
             if(template != 4){
                 $('#adult_title'+sequence).niceSelect('update');
@@ -1597,7 +1597,7 @@ function clear_passenger(type, sequence){
         try{
             document.getElementById('infant_title'+sequence).value = 'MSTR';
             for(i in document.getElementById('infant_title'+sequence).options){
-                document.getElementById('infant_title'+sequence).options[i].disabled = true;
+                document.getElementById('infant_title'+sequence).options[i].disabled = false;
             }
             if(template != 4){
                 $('#infant_title'+sequence).niceSelect('update');
@@ -1626,7 +1626,7 @@ function clear_passenger(type, sequence){
         }
         document.getElementById('senior_title'+sequence).value = 'MR';
         for(i in document.getElementById('senior_title'+sequence).options){
-            document.getElementById('senior_title'+sequence).options[i].disabled = true;
+            document.getElementById('senior_title'+sequence).options[i].disabled = false;
         }
         if(template != 4){
             $('#senior_title'+sequence).niceSelect('update');
@@ -1653,6 +1653,9 @@ function clear_passenger(type, sequence){
             }
         }
         document.getElementById('child_title'+sequence).value = 'MSTR';
+        for(i in document.getElementById('child_title'+sequence).options){
+            document.getElementById('child_title'+sequence).options[i].disabled = false;
+        }
         document.getElementById('child_id'+sequence).value = '';
         document.getElementById('child_first_name'+sequence).value = '';
         document.getElementById('child_first_name'+sequence).readOnly = false;

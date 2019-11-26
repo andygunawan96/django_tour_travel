@@ -130,9 +130,9 @@ function train_check_search_values(){
     type = '';
     error_log = '';
 
-    if(document.getElementById('train_origin').value.split(' - ').length != 3)
+    if(document.getElementById('train_origin').value.split(' - ').length != 4)
         error_log+= 'Please use autocomplete for origin\n';
-    if(document.getElementById('train_destination').value.split(' - ').length != 3)
+    if(document.getElementById('train_destination').value.split(' - ').length != 4)
         error_log+= 'Please use autocomplete for destination\n';
 
     if(error_log == ''){
@@ -514,7 +514,6 @@ function choose_train(data,key){
     $("#show-cart").addClass("minus");
     $(".img-plus-ticket").hide();
     $(".img-min-ticket").show();
-
 //        document.getElementById("show-cart").style.display = "block";
     journeys.push(train_data[key]);
     if(journeys.length < train_request.departure.length){
@@ -1080,21 +1079,21 @@ function check_passenger(adult, infant){
        }else{
            document.getElementById('adult_id_type'+i).style['border-color'] = '#EFEFEF';
            if(document.getElementById('adult_id_type'+i).value == 'ktp' && check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }
 
            if(document.getElementById('adult_id_type'+i).value == 'sim' && check_sim(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill id number, ktp only contain 12 - 13 digits for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }
 
            if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';

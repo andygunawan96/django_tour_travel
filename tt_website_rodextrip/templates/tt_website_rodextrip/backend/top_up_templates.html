@@ -31,7 +31,7 @@
                                 <div class="col-lg-12">
                                     <span>Amount</span><br/>
                                     <div class="input-container-search-ticket">
-                                        <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="this.value=this.value.replace(/[^\d]/,'');total_price_top_up();">
+                                        <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="this.value=this.value.replace(/[^\d]/,'');total_price_top_up();" placeholder="Min IDR 50,000">
                                     </div>
                                 </div>
 
@@ -79,7 +79,12 @@
                                             </div>
                                             <div class="modal-body">
                                                 <div class="modal-body">
-                                                    <ol id="topup_tac"><li>The deposited amount for TOP UP will become your Rodextrip balance. It can not be withdrawn as cash/transfer.<br><br></li><li>Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br><br></ol>
+                                                    <ol id="topup_tac">
+                                                        <li>The deposited amount for TOP UP will become your Rodextrip balance. It can not be withdrawn as cash/transfer.<br><br></li>
+                                                        <li>Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br><br></li>
+                                                        <li>Virtual Account: Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
+                                                        <li>Mandiri Internet Banking : Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
+                                                    </ol>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">

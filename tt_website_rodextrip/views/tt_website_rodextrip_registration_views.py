@@ -120,7 +120,6 @@ def register_agent(request):
             'social_media': request.POST['social_media'] and request.POST['social_media'] or '',
             'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or '',
         },
-        'provider': 'skytors_agent_registration'
     }
 
     values = {
