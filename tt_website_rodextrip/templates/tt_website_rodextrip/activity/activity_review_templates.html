@@ -34,7 +34,7 @@
     detail = detail.replace('\n','\\n');
     detail = JSON.parse(detail.replace(/False/g,'false'));
     additional_price = parseInt({{additional_price}});
-    act_booker_id = parseInt({{booker.booker_seq_id}});
+    act_booker_id = '{{booker.booker_seq_id}}';
     passenger = `{{pax_count}}`;
     passenger = passenger.replace(/&#39;/g,'"');
     passenger = JSON.parse(passenger);

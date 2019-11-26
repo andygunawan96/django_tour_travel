@@ -36,7 +36,7 @@
     <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
 </button>
 
-<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
@@ -63,15 +63,15 @@
                 <br/>
             </div>
             <div class="col-lg-4" style="text-align:right;">
-                <button class="primary-btn" type="button" onclick="show_hide_change_search();">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                    Change Search
+                    <span id="change_search_text">Change Search</span>
                 </button>
             </div>
         </div>
     </div>
 </section>
-
+<div id="overlay-search-box" onclick="off_overlay()"></div>
 <section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
     <div class="container">
         <div class="row">
@@ -80,17 +80,17 @@
                     <form action="{% url 'tt_website_rodextrip:activity_search'%}" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10" style="padding:0px;">
+                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
                                 <div class="form-group">
                                     <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
                                 </div>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2" style="padding:0px;">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
