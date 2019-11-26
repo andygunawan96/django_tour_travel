@@ -80,17 +80,17 @@
                     <form action="{% url 'tt_website_rodextrip:tour_search'%}" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10" style="padding:0px;">
+                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{query}}"/>
                                 </div>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2" style="padding:0px;">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
 
                         <button class="primary-btn" type="submit" value="Submit">
                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                            Change Search
+                            Search
                         </button>
                     </form>
                 </div>

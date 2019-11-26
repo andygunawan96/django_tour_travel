@@ -890,17 +890,24 @@ function change_filter(type, value){
     var check = 0;
     if(type == 'rating'){
         rating_list[value].status = !rating_list[value].status;
+        document.getElementById("rating_filter"+value).checked = rating_list[value].status;
+        document.getElementById("rating_filter2"+value).checked = rating_list[value].status;
     } else if(type == 'facility'){
         if (selected_fac.includes(value)){
             for( var i = 0; i < selected_fac.length; i++){
                if (selected_fac[i] === value) {
                  selected_fac.splice(i, 1);
+                 document.getElementById("fac_filter"+value).checked = false;
+                 document.getElementById("fac_filter2"+value).checked = false;
                  break;
                }
             }
         } else {
             selected_fac.push(value);
+            document.getElementById("fac_filter"+value).checked = true;
+            document.getElementById("fac_filter2"+value).checked = true;
         }
+
     } else if(type == 'hotel_name1'){
         document.getElementById('hotel_filter_name2').value = document.getElementById('hotel_filter_name').value;
     } else if(type == 'hotel_name2'){
@@ -1019,10 +1026,66 @@ function hotel_filter_render(){
             <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
     text+= `<div id="hotelName_generalShow" style="display:inline-block;">
                 <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
-            </div>`;
+            </div>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Star Rating</h6>`;
+
+    for(i in rating_list){
+        if(i == 0)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` star) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else if(i == 1)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else if(i == 2)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else if(i ==3)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+
     node2 = document.createElement("div");
     node2.innerHTML = text;
     document.getElementById("filter2").appendChild(node2);
+
+    text = '';
+    for(i in sorting_list){
+
+            text+=`
+            <label class="radio-button-custom">
+                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sorting_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+                <span class="checkmark-radio"></span>
+            </label></br>`;
+
+    }
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("sorting-hotel2").appendChild(node2);
 }
 
 
