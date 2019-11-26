@@ -53,7 +53,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
         </div>`;
 
             text+=`
-            <div id="payment_description"></div>`;
+            <div id="payment_description" style="text-align:left"></div>`;
             text+=`
                 </div>`;
             document.getElementById('payment_acq').innerHTML = text;
@@ -94,10 +94,6 @@ function set_payment(val, type){
             <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
             <span class="checkmark-radio"></span>
         </label>
-        <label class="radio-button-custom">
-            <span style="font-size:14px; font-weight:500;"> Account: `+payment_acq2[payment_method][i].account_number+`<br>
-            <span style="font-size:14px; font-weight:500;"> Account Name: `+payment_acq2[payment_method][i].account_name+`<br>
-        </label>
         <br/>`;
     }
     text += '<div id="set_price"></div>'
@@ -117,7 +113,18 @@ function set_price(val, type, product_type){
     }
     text = '';
     text += ` <h6 style="padding-bottom:10px;">2. Payment Detail: </h6>`;
+
     text+= `<div class='row'>`;
+    text+=`
+                <div class="col-sm-5" style='text-align:left;'>
+                <span style="font-size:13px;"> Account: </span><br>
+                <span style="font-size:13px;;"> Account Name: </span>
+
+                </div>
+                <div class="col-sm-7" style='text-align:right;'>
+                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number+`<br/>
+                    <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_name+`<br>
+                </div>`;
     if(payment_method == 'cash'){
         //price
         text += `
@@ -190,11 +197,9 @@ function set_price(val, type, product_type){
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
                     <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
-                    try{
-                        text+=getrupiah(document.getElementById('amount').value);
-                    }catch(err){
-                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
-                    }
+
+                    text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
+
                     text+=`</span>
                 </div>`;
         //fee
@@ -221,20 +226,17 @@ function set_price(val, type, product_type){
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
-                    try{
-                        text+=getrupiah((parseInt(document.getElementById('amount').value) + payment_acq2[payment_method][selected].price_component.unique_amount));
-                    }catch(err){
-                        text += getrupiah(payment_acq2[payment_method][selected].price_component.amount + payment_acq2[payment_method][selected].price_component.unique_amount)
-                    }
+                    text += getrupiah(parseInt(parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount)));
+
                     text+=`</span>
                 </div>`;
         text+= `</div><br/>`;
 
     }
     if(type == 'visa')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();check_hold_booking();" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_hold_booking();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'train')
-        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="train_issued('`+train_get_detail.result.response.order_number+`');" style="width:100%;">Issued <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="train_issued('`+train_get_detail.result.response.order_number+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline_review')
         text += `<button type="button" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();airline_hold_booking(1);" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')

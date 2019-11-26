@@ -1,4 +1,5 @@
 $test = '';
+var myVar;
 var tourAutoCompleteVar;
 var tour_choices = [];
 sorting_value = '';
@@ -182,6 +183,88 @@ function show_commission(){
         sc.style.display = "none";
         scs.value = "Show Commission";
     }
+}
+
+function read_other_info_dict(data, current_list_type){
+    var temp_txt2 = '';
+    if (data.message){
+        if (current_list_type != 'none'){
+            temp_txt2 += '<li>';
+        }
+
+        for (i in data.message){
+            if (data.message[i].style == 'B')
+            {
+                temp_txt2 += '<strong>' + String(data.message[i].text) + '</strong>';
+            }
+            else if (data.message[i].style == 'I')
+            {
+                temp_txt2 += '<i>' + String(data.message[i].text) + '</i>';
+            }
+            else if (data.message[i].style == 'U')
+            {
+                temp_txt2 += '<u>' + String(data.message[i].text) + '</u>';
+            }
+            else
+            {
+                temp_txt2 += String(data.message[i].text);
+            }
+        }
+
+        if (current_list_type != 'none')
+        {
+            temp_txt2 += '</li>';
+        }
+        else
+        {
+            temp_txt2 += '<br/>';
+        }
+    }
+
+    list_type_opt = {
+        'none': {
+            'start': '',
+            'end': ''
+        },
+        'number': {
+            'start': '<ol type="1" style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none; list-style-type: decimal;">',
+            'end': '</ol>'
+        },
+        'letter': {
+            'start': '<ol type="a" style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none; list-style-type: lower-latin;">',
+            'end': '</ol>'
+        },
+        'dots': {
+            'start': '<ul style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none;">',
+            'end': '</ul>'
+        },
+        'romans': {
+            'start': '<ol type="I" style="margin: 0px 15px; padding: 0px 15px; list-style: disc outside none; list-style-type: upper-roman;">',
+            'end': '</ol>'
+        },
+    }
+
+    if (data.children)
+    {
+        temp_txt2 += String(list_type_opt[data.child_list_type].start);
+        for (j in data.children)
+        {
+            temp_txt2 += String(self.read_other_info_dict(data.children[j], data.child_list_type));
+        }
+        temp_txt2 += String(list_type_opt[data.child_list_type].end);
+    }
+    return temp_txt2;
+}
+
+function generate_other_info(list_of_dict){
+    var temp_txt = '';
+    for (i in list_of_dict)
+    {
+        temp_txt += String(read_other_info_dict(list_of_dict[i], 'none'));
+        temp_txt += '<br/>';
+    }
+
+    return temp_txt;
 }
 
 function add_tour_room(key_accomodation){
@@ -840,7 +923,15 @@ function tour_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
             <hr/>
-            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+            <div class="banner-right">
+                <div class="form-wrap" style="padding:0px; text-align:left;">
+                    <h6 class="filter_general" onclick="show_hide_general('tourName');">Tour Name <i class="fas fa-chevron-down" id="tourName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourName_generalUp" style="float:right; display:block;"></i></h6>
+                    <div id="tourName_generalShow" style="display:inline-block;">
+                        <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(1);"/>
+                    </div>
+                    <hr/>
+                    <h6 class="filter_general" onclick="show_hide_general('tourType');">Tour Type <i class="fas fa-chevron-down" id="tourType_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourType_generalUp" style="float:right; display:block;"></i></h6>
+                    <div id="tourType_generalShow" style="display:inline-block;">`;
     for(i in tour_type_list){
         if(i == 0)
             text += `
@@ -857,6 +948,7 @@ function tour_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
+    text += `</div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -865,8 +957,8 @@ function tour_filter_render(){
 
     text=`
         <hr/>
-        <h6 style="padding-bottom:10px;">Price Range</h6>
-        <div class="wrapper">
+        <h6 class="filter_general" onclick="show_hide_general('tourPrice');">Price Range <i class="fas fa-chevron-down" id="tourPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourPrice_generalUp" style="float:right; display:block;"></i></h6>
+        <div class="wrapper" id="tourPrice_generalShow" style="display:inline-block;">
             <div class="range-slider">
                 <input type="text" class="js-range-slider"/>
             </div>
@@ -880,7 +972,7 @@ function tour_filter_render(){
                     <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
                 </div>
             </div>
-        </div>`;
+        </div></div></div>`;
 
     node = document.createElement("div");
     node.innerHTML = text;
@@ -905,6 +997,10 @@ function tour_filter_render(){
     var node2 = document.createElement("div");
     text = '';
     text+= `<h4>Filter</h4>
+            <h6 style="padding-bottom:10px;">Tour Name</h6>
+            <div id="tourName_generalShow" style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name2" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+            </div>
             <hr/>
             <h6 style="padding-bottom:10px;">Tour Type</h6>`;
     for(i in tour_type_list){
@@ -995,8 +1091,16 @@ function sort_button(value){
    filtering('filter', 1);
 }
 
+function filter_name(name_numb){
+    clearTimeout(myVar);
+    myVar = setTimeout(function() {
+        change_filter('tour_name'+String(name_numb), 1);
+    }, 500);
+}
+
 function change_filter(type, value){
     var check = 0;
+
     if(type == 'tour_type'){
         if(value == 0)
             for(i in tour_type_list){
@@ -1024,11 +1128,40 @@ function change_filter(type, value){
     {
         filtering('filter', value);
     }
+    else if (type == 'tour_name1')
+    {
+        document.getElementById("tour_filter_name2").value = document.getElementById("tour_filter_name").value;
+        filtering('filter', value);
+    }
+    else if (type == 'tour_name2')
+    {
+        document.getElementById("tour_filter_name").value = document.getElementById("tour_filter_name2").value;
+        filtering('filter', value);
+    }
 }
 
 function filtering(type, exist_check){
    var temp_data = [];
+   var searched_name = $('#tour_filter_name').val();
    data = tour_data;
+
+   if (searched_name){
+            data.forEach((obj)=> {
+                var test = 1;
+                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
+                    if (obj.name.toLowerCase().includes( search_str ) == false){
+                        test = 0;
+                    }
+                });
+                if(test == 1){
+                    temp_data.push(obj);
+                }
+            });
+            data = temp_data;
+            tour_filter = data;
+            temp_data = [];
+   }
+
    if(type == 'filter'){
        check_tour_type = 0;
        for(i in tour_type_list)
@@ -1351,7 +1484,7 @@ function tour_table_detail()
             'package_id': package_id,
             'room_list': room_ids_list,
         };
-        get_price_itinerary(JSON.stringify(request));
+        get_price_itinerary(JSON.stringify(request),'detail');
     }
 }
 

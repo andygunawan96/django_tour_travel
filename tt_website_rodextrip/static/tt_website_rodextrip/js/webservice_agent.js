@@ -581,7 +581,9 @@ function get_customer_list(passenger, number, product){
                                             response+=`<br/>`;
                                         }
                                         if(msg.result.response[i].nationality_name != '')
-                                            response+=`<br/> <span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
+                                            response+=`<span><i class="fas fa-globe-asia"></i> `+msg.result.response[i].nationality_name+`</span>`;
+                                        if(msg.result.response[i].email != '')
+                                            response+=`<br/><span><i class="fas fa-envelope"></i> `+msg.result.response[i].email+`</span>`;
                                         if(msg.result.response[i].identities.hasOwnProperty('passport') == true)
                                             response+=`<br/> <span><i class="fas fa-passport"></i> Passport - `+msg.result.response[i].identities.passport.identity_number+`</span>`;
                                         else if(msg.result.response[i].identities.hasOwnProperty('ktp') == true)
@@ -880,10 +882,18 @@ function pick_passenger(type, sequence, product){
             document.getElementById('booker_birth_date').value = passenger_data[sequence].birth_date;
             document.getElementById('booker_birth_date').readOnly = true;
             if(product == 'train'){
-                document.getElementById('booker_id_type').value = passenger_data[sequence].identity_type;
-                document.getElementById('booker_id_type').readOnly = true;
-                document.getElementById('booker_id_number').value = passenger_data[sequence].identity_number;
-                document.getElementById('booker_id_number').readOnly = true;
+                for(i in passenger_data[sequence].identities){
+                    document.getElementById('booker_id_type').value = i;
+                    document.getElementById('booker_id_type').readOnly = true;
+                    document.getElementById('booker_id_number').value = passenger_data[sequence].identities[i].identity_number;
+                    document.getElementById('booker_id_number').readOnly = true;
+                    document.getElementById('booker_country_of_issued').value = passenger_data[sequence].identities[i].identity_country_of_issued_name;
+                    document.getElementById('booker_country_of_issued').readOnly = true;
+                    document.getElementById('booker_exp_date').value = passenger_data[sequence].identities[i].identity_expdate;
+                    document.getElementById('booker_exp_date').readOnly = true;
+                    break;
+                }
+
             }else if(product == 'airline' || product == 'visa' || product == 'activity'){
                 if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
                     document.getElementById('booker_id_number').value = passenger_data[sequence].identities.passport.identity_number;
@@ -1338,8 +1348,10 @@ function copy_booker_to_passenger(val,type){
                 document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
                 document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
                 if(document.getElementById('adult_birth_date1').value != '' && check_date(document.getElementById('adult_birth_date1').value) == true){
-                    check_years_old(1,'adult');
-                    document.getElementById('adult_birth_date1').readOnly = true;
+                    try{
+                        check_years_old(1,'adult');
+                        document.getElementById('adult_birth_date1').readOnly = true;
+                    }catch(err){}
                 }
                 if(type == 'train'){
                     document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
@@ -1413,18 +1425,27 @@ function copy_booker_to_passenger(val,type){
             document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
             document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
             if(document.getElementById('adult_birth_date1').value != '' && check_date(document.getElementById('adult_birth_date1').value) == true){
-                check_years_old(1,'adult');
-                document.getElementById('adult_birth_date1').readOnly = true;
+                try{
+                    check_years_old(1,'adult');
+                    document.getElementById('adult_birth_date1').readOnly = true;
+                }catch(err){}
             }
             if(type == 'train'){
                 document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
                 document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
-                if(document.getElementById('adult_years_old1').value >= 17){
+                if(document.getElementById('booker_id_type').value != ''){
                     document.getElementById('adult_id_type1').value = document.getElementById('booker_id_type').value;
                     if(template != 4){
                         $('#adult_id_type1').niceSelect('update');
                     }
-                    document.getElementById('adult_id_number1').value = document.getElementById('booker_id_number').value;
+                    if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
+                        document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
+                    if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
+                        document.getElementById('adult_passport_expired_date1').value = document.getElementById('booker_exp_date').value;
+                    if(document.getElementById('booker_country_of_issued').value != 'undefined' && document.getElementById('booker_country_of_issued').value != ''){
+                        document.getElementById('select2-adult_country_of_issued1_id-container').innerHTML = document.getElementById('booker_country_of_issued').value;
+                        document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
+                    }
                 }
             }else if(type == 'airline'){
                 if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
@@ -1507,7 +1528,7 @@ function clear_passenger(type, sequence){
         }
         document.getElementById('booker_title').value = 'MR';
         for(i in document.getElementById('booker_title').options){
-            document.getElementById('booker_title').options[i].disabled = true;
+            document.getElementById('booker_title').options[i].disabled = false;
         }
         if(template != 4){
             $('#booker_title').niceSelect('update');
@@ -1537,7 +1558,7 @@ function clear_passenger(type, sequence){
         try{
             document.getElementById('adult_title'+sequence).value = 'MR';
             for(i in document.getElementById('adult_title'+sequence).options){
-                document.getElementById('adult_title'+sequence).options[i].disabled = true;
+                document.getElementById('adult_title'+sequence).options[i].disabled = false;
             }
             if(template != 4){
                 $('#adult_title'+sequence).niceSelect('update');
@@ -1576,7 +1597,7 @@ function clear_passenger(type, sequence){
         try{
             document.getElementById('infant_title'+sequence).value = 'MSTR';
             for(i in document.getElementById('infant_title'+sequence).options){
-                document.getElementById('infant_title'+sequence).options[i].disabled = true;
+                document.getElementById('infant_title'+sequence).options[i].disabled = false;
             }
             if(template != 4){
                 $('#infant_title'+sequence).niceSelect('update');
@@ -1605,7 +1626,7 @@ function clear_passenger(type, sequence){
         }
         document.getElementById('senior_title'+sequence).value = 'MR';
         for(i in document.getElementById('senior_title'+sequence).options){
-            document.getElementById('senior_title'+sequence).options[i].disabled = true;
+            document.getElementById('senior_title'+sequence).options[i].disabled = false;
         }
         if(template != 4){
             $('#senior_title'+sequence).niceSelect('update');
@@ -1632,6 +1653,9 @@ function clear_passenger(type, sequence){
             }
         }
         document.getElementById('child_title'+sequence).value = 'MSTR';
+        for(i in document.getElementById('child_title'+sequence).options){
+            document.getElementById('child_title'+sequence).options[i].disabled = false;
+        }
         document.getElementById('child_id'+sequence).value = '';
         document.getElementById('child_first_name'+sequence).value = '';
         document.getElementById('child_first_name'+sequence).readOnly = false;

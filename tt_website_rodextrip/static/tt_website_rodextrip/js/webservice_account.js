@@ -37,10 +37,14 @@ function get_balance(val){
         }else{
           text = `Balance: Timeout`;
           document.getElementById("balance").innerHTML = text;
-          document.getElementById("balance_mob").innerHTML = text;
+          try{
+            document.getElementById("balance_mob").innerHTML = text;
+          }catch(err){}
           text = `Credit Limit: Timeout`;
           document.getElementById("credit_limit").innerHTML = text;
-          document.getElementById("credit_mob").innerHTML = text;
+          try{
+            document.getElementById("credit_mob").innerHTML = text;
+          }catch(err){}
 
 //            Swal.fire({
 //              type: 'error',
@@ -53,10 +57,14 @@ function get_balance(val){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
           text = `Balance: Failed`;
           document.getElementById("balance").innerHTML = text;
-          document.getElementById("balance_mob").innerHTML = text;
+          try{
+                document.getElementById("balance_mob").innerHTML = text;
+          }catch(err){}
           text = `Credit Limit: Failed`;
           document.getElementById("credit_limit").innerHTML = text;
-          document.getElementById("credit_mob").innerHTML = text;
+          try{
+            document.getElementById("credit_mob").innerHTML = text;
+          }catch(err){}
 
 //            Swal.fire({
 //              type: 'error',
@@ -263,17 +271,17 @@ function get_transactions(type){
                 var localTime = '';
                 for(i in msg.result.response){
                     if(msg.result.response[i].hold_date != '' && msg.result.response[i].hold_date != false){
-                        date = moment.utc(msg.result.response[i].hold_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        date = moment.utc(msg.result.response[i].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                         localTime  = moment.utc(date).toDate();
                         msg.result.response[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     }
                     if(msg.result.response[i].booked_date != '' && msg.result.response[i].booked_date != false){
-                        date = moment.utc(msg.result.response[i].booked_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        date = moment.utc(msg.result.response[i].booked_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                         localTime  = moment.utc(date).toDate();
                         msg.result.response[i].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     }
                     if(msg.result.response[i].issued_date != '' && msg.result.response[i].issued_date != false){
-                        date = moment.utc(msg.result.response[i].issued_date, 'DD-MM-YYYY HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                        date = moment.utc(msg.result.response[i].issued_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                         localTime  = moment.utc(date).toDate();
                         msg.result.response[i].issued_date = moment(localTime).format('DD MMM YYYY HH:mm');
                     }
@@ -351,7 +359,7 @@ function get_top_up_amount(){
 
 function change_top_up(){
     document.getElementById('amount').disabled = false;
-    document.getElementById('payment_method').disabled = false;
+//    document.getElementById('payment_method').disabled = false;
     document.getElementById('tac_checkbox').disabled = false;
     document.getElementById('payment_acq').innerHTML = '';
     document.getElementById('submit_name').innerHTML = 'Submit';
@@ -379,7 +387,7 @@ function submit_top_up(){
         console.log(msg);
         if(msg.result.error_code == 0){
             document.getElementById('amount').disabled = true;
-            document.getElementById('payment_method').disabled = true;
+//            document.getElementById('payment_method').disabled = true;
             document.getElementById('tac_checkbox').disabled = true;
             document.getElementById('submit_name').innerHTML = 'Change';
             document.getElementById('submit_name').setAttribute( "onClick", "javascript: change_top_up();" );
@@ -636,6 +644,11 @@ function table_top_up_history(data){
         text+= `<td>`+data[i].due_date+`</td>`;
         text+= `<td>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
         text+= `<td>`+data[i].state+`</td>`;
+        if(data[i].hasOwnProperty('user') == true){
+            text+= `<td></td>`;
+        }else{
+            text+= `<td>-</td>`;
+        }
         if(data[i].state == 'request'){
             text+= `<td>
             <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
@@ -644,7 +657,6 @@ function table_top_up_history(data){
         }else{
             text+= `<td></td>`;
         }
-
         text+= `</tr>`;
         node.innerHTML = text;
         document.getElementById("table_top_up_history").appendChild(node);
@@ -688,7 +700,7 @@ function check_top_up(){
     }
     try{
         if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
-            error_text += 'Minimum top up Amount IDR 50,000\n';
+            error_text += 'Amount (Min Top Up Amount IDR 50,000)\n';
         }
     }catch(err){
 
@@ -721,7 +733,7 @@ function check_top_up(){
         Swal.fire({
           type: 'error',
           title: 'Oops!',
-          html: '<span style="color: #ff9900;">Error check topup</span>' + error_text,
+          html: error_text //'<span style="color: #ff9900;">Error check topup</span>' + error_text,
         })
     }
 }

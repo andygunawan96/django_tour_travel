@@ -539,6 +539,14 @@ def get_booking(request):
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    try:
+        temp_visit_date = res['result']['response']['visit_date']
+        new_visit_date = datetime.strptime(temp_visit_date, '%Y-%m-%d').strftime('%d %b %Y')
+        res['result']['response'].update({
+            'visit_date': new_visit_date
+        })
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 

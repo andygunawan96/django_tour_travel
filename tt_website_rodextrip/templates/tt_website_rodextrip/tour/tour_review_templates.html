@@ -14,6 +14,14 @@
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
+
+    all_pax = `{{all_pax}}`;
+    all_pax = all_pax.replace(/&#39;/g,'"');
+    all_pax = all_pax.replace(/True/g,'true');
+    all_pax = all_pax.replace(/False/g,'false');
+    all_pax = all_pax.replace(/None/g,'""');
+    all_pax = JSON.parse(all_pax);
+
     signature = '{{signature}}';
     room_amount = {{room_amount}};
     total_pax_amount = {{total_pax_all}};
@@ -213,7 +221,7 @@
                             </button>
                         </div>
                         <div class="col-lg-4">
-                            <button class="for-show-website primary-btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button id="final_issued_btn" class="for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                 Issued Booking
                             </button>
                         </div>
@@ -252,7 +260,7 @@
                             <h4> Price Detail </h4>
                             <hr/>
                             <span id="product_title" style="font-weight: bold;">{{tour_data.name}}</span>
-                            <br/><span id="product_date">{{tour_data.departure_date}} - {{tour_data.return_date}}</span>
+                            <br/><span id="product_date">{{tour_data.departure_date_str}} - {{tour_data.return_date_str}}</span>
                             <br/><br/>
                             <div id="loading-price-tour" style="margin-bottom:20px;">
                                 <div class="col-lg-12">
@@ -279,7 +287,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" onclick="focus_box('payment_acq');" hidden>
 
                         </div>
                     </div>
@@ -299,7 +307,7 @@
                             </button>
                         </div>
                         <div class="col-lg-4" style="margin-bottom:10px;">
-                            <button class="for-show-mobile primary-btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button class="for-show-mobile primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                 Issued Booking
                             </button>
                         </div>
@@ -348,7 +356,7 @@
 <script>
     $(document).ready(function () {
         breadcrumb_create("tour", 5, 0);
-        get_price_itinerary_cache();
+        get_price_itinerary_cache('review');
         get_payment_rules('{{tour_data.id}}');
         get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
     });

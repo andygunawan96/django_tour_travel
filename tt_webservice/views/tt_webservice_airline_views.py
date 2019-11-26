@@ -507,8 +507,9 @@ def get_price_itinerary(request, boolean, counter):
                         'carrier_code': carrier_code
                     })
                 journeys = []
+        request.session['airline_promotion_code'] = json.loads(request.POST['promotion_code'])
         data = {
-            "promotion_code": [],
+            "promotion_code": request.session['airline_promotion_code'],
             "adult": int(request.session['airline_request']['adult']),
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
@@ -629,7 +630,6 @@ def get_price_itinerary(request, boolean, counter):
 def get_fare_rules(request):
     try:
         data = request.session['airline_get_price_request']
-        request.session['airline_get_price_request'] = data
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -982,7 +982,6 @@ def get_booking(request):
                     pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
                     pax['birth_date'].split(' ')[0].split('-')[0])
             })
-            pass
         for provider in res['result']['response']['provider_bookings']:
             for journey in provider['journeys']:
                 journey.update({
@@ -1210,7 +1209,6 @@ def reissue(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
-
 
 def sell_journey_reissue_construct(request):
     try:

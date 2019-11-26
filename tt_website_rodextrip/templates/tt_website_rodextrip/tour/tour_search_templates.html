@@ -80,17 +80,17 @@
                     <form action="{% url 'tt_website_rodextrip:tour_search'%}" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
-                            <div class="col-lg-11 col-md-11 col-sm-10 col-xs-10" style="padding:0px;">
+                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{query}}"/>
                                 </div>
                             </div>
-                            <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2" style="padding:0px;">
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer;"><i class="fas fa-cog"></i> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#bababa; color:#000000; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -155,7 +155,7 @@
 
                         <button class="primary-btn" type="submit" value="Submit">
                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                            Change Search
+                            Search
                         </button>
                     </form>
                 </div>
@@ -163,6 +163,13 @@
         </div>
     </div>
 </section>
+
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
+    <span style="color:white; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
+</button>
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
+    <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
+</button>
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
@@ -172,32 +179,39 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:0px !important; z-index:997; background-color:#f7f7f7; display:none;" id="mybuttonsticky">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right:2px;">
-                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
-                            <span style="color:white; font-size:12px;"> Filter & Sorting </span>
-                        </button>
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-3">
-                <div class="modal fade" id="myModalFilterSort" role="dialog">
+                <div class="modal fade" id="myModalFilter" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
+                                <h4 class="modal-title" style="color:white;"> Filter</i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-12">
                                         <div id="filter2">
 
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="myModalSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> Sort </i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-12">
                                         <div id="sorting-flight2">
 
                                         </div>
@@ -207,6 +221,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="session_timer">
 
                 </div>

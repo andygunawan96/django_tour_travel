@@ -2,6 +2,7 @@ from django.contrib.staticfiles.templatetags.staticfiles import static
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from . import ERR
+from .api import Response
 from .ERR import RequestException
 import requests
 import json
@@ -25,6 +26,17 @@ def get_static():
 def generate_api_key():
     return str(uuid.uuid4())
 
+def _default_headers(data=None):
+    data = data and data or {}
+    res = {
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1',
+        'User-Agent': 'python-requests/2.18.4',
+        'Accept': '*/*',
+        'Accept-Encoding': 'gzip, deflate',
+    }
+    res.update(data)
+    return res
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -110,40 +122,118 @@ def default_headers(data=None):
     res.update(data)
     return res
 
-
-def send_request(url, data=None, headers=None, cookies=None, method=None, timeout=TIMEOUT):
+def send_request(url, data=None, headers=None, method=None, cookie=None, content_type='json', timeout=TIMEOUT):
+    '''
+        :param url:
+        :param data:
+        :param headers:
+        :param method:
+        :param cookie:
+        :param content_type:
+            'json': response.json()
+            'text': response.text()
+            'content': response.content() --> asumsi bytes apabila bytes akan di base64 encode
+        :param timeout:
+        :return:
+    '''
     ses = requests.Session()
-    cookies and [ses.cookies.set(key, val) for key, val in cookies.items()]
+    cookie and [ses.cookies.set(key, val) for key, val in cookie.iteritems()]
 
-    if type(data) == dict:
-        data = json.dumps(data)
-    else:
-        data = data and data or {}
-    headers = headers and headers or default_headers()
+    data = data and data or {}
+    headers = headers and headers or _default_headers()
     if not method:
         method = data and 'POST' or 'GET'
+    response = None
     try:
-        response = False
         if method == 'GET':
+            addons = ''
+            if data and type(data) == dict:
+                temp = ['%s=%s' % (key, val) for key, val in data.items()]
+                # August 30, 2019 - SAM
+                # FIXME comment untuk sementara karena ada error pada hotel
+                # if url[-1] != '/':
+                #     addons += '/'
+                if url.find('?') < 0:
+                    addons += '?'
+                addons = '%s%s' % (addons, '&'.join(temp))
+            url = '%s%s' % (url, addons)
             response = ses.get(url=url, headers=headers, timeout=timeout)
+        elif method == 'POST' and type(data) == dict:
+            response = ses.post(url=url, headers=headers, json=data, timeout=timeout)
         elif method == 'POST':
             response = ses.post(url=url, headers=headers, data=data, timeout=timeout)
-        if not response:
-            return ERR.get_error_api(420)
-        status_code = response.status_code
+        elif method == 'PUT' and type(data) == dict:
+            response = ses.put(url=url, headers=headers, json=data, timeout=timeout)
+        elif method == 'PUT':
+            response = ses.put(url=url, headers=headers, data=data, timeout=timeout)
+        else:
+            response = ses.post(url=url, headers=headers, data=data, timeout=timeout)
         response.raise_for_status()
+        values = {'error_code': 0}
     except Exception as e:
-        return ERR.get_error_api(500, additional_message=str(e))
+        values = {
+            'error_code': 500,
+            'error_msg': str(e),
+        }
 
     try:
-        res = json.loads(response.content)
-        res['result'].update({
-            'sid': response.headers.get('set-cookie'),
-            'cookies': response.cookies.get_dict(),
-        })
-    except:
-        res = ERR.get_no_error_api({'response': response.content})
-    return res
+
+        if content_type == 'json':
+            content = response.json()
+        elif content_type == 'content':
+            content = base64.b64encode(getattr(response, 'content', b'')).decode()
+        else:
+            content = getattr(response, 'text', '')
+    except Exception as e:
+        content = getattr(response, 'text', '')
+
+    values.update({
+        'http_code': getattr(response, 'status_code', ''),
+        'response': content,
+        'url': url,
+        'cookies': response.cookies.get_dict() if getattr(response, 'cookies', '') else ''
+    })
+    if content:
+        return content
+    else:
+        return {
+            'result': values
+        }
+
+
+# def send_request(url, data=None, headers=None, cookies=None, method=None, json=None, timeout=TIMEOUT):
+#     ses = requests.Session()
+#     cookies and [ses.cookies.set(key, val) for key, val in cookies.items()]
+#
+#     if type(data) == dict:
+#         data = json.dumps(data)
+#     else:
+#         data = data and data or {}
+#     headers = headers and headers or default_headers()
+#     if not method:
+#         method = data and 'POST' or 'GET'
+#     try:
+#         response = False
+#         if method == 'GET':
+#             response = ses.get(url=url, headers=headers, timeout=timeout)
+#         elif method == 'POST':
+#             response = ses.post(url=url, headers=headers, data=data, json=json, timeout=timeout)
+#         if not response:
+#             return ERR.get_error_api(420)
+#         status_code = response.status_code
+#         response.raise_for_status()
+#     except Exception as e:
+#         return ERR.get_error_api(500, additional_message=str(e))
+#
+#     try:
+#         res = json.loads(response.content)
+#         res['result'].update({
+#             'sid': response.headers.get('set-cookie'),
+#             'cookies': response.cookies.get_dict(),
+#         })
+#     except:
+#         res = ERR.get_no_error_api({'response': response.content})
+#     return res
 
 
 def is_authenticated_api(username=None, password=None, api_key=None, auth_key=None, request=None, data={}):

@@ -229,9 +229,13 @@ def index(request):
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-    return no_session_logout()
+    return no_session_logout(request)
 
-def no_session_logout():
+def no_session_logout(request):
+    try:
+        request.session.delete()
+    except:
+        pass
     return redirect('/')
 
 def goto_dashboard():
@@ -359,9 +363,9 @@ def admin(request):
             }
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
         else:
-            return no_session_logout()
+            return no_session_logout(request)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def reservation(request):
     if 'user_account' in request.session._session:
@@ -398,7 +402,7 @@ def reservation(request):
         }
         return render(request, MODEL_NAME+'/backend/reservation_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def top_up(request):
     if 'user_account' in request.session._session:
@@ -424,7 +428,7 @@ def top_up(request):
         }
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def top_up_history(request):
     if 'user_account' in request.session._session:
@@ -451,7 +455,7 @@ def top_up_history(request):
         }
         return render(request, MODEL_NAME+'/backend/top_up_history_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def get_javascript_version():
     file = open(var_log_path()+"javascript_version.txt", "r")

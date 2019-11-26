@@ -1,4 +1,5 @@
 sorting_value = '';
+var myVar;
 var activityAutoCompleteVar;
 var activity_choices = [];
 var check_pagination = 0;
@@ -242,17 +243,24 @@ function activity_table_detail(){
    text = '';
    name = response.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
-   $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
-           '\nVisit Date : '+document.getElementById('activity_date').value+
-           '\n\n';
+   $test = '';
+   $test += response.name+'\n';
+   if(response.name != document.getElementById('product_type_title').innerHTML)
+       $test += document.getElementById('product_type_title').innerHTML + '\n';
+
+   var visit_date_txt = document.getElementById('activity_date').value;
+   $test +='Visit Date : '+document.getElementById('activity_date').value+
+           '\n';
    try{
-        console.log(document.getElementById('timeslot_1').value);
-        console.log(document.getElementById('timeslot_1').text);
-        if(document.getElementById('timeslot_1').value != undefined)
-            $test += 'Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n';
+        if(document.getElementById('timeslot_1').value)
+        {
+            $test += 'Time slot: '+ document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text+'\n\n';
+            visit_date_txt += ' (' + document.getElementById('timeslot_1').options[document.getElementById('timeslot_1').selectedIndex].text + ')';
+        }
    }catch(err){
 
    }
+   document.getElementById('product_visit_date').innerHTML = visit_date_txt;
    try{
        skus = activity_date[event_pick][activity_date_pick].prices;
        for (sku in skus)
@@ -262,23 +270,24 @@ function activity_table_detail(){
             {
                 if(document.getElementById(low_sku_id+'_passenger').value != 0){
                    text+= `<div class="row">
-                                <div class="col-xs-3">`+skus[sku].sku_title+`</div>
-                                <div class="col-xs-1">X</div>
-                                <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`</div>
-                                <div class="col-xs-3"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR `;
+                                <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`x</div>
+                                <div class="col-xs-1">`+skus[sku].sku_title+`</div>
+                                <div class="col-xs-2"></div>
+                                <div class="col-xs-4" style="text-align: right;">IDR @`;
 
                    if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
                    {
+                       text+= getrupiah(parseInt(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price);
-                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
+                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].sale_price;
                        grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].commission_price;
                    }
                    else
                    {
+                       text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price);
-                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
+                       $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price;
                        grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].commission_price;
                    }
@@ -290,14 +299,14 @@ function activity_table_detail(){
        {
             if(document.getElementById('infant_passenger').value != 0){
                text+= `<div class="row">
-                            <div class="col-xs-3">Infant</div>
-                            <div class="col-xs-1">X</div>
-                            <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`</div>
-                            <div class="col-xs-3"></div>
-                            <div class="col-xs-4" style="text-align: right;">IDR `;
+                            <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`x</div>
+                            <div class="col-xs-1">Infant</div>
+                            <div class="col-xs-2"></div>
+                            <div class="col-xs-4" style="text-align: right;">IDR @0></div>
+                            <div class="col-xs-4">`;
 
                text+= getrupiah(0);
-               $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
+               $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
                text+= `</div></div>`;
            }
        }
@@ -306,7 +315,7 @@ function activity_table_detail(){
    }
 
    if(additional_price != 0)
-       $test += 'Additional price IDR '+getrupiah(additional_price)+'\n';
+       $test += 'Additional price @IDR '+getrupiah(additional_price)+'\n';
 
    if(grand_total != 0)
        $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
@@ -394,14 +403,26 @@ function activity_table_detail2(pagetype){
    text = '';
    name = response.name.replace(/&#39;/g,"'");
    name = name.replace(/&amp;/g, '&');
-   $test = response.name+'\n'+document.getElementById('product_type_title').innerHTML+
+   $test = response.name+'\n';
+   if (document.getElementById('product_type_title'))
+   {
+       $test += document.getElementById('product_type_title').innerHTML+
            '\n';
+   }
+   var visit_date_txt = price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0];
    $test += 'Visit Date : '+price.date.split('-')[2]+' '+month[price.date.split('-')[1]]+' '+price.date.split('-')[0]+
            '\n';
    if(time_slot_pick != '')
-        $test += 'Time slot: ' + time_slot_pick + '\n\n';
+   {
+       $test += 'Time slot: ' + time_slot_pick + '\n\n';
+       visit_date_txt += ' (' + time_slot_pick + ')';
+   }
    else
-        $test += '\n';
+   {
+       $test += '\n';
+   }
+
+   document.getElementById('product_visit_date').innerHTML = visit_date_txt;
 
    try{
         for(i in all_pax){
@@ -420,22 +441,24 @@ function activity_table_detail2(pagetype){
             if(passenger[low_sku_id] && passenger[low_sku_id] != 0)
             {
                text+= `<div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`+skus[sku].sku_title+`</div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`</div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">IDR `;
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`x</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+skus[sku].sku_title+`</div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`;
 
                if(passenger[low_sku_id] in skus[sku])
                {
+                   text+= getrupiah(parseInt(skus[sku][passenger[low_sku_id]].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price);
-                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
+                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].commission_price;
                }
                else
                {
+                   text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price);
-                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
+                   $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku]['1'].commission_price;
                }
@@ -445,13 +468,14 @@ function activity_table_detail2(pagetype){
        if (passenger['infant'] && passenger['infant'] != 0)
        {
            text+= `<div class="row">
-                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">Infant</div>
-                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">X</div>
-                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger['infant']+`</div>
-                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">IDR `;
+                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger['infant']+`x</div>
+                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Infant</div>
+                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @0</div>
+                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">`;
 
            text+= getrupiah(0);
-           $test += passenger['infant'].toString() + ' Infant Price IDR ' + getrupiah(0)+'\n';
+           $test += passenger['infant'].toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
            text+= `</div></div>`;
        }
 
@@ -460,7 +484,7 @@ function activity_table_detail2(pagetype){
    }
 
    if(additional_price != 0)
-       $test += 'Additional price IDR '+getrupiah(additional_price)+'\n';
+       $test += 'Additional price @IDR '+getrupiah(additional_price)+'\n';
 
 
    $test+= '\nGrand Total : IDR '+ getrupiah(grand_total)+
@@ -1669,19 +1693,28 @@ function activity_filter_render(){
     text = '';
     text+= `<h4>Filter</h4>
     <hr/>
-    <h6 style="padding-bottom:10px;">Price Range</h6>
-    <div class="wrapper">
-        <div class="range-slider">
-            <input type="text" class="js-range-slider"/>
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Min</span><br/>
-                <input type="text" class="js-input-from form-control-custom" id="price-from" value="0"/>
+    <div class="banner-right">
+        <div class="form-wrap" style="padding:0px; text-align:left;">
+            <h6 class="filter_general" onclick="show_hide_general('activityName');">Activity Name <i class="fas fa-chevron-down" id="activityName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityName_generalUp" style="float:right; display:block;"></i></h6>
+            <div id="activityName_generalShow" style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(1);"/>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                <span>Max</span><br/>
-                <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
+            <hr/>
+            <h6 class="filter_general" onclick="show_hide_general('activityPrice');">Price Range <i class="fas fa-chevron-down" id="activityPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityPrice_generalUp" style="float:right; display:block;"></i></h6>
+            <div class="wrapper" id="activityPrice_generalShow" style="display:inline-block;">
+                <div class="range-slider">
+                    <input type="text" class="js-range-slider"/>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span>Min</span><br/>
+                        <input type="text" class="js-input-from form-control-custom" id="price-from" value="0"/>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span>Max</span><br/>
+                        <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>`;
@@ -1706,12 +1739,17 @@ function activity_filter_render(){
     node.innerHTML = text;
     document.getElementById("sorting-flight").appendChild(node);
 
-
     var node2 = document.createElement("div");
     text = '';
     text+= `<h4>Filter</h4>
             <hr/>
-            <h6 style="padding-bottom:10px;">Tour Type</h6>`;
+            <h6 style="padding-bottom:10px;">Activity Name</h6>`;
+    text+= `<div style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name2" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+            </div>`;
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
 
     text='';
     text+=`<h4>Sorting</h4>
@@ -1769,19 +1807,49 @@ function sort_button(value){
    filtering('filter', 1);
 }
 
+function filter_name(name_num){
+    clearTimeout(myVar);
+    myVar = setTimeout(function() {
+        change_filter('activity_name' + String(name_num), 1);
+    }, 500);
+}
+
 function change_filter(type, value){
     var check = 0;
-    if(type == 'price'){
-        filtering('filter', value);
+    if(type == 'activity_name1'){
+        document.getElementById('activity_filter_name2').value = document.getElementById('activity_filter_name').value;
     }
+    else if(type == 'activity_name2'){
+        document.getElementById('activity_filter_name').value = document.getElementById('activity_filter_name2').value;
+    }
+    filtering('filter', value);
 }
 
 function filtering(type, check){
    var temp_data = [];
+   var searched_name = $('#activity_filter_name').val();
    data = activity_data;
+
+   if (searched_name){
+            data.forEach((obj)=> {
+                var test = 1;
+                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
+                    if (obj.name.toLowerCase().includes( search_str ) == false){
+                        test = 0;
+                    }
+                });
+                if(test == 1){
+                    temp_data.push(obj);
+                }
+            });
+            data = temp_data;
+            acivity_filter = data;
+            temp_data = [];
+   }
+
    if(type == 'filter'){
        console.log(data);
-       sort(data, check)
+       sort(data, check);
    }else if(type == 'sort'){
        sort(activity_data, check);
    }

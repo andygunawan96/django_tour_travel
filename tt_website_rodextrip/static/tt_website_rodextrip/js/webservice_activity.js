@@ -559,7 +559,8 @@ function activity_get_detail(uuid){
 function activity_get_price(val, bool){
     if(parseInt(activity_type_pick) != val || bool == true){
         activity_type_pick = val;
-        document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
+        if(document.getElementById('product_title').innerHTML != activity_type[activity_type_pick].name)
+            document.getElementById('product_type_title').innerHTML = activity_type[activity_type_pick].name;
 
         text = '';
         if(activity_type[activity_type_pick].voucher_validity != ''){
@@ -575,8 +576,15 @@ function activity_get_price(val, bool){
                 <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRedemptionAddress+`</p>`;
         }
         if(activity_type[activity_type_pick].voucherRequiresPrinting != ''){
-           text+=`<h4 style="padding:0 15px;">Voucher Print</h4>
-                <p style="padding:0 15px;">`+activity_type[activity_type_pick].voucherRequiresPrinting+`</p>`;
+           text+=`<h4 style="padding:0 15px;">Voucher Type</h4>`;
+           if(activity_type[activity_type_pick].voucherRequiresPrinting)
+           {
+                text+=`<p style="padding:0 15px;">Physical voucher is required. Please print the voucher before your visit!</p>`;
+           }
+           else
+           {
+                text+=`<p style="padding:0 15px;">You can use either physical or electronic voucher.</p>`;
+           }
         }
         if(activity_type[activity_type_pick].cancellationPolicies != ''){
            text+=`<h4 style="padding:0 15px;">Cancellation Policies</h4>
@@ -613,6 +621,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
     document.getElementById('activity_detail_table').innerHTML = '';
     document.getElementById('activity_detail_next_btn').innerHTML = '';
     document.getElementById('activity_detail_next_btn2').innerHTML = '';
+    document.getElementById('product_visit_date').innerHTML = '';
     document.getElementById('pax').innerHTML = '';
     document.getElementById('event').innerHTML = '';
     document.getElementById('timeslot').innerHTML = '';
@@ -1420,15 +1429,24 @@ function activity_get_booking(data){
             }
             document.getElementById('activity_final_info').innerHTML = text;
             document.getElementById('product_title').innerHTML = msg.result.response.activity.name;
-            document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
-
+            if(msg.result.response.activity.name != msg.result.response.activity.type)
+                document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
             price_text = '';
-            $test = 'Order Number: '+ msg.result.response.order_number + '\n';
+            $test = 'Order Number: '+ msg.result.response.name + '\n';
             $test += 'Booking Code: '+ msg.result.response.pnr+'\n\n';
-            $test += msg.result.response.activity.name+'\n'+msg.result.response.activity.type+
-           '\nVisit Date : '+msg.result.response.visit_date.split('-')[2] +'-'+msg.result.response.visit_date.split('-')[1]+'-'+msg.result.response.visit_date.split('-')[0]+'\n\n';
+
+            $test += msg.result.response.activity.name+'\n';
+            if(msg.result.response.activity.name != msg.result.response.activity.type)
+                $test +=msg.result.response.activity.type+'\n';
+            var visit_date_txt = msg.result.response.visit_date;
+            $test += 'Visit Date : '+msg.result.response.visit_date+'\n';
             if(msg.result.response.timeslot != '')
+            {
                 $test += 'Time slot: '+ msg.result.response.timeslot+'\n';
+                visit_date_txt += ' (' + msg.result.response.timeslot + ')';
+            }
+
+            document.getElementById('product_visit_date').innerHTML = visit_date_txt;
             //detail
             text = '';
             tax = 0;
@@ -1509,24 +1527,16 @@ function activity_get_booking(data){
                     price_text+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
-                        price_text+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` </span>`;
                         price_text+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
 
                         if(counter_service_charge == 0){
                         price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>`;
                         }else{
                             price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
                         }
                         price_text+=`
                         </div>

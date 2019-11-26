@@ -17,16 +17,25 @@
     seat_map_pick = '';
     pax_click = '';
     pax = [];
+    seat_map_response = [];
     {% for pax in paxs %}
         pax.push({
             name: `{{pax.name}}`,
-            seat: []
+            seat: [],
+            seat_pick: []
         })
         {% for seat in pax.seat_list%}
             pax[pax.length-1].seat.push({
-                'wagon': '',
-                'seat': '',
-                'column': ''
+                'wagon': '{{seat.seat}}'.split(',')[0],
+                'seat': parseInt('{{seat.seat}}'.split(',')[1]),
+                'column': '{{seat.seat}}'.split(',')[1].replace(/[0-9]/g, ''),
+                'seat_code': {{seat.seat_code}}
+            });
+            pax[pax.length-1].seat_pick.push({
+                'wagon': '{{seat.seat}}'.split(',')[0],
+                'seat': parseInt('{{seat.seat}}'.split(',')[1]),
+                'column': '{{seat.seat}}'.split(',')[1].replace(/[0-9]/g, ''),
+                'seat_code': {{seat.seat_code}}
             });
         {% endfor %}
     {% endfor %}
@@ -71,6 +80,7 @@ img {vertical-align: middle;}
   color: black;
 }
 </style>
+{% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 <section class="destinations-area">
     <div class="container">
@@ -258,6 +268,8 @@ img {vertical-align: middle;}
     </div>
 </footer>
 <script>
+    select_passenger(1);
+    select_journey(1);
     train_get_seat_map();
 </script>
 

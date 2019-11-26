@@ -60,7 +60,7 @@ def issued_offline(request):
         }
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def issued_offline_history(request):
     if 'user_account' in request.session._session:
@@ -85,4 +85,4 @@ def issued_offline_history(request):
         }
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_history_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)

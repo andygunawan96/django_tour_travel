@@ -7,6 +7,7 @@ var hotelAutoCompleteVar;
 var hotel_choices = [];
 var checking_price = 0;
 var checking_slider = 0;
+var hotel_ids_length = 0;
 var rating_list = [
     {
         value:'1',
@@ -203,6 +204,7 @@ function triggered(){
 }
 
 function filtering(type, update){
+    $('#badge-copy-notif').html("0");
     var data = JSON.parse(JSON.stringify(hotel_data));
     checking_slider = update;
     if(type == 'filter'){
@@ -572,7 +574,7 @@ function sort(response, check_filter){
         document.getElementById("hotel_result").innerHTML = '';
         text = '';
         var node = document.createElement("div");
-        var hotel_ids_length = parseInt(response.hotel_ids.length);
+        hotel_ids_length = parseInt(response.hotel_ids.length);
         text+=`
         <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> Hotel - `+hotel_ids_length+` results</span>
@@ -629,7 +631,7 @@ function sort(response, check_filter){
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 checkbox_search_hotel" style="text-align:right;">
                                 <label class="check_box_custom">
                                     <span class="span-search-ticket"></span>
-                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopy();"/>
+                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`, `+hotel_ids_length+`);"/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
                                 <span class="id_copy_result" hidden>`+i+`</span>
@@ -877,10 +879,10 @@ function sort(response, check_filter){
         }*/
     }
 
-function filter_name(){
+function filter_name(name_num){
     clearTimeout(myVar);
     myVar = setTimeout(function() {
-        change_filter('','');
+        change_filter('hotel_name'+ String(name_num),'');
     }, 500);
 }
 
@@ -888,17 +890,28 @@ function change_filter(type, value){
     var check = 0;
     if(type == 'rating'){
         rating_list[value].status = !rating_list[value].status;
+        document.getElementById("rating_filter"+value).checked = rating_list[value].status;
+        document.getElementById("rating_filter2"+value).checked = rating_list[value].status;
     } else if(type == 'facility'){
         if (selected_fac.includes(value)){
             for( var i = 0; i < selected_fac.length; i++){
                if (selected_fac[i] === value) {
                  selected_fac.splice(i, 1);
+                 document.getElementById("fac_filter"+value).checked = false;
+                 document.getElementById("fac_filter2"+value).checked = false;
                  break;
                }
             }
         } else {
             selected_fac.push(value);
+            document.getElementById("fac_filter"+value).checked = true;
+            document.getElementById("fac_filter2"+value).checked = true;
         }
+
+    } else if(type == 'hotel_name1'){
+        document.getElementById('hotel_filter_name2').value = document.getElementById('hotel_filter_name').value;
+    } else if(type == 'hotel_name2'){
+        document.getElementById('hotel_filter_name').value = document.getElementById('hotel_filter_name2').value;
     };
     filtering('filter', 1);
 }
@@ -924,7 +937,7 @@ function hotel_filter_render(){
         <div class="form-wrap" style="padding:0px; text-align:left;">
             <h6 class="filter_general" onclick="show_hide_general('hotelName');">Hotel Name <i class="fas fa-chevron-down" id="hotelName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelName_generalUp" style="float:right; display:block;"></i></h6>
             <div id="hotelName_generalShow" style="display:inline-block;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name();"/>
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(1);"/>
             </div>
             <hr/>
             <h6 class="filter_general" onclick="show_hide_general('hotelPrice');">Price Range <i class="fas fa-chevron-down" id="hotelPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelPrice_generalUp" style="float:right; display:block;"></i></h6>
@@ -1005,7 +1018,74 @@ function hotel_filter_render(){
     node.className = 'sorting-box';
     node.innerHTML = text;
     document.getElementById("sorting-hotel").appendChild(node);
-    node = document.createElement("div");
+
+    var node2 = document.createElement("div");
+    text = '';
+    text+= `<h4>Filter</h4>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
+    text+= `<div id="hotelName_generalShow" style="display:inline-block;">
+                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+            </div>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Star Rating</h6>`;
+
+    for(i in rating_list){
+        if(i == 0)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` star) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else if(i == 1)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else if(i == 2)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else if(i ==3)
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+        else
+            text += `
+            <label class="check_box_custom">
+                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
+                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
+                <span class="check_box_span_custom"></span>
+            </label><br/>`;
+    }
+
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("filter2").appendChild(node2);
+
+    text = '';
+    for(i in sorting_list){
+
+            text+=`
+            <label class="radio-button-custom">
+                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+                <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sorting_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+                <span class="checkmark-radio"></span>
+            </label></br>`;
+
+    }
+    node2 = document.createElement("div");
+    node2.innerHTML = text;
+    document.getElementById("sorting-hotel2").appendChild(node2);
 }
 
 
@@ -1414,8 +1494,21 @@ function checkboxCopy(){
     document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }
 
+function checkboxCopyBox(id, co_hotel){
+    if(document.getElementById('copy_result'+id).checked) {
+        var copycount = $(".copy_result:checked").length;
+        if(copycount == co_hotel){
+            document.getElementById("check_all_copy").checked = true;
+        }
+
+    } else {
+        document.getElementById("check_all_copy").checked = false;
+    }
+    checkboxCopy();
+}
+
 function check_all_result(){
-   var selectAllCheckbox=document.getElementById("check_all_copy");
+   var selectAllCheckbox = document.getElementById("check_all_copy");
    if(selectAllCheckbox.checked==true){
         var checkboxes = document.getElementsByClassName("copy_result");
         for(var i=0, n=checkboxes.length;i<n;i++) {
@@ -1438,13 +1531,13 @@ function get_checked_copy_result(){
     var search_params = document.getElementById("show-list-copy-hotel").innerHTML = '';
 
     var value_idx = [];
-    $("#hotel_search_params span").each(function(obj) {
+    $("#hotel_search_params .copy_span").each(function(obj) {
         value_idx.push( $(this).text() );
     })
 
     text='';
     //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
-    $text= value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
+    $text= value_idx[0]+'\n'+value_idx[1].trim()+'\n\n';
     var hotel_number = 0;
     node = document.createElement("div");
     text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
@@ -1544,7 +1637,7 @@ function get_checked_copy_result(){
 function delete_checked_copy_result(id){
     $("#div_list"+id).remove();
     $("#copy_result"+id).prop("checked", false);
-
+    checkboxCopyBox(id, hotel_ids_length)
     var count_copy = $(".copy_result:checked").length;
     if (count_copy == 0){
         $('#choose-hotel-copy').show();

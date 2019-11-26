@@ -30,6 +30,7 @@
 
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
 <header id="header">
     <div class="main-menu">
         <div class="container">
@@ -438,14 +439,14 @@
                                             <label style="color:red">*</label>
                                             <label>ID Number</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
+                                                <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="ID Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <label style="color:red">*</label>
                                             <label>ID Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="ID Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
 
                                             </div>
@@ -808,5 +809,5 @@
       }
   });
 </script>
-
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% endblock %}

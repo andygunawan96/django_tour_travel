@@ -130,9 +130,9 @@ function train_check_search_values(){
     type = '';
     error_log = '';
 
-    if(document.getElementById('train_origin').value.split(' - ').length != 3)
+    if(document.getElementById('train_origin').value.split(' - ').length != 4)
         error_log+= 'Please use autocomplete for origin\n';
-    if(document.getElementById('train_destination').value.split(' - ').length != 3)
+    if(document.getElementById('train_destination').value.split(' - ').length != 4)
         error_log+= 'Please use autocomplete for destination\n';
 
     if(error_log == ''){
@@ -327,8 +327,7 @@ function train_filter_render(){
     document.getElementById("filter2").appendChild(node2);
     node2 = document.createElement("div");
 
-    text = `<hr/>
-            <h6 style="padding-bottom:10px;">Sorting</h6>`;
+    text = `<h6 style="padding-bottom:10px;">Sorting</h6><hr/>`;
     for(i in sorting_list){
         if(i == 0){
             text+=`
@@ -526,6 +525,7 @@ function choose_train(data,key){
         document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
         document.getElementById('train_choose'+data).disabled = true;
         train_get_detail();
+        document.getElementById('train_ticket').innerHTML = '';
     }else{
         for(i in train_data){
             try{
@@ -544,6 +544,7 @@ function choose_train(data,key){
         document.getElementById('train_choose'+data).classList.add("primary-btn-custom-un");
         document.getElementById('train_choose'+data).disabled = true;
         train_get_detail();
+        document.getElementById('train_ticket').innerHTML = '';
     }
     train_ticket_pick();
 }
@@ -553,12 +554,15 @@ function change_train(val){
     journeys.splice(val,1);
     document.getElementById("train_pick_ticket").innerHTML = '';
     document.getElementById("train_ticket").innerHTML = '';
+    $('#button_chart_train').hide();
+    document.getElementById("badge-train-notif").innerHTML = "0";
     train_ticket_pick();
     filtering('filter');
 }
 
 function train_get_detail(){
     document.getElementById("badge-train-notif").innerHTML = "1";
+    $('#button_chart_train').show();
     $("#badge-train-notif").addClass("infinite");
     $("#myModalTicketTrain").modal('show');
     train_detail_text = '';
@@ -668,17 +672,39 @@ function train_get_detail(){
     train_detail_text += `<hr/>
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="color:white;font-size:13px;"><b>Total</b></span><br>
+                <span style="color:white;font-size:13px;font-weight:bold;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+                <span style="color:white;font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+            </div>
+
+            <div class="col-lg-12" style="padding-bottom:10px;">
+            <hr/>
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            $text += '1x Convenience fee'+price['currency']+' '+ journeys[i].fares[0].service_charge_summary[0].total_tax + '\n\n';
+            $text += 'Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                train_detail_text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            } else {
+                train_detail_text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            }
+        train_detail_text +=`
             </div>
         </div>
-
         <div class="row" id="show_commission" style="display:none;">
             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                 <div class="alert alert-success">
-                    <span style="font-size:13px;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
                 </div>
             </div>
         </div>
@@ -698,8 +724,6 @@ function train_get_detail(){
                 </button>
             </div>
         </div>`
-    $text += '1x Convenience fee'+price['currency']+' '+ journeys[i].fares[0].service_charge_summary[0].total_tax + '\n\n';
-    $text += 'Grand Total: '+ getrupiah(parseInt(total_price+total_tax));
     console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;
 }
@@ -862,6 +886,28 @@ function train_detail(){
     }
 
     $text += 'Grand Total: '+ getrupiah(parseInt(parseInt(total_price)+parseInt(total_tax)));
+    text+=`
+    <div class="row">
+        <div class="col-lg-12" style="padding-bottom:10px;">
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            } else {
+                text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            }
+    text+=`
+        </div>
+    </div>`;
 
     document.getElementById('train_detail').innerHTML = text;
 }
@@ -873,6 +919,19 @@ function copy_data(){
     el.select();
     document.execCommand('copy');
     document.body.removeChild(el);
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+
 }
 
 function show_commission(){
@@ -1020,21 +1079,21 @@ function check_passenger(adult, infant){
        }else{
            document.getElementById('adult_id_type'+i).style['border-color'] = '#EFEFEF';
            if(document.getElementById('adult_id_type'+i).value == 'ktp' && check_ktp(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill id number, ktp only contain 16 digits for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }
 
            if(document.getElementById('adult_id_type'+i).value == 'sim' && check_sim(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill id number, ktp only contain 12 - 13 digits for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }
 
            if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
@@ -1185,12 +1244,13 @@ function select_journey(val){
     print_seat_map();
 }
 
-function change_seat(wagon, seat,column){
+function change_seat(wagon, seat,column,seat_code){
     document.getElementById('seat_journey'+seat_map_pick).innerHTML = ', ' + wagon + ' ' + seat+column;
-    pax[parseInt(pax_click-1)].seat[parseInt(seat_map_pick-1)] = {
+    pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)] = {
         'wagon': wagon,
         'seat': seat,
-        'column': column
+        'column': column,
+        'seat_code': seat_code
     }
     print_seat_map();
 }
@@ -1521,9 +1581,29 @@ function share_data(){
     $text_share = window.encodeURIComponent($text);
 }
 
+function change_seat_map_from_selection(no){
+
+    var selectBox = document.getElementById("seat_map_wagon_pick");
+    var selectedValue = parseInt(selectBox.options[selectBox.selectedIndex].value) + 1;
+    slideIndex[no] = selectedValue;
+    showSlides(selectedValue, 0);
+}
+
 function print_seat_map(){
-    document.getElementById('train_seat_map').innerHTML = '';
-    var text='<div class="slideshow-container">';
+    var text = '<select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);" class="form-control">';
+    if(seat_map_response.length != 0){
+        for(i in seat_map_response){
+            if(parseInt(parseInt(i)+1) == seat_map_pick){
+                for(j in seat_map_response[i]){
+                    text += `<option value="`+j+`">`+seat_map_response[i][j].cabin_name+`</option>`;
+                }
+                text += '</select>'
+                break;
+            }
+        }
+        document.getElementById('train_seat_map').innerHTML = text;
+    }
+    text ='<div class="slideshow-container">';
     for(i in seat_map_response){
         if(seat_map_pick == '' || pax_click == ''){
             text += `<center><h4>Please select passenger or journey</h4></center>`;
@@ -1536,9 +1616,16 @@ function print_seat_map(){
                   <div class="col-lg-12 mySlides1">
                   <div style="width:100%;text-align:center;">
                     <h5>
-                    <a style="color:black; cursor:pointer; float:left;" onclick="plusSlides(-1, 0)">&#10094; Prev</a>
-                    `+seat_map_response[i][j].cabin_name+`
-                    <a style="color:black; cursor:pointer; float:right;" onclick="plusSlides(1, 0)">Next &#10095;</a>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <a style="color:black; cursor:pointer; float:left;" onclick="plusSlides(-1, 0)">&#10094; Prev</a>
+                        </div>
+                        <div class="col-lg-8">
+                        </div>
+                        <div class="col-lg-2">
+                            <a style="color:black; cursor:pointer; float:right;" onclick="plusSlides(1, 0)">Next &#10095;</a>
+                        </div>
+                    </div>
                     </h5>
                     <br/>
                     </div>`;
@@ -1549,8 +1636,8 @@ function print_seat_map(){
                           for(l in seat_map_response[i][j].seat_rows[k].seats){
                             check = 0;
                             for(m in pax){
-                                for(n in pax[m].seat){
-                                    if(seat_map_pick-1 == n && pax[m].seat[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
+                                for(n in pax[m].seat_pick){
+                                    if(seat_map_pick-1 == n && pax[m].seat_pick[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat_pick[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat_pick[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
                                         if(pax_click-1 == m){
                                             text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#f15a22; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                             check = 1;
@@ -1568,7 +1655,7 @@ function print_seat_map(){
                                 if(seat_map_response[i][j].seat_rows[k].seats[l].availability == -1){
                                   text+=`<input type="button" style="width:`+percent+`%;background-color:transparent;border:transparent; margin:5px;" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`" disabled/>`;
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 1){
-                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`', '`+seat_map_response[i][j].seat_rows[k].seats[l].column+`')" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`', '`+seat_map_response[i][j].seat_rows[k].seats[l].column+`',`+seat_map_response[i][j].seat_rows[k].seats[l].seat_code+`)" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 0){
                                   text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                 }
@@ -1587,10 +1674,12 @@ function print_seat_map(){
                     </div>
                     `;
 
-            document.getElementById('train_seat_map').innerHTML = text;
+            document.getElementById('train_seat_map').innerHTML += text;
+            slideIndex[0] = 1;
             showSlides(1, 0);
             loadingTrain();
             break;
         }
     }
+    wagon_pick = 0;
 }

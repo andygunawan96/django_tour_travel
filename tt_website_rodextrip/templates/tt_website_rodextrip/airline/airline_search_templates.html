@@ -76,20 +76,20 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {%if template == 1%}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
-<section class="destinations-area" style="padding:7px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
-    <div class="container">
+<section class="destinations-area change_search_area" style="padding:7px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div class="container" id="airline_search_params">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-8 col-md-8 {% else %} col-lg-8 col-md-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
                 <div class="row">
                     <div class="col-lg-12">
                         <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                            <span style="text-transform: capitalize; font-size:12px;">{% if airline_request.direction == 'OW' %} One Way {% elif airline_request.direction == 'RT' %} Round Trip {% elif airline_request.direction == 'MC' %} Multi City {% endif %} - </span>
+                            <span style="text-transform: capitalize; font-size:12px;">{% if airline_request.direction == 'OW' %} <span class="copy_span"> One Way {% elif airline_request.direction == 'RT' %} Round Trip {% elif airline_request.direction == 'MC' %} Multi City {% endif %} </span> - </span>
                             <span style="text-transform: capitalize;" id="show_origin_destination"></span>
                         </div>
                     </div>
                     <div class="col-lg-12">
-                        <span style="text-transform: capitalize; font-size:12px;" id="show_date"></span>
-                        <span style="text-transform: capitalize; font-size:12px; padding-left:10px;"><i class="fas fa-users"></i> {% if airline_request.adult != 0 %} {{airline_request.adult}} Adult {% endif %} {% if airline_request.child != 0 %}, {{airline_request.child}} Child {% endif %} {% if airline_request.infant != 0 %}, {{airline_request.infant}} Infant {% endif %}</span>
+                        <span class="copy_span" style="text-transform: capitalize; font-size:12px;" id="show_date"></span>
+                        <span class="copy_span" style="text-transform: capitalize; font-size:12px; padding-left:10px;"><i class="fas fa-users"></i> {% if airline_request.adult != 0 %} {{airline_request.adult}} Adult {% endif %} {% if airline_request.child != 0 %}, {{airline_request.child}} Child {% endif %} {% if airline_request.infant != 0 %}, {{airline_request.infant}} Infant {% endif %}</span>
                     </div>
                 </div>
             </div>
@@ -1254,18 +1254,33 @@
 
 {%endif%}
 
+<!--<button class="primary-btn-all-sticky" style="left:51%; width:15vw; bottom:55px; position:fixed; z-index:99;"data-toggle="modal" data-target="#myModalTicketFlight">-->
+<!--    <span style="color:white; font-size:14px;"><i class="fas fa-copy"></i> Copy <span class="badge-notif2 animated bounceIn" id="badge-copy-notif">0</span></span>-->
+<!--</button><br/>-->
+<!--<button class="primary-btn-all-sticky" style="right:51%; width:15vw; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalTicketFlight">-->
+<!--    <span style="color:white; font-size:14px;"><i class="fas fa-shopping-cart"></i> Order <span class="badge-notif2 animated bounceIn" id="badge-flight-notif">0</span></span>-->
+<!--</button>-->
+
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
+    <span style="color:white; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
+</button>
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
+    <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
+</button>
+
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="position:sticky; top:67px; z-index:997; display:none;" id="mybuttonsticky">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:2px;">
-                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalFilterSort">
-                            <span style="color:white; font-size:12px;"> Filter & Sorting </span>
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:10px; text-align:center;">
+                        <button class="primary-btn-all-sticky" style="width:100%;" data-toggle="modal" data-target="#myModalTicketFlight">
+                            <span style="color:white; font-size:12px;"> List Copy </span>
+                            <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>
                         </button>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:2px;">
-                        <button class="primary-btn-ticket" style="width:100%;" data-toggle="modal" data-target="#myModalTicketFlight">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-left:10px; text-align:center;">
+                        <button class="primary-btn-all-sticky" style="width:100%;" data-toggle="modal" data-target="#myModalTicketFlight">
                             <span style="color:white; font-size:12px;"> My Order </span>
                             <span class="badge-notif2 animated bounceIn" id="badge-flight-notif2">0</span>
                         </button>
@@ -1287,22 +1302,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal fade" id="myModalFilterSort" role="dialog">
+                <div class="modal fade" id="myModalFilter" role="dialog">
                     <div class="modal-dialog">
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> Filter & Sorting </i></h4>
+                                <h4 class="modal-title" style="color:white;"> Filter</i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                    <div class="col-lg-12">
                                         <div id="filter2">
 
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalSort" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:white;"> Sort </i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row" style="min-height=100px; max-height:400px; overflow-y: scroll;">
+                                    <div class="col-lg-12">
                                         <div id="sorting-flight2">
 
                                         </div>
@@ -1317,6 +1347,13 @@
                     <div style="background-color:white; padding:10px; margin-top:10px; border:1px solid #cdcdcd" id="filter">
 
                     </div>
+                </div>
+                <div style="background-color:white; padding:10px; margin-top:10px; border:1px solid #cdcdcd" id="promotion_code">
+                    <h6>
+                        Promotion Code
+                        <button type="button" onclick="add_promotion_code();">Add</button>
+                    </h6><hr/>
+                    <!--<input type="text" id="promotion_code" name="promotion_code"/>-->
                 </div>
             </div>
             <div class="col-lg-9" style="margin-top:15px; z-index:1;">
@@ -1339,10 +1376,13 @@
                     </div>
                 </div>
                 <div data-preset="line" id="barFlightSearch" class="ldBar label-center" style="width:100%;height:50px; margin-bottom:15px;" data-stroke="#f15a22" data-value="0"></div>
+                <div id="airlines_result_ticket">
+
+                </div>
                 <div id="airlines_error">
 
                 </div>
-                <div id="airline_ticket_pick">
+                <div id="airline_ticket_pick" style="margin-top:15px;">
 
                 </div>
                 <div id="airlines_ticket">
@@ -1393,12 +1433,40 @@
     </div>
 </section>
 
-{% include 'tt_website_rodextrip/footer.html' %}
+<div class="modal fade" id="myModalCopyAirline" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="color:white;"> List Copy Airline <i class="fas fa-copy"></i></i></h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row" id="choose-airline-copy">
+                    <div class="col-lg-12">
+                        <h6>Please choose your airlines want to copy!</h6>
+                    </div>
+                </div>
+                <div id="show-list-copy-airline">
 
-<button class="myticket" data-toggle="modal" data-target="#myModalTicketFlight">
+                </div>
+                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="myticket" style="display:none;" id="button_chart_airline" data-toggle="modal" data-target="#myModalTicketFlight">
     <span style="color:white; font-size:16px;"><i class="fas fa-shopping-cart"></i></span>
     <span class="badge-notif animated bounceIn" id="badge-flight-notif">0</span>
 </button>
+
+<button class="mystickycopybot" style="display:none;" id="button_copy_airline" data-toggle="modal" data-target="#myModalCopyAirline" onclick="get_checked_copy_result();">
+    <span style="color:white; font-size:16px;"><i class="fas fa-copy"></i></span>
+    <span class="badge-notif animated bounceIn" id="badge-copy-notif">0</span>
+</button>
+{% include 'tt_website_rodextrip/footer.html' %}
+
 
 <script>
     //test
@@ -1449,6 +1517,11 @@
 
 
     $(function() {
+      var radioValueAirline = $("input[name='radio_airline_type']:checked").val();
+      if(radioValueAirline){
+          $radio_value_string = radioValueAirline;
+      }
+
       var quantity_adult_flight = parseInt($('#adult_flight').val());
       var quantity_child_flight = parseInt($('#child_flight').val());
       var quantity_infant_flight = parseInt($('#infant_flight').val());

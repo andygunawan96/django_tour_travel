@@ -16,28 +16,6 @@ var month = {
     '11': 'Nov',
     '12': 'Dec',
 }
-function elapse_time(departure,arrival){
-    arrival_time = (parseInt(arrival[1].split(':')[0])*3600)+(parseInt(arrival[1].split(':')[1])*60);
-    departure_time = (parseInt(departure[1].split(':')[0])*3600)+(parseInt(departure[1].split(':')[1])*60);
-    if(departure[0] != arrival[0]){
-      arrival_time+=24*3600;
-    }
-    var duration = arrival_time-departure_time;
-    duration = {
-        'hours': parseInt(duration/3600),
-        'minutes': parseInt((duration/60)%60),
-        'seconds': duration%60
-    }
-    if(duration.minutes!= 0){
-        if(duration.minutes<10)
-            duration = duration.hours+"h0"+duration.minutes+"m";
-        else
-            duration = duration.hours+"h"+duration.minutes+"m";
-    }else
-        duration = duration.hours+"h";
-    return duration;
-}
-
 function can_book(departure, arrival){
     arrival_time = (parseInt(departure[1].split(':')[0])*3600)+(parseInt(departure[1].split(':')[1])*60);
     departure_time = (parseInt(arrival[1].split(':')[0])*3600)+(parseInt(arrival[1].split(':')[1])*60);
@@ -103,7 +81,7 @@ function get_train_config(){
         console.log(msg);
         new_train_destination = [];
         for(i in msg){
-            new_train_destination.push(msg[i].code+' - '+ msg[i].name+` - `+msg[i].country);
+            new_train_destination.push(msg[i].code+' - '+ msg[i].name+` - `+msg[i].city+` - `+msg[i].country);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -173,6 +151,8 @@ function elapse_time(departure){
   today = new Date();
   dep = new Date(departure);
   var diff = parseInt(Math.abs(dep - today)/3600000);
+  if(today > dep)
+    diff *= -1;
   console.log(diff);
   if(diff >= 3)
     return true;
@@ -199,11 +179,11 @@ function datasearch2(train){
            train.schedules[i].journeys[j].can_book = elapse_time(date);
            for(k in train.schedules[i].journeys[j].fares){
                 for(l in train.schedules[i].journeys[j].fares[k].service_charge_summary){
+                    train.schedules[i].journeys[j].price = 0
                     for(m in train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges){
-                        if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare'){
+                        if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
                             train.schedules[i].journeys[j].currency = train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].currency;
-                            train.schedules[i].journeys[j].price = train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                            break;
+                            train.schedules[i].journeys[j].price += train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].amount;
                         }
                     }
                     break;
@@ -246,6 +226,8 @@ function hold_booking(){
 }
 
 function train_create_booking(){
+    $('.hold-seat-booking-train').addClass("running");
+    $('.hold-seat-booking-train').attr("disabled", true);
     getToken();
     $.ajax({
        type: "POST",
@@ -260,6 +242,8 @@ function train_create_booking(){
        console.log(msg);
         if(msg.result.error_code == 0){
             //send order number
+            $('.hold-seat-booking-train').removeClass("running");
+            $('.hold-seat-booking-train').attr("disabled", false);
             document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
             document.getElementById('train_booking').submit();
 //            gotoForm();
@@ -269,7 +253,8 @@ function train_create_booking(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error train create booking </span>' + msg.result.error_msg,
             })
-            // back to home
+            $('.hold-seat-booking-train').removeClass("running");
+            $('.hold-seat-booking-train').attr("disabled", false);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -278,9 +263,10 @@ function train_create_booking(){
               title: 'Oops!',
               html: '<span style="color: red;">Error train create booking </span>' + errorThrown,
            })
+           $('.hold-seat-booking-train').removeClass("running");
+           $('.hold-seat-booking-train').attr("disabled", false);
        },timeout: 180000
     });
-    $('.hold-seat-booking-train').addClass("running");
 }
 
 function train_get_booking(data){
@@ -299,7 +285,7 @@ function train_get_booking(data){
 
         if(msg.result.error_code == 0){
             train_get_detail = msg;
-            if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'){
+            if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued'){
                 get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
             }
             $text = '';
@@ -320,7 +306,7 @@ function train_get_booking(data){
                         if(msg.result.response.provider_bookings[i].error_msg.length != 0)
                             text += `<div class="alert alert-danger">
                                 `+msg.result.response.provider_bookings[i].error_msg+`
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-25px;">x</a>
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
                             </div>`;
                         tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
                         var localTime  = moment.utc(tes).toDate();
@@ -341,7 +327,7 @@ function train_get_booking(data){
                 <div class="row">
                     <div class="col-lg-12">
                         <div style="padding:10px; background-color:white;">
-                        <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
+                        <h5> Train Detail </h5>
                         <hr/>`;
                     check = 0;
                     flight_counter = 1;
@@ -360,13 +346,20 @@ function train_get_booking(data){
 
                             $text += msg.result.response.provider_bookings[i].journeys[j].carrier_name+'\n';
                             $text += msg.result.response.provider_bookings[i].journeys[j].departure_date + ' - ';
-                            $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
-                            $text += msg.result.response.provider_bookings[i].journeys[j].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].origin+') - '+msg.result.response.provider_bookings[i].journeys[j].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].destination+')\n\n';
-
+                            if(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0] == msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0])
+                                $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1] + '\n';
+                            else
+                                $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
+                            $text += msg.result.response.provider_bookings[i].journeys[j].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].origin+') - '+msg.result.response.provider_bookings[i].journeys[j].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].destination+')\n';
+                            $text += 'Seats:\n'
+                            for(k in msg.result.response.provider_bookings[i].journeys[j].seats){
+                                $text += msg.result.response.provider_bookings[i].journeys[j].seats[k].passenger + ', ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[0] + ' ' + msg.result.response.provider_bookings[i].journeys[j].seats[k].seat.split(',')[1]+'\n';
+                            }
+                            $text += '\n';
                             text+= `
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>
+                                    <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>
                                 </div>
                             </div>`;
                             text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
@@ -433,7 +426,7 @@ function train_get_booking(data){
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
-                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
+                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
                     </tr>
 
                 </table>
@@ -565,6 +558,7 @@ function train_get_booking(data){
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/4'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
+                            $(".issued_booking_btn").remove();
                         }
                     }
                         text+=`
@@ -572,6 +566,8 @@ function train_get_booking(data){
                 </div>
             </div>`;
             document.getElementById('train_booking').innerHTML = text;
+            $(".issued_booking_btn").show();
+
             //detail
             text = '';
             tax = 0;
@@ -656,27 +652,18 @@ function train_get_booking(data){
                     text_detail+=`
                     <div class="row" style="margin-bottom:5px;">
                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Fare</span>`;
-                        text_detail+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE))+`</span>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax</span>`;
+                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` </span>`;
                         text_detail+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">`;
 
-                        $text += msg.result.response.passengers[j].name + ' Fare ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE))+'\n';
                         if(counter_service_charge == 0){
-                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+'\n';
+                            $text += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
                         text_detail+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>`;
                         }else{
-                            $text += msg.result.response.passengers[j].name + ' Tax ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+'\n';
+                            $text += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+'\n';
                             text_detail+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
                         }
                         text_detail+=`
                         </div>
@@ -780,6 +767,7 @@ function train_get_booking(data){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error train booking </span>' + msg.result.error_msg,
             })
+            document.getElementById('show_loading_booking_train').hidden = true;
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -788,6 +776,7 @@ function train_get_booking(data){
               title: 'Oops!',
               html: '<span style="color: red;">Error train booking </span>' + errorThrown,
             })
+            document.getElementById('show_loading_booking_train').hidden = true;
        },timeout: 60000
     });
 }
@@ -809,6 +798,7 @@ function set_seat_map(){
                             'seat':train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
                             'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
                             'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                            'seat_code': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[l].seat_code,
                             'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
                         });
                         check = 1;
@@ -823,6 +813,7 @@ function set_seat_map(){
                             'seat': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat,
                             'fare_code': train_get_detail.result.response.provider_bookings[i].journeys[j].fare_code,
                             'origin': train_get_detail.result.response.provider_bookings[i].journeys[j].origin,
+                            'seat_code': train_get_detail.result.response.provider_bookings[i].journeys[j].seats[k].seat_code,
                             'destination': train_get_detail.result.response.provider_bookings[i].journeys[j].destination
                         }]
                     })
@@ -870,7 +861,8 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').style.display = 'block';
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
-                   airline_get_booking(msg.result.response.order_number);
+                   document.getElementById("overlay-div-box").style.display = "none";
+                   train_get_booking(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                }else{
@@ -882,6 +874,7 @@ function train_issued(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
+                    document.getElementById("overlay-div-box").style.display = "none";
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -892,6 +885,7 @@ function train_issued(data){
                 })
                $('.hold-seat-booking-train').prop('disabled', false);
                $('.hold-seat-booking-train').removeClass("running");
+               document.getElementById("overlay-div-box").style.display = "none";
            },timeout: 60000
         });
       }
@@ -985,10 +979,21 @@ function train_manual_seat(){
        },
        success: function(msg) {
        console.log(msg);
-        if(msg.result.error_code == 0)
-            continue
-//            document.getElementById('train_booking').submit();
-        else
+        if(msg.result.error_code == 0){
+            check = 0;
+            for(i in msg.result.response){
+                if(msg.result.response[i].status == 'FAILED'){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.response[i].error_msg,
+                    });
+                    check = 1;
+                }
+            }
+            if(check == 0)
+                document.getElementById('train_booking').submit();
+        }else
             Swal.fire({
               type: 'error',
               title: 'Oops!',
