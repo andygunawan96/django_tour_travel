@@ -16,28 +16,6 @@ var month = {
     '11': 'Nov',
     '12': 'Dec',
 }
-function elapse_time(departure,arrival){
-    arrival_time = (parseInt(arrival[1].split(':')[0])*3600)+(parseInt(arrival[1].split(':')[1])*60);
-    departure_time = (parseInt(departure[1].split(':')[0])*3600)+(parseInt(departure[1].split(':')[1])*60);
-    if(departure[0] != arrival[0]){
-      arrival_time+=24*3600;
-    }
-    var duration = arrival_time-departure_time;
-    duration = {
-        'hours': parseInt(duration/3600),
-        'minutes': parseInt((duration/60)%60),
-        'seconds': duration%60
-    }
-    if(duration.minutes!= 0){
-        if(duration.minutes<10)
-            duration = duration.hours+"h0"+duration.minutes+"m";
-        else
-            duration = duration.hours+"h"+duration.minutes+"m";
-    }else
-        duration = duration.hours+"h";
-    return duration;
-}
-
 function can_book(departure, arrival){
     arrival_time = (parseInt(departure[1].split(':')[0])*3600)+(parseInt(departure[1].split(':')[1])*60);
     departure_time = (parseInt(arrival[1].split(':')[0])*3600)+(parseInt(arrival[1].split(':')[1])*60);
@@ -103,7 +81,7 @@ function get_train_config(){
         console.log(msg);
         new_train_destination = [];
         for(i in msg){
-            new_train_destination.push(msg[i].code+' - '+ msg[i].name+` - `+msg[i].country);
+            new_train_destination.push(msg[i].code+' - '+ msg[i].name+` - `+msg[i].city+` - `+msg[i].country);
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -173,6 +151,8 @@ function elapse_time(departure){
   today = new Date();
   dep = new Date(departure);
   var diff = parseInt(Math.abs(dep - today)/3600000);
+  if(today > dep)
+    diff *= -1;
   console.log(diff);
   if(diff >= 3)
     return true;
@@ -366,7 +346,10 @@ function train_get_booking(data){
 
                             $text += msg.result.response.provider_bookings[i].journeys[j].carrier_name+'\n';
                             $text += msg.result.response.provider_bookings[i].journeys[j].departure_date + ' - ';
-                            $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
+                            if(msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0] == msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0])
+                                $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1] + '\n';
+                            else
+                                $text += msg.result.response.provider_bookings[i].journeys[j].arrival_date + '\n';
                             $text += msg.result.response.provider_bookings[i].journeys[j].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].origin+') - '+msg.result.response.provider_bookings[i].journeys[j].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].destination+')\n';
                             $text += 'Seats:\n'
                             for(k in msg.result.response.provider_bookings[i].journeys[j].seats){

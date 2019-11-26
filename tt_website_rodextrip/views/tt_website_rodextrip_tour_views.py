@@ -99,7 +99,7 @@ def search(request):
         }
         return render(request, MODEL_NAME + '/tour/tour_search_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def detail(request):
     if 'user_account' in request.session._session:
@@ -135,7 +135,7 @@ def detail(request):
 
         return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def passenger(request):
     if 'user_account' in request.session._session:
@@ -267,7 +267,7 @@ def passenger(request):
         }
         return render(request, MODEL_NAME+'/tour/tour_passenger_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def review(request):
@@ -531,7 +531,7 @@ def review(request):
 
         return render(request, MODEL_NAME+'/tour/tour_review_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def booking(request):
@@ -553,5 +553,5 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/tour/tour_booking_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 

@@ -66,7 +66,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/activity/activity_search_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def detail(request):
@@ -98,7 +98,7 @@ def detail(request):
         }
         return render(request, MODEL_NAME+'/activity/activity_detail_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def passenger(request):
@@ -354,7 +354,7 @@ def passenger(request):
 
         return render(request, MODEL_NAME+'/activity/activity_passenger_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def review(request):
@@ -1218,7 +1218,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/activity/activity_review_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 
 def booking(request):
@@ -1242,4 +1242,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME + '/activity/activity_booking_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)

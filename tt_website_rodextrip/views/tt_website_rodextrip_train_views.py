@@ -91,7 +91,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/train/train_search_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def passenger(request):
     if 'user_account' in request.session._session:
@@ -149,7 +149,7 @@ def passenger(request):
         }
         return render(request, MODEL_NAME+'/train/train_passenger_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def review(request):
     if 'user_account' in request.session._session:
@@ -313,7 +313,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/train/train_review_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -340,7 +340,7 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def seat_map(request):
     if 'user_account' in request.session._session:
@@ -367,4 +367,4 @@ def seat_map(request):
         }
         return render(request, MODEL_NAME+'/train/train_seat_map_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)

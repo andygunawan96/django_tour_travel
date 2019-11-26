@@ -251,7 +251,7 @@ def search(request):
         }
         return render(request, MODEL_NAME+'/airline/airline_search_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def passenger(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -354,7 +354,7 @@ def passenger(request):
         }
         return render(request, MODEL_NAME+'/airline/airline_passenger_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def ssr(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -528,7 +528,7 @@ def ssr(request):
             }
         return render(request, MODEL_NAME+'/airline/airline_ssr_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def seat_map(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -706,7 +706,7 @@ def seat_map(request):
 
         return render(request, MODEL_NAME+'/airline/airline_seat_map_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def review(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -975,7 +975,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/airline/airline_review_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def review_after_sales(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -1112,7 +1112,7 @@ def review_after_sales(request):
         }
         return render(request, MODEL_NAME + '/airline/airline_review_after_sales_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -1148,4 +1148,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/airline/airline_booking_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)

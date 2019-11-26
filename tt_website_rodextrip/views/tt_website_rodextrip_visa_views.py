@@ -347,7 +347,7 @@ def review(request):
         }
         return render(request, MODEL_NAME+'/visa/visa_review_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
 
 def booking(request):
     if 'user_account' in request.session._session:
@@ -368,4 +368,4 @@ def booking(request):
         }
         return render(request, MODEL_NAME+'/visa/visa_booking_templates.html', values)
     else:
-        return no_session_logout()
+        return no_session_logout(request)
