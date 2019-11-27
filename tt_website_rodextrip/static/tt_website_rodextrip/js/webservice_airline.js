@@ -331,6 +331,57 @@ function get_provider_list(){
 
 function carrier_to_provider(){
     //MC
+//    airline = [];
+//    for(i in airline_carriers){
+//        airline.push({});
+//        for(j in airline_carriers[i]){
+//            if(airline_carriers[i][j].code == 'all' && airline_carriers[i][j].bool == true){
+//                for(k in provider_list){
+//                    airline[i][k] = [];
+//                    for(l in provider_list[k]){
+//                        airline[i][k].push(provider_list[k][l]);
+//                    }
+//                }
+//                break;
+//            }else if(airline_carriers[i][j].bool == true){
+//                try{
+//                    airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
+//                }catch(err){
+//
+//                }
+//            }
+//        }
+//    }
+//    provider_airline = []
+//    for(i in airline){
+//        provider_airline.push({});
+//        for(j in airline[i]){
+//            check = 0;
+//            for(l in provider_airline){
+//                if(provider_airline[j] == airline[i][j])
+//                    check = 1;
+//            }
+//            if(check == 0){
+//                for(k in airline[i][j]){
+//                    provider_airline[i][airline[i][j][k]] = [];
+//                }
+//            }
+//        }
+//    }
+//    console.log(provider_airline);
+//    for(i in airline){
+//        for(j in airline[i]){
+//            for(k in airline[i][j]){
+//                for(l in provider_airline[i]){
+//                    if(l == airline[i][j][k])
+//                        provider_airline[i][l].push(j);
+//                    }
+//            }
+//        }
+//    }
+
+//per carrier code
+
     airline = [];
     for(i in airline_carriers){
         airline.push({});
@@ -353,31 +404,9 @@ function carrier_to_provider(){
         }
     }
     provider_airline = []
-    for(i in airline){
-        provider_airline.push({});
-        for(j in airline[i]){
-            check = 0;
-            for(l in provider_airline){
-                if(provider_airline[j] == airline[i][j])
-                    check = 1;
-            }
-            if(check == 0){
-                for(k in airline[i][j]){
-                    provider_airline[i][airline[i][j][k]] = [];
-                }
-            }
-        }
-    }
-    console.log(provider_airline);
-    for(i in airline){
-        for(j in airline[i]){
-            for(k in airline[i][j]){
-                for(l in provider_airline[i]){
-                    if(l == airline[i][j][k])
-                        provider_airline[i][l].push(j);
-                    }
-            }
-        }
+    for(i in airline[0]){
+        for(j in airline[0][i])
+            provider_airline.push([airline[0][i][j],i])
     }
     airline_choose = 0;
     count_progress_bar_airline = 0;
@@ -404,7 +433,30 @@ function send_search_to_api(val){
     }
     if(val == undefined){
         console.log(provider_airline);
-        if(JSON.stringify(provider_airline[0]) == '{}'){
+        //lama
+//        if(JSON.stringify(provider_airline[0]) == '{}'){
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops...',
+//              text: 'Something went wrong, please try again or check your internet connection',
+//            })
+//            $('.loader-rodextrip').fadeOut();
+//            $("#barFlightSearch").hide();
+//            $("#waitFlightSearch").hide();
+//            document.getElementById("airlines_error").innerHTML = '';
+//            text = '';
+//            text += `
+//                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+//                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your internet connection</span>
+//                </div>
+//            `;
+//            var node = document.createElement("div");
+//            node.innerHTML = text;
+//            document.getElementById("airlines_error").appendChild(node);
+//            node = document.createElement("div");
+//        }
+        //baru
+        if(JSON.stringify(provider_airline).length == 0){
             Swal.fire({
               type: 'error',
               title: 'Oops...',
@@ -426,8 +478,9 @@ function send_search_to_api(val){
             node = document.createElement("div");
         }
         else{
-            for(j in provider_airline[counter_search]){
-                airline_search(j,provider_airline[counter_search][j]);
+            ticket_count = 0;
+            for(i in provider_airline){
+                airline_search(provider_airline[i][0],[provider_airline[i][1]]);
             }
             var bar1 = new ldBar("#barFlightSearch");
             var bar2 = document.getElementById('barFlightSearch').ldBar;
@@ -439,44 +492,45 @@ function send_search_to_api(val){
             document.getElementById('barFlightSearch').style.display = "block";
             document.getElementById('waitFlightSearch').style.display = "block";
         }
-    }else{
-        if(val == 0){
-            if(JSON.stringify(provider_airline[0]) == '{}'){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops...',
-                  text: 'Something went wrong, please try again or check your internet connection',
-                })
-                $('.loader-rodextrip').fadeOut();
-                $("#barFlightSearch").hide();
-                $("#waitFlightSearch").hide();
-                document.getElementById("airlines_error").innerHTML = '';
-                text = '';
-                text += `
-                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your internet connection</span>
-                </div>`;
-                var node = document.createElement("div");
-                node.innerHTML = text;
-                document.getElementById("airlines_error").appendChild(node);
-                node = document.createElement("div");
-            }
-            else{
-                for(j in provider_airline[val]){
-                    airline_search(j,provider_airline[val][j]);
-                }
-                var bar1 = new ldBar("#barFlightSearch");
-                var bar2 = document.getElementById('barFlightSearch').ldBar;
-                bar1.set((airline_choose/count_progress_bar_airline)*100);
-                if ((airline_choose/count_progress_bar_airline)*100 == 100){
-                    $("#barFlightSearch").hide();
-                    $("#waitFlightSearch").hide();
-                }
-                document.getElementById('barFlightSearch').style.display = "block";
-                document.getElementById('waitFlightSearch').style.display = "block";
-            }
-        }
     }
+//    else{
+//        if(val == 0){
+//            if(JSON.stringify(provider_airline[0]) == '{}'){
+//                Swal.fire({
+//                  type: 'error',
+//                  title: 'Oops...',
+//                  text: 'Something went wrong, please try again or check your internet connection',
+//                })
+//                $('.loader-rodextrip').fadeOut();
+//                $("#barFlightSearch").hide();
+//                $("#waitFlightSearch").hide();
+//                document.getElementById("airlines_error").innerHTML = '';
+//                text = '';
+//                text += `
+//                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+//                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your internet connection</span>
+//                </div>`;
+//                var node = document.createElement("div");
+//                node.innerHTML = text;
+//                document.getElementById("airlines_error").appendChild(node);
+//                node = document.createElement("div");
+//            }
+//            else{
+//                for(j in provider_airline[val]){
+//                    airline_search(j,provider_airline[val][j]);
+//                }
+//                var bar1 = new ldBar("#barFlightSearch");
+//                var bar2 = document.getElementById('barFlightSearch').ldBar;
+//                bar1.set((airline_choose/count_progress_bar_airline)*100);
+//                if ((airline_choose/count_progress_bar_airline)*100 == 100){
+//                    $("#barFlightSearch").hide();
+//                    $("#waitFlightSearch").hide();
+//                }
+//                document.getElementById('barFlightSearch').style.display = "block";
+//                document.getElementById('waitFlightSearch').style.display = "block";
+//            }
+//        }
+//    }
     counter_search++;
 }
 
@@ -536,6 +590,9 @@ function airline_search(provider,carrier_codes){
                   var bar2 = document.getElementById('barFlightSearch').ldBar;
                   bar1.set((airline_choose/count_progress_bar_airline)*100);
                   if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                    document.getElementById('sorting-flight2').hidden = false;
+                    document.getElementById('sorting-flight').hidden = false;
+                    document.getElementById('filter').hidden = false;
                     $("#barFlightSearch").hide();
                     $("#waitFlightSearch").hide();
                   }
@@ -546,6 +603,9 @@ function airline_search(provider,carrier_codes){
                   var bar2 = document.getElementById('barFlightSearch').ldBar;
                   bar1.set((airline_choose/count_progress_bar_airline)*100);
                   if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                    document.getElementById('sorting-flight2').hidden = false;
+                    document.getElementById('sorting-flight').hidden = false;
+                    document.getElementById('filter').hidden = false;
                     $("#barFlightSearch").hide();
                     $("#waitFlightSearch").hide();
                   }
@@ -556,6 +616,9 @@ function airline_search(provider,carrier_codes){
               var bar2 = document.getElementById('barFlightSearch').ldBar;
               bar1.set((airline_choose/count_progress_bar_airline)*100);
               if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                document.getElementById('sorting-flight2').hidden = false;
+                document.getElementById('sorting-flight').hidden = false;
+                document.getElementById('filter').hidden = false;
                 $("#barFlightSearch").hide();
                 $("#waitFlightSearch").hide();
               }
@@ -631,8 +694,11 @@ function airline_search(provider,carrier_codes){
         var bar2 = document.getElementById('barFlightSearch').ldBar;
         bar1.set((airline_choose/count_progress_bar_airline)*100);
         if ((airline_choose/count_progress_bar_airline)*100 == 100){
-          $("#barFlightSearch").hide();
-          $("#waitFlightSearch").hide();
+            document.getElementById('sorting-flight2').hidden = false;
+            document.getElementById('sorting-flight').hidden = false;
+            document.getElementById('filter').hidden = false;
+            $("#barFlightSearch").hide();
+            $("#waitFlightSearch").hide();
         }
        if (count_progress_bar_airline == airline_choose && airline_data.length == 0){
             Swal.fire({
@@ -664,6 +730,7 @@ function datasearch2(airline){
    airline_choose++;
    data = [];
    data_show = [];
+   temp_data = [];
    text = '';
    var counter = 0;
    for(i in airline_data){
@@ -701,10 +768,6 @@ function datasearch2(airline){
                            }
                        }
                        break;
-                   }else{
-                       //testing sia
-                       airline.schedules[i].journeys[j].segments[k].fare_pick = 0;
-                       can_book = true;
                    }
                }
 
@@ -719,14 +782,17 @@ function datasearch2(airline){
            airline.schedules[i].journeys[j].can_book = can_book;
            airline.schedules[i].journeys[j].currency = currency;
            data.push(airline.schedules[i].journeys[j]);
+           temp_data.push(airline.schedules[i].journeys[j]);
            counter++;
         }
    }
 
    airline_data = data;
    sorting_value = 'price';
-   sort_button('price');
-   filtering('filter');
+   print_ticket_search(temp_data);
+//   sort_button('price');
+//   sort(temp_data);
+//   filtering('filter');
 }
 
 function change_fare(journey, segment, fares){
@@ -1642,11 +1708,10 @@ function show_seat_map(val, checked){
                 break;
             for(j in seat_map.seat_availability_provider[i].segments){
                 if(seat_map.seat_availability_provider[i].segments[j].segment_code2 == set_seat_show_segments){
-
                     for(k in seat_map.seat_availability_provider[i].segments[j].seat_cabins){
                         text+=`<div class="mySlides1">
                                     <div style="width:100%;text-align:center;">`;
-                        percent = parseInt(75 / seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows.length+1);
+                        percent = parseInt(50 / seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[0].seats.length+1);
                         for(l in seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows){
                             if(l == 0){
                                 text+=`<div style="width:100%;text-align:center;">`;
@@ -1682,9 +1747,9 @@ function show_seat_map(val, checked){
                                     }
                                 }
                                 if(check == 0){
-                                    if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 0)
+                                    if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 0){
                                         text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#656565; color:white; padding:3px;" id="" onclick="alert('Already booked');" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
-                                    else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 1)
+                                    }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 1){
                                         text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#CACACA; padding:3px;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"
                                         onclick="update_seat_passenger('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`',
                                                                        '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`',
@@ -1693,9 +1758,11 @@ function show_seat_map(val, checked){
                                                                        '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].seat_name+`',
                                                                        '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].currency+`',
                                                                        '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].amount+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].description+`')" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
-                                    else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == -1)
+                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].description+`')"
+                                        value='`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`'/>`;
+                                    }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == -1){
                                         text+=`<input type="button" style="width:`+percent+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;" id="" value="" disabled/>`;
+                                    }
                                 }
                             }
                             text+=`</div>`;
@@ -2203,12 +2270,13 @@ function airline_get_booking(data){
             }
 
             if(msg.result.response.state == 'issued'){
-                document.getElementById('ssr_request_after_sales').hidden = false;
-                document.getElementById('ssr_request_after_sales').innerHTML = `
-                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
-                document.getElementById('reissued').hidden = false;
-                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
+               //tanya ko sam kalau nyalain
+//                document.getElementById('ssr_request_after_sales').hidden = false;
+//                document.getElementById('ssr_request_after_sales').innerHTML = `
+//                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">
+//                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
+//                document.getElementById('reissued').hidden = false;
+//                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
             }
             check_provider_booking = 0;
             if(msg.result.response.state == 'booked'){
