@@ -9,6 +9,7 @@ event_pick = 0;
 pricing_days = 1;
 offset = 0;
 high_price_slider = 0;
+low_price_slider = 99999999;
 step_slider = 0;
 
 var month = {
@@ -297,6 +298,10 @@ function activity_search(){
                         high_price_slider = activity_data[i].activity_price;
                     }
 
+                   if(low_price_slider > activity_data[i].activity_price){
+                        low_price_slider = activity_data[i].activity_price;
+                   }
+
                    if (activity_data[i].images.length > 0)
                    {
                        img_src = activity_data[i].images[0].url+activity_data[i].images[0].path;
@@ -355,16 +360,29 @@ function activity_search(){
                else{
                 step_slider = 200000;
                }
+               document.getElementById("price-from").value = low_price_slider;
                document.getElementById("price-to").value = high_price_slider;
+               document.getElementById("price-from2").value = low_price_slider;
+               document.getElementById("price-to2").value = high_price_slider;
+               $minPrice = low_price_slider;
                $maxPrice = high_price_slider;
                $(".js-range-slider").data("ionRangeSlider").update({
-                    from: 0,
+                    from: low_price_slider,
                     to: high_price_slider,
-                    min: 0,
+                    min: low_price_slider,
                     max: high_price_slider,
                     step: step_slider
                });
                $(".js-range-slider").data("ionRangeSlider").reset();
+
+               $(".js-range-slider2").data("ionRangeSlider").update({
+                    from: low_price_slider,
+                    to: high_price_slider,
+                    min: low_price_slider,
+                    max: high_price_slider,
+                    step: step_slider
+               });
+               $(".js-range-slider2").data("ionRangeSlider").reset();
 
                offset++;
                document.getElementById('activity_ticket').innerHTML += text;

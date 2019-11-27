@@ -1,6 +1,7 @@
 var tour_data = [];
 offset = 0;
 high_price_slider = 0;
+low_price_slider = 99999999;
 step_slider = 0;
 
 function tour_login(data){
@@ -164,6 +165,10 @@ function tour_search(){
                         high_price_slider = tour_data[i].adult_sale_price;
                    }
 
+                   if(low_price_slider > tour_data[i].adult_sale_price){
+                        low_price_slider = tour_data[i].adult_sale_price;
+                   }
+
                    if (tour_data[i].images_obj.length > 0)
                    {
                        img_src = tour_data[i].images_obj[0].url;
@@ -230,16 +235,30 @@ function tour_search(){
                else{
                 step_slider = 200000;
                }
+               document.getElementById("price-from").value = low_price_slider;
                document.getElementById("price-to").value = high_price_slider;
+               document.getElementById("price-from2").value = low_price_slider;
+               document.getElementById("price-to2").value = high_price_slider;
+               $minPrice = low_price_slider;
                $maxPrice = high_price_slider;
+
                $(".js-range-slider").data("ionRangeSlider").update({
-                    from: 0,
+                    from: low_price_slider,
                     to: high_price_slider,
-                    min: 0,
+                    min: low_price_slider,
                     max: high_price_slider,
                     step: step_slider
                });
                $(".js-range-slider").data("ionRangeSlider").reset();
+
+               $(".js-range-slider2").data("ionRangeSlider").update({
+                    from: low_price_slider,
+                    to: high_price_slider,
+                    min: low_price_slider,
+                    max: high_price_slider,
+                    step: step_slider
+               });
+               $(".js-range-slider2").data("ionRangeSlider").reset();
 
                offset++;
                document.getElementById('tour_ticket').innerHTML += text;
@@ -280,6 +299,7 @@ function tour_get_details(package_id){
        success: function(msg) {
         console.log(msg);
            var country_text = '';
+           var print_doc_text = '';
            var image_text = '';
            var itinerary_text = '';
            var flight_details_text = '';
@@ -335,7 +355,7 @@ function tour_get_details(package_id){
                 }
                 if (tour_data.document_url)
                 {
-                    country_text += `<div style="position: absolute; bottom: 10px; right: 15px;">
+                    print_doc_text += `<div style="position: absolute; bottom: 0px; right: 15px;">
                                          <a class="btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" href="`+tour_data.document_url+`" target="_blank">
                                              <i class="fa fa-print" aria-hidden="true"></i> Print Document
                                          </a>
@@ -484,6 +504,7 @@ function tour_get_details(package_id){
                document.getElementById('tour_data').value = JSON.stringify(tour_data).replace(/'/g,'');
                document.getElementById('tour_carousel').innerHTML += image_text;
                document.getElementById('country_list_tour').innerHTML += country_text;
+               document.getElementById('print_doc_btn_div').innerHTML += print_doc_text;
                document.getElementById('itinerary').innerHTML += itinerary_text;
                document.getElementById('other_info').innerHTML += other_info_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;

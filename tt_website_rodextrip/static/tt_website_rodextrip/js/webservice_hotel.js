@@ -17,6 +17,7 @@ var month = {
     '12': 'Dec',
 }
 high_price_slider = 0;
+low_price_slider = 99999999;
 step_slider = 0;
 
 function get_hotel_config(){
@@ -168,6 +169,9 @@ function hotel_search(){
                            if(high_price_slider < msg.result.response.hotel_ids[i].prices[j].price){
                                high_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
                            }
+                           if(low_price_slider > msg.result.response.hotel_ids[i].prices[j].price){
+                               low_price_slider = msg.result.response.hotel_ids[i].prices[j].price;
+                           }
                        }
                     }
                     if(high_price_slider <= 1000000){
@@ -179,12 +183,22 @@ function hotel_search(){
                     else{
                         step_slider = 200000;
                     }
+                    document.getElementById("price-from").value = low_price_slider;
                     document.getElementById("price-to").value = high_price_slider;
+                    document.getElementById("price-from2").value = low_price_slider;
+                    document.getElementById("price-to2").value = high_price_slider;
 
                     $(".js-range-slider").data("ionRangeSlider").update({
-                         from: 0,
+                         from: low_price_slider,
                          to: high_price_slider,
-                         min: 0,
+                         min: low_price_slider,
+                         max: high_price_slider,
+                         step: step_slider
+                    });
+                    $(".js-range-slider2").data("ionRangeSlider").update({
+                         from: low_price_slider,
+                         to: high_price_slider,
+                         min: low_price_slider,
                          max: high_price_slider,
                          step: step_slider
                     });

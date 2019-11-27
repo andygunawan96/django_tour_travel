@@ -75,7 +75,8 @@ $(document).ready(function(){
             $('#filter-search-train').show();
             $('#sorting-search-train').show();
             $('#mybuttonfiltersort').hide();
-            $("#myModalFilterSort").modal('hide');
+            $("#myModalFilter").modal('hide');
+            $("#myModalSort").modal('hide');
 //            document.getElementById("filter-search-train").style.display = "block";
 //            document.getElementById("sorting-search-train2").style.display = "block";
 //            document.getElementById("mybuttonfiltersort").style.display = "none";
