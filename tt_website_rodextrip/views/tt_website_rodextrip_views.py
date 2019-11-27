@@ -248,8 +248,6 @@ def testing(request):
     }
     return render(request, MODEL_NAME+'/testing.html', values)
 
-
-
 def login(request):
     javascript_version = get_javascript_version()
     template, logo = get_logo_template()

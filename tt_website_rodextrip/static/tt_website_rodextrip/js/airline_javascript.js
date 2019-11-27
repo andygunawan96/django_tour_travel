@@ -2351,7 +2351,7 @@ function sort(){
                                     </label>
                                     <span class="id_copy_result" hidden>`+i+`</span>
                                 </div>`;
-
+                                carrier_code_airline = [];
                                 if(airline[i].is_combo_price == true){
                                     check_flight_type = 3;
                                     check_flight_departure = 0;
@@ -2471,7 +2471,7 @@ function sort(){
                                                             if(j != 0){
                                                                 text+=`<hr style="margin-top:unset;"/>`;
                                                             }
-                                                        }else{
+                                                        }else if(carrier_code_airline.includes(airline[i].segments[j].carrier_code) == false){
                                                             try{
                                                                 text+=`
                                                                 <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
@@ -2485,6 +2485,8 @@ function sort(){
                                                                 text+=`<hr style="margin-top:unset;"/>`;
                                                             }
                                                         }
+                                                        if(carrier_code_airline.includes(airline[i].segments[j].carrier_code) == false)
+                                                            carrier_code_airline.push(airline[i].segments[j].carrier_code);
                                                         text+=`</div></div>`;
                                                     }
                                                         //for(j in airline[i].carrier_code_list){
@@ -2829,8 +2831,8 @@ function print_ticket_search(airline){
                check_flight_departure = 0;
                var price = 0;
                text += `
-               <div class="search-box-result" id="journey`+i+`">
-                   <span class="copy_journey" hidden>`+i+`</span>
+               <div class="search-box-result" id="journey`+airline[i].sequence+`">
+                   <span class="copy_journey" hidden>`+airline[i].sequence+`</span>
                    <div class="row" style="padding:10px;">
                        <div class="col-lg-12" style="padding:0px 10px 15px 15px;">`;
                            if(airline[i].is_combo_price == true){
@@ -2839,10 +2841,10 @@ function print_ticket_search(airline){
                            text += `
                            <label class="check_box_custom" style="float:right;">
                                <span class="span-search-ticket"></span>
-                               <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`);"/>
+                               <input type="checkbox" class="copy_result" name="copy_result`+airline[i].sequence+`" id="copy_result`+airline[i].sequence+`" onchange="checkboxCopyBox(`+airline[i].sequence+`);"/>
                                <span class="check_box_span_custom"></span>
                            </label>
-                           <span class="id_copy_result" hidden>`+i+`</span>
+                           <span class="id_copy_result" hidden>`+airline[i].sequence+`</span>
                        </div>`;
                        carrier_code_airline = [];
                        if(airline[i].is_combo_price == true){
@@ -2852,12 +2854,12 @@ function print_ticket_search(airline){
                             for(j in airline[i].segments){
                                 flight_number = parseInt(j) + 1;
                                 text +=`
-                                <div class="col-lg-12" id="copy_div_airline`+i+``+j+`">
-                                    <span class="copy_airline" hidden>`+i+``+j+`</span>
+                                <div class="col-lg-12" id="copy_div_airline`+airline[i].sequence+``+j+`">
+                                    <span class="copy_airline" hidden>`+airline[i].sequence+``+j+`</span>
                                     <div class="row">
                                         <div class="col-lg-2" style="padding-top:10px;">
                                             <span class="copy_po" hidden>`+j+`</span>`;
-                                            text+=`<div class="row"><div class="col-lg-12" id="copy_provider_operated`+i+``+j+`">`;
+                                            text+=`<div class="row"><div class="col-lg-12" id="copy_provider_operated`+airline[i].sequence+``+j+`">`;
                                             if(j != 0){
                                                 text+=`<hr style="margin-top:unset; margin-bottom:unset;"/>`;
                                             }
@@ -2937,15 +2939,15 @@ function print_ticket_search(airline){
                         }
                        else if(airline[i].is_combo_price == false){
                             text+=`
-                            <div class="col-lg-12" id="copy_div_airline`+i+`">
-                                <span class="copy_airline" hidden>`+i+`</span>
+                            <div class="col-lg-12" id="copy_div_airline`+airline[i].sequence+`">
+                                <span class="copy_airline" hidden>`+airline[i].sequence+`</span>
                                 <div class="row">
                                     <div class="col-lg-2">`;
                                         for(j in airline[i].segments){
                                             //ganti sini
                                             flight_number = parseInt(j) + 1;
                                             text+=`
-                                            <div class="row"><div class="col-lg-12" id="copy_provider_operated`+i+``+j+`">
+                                            <div class="row"><div class="col-lg-12" id="copy_provider_operated`+airline[i].sequence+``+j+`">
                                             <span class="copy_po" hidden>`+j+`</span>`;
                                             if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code){
                                                 try{
@@ -3050,25 +3052,25 @@ function print_ticket_search(airline){
 
                        text+=`
                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:15px;">
-                           <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
-                               <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                           <a id="detail_button_journey0`+airline[i].sequence+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+airline[i].sequence+`);" href="#detail_departjourney`+airline[i].sequence+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
+                               <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+airline[i].sequence+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+airline[i].sequence+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                            </a>
                        </div>
                        <div class="col-lg-8 col-md-8 col-sm-8">
                            <div class="row">
                                <div class="col-lg-12" style="text-align:right;">
-                                   <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
+                                   <span id="fare`+airline[i].sequence+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
                                     text+=`</span>`;
 
 //                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
-//                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+//                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+airline[i].sequence+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+airline[i].sequence+`)" sequence_id="0"/>`;
 //                                        else
                                    if(airline[i].can_book == true){
-                                       text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+                                       text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+airline[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+airline[i].sequence+`)" sequence_id="0"/>`;
                                    }
                                    else{
-                                       text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
+                                       text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+airline[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
                                    }
                                    text+=`
                                </div>
@@ -3076,10 +3078,10 @@ function print_ticket_search(airline){
                        </div>
                    </div>
 
-                   <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
+                   <div id="detail_departjourney`+airline[i].sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                        for(j in airline[i].segments){
-                           text+=`<div id="copy_segments_details`+i+``+j+`">
-                           <span class="copy_segments" hidden>`+i+``+j+`</span>`;
+                           text+=`<div id="copy_segments_details`+airline[i].sequence+``+j+`">
+                           <span class="copy_segments" hidden>`+airline[i].sequence+``+j+`</span>`;
                            if(airline[i].segments[j].transit_duration != ''){
                                text += `<div class="col-lg-12" style="text-align:center;"><i class="fas fa-clock"></i><span style="font-weight:500" class="copy_transit_details">Transit Duration: `;
                                if(airline[i].segments[j].transit_duration.split(':')[0] != '0')
@@ -3127,8 +3129,8 @@ function print_ticket_search(airline){
                            <div class="col-lg-7">`;
                            for(k in airline[i].segments[j].legs){
                                text+=`
-                               <div class="row" id="copy_legs_details`+i+``+j+``+k+`">
-                                   <span class="copy_legs" hidden>`+i+``+j+``+k+`</span>
+                               <div class="row" id="copy_legs_details`+airline[i].sequence+``+j+``+k+`">
+                                   <span class="copy_legs" hidden>`+airline[i].sequence+``+j+``+k+`</span>
                                    <div class="col-lg-12">
                                        <div class="timeline-wrapper">
                                            <ul class="StepProgress">
@@ -3157,7 +3159,7 @@ function print_ticket_search(airline){
                            }
                            text+=`
                            </div>
-                           <div class="col-lg-3" id="copy_legs_duration_details`+i+``+j+``+k+`">
+                           <div class="col-lg-3" id="copy_legs_duration_details`+airline[i].sequence+``+j+``+k+`">
                                <i class="fas fa-clock"></i><span style="font-weight:500;" class="copy_duration_details"> `;
                                if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
                                    text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
@@ -3170,8 +3172,8 @@ function print_ticket_search(airline){
                                    if(k == 0){
                                        for(l in airline[i].segments[j].fares[k].fare_details){
                                            text+=`
-                                           <div id="copy_fares_details`+i+``+j+``+k+``+l+`">
-                                           <span class="copy_fares" hidden>`+i+``+j+``+k+``+l+`</span>`;
+                                           <div id="copy_fares_details`+airline[i].sequence+``+j+``+k+``+l+`">
+                                           <span class="copy_fares" hidden>`+airline[i].sequence+``+j+``+k+``+l+`</span>`;
                                            if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
                                                 text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details">`+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                            }
@@ -3202,14 +3204,14 @@ function print_ticket_search(airline){
                                                    text+=`
                                                    <label class="radio-button-custom">
                                                        <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                       <input onclick="change_fare(`+airline[i].sequence+`,`+j+`,`+k+`);" id="journey`+airline[i].sequence+`segment`+j+`fare" name="journey`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
                                                        <span class="checkmark-radio"></span>
                                                    </label>`;
                                                else
                                                    text+=`
                                                    <label class="radio-button-custom">
                                                        <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+                                                       <input onclick="change_fare(`+airline[i].sequence+`,`+j+`,`+k+`);" id="journey`+airline[i].sequence+`segment`+j+`fare" name="journey`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`">
                                                        <span class="checkmark-radio"></span>
                                                    </label>`;
                                                text+=`<br/>`;
@@ -3224,7 +3226,7 @@ function print_ticket_search(airline){
 //                                               for(l in airline[i].segments[j].fares[k].service_charges){
 //                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
 //                                                }
-                                               id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
+                                               id_price_segment = `journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
                                                text+=`<span id="`+id_price_segment+`"><b>`+airline[i].currency+` `+getrupiah(total_price)+`</b></span>`;
                                                text+=`</td>`;
                                            }
@@ -3248,17 +3250,17 @@ function print_ticket_search(airline){
     //                   document.getElementById('airlines_ticket').innerHTML += text;
                text = '';
                if(airline[i].currency == 'IDR')
-                    document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
+                    document.getElementById('fare'+airline[i].sequence).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
                else
-                    document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+airline[i].total_price;
+                    document.getElementById('fare'+airline[i].sequence).innerHTML = airline[i].currency+' '+airline[i].total_price;
            }else if(airline[i].origin == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'return'){
                ticket_count++;
                check_flight_type = 2;
                check_flight_return = 0;
                var price = 0;
                text += `
-                    <div class="search-box-result" id="journey`+i+`">
-                        <span class="copy_journey" hidden>`+i+`</span>
+                    <div class="search-box-result" id="journey`+airline[i].sequence+`">
+                        <span class="copy_journey" hidden>`+airline[i].sequence+`</span>
                         <div class="row" style="padding:10px;">
                             <div class="col-lg-12" style="padding:0px 10px 15px 15px;">`;
                                 if(airline[i].is_combo_price == true){
@@ -3267,10 +3269,10 @@ function print_ticket_search(airline){
                                 text += `
                                 <label class="check_box_custom" style="float:right;">
                                     <span class="span-search-ticket"></span>
-                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`);"/>
+                                    <input type="checkbox" class="copy_result" name="copy_result`+airline[i].sequence+`" id="copy_result`+airline[i].sequence+`" onchange="checkboxCopyBox(`+airline[i].sequence+`);"/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
-                                <span class="id_copy_result" hidden>`+i+`</span>
+                                <span class="id_copy_result" hidden>`+airline[i].sequence+`</span>
                             </div>`;
 
                             if(airline[i].is_combo_price == true){
@@ -3280,12 +3282,12 @@ function print_ticket_search(airline){
                                 for(j in airline[i].segments){
                                     flight_number = parseInt(j) + 1;
                                     text +=`
-                                    <div class="col-lg-12" id="copy_div_airline`+i+``+j+`">
-                                        <span class="copy_airline" hidden>`+i+``+j+`</span>
+                                    <div class="col-lg-12" id="copy_div_airline`+airline[i].sequence+``+j+`">
+                                        <span class="copy_airline" hidden>`+airline[i].sequence+``+j+`</span>
                                         <div class="row">
                                             <div class="col-lg-2" style="padding-top:10px;">
                                                 <span class="copy_po" hidden>`+j+`</span>`;
-                                                text+=`<div class="row"><div class="col-lg-12" id="copy_provider_operated`+i+``+j+`">`;
+                                                text+=`<div class="row"><div class="col-lg-12" id="copy_provider_operated`+airline[i].sequence+``+j+`">`;
                                                 if(j != 0){
                                                     text+=`<hr style="margin-top:unset; margin-bottom:unset;"/>`;
                                                 }
@@ -3365,13 +3367,13 @@ function print_ticket_search(airline){
                             }
                             else if(airline[i].is_combo_price == false){
                                     text+=`
-                                    <div class="col-lg-12" id="copy_div_airline`+i+`">
-                                        <span class="copy_airline" hidden>`+i+`</span>
+                                    <div class="col-lg-12" id="copy_div_airline`+airline[i].sequence+`">
+                                        <span class="copy_airline" hidden>`+airline[i].sequence+`</span>
                                         <div class="row">
                                             <div class="col-lg-2">`;
                                                 for(j in airline[i].segments){
                                                     text+=`
-                                                    <div class="row"><div class="col-lg-12" id="copy_provider_operated`+i+``+j+`">
+                                                    <div class="row"><div class="col-lg-12" id="copy_provider_operated`+airline[i].sequence+``+j+`">
                                                     <span class="copy_po" hidden>`+j+`</span>`;
 
                                                     if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code){
@@ -3475,25 +3477,25 @@ function print_ticket_search(airline){
 
                             text+=`
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:15px;">
-                                <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
-                                    <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                    <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                <a id="detail_button_journey0`+airline[i].sequence+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+airline[i].sequence+`);" href="#detail_departjourney`+airline[i].sequence+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
+                                    <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+airline[i].sequence+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                    <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+airline[i].sequence+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                 </a>
                             </div>
                             <div class="col-lg-8 col-md-8 col-sm-8">
                                 <div class="row">
                                     <div class="col-lg-12" style="text-align:right;">
-                                        <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
+                                        <span id="fare`+airline[i].sequence+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
 
                                         text+=`</span>`;
 //                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
-//                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+//                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+airline[i].sequence+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`++`)" sequence_id="0"/>`;
 //                                        else
                                         if(airline[i].can_book == true){
-                                            text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+                                            text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+airline[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+airline[i].sequence+`)" sequence_id="0"/>`;
                                         }
                                         else{
-                                            text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
+                                            text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+airline[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
                                         }
                                         text+=`
                                     </div>
@@ -3501,10 +3503,10 @@ function print_ticket_search(airline){
                             </div>
                         </div>
 
-                   <div id="detail_departjourney`+i+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
+                   <div id="detail_departjourney`+airline[i].sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                        for(j in airline[i].segments){
-                           text+=`<div id="copy_segments_details`+i+``+j+`">
-                           <span class="copy_segments" hidden>`+i+``+j+`</span>`;
+                           text+=`<div id="copy_segments_details`+airline[i].sequence+``+j+`">
+                           <span class="copy_segments" hidden>`+airline[i].sequence+``+j+`</span>`;
                            if(airline[i].segments[j].transit_duration != ''){
                                text += `<div class="col-lg-12" style="text-align:center;"><i class="fas fa-clock"></i><span style="font-weight:500" class="copy_transit_details">Transit Duration: `;
                                if(airline[i].segments[j].transit_duration.split(':')[0] != '0')
@@ -3552,8 +3554,8 @@ function print_ticket_search(airline){
                            <div class="col-lg-7">`;
                            for(k in airline[i].segments[j].legs){
                                text+=`
-                               <div class="row" id="copy_legs_details`+i+``+j+``+k+`">
-                                   <span class="copy_legs" hidden>`+i+``+j+``+k+`</span>
+                               <div class="row" id="copy_legs_details`+airline[i].sequence+``+j+``+k+`">
+                                   <span class="copy_legs" hidden>`+airline[i].sequence+``+j+``+k+`</span>
                                    <div class="col-lg-12">
                                        <div class="timeline-wrapper">
                                            <ul class="StepProgress">
@@ -3582,7 +3584,7 @@ function print_ticket_search(airline){
                            }
                            text+=`
                            </div>
-                           <div class="col-lg-3" id="copy_legs_duration_details`+i+``+j+``+k+`">
+                           <div class="col-lg-3" id="copy_legs_duration_details`+airline[i].sequence+``+j+``+k+`">
                                <i class="fas fa-clock"></i><span style="font-weight:500;" class="copy_duration_details"> `;
                                if(airline[i].segments[j].elapsed_time.split(':')[0] != '0')
                                    text+= airline[i].segments[j].elapsed_time.split(':')[0] + 'd ';
@@ -3594,7 +3596,7 @@ function print_ticket_search(airline){
                                for(k in airline[i].segments[j].fares){
                                    if(k == 0){
                                        for(l in airline[i].segments[j].fares[k].fare_details){
-                                           text+=`<div id="copy_fares_details`+i+``+j+``+k+``+l+`"><span class="copy_fares" hidden>`+i+``+j+``+k+``+l+`</span>`;
+                                           text+=`<div id="copy_fares_details`+airline[i].sequence+``+j+``+k+``+l+`"><span class="copy_fares" hidden>`+airline[i].sequence+``+j+``+k+``+l+`</span>`;
                                            if(airline[i].segments[j].fares[k].fare_details[l].detail_type == 'BG'){
                                                 text+=`<i class="fas fa-suitcase"></i><span style="font-weight:500;" class="copy_suitcase_details">`+airline[i].segments[j].fares[k].fare_details[l].amount+` `+airline[i].segments[j].fares[k].fare_details[l].unit+`</span><br/>`;
                                            }
@@ -3625,14 +3627,14 @@ function print_ticket_search(airline){
                                                    text+=`
                                                    <label class="radio-button-custom">
                                                        <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                       <input onclick="change_fare(`+airline[i].sequence+`,`+j+`,`+k+`);" id="journey`+airline[i].sequence+`segment`+j+`fare" name="journey`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
                                                        <span class="checkmark-radio"></span>
                                                    </label>`;
                                                else
                                                    text+=`
                                                    <label class="radio-button-custom">
                                                        <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                       <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+                                                       <input onclick="change_fare(`+airline[i].sequence+`,`+j+`,`+k+`);" id="journey`+airline[i].sequence+`segment`+j+`fare" name="journey`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`">
                                                        <span class="checkmark-radio"></span>
                                                    </label>`;
                                                text+=`<br/>`;
@@ -3647,7 +3649,7 @@ function print_ticket_search(airline){
 //                                               for(l in airline[i].segments[j].fares[k].service_charges){
 //                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
 //                                                }
-                                               id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
+                                               id_price_segment = `journey`+airline[i].sequence+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
                                                text+=`<span id="`+id_price_segment+`"><b>`+airline[i].currency+` `+getrupiah(total_price)+`</b></span>`;
                                                text+=`</td>`;
                                            }
@@ -3672,9 +3674,9 @@ function print_ticket_search(airline){
                text = '';
 
                if(airline[i].currency == 'IDR')
-                    document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
+                    document.getElementById('fare'+airline[i].sequence).innerHTML = airline[i].currency+' '+getrupiah(airline[i].total_price);
                else
-                    document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+airline[i].total_price;
+                    document.getElementById('fare'+airline[i].sequence).innerHTML = airline[i].currency+' '+airline[i].total_price;
            }
        }
    }
@@ -3811,7 +3813,7 @@ function airline_pick_mc(type){
             </div>`;
         }
         text+=`
-        <div style="background-color:white; border:1px solid #f15a22; margin-bottom:15px; padding:10px;" id="journey2`+i+`">
+        <div style="background-color:white; border:1px solid #f15a22; margin-bottom:15px; padding:10px;" id="journey2`+airline[i].sequence+`">
             <div class="row">`;
                 carrier_code_airline = []
                 if(airline_pick_list[i].is_combo_price == true){
@@ -3895,8 +3897,8 @@ function airline_pick_mc(type){
                 }
                 else if(airline_pick_list[i].is_combo_price == false){
                     text+=`
-                    <div class="col-lg-12" id="copy_div_airline`+i+`">
-                        <span class="copy_airline" hidden>`+i+`</span>
+                    <div class="col-lg-12" id="copy_div_airline`+airline[i].sequence+`">
+                        <span class="copy_airline" hidden>`+airline[i].sequence+`</span>
                         <div class="row">
                             <div class="col-lg-2">`;
                                 for(j in airline_pick_list[i].segments){
@@ -4002,14 +4004,14 @@ function airline_pick_mc(type){
                 }
                 text+=`
                 <div class="col-lg-4" style="text-align:left; padding-top:15px;">
-                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" href="#detail_departjourney_pick`+i+`" style="color: #f15a22; text-decoration:unset;" aria-expanded="true">
+                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" href="#detail_departjourney_pick`+airline[i].sequence+`" style="color: #f15a22; text-decoration:unset;" aria-expanded="true">
                         <span style="font-weight: bold; display:none;" id="flight_details_up2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                         <span style="font-weight: bold; display:block;" id="flight_details_down2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                     </a>
                 </div>
 
                 <div class="col-lg-8" style="text-align:right;">
-                    <span id="fare_detail_pick`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#f15a22; padding:10px;">`;
+                    <span id="fare_detail_pick`+airline[i].sequence+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#f15a22; padding:10px;">`;
                     price = 0;
                     for(j in airline_pick_list[i].segments){
                         for(k in airline_pick_list[i].segments[j].fares){
@@ -4027,27 +4029,27 @@ function airline_pick_mc(type){
                     text+= currency+' '+getrupiah(price)+`</span>`;
                     if(type == 'all'){
                         text+=`
-                        <input type='button' id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>
-                        <input type='button' style="margin-left:15px;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>`;
+                        <input type='button' id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline[i].sequence+`);" sequence_id="0"/>
+                        <input type='button' style="margin-left:15px;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline[i].sequence+`);" sequence_id="0"/>`;
                     }
                     else if(type == 'change'){
                         text+=`
-                        <input type='button' style="background:#cdcdcd !important;" id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>
-                        <input type='button' style="margin-left:15px;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" sequence_id="0"/>`;
+                        <input type='button' style="background:#cdcdcd !important;" id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline[i].sequence+`);" disabled sequence_id="0"/>
+                        <input type='button' style="margin-left:15px;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline[i].sequence+`);" sequence_id="0"/>`;
                     }
                     else if(type == 'delete'){
                         text+=`
-                        <input type='button' style="margin:10px;" id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" sequence_id="0"/>
-                        <input type='button' style="margin-left:15px;background:#f5f5f5 !important;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>`;
+                        <input type='button' style="margin:10px;" id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline[i].sequence+`);" sequence_id="0"/>
+                        <input type='button' style="margin-left:15px;background:#f5f5f5 !important;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline[i].sequence+`);" disabled sequence_id="0"/>`;
                     }
                     else if(type=='no_button'){
                         text+=`
-                        <input type='button' style="margin:10px;background:#cdcdcd !important;" id="deletejourney_pickdepartjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+i+`);" disabled sequence_id="0"/>
-                        <input type='button' style="margin-left:15px;background:#cdcdcd !important;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+i+`);" disabled sequence_id="0"/>`;
+                        <input type='button' style="margin:10px;background:#cdcdcd !important;" id="deletejourney_pickdepartjourney`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline[i].sequence+`);" disabled sequence_id="0"/>
+                        <input type='button' style="margin-left:15px;background:#cdcdcd !important;" id="departjourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Change" onclick="change_departure(`+airline[i].sequence+`);" disabled sequence_id="0"/>`;
                     }
                     text+=`
                 </div>
-                <div id="detail_departjourney_pick`+i+`" class="panel-collapse collapse in" aria-expanded="true">`;
+                <div id="detail_departjourney_pick`+airline[i].sequence+`" class="panel-collapse collapse in" aria-expanded="true">`;
                 for(j in airline_pick_list[i].segments){
                     if(airline_pick_list[i].segments[j].transit_duration != ''){
                         text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i>Transit Duration: `;
@@ -4154,14 +4156,14 @@ function airline_pick_mc(type){
                                         text+=`
                                         <label class="radio-button-custom">
                                             `+airline_pick_list[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
-                                            <input id="journeypick`+i+`segment`+j+`fare" name="journeypick`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked" disabled>
+                                            <input id="journeypick`+airline[i].sequence+`segment`+j+`fare" name="journeypick`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked" disabled>
                                             <span class="checkmark-radio"></span>
                                         </label>`;
                                         else
                                         text+=`
                                         <label class="radio-button-custom">
                                             `+airline_pick_list[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
-                                            <input id="journeypick`+i+`segment`+j+`fare" name="journeypick`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
+                                            <input id="journeypick`+airline[i].sequence+`segment`+j+`fare" name="journeypick`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                             <span class="checkmark-radio"></span>
                                         </label>`;
                                         text+=`<br/>`;
@@ -4174,7 +4176,7 @@ function airline_pick_mc(type){
                                                 break;
                                             }
                                         }
-                                        text+=`<span id="journeypick`+i+`segment`+j+`fare`+k+`"><b>`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</b></span>`;
+                                        text+=`<span id="journeypick`+airline[i].sequence+`segment`+j+`fare`+k+`"><b>`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</b></span>`;
                                         text+=`</td>
                                         `;
                                     }

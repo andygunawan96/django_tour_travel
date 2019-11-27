@@ -708,6 +708,43 @@ def seat_map(request):
     else:
         return no_session_logout(request)
 
+def seat_map_public(request, signature=-1):
+    if signature != -1:
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
+        airline_country = response['result']['response']['airline']['country']
+        file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+        for line in file:
+            carrier = json.loads(line)
+        file.close()
+
+        template, logo = get_logo_template()
+
+
+        additional_price_input = '0'
+
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'airline_carriers': carrier,
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
+            'after_sales': 0,
+            'additional_price': float(additional_price_input),
+            # 'airline_destinations': airline_destinations,
+            # 'airline_seat_map': request.session['airline_get_seat_availability']['result']['response'],
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template
+            # 'cookies': json.dumps(res['result']['cookies']),
+
+        }
+        return render(request, MODEL_NAME+'/airline/airline_seat_map_public_templates.html', values)
+    else:
+        #error 404
+        return no_session_logout(request)
+
 def review(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
         javascript_version = get_javascript_version()
