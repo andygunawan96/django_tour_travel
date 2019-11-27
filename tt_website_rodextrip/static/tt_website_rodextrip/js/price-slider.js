@@ -2371,6 +2371,7 @@
 
 $(function () {
 var checkUpdateInput = 0;
+var checkUpdateInput2 = 0;
 
 var $range = $(".js-range-slider"),
     $inputFrom = $(".js-input-from"),
@@ -2407,10 +2408,22 @@ function updateInputs (data) {
     if(checkUpdateInput == 0)
     {
         checkUpdateInput = checkUpdateInput + 1;
-        price_slider_true(0);
+        price_slider_true(1,0);
     }
     else{
-        price_slider_true(1);
+        document.getElementById('price-from2').value = from;
+        document.getElementById('price-to2').value = to;
+        $inputFrom2.prop("value", from);
+        $inputTo2.prop("value", to);
+        $(".js-range-slider2").data("ionRangeSlider").update({
+             from: from,
+             to: to,
+             min: low_price_slider,
+             max: high_price_slider,
+             step: step_slider
+        });
+
+        price_slider_true(1,1);
     }
     $inputFrom.prop("value", from);
     $inputTo.prop("value", to);
@@ -2425,8 +2438,8 @@ $inputFrom.on("input", function (e) {
         val = to;
     }
 
-    price_update();
-    price_slider_true(1);
+    price_update(1,1);
+    price_slider_true(1,1);
 });
 
 $inputTo.on("input", function (e) {
@@ -2438,8 +2451,93 @@ $inputTo.on("input", function (e) {
         val = max;
     }
 
-    price_update();
-    price_slider_true(1);
+    price_update(1,2);
+    price_slider_true(1,1);
 });
+
+
+//pricerangefilter
+var $range2 = $(".js-range-slider2"),
+    $inputFrom2 = $(".js-input-from2"),
+    $inputTo2 = $(".js-input-to2"),
+    instance2,
+    min2 = 0,
+    max2 = $("#price-to2").val(),
+    from2 = 0,
+    to2 = 0;
+
+$range2.ionRangeSlider({
+    type: "double",
+    min: min2,
+    max: max2,
+    from: 0,
+    to: $("#price-to2").val(),
+    prefix: 'Rp. ',
+    onStart: updateInputs2,
+    onChange: updateInputs2,
+    step: 100000,
+    prettify_enabled: true,
+    prettify_separator: ".",
+    values_separator: " - ",
+    force_edges: true
+});
+
+instance2 = $range2.data("ionRangeSlider");
+
+function updateInputs2 (data) {
+    from2 = data.from;
+    to2 = data.to;
+    document.getElementById('price-from2').value = from2;
+    document.getElementById('price-to2').value = to2;
+    if(checkUpdateInput2 == 0)
+    {
+        checkUpdateInput2 = checkUpdateInput2 + 1;
+        price_slider_true(2,0);
+    }
+    else{
+        document.getElementById('price-from').value = from2;
+        document.getElementById('price-to').value = to2;
+        $inputFrom.prop("value", from2);
+        $inputTo.prop("value", to2);
+        $(".js-range-slider").data("ionRangeSlider").update({
+             from: from2,
+             to: to2,
+             min: low_price_slider,
+             max: high_price_slider,
+             step: step_slider
+        });
+
+        price_slider_true(2,1);
+    }
+    $inputFrom2.prop("value", from2);
+    $inputTo2.prop("value", to2);
+}
+
+$inputFrom2.on("input", function (e) {
+    var val2 = $(this).prop("value");
+    // validate
+    if (val2 < min2) {
+        val2 = min2;
+    } else if (val2 > to2) {
+        val2 = to2;
+    }
+
+    price_update(2,1);
+    price_slider_true(2,1);
+});
+
+$inputTo2.on("input", function (e) {
+    var val2 = $(this).prop("value");
+    // validate
+    if (val2 < from2) {
+        val2 = from2;
+    } else if (val2 > max2) {
+        val2 = max2;
+    }
+
+    price_update(2,1);
+    price_slider_true(2,1);
+});
+
 
 });

@@ -240,6 +240,7 @@ function filtering(type, update){
             hotel_filter = data;
             temp_data = [];
             high_price_slider = 0;
+            low_price_slider = 99999999;
         }
 
         if (searched_name){
@@ -258,6 +259,7 @@ function filtering(type, update){
             hotel_filter = data;
             temp_data = [];
             high_price_slider = 0;
+            low_price_slider = 99999999;
         }
 
         if (selected_fac != false){
@@ -281,6 +283,7 @@ function filtering(type, update){
             hotel_filter = data;
             temp_data = [];
             high_price_slider = 0;
+            low_price_slider = 99999999;
         }
 
         if(checking_slider == 1){
@@ -295,7 +298,18 @@ function filtering(type, update){
         }
         // Perubahan high price jika di trigger dari input user
         else{
-            $maxPrice = parseFloat(document.getElementById('price-to').value);
+            var minPr = 0;
+            var maxPr = 0;
+            if($check_type_ps == 1){
+                minPr = parseFloat(document.getElementById('price-from').value);
+                maxPr = parseFloat(document.getElementById('price-to').value);
+            }else if($check_type_ps == 2){
+                minPr = parseFloat(document.getElementById('price-from2').value);
+                maxPr = parseFloat(document.getElementById('price-to2').value);
+            }
+
+            $minPrice = parseFloat(minPr);
+            $maxPrice = parseFloat(maxPr);
             data.hotel_ids.forEach((obj)=> {
                 for (i in obj.prices) {
                     if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
@@ -356,8 +370,11 @@ function sort(response, check_filter){
         if(check_filter == 1){
             for(i in response.hotel_ids){
                 for(j in response.hotel_ids[i].prices){
-                    if (high_price_slider < response.hotel_ids[i].prices[j]['price']){
+                    if(high_price_slider < response.hotel_ids[i].prices[j]['price']){
                         high_price_slider = response.hotel_ids[i].prices[j]['price'];
+                    }
+                    if(low_price_slider > response.hotel_ids[i].prices[j]['price']){
+                        low_price_slider = response.hotel_ids[i].prices[j]['price'];
                     }
                 }
             }
@@ -372,11 +389,21 @@ function sort(response, check_filter){
             }
 
             if (checking_price == 1){
+                document.getElementById("price-from").value = low_price_slider;
                 document.getElementById("price-to").value = high_price_slider;
+                document.getElementById("price-from2").value = low_price_slider;
+                document.getElementById("price-to2").value = high_price_slider;
                 $(".js-range-slider").data("ionRangeSlider").update({
-                     from: 0,
+                     from: low_price_slider,
                      to: high_price_slider,
-                     min: 0,
+                     min: low_price_slider,
+                     max: high_price_slider,
+                     step: step_slider
+                });
+                $(".js-range-slider2").data("ionRangeSlider").update({
+                     from: low_price_slider,
+                     to: high_price_slider,
+                     min: low_price_slider,
                      max: high_price_slider,
                      step: step_slider
                 });
@@ -393,12 +420,22 @@ function sort(response, check_filter){
             else{
                 step_slider = 200000;
             }
+            document.getElementById("price-from").value = low_price_slider;
             document.getElementById("price-to").value = high_price_slider;
+            document.getElementById("price-from2").value = low_price_slider;
+            document.getElementById("price-to2").value = high_price_slider;
             if (checking_price == 1){
                 $(".js-range-slider").data("ionRangeSlider").update({
-                     from: 0,
+                     from: low_price_slider,
                      to: high_price_slider,
-                     min: 0,
+                     min: low_price_slider,
+                     max: high_price_slider,
+                     step: step_slider
+                });
+                $(".js-range-slider2").data("ionRangeSlider").update({
+                     from: low_price_slider,
+                     to: high_price_slider,
+                     min: low_price_slider,
                      max: high_price_slider,
                      step: step_slider
                 });
@@ -823,6 +860,7 @@ function sort(response, check_filter){
             });
             $('#pagination-container').show();
             $('#pagination-container2').show();
+            $('#hotel_error').hide();
         }
         else{
             document.getElementById("hotel_error").innerHTML = '';
@@ -840,9 +878,9 @@ function sort(response, check_filter){
             node.innerHTML = text;
             document.getElementById("hotel_error").appendChild(node);
             node = document.createElement("div");
-
             $('#pagination-container').hide();
             $('#pagination-container2').hide();
+            $('#hotel_error').show();
         }
 
         /*for(i in response.landmark_ids){
@@ -947,10 +985,10 @@ function hotel_filter_render(){
                 </div>
                 <div class="row">
                     <div class="col-lg-6">
-                        <input type="text" style="margin-bottom:unset;" class="js-input-from form-control" id="price-from" value="0" />
+                        <input type="text" style="margin-bottom:unset;" class="js-input-from form-control" id="price-from" value="`+low_price_slider+`" onblur="checking_price_slider(1,1);"/>
                     </div>
                     <div class="col-lg-6">
-                        <input type="text" style="margin-bottom:unset;" class="js-input-to form-control" id="price-to" value="`+high_price_slider+`" />
+                        <input type="text" style="margin-bottom:unset;" class="js-input-to form-control" id="price-to" value="`+high_price_slider+`" onblur="checking_price_slider(1,2);"/>
                     </div>
                 </div>
             </div>
@@ -1024,8 +1062,29 @@ function hotel_filter_render(){
     text+= `<h4>Filter</h4>
             <hr/>
             <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
-    text+= `<div id="hotelName_generalShow" style="display:inline-block;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+    text+= `<div class="banner-right">
+                <div class="form-wrap" style="padding:0px; text-align:left;">
+                    <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+                </div>
+            </div>
+            <hr/>
+            <h6 style="padding-bottom:10px;">Price Range</h6>
+            <div class="banner-right">
+                <div class="form-wrap" style="padding:0px; text-align:left;">
+                    <div class="wrapper">
+                        <div class="range-slider">
+                            <input type="text" class="js-range-slider2"/>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input type="text" style="margin-bottom:unset;" class="js-input-from2 form-control" id="price-from2" value="`+low_price_slider+`" onblur="checking_price_slider(2,1);"/>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                <input type="text" style="margin-bottom:unset;" class="js-input-to2 form-control" id="price-to2" value="`+high_price_slider+`" onblur="checking_price_slider(2,2);"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <hr/>
             <h6 style="padding-bottom:10px;">Star Rating</h6>`;
@@ -1729,39 +1788,119 @@ function share_data2(){
 
 
 $check_load = 0;
-function price_slider_true(type){
-    $minPrice = parseFloat(document.getElementById('price-from').value);
-    $maxPrice = parseFloat(document.getElementById('price-to').value);
-    checking_price = 0;
-    if($check_load != 0)
-        filtering('filter', 0);
-    else
-        $check_load = 1;
+$check_ps = 0;
+$check_type_ps = 0;
+function price_slider_true(filter, type){
+   if(filter == 1){
+       var from_price = parseFloat(document.getElementById('price-from').value);
+       var to_price = parseFloat(document.getElementById('price-to').value);
+       document.getElementById('price-from2').value = parseFloat(document.getElementById('price-from').value)
+       document.getElementById('price-to2').value = parseFloat(document.getElementById('price-to').value)
+       $check_type_ps = 1;
+   }
+   else if(filter == 2){
+       var from_price = parseFloat(document.getElementById('price-from2').value);
+       var to_price = parseFloat(document.getElementById('price-to2').value);
+       document.getElementById('price-from').value = parseFloat(document.getElementById('price-from2').value)
+       document.getElementById('price-to').value = parseFloat(document.getElementById('price-to2').value)
+       $check_type_ps = 2;
+   }
+   $minPrice = parseFloat(from_price);
+   $maxPrice = parseFloat(to_price);
+   checking_price = 0;
+   if($check_ps == 0 && filter == 2){
+       if($check_load != 0){
+           filtering('filter', 0);
+       }
+       else{
+           $check_load = 1;
+       }
+       $check_ps = 1;
+   }else{
+       if($check_load != 0){
+           filtering('filter', 0);
+       }
+   }
 }
 
-function price_update(){
-   var from_price = parseInt(document.getElementById('price-from').value);
-   var to_price = parseInt(document.getElementById('price-to').value);
-//   if (Number.isNaN(from_price)){
-//       document.getElementById('price-from').value = 0;
-//   }
-//   if (Number.isNaN(to_price)){
-//       document.getElementById('price-to').value = 0;
-//   }
-
-   if(from_price > to_price){
-       document.getElementById('price-from').value = to_price;
+function price_update(filter, type){
+   if(filter == 1){
+       var from_price = parseFloat(document.getElementById('price-from').value);
+       var to_price = parseFloat(document.getElementById('price-to').value);
+       document.getElementById('price-from2').value = parseInt(document.getElementById('price-from').value)
+       document.getElementById('price-to2').value = parseInt(document.getElementById('price-to').value)
+       $check_type_ps = 1;
    }
-   console.log(from_price);
-   console.log(to_price);
+   else if(filter == 2){
+       var from_price = parseInt(document.getElementById('price-from2').value);
+       var to_price = parseInt(document.getElementById('price-to2').value);
+       document.getElementById('price-from').value = parseInt(document.getElementById('price-from2').value)
+       document.getElementById('price-to').value = parseInt(document.getElementById('price-to2').value)
+       $check_type_ps = 2;
+   }
 
    $(".js-range-slider").data("ionRangeSlider").update({
-        from: $("#price-from").val(),
-        to: $("#price-to").val(),
-        min: 0,
+        from: from_price,
+        to: to_price,
+        min: low_price_slider,
         max: high_price_slider,
         step: step_slider
    });
+
+   $(".js-range-slider2").data("ionRangeSlider").update({
+        from: from_price,
+        to: to_price,
+        min: low_price_slider,
+        max: high_price_slider,
+        step: step_slider
+   });
+}
+
+function checking_price_slider(filter, type){
+   if(filter == 1){
+       var from_price = parseInt(document.getElementById('price-from').value);
+       var to_price = parseInt(document.getElementById('price-to').value);
+       document.getElementById('price-from2').value = parseInt(document.getElementById('price-from').value)
+       document.getElementById('price-to2').value = parseInt(document.getElementById('price-to').value)
+   }
+   else if(filter == 2){
+       var from_price = parseInt(document.getElementById('price-from2').value);
+       var to_price = parseInt(document.getElementById('price-to2').value);
+       document.getElementById('price-from').value = parseInt(document.getElementById('price-from2').value)
+       document.getElementById('price-to').value = parseInt(document.getElementById('price-to2').value)
+   }
+
+   if(type == 1){
+       if(from_price < low_price_slider){
+          document.getElementById('price-from').value = low_price_slider;
+          document.getElementById('price-from2').value = low_price_slider;
+          from_price = low_price_slider;
+       }
+       if(from_price > high_price_slider || from_price > to_price){
+          document.getElementById('price-from').value = document.getElementById('price-to').value;
+          document.getElementById('price-from2').value = document.getElementById('price-to').value;
+          from_price = document.getElementById('price-to').value;
+       }
+   }
+   else if(type == 2){
+       if(to_price > high_price_slider){
+          document.getElementById('price-to').value = high_price_slider;
+          document.getElementById('price-to2').value = high_price_slider;
+          to_price = high_price_slider;
+       }
+       if(to_price < low_price_slider || to_price < from_price){
+          document.getElementById('price-to').value = document.getElementById('price-from').value;
+          document.getElementById('price-to2').value = document.getElementById('price-from').value;
+          to_price = document.getElementById('price-from').value;
+       }
+   }
+
+   $minPrice = parseFloat(from_price);
+   $maxPrice = parseFloat(to_price);
+   checking_price = 0;
+   if($check_load != 0){
+       filtering('filter', 0);
+   }
 }
 
 function viewImageHotel(urlImage){
