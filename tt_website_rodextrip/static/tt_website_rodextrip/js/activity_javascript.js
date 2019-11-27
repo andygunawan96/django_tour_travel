@@ -1653,26 +1653,54 @@ function input_type2_change_perpax(val,val1, type, inputType){
     activity_table_detail2();
 }
 
-function price_slider_true(type){
-    $minPrice = parseInt(document.getElementById('price-from').value);
-    $maxPrice = parseInt(document.getElementById('price-to').value);
+function price_slider_true(filter, type){
+    if(filter == 1){
+       var from_price = parseInt(document.getElementById('price-from').value);
+       var to_price = parseInt(document.getElementById('price-to').value);
+       document.getElementById('price-from2').value = parseInt(document.getElementById('price-from').value)
+       document.getElementById('price-to2').value = parseInt(document.getElementById('price-to').value)
+    }
+    else if(filter == 2){
+        var from_price = parseInt(document.getElementById('price-from2').value);
+        var to_price = parseInt(document.getElementById('price-to2').value);
+        document.getElementById('price-from').value = parseInt(document.getElementById('price-from2').value)
+        document.getElementById('price-to').value = parseInt(document.getElementById('price-to2').value)
+    }
+    $minPrice = parseInt(from_price);
+    $maxPrice = parseInt(to_price);
     change_filter('price', type);
 }
 
-function price_update(){
-   var from_price = parseInt(document.getElementById('price-from').value);
-   var to_price = parseInt(document.getElementById('price-to').value);
-   if(from_price > to_price){
-    document.getElementById('price-from').value = to_price;
+function price_update(filter, type){
+   if(filter == 1){
+       var from_price = parseInt(document.getElementById('price-from').value);
+       var to_price = parseInt(document.getElementById('price-to').value);
+       document.getElementById('price-from2').value = parseInt(document.getElementById('price-from').value)
+       document.getElementById('price-to2').value = parseInt(document.getElementById('price-to').value)
    }
+   else if(filter == 2){
+       var from_price = parseInt(document.getElementById('price-from2').value);
+       var to_price = parseInt(document.getElementById('price-to2').value);
+       document.getElementById('price-from').value = parseInt(document.getElementById('price-from2').value)
+       document.getElementById('price-to').value = parseInt(document.getElementById('price-to2').value)
+   }
+
    $(".js-range-slider").data("ionRangeSlider").update({
-        from: $("#price-from").val(),
-        to: $("#price-to").val(),
-        min: 0,
+        from: from_price,
+        to: to_price,
+        min: low_price_slider,
         max: high_price_slider,
         step: step_slider
    });
 
+
+   $(".js-range-slider2").data("ionRangeSlider").update({
+        from: from_price,
+        to: to_price,
+        min: low_price_slider,
+        max: high_price_slider,
+        step: step_slider
+   });
 }
 
 function activity_filter_render(){
@@ -1708,11 +1736,11 @@ function activity_filter_render(){
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <span>Min</span><br/>
-                        <input type="text" class="js-input-from form-control-custom" id="price-from" value="0"/>
+                        <input type="text" class="js-input-from form-control-custom" id="price-from" value="`+low_price_slider+`" onblur="checking_price_slider(1,1);"/>
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                         <span>Max</span><br/>
-                        <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`"/>
+                        <input type="text" class="js-input-to form-control-custom" id="price-to" value="`+high_price_slider+`" onblur="checking_price_slider(1,2);"/>
                     </div>
                 </div>
             </div>
@@ -1744,9 +1772,35 @@ function activity_filter_render(){
     text+= `<h4>Filter</h4>
             <hr/>
             <h6 style="padding-bottom:10px;">Activity Name</h6>`;
-    text+= `<div style="display:inline-block;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name2" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+    text+= `
+            <div class="banner-right">
+                <div class="form-wrap" style="padding:0px; text-align:left;">
+                    <input type="text" style="margin-bottom:unset;" class="form-control" id="activity_filter_name2" placeholder="Activity Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Activity Name '" autocomplete="off" onkeyup="filter_name(2);"/>
+                </div>
             </div>`;
+    text+=`
+        <hr/>
+        <h6>Price Range</h6><br/>
+        <div class="banner-right">
+            <div class="form-wrap" style="padding:0px; text-align:left;">
+                <div class="wrapper">
+                    <div class="range-slider">
+                        <input type="text" class="js-range-slider2"/>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span>Min</span><br/>
+                            <input type="text" class="js-input-from2 form-control-custom" id="price-from2" value="`+low_price_slider+`" onblur="checking_price_slider(2,1);"/>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <span>Max</span><br/>
+                            <input type="text" class="js-input-to2 form-control-custom" id="price-to2" value="`+high_price_slider+`" onblur="checking_price_slider(2,2);"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
     node2 = document.createElement("div");
     node2.innerHTML = text;
     document.getElementById("filter2").appendChild(node2);
@@ -1756,13 +1810,12 @@ function activity_filter_render(){
             <hr/>`;
 
     for(i in sorting_list){
-            text+=`
-            <label class="radio-button-custom">
-                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
-                <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
-                <span class="checkmark-radio"></span>
-            </label></br>`;
-
+        text+=`
+        <label class="radio-button-custom">
+            <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
+            <input type="radio" id="radio_sorting2`+i+`" name="radio_sorting" onclick="sort_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
+            <span class="checkmark-radio"></span>
+        </label></br>`;
     }
     node2 = document.createElement("div");
     node2.innerHTML = text;
@@ -2041,4 +2094,48 @@ function sort(activity_dat, check){
             $('#pagination-container2').show();
         }
     }
+}
+
+function checking_price_slider(filter, type){
+   if(filter == 1){
+       var from_price = parseInt(document.getElementById('price-from').value);
+       var to_price = parseInt(document.getElementById('price-to').value);
+       document.getElementById('price-from2').value = parseInt(document.getElementById('price-from').value)
+       document.getElementById('price-to2').value = parseInt(document.getElementById('price-to').value)
+   }
+   else if(filter == 2){
+       var from_price = parseInt(document.getElementById('price-from2').value);
+       var to_price = parseInt(document.getElementById('price-to2').value);
+       document.getElementById('price-from').value = parseInt(document.getElementById('price-from2').value)
+       document.getElementById('price-to').value = parseInt(document.getElementById('price-to2').value)
+   }
+
+   if(type == 1){
+       if(from_price < low_price_slider){
+          document.getElementById('price-from').value = low_price_slider;
+          document.getElementById('price-from2').value = low_price_slider;
+          from_price = low_price_slider;
+       }
+       if(from_price > high_price_slider || from_price > to_price){
+          document.getElementById('price-from').value = document.getElementById('price-to').value;
+          document.getElementById('price-from2').value = document.getElementById('price-to').value;
+          from_price = document.getElementById('price-to').value;
+       }
+   }
+   else if(type == 2){
+       if(to_price > high_price_slider){
+          document.getElementById('price-to').value = high_price_slider;
+          document.getElementById('price-to2').value = high_price_slider;
+          to_price = high_price_slider;
+       }
+       if(to_price < low_price_slider || to_price < from_price){
+          document.getElementById('price-to').value = document.getElementById('price-from').value;
+          document.getElementById('price-to2').value = document.getElementById('price-from').value;
+          to_price = document.getElementById('price-from').value;
+       }
+   }
+
+   $minPrice = parseInt(from_price);
+   $maxPrice = parseInt(to_price);
+   change_filter('price', type);
 }

@@ -5618,112 +5618,16 @@ function get_checked_copy_result(){
 
         var id_airline = parent_airline.find('.id_copy_result').html();
         airline_number = airline_number + 1;
-        $text += ''+airline_number+'. '+value_flight_type+'\n';
+        $text += 'Option-'+airline_number+'\n';
 
         text+=`
         <div class="row" id="div_list`+id_airline+`">
             <div class="col-lg-9">
-                <h6>`+airline_number+`. `+value_flight_type+`</h6>`;
+                <h6>Option-`+airline_number+`</h6>`;
 
             for (var i = 0; i < value_copy.length; i++) {
                 var temp_copy = ''+value_copy[i];
                 var parent_copy = $("#copy_div_airline"+temp_copy);
-
-                parent_copy.find('.copy_flight_number').each(function(obj) {
-                    if($(this).html() != undefined){
-                        text+=`<span style="font-size:13px; font-weight:500; color:#f15a22;">`+$(this).html()+`</span><br/>`;
-                        $text += $(this).html()+'\n';
-                    }
-                });
-
-                //po = provider operated
-//                var value_provider_operated = [];
-//                parent_copy.find('.copy_po').each(function(obj) {
-//                    value_provider_operated.push($(this).html());
-//                });
-//
-//                for (var j = 0; j < value_provider_operated.length; j++){
-//                    var temp_po = temp_copy+''+value_provider_operated[j];
-//                    var parent_po = $("#copy_provider_operated"+temp_po);
-//
-//                    parent_po.find('.copy_carrier_provider').each(function(obj) {
-//                        if($(this).html() != undefined){
-//                            text+=`<span style=font-weight:500;>`+$(this).html()+` </span>`;
-//                        }
-//                    });
-//                    parent_po.find('.copy_operated_by').each(function(obj) {
-//                        if($(this).html() != undefined){
-//                            text+=`<span>(`+$(this).html()+`)</span>`;
-//                        }
-//                    });
-//                    if(j != value_provider_operated.length - 1){
-//                        text+=` <i class="fas fa-arrow-right"></i> `;
-//                    }
-//                }
-
-                text+=`
-                <div class="row">
-                    <div class="col-lg-12">`;
-                        parent_copy.find('.copy_departure').each(function(obj) {
-                            if($(this).html() != undefined){
-                                text+=`<span>`+$(this).html()+` - </span>`;
-                                $text += $(this).html()+' - ';
-                            }
-                        });
-
-                        parent_copy.find('.copy_date_depart').each(function(obj) {
-                            if($(this).html() != undefined){
-                                text+=`<span>`+$(this).html()+` </span>`;
-                                $text += $(this).html()+' ';
-                            }
-                        });
-                        parent_copy.find('.copy_time_depart').each(function(obj) {
-                            if($(this).html() != undefined){
-                                text+=`<span style="font-weight:500;">`+$(this).html()+` </span>`;
-                                $text += $(this).html();
-                            }
-                        });
-                        text+=`<i class="fas fa-arrow-right"></i>`;
-                        $text += ' → ';
-                        parent_copy.find('.copy_arrival').each(function(obj) {
-                            if($(this).html() != undefined){
-                                text+=`<span> `+$(this).html()+` - </span>`;
-                                $text += $(this).html()+' - ';
-                            }
-                        });
-
-                        parent_copy.find('.copy_date_arr').each(function(obj) {
-                            if($(this).html() != undefined){
-                                text+=`<span> `+$(this).html()+` </span>`;
-                                $text += $(this).html()+' ';
-                            }
-                        });
-
-                        parent_copy.find('.copy_time_arr').each(function(obj) {
-                            if($(this).html() != undefined){
-                                text+=`<span style="font-weight:500;">`+$(this).html()+`</span>`;
-                                $text += $(this).html();
-                            }
-                        });
-                    text+=`
-                    </div>
-                </div>`;
-
-                parent_copy.find('.copy_duration').each(function(obj) {
-                    if($(this).html() != undefined){
-                        text+=`<span style="font-weight:500;">Duration: `+$(this).html()+` - </span>`;
-                        $text += '\nDuration: '+$(this).html()+' - ';
-                    }
-                });
-                parent_copy.find('.copy_transit').each(function(obj) {
-                    if($(this).html() != undefined){
-                        text+=`<span style="font-weight:500;">`+$(this).html()+`</span>`;
-                        $text += $(this).html();
-                    }
-                });
-
-                text+=`<br/>`;
-                $text += '\n';
             }
 
             if(combo_price != undefined){
@@ -5741,9 +5645,6 @@ function get_checked_copy_result(){
 
             for (var i = 0; i < value_journey.length; i++) {
                 var temp_journey = ''+value_journey[i];
-                text+=`<br/><h6>Flight details: </h6>`;
-                $text += '\nFlight details \n';
-
                 var parent_copy_details = $("#detail_departjourney"+temp_journey);
                 var value_segments = [];
                 parent_copy_details.find('.copy_segments').each(function(obj) {
@@ -5765,8 +5666,8 @@ function get_checked_copy_result(){
                     });
 
                     var co_j = j+1;
-                    text+=`<span style="color:#f15a22;">Flight-`+co_j+`</span><br/>`;
-                    $text += '*Flight-'+co_j+'*\n';
+                    text+=`<h6>Flight-`+co_j+`</h6>`;
+                    $text += '\nFlight-'+co_j+'\n';
 
                     parent_segments.find('.copy_carrier_provider_details').each(function(obj) {
                         if($(this).html() != undefined){
@@ -5860,7 +5761,7 @@ function get_checked_copy_result(){
                        }
                     }
                 }
-                $text+='=====================================\n\n';
+                $text+='====================\n\n';
             }
             text+=`
             </div>
