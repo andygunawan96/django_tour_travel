@@ -280,6 +280,7 @@ function tour_get_details(package_id){
        success: function(msg) {
         console.log(msg);
            var country_text = '';
+           var print_doc_text = '';
            var image_text = '';
            var itinerary_text = '';
            var flight_details_text = '';
@@ -335,7 +336,7 @@ function tour_get_details(package_id){
                 }
                 if (tour_data.document_url)
                 {
-                    country_text += `<div style="position: absolute; bottom: 10px; right: 15px;">
+                    print_doc_text += `<div style="position: absolute; bottom: 0px; right: 15px;">
                                          <a class="btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" href="`+tour_data.document_url+`" target="_blank">
                                              <i class="fa fa-print" aria-hidden="true"></i> Print Document
                                          </a>
@@ -484,6 +485,7 @@ function tour_get_details(package_id){
                document.getElementById('tour_data').value = JSON.stringify(tour_data).replace(/'/g,'');
                document.getElementById('tour_carousel').innerHTML += image_text;
                document.getElementById('country_list_tour').innerHTML += country_text;
+               document.getElementById('print_doc_btn_div').innerHTML += print_doc_text;
                document.getElementById('itinerary').innerHTML += itinerary_text;
                document.getElementById('other_info').innerHTML += other_info_text;
                document.getElementById('tour_hotel_room_list').innerHTML += room_list_text;
