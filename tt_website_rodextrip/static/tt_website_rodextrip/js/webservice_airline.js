@@ -745,7 +745,13 @@ function datasearch2(airline){
    for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
            airline.schedules[i].journeys[j].sequence = counter;
-           airline.schedules[i].journeys[j].airline_pick_sequence = parseInt(parseInt(i)+1);
+           for(k in airline_request.origin){
+                if(airline_request.origin[k].split(' - ')[0] == airline.schedules[i].journeys[j].origin &&
+                   airline_request.destination[k].split(' - ')[0] == airline.schedules[i].journeys[j].destination &&
+                   airline_request.departure[k] == airline.schedules[i].journeys[j].departure_date.split(' - ')[0]){
+                    airline.schedules[i].journeys[j].airline_pick_sequence = parseInt(parseInt(k)+1);
+                }
+           }
            price = 0;
            currency = '';
            airline.schedules[i].journeys[j].operated_by = true;
