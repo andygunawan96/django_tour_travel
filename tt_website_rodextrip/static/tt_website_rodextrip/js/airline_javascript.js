@@ -1908,7 +1908,7 @@ function sort(airline){
                            </label>
                            <span class="id_copy_result" hidden>`+i+`</span>
                        </div>`;
-
+                       carrier_code_airline = [];
                        if(airline[i].is_combo_price == true){
                             check_flight_type = 3;
                             check_flight_departure = 0;
@@ -2014,7 +2014,7 @@ function sort(airline){
                                             if(j != 0){
                                                 text+=`<hr style="margin-top:unset;"/>`;
                                             }
-                                            if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code){
+                                            if(carrier_code_airline.includes(airline[i].segments[j].carrier_code) == false && airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code){
                                                 try{
                                                     text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated by `+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`</span><br/>`;
                                                 }catch(err){
@@ -2029,7 +2029,7 @@ function sort(airline){
                                                     <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline[i].segments[j].carrier_code+`</span><br/>
                                                     <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                                                 }
-                                            }else{
+                                            }else if(carrier_code_airline.includes(airline[i].segments[j].carrier_code) == false){
                                                 try{
                                                     text+=`
                                                     <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
@@ -2040,6 +2040,8 @@ function sort(airline){
                                                     <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                                                 }
                                             }
+                                            if(carrier_code_airline.includes(airline[i].segments[j].carrier_code) == false)
+                                                carrier_code_airline.push(airline[i].segments[j].carrier_code);
                                             text+=`</div></div>`;
                                         }
                                             //for(j in airline[i].carrier_code_list){
@@ -2284,7 +2286,7 @@ function sort(airline){
 //                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
 //                                                }
                                                id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
-                                               text+=`<span id="`+id_price_segment+`"><b>IDR `+getrupiah(total_price)+`</b></span>`;
+                                               text+=`<span id="`+id_price_segment+`"><b>`+airline[i].currency+` `+getrupiah(total_price)+`</b></span>`;
                                                text+=`</td>`;
                                            }
 
@@ -2703,7 +2705,7 @@ function sort(airline){
 //                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
 //                                                }
                                                id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
-                                               text+=`<span id="`+id_price_segment+`"><b>IDR `+getrupiah(total_price)+`</b></span>`;
+                                               text+=`<span id="`+id_price_segment+`"><b>`+airline[i].currency+` `+getrupiah(total_price)+`</b></span>`;
                                                text+=`</td>`;
                                            }
 
@@ -3219,7 +3221,7 @@ function airline_pick_mc(type){
                                                 break;
                                             }
                                         }
-                                        text+=`<span id="journeypick`+i+`segment`+j+`fare`+k+`"><b>IDR `+getrupiah(total_price)+`</b></span>`;
+                                        text+=`<span id="journeypick`+i+`segment`+j+`fare`+k+`"><b>`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</b></span>`;
                                         text+=`</td>
                                         `;
                                     }
@@ -3519,7 +3521,7 @@ function airline_detail(type){
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[i].ADT.currency+` `+getrupiah(Math.ceil((airline_price[i].ADT.fare+price) * airline_request.adult))+`</span>
                                                 </div>
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[i].ADT.currency+` `+price+`</span>
+                                                    <span style="font-size:13px; font-weight:500;">    Tax @`+airline_price[i].ADT.currency+` `+getrupiah(price)+`</span>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;"></span>

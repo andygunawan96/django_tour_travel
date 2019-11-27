@@ -166,6 +166,7 @@ function datasearch2(train){
     for(i in train.schedules){
         for(j in train.schedules[i].journeys){
            train.schedules[i].journeys[j].sequence = counter;
+           train.schedules[i].journeys[j].train_sequence = i;
            price = 0;
            currency = '';
            if(train.schedules[i].journeys[j].cabin_class == 'E')
@@ -339,7 +340,7 @@ function train_get_booking(data){
                                 msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['K', 'Economy']
                             else if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'B')
                                 msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['B', 'Business']
-                            text+=`<h6>Journey `+flight_counter+`</h6>`;
+                            text+=`<h6>Journey `+flight_counter+` [`+msg.result.response.provider_bookings[i].journeys[j].pnr+`]</h6>`;
                             $text += 'Journey '+ flight_counter+'\n';
                             flight_counter++;
                             //yang baru harus diganti
@@ -443,7 +444,7 @@ function train_get_booking(data){
                     </tr>`;
                     text+=`<tr>
                         <td class="list-of-passenger-left">`+(1)+`</td>
-                        <td>`+msg.result.response.contact.name+`</td>
+                        <td> `+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
                         <td>`+msg.result.response.contact.email+`</td>
                         <td>`+msg.result.response.contact.phone+`</td>
                     </tr>

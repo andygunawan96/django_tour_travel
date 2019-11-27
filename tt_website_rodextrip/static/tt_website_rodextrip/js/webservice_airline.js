@@ -693,7 +693,9 @@ function datasearch2(airline){
                                for(n in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges){
                                    if(airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac' && airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code != 'rac1' && airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].charge_code && 'rac2'){
                                        price += airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].amount;
-                                       currency = airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
+                                       if(currency == ''){
+                                           currency = airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[n].currency;
+                                       }
                                    }
                                }
                            }
@@ -724,7 +726,7 @@ function datasearch2(airline){
    airline_data = data;
    sorting_value = 'price';
    sort_button('price');
-//   filtering('filter');
+   filtering('filter');
 }
 
 function change_fare(journey, segment, fares){
@@ -1204,8 +1206,7 @@ function get_price_itinerary_request(){
                                                         </div>
                                                     </div>
                                                 </div>`;
-                                                $text += airline_request.adult + ' Adult Fare @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare))+'\n';
-                                                $text += airline_request.adult + ' Adult Tax @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
+                                                $text += airline_request.adult + ' Adult @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare + price))+'\n';
                                                 price = 0;
                                             }
                                         }catch(err){
