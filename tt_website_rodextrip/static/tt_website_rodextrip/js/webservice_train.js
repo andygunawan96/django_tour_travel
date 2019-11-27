@@ -182,11 +182,12 @@ function datasearch2(train){
                 for(l in train.schedules[i].journeys[j].fares[k].service_charge_summary){
                     train.schedules[i].journeys[j].price = 0
                     for(m in train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges){
-                        if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
+                        if(train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare'){
                             train.schedules[i].journeys[j].currency = train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].currency;
                             train.schedules[i].journeys[j].price += train.schedules[i].journeys[j].fares[k].service_charge_summary[l].service_charges[m].amount;
                         }
                     }
+                    train.schedules[i].journeys[j].price += train.schedules[i].journeys[j].fares[k].service_charge_summary[l].total_tax;
                     break;
                 }
                 break;
@@ -340,7 +341,8 @@ function train_get_booking(data){
                                 msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['K', 'Economy']
                             else if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'B')
                                 msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['B', 'Business']
-                            text+=`<h6>Journey `+flight_counter+` [`+msg.result.response.provider_bookings[i].journeys[j].pnr+`]</h6>`;
+                            text += `<h5>PNR: `+msg.result.response.provider_bookings[i].journeys[j].pnr+`</h5>`;
+                            text+=`<h6>Journey `+flight_counter+`</h6>`;
                             $text += 'Journey '+ flight_counter+'\n';
                             flight_counter++;
                             //yang baru harus diganti
