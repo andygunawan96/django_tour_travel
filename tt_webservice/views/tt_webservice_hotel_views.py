@@ -178,7 +178,7 @@ def search(request):
         data = {
             'child': int(request.POST['child']),
             'hotel_id': hotel_id,
-            'search_name': request.POST['destination'].split(' - ')[0],
+            'search_name': ''.join(request.POST['destination'].split(' - ')[:-1]),
             'room': int(request.POST['room']),
             'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
