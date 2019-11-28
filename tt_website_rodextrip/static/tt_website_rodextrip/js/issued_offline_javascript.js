@@ -79,7 +79,7 @@ function change_transaction_type(type){
     document.getElementById('show_line').innerHTML = '';
     if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train' || document.getElementById('transaction_type').value  == 'hotel' || document.getElementById('transaction_type').value  == 'activity'){
         document.getElementById('show_line').hidden = false;
-        $('transaction_type').niceSelect();
+        $('#transaction_type').niceSelect();
         text = '';
         if(document.getElementById('transaction_type').value == 'airline')
             text+=`<h4>Airline Line(s)</h4><hr/>`;
@@ -96,7 +96,7 @@ function change_transaction_type(type){
         <div class="row" id="table_of_line" style="margin-top:15px;">
         </div>`;
         document.getElementById('show_line').innerHTML = text;
-        $('select').niceSelect();
+        //$('select').niceSelect();
     }else{
         document.getElementById('show_line').hidden = true;
         document.getElementById('show_line').innerHTML = '';
@@ -340,7 +340,7 @@ function add_table_of_passenger(){
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
-    $('select').niceSelect();
+    $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
 }

@@ -43,6 +43,7 @@ def issued_offline(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'issued_offline_data': response['result']['response']['issued_offline'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'adult_title': ['MR', 'MRS', 'MS'],
             'countries': airline_country,
             'static_path_url_server': get_url_static_path(),
             # 'agent': request.session['agent'],
