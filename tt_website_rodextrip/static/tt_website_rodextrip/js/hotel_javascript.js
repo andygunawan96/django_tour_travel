@@ -169,7 +169,7 @@ function hotel_search_validation(){
     text= '';
     if(document.getElementById("hotel_id_destination").value == '')
         text+= 'Please fill destination\n';
-    if(document.getElementById('hotel_id_destination').value.split(' - ').length != 2)
+    if(document.getElementById('hotel_id_destination').value.split(' - ').length >= 2)
         text+= 'Please use autocomplete for Destination';
     if(document.getElementById("hotel_id_nationality").value == '')
         text+= 'Please fill nationality\n';
