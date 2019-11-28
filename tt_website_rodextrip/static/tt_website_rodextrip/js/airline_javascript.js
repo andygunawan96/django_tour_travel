@@ -1893,8 +1893,8 @@ function sort(){
         //change sort render
 
         text = '';
-        var first = sort_key * 20;
-        var last = (sort_key+1) * 20;
+        var first = sort_key * 10;
+        var last = (sort_key+1) * 10;
         for(i in airline){
            if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
                ticket_count++;
@@ -2761,7 +2761,7 @@ function sort(){
        }
    }
    console.log(contain);
-   if(contain >= 19){
+   if(contain >= 9){
        scroll_add_airline = true;
    }
 
