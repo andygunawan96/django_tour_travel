@@ -1105,7 +1105,7 @@ function check_passenger(adult, infant){
            }
 
            if(document.getElementById('adult_id_type'+i).value == 'sim' && check_sim(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number, ktp only contain 12 - 13 digits for passenger adult '+i+'!</br>\n';
+               error_log+= 'Please fill id number, sim only contain 12 - 13 digits for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
