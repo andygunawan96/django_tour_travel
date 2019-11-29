@@ -5,7 +5,7 @@ additional_price = 0;
 airline_choose = 0;
 
 promotion_code = 0;
-sorting_value = '';
+sorting_value = 'Lowest Price';
 
 counter_search = 0;
 counter_airline_search = 0;
@@ -1762,9 +1762,9 @@ function filtering(type){
            data = temp_data;
            temp_data = [];
        }
-       sort(data);
+       sort();
    }else if(type == 'sort'){
-       sort(airline_data);
+       sort();
    }
 }
 
@@ -2783,8 +2783,8 @@ function sort(){
           title: 'Oops!',
           html: '<span style="color: red;"> Sorry no ticket for flight '+ parseInt(counter_search).toString()+' </span>',
         });
-        if(ticket_count == 0 && airline_data.length == 0)
-            window.location.href="/dashboard";
+//        if(ticket_count == 0 && airline_data.length == 0)
+//            window.location.href="/dashboard";
    }
    else{
         //cek count airline #1

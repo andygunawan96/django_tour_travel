@@ -359,7 +359,8 @@ function update_passenger(){
                         }
                         data_pax.push({
                             'id':visa.list_of_visa[j].id.toString(),
-                            'required': required
+                            'required': required,
+                            'notes': document.getElementById('notes_'+i+pax_count).value
                         });
                     }
                 }
@@ -548,12 +549,10 @@ function visa_get_data(data){
                                 <h6>Order Number : `+visa.journey.name+`</h6><br/>
                                  <table style="width:100%;">
                                     <tr>
-                                        <th>PNR</th>
                                         <th>Visa Status</th>
                                         <th>Order Status</th>
                                     </tr>
                                     <tr>
-                                        <td>`+visa.journey.name+`</td>
                                         <td>`+conv_status_visa[cur_state_visa]+`</td>
                                         <td>`+conv_status+`</td>
                                     </tr>
@@ -565,7 +564,7 @@ function visa_get_data(data){
                 text += `
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                            <div id="tour_booking_info" style="padding:10px; margin-top: 10px; background-color:white; border:1px solid #cdcdcd;">
                                 <h4> Visa Information </h4>
                                 <hr/>
                                 <h4>`+visa.journey.country+`</h4>
@@ -581,7 +580,7 @@ function visa_get_data(data){
                     </div>`;
 
                 /* contact*/
-                text+=`<div class="row" style="margin-top: 15px;">
+                text+=`<div class="row" style="margin-top: 10px;">
                     <div class="col-lg-12">
                         <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                             <h4>List of Contact(s)</h4>
@@ -606,7 +605,7 @@ function visa_get_data(data){
 
                 /*pax*/
                 text+=`
-                <div class="row" style="margin-top: 15px;">
+                <div class="row" style="margin-top: 10px;">
                     <div class="col-lg-12">
                         <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                             <h4>List of Passenger(s)</h4>
@@ -681,30 +680,10 @@ function visa_get_data(data){
                                                 text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
                                      text+=`</div>
                                             <div class="col-lg-6" style="text-align:right;">
-                                                <span style="font-weight:500; font-size:14px;">`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
-                                                <div id="adult_price{{counter}}">
-                                                    <span style="font-weight:500; font-size:14px;">Price - `+msg.result.response.passengers[i].visa.price.TOTAL.currency+` `+getrupiah(msg.result.response.passengers[i].visa.price.TOTAL.amount)+`</span>
-                                                </div>
+                                                <h6>Package</h6>
+                                                <span>`+msg.result.response.passengers[i].visa.visa_type+`/`+msg.result.response.passengers[i].visa.entry_type+`/`+msg.result.response.passengers[i].visa.process+`</span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <h6>Visa Type</h6>
-                                        <label class="radio-button-custom">
-                                            <span>`+msg.result.response.passengers[i].visa.visa_type+`</span>
-                                        </label><br/>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <h6>Entry Type</h6>
-                                        <label class="radio-button-custom">
-                                            <span>`+msg.result.response.passengers[i].visa.entry_type+`</span>
-                                        </label><br/>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <h6>Process Type</h6>
-                                        <label class="radio-button-custom">
-                                            <span>`+msg.result.response.passengers[i].visa.process+`</span>
-                                        </label><br/>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:10px;">

@@ -314,6 +314,7 @@ def update_passengers(request):
                         pax.pop('identity_type')
                     pax['master_visa_Id'] = master_visa_id[len(passengers)]['id']
                     pax['required'] = master_visa_id[len(passengers)]['required']
+                    pax['notes'] = master_visa_id[len(passengers)]['notes']
                     passengers.append(pax)
         data = {
             'passengers': passengers
