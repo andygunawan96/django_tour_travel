@@ -285,7 +285,7 @@ function check_hold_booking(){
 
 function visa_pre_create_booking(val){
     Swal.fire({
-      title: 'Are you sure want to Issued this booking?',
+      title: 'Are you sure want to Request this booking?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -293,9 +293,9 @@ function visa_pre_create_booking(val){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        $('.loader-rodextrip').fadeIn();
         $('.next-loading').addClass("running");
         $('.next-loading').prop('disabled', true);
+        please_wait_transaction();
         visa_hold_booking(val);
       }
     })

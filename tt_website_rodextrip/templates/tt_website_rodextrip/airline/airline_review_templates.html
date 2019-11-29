@@ -101,6 +101,18 @@
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {%if template == 1%}
 <header id="header">
     <div class="main-menu">
@@ -337,33 +349,33 @@
                     <h3>Please Review Your Booking</h3>
                     <h4>Prices may changes at any time</h4>
                 </div>
-                <div class="col-lg-8" style="padding-bottom:20px;">
+                <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="airline_review" style="background-color:white; padding:10px; margin-bottom:15px; border:1px solid #cdcdcd;">
 
                             </div>
                         </div>
-                        <form method="POST" id="">
-                            <div class="col-lg-6" style="padding-bottom:15px;">
+
+                        <form method="POST" id="airline_request_send">
+                            <div class="col-lg-4">
                                 {% if ssr == 0 %}
-                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
+                                <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
                                     SSR
-                                    <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                                 {% endif %}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-4"></div>
+                            <div class="col-lg-4">
                                 {% if seat == 0 %}
-                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
+                                <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
                                     Seat
-                                    <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                                 {% endif %}
                             </div>
                         </form>
 
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" style="margin-top:10px;">
                             <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 Hold Booking
                                 <div class="ld ld-ring ld-cycle"></div>
@@ -371,7 +383,7 @@
                         </div>
                         <div class="col-lg-4">
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-4" style="margin-top:10px;">
                             <button class="for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                  Issued Booking
                             </button>
@@ -388,29 +400,27 @@
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
                 <div class="col-lg-12 for-show-mobile">
-                    <div class="row" style="padding-top:5px;">
-                        <form method="POST" id="airline_request_send2" action="">
+                    <form method="POST" id="airline_request_send2" action="">
+                        <div class="row" style="padding-top:5px;">
                             {% csrf_token %}
                             <div class="col-lg-6" style="padding-bottom:15px;">
                                 {% if ssr == 0 %}
-                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
+                                <button class="next-loading-booking next-loading-booking primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
                                     SSR
-                                    <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                                 {% endif %}
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-6" style="padding-bottom:15px;">
                                 {% if seat == 0 %}
-                                <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
+                                <button class="next-loading-booking next-loading-booking primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
                                     Seat
-                                    <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                                 {% endif %}
                             </div>
                             <input type="hidden" id="additional_price_input" name="additional_price_input" value="0"/>
                             <input type="hidden" id="time_limit_input" name="time_limit_input" />
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-12" style="padding-bottom:15px;">
                             <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">

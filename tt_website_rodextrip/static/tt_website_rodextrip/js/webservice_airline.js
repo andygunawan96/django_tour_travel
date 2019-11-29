@@ -1970,7 +1970,7 @@ function airline_update_contact_booker(val){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error Error airline update booker </span>' + msg.result.error_msg,
                 })
-                $('.loader-rodextrip').fadeOut();
+                $("#waitingTransaction").modal('hide');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1979,7 +1979,7 @@ function airline_update_contact_booker(val){
               title: 'Oops!',
               html: '<span style="color: red;">Error Error airline update booker </span>' + errorThrown,
             })
-            $('.loader-rodextrip').fadeOut();
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -2190,16 +2190,18 @@ function airline_hold_booking(val){
     }).then((result) => {
       if (result.value) {
         if (val==0){
-            $('.loader-rodextrip').fadeIn();
+            please_wait_transaction();
             $('.next-loading-booking').addClass("running");
             $('.next-loading-booking').prop('disabled', true);
             $('.next-loading-issued').prop('disabled', true);
+            $('.issued_booking_btn').prop('disabled', true);
         }
         else{
-            $('.loader-rodextrip').fadeIn();
+            please_wait_transaction();
             $('.next-loading-booking').prop('disabled', true);
             $('.next-loading-issued').addClass("running");
             $('.next-loading-issued').prop('disabled', true);
+            $('.issued_booking_btn').prop('disabled', true);
         }
         airline_update_contact_booker(val);
       }
@@ -2894,7 +2896,7 @@ function airline_issued(data){
     }).then((result) => {
       if (result.value) {
         show_loading();
-        $('.loader-rodextrip').fadeIn();
+        please_wait_transaction();
         getToken();
         $.ajax({
            type: "POST",
@@ -2912,7 +2914,7 @@ function airline_issued(data){
                console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
-                   $('.loader-rodextrip').fadeOut();
+                   $("#waitingTransaction").modal('hide');
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('airline_booking').innerHTML = '';
                    document.getElementById('airline_detail').innerHTML = '';
@@ -2920,6 +2922,8 @@ function airline_issued(data){
                    document.getElementById('show_loading_booking_airline').style.display = 'block';
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
+                   document.getElementById("overlay-div-box").style.display = "none";
+                   $(".issued_booking_btn").remove();
                    airline_get_booking(msg.result.response.order_number);
                }else if(msg.result.error_code == 4006){
                     Swal.fire({
@@ -2927,7 +2931,8 @@ function airline_issued(data){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
                     })
-                    $('.loader-rodextrip').fadeOut();
+                    $("#waitingTransaction").modal('hide');
+                    document.getElementById("overlay-div-box").style.display = "none";
                     //modal pop up
 
 //                    booking_price_detail(msg);
@@ -3075,7 +3080,8 @@ function airline_issued(data){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
                     })
-                    $('.loader-rodextrip').fadeOut();
+                    $("#waitingTransaction").modal('hide');
+                    document.getElementById("overlay-div-box").style.display = "none";
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
@@ -3087,9 +3093,10 @@ function airline_issued(data){
                   title: 'Oops!',
                   html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
                 })
-                $('.loader-rodextrip').fadeOut();
-               $('.hold-seat-booking-train').prop('disabled', false);
-               $('.hold-seat-booking-train').removeClass("running");
+                $("#waitingTransaction").modal('hide');
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
            },timeout: 60000
         });
       }

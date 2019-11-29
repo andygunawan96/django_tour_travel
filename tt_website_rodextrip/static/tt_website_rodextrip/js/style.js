@@ -740,30 +740,30 @@ $(document).ready(function(){
 
     $('#about-partnership').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-about-partnership").offset().top - 100
+            scrollTop: $("div.div-about-partnership").offset().top
         }, 500)
     });
 
     $('#register-partnership').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-register-partnership").offset().top - 100
+            scrollTop: $("div.div-register-partnership").offset().top
         }, 500)
     });
 
     $('#register-partnership-citra').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-register-partnership").offset().top - 100
+            scrollTop: $("div.div-register-partnership").offset().top
         }, 500)
     });
     $('#register-partnership-japro').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-register-partnership").offset().top - 100
+            scrollTop: $("div.div-register-partnership").offset().top
         }, 500)
     });
 
     $('#register-partnership-fipro').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-register-partnership").offset().top - 100
+            scrollTop: $("div.div-register-partnership").offset().top
         }, 500)
     });
 
@@ -2255,4 +2255,21 @@ function close_div(id_string){
     }catch(err){}
     document.getElementById("overlay-div-box").style.display = "none";
     document.getElementById("payment_acq").hidden = true;
+}
+
+function please_wait_transaction(){
+    text_waiting = '';
+    text_waiting += `
+    <div style="text-align:center;" id="waitFlightSearch">
+        <div class="center-div-t">
+            <div>
+                <img src="/static/tt_website_rodextrip/img/loading-screen.gif" style="height:30px; width:30px;"/>
+            </div>
+        </div>
+        <div style="text-align:center">
+            <span style="font-size:20px; font-weight:bold; color:white;">Please wait, while your transaction is being processed ...</span>
+        </div>
+    </div>`;
+    document.getElementById("viewWaitingTransaction").innerHTML = text_waiting;
+    $("#waitingTransaction").modal('show');
 }
