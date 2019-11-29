@@ -18,7 +18,7 @@ function get_data_issued_offline(){
                text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
            }
            document.getElementById('transaction_type').innerHTML = text;
-           $('#transaction_type').niceSelect('update');
+           $('#transaction_type').niceSelect();
 
            text = '<option value=""></option>';
            for(i in issued_offline_data.sector_type){

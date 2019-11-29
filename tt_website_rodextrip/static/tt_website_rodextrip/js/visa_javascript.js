@@ -70,7 +70,7 @@ function update_table(type){
     var check_price_detail = 0;
     if(type == 'search'){
         text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
-                <h4>Price detail</h4><hr/>
+                <h4>Price detail `+visa_request.destination+`</h4><hr/>
                 <table style="width:100%;">`;
         price = 0;
         commission = 0;
@@ -233,7 +233,7 @@ function update_table(type){
         }
     }
     else if(type == 'passenger'){
-        text += `<h4>Price detail</h4><hr/>
+        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>
                 <table style="width:100%;">`;
         price = 0;
         commission = 0;

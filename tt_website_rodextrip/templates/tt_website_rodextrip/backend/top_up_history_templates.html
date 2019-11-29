@@ -11,8 +11,145 @@
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
 <script>
-    static_path_url_server = '{{static_path_url_server}}'
+    static_path_url_server = '{{static_path_url_server}}';
     signature = `{{signature}}`;
+    function onchange_filter(){
+        var radios = document.getElementsByName('filter');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                filter = radios[j].value;
+                break;
+            }
+        }
+        text = '';
+        if(filter == 'all'){
+            text += `<div class="row">
+                        <div class="col-lg-12">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'name'){
+            text += `<div class="row">
+                        <div class="col-lg-9">
+                            <input type="text" id="name" class="form-control" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'date'){
+            text += `<div class="row">
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Start Date</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> End Date</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="end_date" id="end_date" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"> State</span>
+                            <select id="state" class="form-control">
+                                <option value="all">All</option>
+                                <option value="draft">Draft</option>
+                                <option value="request">Request</option>
+                                <option value="valid">Validated</option>
+                                <option value="cancel">Cancelled</option>
+                                <option value="expired">Expired</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <br/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'state'){
+            text += `<div class="row">
+                        <div class="col-lg-9">
+                            <select id="state" class="form-control">
+                                <option value="all">All</option>
+                                <option value="draft">Draft</option>
+                                <option value="request">Request</option>
+                                <option value="valid">Validated</option>
+                                <option value="cancel">Cancelled</option>
+                                <option value="expired">Expired</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_top_up()" id="button"/>
+                        </div>
+                    </div>`;
+        }
+        document.getElementById('search').innerHTML = text;
+        try{
+            $('#state').niceSelect();
+        }catch(err){}
+        try{
+            $('input[name="start_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment().subtract(+730, 'days'),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+            $('input[name="end_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+
+            $('input[name="end_date"]').change(function() {
+                min_date = document.getElementById('end_date').value;
+                pick_date = document.getElementById('start_date').value;
+                $('input[name="start_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: moment().subtract(+730, 'days'),
+                  maxDate: min_date,
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+
+            $('input[name="start_date"]').change(function() {
+                min_date = document.getElementById('start_date').value;
+                pick_date = document.getElementById('end_date').value;
+                $('input[name="end_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: min_date,
+                  maxDate: moment(),
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+        }catch(err){}
+        console.log(filter);
+    }
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
@@ -39,14 +176,45 @@
                         <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                     </div>
                 </div>
+                <div class="form-wrap" style="margin-bottom:25px;">
+                    <h5>Filter</h5>
+                    <div class="row banner-right">
+                        <div class="col-lg-12">
+                            <label class="radio-button-custom">
+                                <span>All</span>
+                                <input type="radio" checked name="filter" value="all" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By Name</span>
+                                <input type="radio" name="filter" value="name" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By Date</span>
+                                <input type="radio" name="filter" value="date" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By State</span>
+                                <input type="radio" name="filter" value="state" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-12" id="search">
 
+                        </div>
+
+                    </div>
+                </div>
                 <table style="width:100%;" id="table_top_up_history" class="list-of-reservation">
                     <tr>
-                        <th style="width:10%;">No.</th>
+                        <th style="width:5%;">No.</th>
                         <th style="width:20%;">Top Up Number</th>
-                        <th style="width:15%;">Due Date</th>
+                        <th style="width:20%;">Due Date</th>
                         <th style="width:15%;">Amount</th>
                         <th style="width:15%;">Status</th>
+                        <th style="width:15%;">Payment Method</th>
                         <th style="width:15%;">Help By</th>
                         <th style="width:10%;">Action</th>
                     </tr>

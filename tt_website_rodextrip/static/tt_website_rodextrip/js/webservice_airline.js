@@ -785,7 +785,7 @@ function datasearch2(airline){
    }
 
    airline_data = data;
-   sorting_value = 'price';
+
 //   print_ticket_search(temp_data);
 //   sort_button('price');
 //   sort(temp_data);

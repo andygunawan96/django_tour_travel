@@ -192,7 +192,13 @@ def get_top_up_amount(request):
 
 def get_top_up(request):
     try:
-        data = {}
+        data = {
+            "type": request.POST['type'],
+            "name": request.POST['name'],
+            "date_from": request.POST['start_date'],
+            "date_to": request.POST['end_date'],
+            "state": request.POST['state']
+        }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

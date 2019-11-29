@@ -522,7 +522,37 @@ function cancel_top_up(name){
 }
 
 function get_top_up(){
-    getToken();
+    state = '';
+    name = '';
+    start_date = '';
+    end_date = '';
+    type = '';
+    var radios = document.getElementsByName('filter');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                type = radios[j].value;
+                break;
+            }
+        }
+    try{
+        state = document.getElementById('state').value;
+        start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
+        end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
+    }catch(err){}
+    try{
+        name = document.getElementById('name').value;
+    }catch(err){}
+    $('#loading-search-top-up').show();
+    document.getElementById('table_top_up_history').innerHTML = `<tr>
+                        <th style="width:5%;">No.</th>
+                        <th style="width:20%;">Top Up Number</th>
+                        <th style="width:20%;">Due Date</th>
+                        <th style="width:15%;">Amount</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:15%;">Payment Method</th>
+                        <th style="width:15%;">Help By</th>
+                        <th style="width:10%;">Action</th>
+                    </tr>`;
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -530,7 +560,12 @@ function get_top_up(){
             'action': 'get_top_up',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'name': name,
+            'state': state,
+            'start_date': start_date,
+            'end_date': end_date,
+            'type': type
        },
        success: function(msg) {
         console.log(msg);
@@ -642,10 +677,11 @@ function table_top_up_history(data){
             <td name="order_number">`+data[i].name+`</td>`;
 
         text+= `<td>`+data[i].due_date+`</td>`;
-        text+= `<td>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-        text+= `<td>`+data[i].state+`</td>`;
-        if(data[i].hasOwnProperty('user') == true){
-            text+= `<td></td>`;
+        text+= `<td style="text-align:right">`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
+        text+= `<td>`+data[i].state_description+`</td>`;
+        text+= `<td>`+data[i].payment_method+`</td>`;
+        if(data[i].hasOwnProperty('help_by') == true){
+            text+= `<td>`+data[i].help_by+`</td>`;
         }else{
             text+= `<td>-</td>`;
         }
