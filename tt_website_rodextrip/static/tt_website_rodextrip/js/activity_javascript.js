@@ -2039,6 +2039,7 @@ function sort(activity_dat, check){
                    </form>
                </div>`;
            }
+           check_pagination += 1;
         }
         if (text == '' && check != 0)
         {
@@ -2085,7 +2086,6 @@ function sort(activity_dat, check){
         });
 
         if(check_pagination == 0){
-            check_pagination = check_pagination + 1;
             $('#pagination-container').hide();
             $('#pagination-container2').hide();
         }

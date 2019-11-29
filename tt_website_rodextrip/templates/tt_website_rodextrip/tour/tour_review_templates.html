@@ -322,8 +322,15 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>) <br/>
-                                <input type="radio" name="payment_opt" value="installment"/> Installment <br/>
+                                <label class="radio-button-custom">
+                                    <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>)
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <br/>
+                                <label class="radio-button-custom">
+                                    <input type="radio" name="payment_opt" value="installment"/> Installment
+                                    <span class="checkmark-radio"></span>
+                                </label>
                                 <!--<input type="hidden" name="installment_count" t-att-value="len(payment_rules)"/>-->
                                 <table class="table table-bordered" style="font-size:12px;">
                                     <thead>
@@ -340,7 +347,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="tour_hold_booking(1);" style="width:100%;">
-                                    Issued Now <div class="ld ld-ring ld-cycle"></div>
+                                    Confirm <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                         </div>
