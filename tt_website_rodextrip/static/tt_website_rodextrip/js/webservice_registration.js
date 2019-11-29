@@ -379,7 +379,7 @@ function add_table_of_passenger(){
     text += `
         <td>
             <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-search"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-edit"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">

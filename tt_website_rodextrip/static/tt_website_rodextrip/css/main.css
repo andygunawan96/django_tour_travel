@@ -2174,7 +2174,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 0px;
   box-shadow: none;
   width: 100%;
-  padding: 10px 0 10px 0px;
+  padding: 10px 0px 0px 0px;
   min-height:30px;
   max-height:150px;
   overflow-y: scroll;
@@ -6042,7 +6042,7 @@ div.scrollmenu li {
   display: inline-block;
   font-size: 14px;
   cursor: pointer;
-  border-radius:48px;
+  border-radius:14px;
 }
 
 .button-seat-pass:focus{
@@ -7750,6 +7750,40 @@ display: block;
 .center-div div img {
     margin-top: 25%;
 }
+
+
+.center-div-t {
+    border-radius: 50%;
+    text-align: center;
+    margin: 15px auto;
+    position: relative;
+}
+
+.center-div-t div {
+    background-color: rgb(255, 255, 255);
+    display: inline-block;
+    color: rgb(174, 215, 241);
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    -webkit-animation-name: inner-center-div-t;
+    -webkit-animation-duration: 4s;
+    -webkit-animation-iteration-count: infinite;
+    animation-name: inner-center-div-t;
+    animation-duration: 4s;
+    animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes inner-center-div-t {
+    0% {transform: scale(1.0);}
+    50% {transform: scale(1.1);}
+    100% {transform: scale(1.0);}
+}
+
+.center-div-t div img {
+    margin-top: 25%;
+}
+
 
 .text-line {
   stroke-dasharray: 500;

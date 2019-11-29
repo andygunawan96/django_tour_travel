@@ -254,8 +254,7 @@ function get_top_facility(){
             node.innerHTML = facility_filter_html;
             document.getElementById("filter").appendChild(node);
 
-            facility_filter_html = `<hr><h6 style="padding-bottom:10px;">Facilities</h6>
-            <div id="hotelFacilities_generalShow" style="display:inline-block;">`;
+            facility_filter_html = `<hr><h6 style="padding-bottom:10px;">Facilities</h6>`;
             for(i in top_facility){
                 facility_filter_html += `
                 <label class="check_box_custom">
@@ -264,7 +263,6 @@ function get_top_facility(){
                     <span class="check_box_span_custom"></span>
                 </label><br/>`;
             }
-            facility_filter_html+=`</div>`;
             var node = document.createElement("div");
             node.innerHTML = facility_filter_html;
             document.getElementById("filter2").appendChild(node);

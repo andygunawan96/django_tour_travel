@@ -58,6 +58,18 @@
     </div>
 </header>
 {% include 'tt_website_rodextrip/loading_screen.html' %}
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <section class="destinations-area" style="padding-top:30px;">
     <div class="container">
@@ -326,7 +338,7 @@
                         </table>
                     </div>
                     <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
-                        Issued Booking
+                        Request Booking
                     </button>
                     <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px; position:relative;" id="payment_acq" onclick="focus_box('payment_acq');" hidden>
 

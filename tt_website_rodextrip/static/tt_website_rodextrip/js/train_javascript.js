@@ -1609,7 +1609,7 @@ function change_seat_map_from_selection(no){
 }
 
 function print_seat_map(){
-    var text = '<select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);" class="form-control">';
+    var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
     if(seat_map_response.length != 0){
         for(i in seat_map_response){
             if(parseInt(parseInt(i)+1) == seat_map_pick){
@@ -1622,7 +1622,10 @@ function print_seat_map(){
         }
         document.getElementById('train_seat_map').innerHTML = text;
     }
-    text ='<div class="slideshow-container">';
+    text+=`</div></div>`;
+    $('#seat_map_wagon_pick').niceSelect();
+
+    text ='<div class="slideshow-container" style="margin-top:20px;">';
     for(i in seat_map_response){
         if(seat_map_pick == '' || pax_click == ''){
             text += `<center><h4>Please select passenger or journey</h4></center>`;
@@ -1632,7 +1635,7 @@ function print_seat_map(){
         }else if(parseInt(parseInt(i)+1) == seat_map_pick){
             for(j in seat_map_response[i]){
                 text+=`
-                  <div class="col-lg-12 mySlides1">
+                  <div class="col-lg-12 mySlides1" style="text-align:center;">
                   <div style="width:100%;text-align:center;">
                     <h5>
                     <div class="row">

@@ -876,13 +876,14 @@ function tour_hold_booking(val){
         }).then((result) => {
           if (result.value) {
             if (val==0){
-                $('.loader-rodextrip').fadeIn();
+                please_wait_transaction()
                 $('.next-loading-booking').addClass("running");
                 $('.next-loading-booking').prop('disabled', true);
                 $('.next-loading-issued').prop('disabled', true);
             }
             else{
-                $('.loader-rodextrip').fadeIn();
+                $("#issuedModal").modal('hide');
+                please_wait_transaction()
                 $('.next-loading-booking').prop('disabled', true);
                 $('.next-loading-issued').addClass("running");
                 $('.next-loading-issued').prop('disabled', true);
