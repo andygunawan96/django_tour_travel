@@ -274,7 +274,7 @@ function train_create_booking(val){
            })
            $('.hold-seat-booking-train').removeClass("running");
            $('.hold-seat-booking-train').attr("disabled", false);
-       },timeout: 180000
+       },timeout: 300000
     });
 }
 
