@@ -121,13 +121,72 @@ function get_promotions(){
 //                requirement_document = msg.result.response;
             msg = {
                 'result':{
-                    'response': [{"id":15,"name":"Citra - Standard","agent_type":"Agent Citra","start_date":"2019-01-01","end_date":"2100-12-31","default_commission":true,"description":"Pricing recruitment commission standard citra","commission":[{"recruited":"Agent Citra","discount_type":"amount","discount_amount":0,"lines":[{"agent_type_id":"Agent Citra","amount":5000000}]},{"recruited":"Agent JaPro","discount_type":"amount","discount_amount":0,"lines":[{"agent_type_id":"Agent Citra","amount":1500000}]}]},{"id":13,"name":"Citra - Citra - November Ceria","agent_type":"Agent Citra","start_date":"2019-11-01","end_date":"2019-11-30","default_commission":false,"description":"Promo untuk citra berlaku mulai 10-31 oktober 2019","commission":[{"recruited":"Agent Citra","discount_type":"amount","discount_amount":750000,"lines":[{"agent_type_id":"Agent Citra","amount":5000000}]}]}]
+                    'response': [
+                      {
+                        "id": 15,
+                        "name": "Citra - Standard",
+                        "agent_type": "Agent Citra",
+                        "start_date": "2019-01-01",
+                        "end_date": "2100-12-31",
+                        "default_commission": true,
+                        "description": "Pricing recruitment commission standard citra",
+                        "commission": [
+                          {
+                            "recruited": "Agent Citra",
+                            "registration_fee": 0,
+                            "discount_type": "amount",
+                            "discount_amount": 0,
+                            "lines": [
+                              {
+                                "agent_type_id": "Agent Citra",
+                                "amount": 5000000
+                              }
+                            ]
+                          },
+                          {
+                            "recruited": "Agent JaPro",
+                            "registration_fee": 0,
+                            "discount_type": "amount",
+                            "discount_amount": 0,
+                            "lines": [
+                              {
+                                "agent_type_id": "Agent Citra",
+                                "amount": 1500000
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": 13,
+                        "name": "Citra - Citra - November Ceria",
+                        "agent_type": "Agent Citra",
+                        "start_date": "2019-11-01",
+                        "end_date": "2019-11-30",
+                        "default_commission": false,
+                        "description": "Promo untuk citra berlaku mulai 10-31 oktober 2019",
+                        "commission": [
+                          {
+                            "recruited": "Agent Citra",
+                            "registration_fee": 97250000,
+                            "discount_type": "amount",
+                            "discount_amount": 750000,
+                            "lines": [
+                              {
+                                "agent_type_id": "Agent Citra",
+                                "amount": 5000000
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
                 }
             }
             promotion = msg.result.response;
             text = '<option value="" disabled selected>Promotions</option>';
             for(i in msg.result.response){
-                text+=`<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].description+`</option>`;
+                text+=`<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].name+` - `+msg.result.response[i].description+`</option>`;
             }
             document.getElementById('promotion').innerHTML = text;
             $('#promotion').niceSelect();
@@ -148,9 +207,13 @@ function change_promotion(){
     for(i in promotion){
         if(document.getElementById('promotion').value == promotion[i].id){
             for(j in promotion[i].commission){
-                text += promotion[i].commission[j].recruited + '<br/>';
+                text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '<br/>';
+                if(promotion[i].commission[j].discount_amount != 0){
+                    text += 'Discount ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].discount_amount) + '<br/>';
+                }
+                text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '<br/>';
                 for(k in promotion[i].commission[j].lines){
-                    text += getrupiah(promotion[i].commission[j].lines[k].amount) + '<br/>'
+                    text += 'Commission ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].lines[k].amount) + '<br/><br/>';
                 }
             }
         }
@@ -379,7 +442,7 @@ function add_table_of_passenger(){
     text += `
         <td>
             <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-edit"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-search"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">

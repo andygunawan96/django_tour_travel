@@ -149,7 +149,7 @@ def search(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=180)
     try:
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
@@ -236,8 +236,22 @@ def commit_booking(request):
             "contacts": contacts,
             "passengers": passenger,
             "schedules": request.session['train_booking'],
-            "booker": booker
+            "booker": booker,
+            'force_issued': bool(int(request.POST['value']))
         }
+        try:
+            if bool(int(request.POST['value'])) == True:
+                if request.POST['member'] == 'non_member':
+                    member = False
+                else:
+                    member = True
+                data.update({
+                    'member': member,
+                    'seq_id': request.POST['seq_id'],
+                })
+        except:
+            pass
+
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
