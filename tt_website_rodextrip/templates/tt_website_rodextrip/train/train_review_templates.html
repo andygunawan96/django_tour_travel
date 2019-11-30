@@ -18,13 +18,16 @@
     console.log(train_data);
     adult = `{{adults}}`;
     infant = `{{infants}}`;
-    adult = adult.replace(/&#39;/g, '"');
-    adult = adult.replace(/False/g, 'false');
-    adult = JSON.parse(adult.replace(/True/g, 'true'));
+    passengers = `{{passenger}}`;
+    passengers = passengers.replace(/&#39;/g, '"');
+    passengers = passengers.replace(/False/g, 'false');
+    passengers = passengers.replace(/True/g, 'true');
+    passengers = JSON.parse(passengers);
+    console.log(passengers);
 
-    infant = infant.replace(/&#39;/g, '"');
-    infant = infant.replace(/False/g, 'false');
-    infant = JSON.parse(infant.replace(/True/g, 'true'));
+    adult = passengers.adult
+
+    infant = passengers.infant;
     passengers = {
         'adult': adult,
         'infant': infant
@@ -154,7 +157,7 @@
                                         <th>ID Type</th>
                                         <th>ID Number</th>
                                     </tr>
-                                    {% for adult in adults%}
+                                    {% for adult in passenger.adult%}
                                     <tr>
                                         <td>{{adult.title}} {{adult.first_name}} {{adult.last_name}}</td>
                                         <td>{{adult.birth_date}}</td>
@@ -170,7 +173,7 @@
                                     </tr>
                                     {% endfor %}
 
-                                    {% for infant in infants%}
+                                    {% for infant in passenger.infant%}
                                     <tr>
                                         <td>{{infant.title}} {{infant.first_name}} {{infant.last_name}}</td>
                                         <td>{{infant.birth_date}}</td>
@@ -193,7 +196,7 @@
                 <div class="col-lg-9">
                     <div class="row">
                         <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="train_create_booking();" style="width:100%;">
+                            <button type="button" class="primary-btn hold-seat-booking-train ld-ext-right" id="btn-search-train" onclick="train_create_booking(0);" style="width:100%;">
                                 Hold Booking
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -207,6 +210,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
     train_detail();
+    //get_payment_acq('Issued','{{passenger.booker.booker_seq_id}}', '', 'billing',signature,'train_review');
     $( document ).ready(function() {
         breadcrumb_create("train", 4, 0);
     });

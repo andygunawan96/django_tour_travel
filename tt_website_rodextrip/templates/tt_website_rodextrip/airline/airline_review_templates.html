@@ -452,7 +452,7 @@
 <script>
     airline_detail('');
     get_airline_review();
-    get_payment_acq('Issued','', '', 'billing',signature,'airline_review');
+    get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'airline_review');
 
     $( document ).ready(function() {
         breadcrumb_create("airline", 4, 0);

@@ -228,7 +228,7 @@
 <script>
     hotel_detail('{{hotel_room_detail_pick}}')
     hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
-    get_payment_acq('Issued','', '', 'billing',signature,'hotel_review');
+    get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
       breadcrumb_create("hotel", 5, 0);
     });
