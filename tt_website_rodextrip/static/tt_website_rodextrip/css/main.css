@@ -107,6 +107,13 @@ body {
     position:unset !important;
     top:unset !important;
   }
+  .nav-hotel{
+    top:0px !important;
+  }
+
+  .myticket_static_detail{
+    margin: 10px 0px 10px 0px !important;
+  }
 }
 
 @media (max-width: 405px) {
@@ -5702,8 +5709,8 @@ div.scrollmenu li {
 .myticket_static {
   background-color: #f15a22;
   color: white;
-  height: 31px;
-  width: 200px;
+  height: 32px;
+  width: 160px;
   border: 1px solid gray;
   border-radius: 3px;
   cursor: pointer;
@@ -5713,13 +5720,14 @@ div.scrollmenu li {
 .myticket_static_detail {
   background-color: #f15a22;
   color: white;
-  height: 31px;
-  width: 200px;
+  height: 32px;
+  width: 160px;
   border: 1px solid gray;
   border-radius: 3px;
   cursor: pointer;
   outline: none;
   float: right;
+  margin:8px;
 }
 
 .mystickyticket {
