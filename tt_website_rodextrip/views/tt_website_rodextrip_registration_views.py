@@ -113,7 +113,7 @@ def register_agent(request):
             'address': request.POST['street'] and request.POST['street'] or '',
             'address2': request.POST['street2'] and request.POST['street2'] or '',
         },
-
+        'promotion_id': request.POST['promotion'] and request.POST['promotion'] or '',
         'pic': pic,
         'regis_doc': regis_doc,
         'other': {
