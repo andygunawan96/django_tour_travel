@@ -397,10 +397,10 @@ def booking(request):
             resv_obj = False
 
         try:
-            order_number = request.POST['order_number']
-            request.session['airline_order_number'] = request.POST['order_number']
+            order_number = resv_obj['booking_name']
+            request.session['hotel_detail'] = resv_obj['booking_name']
         except:
-            order_number = request.session['airline_order_number']
+            order_number = request.session['hotel_detail']
         if resv_obj:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
