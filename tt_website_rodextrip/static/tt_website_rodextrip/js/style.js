@@ -1672,6 +1672,26 @@ function show_paxs_airline(pax_type, key){
     }
 }
 
+function show_attachment_details(key){
+    var journey = document.getElementById('journey'+key);
+    var flight = document.getElementById('detail_attachment'+key);
+    var flight_down = document.getElementById('attach_details_down'+key);
+    var flight_up = document.getElementById('attach_details_up'+key);
+
+    if (flight.style.display === "none") {
+        flight_up.style.display = "block";
+        flight_down.style.display = "none";
+        flight.style.display = "block";
+        journey.style.marginBottom = "15px";
+    }
+    else {
+        flight_up.style.display = "none";
+        flight_down.style.display = "block";
+        flight.style.display = "none";
+        journey.style.marginBottom = "15px";
+    }
+}
+
 function show_flight_details(key){
     var journey = document.getElementById('journey'+key);
     var flight = document.getElementById('detail_departjourney'+key);

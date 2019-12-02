@@ -818,8 +818,11 @@ function sort(response, check_filter){
                                     text += `
 
                                     </div>
-                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">
-                                        <span style="font-weight:500; color:#f15a22;">( for 1 room 1 night )</span>`;
+                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
+                                        var total_room = document.getElementById("hotel_room").value;
+                                        var total_night = document.getElementById("total_night_search").textContent;
+                                        text+=`
+                                        <span style="font-weight:500; color:#f15a22;">( for `+total_room+` room, `+total_night+` night )</span>`;
                                         if(best_price[0] != undefined)
                                             text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>`;
                                         else
