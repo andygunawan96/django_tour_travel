@@ -1814,7 +1814,7 @@ function sort(){
     scroll_add_airline = false;
     if(sort_key == 0)
         document.getElementById("airlines_ticket").innerHTML = '';
-    if (airline.length == 0 && count == airline_choose){
+    if (airline.length == 0 && count == airline_choose && airline_choose != 0){
         text = '';
         text += `
         <div style="text-align:center">
@@ -2760,12 +2760,10 @@ function sort(){
            }
        }
    }
-   console.log(contain);
    if(contain >= 9){
        scroll_add_airline = true;
    }
-
-   if(airline_choose/count_progress_bar_airline == 1 && ticket_count == 0){
+   if(airline_choose/count_progress_bar_airline == 1 && ticket_count == 0 && airline_choose != 0 && count_progress_bar_airline != 0){
         document.getElementById("airlines_ticket").innerHTML = '';
         text = '';
         text += `
