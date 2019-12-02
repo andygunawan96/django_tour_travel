@@ -438,10 +438,13 @@ function hotel_detail_request(id){
                 }
 
                 text+=`<div class="col-lg-3 col-md-3" style="text-align:right;">`;
+                var total_room = document.getElementById("hotel_room").value;
+                var total_night = document.getElementById("total_night_search").textContent;
+
                 if(result.prices[i].currency != 'IDR')
-                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span style="font-size:13px; color:#f15a22;"> /room/night</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span style="font-size:13px; font-weight:500; color:#f15a22;"> (for '+total_room+' room, '+total_night+' night)</span><br/>';
                 else
-                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span style="font-size:13px; color:#f15a22;"> /room/night</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span style="font-size:13px; font-weight:500; color:#f15a22;"> (for '+total_room+' room, '+total_night+' night)</span><br/>';
 
                 text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
                 text+='</div></div>';

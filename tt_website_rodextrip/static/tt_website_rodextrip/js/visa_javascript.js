@@ -1035,21 +1035,40 @@ function check_on_off_radio(pax_type,number,value){
                 visa.list_of_visa[i].type.process_type[0] == process_type){
                 pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + getrupiah(visa.list_of_visa[i].sale_price.total_price.toString());
                 text_requirements = '';
+                text_requirements+=`<div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h6>Document</h6><br/></div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Original</h6><br/></div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Copy</h6><br/></div>`;
                 for(j in visa.list_of_visa[i].requirements){
 //                    if(visa.list_of_visa[i].requirements[j].required == true){
                         text_requirements += `
-                        <label class="check_box_custom">
-                            <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+` Copy</span>
-                            <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_copy"/>
-                            <span class="check_box_span_custom"></span>
-                        </label>
-                        <label class="check_box_custom">
-                            <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+` Original</span>
-                            <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
-                            <span class="check_box_span_custom"></span>
-                        </label>`;
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <label class="check_box_custom" style="padding-left:unset;">
+                                <span style="font-size:13px;">`+visa.list_of_visa[i].requirements[j].name+` </span>`;
+                                    if(visa.list_of_visa[i].requirements[j].required == true){
+                                        text_requirements +=`<span style="color:red; font-weight:500; font-size:16px;">*</span>`;
+                                    }
+                                text_requirements +=`
+                            </label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label class="check_box_custom">
+                                <span style="font-size:13px;"></span>
+                                <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label class="check_box_custom">
+                                <span style="font-size:13px;"></span>
+                                <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_copy"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>`;
 //                    }
                 }
+                text_requirements+=`</div>`;
+
                 pax_required.innerHTML = text_requirements;
                 console.log(visa.list_of_visa[i].total_pax);
                 visa.list_of_visa[i].total_pax = visa.list_of_visa[i].total_pax - 1;
