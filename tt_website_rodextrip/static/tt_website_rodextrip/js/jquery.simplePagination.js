@@ -307,9 +307,10 @@
 				$link = $('<span class="current">' + (options.text) + '</span>');
 			} else {
 				if (o.useAnchors) {
-					$link = $('<a href="' + o.hrefTextPrefix + (pageIndex + 1) + o.hrefTextSuffix + '" class="page-link">' + (options.text) + '</a>');
+                    var pg_numb = parseInt((pageIndex + 1));
+                    $link = $('<a href="' + o.hrefTextPrefix + (pageIndex + 1) + o.hrefTextSuffix + '" class="page-link" onclick="return pagination_numb('+pg_numb+');">' + (options.text) + '</a>');
 				} else {
-					$link = $('<span >' + (options.text) + '</span>');
+					$link = $('<span>' + (options.text) + '</span>');
 				}
 				$link.click(function(event){
 					return methods._selectPage.call(self, pageIndex, event);
