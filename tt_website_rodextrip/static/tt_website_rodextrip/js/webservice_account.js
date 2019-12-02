@@ -139,51 +139,96 @@ function get_transactions_notification(val){
             var check_notif = 0;
             var timeout_notif = 5000;
             var today = new Date();
-            for(i in msg.result.response){
-                hold_date = '';
-                if(msg.result.response[i].hold_date != ''){
-                    date = moment.utc(msg.result.response[i].hold_date).format('YYYY-MM-DD HH:mm:ss');
-                    var localTime  = moment.utc(date).toDate();
-                    if(today >= moment(localTime) && msg.result.response[i].state_description == 'Expired'){
-                        hold_date = 'Expired';
-                    }else if(msg.result.response[i].state_description == 'Issued'){
-                        hold_date = 'Issued';
-                    }else{
-                        hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                        if(window.location.href.split('/')[window.location.href.split('/').length-1] == "" && check_notif < 5){
-                            document.getElementById('notification_div').innerHTML +=`
-                                <div class="row" id="alert`+check_notif+`">
-                                    <div class="col-sm-6">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <div class="alert alert-warning" role="alert">
-                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                          <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' - ' + hold_date+`
+            if(Object.keys(msg.result.response).length == 0){
+                document.getElementById('notification_detail').innerHTML = `
+                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align:center">
+                                <span style="font-weight:500"> No Notification</span>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>`;
+                document.getElementById('notification_detail2').innerHTML = `
+                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align:center">
+                                <span style="font-weight:500"> No Notification</span>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>`;
+            }else{
+                for(i in msg.result.response){
+                    for(j in msg.result.response[i]){
+                        hold_date = '';
+                        if(check_notif == 5)
+                            break;
+                        if(msg.result.response[i].hold_date != ''){
+                            date = moment.utc(msg.result.response[i][j].hold_date).format('YYYY-MM-DD HH:mm:ss');
+                            var localTime  = moment.utc(date).toDate();
+                            if(today >= moment(localTime) && msg.result.response[i][j].state_description == 'Expired'){
+                                hold_date = 'Expired';
+                            }else if(msg.result.response[i][j].state_description == 'Issued'){
+                                hold_date = 'Issued';
+                            }else{
+                                hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                                if(window.location.href.split('/')[window.location.href.split('/').length-1] == "" && check_notif < 5){
+                                    document.getElementById('notification_div').innerHTML +=`
+                                        <div class="row" id="alert`+check_notif+`">
+                                            <div class="col-sm-6">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="alert alert-warning" role="alert">
+                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                  <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' - ' + hold_date+`
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            `;
-                            check_notif++;
+                                    `;
+                                    check_notif++;
+                                    text = '';
+                                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                                    text+=`<div class="row">
+                                            <div class="col-sm-6">`;
+                                    text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
+                                    text+=` </div>
+                                            <div class="col-sm-6" style="text-align:right">
+                                            <span style="font-weight:500;"> `+hold_date+`</span>`;
+                                    text+=` </div>
+                                           </div>`;
+                                    text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
+                                    text+=`<hr/></form>`;
+                                    text+=`</div>`;
+                                    document.getElementById('notification_detail').innerHTML += text;
+                                    document.getElementById('notification_detail2').innerHTML += text;
+                                }
+                            }
+                        }else{
+                            hold_date = 'Error booked';
                         }
                     }
-                }else{
-                    hold_date = 'Error booked';
                 }
-                number = parseInt(i)+1;
-                if(msg.result.response[i].provider.provider_type == 'airline'){
-                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
-                    text+=`<div class="row">
-                            <div class="col-sm-6">`;
-                    text+=`<span style="font-weight:500;"> `+number+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
-                    text+=` </div>
-                            <div class="col-sm-6" style="text-align:right">
-                            <span style="font-weight:500;"> `+hold_date+`</span>`;
-                    text+=` </div>
-                           </div>`;
-                    text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
-                    text+=`<hr/></form>`;
-                    text+=`</div>`;
+                if(check_notif == 0){
+                    document.getElementById('notification_detail').innerHTML = `
+                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                            <div class="row">
+                                <div class="col-sm-12" style="text-align:center">
+                                    <span style="font-weight:500"> No Notification</span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>`;
+                    document.getElementById('notification_detail2').innerHTML = `
+                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                            <div class="row">
+                                <div class="col-sm-12" style="text-align:center">
+                                    <span style="font-weight:500"> No Notification</span>
+                                </div>
+                            </div>
+                            <hr>
+                        </div>`;
                 }
             }
             setTimeout(function() {
@@ -191,7 +236,7 @@ function get_transactions_notification(val){
                     $(this).remove();
                 });
             }, timeout_notif);
-            document.getElementById('notification_detail').innerHTML = text;
+
 //            document.getElementById('notification_detail2').innerHTML = text;
 
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -228,8 +273,7 @@ function get_transactions_notification(val){
 
 function get_transactions(type){
     load_more = false;
-    getToken();
-    if(type == 'reset'){
+    if(type == 'reset' || type == 'filter'){
         offset_transaction = 0;
         data_counter = 0;
         data_search = [];
@@ -247,8 +291,20 @@ function get_transactions(type){
                         <th style="width:7%;">Action</th>
                     </tr>`;
     }
+    carrier_code = [];
+    try{
+        var radios = document.getElementsByName('filter');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                filter = radios[j].value;
+            }
+            radios[j].disabled = true
+        }
+        carrier_code.push(filter);
+    }catch(err){
+
+    }
     limit_transaction = 20;
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -258,40 +314,80 @@ function get_transactions(type){
        data: {
             'offset': offset_transaction,
             'limit': limit_transaction,
-            'provider_type': JSON.stringify([]),
+            'provider_type': JSON.stringify(carrier_code),
             'signature': signature,
             'key': document.getElementById('tb').value,
             'using_cache': 'false'
        },
        success: function(msg) {
         console.log(msg);
+        $('#loading-search-reservation').hide();
         if(msg.result.error_code == 0){
             try{
                 var date = '';
                 var localTime = '';
+                text = '';
+                data_length = 0;
+                var str = '';
                 for(i in msg.result.response){
-                    if(msg.result.response[i].hold_date != '' && msg.result.response[i].hold_date != false){
-                        date = moment.utc(msg.result.response[i].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                        localTime  = moment.utc(date).toDate();
-                        msg.result.response[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                    }
-                    if(msg.result.response[i].booked_date != '' && msg.result.response[i].booked_date != false){
-                        date = moment.utc(msg.result.response[i].booked_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                        localTime  = moment.utc(date).toDate();
-                        msg.result.response[i].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                    }
-                    if(msg.result.response[i].issued_date != '' && msg.result.response[i].issued_date != false){
-                        date = moment.utc(msg.result.response[i].issued_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
-                        localTime  = moment.utc(date).toDate();
-                        msg.result.response[i].issued_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    str = i;
+                    if(data_length == 0)
+                        text += `<label class="radio-button-custom">
+                                <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
+                                <input type="radio" checked="checked" name="filter" value="`+str+`" onclick="get_transactions('filter');">
+                                <span class="checkmark-radio"></span>
+                            </label>`;
+                    else
+                        text += `<label class="radio-button-custom">
+                                <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
+                                <input type="radio" name="filter" value="`+str+`" onclick="get_transactions('filter');">
+                                <span class="checkmark-radio"></span>
+                            </label>`;
+                    for(j in msg.result.response[i]){
+                        data_length++;
+                        if(msg.result.response[i][j].hold_date != '' && msg.result.response[i][j].hold_date != false){
+                            date = moment.utc(msg.result.response[i].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                            localTime  = moment.utc(date).toDate();
+                            msg.result.response[i][j].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        }
+                        if(msg.result.response[i][j].booked_date != '' && msg.result.response[i][j].booked_date != false){
+                            date = moment.utc(msg.result.response[i][j].booked_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                            localTime  = moment.utc(date).toDate();
+                            msg.result.response[i][j].booked_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        }
+                        if(msg.result.response[i][j].issued_date != '' && msg.result.response[i][j].issued_date != false){
+                            date = moment.utc(msg.result.response[i][j].issued_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                            localTime  = moment.utc(date).toDate();
+                            msg.result.response[i][j].issued_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        }
                     }
                 }
-                if(msg.result.response.length >= 20){
+                if(type == 'reset')
+                    document.getElementById('type').innerHTML = text;
+                var radios = document.getElementsByName('filter');
+                for (var j = 0, length = radios.length; j < length; j++) {
+                    if (radios[j].checked) {
+                        filter = radios[j].value;
+                    }
+                    radios[j].disabled = false;
+                }
+                if(msg.result.response[filter].length >= 20){
                     offset_transaction++;
-                    table_reservation(msg.result.response);
+                    table_reservation(msg.result.response[filter]);
                     load_more = true;
+                }else if(msg.result.response[filter].length == 0){
+                    var node = document.createElement("div");
+                    node.innerHTML = `
+                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                        <div class="row">
+                            <div class="col-sm-12" style="text-align:center">
+                                <span style="font-weight:500"> No Record</span>
+                            </div>
+                        </div>
+                    </div>`;
+                    document.getElementById("desc").appendChild(node);
                 }else{
-                    table_reservation(msg.result.response);
+                    table_reservation(msg.result.response[filter]);
                 }
             }catch(err){
                 //set_notification(msg.result.response.transport_booking);
@@ -522,7 +618,37 @@ function cancel_top_up(name){
 }
 
 function get_top_up(){
-    getToken();
+    state = '';
+    name = '';
+    start_date = '';
+    end_date = '';
+    type = '';
+    var radios = document.getElementsByName('filter');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            type = radios[j].value;
+            break;
+        }
+    }
+    try{
+        state = document.getElementById('state').value;
+        start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
+        end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
+    }catch(err){}
+    try{
+        name = document.getElementById('name').value;
+    }catch(err){}
+    $('#loading-search-top-up').show();
+    document.getElementById('table_top_up_history').innerHTML = `<tr>
+                        <th style="width:5%;">No.</th>
+                        <th style="width:20%;">Top Up Number</th>
+                        <th style="width:20%;">Due Date</th>
+                        <th style="width:15%;">Amount</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:15%;">Payment Method</th>
+                        <th style="width:15%;">Help By</th>
+                        <th style="width:10%;">Action</th>
+                    </tr>`;
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -530,7 +656,12 @@ function get_top_up(){
             'action': 'get_top_up',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'name': name,
+            'state': state,
+            'start_date': start_date,
+            'end_date': end_date,
+            'type': type
        },
        success: function(msg) {
         console.log(msg);
@@ -642,10 +773,11 @@ function table_top_up_history(data){
             <td name="order_number">`+data[i].name+`</td>`;
 
         text+= `<td>`+data[i].due_date+`</td>`;
-        text+= `<td>`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-        text+= `<td>`+data[i].state+`</td>`;
-        if(data[i].hasOwnProperty('user') == true){
-            text+= `<td></td>`;
+        text+= `<td style="text-align:right">`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
+        text+= `<td>`+data[i].state_description+`</td>`;
+        text+= `<td>`+data[i].payment_method+`</td>`;
+        if(data[i].hasOwnProperty('help_by') == true){
+            text+= `<td>`+data[i].help_by+`</td>`;
         }else{
             text+= `<td>-</td>`;
         }

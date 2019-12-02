@@ -13,7 +13,7 @@ function get_data_issued_offline(){
        success: function(msg) {
            console.log(msg);
            issued_offline_data = msg;
-           text = '<option value=""></option>';
+           text = '<option value="">Select</option>';
            for(i in issued_offline_data.transaction_type){
                text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
            }
@@ -40,7 +40,6 @@ function get_data_issued_offline(){
            }
            document.getElementById('social_media').innerHTML = text;
            $('#social_media').niceSelect('update');
-           console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

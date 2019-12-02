@@ -355,7 +355,7 @@ function tour_get_details(package_id){
                 }
                 if (tour_data.document_url)
                 {
-                    print_doc_text += `<div style="position: absolute; bottom: 0px; right: 15px;">
+                    print_doc_text += `<div style="float:right;">
                                          <a class="btn btn-tour btn-chgsearch" style="border-radius:6px; border: 1px solid #ddd;" href="`+tour_data.document_url+`" target="_blank">
                                              <i class="fa fa-print" aria-hidden="true"></i> Print Document
                                          </a>
@@ -585,7 +585,7 @@ function update_sell_tour(){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -596,7 +596,7 @@ function update_sell_tour(){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -825,7 +825,8 @@ function tour_pre_issued_booking(order_number)
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        $('.loader-rodextrip').fadeIn();
+        $("#issuedModal").modal('hide');
+        please_wait_transaction()
         $('.next-loading-issued').addClass("running");
         $('.next-loading-issued').prop('disabled', true);
         tour_issued_booking(order_number);
@@ -868,7 +869,8 @@ function tour_issued_booking(order_number)
                document.getElementById('payment_acq').innerHTML = '';
                document.getElementById('payment_acq').hidden = true;
                $("#issuedModal").modal('hide');
-               $('.loader-rodextrip').fadeOut();
+               $("#waitingTransaction").modal('hide');
+               document.getElementById("overlay-div-box").style.display = "none";
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -879,7 +881,7 @@ function tour_issued_booking(order_number)
             })
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $('.loader-rodextrip').fadeOut();
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }

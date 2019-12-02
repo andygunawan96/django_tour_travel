@@ -64,14 +64,7 @@ function agent_register_get_config(){
             agent_register_get_requirement_list_doc();
             text=  '';
             //company
-            for(i in msg.result.response.company_type){
-                text+= `<label class="radio-button-custom">
-                            <span style="font-size:14px;">`+msg.result.response.company_type[i][1]+`</span>
-                            <input type="radio" name="radio_company_type" value="`+msg.result.response.company_type[i][0]+`" onclick="set_company_type();">
-                            <span class="checkmark-radio"></span>
-                        </label>`;
-            }
-            document.getElementById('company_type').innerHTML = text;
+            agent_regis_config = msg;
             //agent type
             text = '<option value="" disabled selected>Agent Type</option>';
             for(i in msg.result.response.agent_type){
@@ -79,7 +72,6 @@ function agent_register_get_config(){
                 text+=`<option value="`+msg.result.response.agent_type[i].name+`">`+msg.result.response.agent_type[i].name+`</option>`;
             }
             document.getElementById('agent_type_id').innerHTML = text;
-            console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -89,6 +81,28 @@ function agent_register_get_config(){
             })
        },timeout: 180000
     });
+}
+
+function onchange_agent_type(){
+    text = '';
+    msg = agent_regis_config;
+    for(i in msg.result.response.company_type){
+        if(document.getElementById('agent_type').value == "Agent Citra" && i == 0){
+            text+= `<label class="radio-button-custom">
+                    <span style="font-size:14px;">`+msg.result.response.company_type[i][1]+`</span>
+                    <input disabled type="radio" name="radio_company_type" value="`+msg.result.response.company_type[i][0]+`" onclick="set_company_type();">
+                    <span class="checkmark-radio"></span>
+                </label>`;
+        }else{
+            text+= `<label class="radio-button-custom">
+                    <span style="font-size:14px;">`+msg.result.response.company_type[i][1]+`</span>
+                    <input type="radio" name="radio_company_type" value="`+msg.result.response.company_type[i][0]+`" onclick="set_company_type();">
+                    <span class="checkmark-radio"></span>
+                </label>`;
+        }
+    }
+
+        document.getElementById('company_type').innerHTML = text;
 }
 
 function get_promotions(){
@@ -103,8 +117,79 @@ function get_promotions(){
        },
        success: function(msg) {
             console.log(msg);
-            if(msg.result.error_code == 0)
-                requirement_document = msg.result.response;
+//            if(msg.result.error_code == 0)
+//                requirement_document = msg.result.response;
+            msg = {
+                'result':{
+                    'response': [
+                      {
+                        "id": 15,
+                        "name": "Citra - Standard",
+                        "agent_type": "Agent Citra",
+                        "start_date": "2019-01-01",
+                        "end_date": "2100-12-31",
+                        "default_commission": true,
+                        "description": "Pricing recruitment commission standard citra",
+                        "commission": [
+                          {
+                            "recruited": "Agent Citra",
+                            "registration_fee": 0,
+                            "discount_type": "amount",
+                            "discount_amount": 0,
+                            "lines": [
+                              {
+                                "agent_type_id": "Agent Citra",
+                                "amount": 5000000
+                              }
+                            ]
+                          },
+                          {
+                            "recruited": "Agent JaPro",
+                            "registration_fee": 0,
+                            "discount_type": "amount",
+                            "discount_amount": 0,
+                            "lines": [
+                              {
+                                "agent_type_id": "Agent Citra",
+                                "amount": 1500000
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "id": 13,
+                        "name": "Citra - Citra - November Ceria",
+                        "agent_type": "Agent Citra",
+                        "start_date": "2019-11-01",
+                        "end_date": "2019-11-30",
+                        "default_commission": false,
+                        "description": "Promo untuk citra berlaku mulai 10-31 oktober 2019",
+                        "commission": [
+                          {
+                            "recruited": "Agent Citra",
+                            "registration_fee": 97250000,
+                            "discount_type": "amount",
+                            "discount_amount": 750000,
+                            "lines": [
+                              {
+                                "agent_type_id": "Agent Citra",
+                                "amount": 5000000
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                }
+            }
+            promotion = msg.result.response;
+            text = '<option value="" disabled selected>Promotions</option>';
+            for(i in msg.result.response){
+                text+=`<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].name+` - `+msg.result.response[i].description+`</option>`;
+            }
+            document.getElementById('promotion').innerHTML = text;
+            $('#promotion').niceSelect();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -114,6 +199,26 @@ function get_promotions(){
             })
        },timeout: 60000
     });
+}
+
+function change_promotion(){
+    console.log(document.getElementById('promotion').value);
+    text = '';
+    for(i in promotion){
+        if(document.getElementById('promotion').value == promotion[i].id){
+            for(j in promotion[i].commission){
+                text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '<br/>';
+                if(promotion[i].commission[j].discount_amount != 0){
+                    text += 'Discount ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].discount_amount) + '<br/>';
+                }
+                text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '<br/>';
+                for(k in promotion[i].commission[j].lines){
+                    text += 'Commission ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].lines[k].amount) + '<br/><br/>';
+                }
+            }
+        }
+    }
+    document.getElementById('promotion_desc').innerHTML =text
 }
 
 function agent_register_get_requirement_list_doc(){
@@ -130,7 +235,7 @@ function agent_register_get_requirement_list_doc(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0)
-            requirement_document = msg.result.response;
+                requirement_document = msg.result.response;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -328,7 +433,10 @@ function add_table_of_passenger(){
             <span id='name_pax`+counter_passenger+`' name='name_pax`+counter_passenger+`'></span>
         </td>
         <td>
-            <span id='birth_date_pax`+counter_passenger+`' name='birth_date`+counter_passenger+`'></span>
+            <span id='mobile_pax`+counter_passenger+`' name='mobile_pax`+counter_passenger+`'></span>
+        </td>
+        <td>
+            <span id='job_position_pax`+counter_passenger+`' name='job_position_pax`+counter_passenger+`'></span>
         </td>
         `;
     text += `
@@ -343,7 +451,7 @@ function add_table_of_passenger(){
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title">Person In Charge `+(counter_passenger+1)+`</h4>
+                            <h4 class="modal-title" style="color:white">Person In Charge `+(counter_passenger+1)+`</h4>
                             <button type="button" class="close" data-dismiss="modal" onclick="update_contact('pic',`+parseInt(counter_passenger+1)+`);">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -437,6 +545,7 @@ function add_table_of_passenger(){
 //    document.getElementById("radio_passenger_search"+(counter_passenger+1)).onclick = "radio_button('passenger',counter_passenger);"
     counter_passenger++;
     $('select').niceSelect();
+    $('#myModalPassenger'+parseInt(parseInt(counter_passenger)-1)).modal('show');
 }
 
 function delete_table_of_passenger(){
@@ -451,7 +560,8 @@ function update_contact(type,val){
     if(type == 'pic'){
         if(document.getElementById('first_name'+val).value != '' && document.getElementById('last_name'+val).value != ''){
             document.getElementById('name_pax'+parseInt(val-1)).innerHTML = document.getElementById('first_name'+val).value + ' ' + document.getElementById('last_name'+val).value;
-            document.getElementById('birth_date_pax'+parseInt(val-1)).innerHTML = document.getElementById('birth_date'+val).value;
+            document.getElementById('mobile_pax'+parseInt(val-1)).innerHTML = document.getElementById('mobile'+val).value;
+            document.getElementById('job_position_pax'+parseInt(val-1)).innerHTML = document.getElementById('job_position'+val).value;
         }
     }
 }

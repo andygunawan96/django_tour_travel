@@ -904,6 +904,7 @@ function activity_pre_create_booking(value){
     }).then((result) => {
       if (result.value) {
         show_loading();
+        please_wait_transaction();
         activity_commit_booking(value);
       }
     })
@@ -1077,7 +1078,7 @@ function activity_commit_booking(val){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1088,7 +1089,7 @@ function activity_commit_booking(val){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }

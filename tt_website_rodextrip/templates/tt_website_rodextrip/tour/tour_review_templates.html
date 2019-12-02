@@ -54,7 +54,18 @@
 </header>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <form method="POST" id="tour_booking" action="{% url 'tt_website_rodextrip:tour_booking'%}">
@@ -322,8 +333,15 @@
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>) <br/>
-                                <input type="radio" name="payment_opt" value="installment"/> Installment <br/>
+                                <label class="radio-button-custom">
+                                    <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>)
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <br/>
+                                <label class="radio-button-custom">
+                                    <input type="radio" name="payment_opt" value="installment"/> Installment
+                                    <span class="checkmark-radio"></span>
+                                </label>
                                 <!--<input type="hidden" name="installment_count" t-att-value="len(payment_rules)"/>-->
                                 <table class="table table-bordered" style="font-size:12px;">
                                     <thead>
@@ -340,7 +358,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="tour_hold_booking(1);" style="width:100%;">
-                                    Issued Now <div class="ld ld-ring ld-cycle"></div>
+                                    Confirm <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                         </div>

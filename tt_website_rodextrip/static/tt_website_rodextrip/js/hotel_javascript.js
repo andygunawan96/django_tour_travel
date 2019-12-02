@@ -169,7 +169,7 @@ function hotel_search_validation(){
     text= '';
     if(document.getElementById("hotel_id_destination").value == '')
         text+= 'Please fill destination\n';
-    if(document.getElementById('hotel_id_destination').value.split(' - ').length != 2)
+    if(document.getElementById('hotel_id_destination').value.split(' - ').length < 2)
         text+= 'Please use autocomplete for Destination';
     if(document.getElementById("hotel_id_nationality").value == '')
         text+= 'Please fill nationality\n';
@@ -289,10 +289,12 @@ function filtering(type, update){
         if(checking_slider == 1){
             if (check_rating != 1 || !searched_name){
                 checking_price = 1;
+                temp_response = data;
                 sort(data, 1);
             }
             else{
                 checking_price = 1;
+                temp_response = data;
                 sort(data, 0);
             }
         }
@@ -322,6 +324,7 @@ function filtering(type, update){
             hotel_filter = data;
             temp_data = [];
             checking_price = 0;
+            temp_response = data;
             sort(data, 1);
         }
     }
@@ -730,7 +733,7 @@ function sort(response, check_filter){
                                     if(response.hotel_ids[i].images.length != 0){
                                         for(idx_img; idx_img < response.hotel_ids[i].images.length; idx_img++){
                                             if(idx_img < 5){
-                                                text+=`<img class="img_hotel_smallbot" src="`+response.hotel_ids[i].images[idx_img].url+`" width="50" height="50" onclick="viewImageHotel('`+response.hotel_ids[i].images[idx_img].url+`');">`;
+                                                text+=`<img class="img_hotel_smallbot" src="`+response.hotel_ids[i].images[idx_img].url+`" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
                                             }
                                             else{
                                                 break;
@@ -1903,8 +1906,67 @@ function checking_price_slider(filter, type){
    }
 }
 
-function viewImageHotel(urlImage){
-    var modalImg = document.getElementById("viewImageHotel");
-    modalImg.src = urlImage;
+function go_to_owl_carousel_bottom(counter, co_i){
+    text_img = '';
+    var idx_img_bot = 1;
+    console.log(temp_response.hotel_ids[co_i]);
+    text_img +=`
+    <div class="owl-carousel-hotel-img-modal owl-theme">`;
+    if(temp_response.hotel_ids[co_i].images.length != 0){
+        for(idx_img_bot; idx_img_bot < temp_response.hotel_ids[co_i].images.length; idx_img_bot++){
+            if(idx_img_bot < 5){
+                text_img +=`
+                <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
+                    <img class="img-fluid zoom-img" src="`+temp_response.hotel_ids[co_i].images[idx_img_bot].url+`" style="margin: auto; max-height:500px;">
+                </div>`;
+            }
+            else{
+                break;
+            }
+        }
+    }
+    else{
+        text_img+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+    }
+    text_img += `</div>`;
+    document.getElementById("viewImageHotelBottom").innerHTML = text_img;
+
+    $('.owl-carousel-hotel-img-modal').owlCarousel({
+        loop:false,
+        nav: true,
+        rewind: true,
+        margin: 20,
+        responsiveClass:true,
+        dots: false,
+        lazyLoad:true,
+        merge: false,
+        smartSpeed:500,
+        autoplay: false,
+        autoplayTimeout:8000,
+        autoplayHoverPause:false,
+        navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+        responsive:{
+            0:{
+                items:1,
+                nav:true
+            },
+            600:{
+                items:1,
+                nav:true
+            },
+            1000:{
+                items:1,
+                nav:true,
+            }
+        }
+    });
+
+    $('.owl-carousel-hotel-img-modal').trigger('to.owl.carousel', counter-1);
     $("#openImage").modal('show');
 }
+
+//function viewImageHotel(urlImage){
+//    var modalImg = document.getElementById("viewImageHotel");
+//    modalImg.src = urlImage;
+//    $("#openImage").modal('show');
+//}

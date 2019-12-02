@@ -149,6 +149,17 @@ function search_visa(){
                                             <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <a id="detail_button_attachment0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_attachment`+i+`" style="color: #f15a22;" aria-expanded="true">
+                                                <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div id="detail_departjourney`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
@@ -169,6 +180,15 @@ function search_visa(){
 
                                     text+=`
 
+                                </div>
+                            </div>
+                            <div id="detail_attachment`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
+                                <hr/>
+                                <div id="attachment" style="background-color:white;">`;
+                                    for(j in msg.result.response.list_of_visa[i].attachments){
+                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" download>`+msg.result.response.list_of_visa[i].attachments[j].name+`</a>`
+                                    }
+                                    text+=`
                                 </div>
                             </div>
                         </div>`;
@@ -285,7 +305,7 @@ function check_hold_booking(){
 
 function visa_pre_create_booking(val){
     Swal.fire({
-      title: 'Are you sure want to Issued this booking?',
+      title: 'Are you sure want to Request this booking?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -293,9 +313,9 @@ function visa_pre_create_booking(val){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        $('.loader-rodextrip').fadeIn();
         $('.next-loading').addClass("running");
         $('.next-loading').prop('disabled', true);
+        please_wait_transaction();
         visa_hold_booking(val);
       }
     })
@@ -349,17 +369,17 @@ function update_passenger(){
                     visa.list_of_visa[j].entry_type[0] == entry_type){
                         required = [];
                         for(count in visa.list_of_visa[j].requirements){
-                            if(visa.list_of_visa[j].requirements[count].required == true){
-                                required.push({
-                                    'is_original': document.getElementById(i+'_required'+pax_count+'_'+count+'_original').checked,
-                                    'is_copy': document.getElementById(i+'_required'+pax_count+'_'+count+'_copy').checked,
-                                    'id': visa.list_of_visa[j].requirements[count].id
-                                });
-                            }
+                            required.push({
+                                'is_original': document.getElementById(i+'_required'+pax_count+'_'+count+'_original').checked,
+                                'is_copy': document.getElementById(i+'_required'+pax_count+'_'+count+'_copy').checked,
+                                'id': visa.list_of_visa[j].requirements[count].id
+                            });
+
                         }
                         data_pax.push({
                             'id':visa.list_of_visa[j].id.toString(),
-                            'required': required
+                            'required': required,
+                            'notes': document.getElementById('notes_'+i+pax_count).value
                         });
                     }
                 }
@@ -548,13 +568,11 @@ function visa_get_data(data){
                                 <h6>Order Number : `+visa.journey.name+`</h6><br/>
                                  <table style="width:100%;">
                                     <tr>
-                                        <th>PNR</th>
                                         <th>Visa Status</th>
                                         <th>Order Status</th>
                                     </tr>
                                     <tr>
-                                        <td>`+visa.journey.name+`</td>
-                                        <td>`+conv_status_visa[cur_state_visa]+`</td>
+                                        <td>`+visa.journey.state_visa+`</td>
                                         <td>`+conv_status+`</td>
                                     </tr>
                                  </table>
@@ -565,7 +583,7 @@ function visa_get_data(data){
                 text += `
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="tour_booking_info" style="padding:10px; margin-top: 15px; background-color:white; border:1px solid #cdcdcd;">
+                            <div id="tour_booking_info" style="padding:10px; margin-top: 10px; background-color:white; border:1px solid #cdcdcd;">
                                 <h4> Visa Information </h4>
                                 <hr/>
                                 <h4>`+visa.journey.country+`</h4>
@@ -581,7 +599,7 @@ function visa_get_data(data){
                     </div>`;
 
                 /* contact*/
-                text+=`<div class="row" style="margin-top: 15px;">
+                text+=`<div class="row" style="margin-top: 10px;">
                     <div class="col-lg-12">
                         <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                             <h4>List of Contact(s)</h4>
@@ -595,7 +613,7 @@ function visa_get_data(data){
                                 </tr>
                                 <tr>
                                     <td class="list-of-passenger-left">`+1+`</td>
-                                    <td>`+msg.result.response.contact.name+`</td>
+                                    <td>`+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
                                     <td>`+msg.result.response.contact.email+`</td>
                                     <td>`+msg.result.response.contact.phone+`</td>
                                 </tr>
@@ -606,7 +624,7 @@ function visa_get_data(data){
 
                 /*pax*/
                 text+=`
-                <div class="row" style="margin-top: 15px;">
+                <div class="row" style="margin-top: 10px;">
                     <div class="col-lg-12">
                         <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
                             <h4>List of Passenger(s)</h4>
@@ -681,30 +699,10 @@ function visa_get_data(data){
                                                 text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
                                      text+=`</div>
                                             <div class="col-lg-6" style="text-align:right;">
-                                                <span style="font-weight:500; font-size:14px;">`+msg.result.response.passengers[i].visa.immigration_consulate+`</span>
-                                                <div id="adult_price{{counter}}">
-                                                    <span style="font-weight:500; font-size:14px;">Price - `+msg.result.response.passengers[i].visa.price.TOTAL.currency+` `+getrupiah(msg.result.response.passengers[i].visa.price.TOTAL.amount)+`</span>
-                                                </div>
+                                                <h6>Package</h6>
+                                                <span>`+msg.result.response.passengers[i].visa.visa_type+`/`+msg.result.response.passengers[i].visa.entry_type+`/`+msg.result.response.passengers[i].visa.process+`</span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <h6>Visa Type</h6>
-                                        <label class="radio-button-custom">
-                                            <span>`+msg.result.response.passengers[i].visa.visa_type+`</span>
-                                        </label><br/>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <h6>Entry Type</h6>
-                                        <label class="radio-button-custom">
-                                            <span>`+msg.result.response.passengers[i].visa.entry_type+`</span>
-                                        </label><br/>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <h6>Process Type</h6>
-                                        <label class="radio-button-custom">
-                                            <span>`+msg.result.response.passengers[i].visa.process+`</span>
-                                        </label><br/>
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:10px;">
