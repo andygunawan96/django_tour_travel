@@ -136,10 +136,16 @@ def get_transactions(request):
     if request.POST['using_cache'] == 'false':
         try:
             name = ''
+            start_date = ''
+            end_date = ''
             try:
                 name = request.POST['key']
             except:
                 pass
+            if request.POST['start_date'] != 'Invalid date':
+                start_date = request.POST['start_date']
+            if request.POST['end_date'] != 'Invalid date':
+                end_date = request.POST['end_date']
             data = {
                 'minimum': int(request.POST['offset']) * int(request.POST['limit']),
                 'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
@@ -148,8 +154,8 @@ def get_transactions(request):
                 "type": request.POST['type'],
                 "name": request.POST['name'],
                 'pnr': request.POST['pnr'],
-                "date_from": request.POST['start_date'],
-                "date_to": request.POST['end_date'],
+                "date_from": start_date,
+                "date_to": end_date,
                 "state": request.POST['state']
             }
             headers = {
@@ -198,11 +204,17 @@ def get_top_up_amount(request):
 
 def get_top_up(request):
     try:
+        start_date = ''
+        end_date = ''
+        if request.POST['start_date'] != 'Invalid date':
+            start_date = request.POST['start_date']
+        if request.POST['end_date'] != 'Invalid date':
+            end_date = request.POST['end_date']
         data = {
             "type": request.POST['type'],
             "name": request.POST['name'],
-            "date_from": request.POST['start_date'],
-            "date_to": request.POST['end_date'],
+            "date_from": start_date,
+            "date_to": end_date,
             "state": request.POST['state']
         }
         headers = {
