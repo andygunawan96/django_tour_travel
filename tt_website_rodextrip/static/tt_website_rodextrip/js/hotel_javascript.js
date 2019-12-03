@@ -698,7 +698,8 @@ function sort(response, check_filter){
                                 text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
                             // if(response.hotel_ids[i].location.zipcode != false)
                             //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
-                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
+//                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
+                            text+=`</span>
                                 </div>
 
                                 <div style="padding-bottom:5px;">

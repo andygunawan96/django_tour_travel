@@ -174,7 +174,7 @@
                             </div>
                         </div>
 
-                        <button class="primary-btn" onclick="hotel_search_check();" type="submit" value="Submit">
+                        <button class="primary-btn" onclick="hotel_search_validation();" type="submit" value="Submit">
                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                             Search
                         </button>
@@ -331,13 +331,13 @@
                                 <div class="col-lg-12">
                                     <h5>Description</h5>
                                     <hr/>
-                                    <p style="text-align: justify; height:250px; overflow: auto;">
+                                    <div style="text-align: justify; height:250px; overflow: auto;">
                                         {% if response.description != '' %}
                                         {{response.description}}
                                         {% else %}
                                         <i class="fas fa-ban" style="color:red;"></i> <span style="font-weight:500; font-size:14px;">No description.</span>
                                         {% endif %}
-                                    </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -397,8 +397,8 @@
                                     <div class="col-lg-12">
                                         <span style="float:left; font-weight:700;"><i class="fas fa-calendar-alt"></i> Change Schedule</span>
                                         <div class="input-container-search-ticket">
-                                            <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
-                                            <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="border: 1px solid #cdcdcd;">1</i>
+                                            <input class="form-control" type="text" name="hotel_checkin_checkout2" id="hotel_checkin_checkout2" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
+                                            <i class="fas fa-moon icon-search-ticket" id="total_night_search2" style="border: 1px solid #cdcdcd;">1</i>
                                             <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
                                             <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
                                         </div>
@@ -518,8 +518,8 @@
       var firstDate = new Date(`{{check_in}}`);
       var secondDate = new Date(`{{check_out}}`);
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
-      $("#total_night_search").text(diffDays);
 
+      $("#total_night_search").text(diffDays);
       $('input[name="hotel_checkin_checkout"]').daterangepicker({
           singleDatePicker: false,
           autoUpdateInput: true,
@@ -542,6 +542,32 @@
 
             var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
             $("#total_night_search").text(diffDays);
+            change_date('checkin');
+        });
+
+      $("#total_night_search2").text(diffDays);
+      $('input[name="hotel_checkin_checkout2"]').daterangepicker({
+          singleDatePicker: false,
+          autoUpdateInput: true,
+          opens: 'center',
+          startDate: firstDate,
+          endDate: secondDate,
+          minDate: moment().subtract(-1, 'days'),
+          maxDate: moment().subtract(-366, 'days'),
+          showDropdowns: true,
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+      hotel_detail_request(`{{response.external_code}}`);
+      $('input[name="hotel_checkin_checkout2"]').on('apply.daterangepicker', function(ev, picker) {
+          $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
+            var oneDay = 24*60*60*1000;
+            var firstDate = new Date(picker.startDate.format('DD MMM YYYY'));
+            var secondDate = new Date(picker.endDate.format('DD MMM YYYY'));
+
+            var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
+            $("#total_night_search2").text(diffDays);
             change_date('checkin');
         });
     });
