@@ -830,7 +830,7 @@ function pick_passenger(type, sequence, product){
         }else{
             document.getElementById('name_pax'+sequence).innerHTML = passenger_data[sequence].title + ' ' + passenger_data[sequence].first_name + ' ' + passenger_data[sequence].last_name;
             document.getElementById('id_passenger'+sequence).value = passenger_data[sequence].id;
-            document.getElementById('pax_type'+sequence).innerHTML = passenger_data[sequence].pax_type;
+//            document.getElementById('pax_type'+sequence).innerHTML = passenger_data[sequence].pax_type;
             $('#myModalPassenger'+sequence).modal('hide');
         }
     }

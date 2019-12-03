@@ -30,7 +30,7 @@
         if(filter == 'all'){
             text += `<div class="row">
                         <div class="col-lg-12">
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
                         </div>
                     </div>`;
         }else if(filter == 'name'){
@@ -39,7 +39,7 @@
                             <input type="text" id="name" class="form-control" placeholder="Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Order Number'" autocomplete="off"/>
                         </div>
                         <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
                         </div>
                     </div>`;
         }else if(filter == 'pnr'){
@@ -48,7 +48,7 @@
                             <input type="text" id="pnr" class="form-control" placeholder="PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR'" autocomplete="off"/>
                         </div>
                         <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
                         </div>
                     </div>`;
         }else if(filter == 'booker_name'){
@@ -57,7 +57,7 @@
                             <input type="text" id="booker_name" class="form-control" placeholder="Booker name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
                         </div>
                         <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
                         </div>
                     </div>`;
         }else if(filter == 'date'){
@@ -87,7 +87,7 @@
                         </div>
                         <div class="col-lg-3">
                             <br/>
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
                         </div>
                     </div>`;
         }else if(filter == 'state'){
@@ -103,7 +103,7 @@
                             </select>
                         </div>
                         <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
                         </div>
                     </div>`;
         }
@@ -220,7 +220,7 @@
                                 <span class="checkmark-radio"></span>
                             </label>
                             <label class="radio-button-custom">
-                                <span>By Name</span>
+                                <span>By Order Number</span>
                                 <input type="radio" name="filter_type" value="name" onclick="onchange_filter();">
                                 <span class="checkmark-radio"></span>
                             </label>

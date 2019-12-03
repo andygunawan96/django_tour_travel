@@ -34,6 +34,7 @@ function table_reservation(data){
 
         }
         text+= `<td>`+data[i].booked_date+`</td>`;
+        text+= `<td>`+data[i].booker.name+`</td>`;
         if(data[i].hold_date == false){
             text+= `<td>-</td>`;
         }
