@@ -1007,6 +1007,11 @@ function check_on_off_radio(pax_type,number,value){
         }
         pax_price.innerHTML = '-';
     }else if(value == 'process'){
+        if(pax_check.value != 'false'){
+            visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
+            pax_required.innerHTML = '';
+            pax_check.value = 'false';
+        }
         var radios = pax_visa;
         visa_type = '';
         for (var j = 0, length = radios.length; j < length; j++) {
