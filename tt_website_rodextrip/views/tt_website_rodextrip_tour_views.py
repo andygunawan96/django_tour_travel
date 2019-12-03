@@ -44,7 +44,6 @@ adult_title = ['MR', 'MRS', 'MS']
 
 infant_title = ['MSTR', 'MISS']
 
-
 def search(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
