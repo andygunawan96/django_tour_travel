@@ -292,6 +292,7 @@ function get_transactions(type){
                         <th style="width:10%;">Order Number</th>
                         <th style="width:7%;">Provider</th>
                         <th style="width:12%;">Book Date</th>
+                        <th style="width:12%;">Booker name</th>
                         <th style="width:12%;">Hold Date</th>
                         <th style="width:8%;">State</th>
                         <th style="width:5%;">PNR</th>
@@ -313,6 +314,7 @@ function get_transactions(type){
     }catch(err){
 
     }
+    filter = '';
     try{
         var radios = document.getElementsByName('filter_type');
         for (var j = 0, length = radios.length; j < length; j++) {
@@ -398,7 +400,7 @@ function get_transactions(type){
                     for(j in msg.result.response[i]){
                         data_length++;
                         if(msg.result.response[i][j].hold_date != '' && msg.result.response[i][j].hold_date != false){
-                            date = moment.utc(msg.result.response[i].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                            date = moment.utc(msg.result.response[i][j].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                             localTime  = moment.utc(date).toDate();
                             msg.result.response[i][j].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                         }
