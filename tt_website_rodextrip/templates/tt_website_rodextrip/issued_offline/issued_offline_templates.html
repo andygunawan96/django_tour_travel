@@ -62,7 +62,7 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <div class="banner-right" style="margin-bottom:25px; border:1px solid #cdcdcd;">
+        <div class="banner-right" style="margin-bottom:25px; border:1px solid #cdcdcd; background:white;">
             <div class="row form-wrap">
                 <div class="col-lg-12">
                     <h4>Issued Offline</h4>
@@ -124,7 +124,7 @@
                                                             <div id="booker_search">
                                                                 <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
                                                                 <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('booker','1','issued_offline')">Search</button>
-                                                                <div id="search_result" style="overflow:auto;height:200px;">
+                                                                <div id="search_result">
 
                                                                 </div>
                                                             </div>
@@ -186,7 +186,7 @@
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="modal-footer">
-                                                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                    <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -227,7 +227,7 @@
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="modal-footer">
-                                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal">Confirm</button>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -309,7 +309,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact('booker');">Close</button>
+                                                        <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="update_contact('booker');">Confirm</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -342,7 +342,7 @@
                         <div class="col-lg-6">
                             <div class="row" style="text-align:left;">
 
-                                <div class="col-lg-12" style="margin-bottom:25px;">
+                                <div class="col-lg-12">
                                     <span>Order From(Media)</span><br/>
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select">
@@ -352,10 +352,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
-                                    <span>Elapsed Time</span><br/>
-                                    <br/>
-                                </div>
+<!--                                <div class="col-lg-12">-->
+<!--                                    <span>Elapsed Time</span><br/>-->
+<!--                                    <br/>-->
+<!--                                </div>-->
                                 <div class="col-lg-12">
                                     <span>Time Limit</span><br/>
                                     <div class="input-container-search-ticket">
@@ -434,7 +434,7 @@
         </div>
     </div>
 </section>
-
+{% include 'tt_website_rodextrip/footer.html' %}
 <script>
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();

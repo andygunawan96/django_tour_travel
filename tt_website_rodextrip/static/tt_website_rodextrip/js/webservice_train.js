@@ -913,7 +913,7 @@ function train_issued(data){
                $('.hold-seat-booking-train').removeClass("running");
                $("#waitingTransaction").modal('hide');
                document.getElementById("overlay-div-box").style.display = "none";
-           },timeout: 60000
+           },timeout: 300000
         });
       }
     })

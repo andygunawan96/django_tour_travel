@@ -2795,7 +2795,7 @@ function sort(){
         checkboxCopy();
         document.getElementById("airlines_result_ticket").innerHTML = '';
         text_co = `
-        <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:-5px; padding:10px;">
+        <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:-5px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` flights</span>
             <label class="check_box_custom" style="float:right;">
                 <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
@@ -4898,7 +4898,7 @@ function get_checked_copy_result(){
                 <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
         }
         if(airline_number > 10){
-            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Hotel</span>`;
+            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Airline</span>`;
         }
     text+=`
     </div>
