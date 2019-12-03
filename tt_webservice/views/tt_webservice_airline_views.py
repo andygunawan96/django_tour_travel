@@ -191,6 +191,24 @@ def get_carrier_code_list(request):
                 a.set_new_time_out('carrier')
                 a.set_first_time('carrier')
                 res = res['result']['response']
+                fav = {}
+                carrier_code_list = {}
+                for key in res:
+                    if res[key]['is_favorite'] == True:
+                        fav.update({
+                            key: res[key]
+                        })
+                    else:
+                        carrier_code_list.update({
+                            res[key]['name']: key
+                        })
+
+                for key in sorted(carrier_code_list):
+                    fav.update({
+                        carrier_code_list[key]: res[carrier_code_list[key]]
+                    })
+
+                res = fav
                 file = open(var_log_path()+"get_airline_active_carriers" + ".txt", "w+")
                 file.write(json.dumps(res))
                 file.close()
