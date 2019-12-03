@@ -32,31 +32,35 @@ def search(request):
 
         template, logo = get_logo_template()
 
-        request.session['activity_request'] = {
-            'query': request.POST['activity_query'],
-            'country': request.POST.get('activity_countries') and int(request.POST['activity_countries']) or 0,
-            'city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
-            'sort': 'price_asc',
-            'type_id': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
-            'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
-            'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
-            'limit': 25,
-            'offset': 0,
-        }
+        try:
+            request.session['activity_search_request'] = {
+                'query': request.POST['activity_query'],
+                'country': request.POST.get('activity_countries') and int(request.POST['activity_countries']) or 0,
+                'city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
+                'sort': 'price_asc',
+                'type_id': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
+                'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
+                'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
+                'limit': 25,
+                'offset': 0,
+            }
+        except:
+            request.session['activity_search_request'] = request.session['activity_search_request']
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'username': request.session['user_account'],
-            'query': request.POST['activity_query'],
-            'parsed_country': request.POST.get('activity_countries') and int(request.POST['activity_countries']) or 0,
-            'parsed_city': request.POST.get('activity_cities') and int(request.POST['activity_cities']) or 0,
-            'parsed_type': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
-            'parsed_category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
-            'parsed_sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
+            'query': request.session['activity_search_request']['query'],
+            'parsed_country': request.session['activity_search_request']['country'],
+            'parsed_city': request.session['activity_search_request']['city'],
+            'parsed_type': request.session['activity_search_request']['sub_category'],
+            'parsed_category': request.session['activity_search_request']['category'],
+            'parsed_sub_category': request.session['activity_search_request']['sub_category'],
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'time_limit': 600,
@@ -64,6 +68,7 @@ def search(request):
             'logo': logo,
             'template': template
         }
+
         return render(request, MODEL_NAME+'/activity/activity_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -78,14 +83,21 @@ def detail(request):
 
         template, logo = get_logo_template()
 
-        request.session['time_limit'] = int(request.POST['time_limit_input'])
+        try:
+            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            request.session['activity_pick_seq'] = int(request.POST['sequence'])
+            request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
+        except:
+            request.session['time_limit'] = request.session['time_limit']
+            request.session['activity_pick_seq'] = request.session['activity_pick_seq']
+            request.session['activity_pick'] = request.session['activity_pick']
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'response': request.session['activity_search'][int(request.POST['sequence'])],
+            'response': request.session['activity_search'][request.session['activity_pick_seq']],
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
@@ -109,8 +121,6 @@ def passenger(request):
 
         template, logo = get_logo_template()
 
-        request.session['time_limit'] = int(request.POST['time_limit_input'])
-
         # agent
         adult_title = ['MR', 'MRS', 'MS']
 
@@ -124,194 +134,225 @@ def passenger(request):
 
         # get_balance(request)
 
-        request.session['activity_request'] = {
-            'activity_uuid': request.POST['activity_uuid'],
-            'activity_type_pick': request.POST['activity_type_pick'],
-            'activity_date_pick': request.POST['activity_date_pick'],
-            'activity_timeslot': request.POST['activity_timeslot'].split(' ~ ')[0] if len(request.POST['activity_timeslot'].split(' - ')) == 2 else '',
-            'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
-            'event_pick': request.POST['event_pick'],
-            'activity_types_data': json.loads(request.POST['details_data']),
-            'activity_date_data': json.loads(request.POST['activity_date_data']),
-        }
+        try:
+            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            request.session['activity_request'] = {
+                'activity_uuid': request.POST['activity_uuid'],
+                'activity_type_pick': request.POST['activity_type_pick'],
+                'activity_date_pick': request.POST['activity_date_pick'],
+                'activity_timeslot': request.POST['activity_timeslot'].split(' ~ ')[0] if len(request.POST['activity_timeslot'].split(' - ')) == 2 else '',
+                'additional_price': request.POST.get('additional_price') and request.POST['additional_price'] or 0,
+                'event_pick': request.POST['event_pick'],
+                'activity_types_data': json.loads(request.POST['details_data']),
+                'activity_date_data': json.loads(request.POST['activity_date_data']),
+            }
+        except:
+            request.session['time_limit'] = request.session['time_limit']
+            request.session['activity_request'] = request.session['activity_request']
 
-        pax_count = {}
-        # pax count per type
-        adult = []
-        infant = []
-        senior = []
-        child = []
+        try:
+            pax_count = {}
+            # pax count per type
+            adult = []
+            infant = []
+            senior = []
+            child = []
 
-        booker_min_age = 0
-        booker_max_age = 200
-        for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
-            low_sku_id = temp_sku['sku_id'].lower()
-            request.session['activity_request'].update({
-                low_sku_id+'_passenger': request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0,
-            })
-            pax_count.update({
-                low_sku_id: request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0
-            })
-            if temp_sku.get('pax_type'):
-                if temp_sku['pax_type'] == 'adult':
-                    for i in range(int(pax_count[low_sku_id])):
-                        if i == 0:
-                            booker_min_age = request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0
-                            booker_max_age = request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
-                        adult.append({
-                            'sku_real_id': temp_sku['id'],
-                            'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id'],
-                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
-                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
-                        })
-                elif temp_sku['pax_type'] == 'senior':
-                    for i in range(int(pax_count[low_sku_id])):
-                        senior.append({
-                            'sku_real_id': temp_sku['id'],
-                            'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id'],
-                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
-                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
-                        })
-                elif temp_sku['pax_type'] == 'child':
-                    for i in range(int(pax_count[low_sku_id])):
-                        child.append({
-                            'sku_real_id': temp_sku['id'],
-                            'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id'],
-                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
-                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
-                        })
-                elif temp_sku['pax_type'] == 'infant':
-                    for i in range(int(pax_count[low_sku_id])):
-                        infant.append({
-                            'sku_real_id': temp_sku['id'],
-                            'title': temp_sku['title'],
-                            'sku_id': temp_sku['sku_id'],
-                            'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
-                            'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
-                        })
+            booker_min_age = 0
+            booker_max_age = 200
+            for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
+                low_sku_id = temp_sku['sku_id'].lower()
+                request.session['activity_request'].update({
+                    low_sku_id+'_passenger': request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0,
+                })
+                pax_count.update({
+                    low_sku_id: request.POST.get(low_sku_id+'_passenger') and int(request.POST[low_sku_id+'_passenger']) or 0
+                })
+                if temp_sku.get('pax_type'):
+                    if temp_sku['pax_type'] == 'adult':
+                        for i in range(int(pax_count[low_sku_id])):
+                            if i == 0:
+                                booker_min_age = request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0
+                                booker_max_age = request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
+                            adult.append({
+                                'sku_real_id': temp_sku['id'],
+                                'title': temp_sku['title'],
+                                'sku_id': temp_sku['sku_id'],
+                                'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                                'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
+                            })
+                    elif temp_sku['pax_type'] == 'senior':
+                        for i in range(int(pax_count[low_sku_id])):
+                            senior.append({
+                                'sku_real_id': temp_sku['id'],
+                                'title': temp_sku['title'],
+                                'sku_id': temp_sku['sku_id'],
+                                'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                                'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
+                            })
+                    elif temp_sku['pax_type'] == 'child':
+                        for i in range(int(pax_count[low_sku_id])):
+                            child.append({
+                                'sku_real_id': temp_sku['id'],
+                                'title': temp_sku['title'],
+                                'sku_id': temp_sku['sku_id'],
+                                'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                                'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
+                            })
+                    elif temp_sku['pax_type'] == 'infant':
+                        for i in range(int(pax_count[low_sku_id])):
+                            infant.append({
+                                'sku_real_id': temp_sku['id'],
+                                'title': temp_sku['title'],
+                                'sku_id': temp_sku['sku_id'],
+                                'min_age': request.POST.get(low_sku_id + '_min_age') and int(request.POST[low_sku_id + '_min_age']) or 0,
+                                'max_age': request.POST.get(low_sku_id + '_max_age') and int(request.POST[low_sku_id + '_max_age']) or 200
+                            })
 
-        perbooking_list = []
-        upload = []
-        #perbooking
-        for idx, perbooking in enumerate(request.session['activity_request']['activity_types_data'][int(request.POST['activity_type_pick'])]['options']['perBooking']):
-            if perbooking['name'] != 'Guest age' and perbooking['name'] != 'Nationality' and perbooking['name'] != 'Full name' and perbooking['name'] != 'Gender' and perbooking['name'] != 'Date of birth':
-                if perbooking['inputType'] == 1:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 2:
-                    for i, item in enumerate(perbooking['items']):
-                        try:
-                            if request.POST['perbooking' + str(idx) + str(i)] != '':
-                                perbooking_list.append({
-                                    "uuid": perbooking['uuid'],
-                                    "value": item['value'],
-                                    "name": perbooking['name']
-                                })
-                        except:
-                            print('no perbooking2')
-                elif perbooking['inputType'] == 3:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking'+str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 4:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 5:
-                    if request.POST['perbooking' + str(idx)] == 'on':
+            perbooking_list = []
+            upload = []
+            #perbooking
+            for idx, perbooking in enumerate(request.session['activity_request']['activity_types_data'][int(request.POST['activity_type_pick'])]['options']['perBooking']):
+                if perbooking['name'] != 'Guest age' and perbooking['name'] != 'Nationality' and perbooking['name'] != 'Full name' and perbooking['name'] != 'Gender' and perbooking['name'] != 'Date of birth':
+                    if perbooking['inputType'] == 1:
                         perbooking_list.append({
                             "uuid": perbooking['uuid'],
-                            "value": 'True',
+                            "value": request.POST['perbooking' + str(idx)],
                             "name": perbooking['name']
                         })
-                    else:
+                    elif perbooking['inputType'] == 2:
+                        for i, item in enumerate(perbooking['items']):
+                            try:
+                                if request.POST['perbooking' + str(idx) + str(i)] != '':
+                                    perbooking_list.append({
+                                        "uuid": perbooking['uuid'],
+                                        "value": item['value'],
+                                        "name": perbooking['name']
+                                    })
+                            except:
+                                print('no perbooking2')
+                    elif perbooking['inputType'] == 3:
                         perbooking_list.append({
                             "uuid": perbooking['uuid'],
-                            "value": 'False',
+                            "value": request.POST['perbooking'+str(idx)],
                             "name": perbooking['name']
                         })
-                elif perbooking['inputType'] == 6:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 7:
-                    upload.append({
-                        "uuid": perbooking['uuid'],
-                        "value": base64.b64encode(request.FILES['perbooking' + str(idx)].read()).decode(),
-                        "name": perbooking['name'],
-                        "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[-1]
-                    })
-                    print('a')
-                elif perbooking['inputType'] == 8:
-                    upload.append({
-                        "uuid": perbooking['uuid'],
-                        "value": base64.b64encode(request.FILES['perbooking' + str(idx)].read()).decode(),
-                        "name": perbooking['name'],
-                        "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[-1]
-                    })
-                    print('a')
-                elif perbooking['inputType'] == 9:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 10:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 11:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 12:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 13:
-                    print('deprecated')
-                elif perbooking['inputType'] == 14:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
-                elif perbooking['inputType'] == 50:
-                    perbooking_list.append({
-                        "uuid": perbooking['uuid'],
-                        "value": request.POST['perbooking' + str(idx)],
-                        "name": perbooking['name']
-                    })
+                    elif perbooking['inputType'] == 4:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
+                    elif perbooking['inputType'] == 5:
+                        if request.POST['perbooking' + str(idx)] == 'on':
+                            perbooking_list.append({
+                                "uuid": perbooking['uuid'],
+                                "value": 'True',
+                                "name": perbooking['name']
+                            })
+                        else:
+                            perbooking_list.append({
+                                "uuid": perbooking['uuid'],
+                                "value": 'False',
+                                "name": perbooking['name']
+                            })
+                    elif perbooking['inputType'] == 6:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
+                    elif perbooking['inputType'] == 7:
+                        upload.append({
+                            "uuid": perbooking['uuid'],
+                            "value": base64.b64encode(request.FILES['perbooking' + str(idx)].read()).decode(),
+                            "name": perbooking['name'],
+                            "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[-1]
+                        })
+                        print('a')
+                    elif perbooking['inputType'] == 8:
+                        upload.append({
+                            "uuid": perbooking['uuid'],
+                            "value": base64.b64encode(request.FILES['perbooking' + str(idx)].read()).decode(),
+                            "name": perbooking['name'],
+                            "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[-1]
+                        })
+                        print('a')
+                    elif perbooking['inputType'] == 9:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
+                    elif perbooking['inputType'] == 10:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
+                    elif perbooking['inputType'] == 11:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
+                    elif perbooking['inputType'] == 12:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
+                    elif perbooking['inputType'] == 13:
+                        print('deprecated')
+                    elif perbooking['inputType'] == 14:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
+                    elif perbooking['inputType'] == 50:
+                        perbooking_list.append({
+                            "uuid": perbooking['uuid'],
+                            "value": request.POST['perbooking' + str(idx)],
+                            "name": perbooking['name']
+                        })
 
-        request.session['activity_perbooking'] = perbooking_list
-        request.session['activity_upload'] = upload
+            request.session['activity_pax_data'] = {
+                'pax_count': pax_count,
+                'adult': adult,
+                'child': child,
+                'infant': infant,
+                'senior': senior,
+                'booker_min_age': booker_min_age,
+                'booker_max_age': booker_max_age,
+            }
+            request.session['activity_perbooking'] = perbooking_list
+            request.session['activity_upload'] = upload
+            request.session['activity_details_data'] = json.loads(request.POST['details_data'])
+            request.session['activity_type_pick'] = int(request.POST['activity_type_pick'])
+            request.session['activity_timeslot'] = request.POST['activity_timeslot']
+            request.session['additional_price_input'] = request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0
+            request.session['activity_date_pick'] = int(request.POST['activity_date_pick'])
+            request.session['activity_event_pick'] = int(request.POST['event_pick'])
+        except:
+            request.session['activity_pax_data'] = request.session['activity_pax_data']
+            request.session['activity_perbooking'] = request.session['activity_perbooking']
+            request.session['activity_upload'] = request.session['activity_upload']
+            request.session['activity_details_data'] = request.session['activity_details_data']
+            request.session['activity_type_pick'] = request.session['activity_type_pick']
+            request.session['activity_timeslot'] = request.session['activity_timeslot']
+            request.session['additional_price_input'] = request.session['additional_price_input']
+            request.session['activity_date_pick'] = request.session['activity_date_pick']
+            request.session['activity_event_pick'] = request.session['activity_event_pick']
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
         request.session['activity_request'].update({
-            'adult_passenger_count': len(adult),
-            'infant_passenger_count': len(infant),
-            'child_passenger_count': len(child),
-            'senior_passenger_count': len(senior),
+            'adult_passenger_count': len(request.session['activity_pax_data']['adult']),
+            'infant_passenger_count': len(request.session['activity_pax_data']['infant']),
+            'child_passenger_count': len(request.session['activity_pax_data']['child']),
+            'senior_passenger_count': len(request.session['activity_pax_data']['senior']),
         })
 
         values = {
@@ -320,23 +361,22 @@ def passenger(request):
             'infant_title': infant_title,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
-            'additional_price': request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0,
-            'countries': airline_country,
+            'additional_price': request.session['additional_price_input'],
             'response': request.session['activity_pick'],
-            'pax_count': pax_count,
-            'adult_count': len(adult),
-            'infant_count': len(infant),
-            'child_count': len(child),
-            'senior_count': len(senior),
-            'booker_min_age': booker_min_age,
-            'booker_max_age': booker_max_age,
-            'adults': adult,
-            'infants': infant,
-            'seniors': senior,
-            'childs': child,
-            'timeslot_pick': request.POST['activity_timeslot'].split(' ~ ')[1] if len(request.POST['activity_timeslot'].split(' - ')) == 2 else '',
-            'price': request.session['activity_request']['activity_date_data'][int(request.POST['event_pick'])][int(request.POST['activity_date_pick'])],
-            'detail': request.session['activity_request']['activity_types_data'][int(request.POST['activity_type_pick'])],
+            'pax_count': request.session['activity_pax_data']['pax_count'],
+            'adult_count': request.session['activity_request']['adult_passenger_count'],
+            'infant_count': request.session['activity_request']['infant_passenger_count'],
+            'child_count': request.session['activity_request']['child_passenger_count'],
+            'senior_count': request.session['activity_request']['senior_passenger_count'],
+            'booker_min_age': request.session['activity_pax_data']['booker_min_age'],
+            'booker_max_age': request.session['activity_pax_data']['booker_max_age'],
+            'adults': request.session['activity_pax_data']['adult'],
+            'infants': request.session['activity_pax_data']['infant'],
+            'seniors': request.session['activity_pax_data']['senior'],
+            'childs': request.session['activity_pax_data']['child'],
+            'timeslot_pick': request.session['activity_timeslot'].split(' ~ ')[1] if len(request.session['activity_timeslot'].split(' - ')) == 2 else '',
+            'price': request.session['activity_request']['activity_date_data'][request.session['activity_event_pick']][request.session['activity_date_pick']],
+            'detail': request.session['activity_request']['activity_types_data'][request.session['activity_type_pick']],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
@@ -346,10 +386,10 @@ def passenger(request):
             'template': template
         }
 
-        for temp_sku in json.loads(request.POST['details_data'])[int(request.POST['activity_type_pick'])]['skus']:
+        for temp_sku in request.session['activity_details_data'][request.session['activity_type_pick']]['skus']:
             low_sku_id = temp_sku['sku_id'].lower()
             values.update({
-                low_sku_id+'_count': pax_count.get(low_sku_id) and int(pax_count[low_sku_id]) or 0,
+                low_sku_id+'_count': request.session['activity_pax_data']['pax_count'].get(low_sku_id) and int(request.session['activity_pax_data']['pax_count'][low_sku_id]) or 0,
             })
 
         return render(request, MODEL_NAME+'/activity/activity_passenger_templates.html', values)
