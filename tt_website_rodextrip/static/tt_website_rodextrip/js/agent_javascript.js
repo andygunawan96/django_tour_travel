@@ -12,23 +12,17 @@ function table_reservation(data){
             <td>`+(data_counter+1)+`</td>
             <td name="order_number">`+data[i].order_number+`</td>`;
         try{
-            if(data[i].provider.provider_type == 'airline'){
-                text+=`<td>`;
-                for(j in data[i].provider.airline_carrier_codes){
-                    text+=airline_carriers[data[i].provider.airline_carrier_codes[j]].name;
-                    if(j != data[i].provider.airline_carrier_codes.length - 1)
-                        text+=`, `;
-                }
-                text+=`</td>`;
-            }else if(data[i].provider.provider_type == 'train')
+            if(data[i].provider_type == 'airline'){
+                text+=`<td>`+data[i].carrier_names+`</td>`;
+            }else if(data[i].provider_type == 'train')
                 text+=`<td>KAI</td>`;
-            else if(data[i].provider.provider_type == 'activity')
+            else if(data[i].provider_type == 'activity')
                 text+=`<td>ACTIVITY</td>`
-            else if(data[i].provider.provider_type == 'tour')
+            else if(data[i].provider_type == 'tour')
                 text+=`<td>TOUR</td>`
-            else if(data[i].provider.provider_type == 'visa')
+            else if(data[i].provider_type == 'visa')
                 text+=`<td>VISA</td>`;
-            else if(data[i].provider.provider_type == 'hotel')
+            else if(data[i].provider_type == 'hotel')
                 text+=`<td>HOTEL</td>`;
         }catch(err){
 
