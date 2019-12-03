@@ -346,6 +346,16 @@ function get_transactions(type){
     try{
         pnr = document.getElementById('pnr').value;
     }catch(err){}
+    if(filter == 'booker' && booker_name == ''){
+        filter = '';
+    }else if(filter == 'name' && name == ''){
+        filter = '';
+    }else if(filter == 'pnr' && pnr == ''){
+        filter = '';
+    }else if(filter == 'date' && start_date == '' ||filter == 'date' && end_date == ''){
+        filter = '';
+    }else if(filter == 'state' && state == '')
+        filter = '';
     limit_transaction = 20;
     $.ajax({
        type: "POST",
