@@ -297,17 +297,17 @@
         document.getElementById('gotobooking'+key).innerHTML += `{% csrf_token %}`;
         document.getElementById('gotobooking'+key).innerHTML += `<input type=hidden name="order_number" value="`+data_search[key].order_number+`" />`;
 
-        if(data_search[key].provider.provider_type == 'airline'){
+        if(data_search[key].provider_type == 'airline'){
             document.getElementById('gotobooking'+key).action = '/airline/booking';
-        }else if(data_search[key].provider.provider_type == 'train'){
+        }else if(data_search[key].provider_type == 'train'){
             document.getElementById('gotobooking'+key).action = '/train/booking';
-        }else if(data_search[key].provider.provider_type == 'activity'){
+        }else if(data_search[key].provider_type == 'activity'){
             document.getElementById('gotobooking'+key).action = '/activity/booking';
-        }else if(data_search[key].provider.provider_type == 'hotel'){
+        }else if(data_search[key].provider_type == 'hotel'){
             document.getElementById('gotobooking'+key).action = '/hotel/booking';
-        }else if(data_search[key].provider.provider_type == 'visa'){
+        }else if(data_search[key].provider_type == 'visa'){
             document.getElementById('gotobooking'+key).action = '/visa/booking';
-        }else if(data_search[key].provider.provider_type == 'tour'){
+        }else if(data_search[key].provider_type == 'tour'){
             document.getElementById('gotobooking'+key).action = '/tour/booking';
         }
         document.getElementById('gotobooking'+key).submit();
