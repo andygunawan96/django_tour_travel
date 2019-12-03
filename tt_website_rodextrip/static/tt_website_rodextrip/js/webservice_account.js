@@ -368,7 +368,7 @@ function get_transactions(type){
             'limit': limit_transaction,
             'provider_type': JSON.stringify(carrier_code),
             'signature': signature,
-            'type': filter,
+            'type': 'all',
             'state': state,
             'start_date': start_date,
             'end_date': end_date,
@@ -725,7 +725,7 @@ function get_top_up(){
             'state': state,
             'start_date': start_date,
             'end_date': end_date,
-            'type': type
+            'type': 'all'
        },
        success: function(msg) {
         console.log(msg);
