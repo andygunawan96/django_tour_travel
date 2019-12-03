@@ -127,12 +127,34 @@ def detail(request):
             request.session['time_limit'] = request.session['time_limit']
             request.session['tour_pick'] = request.session['tour_pick']
 
+        dest_month_data = [
+            {'value': '00', 'string': 'All Months'},
+            {'value': '01', 'string': 'January'},
+            {'value': '02', 'string': 'February'},
+            {'value': '03', 'string': 'March'},
+            {'value': '04', 'string': 'April'},
+            {'value': '05', 'string': 'May'},
+            {'value': '06', 'string': 'June'},
+            {'value': '07', 'string': 'July'},
+            {'value': '08', 'string': 'August'},
+            {'value': '09', 'string': 'September'},
+            {'value': '10', 'string': 'October'},
+            {'value': '11', 'string': 'November'},
+            {'value': '12', 'string': 'December'},
+        ]
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'query': request.session['tour_request']['tour_query'],
+            'dest_country': request.session['tour_request']['country_id'],
+            'dest_city': request.session['tour_request']['city_id'],
+            'dest_year': request.session['tour_request']['year'],
+            'dest_month': request.session['tour_request']['month'],
+            'dest_month_data': dest_month_data,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
