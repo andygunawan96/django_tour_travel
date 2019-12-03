@@ -360,7 +360,7 @@
                         <form method="POST" id="airline_request_send">
                             <div class="col-lg-4">
                                 {% if ssr == 0 %}
-                                <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
+                                <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
                                     SSR
                                 </button>
                                 {% endif %}
@@ -368,7 +368,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
                                 {% if seat == 0 %}
-                                <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
+                                <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
                                     Seat
                                 </button>
                                 {% endif %}
@@ -376,7 +376,7 @@
                         </form>
 
                         <div class="col-lg-4" style="margin-top:10px;">
-                            <button class="next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
+                            <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 Hold Booking
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -384,7 +384,7 @@
                         <div class="col-lg-4">
                         </div>
                         <div class="col-lg-4" style="margin-top:10px;">
-                            <button class="for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                  Issued Booking
                             </button>
                         </div>

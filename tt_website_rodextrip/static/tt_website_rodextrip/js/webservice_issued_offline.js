@@ -386,6 +386,7 @@ function issued_offline_signin(){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
+                document.getElementById('payment_acq').hidden = false;
                 set_data_issued_offline();
             }
 
