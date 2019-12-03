@@ -829,7 +829,8 @@ function datasearch2(airline){
 //   print_ticket_search(temp_data);
 //   sort_button('price');
 //   sort(temp_data);
-   filtering('filter');
+   if(airline_request.departure.length != journey.length)
+       filtering('filter');
 }
 
 function change_fare(journey, segment, fares){
