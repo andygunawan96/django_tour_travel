@@ -2132,7 +2132,13 @@ function sort(){
                            </div>
                            <div class="col-lg-8 col-md-8 col-sm-8">
                                <div class="row">
-                                   <div class="col-lg-12" style="text-align:right;">
+                                   <div class="col-lg-8" style="margin-top:auto;margin-bottom:auto;">`;
+
+                                   if(provider_list_data[airline[i].provider] != '')
+                                        text += provider_list_data[airline[i].provider];
+                                   text+=`
+                                   </div>
+                                   <div class="col-lg-4" style="text-align:right;">
                                        <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
                                         text+=`</span>`;
 

@@ -18,6 +18,161 @@
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
     signature = `{{signature}}`;
+    function onchange_filter(){
+        var radios = document.getElementsByName('filter_type');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                filter = radios[j].value;
+                break;
+            }
+        }
+        text = '';
+        if(filter == 'all'){
+            text += `<div class="row">
+                        <div class="col-lg-12">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'name'){
+            text += `<div class="row">
+                        <div class="col-lg-9">
+                            <input type="text" id="name" class="form-control" placeholder="Order Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Order Number'" autocomplete="off"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'pnr'){
+            text += `<div class="row">
+                        <div class="col-lg-9">
+                            <input type="text" id="pnr" class="form-control" placeholder="PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR'" autocomplete="off"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'booker_name'){
+            text += `<div class="row">
+                        <div class="col-lg-9">
+                            <input type="text" id="booker_name" class="form-control" placeholder="Booker name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'date'){
+            text += `<div class="row">
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Start Date</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> End Date</span>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="end_date" id="end_date" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"> State</span>
+                            <select id="state" class="form-control">
+                                <option value="all">All</option>
+                                <option value="draft">Draft</option>
+                                <option value="request">Request</option>
+                                <option value="valid">Validated</option>
+                                <option value="cancel">Cancelled</option>
+                                <option value="expired">Expired</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <br/>
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                        </div>
+                    </div>`;
+        }else if(filter == 'state'){
+            text += `<div class="row">
+                        <div class="col-lg-9">
+                            <select id="state" class="form-control">
+                                <option value="all">All</option>
+                                <option value="draft">Draft</option>
+                                <option value="request">Request</option>
+                                <option value="valid">Validated</option>
+                                <option value="cancel">Cancelled</option>
+                                <option value="expired">Expired</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('reset');" id="button"/>
+                        </div>
+                    </div>`;
+        }
+        document.getElementById('search').innerHTML = text;
+        try{
+            $('#state').niceSelect();
+        }catch(err){}
+        try{
+            $('input[name="start_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment().subtract(+730, 'days'),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+            $('input[name="end_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+
+            $('input[name="end_date"]').change(function() {
+                min_date = document.getElementById('end_date').value;
+                pick_date = document.getElementById('start_date').value;
+                $('input[name="start_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: moment().subtract(+730, 'days'),
+                  maxDate: min_date,
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+
+            $('input[name="start_date"]').change(function() {
+                min_date = document.getElementById('start_date').value;
+                pick_date = document.getElementById('end_date').value;
+                $('input[name="end_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: min_date,
+                  maxDate: moment(),
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+        }catch(err){}
+        console.log(filter);
+    }
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
@@ -35,64 +190,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                {% if template == 1%}
-                <div class="form-wrap" style="margin-bottom:25px;">
-                    <div class="row banner-right">
-                        <div class="col-lg-9">
-                            <input type="text" id="tb" class="form-control" placeholder="TB. Number or PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number or PNR'" autocomplete="off"/>
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn-custom" value="Search" onclick="get_transactions('filter');" id="button"/>
-                        </div>
-                    </div>
-                </div>
-                {% elif template == 2%}
-                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">
-                        <div class="row">
-                            <div class="col-lg-9">
-                                <input type="text" id="tb" class="form-control" placeholder="TB. Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number '" autocomplete="off"/>
-                            </div>
-                            <div class="col-lg-3">
-                                <input type="button" style="width:100%; height:50px;" class="btn roberto-btn" value="Search" onclick="get_transactions('reset');" id="button"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {% elif template == 3%}
-                <div class="form-wrap" style="margin-bottom:25px;">
-                    <div class="row banner-right">
-                        <div class="col-lg-9">
-                            <input type="text" id="tb" class="form-control" placeholder="TB. Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number '" autocomplete="off"/>
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn" value="Search" onclick="get_transactions('reset');" id="button"/>
-                        </div>
-                    </div>
-                </div>
-                {% elif template == 4%}
-                <div class="form-wrap" style="margin-bottom:25px;">
-                    <div class="row banner-right">
-                        <div class="col-lg-9">
-                            <input type="text" id="tb" class="form-control" placeholder="TB. Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number '" autocomplete="off"/>
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn" value="Search" onclick="get_transactions('reset');" id="button"/>
-                        </div>
-                    </div>
-                </div>
-                {% elif template == 5%}
-                <div class="form-wrap" style="margin-bottom:25px;">
-                    <div class="row banner-right">
-                        <div class="col-lg-9">
-                            <input type="text" id="tb" class="form-control" placeholder="TB. Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'TB. Number '" autocomplete="off"/>
-                        </div>
-                        <div class="col-lg-3">
-                            <input type="button" style="width:100%;" class="primary-btn" value="Search" onclick="get_transactions('reset');" id="button"/>
-                        </div>
-                    </div>
-                </div>
-                {% endif %}
+
                 <div id="loading-search-reservation" style="margin-bottom:20px;">
                     <div class="col-lg-12">
                         <div class="sk-circle">
@@ -112,7 +210,47 @@
                         <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                     </div>
                 </div>
+                <div class="form-wrap" style="margin-bottom:25px;">
+                    <h5>Filter</h5>
+                    <div class="row banner-right">
+                        <div class="col-lg-12">
+                            <label class="radio-button-custom">
+                                <span>All</span>
+                                <input type="radio" checked name="filter_type" value="all" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By Name</span>
+                                <input type="radio" name="filter_type" value="name" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By PNR</span>
+                                <input type="radio" name="filter_type" value="pnr" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By Booker name</span>
+                                <input type="radio" name="filter_type" value="booker_name" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By Date</span>
+                                <input type="radio" name="filter_type" value="date" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                            <label class="radio-button-custom">
+                                <span>By State</span>
+                                <input type="radio" name="filter_type" value="state" onclick="onchange_filter();">
+                                <span class="checkmark-radio"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-12" id="search">
 
+                        </div>
+
+                    </div>
+                </div>
                 <div class="form-wrap" style="margin-bottom:25px;">
                     <h5>Reservation Type</h5>
                     <div class="row banner-right">

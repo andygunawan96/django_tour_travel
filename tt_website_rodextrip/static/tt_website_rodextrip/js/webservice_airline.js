@@ -99,7 +99,7 @@ function airline_signin(data){
            airline_signature = msg.result.response.signature;
            signature = msg.result.response.signature;
            if(data == ''){
-               temp = get_provider_list();
+               temp = get_carrier_providers();
 
            }else if(data != ''){
                airline_get_booking(data);
@@ -288,13 +288,13 @@ function get_carrier_code_list(type, val){
 
 }
 
-function get_provider_list(){
+function get_carrier_providers(){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'get_provider_list',
+            'action': 'get_carrier_providers',
        },
        data: {
             'signature': signature
@@ -303,6 +303,46 @@ function get_provider_list(){
            console.log(msg);
            provider_list = JSON.parse(msg);
            carrier_to_provider();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline provider list </span>' + errorThrown,
+            })
+            $('.loader-rodextrip').fadeOut();
+           $("#barFlightSearch").hide();
+           $("#waitFlightSearch").hide();
+           document.getElementById("airlines_error").innerHTML = '';
+            text = '';
+            text += `
+                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
+                    <span style="font-weight:bold;"> Oops! Something went wrong, please try again or check your internet connection</span>
+                </div>
+            `;
+            var node = document.createElement("div");
+            node.innerHTML = text;
+            document.getElementById("airlines_error").appendChild(node);
+            node = document.createElement("div");
+       },timeout: 60000
+    });
+
+}
+
+function get_provider_list(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_provider_description',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           provider_list_data = JSON.parse(msg);
+//           carrier_to_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -579,7 +619,7 @@ function airline_search(provider,carrier_codes){
            'provider': provider,
            'carrier_codes': JSON.stringify(carrier_codes),
            'counter_search': counter_search,
-           'signature': airline_signature
+           'signature': signature
        },
        success: function(msg) {
        console.log(msg);

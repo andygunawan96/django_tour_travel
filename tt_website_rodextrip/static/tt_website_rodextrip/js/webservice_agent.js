@@ -1347,12 +1347,6 @@ function copy_booker_to_passenger(val,type){
                 document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
                 document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
                 document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
-                if(document.getElementById('adult_birth_date1').value != '' && check_date(document.getElementById('adult_birth_date1').value) == true){
-                    try{
-                        check_years_old(1,'adult');
-                        document.getElementById('adult_birth_date1').readOnly = true;
-                    }catch(err){}
-                }
                 if(type == 'train'){
                     document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
                     document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
@@ -1373,15 +1367,15 @@ function copy_booker_to_passenger(val,type){
                         document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
                     }
                 }
-
                 document.getElementById('adult_nationality1_id').disabled = true;
                 document.getElementById('adult_email1').readOnly = true;
                 document.getElementById('adult_phone1').readOnly = true;
-                document.getElementById('adult_phone_code1_id').disabled = true;
+                //document.getElementById('adult_phone_code1_id').disabled = true;
                 if(document.getElementById('adult_birth_date1').value != '')
                     document.getElementById('adult_birth_date1').disabled = true;
                 document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
             }catch(err){
+                console.log(err);
                 document.getElementsByName('myRadios')[1].checked = true;
                 Swal.fire({
                   type: 'error',

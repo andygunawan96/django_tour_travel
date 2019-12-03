@@ -128,6 +128,13 @@ function get_transactions_notification(val){
             'limit': limit_transaction,
             'provider_type': JSON.stringify([]),
             'signature': signature,
+            'type': '',
+            'state': '',
+            'start_date': '',
+            'end_date': '',
+            'name': '',
+            'booker_name': '',
+            'pnr': '',
             'using_cache': using_cache
        },
        success: function(msg) {
@@ -211,24 +218,26 @@ function get_transactions_notification(val){
                     }
                 }
                 if(check_notif == 0){
-                    document.getElementById('notification_detail').innerHTML = `
-                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align:center">
-                                    <span style="font-weight:500"> No Notification</span>
+                    try{
+                        document.getElementById('notification_detail').innerHTML = `
+                            <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align:center">
+                                        <span style="font-weight:500"> No Notification</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <hr>
-                        </div>`;
-                    document.getElementById('notification_detail2').innerHTML = `
-                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align:center">
-                                    <span style="font-weight:500"> No Notification</span>
+                                <hr>
+                            </div>`;
+                        document.getElementById('notification_detail2').innerHTML = `
+                            <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align:center">
+                                        <span style="font-weight:500"> No Notification</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <hr>
-                        </div>`;
+                                <hr>
+                            </div>`;
+                    }catch(err){}
                 }
             }
             setTimeout(function() {
@@ -304,6 +313,37 @@ function get_transactions(type){
     }catch(err){
 
     }
+    try{
+        var radios = document.getElementsByName('filter_type');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                filter = radios[j].value;
+            }
+            radios[j].disabled = true
+        }
+    }catch(err){
+
+    }
+    state = '';
+    start_date = '';
+    end_date = '';
+    name = '';
+    pnr = '';
+    booker_name = '';
+    try{
+        state = document.getElementById('state').value;
+        start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
+        end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
+    }catch(err){}
+    try{
+        name = document.getElementById('name').value;
+    }catch(err){}
+    try{
+        booker_name = document.getElementById('booker_name').value;
+    }catch(err){}
+    try{
+        pnr = document.getElementById('pnr').value;
+    }catch(err){}
     limit_transaction = 20;
     $.ajax({
        type: "POST",
@@ -316,12 +356,24 @@ function get_transactions(type){
             'limit': limit_transaction,
             'provider_type': JSON.stringify(carrier_code),
             'signature': signature,
-            'key': document.getElementById('tb').value,
+            'type': filter,
+            'state': state,
+            'start_date': start_date,
+            'end_date': end_date,
+            'name': name,
+            'booker_name': booker_name,
+            'pnr': pnr,
             'using_cache': 'false'
        },
        success: function(msg) {
         console.log(msg);
         $('#loading-search-reservation').hide();
+        try{
+            var radios = document.getElementsByName('filter_type');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                radios[j].disabled = false
+            }
+        }catch(err){}
         if(msg.result.error_code == 0){
             try{
                 var date = '';

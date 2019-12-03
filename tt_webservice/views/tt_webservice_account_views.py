@@ -144,7 +144,13 @@ def get_transactions(request):
                 'minimum': int(request.POST['offset']) * int(request.POST['limit']),
                 'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
                 'provider_type': json.loads(request.POST['provider_type']),
-                'order_or_pnr': name
+                'booker_name': request.POST['booker_name'],
+                "type": request.POST['type'],
+                "name": request.POST['name'],
+                'pnr': request.POST['pnr'],
+                "date_from": request.POST['start_date'],
+                "date_to": request.POST['end_date'],
+                "state": request.POST['state']
             }
             headers = {
                 "Accept": "application/json,text/html,application/xml",

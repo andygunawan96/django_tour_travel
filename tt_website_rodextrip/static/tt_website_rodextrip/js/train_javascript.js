@@ -1265,6 +1265,22 @@ function select_journey(val){
 
 function change_seat(wagon, seat,column,seat_code){
     document.getElementById('seat_journey'+seat_map_pick).innerHTML = ', ' + wagon + ' ' + seat+column;
+    for(i in seat_map_response[seat_map_pick-1]){
+        if(seat_map_response[seat_map_pick-1][i].cabin_name == wagon){
+            for(j in seat_map_response[seat_map_pick-1][i].seat_rows){
+                if(pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)].seat == seat_map_response[seat_map_pick-1][i].seat_rows[j].row_number){
+                    for(k in seat_map_response[seat_map_pick-1][i].seat_rows[j].seats){
+                        if(pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)].column == seat_map_response[seat_map_pick-1][i].seat_rows[j].seats[k].column){
+                            seat_map_response[seat_map_pick-1][i].seat_rows[j].seats[k].availability = 1;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
     pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)] = {
         'wagon': wagon,
         'seat': seat,
