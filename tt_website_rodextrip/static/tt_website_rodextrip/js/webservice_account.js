@@ -128,7 +128,7 @@ function get_transactions_notification(val){
             'limit': limit_transaction,
             'provider_type': JSON.stringify([]),
             'signature': signature,
-            'type': '',
+            'type': 'all',
             'state': '',
             'start_date': '',
             'end_date': '',
