@@ -12,18 +12,10 @@ function table_reservation(data){
             <td>`+(data_counter+1)+`</td>
             <td name="order_number">`+data[i].order_number+`</td>`;
         try{
-            if(data[i].provider_type == 'airline'){
+            if(data[i].carrier_names == '')
+                text+=`<td>`+data[i].provider_type+`</td>`;
+            else
                 text+=`<td>`+data[i].carrier_names+`</td>`;
-            }else if(data[i].provider_type == 'train')
-                text+=`<td>KAI</td>`;
-            else if(data[i].provider_type == 'activity')
-                text+=`<td>ACTIVITY</td>`
-            else if(data[i].provider_type == 'tour')
-                text+=`<td>TOUR</td>`
-            else if(data[i].provider_type == 'visa')
-                text+=`<td>VISA</td>`;
-            else if(data[i].provider_type == 'hotel')
-                text+=`<td>HOTEL</td>`;
         }catch(err){
 
         }
