@@ -44,6 +44,7 @@ adult_title = ['MR', 'MRS', 'MS']
 
 infant_title = ['MSTR', 'MISS']
 
+
 def search(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
@@ -69,26 +70,29 @@ def search(request):
             {'value': '12', 'string': 'December'},
         ]
 
-        request.session['tour_request'] = {
-            'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-            'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
-            'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
-            'month': request.POST['tour_dest_month'],
-            'year': request.POST['tour_dest_year'],
-            'limit': 25,
-            'offset': 0,
-        }
+        try:
+            request.session['tour_request'] = {
+                'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
+                'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
+                'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
+                'month': request.POST['tour_dest_month'],
+                'year': request.POST['tour_dest_year'],
+                'limit': 25,
+                'offset': 0,
+            }
+        except:
+            request.session['tour_request'] = request.session['tour_request']
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
-            'query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
-            'dest_country': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or '0',
-            'dest_city': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or '0',
-            'dest_year': request.POST['tour_dest_year'],
-            'dest_month': request.POST['tour_dest_month'],
+            'query': request.session['tour_request']['tour_query'],
+            'dest_country': request.session['tour_request']['country_id'],
+            'dest_city': request.session['tour_request']['city_id'],
+            'dest_year': request.session['tour_request']['year'],
+            'dest_month': request.session['tour_request']['month'],
             'dest_month_data': dest_month_data,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
@@ -101,6 +105,7 @@ def search(request):
     else:
         return no_session_logout(request)
 
+
 def detail(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
@@ -110,14 +115,19 @@ def detail(request):
 
         template, logo = get_logo_template()
 
-        request.session['time_limit'] = int(request.POST['time_limit_input'])
-
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        request.session['tour_pick'] = json.loads(request.POST['tour_pick'])
-        request.session['tour_pick'].update({
-            'departure_date_f': str(request.session['tour_search'][int(request.POST['sequence'])]['departure_date_f'])
-        })
+
+        try:
+            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            request.session['tour_pick'] = json.loads(request.POST['tour_pick'])
+            request.session['tour_pick'].update({
+                'departure_date_f': str(request.session['tour_search'][int(request.POST['sequence'])]['departure_date_f'])
+            })
+        except:
+            request.session['time_limit'] = request.session['time_limit']
+            request.session['tour_pick'] = request.session['tour_pick']
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
@@ -137,6 +147,7 @@ def detail(request):
     else:
         return no_session_logout(request)
 
+
 def passenger(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
@@ -148,7 +159,11 @@ def passenger(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-        request.session['time_limit'] = int(request.POST['time_limit_input'])
+        try:
+            request.session['time_limit'] = int(request.POST['time_limit_input'])
+        except:
+            request.session['time_limit'] = request.session['time_limit']
+
         # agent
         adult_title = ['MR', 'MRS', 'MS']
         infant_title = ['MSTR', 'MISS']
@@ -157,7 +172,13 @@ def passenger(request):
         airline_country = response['result']['response']['airline']['country']
 
         # pax
-        room_amount = request.POST['room_amount']
+        try:
+            request.session['tour_room_mapping'] = {
+                'room_amount': request.POST['room_amount']
+            }
+        except:
+            request.session['tour_room_mapping']['room_amount'] = request.session['tour_room_mapping']['room_amount']
+
         adult_amt = 0
         child_amt = 0
         infant_amt = 0
@@ -165,80 +186,98 @@ def passenger(request):
         infant = []
         child = []
 
-        for r in range(int(room_amount)):
-            adult_amt += int(request.POST['adult_tour_room_' + str(r+1)])
-            child_amt += int(request.POST['child_tour_room_' + str(r+1)])
-            infant_amt += int(request.POST['infant_tour_room_' + str(r+1)])
+        try:
+            for r in range(int(request.session['tour_room_mapping']['room_amount'])):
+                adult_amt += int(request.POST['adult_tour_room_' + str(r+1)])
+                child_amt += int(request.POST['child_tour_room_' + str(r+1)])
+                infant_amt += int(request.POST['infant_tour_room_' + str(r+1)])
+            request.session['tour_pax_amount'] = {
+                'adult_amt': adult_amt,
+                'child_amt': child_amt,
+                'infant_amt': infant_amt,
+            }
+        except:
+            request.session['tour_pax_amount'] = request.session['tour_pax_amount']
 
         try:
-            for i in range(adult_amt):
+            for i in range(request.session['tour_pax_amount']['adult_amt']):
                 adult.append('')
         except:
             print('no adult')
 
         try:
-            for i in range(child_amt):
+            for i in range(request.session['tour_pax_amount']['child_amt']):
                 child.append('')
         except:
             print('no children')
 
         try:
-            for i in range(infant_amt):
+            for i in range(request.session['tour_pax_amount']['infant_amt']):
                 infant.append('')
         except:
             print('no infant')
 
-        request.session['tour_data'] = json.loads(request.POST['tour_data'])
+        try:
+            request.session['tour_data'] = json.loads(request.POST['tour_data'])
+        except:
+            request.session['tour_data'] = request.session['tour_data']
 
-        if request.POST.get('departure_date_tour2'):
-            dept = request.POST['departure_date_tour2']
-        else:
-            dept = request.session['tour_pick']['departure_date']
+        try:
+            request.session['tour_dept_return_data'] = {
+                'departure': request.POST.get('departure_date_tour2') and request.POST['departure_date_tour2'] or request.session['tour_pick']['departure_date'],
+                'return': request.POST.get('return_date_tour2') and request.POST['return_date_tour2'] or request.session['tour_pick']['return_date']
+            }
+        except:
+            request.session['tour_dept_return_data'] = request.session['tour_dept_return_data']
 
-        if request.POST.get('return_date_tour2'):
-            arr = request.POST['return_date_tour2']
-        else:
-            arr = request.session['tour_pick']['return_date']
+        dept = request.session['tour_dept_return_data']['departure']
+        arr = request.session['tour_dept_return_data']['return']
 
         request.session['tour_pick'].update({
             'tour_departure_date': dept,
             'tour_return_date': arr,
         })
 
-        room_amount = int(request.POST['room_amount'])
-        render_pax_per_room = []
-        for idx in range(room_amount):
-            note = 'notes_' + str(idx + 1)
+        try:
+            room_amount = int(request.session['tour_room_mapping']['room_amount'])
+            render_pax_per_room = []
+            for idx in range(room_amount):
+                note = 'notes_' + str(idx + 1)
 
-            room = {
-                'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
-                'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
-                'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
-            }
+                room = {
+                    'adult': int(request.POST['adult_tour_room_' + str(idx + 1)]),
+                    'child': int(request.POST['child_tour_room_' + str(idx + 1)]),
+                    'infant': int(request.POST['infant_tour_room_' + str(idx + 1)]),
+                }
 
-            chosen_room = False
-            for temp_room in request.session['tour_data']['accommodations']:
-                if int(temp_room['id']) == int(request.POST['room_id_' + str(idx + 1)]):
-                    chosen_room = temp_room
+                chosen_room = False
+                for temp_room in request.session['tour_data']['accommodations']:
+                    if int(temp_room['id']) == int(request.POST['room_id_' + str(idx + 1)]):
+                        chosen_room = temp_room
 
-            room.update({
-                'address': chosen_room['address'],
-                'bed_type': chosen_room['bed_type'],
-                'description': chosen_room['description'],
-                'hotel': chosen_room['hotel'],
-                'name': chosen_room['name'],
-                'star': chosen_room['star'],
-                'id': chosen_room['id'],
-                'notes': request.POST.get(note) and request.POST[note] or '',
+                room.update({
+                    'address': chosen_room['address'],
+                    'bed_type': chosen_room['bed_type'],
+                    'description': chosen_room['description'],
+                    'hotel': chosen_room['hotel'],
+                    'name': chosen_room['name'],
+                    'star': chosen_room['star'],
+                    'id': chosen_room['id'],
+                    'notes': request.POST.get(note) and request.POST[note] or '',
+                })
+                render_pax_per_room.append(room)
+            request.session['tour_room_mapping'].update({
+                'render_pax_per_room': render_pax_per_room
             })
-            render_pax_per_room.append(room)
+        except:
+            request.session['tour_room_mapping'] = request.session['tour_room_mapping']
 
         request.session['tour_booking_data'] = {
-            'room_list': render_pax_per_room,
-            'room_amount': room_amount,
-            'adult': adult_amt,
-            'child': child_amt,
-            'infant': infant_amt,
+            'room_list': request.session['tour_room_mapping']['render_pax_per_room'],
+            'room_amount': request.session['tour_room_mapping']['room_amount'],
+            'adult': request.session['tour_pax_amount']['adult_amt'],
+            'child': request.session['tour_pax_amount']['child_amt'],
+            'infant': request.session['tour_pax_amount']['infant_amt'],
             'tour_data': request.session['tour_pick'],
         }
 
@@ -254,11 +293,11 @@ def passenger(request):
             'adults': adult,
             'infants': infant,
             'childs': child,
-            'adult_amt': adult_amt,
-            'infant_amt': infant_amt,
-            'child_amt': child_amt,
-            'room_list': render_pax_per_room,
-            'room_amount': room_amount,
+            'adult_amt': request.session['tour_pax_amount']['adult_amt'],
+            'infant_amt': request.session['tour_pax_amount']['infant_amt'],
+            'child_amt': request.session['tour_pax_amount']['child_amt'],
+            'room_list': request.session['tour_room_mapping']['render_pax_per_room'],
+            'room_amount': request.session['tour_room_mapping']['room_amount'],
             'time_limit': request.session['time_limit'],
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
