@@ -105,6 +105,7 @@ function change_transaction_type(type){
 
 function add_table_of_passenger(){
     text= '';
+    set_passenger_number(counter_passenger);
     var node = document.createElement("tr");
     text += `
         <td>`+(parseInt(counter_passenger)+1)+`</td>
@@ -119,7 +120,7 @@ function add_table_of_passenger(){
     text += `
         <td>
             <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-search"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
@@ -143,6 +144,12 @@ function add_table_of_passenger(){
                                     <input type="radio" id="radio_passenger_input`+parseInt(counter_passenger+1)+`" name="radio_passenger`+parseInt(counter_passenger+1)+`" value="create" onclick="radio_button('passenger',`+(counter_passenger+1)+`);">
                                     <span class="checkmark-radio"></span>
                                 </label>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <br/>
+                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                </div>
                             </div>
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
@@ -340,6 +347,7 @@ function add_table_of_passenger(){
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
+    $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
     $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
