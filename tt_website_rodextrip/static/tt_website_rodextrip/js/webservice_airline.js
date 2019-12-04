@@ -2557,15 +2557,7 @@ function airline_get_booking(data){
                             <td>`;
                                   try{
                                       for(i in msg.result.response.passengers[pax].fees){
-                                        text+=`<div class="popover__wrapper">
-                                                  <a href="#">
-                                                    `+msg.result.response.passengers[pax].fees[i].fee_name+`
-                                                  </a>
-                                                  <div class="popover__content">`;
-                                        text+= msg.result.response.passengers[pax].fees[i].fee_value + '<br>';
-                                        for(j in msg.result.response.passengers[pax].fees[i].description)
-                                            text += msg.result.response.passengers[pax].fees[i].description[j] + '<br>';
-                                        text+=`</p></div></div><br/>`;
+                                        text += `<label>` + msg.result.response.passengers[pax].fees[i].fee_name + ' ' + msg.result.response.passengers[pax].fees[i].fee_value + `</label><br/>`;
                                       }
                                   }catch(err){}
                                   text+=`
@@ -2639,9 +2631,7 @@ function airline_get_booking(data){
                 </div>
             </div>`;
             document.getElementById('airline_booking').innerHTML = text;
-            try{
-                $('#popoverOption').popover({ trigger: "hover" });
-            }catch(err){}
+
             //detail
             text = '';
             tax = 0;
