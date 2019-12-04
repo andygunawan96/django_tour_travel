@@ -348,14 +348,22 @@ function update_table(type){
             `;
     }else if(type == 'review'){
 
-        text += `<h4>Price detail</h4><hr/>`;
+        text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>
+                <table style="width:100%;">`;
         price = 0;
         commission = 0;
-        currency = '';
-        price_pax = 0;
         count_i = 0;
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].pax_count != 0){
+                count_price_detail[i] = 1;
+                text+=`
+                <tr>
+                    <td>`+visa.list_of_visa[i].pax_count+` `+visa.list_of_visa[i].pax_type[1]+` <br/> `+visa.list_of_visa[i].visa_type[1]+`, `+visa.list_of_visa[i].entry_type[1]+`</td>
+                    <td>x</td>
+                    <td>`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price)+`</td>
+                    <td style="text-align:right;">`+visa.list_of_visa[i].sale_price.currency+` `+getrupiah(visa.list_of_visa[i].sale_price.total_price*visa.list_of_visa[i].pax_count)+`</td>
+                </tr>`;
+
                 count_i = count_i+1;
                 $text += count_i + '. ';
                 $text += 'Visa '+ visa_request.destination +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
@@ -386,45 +394,16 @@ function update_table(type){
 
             }
         }
-        if(list_passenger.length > 0){
+        text+=`</table>`;
 
-            $text += 'Passengers\n';
-            for(i in list_passenger){
-                $text += list_passenger[i].name + ' ' + list_passenger[i].currency + ' ' + getrupiah(list_passenger[i].Fare) +'\n';
-                $text += list_passenger[i].type.entry + ' ' + list_passenger[i].type.type + ' ' + list_passenger[i].type.visa+'\n';
-
-            }
-        }
-
+        $text += 'Price\n';
         for(i in visa.list_of_visa){
-            if(visa.list_of_visa[i].total_pax != 0){
-                if(i == 0)
-                    $text += 'Price\n';
-                $text += visa.list_of_visa[i].total_pax + ' ' + visa.list_of_visa[i].pax_type[1];
+            if(visa.list_of_visa[i].pax_count != 0){
+                $text += visa.list_of_visa[i].pax_count + ' ' + visa.list_of_visa[i].pax_type[1];
                 $text += ' @'+ visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price) + '\n';
             }
         }
 
-        $text += '\n';
-        $text += 'Grand Total: '+visa.list_of_visa[0].sale_price.currency + ' '+getrupiah(price);
-
-        if(list_passenger.length > 0){
-            text+=`<table style="width:100%; margin-bottom:10px;">`;
-            for(i in list_passenger){
-                currency = list_passenger[i].currency;
-                price_pax = list_passenger[i].Fare;
-                text+=`
-                        <tr>
-                            <td>`+list_passenger[i].name+`</td>
-                            <td>`+list_passenger[i].type.entry + ' ' + list_passenger[i].type.type + ' ' + list_passenger[i].type.visa +`</td>
-                            <td style="text-align:right;">`+currency+` `+getrupiah(price_pax)+`</td>
-                        </tr>`;
-
-            }
-            text+=`</table>`;
-        }else{
-            text+=`<h6>Select visa first!</h6>`;
-        }
         text+=`
             <div class="row" style="padding-bottom:15px;">
                 <div class="col-lg-12">
@@ -434,46 +413,47 @@ function update_table(type){
                     <h6>Grand Total</h6>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+currency+` `+getrupiah(price)+`</h6>
+                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
-        text+=`
-            <div class="row">
-                <div class="col-lg-12" style="padding-bottom:15px;">
-                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                    share_data();
-                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                    if (isMobile) {
-                        text+=`
-                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-                    } else {
-                        text+=`
-                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-                    }
-                    text +=`</div>
-            </div>`;
+        $text += '\n';
+        $text += 'Grand Total: '+visa.list_of_visa[0].sale_price.currency + ' '+getrupiah(price);
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
             display = 'none';
         }
         text+=`
+            <div class="row">
+                <div class="col-lg-12" style="padding-bottom:15px;">
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                share_data();
+                var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                if (isMobile) {
+                    text+=`
+                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                } else {
+                    text+=`
+                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                }
+                text +=`</div>
+            </div>
             <div class="row" id="show_commission" style="display: `+display+`;">
-                <div class="col-lg-12" style="text-align:center;">
+                <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                     </div>
                 </div>
             </div>
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
-                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
+                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>
             <div class="row" style="margin-top:10px; text-align:center;">

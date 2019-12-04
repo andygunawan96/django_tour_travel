@@ -167,7 +167,14 @@ def get_new_cache(signature):
         }
 
         res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST', timeout=60)
-
+        try:
+            if res_destination_airline['result']['error_code'] == 0:
+                pass
+            else:
+                logging.getLogger("info_logger").info("ERROR GET CACHE FROM DESTINATION TRAIN AUTOCOMPLETE" + res_destination_airline['result']['error_msg'] + '\n' + traceback.format_exc())
+        except Exception as e:
+            logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_destination_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
+            pass
         data = {'provider_type': 'train'}
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -191,8 +198,10 @@ def get_new_cache(signature):
                 file = open(var_log_path() + "train_cache_data.txt", "w+")
                 file.write(json.dumps(destination_train))
                 file.close()
+            else:
+                logging.getLogger("info_logger").info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + res_destination_train['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
-            logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
+            logging.getLogger("info_logger").info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
 
         data = {}
@@ -204,7 +213,14 @@ def get_new_cache(signature):
         }
 
         res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST', timeout=60)
-
+        try:
+            if res_country_airline['result']['error_code'] == 0:
+                pass
+            else:
+                logging.getLogger("info_logger").info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + res_country_airline['result']['error_msg'] + '\n' + traceback.format_exc())
+        except Exception as e:
+            logging.getLogger("info_logger").info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + json.dumps(res_country_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
+            pass
         # hotel
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -225,8 +241,7 @@ def get_new_cache(signature):
                 file.write(res_cache_hotel['result']['response'])
                 file.close()
         except Exception as e:
-            logging.getLogger("info_logger").info(
-                "ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(
+            logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
             pass
 
@@ -242,6 +257,14 @@ def get_new_cache(signature):
         }
 
         res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=60)
+        try:
+            if res_config_visa['result']['error_code'] == 0:
+                pass
+            else:
+                logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + res_config_visa['result']['error_msg'] + '\n' + traceback.format_exc())
+        except Exception as e:
+            logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + json.dumps(res_config_visa) + '\n' + str(e) + '\n' + traceback.format_exc())
+            pass
         #
 
         # issuedoffline
@@ -257,7 +280,14 @@ def get_new_cache(signature):
 
         res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers,
                                                       method='POST', timeout=60)
-
+        try:
+            if res_config_issued_offline['result']['error_code'] == 0:
+                pass
+            else:
+                logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + res_config_issued_offline['result']['error_msg'] + '\n' + traceback.format_exc())
+        except Exception as e:
+            logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + json.dumps(res_config_issued_offline) + '\n' + str(e) + '\n' + traceback.format_exc())
+            pass
         # return res
 
         # train
@@ -483,16 +513,23 @@ def get_customer_list(request):
             elif request.POST['passenger_type'] == 'infant':
                 upper = 2
                 lower = 0
-        if request.POST['product'] == 'hotel':
+        elif request.POST['product'] == 'hotel':
             if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'booker':
                 upper = 200
                 lower = 12
             elif request.POST['passenger_type'] == 'child':
                 upper = 11
                 lower = 0
-        if request.POST['product'] == 'activity':
+        elif request.POST['product'] == 'activity':
             upper = int(request.POST['maxAge'])
             lower = int(request.POST['minAge'])
+        elif request.POST['product'] == 'train':
+            if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'booker':
+                upper = 200
+                lower = 3
+            elif request.POST['passenger_type'] == 'infant':
+                upper = 2
+                lower = 0
 
         data = {
             'name': request.POST['name'],
@@ -516,29 +553,23 @@ def get_customer_list(request):
         if res['result']['error_code'] == 0:
             counter = 0
             for pax in res['result']['response']:
-                if pax['birth_date'] != '':
-                    age = relativedelta(datetime.now(), datetime.strptime(pax['birth_date'], "%Y-%m-%d"))
-                    age = age.years
-                else:
-                    age = 12
                 if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                    if age > 11:
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
                         title = 'MRS'
                     else:
                         title = 'MISS'
                 elif pax['gender'] == 'female':
-                    if age > 11:
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
                         title = 'MS'
                     else:
                         title = 'MISS'
                 else:
-                    if age > 11:
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
                         title = 'MR'
                     else:
                         title = 'MSTR'
                 pax.update({
                     'sequence': counter,
-                    'age': age,
                     'title': title
                 })
                 if pax['birth_date'] != '':
