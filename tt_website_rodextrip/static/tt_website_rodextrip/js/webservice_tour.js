@@ -1186,26 +1186,24 @@ function tour_get_booking(order_number)
                         <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
 
                text += `</div>
-                        <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.tour/`+book_obj.order_number+`/1')" style="width:100%;">
-                                Print Itinerary Form
-                            </button>
-                        </div>
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
-
                if(book_obj.state == 'issued'){
                     text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.tour/`+book_obj.order_number+`/4')" style="width:100%;">
                                 Print Invoice
                              </button>`;
                }
                text += `</div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">
+
+                        </div>
                     </div>
                `;
             document.getElementById('tour_final_info').innerHTML = text;
             document.getElementById('product_title').innerHTML = tour_package.name;
             document.getElementById('product_type_title').innerHTML = book_obj.departure_date_str+' - '+book_obj.return_date_str;
             price_text = '';
-            $test = tour_package.name+'\n'+book_obj.departure_date_str+' - '+book_obj.return_date_str+'\n\n';
+            $test = tour_package.name+'\n'+book_obj.departure_date_str+' - '+book_obj.return_date_str+'\n';
+            $test += 'Status: ' + conv_status+'\n';
 
             //detail
             text = '';

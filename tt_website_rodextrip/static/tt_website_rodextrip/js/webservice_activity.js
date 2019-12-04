@@ -1205,6 +1205,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                    document.getElementById('display_state').innerHTML = `Issued`;
                 }
                 else if(msg.result.response.status == 'booked'){
                     conv_status = 'Booked';
@@ -1212,6 +1213,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Booked`;
+                    document.getElementById('display_state').innerHTML = `Booked`;
                 }
                 else if(msg.result.response.status == 'rejected'){
                     conv_status = 'Rejected';
@@ -1221,6 +1223,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Rejected`;
+                    document.getElementById('display_state').innerHTML = `Rejected`;
                 }
                 else if(msg.result.response.status == 'cancel'){
                     conv_status = 'Cancelled';
@@ -1230,6 +1233,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                    document.getElementById('display_state').innerHTML = `Cancelled`;
                 }
                 else if(msg.result.response.status == 'cancel2'){
                     conv_status = 'Expired';
@@ -1239,6 +1243,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                    document.getElementById('display_state').innerHTML = `Expired`;
                 }
                 else if(msg.result.response.status == 'fail_issued'){
                     conv_status = 'Failed (Issue)';
@@ -1248,6 +1253,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
+                    document.getElementById('display_state').innerHTML = `Failed (Issue)`;
                 }
                 else if(msg.result.response.status == 'fail_booked'){
                     conv_status = 'Failed (Book)';
@@ -1257,6 +1263,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
+                    document.getElementById('display_state').innerHTML = `Failed (Book)`;
                 }
                 else if(msg.result.response.status == 'fail_refunded'){
                     conv_status = 'Failed (Refunded)';
@@ -1266,6 +1273,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
+                    document.getElementById('display_state').innerHTML = `Failed (Refunded)`;
                 }
                 else if(msg.result.response.status == 'refund'){
                     conv_status = 'Refunded';
@@ -1273,6 +1281,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
+                    document.getElementById('display_state').innerHTML = `Refunded`;
                 }
                 else if(msg.result.response.status == 'reissue'){
                     conv_status = 'Reissued';
@@ -1280,25 +1289,26 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Reissued`;
+                    document.getElementById('display_state').innerHTML = `Reissued`;
                 }
                 else if(msg.result.response.status == 'pending' || msg.result.response.status == 'paid'){
-                    conv_status = 'On Request';
+                    conv_status = 'On Request (max 3 working days)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-pending");
                     document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
-                    document.getElementById('issued-breadcrumb-span').innerHTML = `On Request`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
                 }
                 else{
                     console.log(msg.result.response.status);
-                    conv_status = 'On Request';
+                    conv_status = 'On Request (max 3 working days)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-pending");
                     document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
-                    document.getElementById('issued-breadcrumb-span').innerHTML = `On Request`;
+                    document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
                 }
 
                 text = `
@@ -1467,25 +1477,29 @@ function activity_get_booking(data){
                     if (msg.result.response.voucher_url.length > 0)
                     {
                         text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="window.open('`+msg.result.response.voucher_url[0]+`');" style="width:100%;">
-                                    Print Ticket <div class="ld ld-ring ld-cycle"></div>
+                                    Print Voucher <div class="ld ld-ring ld-cycle"></div>
                                  </button>`;
                     }
                     else
                     {
                         text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.name+`');" style="width:100%;">
-                                    Print Ticket <div class="ld ld-ring ld-cycle"></div>
+                                    Print Voucher <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                     }
                }
                text += `</div>
-                        <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/1')" style="width:100%;">
-                                Print Itinerary Form
-                            </button>
-                        </div>
+                        <div class="col-lg-4" style="padding-bottom:10px;">`;
+               if(msg.result.response.status == 'pending' || msg.result.response.status == 'paid')
+               {
+                   text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
+                                Print Invoice
+                             </button>`;
+               }
+
+               text += `</div>
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
 
-               if(msg.result.response.status == 'issued' || msg.result.response.status == 'pending' || msg.result.response.status == 'paid'){
+               if(msg.result.response.status == 'issued'){
                     text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
                                 Print Invoice
                              </button>`;
@@ -1500,7 +1514,8 @@ function activity_get_booking(data){
                 document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
             price_text = '';
             $test = 'Order Number: '+ msg.result.response.name + '\n';
-            $test += 'Booking Code: '+ msg.result.response.pnr+'\n\n';
+            $test += 'Booking Code: '+ msg.result.response.pnr+'\n';
+            $test += 'Status: '+ conv_status+'\n\n';
 
             $test += msg.result.response.activity.name+'\n';
             if(msg.result.response.activity.name != msg.result.response.activity.type)
