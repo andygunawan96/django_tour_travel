@@ -1227,8 +1227,8 @@ function hotel_room_pick(key){
     var get_name_hotel = document.getElementById("get_name_hotel").value;
     $text2 = ''+ get_name_hotel +'\n';
     for(i in hotel_room.rooms){
-        text += '<h5>'+ hotel_room.rooms[i].category + '</h5>';
-        text += '<span> '+ hotel_room.rooms[i].description + '<span><br/>';
+        text += '<h5>'+ hotel_room.rooms[i].description + '</h5>';
+        //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
         text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
         text += '<span>Meal Type: ' + hotel_room.meal_type +'</span/><br/><br/>';
         text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
@@ -1236,7 +1236,7 @@ function hotel_room_pick(key){
         text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
         text += '</div><br/>';
 
-        $text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
+        //$text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
         $text2 += hotel_room.rooms[i].description +'\n';
         $text2 += hotel_room.rooms[i].qty +' room(s) \n';
         $text2 += 'Meal Type: '+ hotel_room.meal_type +'\n \n';

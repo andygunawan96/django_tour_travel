@@ -134,14 +134,25 @@ function set_airline_search_value_to_true(){
 function add_promotion_code(){
     text = '';
     if(promotion_code == 0)
-        text +=`<div class="input-container-search-ticket">
-                <label style="width:27vh;">Code</label> <label style="width:10vh;">Carrier Code</label>
+        text +=`<div class="row">
+                    <div class="col-lg-6">
+                        <label>Code</label>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>Carrier Code</label>
+                    </div>
                 </div>`
     text += `
-        <div class="input-container-search-ticket" id="promotion_code_line`+promotion_code+`">
-            <input type="text" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" style="margin-bottom:5px;width:27vh;" placeholder="Code"/>
-            <input type="text" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" style="margin-bottom:5px;width:10vh;" placeholder="ex GA"/>
-            <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+        <div class="row banner-right" id="promotion_code_line`+promotion_code+`">
+            <div class="col-lg-6 form-wrap" style="padding:0px 15px 0px 15px; text-align:left;">
+                <input type="text" class="form-control" id="code_line`+promotion_code+`" name="code_line`+promotion_code+`" placeholder="Code"/>
+            </div>
+            <div class="col-lg-6 form-wrap" style="padding:0px 15px 0px 15px; text-align:left;">
+                <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="ex GA"/>
+            </div>
+            <div class="col-lg-12" style="text-align:right;">
+                <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)">Delete<i class="fa fa-trash-alt" style="color:#E92B2B;font-size:16px;"></i></button>
+            </div>
         </div>`;
     var node = document.createElement("div");
     node.innerHTML = text;
