@@ -374,7 +374,7 @@ function get_transactions(type){
         end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
     }catch(err){}
     try{
-        name = document.getElementById('name').value;
+        passenger_name = document.getElementById('name').value;
     }catch(err){}
     try{
         booker_name = document.getElementById('booker_name').value;
