@@ -281,6 +281,7 @@ function get_transactions_notification(val){
 }
 
 function get_transactions(type){
+    $('#loading-search-reservation').show();
     load_more = false;
     if(type == 'reset' || type == 'filter'){
         offset_transaction = 0;
@@ -828,39 +829,45 @@ function table_top_up_history(data){
     text= '';
     var node = document.createElement("tr");
     data_counter = 0;
-    for(i in data){
-        data_search.push(data[i]);
-        text+=`
-        <form action="" method="POST" id="gotobooking`+data_counter+`" />
-        <tr>
-            <td>`+(parseInt(i)+1)+`</td>
-            <td name="order_number">`+data[i].name+`</td>`;
+    if(data.length != 0){
+        $('#top_up_found').hide();
+        for(i in data){
+            data_search.push(data[i]);
+            text+=`
+            <form action="" method="POST" id="gotobooking`+data_counter+`" />
+            <tr>
+                <td>`+(parseInt(i)+1)+`</td>
+                <td name="order_number">`+data[i].name+`</td>`;
 
-        text+= `<td>`+data[i].due_date+`</td>`;
-        text+= `<td style="text-align:right">`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-        text+= `<td>`+data[i].state_description+`</td>`;
-        text+= `<td>`+data[i].payment_method+`</td>`;
-        if(data[i].hasOwnProperty('help_by') == true){
-            text+= `<td>`+data[i].help_by+`</td>`;
-        }else{
-            text+= `<td>-</td>`;
-        }
-        if(data[i].state == 'request'){
-            text+= `<td>
-            <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
+            text+= `<td>`+data[i].due_date+`</td>`;
+            text+= `<td style="text-align:right">`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
+            text+= `<td>`+data[i].state_description+`</td>`;
+            text+= `<td>`+data[i].payment_method+`</td>`;
+            if(data[i].hasOwnProperty('help_by') == true){
+                text+= `<td>`+data[i].help_by+`</td>`;
+            }else{
+                text+= `<td>-</td>`;
+            }
+            if(data[i].state == 'request'){
+                text+= `<td>
+                <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
 
-            text+=`</td>`;
-        }else{
-            text+= `<td></td>`;
+                text+=`</td>`;
+            }else{
+                text+= `<td></td>`;
+            }
+            text+= `</tr>`;
+            node.innerHTML = text;
+            document.getElementById("table_top_up_history").appendChild(node);
+            node = document.createElement("tr");
+            $('#loading-search-top-up').hide();
+    //                   document.getElementById('airlines_ticket').innerHTML += text;
+            text = '';
+            data_counter++;
         }
-        text+= `</tr>`;
-        node.innerHTML = text;
-        document.getElementById("table_top_up_history").appendChild(node);
-        node = document.createElement("tr");
+    }else{
         $('#loading-search-top-up').hide();
-//                   document.getElementById('airlines_ticket').innerHTML += text;
-        text = '';
-        data_counter++;
+        $('#top_up_found').show();
     }
 }
 
