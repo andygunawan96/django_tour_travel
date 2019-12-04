@@ -1,6 +1,35 @@
 offset_transaction = 0;
 
 
+function signin_rodextrip(type){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/issued_offline",
+       headers:{
+            'action': 'signin',
+       },
+       data: {},
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                signature = msg.result.response.signature;
+            }
+            if(type == 'reservation'){
+                get_transactions('reset');
+            }else if(type == 'top_up_history'){
+                get_top_up();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
 function get_balance(val){
     using_cache = '';
     if(val != undefined)
@@ -128,6 +157,14 @@ function get_transactions_notification(val){
             'limit': limit_transaction,
             'provider_type': JSON.stringify([]),
             'signature': signature,
+            'type': 'all',
+            'state': '',
+            'start_date': '',
+            'end_date': '',
+//            'name': '',
+            'booker_name': '',
+            'passenger_name': '',
+            'pnr': '',
             'using_cache': using_cache
        },
        success: function(msg) {
@@ -149,15 +186,17 @@ function get_transactions_notification(val){
                         </div>
                         <hr>
                     </div>`;
-                document.getElementById('notification_detail2').innerHTML = `
-                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                        <div class="row">
-                            <div class="col-sm-12" style="text-align:center">
-                                <span style="font-weight:500"> No Notification</span>
+                try{
+                    document.getElementById('notification_detail2').innerHTML = `
+                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                            <div class="row">
+                                <div class="col-sm-12" style="text-align:center">
+                                    <span style="font-weight:500"> No Notification</span>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                    </div>`;
+                            <hr>
+                        </div>`;
+                }catch(err){}
             }else{
                 for(i in msg.result.response){
                     for(j in msg.result.response[i]){
@@ -211,24 +250,28 @@ function get_transactions_notification(val){
                     }
                 }
                 if(check_notif == 0){
-                    document.getElementById('notification_detail').innerHTML = `
-                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align:center">
-                                    <span style="font-weight:500"> No Notification</span>
+                    try{
+                        document.getElementById('notification_detail').innerHTML = `
+                            <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                <div class="row">
+                                    <div class="col-sm-12" style="text-align:center">
+                                        <span style="font-weight:500"> No Notification</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <hr>
-                        </div>`;
-                    document.getElementById('notification_detail2').innerHTML = `
-                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                            <div class="row">
-                                <div class="col-sm-12" style="text-align:center">
-                                    <span style="font-weight:500"> No Notification</span>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>`;
+                                <hr>
+                            </div>`;
+                        try{
+                            document.getElementById('notification_detail2').innerHTML = `
+                                <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align:center">
+                                            <span style="font-weight:500"> No Notification</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div>`;
+                        }catch(err){}
+                    }catch(err){}
                 }
             }
             setTimeout(function() {
@@ -272,6 +315,7 @@ function get_transactions_notification(val){
 }
 
 function get_transactions(type){
+    $('#loading-search-reservation').show();
     load_more = false;
     if(type == 'reset' || type == 'filter'){
         offset_transaction = 0;
@@ -283,6 +327,7 @@ function get_transactions(type){
                         <th style="width:10%;">Order Number</th>
                         <th style="width:7%;">Provider</th>
                         <th style="width:12%;">Book Date</th>
+                        <th style="width:12%;">Booker name</th>
                         <th style="width:12%;">Hold Date</th>
                         <th style="width:8%;">State</th>
                         <th style="width:5%;">PNR</th>
@@ -304,6 +349,52 @@ function get_transactions(type){
     }catch(err){
 
     }
+    filter = '';
+    try{
+        var radios = document.getElementsByName('filter_type');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                filter = radios[j].value;
+            }
+            radios[j].disabled = true
+        }
+    }catch(err){
+
+    }
+    state = '';
+    start_date = '';
+    end_date = '';
+    name = '';
+    pnr = '';
+    booker_name = '';
+    passenger_name = '';
+    try{
+        state = document.getElementById('state').value;
+        start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
+        end_date = moment(document.getElementById('end_date').value).format('YYYY-MM-DD');
+    }catch(err){}
+    try{
+        passenger_name = document.getElementById('name').value;
+    }catch(err){}
+    try{
+        booker_name = document.getElementById('booker_name').value;
+    }catch(err){}
+    try{
+        booker_name = document.getElementById('passenger_name').value;
+    }catch(err){}
+    try{
+        pnr = document.getElementById('pnr').value;
+    }catch(err){}
+    if(filter == 'booker' && booker_name == ''){
+        filter = '';
+    }else if(filter == 'name' && name == ''){
+        filter = '';
+    }else if(filter == 'pnr' && pnr == ''){
+        filter = '';
+    }else if(filter == 'date' && start_date == '' ||filter == 'date' && end_date == ''){
+        filter = '';
+    }else if(filter == 'state' && state == '')
+        filter = '';
     limit_transaction = 20;
     $.ajax({
        type: "POST",
@@ -316,12 +407,25 @@ function get_transactions(type){
             'limit': limit_transaction,
             'provider_type': JSON.stringify(carrier_code),
             'signature': signature,
-            'key': document.getElementById('tb').value,
+            'type': 'all',
+//            'name': '',
+            'state': state,
+            'start_date': start_date,
+            'end_date': end_date,
+            'booker_name': booker_name,
+            'passenger_name': passenger_name,
+            'pnr': pnr,
             'using_cache': 'false'
        },
        success: function(msg) {
         console.log(msg);
         $('#loading-search-reservation').hide();
+        try{
+            var radios = document.getElementsByName('filter_type');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                radios[j].disabled = false
+            }
+        }catch(err){}
         if(msg.result.error_code == 0){
             try{
                 var date = '';
@@ -346,7 +450,7 @@ function get_transactions(type){
                     for(j in msg.result.response[i]){
                         data_length++;
                         if(msg.result.response[i][j].hold_date != '' && msg.result.response[i][j].hold_date != false){
-                            date = moment.utc(msg.result.response[i].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
+                            date = moment.utc(msg.result.response[i][j].hold_date, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss');
                             localTime  = moment.utc(date).toDate();
                             msg.result.response[i][j].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                         }
@@ -371,23 +475,26 @@ function get_transactions(type){
                     }
                     radios[j].disabled = false;
                 }
-                if(msg.result.response[filter].length >= 20){
+                if(Object.keys(msg.result.response).length == 0){
+//                    var node = document.createElement("div");
+//                    node.innerHTML = `
+//                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+//                        <div class="row">
+//                            <div class="col-sm-12" style="text-align:center">
+//                                <span style="font-weight:500"> No Record</span>
+//                            </div>
+//                        </div>
+//                    </div>`;
+//                    document.getElementById("desc").appendChild(node);
+                    $('#reservation_found').show();
+                }else if(msg.result.response[filter].length >= 20){
                     offset_transaction++;
                     table_reservation(msg.result.response[filter]);
                     load_more = true;
-                }else if(msg.result.response[filter].length == 0){
-                    var node = document.createElement("div");
-                    node.innerHTML = `
-                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                        <div class="row">
-                            <div class="col-sm-12" style="text-align:center">
-                                <span style="font-weight:500"> No Record</span>
-                            </div>
-                        </div>
-                    </div>`;
-                    document.getElementById("desc").appendChild(node);
+                    $('#reservation_found').hide();
                 }else{
                     table_reservation(msg.result.response[filter]);
+                    $('#reservation_found').hide();
                 }
             }catch(err){
                 //set_notification(msg.result.response.transport_booking);
@@ -661,7 +768,7 @@ function get_top_up(){
             'state': state,
             'start_date': start_date,
             'end_date': end_date,
-            'type': type
+            'type': 'all'
        },
        success: function(msg) {
         console.log(msg);
@@ -764,39 +871,45 @@ function table_top_up_history(data){
     text= '';
     var node = document.createElement("tr");
     data_counter = 0;
-    for(i in data){
-        data_search.push(data[i]);
-        text+=`
-        <form action="" method="POST" id="gotobooking`+data_counter+`" />
-        <tr>
-            <td>`+(parseInt(i)+1)+`</td>
-            <td name="order_number">`+data[i].name+`</td>`;
+    if(data.length != 0){
+        $('#top_up_found').hide();
+        for(i in data){
+            data_search.push(data[i]);
+            text+=`
+            <form action="" method="POST" id="gotobooking`+data_counter+`" />
+            <tr>
+                <td>`+(parseInt(i)+1)+`</td>
+                <td name="order_number">`+data[i].name+`</td>`;
 
-        text+= `<td>`+data[i].due_date+`</td>`;
-        text+= `<td style="text-align:right">`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
-        text+= `<td>`+data[i].state_description+`</td>`;
-        text+= `<td>`+data[i].payment_method+`</td>`;
-        if(data[i].hasOwnProperty('help_by') == true){
-            text+= `<td>`+data[i].help_by+`</td>`;
-        }else{
-            text+= `<td>-</td>`;
-        }
-        if(data[i].state == 'request'){
-            text+= `<td>
-            <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
+            text+= `<td>`+data[i].due_date+`</td>`;
+            text+= `<td style="text-align:right">`+data[i].currency_code+' '+getrupiah(data[i].total)+`</td>`;
+            text+= `<td>`+data[i].state_description+`</td>`;
+            text+= `<td>`+data[i].payment_method+`</td>`;
+            if(data[i].hasOwnProperty('help_by') == true){
+                text+= `<td>`+data[i].help_by+`</td>`;
+            }else{
+                text+= `<td>-</td>`;
+            }
+            if(data[i].state == 'request'){
+                text+= `<td>
+                <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
 
-            text+=`</td>`;
-        }else{
-            text+= `<td></td>`;
+                text+=`</td>`;
+            }else{
+                text+= `<td></td>`;
+            }
+            text+= `</tr>`;
+            node.innerHTML = text;
+            document.getElementById("table_top_up_history").appendChild(node);
+            node = document.createElement("tr");
+            $('#loading-search-top-up').hide();
+    //                   document.getElementById('airlines_ticket').innerHTML += text;
+            text = '';
+            data_counter++;
         }
-        text+= `</tr>`;
-        node.innerHTML = text;
-        document.getElementById("table_top_up_history").appendChild(node);
-        node = document.createElement("tr");
+    }else{
         $('#loading-search-top-up').hide();
-//                   document.getElementById('airlines_ticket').innerHTML += text;
-        text = '';
-        data_counter++;
+        $('#top_up_found').show();
     }
 }
 

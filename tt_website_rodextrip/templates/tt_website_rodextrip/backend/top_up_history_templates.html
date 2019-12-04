@@ -150,6 +150,12 @@
         }catch(err){}
         console.log(filter);
     }
+    function reset_filter(){
+        document.getElementById('name').value = '';
+        document.getElementById('start_date').value = '';
+        document.getElementById('end_date').value = '';
+        document.getElementById('state').value = 'all';
+    }
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
@@ -157,6 +163,67 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <div class="form-wrap" style="margin-bottom:25px;">
+                    <h4>Search by</h4>
+                    <div class="row banner-right">
+                        <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6">
+                                    <span>Top Up. Number</span>
+                                    <input type="text" id="name" class="form-control" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <span>State</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select" id="default-select">
+                                            <select id="state">
+                                                <option value="all">All</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="request">Request</option>
+                                                <option value="valid">Validated</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="expired">Expired</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> Start Date</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Start Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> End Date</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="End Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> RESET</a>
+                                </div>
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <table style="width:100%; background:white;" id="table_top_up_history" class="list-of-reservation">
+                    <tr>
+                        <th style="width:5%;">No.</th>
+                        <th style="width:20%;">Top Up Number</th>
+                        <th style="width:20%;">Due Date</th>
+                        <th style="width:15%;">Amount</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:15%;">Payment Method</th>
+                        <th style="width:15%;">Help By</th>
+                        <th style="width:10%;">Action</th>
+                    </tr>
+                </table>
                 <div id="loading-search-top-up" style="margin-bottom:20px;">
                     <div class="col-lg-12">
                         <div class="sk-circle">
@@ -176,49 +243,7 @@
                         <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                     </div>
                 </div>
-                <div class="form-wrap" style="margin-bottom:25px;">
-                    <h5>Filter</h5>
-                    <div class="row banner-right">
-                        <div class="col-lg-12">
-                            <label class="radio-button-custom">
-                                <span>All</span>
-                                <input type="radio" checked name="filter" value="all" onclick="onchange_filter();">
-                                <span class="checkmark-radio"></span>
-                            </label>
-                            <label class="radio-button-custom">
-                                <span>By Name</span>
-                                <input type="radio" name="filter" value="name" onclick="onchange_filter();">
-                                <span class="checkmark-radio"></span>
-                            </label>
-                            <label class="radio-button-custom">
-                                <span>By Date</span>
-                                <input type="radio" name="filter" value="date" onclick="onchange_filter();">
-                                <span class="checkmark-radio"></span>
-                            </label>
-                            <label class="radio-button-custom">
-                                <span>By State</span>
-                                <input type="radio" name="filter" value="state" onclick="onchange_filter();">
-                                <span class="checkmark-radio"></span>
-                            </label>
-                        </div>
-                        <div class="col-lg-12" id="search">
-
-                        </div>
-
-                    </div>
-                </div>
-                <table style="width:100%;" id="table_top_up_history" class="list-of-reservation">
-                    <tr>
-                        <th style="width:5%;">No.</th>
-                        <th style="width:20%;">Top Up Number</th>
-                        <th style="width:20%;">Due Date</th>
-                        <th style="width:15%;">Amount</th>
-                        <th style="width:15%;">Status</th>
-                        <th style="width:15%;">Payment Method</th>
-                        <th style="width:15%;">Help By</th>
-                        <th style="width:10%;">Action</th>
-                    </tr>
-                </table>
+                <center><div class="alert alert-danger" id="top_up_found" role="alert" style="margin-top:10px; display:none;"><h6><i class="fas fa-search-minus"></i> Oops! Data top up not found!</h6></div></center>
             </div>
         </div>
     </div>
@@ -226,7 +251,82 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
-    get_top_up();
+    $( document ).ready(function() {
+        try{
+            $('input[name="start_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment().subtract(+730, 'days'),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+            $('input[name="end_date"]').daterangepicker({
+              singleDatePicker: true,
+              autoUpdateInput: true,
+              startDate: moment(),
+              minDate: moment(),
+              maxDate: moment(),
+              showDropdowns: true,
+              opens: 'center',
+              locale: {
+                  format: 'DD MMM YYYY',
+              }
+            });
+
+            $('input[name="end_date"]').change(function() {
+                min_date = document.getElementById('end_date').value;
+                if(document.getElementById('start_date').value != '')
+                    pick_date = document.getElementById('start_date').value;
+                else
+                    pick_date = document.getElementById('end_date').value;
+
+                $('input[name="start_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: moment().subtract(+730, 'days'),
+                  maxDate: min_date,
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+
+            $('input[name="start_date"]').change(function() {
+                min_date = document.getElementById('start_date').value;
+                if(document.getElementById('end_date').value != '')
+                    pick_date = document.getElementById('end_date').value;
+                else
+                    pick_date = document.getElementById('start_date').value;
+
+                console.log(pick_date);
+                console.log(min_date);
+                $('input[name="end_date"]').daterangepicker({
+                  singleDatePicker: true,
+                  autoUpdateInput: true,
+                  opens: 'center',
+                  startDate: pick_date,
+                  minDate: min_date,
+                  maxDate: moment(),
+                  showDropdowns: true,
+                  locale: {
+                      format: 'DD MMM YYYY',
+                  }
+                });
+            });
+        }catch(err){}
+        $('input[name="start_date"]').val("");
+        $('input[name="end_date"]').val("");
+    });
+    signin_rodextrip('top_up_history');
+    //get_top_up();
     load_more = false;
 </script>
 

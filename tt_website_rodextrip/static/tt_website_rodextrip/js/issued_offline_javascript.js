@@ -105,6 +105,7 @@ function change_transaction_type(type){
 
 function add_table_of_passenger(){
     text= '';
+    set_passenger_number(counter_passenger);
     var node = document.createElement("tr");
     text += `
         <td>`+(parseInt(counter_passenger)+1)+`</td>
@@ -119,7 +120,7 @@ function add_table_of_passenger(){
     text += `
         <td>
             <div style="text-align:center;">
-                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`"><i class="fas fa-search"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
@@ -144,11 +145,17 @@ function add_table_of_passenger(){
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <br/>
+                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+                                </div>
+                            </div>
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
                                     <input type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search" style="padding:5px;"/>
                                     <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
-                                    <div id="search_result_`+(counter_passenger+1)+`" style="overflow:auto;height:200px;">
+                                    <div id="search_result_`+(counter_passenger+1)+`">
 
                                     </div>
                                 </div>
@@ -310,7 +317,6 @@ function add_table_of_passenger(){
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
 
-
     $('input[type="text"].date-picker-birth').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
@@ -340,6 +346,7 @@ function add_table_of_passenger(){
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
+    $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
     $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
@@ -365,29 +372,29 @@ function add_table_of_line(type){
                     <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Origin</span><br/>
-                    <div class="input-container-search-ticket">`;
-                        if(type == 'airline'){
-                            text+=`<i class="fas fa-plane-departure icon-search-ticket"></i>`;
-                        }
-                        else{
-                            text+=`<img src="static/tt_website_rodextrip/img/icon/train-01.png" class="icon-search-ticket"/>`;
-                        }
-                        text+=`
+                    <span>`;
+                    if(type == 'airline'){
+                        text+=`<i class="fas fa-plane-departure"></i>`;
+                    }
+                    else{
+                        text+=`<img src="static/tt_website_rodextrip/img/icon/train-01.png" style="height:15px; width:auto;"/>`;
+                    }
+                    text+=` Origin</span>
+                    <div class="input-container-search-ticket">
                         <input id="origin`+counter_line+`" name="origin`+counter_line+`" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
-
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Destination</span><br/>
-                    <div class="input-container-search-ticket">`;
-                        if(type == 'airline'){
-                            text+=`<i class="fas fa-plane-arrival icon-search-ticket"></i>`;
-                        }
-                        else{
-                            text+=`<img src="static/tt_website_rodextrip/img/icon/train-02.png" class="icon-search-ticket"/>`;
-                        }
-                        text+=`
+                    <span>`;
+                    if(type == 'airline'){
+                        text+=`<i class="fas fa-plane-arrival"></i>`;
+                    }
+                    else{
+                        text+=`<img src="static/tt_website_rodextrip/img/icon/train-02.png" style="height:15px; width:auto;"/>`;
+                    }
+                    text+=` Destination
+                    </span>
+                    <div class="input-container-search-ticket">
                         <input id="destination`+counter_line+`" name="destination`+counter_line+`" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="">
                     </div>
                 </div>
@@ -400,13 +407,7 @@ function add_table_of_line(type){
                 <div class="col-lg-4 col-md-4">
                     <span>Provider</span><br/>
                     <div class="input-container-search-ticket">`;
-                        if(type == 'airline'){
-                            text+=`<i class="fas fa-plane icon-search-ticket"></i>`;
-                        }
-                        else{
-                            text+=`<i class="fas fa-train icon-search-ticket"></i>`;
-                        }
-                        text+=`
+                    text+=`
                         <div class="form-select">
                             <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="provider_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'provider')">
 
@@ -416,16 +417,14 @@ function add_table_of_line(type){
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Departure Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i> Departure Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
                         <input type="text" id='departure`+counter_line+`' class="form-control departure_date" name='departure`+counter_line+`' placeholder="datetime"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Arrival Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i> Arrival Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
                         <input type="text" id='arrival`+counter_line+`' class="form-control arrival_date" name='arrival`+counter_line+`' placeholder="datetime"/>
                     </div>
                 </div>
@@ -441,7 +440,7 @@ function add_table_of_line(type){
                     <span>Class</span><br/>
                     <div class="input-container-search-ticket btn-group">
                         <div class="form-select" id="default-select">
-                            <select id='class`+counter_line+`' name='class`+counter_line+`' class="form-control" style="height:42px;">`;
+                            <select id='class`+counter_line+`' name='class`+counter_line+`' style="height:42px;">`;
                             for(i in class_of_service)
                                 text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
                         text+=`
@@ -456,9 +455,9 @@ function add_table_of_line(type){
             </div>
         </div><hr/>`;
         node.innerHTML = text;
-        $('#class'+counter_line).niceSelect('update');
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
+        $('#class'+counter_line).niceSelect();
         set_provider_data(counter_line, type);
 //        set_origin_data(counter_line, type);
 //        set_destination_data(counter_line, type);
@@ -539,16 +538,14 @@ function add_table_of_line(type){
                     <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Name</span><br/>
+                    <span><i class="fas fa-hotel"></i> Name</span><br/>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-hotel icon-search-ticket"></i>
                         <input type="input" id='hotel_name`+counter_line+`' class="form-control" name='hotel_name`+counter_line+`' placeholder="Name"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Room</span><br/>
+                    <span><i class="fas fa-bed"></i> Room</span><br/>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-bed icon-search-ticket"></i>
                         <input type="input" id='hotel_room`+counter_line+`' class="form-control" name='hotel_room`+counter_line+`' placeholder="Room Type"/>
                     </div>
                 </div>
@@ -557,16 +554,14 @@ function add_table_of_line(type){
                     <input type="input" id='hotel_qty`+counter_line+`' class="form-control" name='hotel_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
                 <div class="col-lg-4 col-xs-4">
-                    <span>Check-in Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i> Check-in Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
                         <input type="text" id='hotel_check_in`+counter_line+`' class="form-control check-in-date" name='hotel_check_in`+counter_line+`' placeholder="Check in"/>
                     </div>
                 </div>
                 <div class="col-lg-4 col-xs-4">
-                    <span>Check-out Date</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i> Check-out Date</span><br/>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
                         <input type="text" id='hotel_check_out`+counter_line+`' class="form-control check-out-date" name='hotel_check_out`+counter_line+`' placeholder="Check out"/>
                     </div>
                 </div>
@@ -640,9 +635,8 @@ function add_table_of_line(type){
                     <input type="input" id='activity_qty`+counter_line+`' class="form-control" name='activity_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Visit Date Time</span><br/>
+                    <span><i class="fas fa-calendar-alt"></i> Visit Date Time</span><br/>
                     <div class="input-container-search-ticket">
-                        <i class="fas fa-calendar-alt icon-search-ticket"></i>
                         <input type="text" id='activity_datetime`+counter_line+`' class="form-control visit_date" name='activity_datetime`+counter_line+`' placeholder="Datetime"/>
                     </div>
                 </div>

@@ -12,28 +12,15 @@ function table_reservation(data){
             <td>`+(data_counter+1)+`</td>
             <td name="order_number">`+data[i].order_number+`</td>`;
         try{
-            if(data[i].provider.provider_type == 'airline'){
-                text+=`<td>`;
-                for(j in data[i].provider.airline_carrier_codes){
-                    text+=airline_carriers[data[i].provider.airline_carrier_codes[j]].name;
-                    if(j != data[i].provider.airline_carrier_codes.length - 1)
-                        text+=`, `;
-                }
-                text+=`</td>`;
-            }else if(data[i].provider.provider_type == 'train')
-                text+=`<td>KAI</td>`;
-            else if(data[i].provider.provider_type == 'activity')
-                text+=`<td>ACTIVITY</td>`
-            else if(data[i].provider.provider_type == 'tour')
-                text+=`<td>TOUR</td>`
-            else if(data[i].provider.provider_type == 'visa')
-                text+=`<td>VISA</td>`;
-            else if(data[i].provider.provider_type == 'hotel')
-                text+=`<td>HOTEL</td>`;
+            if(data[i].carrier_names == '')
+                text+=`<td>`+data[i].provider_type+`</td>`;
+            else
+                text+=`<td>`+data[i].carrier_names+`</td>`;
         }catch(err){
 
         }
         text+= `<td>`+data[i].booked_date+`</td>`;
+        text+= `<td>`+data[i].booker.name+`</td>`;
         if(data[i].hold_date == false){
             text+= `<td>-</td>`;
         }
@@ -87,17 +74,25 @@ function auto_complete(type){
 //    $('#'+type).select2().trigger('change');
 }
 function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=",";
+    try{
+        var temp = price.toString();
+        var pj = temp.split('.')[0].toString().length;
+        var priceshow="";
+        for(x=0;x<pj;x++){
+            if((pj-x)%3==0 && x!=0){
+                priceshow+=",";
+            }
+            priceshow+=temp.charAt(x);
         }
-        priceshow+=temp.charAt(x);
+        if(temp.split('.').length == 2){
+            for(x=pj;x<temp.length;x++){
+                priceshow+=temp.charAt(x);
+            }
+        }
+        return priceshow;
+    }catch(err){
+        return price;
     }
-    return priceshow;
-
 }
 
 function payment_top_up(){
@@ -174,20 +169,6 @@ function set_radio_payment(type){
             }
         }
     }
-}
-
-function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=",";
-        }
-        priceshow+=temp.charAt(x);
-    }
-    return priceshow;
-
 }
 
 //    if(document.getElementById('payment_selection').value == 'cash'){

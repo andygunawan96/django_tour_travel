@@ -386,6 +386,7 @@ function issued_offline_signin(){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
+                document.getElementById('payment_acq').hidden = false;
                 set_data_issued_offline();
             }
 
@@ -758,6 +759,7 @@ function update_passenger(){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 get_payment_acq('Issued','', '', 'billing', signature, 'issued_offline','', '');
+                document.getElementById('payment_acq').hidden = false;
             }
 //
 
@@ -818,6 +820,7 @@ function commit_booking(){
                    delete_table_of_line();
                }
                document.getElementsByName('myRadios')[1].checked = true;
+               document.getElementById('payment_acq').hidden = true;
                $('select').niceSelect('update');
            }
        },

@@ -111,17 +111,25 @@ function search_hotel(val){
 }
 
 function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=".";
+    try{
+        var temp = price.toString();
+        var pj = temp.split('.')[0].toString().length;
+        var priceshow="";
+        for(x=0;x<pj;x++){
+            if((pj-x)%3==0 && x!=0){
+                priceshow+=",";
+            }
+            priceshow+=temp.charAt(x);
         }
-        priceshow+=temp.charAt(x);
+        if(temp.split('.').length == 2){
+            for(x=pj;x<temp.length;x++){
+                priceshow+=temp.charAt(x);
+            }
+        }
+        return priceshow;
+    }catch(err){
+        return price;
     }
-    return priceshow;
-
 }
 
 function guest_child_age(){
@@ -369,6 +377,7 @@ function sorting_button(value){
 
 function sort(response, check_filter){
         //no filter
+        $pagination_type = "hotel";
         sorting = sorting_value;
         if(check_filter == 1){
             for(i in response.hotel_ids){
@@ -697,7 +706,8 @@ function sort(response, check_filter){
                                 text+= ' ('+ response.hotel_ids[i].location.zipcode + ')';
                             // if(response.hotel_ids[i].location.zipcode != false)
                             //    text+= '<br/>'+ response.hotel_ids[i].location.zipcode + ')
-                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
+//                            text+=`</span> - <a href="#" style="color:blue; text-decoration: unset;">Show Map</a>
+                            text+=`</span>
                                 </div>
 
                                 <div style="padding-bottom:5px;">
@@ -728,20 +738,22 @@ function sort(response, check_filter){
                                 text+=`</div>
                                 </div>
 
-                                <div style="padding-top:10px;">`;
-                                    var idx_img = 1;
-                                    if(response.hotel_ids[i].images.length != 0){
-                                        for(idx_img; idx_img < response.hotel_ids[i].images.length; idx_img++){
-                                            if(idx_img < 5){
-                                                text+=`<img class="img_hotel_smallbot" src="`+response.hotel_ids[i].images[idx_img].url+`" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
-                                            }
-                                            else{
-                                                break;
+                                <div style="padding-top:10px;" id='pagination_image`+i+`'>`;
+                                    if(i >= 0 && i<= 19){
+                                        var idx_img = 1;
+                                        if(response.hotel_ids[i].images.length != 0){
+                                            for(idx_img; idx_img < response.hotel_ids[i].images.length; idx_img++){
+                                                if(idx_img < 5){
+                                                    text+=`<img class="img_hotel_smallbot" src="`+response.hotel_ids[i].images[idx_img].url+`" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
+                                                }
+                                                else{
+                                                    break;
+                                                }
                                             }
                                         }
-                                    }
-                                    else{
-                                        text+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+                                        else{
+                                            text+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+                                        }
                                     }
                                     text+=`
                                 </div>
@@ -813,9 +825,18 @@ function sort(response, check_filter){
                                         text+=`<span class="price_hotel" hidden>Waiting price</span>`;
                                     }
                                     text += `
+
                                     </div>
-                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">
-                                        <button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>
+                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
+                                        var total_room = document.getElementById("hotel_room").value;
+                                        var total_night = document.getElementById("total_night_search").textContent;
+                                        text+=`
+                                        <span style="font-weight:500; color:#f15a22;">( for `+total_room+` room, `+total_night+` night )</span>`;
+                                        if(best_price[0] != undefined)
+                                            text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>`;
+                                        else
+                                            text+=`<button type="button" class="primary-btn-custom" style="width:100%; background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
+                                        text+=`
                                     </div>
                                 </div>
                             </div>
@@ -1206,8 +1227,8 @@ function hotel_room_pick(key){
     var get_name_hotel = document.getElementById("get_name_hotel").value;
     $text2 = ''+ get_name_hotel +'\n';
     for(i in hotel_room.rooms){
-        text += '<h5>'+ hotel_room.rooms[i].category + '</h5>';
-        text += '<span> '+ hotel_room.rooms[i].description + '<span><br/>';
+        text += '<h5>'+ hotel_room.rooms[i].description + '</h5>';
+        //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
         text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
         text += '<span>Meal Type: ' + hotel_room.meal_type +'</span/><br/><br/>';
         text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
@@ -1215,7 +1236,7 @@ function hotel_room_pick(key){
         text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
         text += '</div><br/>';
 
-        $text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
+        //$text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
         $text2 += hotel_room.rooms[i].description +'\n';
         $text2 += hotel_room.rooms[i].qty +' room(s) \n';
         $text2 += 'Meal Type: '+ hotel_room.meal_type +'\n \n';
@@ -1963,6 +1984,35 @@ function go_to_owl_carousel_bottom(counter, co_i){
 
     $('.owl-carousel-hotel-img-modal').trigger('to.owl.carousel', counter-1);
     $("#openImage").modal('show');
+}
+
+function change_image_hotel(numb){
+    var min_img = parseInt((numb*20)-20);
+    var max_img = parseInt((numb*20)-1);
+
+    if(temp_response.hotel_ids.length != 0){
+        for(i in temp_response.hotel_ids){
+            if(i >= min_img && i<= max_img){
+                var text_change_img = '';
+                var idx_img = 1;
+                if(temp_response.hotel_ids[i].images.length != 0){
+                    for(idx_img; idx_img < temp_response.hotel_ids[i].images.length; idx_img++){
+                        if(idx_img < 5){
+                            text_change_img+=`<img class="img_hotel_smallbot" src="`+temp_response.hotel_ids[i].images[idx_img].url+`" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                }
+                else{
+                    text_change_img+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+                }
+
+                document.getElementById('pagination_image'+i).innerHTML = text_change_img;
+            }
+        }
+    }
 }
 
 //function viewImageHotel(urlImage){

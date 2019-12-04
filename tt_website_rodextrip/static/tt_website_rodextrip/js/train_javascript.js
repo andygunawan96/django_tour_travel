@@ -496,17 +496,25 @@ function check_destination_origin(){
 }
 
 function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=",";
+    try{
+        var temp = price.toString();
+        var pj = temp.split('.')[0].toString().length;
+        var priceshow="";
+        for(x=0;x<pj;x++){
+            if((pj-x)%3==0 && x!=0){
+                priceshow+=",";
+            }
+            priceshow+=temp.charAt(x);
         }
-        priceshow+=temp.charAt(x);
+        if(temp.split('.').length == 2){
+            for(x=pj;x<temp.length;x++){
+                priceshow+=temp.charAt(x);
+            }
+        }
+        return priceshow;
+    }catch(err){
+        return price;
     }
-    return priceshow;
-
 }
 
 function choose_train(data,key){
@@ -1265,6 +1273,22 @@ function select_journey(val){
 
 function change_seat(wagon, seat,column,seat_code){
     document.getElementById('seat_journey'+seat_map_pick).innerHTML = ', ' + wagon + ' ' + seat+column;
+    for(i in seat_map_response[seat_map_pick-1]){
+        if(seat_map_response[seat_map_pick-1][i].cabin_name == wagon){
+            for(j in seat_map_response[seat_map_pick-1][i].seat_rows){
+                if(pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)].seat == seat_map_response[seat_map_pick-1][i].seat_rows[j].row_number){
+                    for(k in seat_map_response[seat_map_pick-1][i].seat_rows[j].seats){
+                        if(pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)].column == seat_map_response[seat_map_pick-1][i].seat_rows[j].seats[k].column){
+                            seat_map_response[seat_map_pick-1][i].seat_rows[j].seats[k].availability = 1;
+                            break;
+                        }
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+    }
     pax[parseInt(pax_click-1)].seat_pick[parseInt(seat_map_pick-1)] = {
         'wagon': wagon,
         'seat': seat,

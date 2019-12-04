@@ -131,13 +131,13 @@ def get_data(request):
 
 def search(request):
     data = {
-        'query': request.session['activity_request']['query'],
-        'country': request.session['activity_request']['country'],
-        'city': request.session['activity_request']['city'],
+        'query': request.session['activity_search_request']['query'],
+        'country': request.session['activity_search_request']['country'],
+        'city': request.session['activity_search_request']['city'],
         'sort': request.POST['sort'],
-        'type_id': request.session['activity_request']['type_id'],
-        'category': request.session['activity_request']['category'],
-        'sub_category': request.session['activity_request']['sub_category'],
+        'type_id': request.session['activity_search_request']['type_id'],
+        'category': request.session['activity_search_request']['category'],
+        'sub_category': request.session['activity_search_request']['sub_category'],
         'limit': int(request.POST['limit']),
         'offset': int(request.POST['offset']),
     }

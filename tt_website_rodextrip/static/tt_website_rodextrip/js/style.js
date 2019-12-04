@@ -6,7 +6,8 @@ $(document).ready(function(){
     var sort_duration=0;
     var sort_departure=0;
     var sort_arrival=0;
-
+    $page_number = 1;
+    $pagination_type = "default";
     var checking = function() {
       var status = document.getElementById('status');
 
@@ -704,21 +705,21 @@ $(document).ready(function(){
 
     $('#information-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-hotel").offset().top - 125
+            scrollTop: $("div.div-information-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("information");
     });
 
     $('#facility-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-facility-hotel").offset().top - 110
+            scrollTop: $("div.div-facility-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("facility");
     });
 
     $('#location-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-location-hotel").offset().top - 110
+            scrollTop: $("div.div-location-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("location");
     });
@@ -726,14 +727,14 @@ $(document).ready(function(){
 
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-room-hotel").offset().top - 110
+            scrollTop: $("div.div-select-room-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("select");
     });
 
     $('#review-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-review-hotel").offset().top - 110
+            scrollTop: $("div.div-review-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("review");
     });
@@ -1671,6 +1672,26 @@ function show_paxs_airline(pax_type, key){
     }
 }
 
+function show_attachment_details(key){
+    var journey = document.getElementById('journey'+key);
+    var flight = document.getElementById('detail_attachment'+key);
+    var flight_down = document.getElementById('attach_details_down'+key);
+    var flight_up = document.getElementById('attach_details_up'+key);
+
+    if (flight.style.display === "none") {
+        flight_up.style.display = "block";
+        flight_down.style.display = "none";
+        flight.style.display = "block";
+        journey.style.marginBottom = "15px";
+    }
+    else {
+        flight_up.style.display = "none";
+        flight_down.style.display = "block";
+        flight.style.display = "none";
+        journey.style.marginBottom = "15px";
+    }
+}
+
 function show_flight_details(key){
     var journey = document.getElementById('journey'+key);
     var flight = document.getElementById('detail_departjourney'+key);
@@ -2030,31 +2051,31 @@ function active_sticky_tour(type){
 function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     if(breadcrumbs_type == "airline"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "location.href='{% url 'tt_website_rodextrip:airline_search'%}';", "location.href='{% url 'tt_website_rodextrip:airline_passenger'%}';", "", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/airline';", "location.href='/airline/passenger';", "", ""];
     }
     if(breadcrumbs_type == "airline_new"){
         var breadcrumbs = ["Home", "Search", "Passenger", "SSR", "Review", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "", "", "", "", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "", "", "", "", ""];
     }
     if(breadcrumbs_type == "activity"){
         var breadcrumbs = ["Home", "Search", "Detail", "Passenger", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "location.href='{% url 'tt_website_rodextrip:activity_search'%}';", "location.href='{% url 'tt_website_rodextrip:activity_detail'%}';", "location.href='{% url 'tt_website_rodextrip:activity_passenger'%}';", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/activity';", "location.href='/activity/detail';", "location.href='/activity/passenger';", ""];
     }
     if(breadcrumbs_type == "hotel"){
         var breadcrumbs = ["Home", "Search", "Rooms", "Guest", "Review", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "location.href='{% url 'tt_website_rodextrip:hotel_search'%}';", "", "", "", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/hotel';", "location.href='/hotel/detail';", "location.href='/hotel/passenger';", "", ""];
     }
     if(breadcrumbs_type == "tour"){
         var breadcrumbs = ["Home", "Search", "Detail", "Passenger", "Booking", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "location.href='{% url 'tt_website_rodextrip:tour_search'%}';", "location.href='{% url 'tt_website_rodextrip:tour_detail'%}';", "location.href='{% url 'tt_website_rodextrip:tour_passenger'%}';", "", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/tour';", "location.href='/tour/detail';", "location.href='/tour/passenger';", "", ""];
     }
     if(breadcrumbs_type == "visa"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "location.href='{% url 'tt_website_rodextrip:visa_search'%}';", "location.href='{% url 'tt_website_rodextrip:tour_detail'%}';", "location.href='{% url 'tt_website_rodextrip:visa_passenger'%}';", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/visa';", "location.href='/visa/passenger';", "", ""];
     }
     if(breadcrumbs_type == "train"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
-        var breadcrumbs_url = ["location.href='{% url 'tt_website_rodextrip:index'%}';", "", "", "", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/train';", "location.href='/train/passenger';", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
@@ -2272,4 +2293,12 @@ function please_wait_transaction(){
     </div>`;
     document.getElementById("viewWaitingTransaction").innerHTML = text_waiting;
     $("#waitingTransaction").modal('show');
+}
+
+function pagination_numb(numb){
+    $page_number = numb;
+
+    if($pagination_type == "hotel"){
+        change_image_hotel(numb);
+    }
 }

@@ -146,18 +146,18 @@
                                     <span style="padding-left:5px; font-weight:bold;"> VISA </span>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="groupbooking-tab" data-toggle="tab" href="#groupbooking" role="tab" aria-controls="groupbooking" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-group.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> GROUP </span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-passport.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> PASSPORT </span>
-                                </a>
-                            </li>
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link" id="groupbooking-tab" data-toggle="tab" href="#groupbooking" role="tab" aria-controls="groupbooking" aria-selected="false">-->
+                                    <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-group.png"/></i>-->
+                                    <!--<span style="padding-left:5px; font-weight:bold;"> GROUP </span>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">-->
+                                    <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-passport.png"/></i>-->
+                                    <!--<span style="padding-left:5px; font-weight:bold;"> PASSPORT </span>-->
+                                <!--</a>-->
+                            <!--</li>-->
                         </ul>
                     </div>
                     <div class="banner-right">
@@ -792,22 +792,22 @@
                                     </button>
                                 </form>
                             </div>
-                            <div class="tab-pane fade" id="groupbooking" role="tabpanel" aria-labelledby="groupbooking-tab">
-                                <center>
-                                    <div style="padding:15px;">
-                                        <img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>
-                                        <h1 style="color:white !important;">Group booking under construction</h1>
-                                    </div>
-                                </center>
-                            </div>
-                            <div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">
-                                <center>
-                                    <div style="padding:15px;">
-                                        <img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>
-                                        <h1 style="color:white !important;">Passport under construction</h1>
-                                    </div>
-                                </center>
-                            </div>
+                            <!--<div class="tab-pane fade" id="groupbooking" role="tabpanel" aria-labelledby="groupbooking-tab">-->
+                                <!--<center>-->
+                                    <!--<div style="padding:15px;">-->
+                                        <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                                        <!--<h1 style="color:white !important;">Group booking under construction</h1>-->
+                                    <!--</div>-->
+                                <!--</center>-->
+                            <!--</div>-->
+                            <!--<div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">-->
+                                <!--<center>-->
+                                    <!--<div style="padding:15px;">-->
+                                        <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                                        <!--<h1 style="color:white !important;">Passport under construction</h1>-->
+                                    <!--</div>-->
+                                <!--</center>-->
+                            <!--</div>-->
                         </div>
                         <img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">
                     </div>
@@ -843,9 +843,9 @@
     <!--    </div>-->
     <!--</section>-->
 
-    <!--<div id="small_banner">-->
+    <div id="small_banner">
 
-    <!--</div>-->
+    </div>
     {% if username != null %}
     <!--<section class="destinations-area section-gap">-->
     <!--    <div class="container">-->
@@ -5035,7 +5035,7 @@
     }
     {%endif%}
     //get_banner('big_banner','home');
-    //get_banner('small_banner','home');
+    get_banner('small_banner','home');
     //get_banner('promotion','home');
 </script>
 

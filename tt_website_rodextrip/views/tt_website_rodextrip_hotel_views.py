@@ -35,9 +35,11 @@ def search(request):
             request.session['hotel_request'] = {
                 'destination': request.POST['hotel_id_destination'],
                 'guest_nationality': request.POST['hotel_id_nationality'],
-                'business_trip': request.POST['business_trip'],
+                'business_trip': request.POST.get('business_trip'), #Checkbox klo disi baru di POST
                 'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
                 'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],
+                # 'checkin_date': request.POST['hotel_checkin'],
+                # 'checkout_date': request.POST['hotel_checkout'],
                 'room': int(request.POST['hotel_room']),
                 'adult': int(request.POST['hotel_adult']),
                 'child': int(request.POST['hotel_child']),
@@ -397,10 +399,10 @@ def booking(request):
             resv_obj = False
 
         try:
-            order_number = request.POST['order_number']
-            request.session['airline_order_number'] = request.POST['order_number']
+            order_number = resv_obj['booking_name']
+            request.session['hotel_detail'] = resv_obj['booking_name']
         except:
-            order_number = request.session['airline_order_number']
+            order_number = request.session['hotel_detail']
         if resv_obj:
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),

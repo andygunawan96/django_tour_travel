@@ -139,25 +139,24 @@ function search_visa(){
                                 </div>
                                 <div class="col-lg-12" style="margin-top:15px;">
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #f15a22;" aria-expanded="true">
-                                                <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                            </a>
+                                        <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6" style="text-align:left;">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #f15a22;" aria-expanded="true">
+                                                        <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <a id="detail_button_attachment0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_attachment_details(`+i+`);" href="#detail_attachment`+i+`" style="color: #f15a22;" aria-expanded="true">
+                                                        <span style="text-align:left; font-weight: bold; display:none;" id="attach_details_up`+i+`"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span style="text-align:left; font-weight: bold; display:block;" id="attach_details_down`+i+`"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6" style="text-align:right;">
                                             <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <a id="detail_button_attachment0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_attachment`+i+`" style="color: #f15a22;" aria-expanded="true">
-                                                <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                            </a>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-
                                         </div>
                                     </div>
                                 </div>
@@ -184,9 +183,10 @@ function search_visa(){
                             </div>
                             <div id="detail_attachment`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
                                 <hr/>
-                                <div id="attachment" style="background-color:white;">`;
+                                <div id="attachment">
+                                    <h6>Attachment</h6>`;
                                     for(j in msg.result.response.list_of_visa[i].attachments){
-                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" download>`+msg.result.response.list_of_visa[i].attachments[j].name+`</a>`
+                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" style="padding-right:10px; color:#f15a22; font-size:14px; font-weight:500;" download><i class="fas fa-file-download"></i> `+msg.result.response.list_of_visa[i].attachments[j].name+`</a>`
                                     }
                                     text+=`
                                 </div>
@@ -708,8 +708,7 @@ function visa_get_data(data){
                                 <div class="row" style="margin-top:10px;">
                                     <div class="col-lg-4">
                                         <h6>Required</h6>
-                                        <div id="adult_required{{counter}}">
-                                            `;
+                                        <div id="adult_required{{counter}}">`;
                                         for(j in msg.result.response.passengers[i].visa.requirement){
                                             text+=`<label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
                                         }
@@ -774,8 +773,7 @@ function visa_get_data(data){
                                     }
                                     text+=`
                                         </table>
-                                    </div>
-                                </div><hr/>`;
+                                    <hr/>`;
                             }
                             text+=`
                         </div>
