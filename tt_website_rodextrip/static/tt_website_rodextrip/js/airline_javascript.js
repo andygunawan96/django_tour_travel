@@ -4400,31 +4400,10 @@ function get_airline_review(){
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list){
-                                    try{
-                                        text+=`<div class="popover__wrapper">
-                                                  <a href="#">
-                                                    `+passengers_ssr[i].ssr_list[j].availability_type+`
-                                                  </a>
-                                                  <div class="popover__content">`;
-                                        text+= passengers_ssr[i].ssr_list[j].name + '<br>';
-                                        text+=`</p></div></div><br/>`;
-                                  }catch(err){}
-                                  text+=`
-                                </div>`;
+                                    text+= `<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
                                 }
                                 for(j in passengers_ssr[i].seat_list){
-                                    try{
-                                        if(passengers_ssr[i].seat_list[j].seat_pick != ''){
-                                            text+=`<div class="popover__wrapper">
-                                                      <a href="#">
-                                                        Seat `+passengers_ssr[i].seat_list[j].segment_code+`
-                                                      </a>
-                                                      <div class="popover__content">`;
-                                            text+= passengers_ssr[i].seat_list[j].seat_pick + '<br>';
-                                            text+=`</p></div></div><br/></div>`;
-                                        }
-                                  }catch(err){}
-
+                                    text+= `<label>`+passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
                                 }
                                 text+=`</td>
                                </tr>`;
@@ -4535,15 +4514,7 @@ function get_airline_review_after_sales(){
                                 <td>`;
                                   try{
                                       for(j in airline_get_booking.passengers[i]){
-                                        text+=`<div class="popover__wrapper">
-                                                  <a href="#">
-                                                    `+msg.result.response.passengers[i].fees[j].fee_name+`
-                                                  </a>
-                                                  <div class="popover__content">`;
-                                        text+= msg.result.response.passengers[i].fees[j].fee_value + '<br>';
-                                        for(k in msg.result.response.passengers[i].fees[j].description)
-                                            text += msg.result.response.passengers[i].fees[j].description[k] + '<br>';
-                                        text+=`</p></div></div><br/>`;
+                                        text += `<label>`+msg.result.response.passengers[i].fees[j].fee_name+ ' ' + msg.result.response.passengers[i].fees[j].fee_value + `</label><br/>`;
                                       }
                                   }catch(err){}
                                   text+=`
@@ -4552,30 +4523,15 @@ function get_airline_review_after_sales(){
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list){
                                     try{
-                                        text+=`<div class="popover__wrapper">
-                                                  <a href="#">
-                                                    `+passengers_ssr[i].ssr_list[j].availability_type+`
-                                                  </a>
-                                                  <div class="popover__content">`;
-                                        text+= passengers_ssr[i].ssr_list[j].name + '<br>';
-                                        text+=`</p></div></div><br/>`;
+                                        text += `<label>`+passengers_ssr[i].ssr_list[j].availability_type+ ' ' + passengers_ssr[i].ssr_list[j].name + `</label><br/>`;
                                   }catch(err){}
-                                  text+=`
-                                </div>`;
                                 }
                                 for(j in passengers_ssr[i].seat_list){
                                     try{
                                         if(passengers_ssr[i].seat_list[j].seat_pick != ''){
-                                            text+=`<div class="popover__wrapper">
-                                                      <a href="#">
-                                                        Seat `+passengers_ssr[i].seat_list[j].segment_code+`
-                                                      </a>
-                                                      <div class="popover__content">`;
-                                            text+= passengers_ssr[i].seat_list[j].seat_pick + '<br>';
-                                            text+=`</p></div></div><br/></div>`;
+                                            text += `<label>Seat `+passengers_ssr[i].seat_list[j].segment_code+ ' ' + passengers_ssr[i].seat_list[j].seat_pick + `</label><br/>`;
                                         }
                                   }catch(err){}
-
                                 }
                                 text+=`</td>
                                </tr>`;
@@ -4597,9 +4553,6 @@ function get_airline_review_after_sales(){
 
     text+=`</div>`;
     document.getElementById('airline_review').innerHTML = text;
-    try{
-        $('#popoverOption').popover({ trigger: "hover" });
-    }catch(err){}
 }
 
 function update_contact_cp(val){
