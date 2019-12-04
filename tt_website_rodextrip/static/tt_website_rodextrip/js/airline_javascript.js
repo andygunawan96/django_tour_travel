@@ -141,7 +141,7 @@ function add_promotion_code(){
                     <div class="col-lg-6">
                         <label>Carrier Code</label>
                     </div>
-                </div>`
+                </div>`;
     text += `
         <div class="row banner-right" id="promotion_code_line`+promotion_code+`">
             <div class="col-lg-6 form-wrap" style="padding:0px 15px 0px 15px; text-align:left;">
