@@ -1016,6 +1016,7 @@ function train_cancel_booking(){
 
 function train_manual_seat(){
     $('.submit-seat-train').addClass("running");
+    $('.change-seat-train-buttons').prop('disabled', true);
     getToken();
     $.ajax({
        type: "POST",
@@ -1047,6 +1048,7 @@ function train_manual_seat(){
                 document.getElementById('train_booking').submit();
             }else{
                 $('.submit-seat-train').removeClass("running");
+                $('.change-seat-train-buttons').prop('disabled', false);
             }
         }else
             Swal.fire({
@@ -1055,6 +1057,7 @@ function train_manual_seat(){
               html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.error_msg,
             })
             $('.submit-seat-train').removeClass("running");
+            $('.change-seat-train-buttons').prop('disabled', false);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            Swal.fire({
@@ -1063,6 +1066,7 @@ function train_manual_seat(){
               html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
             })
             $('.submit-seat-train').removeClass("running");
+            $('.change-seat-train-buttons').prop('disabled', false);
        },timeout: 60000
     });
 }

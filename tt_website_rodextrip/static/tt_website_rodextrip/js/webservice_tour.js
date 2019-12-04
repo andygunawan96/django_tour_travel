@@ -394,7 +394,7 @@ function tour_get_details(package_id){
                     <div class="col-lg-12" style="margin-bottom:10px;">
                         <div class="row">
                             <div class="col-lg-4" style="margin-bottom:10px;">
-                                <h5 style="border:1px solid #cdcdcd; padding:10px; cursor:pointer;" onclick="show_hide_itinerary_tour(`+it_idx+`)"> Day `+tour_data.itinerary_ids[it_idx].day+` - `+tour_data.itinerary_ids[it_idx].name+` <i class="fas fa-chevron-right" id="itinerary_day`+it_idx+`_down" style="float:right; color:#f15a22; display:none;"></i><i class="fas fa-chevron-left" id="itinerary_day`+it_idx+`_up" style="float:right; color:#f15a22; display:inline-block;"></i></h5>
+                                <h5 style="border:1px solid #cdcdcd; padding:10px; cursor:pointer; overflow-y: hidden;" onclick="show_hide_itinerary_tour(`+it_idx+`)"> Day `+tour_data.itinerary_ids[it_idx].day+` - `+tour_data.itinerary_ids[it_idx].name+` <i class="fas fa-chevron-right" id="itinerary_day`+it_idx+`_down" style="float:right; color:#f15a22; display:none;"></i><i class="fas fa-chevron-left" id="itinerary_day`+it_idx+`_up" style="float:right; color:#f15a22; display:inline-block;"></i></h5>
                             </div>
                             <div class="col-lg-8" style="display:block;" id="div_itinerary_day`+it_idx+`">
                                 <div style="border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
