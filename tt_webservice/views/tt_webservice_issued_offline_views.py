@@ -144,17 +144,17 @@ def set_data_issued_offline(request):
                     "pnr": request.POST['line_pnr' + str(i)],
                 })
             elif request.POST['type'] == 'activity':
-                departure = request.POST['line_activity_datetime' + str(i)].split('T')
+                departure = request.POST['line_activity_datetime' + str(i)].split(' ')
                 line.append({
                     "name": request.POST['line_activity_name' + str(i)],
                     "package": request.POST['line_activity_package' + str(i)],
                     "qty": request.POST['line_activity_qty' + str(i)],
-                    "visit_date": departure[0] + ' ' + departure[1],
+                    "visit_date": parse_date_time_to_server(departure[0]+' '+departure[1]+' '+departure[2]) + ' ' + departure[3],
                     "description": request.POST['line_activity_description' + str(i)],
                     "pnr": request.POST['line_pnr' + str(i)],
                 })
         temp_date = request.POST['expired_date'].split(' ')
-        exp_date = parse_date_time_to_server(temp_date[0]+' '+temp_date[1]+' '+temp_date[2]) + ' ' + temp_date[3]
+        exp_date = parse_date_time_to_server(temp_date[0]+' '+temp_date[1]+' '+temp_date[2]) + ' ' + temp_date[3],
         data_issued_offline = {
             "type": request.POST['type'],
             "total_sale_price": int(request.POST['total_sale_price']),
