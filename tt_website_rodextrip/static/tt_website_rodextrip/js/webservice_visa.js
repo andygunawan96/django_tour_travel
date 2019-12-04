@@ -706,18 +706,66 @@ function visa_get_data(data){
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:10px;">
-                                    <div class="col-lg-4">
-                                        <h6>Required</h6>
-                                        <div id="adult_required{{counter}}">`;
+                                    <div class="col-lg-12">
+                                        <div class="row" id="adult_required{{counter}}">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:10px;">
+                                                <h6>Required</h6>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                <h6>Original</h6>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                <h6>Copy</h6>
+                                            </div>`;
+                                        console.log(msg.result.response.passengers[i]);
                                         for(j in msg.result.response.passengers[i].visa.requirement){
-                                            text+=`<label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
+                                            text+=`
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                if(msg.result.response.passengers[i].visa.requirement[j].is_original == false){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }else if(msg.result.response.passengers[i].visa.requirement[j].is_original == true){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled checked/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }
+                                            text+=`
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                if(msg.result.response.passengers[i].visa.requirement[j].is_copy == false){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }else if(msg.result.response.passengers[i].visa.requirement[j].is_copy == true){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled checked/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }
+                                            text+=`
+                                            </div>`;
                                         }
                                         text+=`
                                         </div>
                                     </div>`;
                                     if(msg.result.response.passengers[i].visa.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
                                     text+=`
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-12" style="margin-top:15px;">
                                         <h6>Interview</h6>
                                         <table style="width:100%;" id="list-of-passenger">
                                             <tr>
@@ -737,18 +785,14 @@ function visa_get_data(data){
                                                 <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].ho_employee+`</td>
                                                 <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].datetime+`</td>
                                                 <td>`+msg.result.response.passengers[i].visa.interview.needs+`</td>
-                                            </tr>
-                                                `
+                                            </tr>`;
                                             }
-
-
+                                        text+=`</table>
+                                        </div>`;
                                     }
-                                    text+=`
-                                        </table>
-                                    </div>`;
                                     if(msg.result.response.passengers[i].visa.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].visa.biometrics.biometrics_list.length > 0 ){
                                     text+=`
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-12" style="margin-top:15px;">
                                         <h6>Biometrics</h6>
                                         <table style="width:100%;" id="list-of-passenger">
                                             <tr>
@@ -770,10 +814,12 @@ function visa_get_data(data){
                                                 <td>`+msg.result.response.passengers[i].visa.biometrics.needs+`</td>
                                             </tr>`
                                             }
-                                    }
-                                    text+=`
-                                        </table>
-                                    <hr/>`;
+                                        text+=`</table>
+                                    </div>`;
+                                }
+                                text+=`
+                                </div>
+                            <hr/>`;
                             }
                             text+=`
                         </div>

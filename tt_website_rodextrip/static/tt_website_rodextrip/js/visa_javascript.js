@@ -893,6 +893,8 @@ function check_on_off_radio(pax_type,number,value){
     list_of_name = []
     if(pax_type == 'adult'){
         pax_required = document.getElementById('adult_required'+number);
+        pax_required_up = document.getElementById('adult_required_up'+number);
+        pax_required_down = document.getElementById('adult_required_down'+number);
         pax_check = document.getElementById('adult_check'+number);
         pax_visa = document.getElementsByName('adult_visa_type'+number);
         pax_entry = document.getElementsByName('adult_entry_type'+number);
@@ -901,6 +903,8 @@ function check_on_off_radio(pax_type,number,value){
         name = document.getElementById('adult_name'+number).innerHTML;
     }else if(pax_type == 'child'){
         pax_required = document.getElementById('child_required'+number);
+        pax_required_up = document.getElementById('child_required_up'+number);
+        pax_required_down = document.getElementById('child_required_down'+number);
         pax_check = document.getElementById('child_check'+number);
         pax_visa = document.getElementsByName('child_visa_type'+number);
         pax_entry = document.getElementsByName('child_entry_type'+number);
@@ -909,6 +913,8 @@ function check_on_off_radio(pax_type,number,value){
         name = document.getElementById('child_name'+number).innerHTML;
     }else if(pax_type == 'infant'){
         pax_required = document.getElementById('infant_required'+number);
+        pax_required_up = document.getElementById('infant_required_up'+number);
+        pax_required_down = document.getElementById('infant_required_down'+number);
         pax_check = document.getElementById('infant_check'+number);
         pax_visa = document.getElementsByName('infant_visa_type'+number);
         pax_entry = document.getElementsByName('infant_entry_type'+number);
@@ -919,7 +925,7 @@ function check_on_off_radio(pax_type,number,value){
     if(value == 'visa'){
         if(pax_check.value != 'false'){
             visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
-            pax_required.innerHTML = '';
+            pax_required.innerHTML = 'Please select visa, entry and process!';
             pax_check.value = 'false';
         }
         var radios = pax_visa;
@@ -949,11 +955,14 @@ function check_on_off_radio(pax_type,number,value){
             radios[j].checked = false;
         }
         pax_price.innerHTML = '-';
+        pax_required.style.display = "block";
+        pax_required_up.style.display = "block";
+        pax_required_down.style.display = "none";
         //check max pax
     }else if(value == 'entry'){
         if(pax_check.value != 'false'){
             visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
-            pax_required.innerHTML = '';
+            pax_required.innerHTML = 'Please select visa, entry and process!';
             pax_check.value = 'false';
         }
         var radios = pax_visa;
@@ -985,10 +994,13 @@ function check_on_off_radio(pax_type,number,value){
             }
         }
         pax_price.innerHTML = '-';
+        pax_required.style.display = "block";
+        pax_required_up.style.display = "block";
+        pax_required_down.style.display = "none";
     }else if(value == 'process'){
         if(pax_check.value != 'false'){
             visa.list_of_visa[parseInt(pax_check.value)].total_pax++;
-            pax_required.innerHTML = '';
+            pax_required.innerHTML = 'Please select visa, entry and process!';
             pax_check.value = 'false';
         }
         var radios = pax_visa;
@@ -1054,6 +1066,10 @@ function check_on_off_radio(pax_type,number,value){
                 text_requirements+=`</div>`;
 
                 pax_required.innerHTML = text_requirements;
+                pax_required.style.display = "block";
+                pax_required_up.style.display = "block";
+                pax_required_down.style.display = "none";
+
                 console.log(visa.list_of_visa[i].total_pax);
                 visa.list_of_visa[i].total_pax = visa.list_of_visa[i].total_pax - 1;
                 pax_check.value = i;
@@ -1081,8 +1097,6 @@ function check_on_off_radio(pax_type,number,value){
                         }
                     });
                 update_table('review');
-
-
             }
         }
     }
@@ -1296,4 +1310,22 @@ function share_data(){
     document.execCommand('copy');
     document.body.removeChild(el);
     $text_share = window.encodeURIComponent($text);
+}
+
+function show_hide_required(pax_type, counter){
+    var req_div = document.getElementById(pax_type+'_required'+counter);
+    var req_down = document.getElementById(pax_type+'_required_down'+counter);
+    var req_up = document.getElementById(pax_type+'_required_up'+counter);
+
+    if (req_div.style.display === "none") {
+        req_div.style.display = "block";
+        req_up.style.display = "block";
+        req_down.style.display = "none";
+    }
+    else{
+        req_div.style.display = "none";
+        req_up.style.display = "none";
+        req_down.style.display = "block";
+    }
+
 }
