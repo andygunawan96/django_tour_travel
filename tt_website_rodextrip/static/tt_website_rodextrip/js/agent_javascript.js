@@ -74,17 +74,25 @@ function auto_complete(type){
 //    $('#'+type).select2().trigger('change');
 }
 function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=",";
+    try{
+        var temp = price.toString();
+        var pj = temp.split('.')[0].toString().length;
+        var priceshow="";
+        for(x=0;x<pj;x++){
+            if((pj-x)%3==0 && x!=0){
+                priceshow+=",";
+            }
+            priceshow+=temp.charAt(x);
         }
-        priceshow+=temp.charAt(x);
+        if(temp.split('.').length == 2){
+            for(x=pj;x<temp.length;x++){
+                priceshow+=temp.charAt(x);
+            }
+        }
+        return priceshow;
+    }catch(err){
+        return price;
     }
-    return priceshow;
-
 }
 
 function payment_top_up(){
@@ -164,17 +172,25 @@ function set_radio_payment(type){
 }
 
 function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=",";
+    try{
+        var temp = price.toString();
+        var pj = temp.split('.')[0].toString().length;
+        var priceshow="";
+        for(x=0;x<pj;x++){
+            if((pj-x)%3==0 && x!=0){
+                priceshow+=",";
+            }
+            priceshow+=temp.charAt(x);
         }
-        priceshow+=temp.charAt(x);
+        if(temp.split('.').length == 2){
+            for(x=pj;x<temp.length;x++){
+                priceshow+=temp.charAt(x);
+            }
+        }
+        return priceshow;
+    }catch(err){
+        return price;
     }
-    return priceshow;
-
 }
 
 //    if(document.getElementById('payment_selection').value == 'cash'){

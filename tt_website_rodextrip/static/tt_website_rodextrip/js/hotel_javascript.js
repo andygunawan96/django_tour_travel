@@ -111,17 +111,25 @@ function search_hotel(val){
 }
 
 function getrupiah(price){
-    var pj = price.toString().length;
-    var temp = price.toString();
-    var priceshow="";
-    for(x=0;x<pj;x++){
-        if((pj-x)%3==0 && x!=0){
-        priceshow+=".";
+    try{
+        var temp = price.toString();
+        var pj = temp.split('.')[0].toString().length;
+        var priceshow="";
+        for(x=0;x<pj;x++){
+            if((pj-x)%3==0 && x!=0){
+                priceshow+=",";
+            }
+            priceshow+=temp.charAt(x);
         }
-        priceshow+=temp.charAt(x);
+        if(temp.split('.').length == 2){
+            for(x=pj;x<temp.length;x++){
+                priceshow+=temp.charAt(x);
+            }
+        }
+        return priceshow;
+    }catch(err){
+        return price;
     }
-    return priceshow;
-
 }
 
 function guest_child_age(){
