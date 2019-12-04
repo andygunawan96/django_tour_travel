@@ -231,8 +231,7 @@ function update_table(type){
                 </div>
             </div>`;
         }
-    }
-    else if(type == 'passenger'){
+    }else if(type == 'passenger'){
         text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>
                 <table style="width:100%;">`;
         price = 0;
@@ -494,7 +493,7 @@ function update_table(type){
         $text = '';
         $text += 'Order Number: '+ visa.journey.name+'\n';
         $text += visa.journey.country + ' ' + visa.journey.departure_date + ' ' + visa.journey.state_visa + '\n';
-
+        $text += visa.journey.state_visa + '\n'
 
         for(i in visa.passengers){
             if(i == 0)

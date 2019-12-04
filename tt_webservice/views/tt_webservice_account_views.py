@@ -43,7 +43,9 @@ month = {
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
-        if req_data['action'] == 'get_balance':
+        if req_data['action'] == 'signin':
+            res = signin(request)
+        elif req_data['action'] == 'get_balance':
             res = get_balance(request)
         elif req_data['action'] == 'get_account':
             res = get_account(request)
@@ -70,6 +72,40 @@ def api_models(request):
     except Exception as e:
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
+
+def signin(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": ''
+    }
+
+    data = {
+        "user": user_global,
+        "password": password_global,
+        "api_key":  api_key,
+
+        "co_user": request.POST['username'],
+        "co_password": request.POST['password'],
+        # "co_user": user_default,  # request.POST['username'],
+        # "co_password": password_default, #request.POST['password'],
+        "co_uid": ""
+    }
+
+    res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("RESIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("info_logger").info(json.dumps(res))
+
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR RESIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        # pass
+        # # logging.getLogger("error logger").error('testing')
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
 
 def get_version(request):
     javascript_version = get_cache_version()
@@ -152,7 +188,8 @@ def get_transactions(request):
                 'provider_type': json.loads(request.POST['provider_type']),
                 'booker_name': request.POST['booker_name'],
                 "type": request.POST['type'],
-                "name": request.POST['name'],
+                # "name": request.POST['name'],
+                "passenger_name": request.POST['passenger_name'],
                 'pnr': request.POST['pnr'],
                 "date_from": start_date,
                 "date_to": end_date,

@@ -320,8 +320,11 @@ function train_get_booking(data){
                 <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
                 <table style="width:100%;">
                     <tr>
-                        <th>PNR</th>
-                        <th>Hold Date</th>
+                        <th>PNR</th>`;
+                        if(msg.result.response.state = 'booked')
+                        text+=`
+                        <th>Hold Date</th>`;
+                        text+=`
                         <th>Status</th>
                     </tr>`;
                     for(i in msg.result.response.provider_bookings){
@@ -335,10 +338,17 @@ function train_get_booking(data){
                         var localTime  = moment.utc(tes).toDate();
                         msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                         //
-                        $text += msg.result.response.provider_bookings[i].pnr +' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
+                        $text += msg.result.response.provider_bookings[i].pnr;
+                        if(msg.result.response.state = 'booked')
+                            $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
+                        else
+                            $text += '\n';
                         text+=`<tr>
-                            <td>`+msg.result.response.provider_bookings[i].pnr+`</td>
-                            <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>
+                            <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
+                        if(msg.result.response.state = 'booked')
+                        text +=`
+                            <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>`;
+                        text +=`
                             <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
                     }

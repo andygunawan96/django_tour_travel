@@ -166,7 +166,7 @@ def get_new_cache(signature):
             "signature": signature
         }
 
-        res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        res_destination_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST', timeout=60)
 
         data = {'provider_type': 'train'}
         headers = {
@@ -176,7 +176,7 @@ def get_new_cache(signature):
             "signature": signature
         }
 
-        res_destination_train = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        res_destination_train = util.send_request(url=url + 'content', data=data, headers=headers, method='POST', timeout=60)
         try:
             destination_train = []
             if res_destination_train['result']['error_code'] == 0:
@@ -203,7 +203,7 @@ def get_new_cache(signature):
             "signature": signature
         }
 
-        res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        res_country_airline = util.send_request(url=url + 'content', data=data, headers=headers, method='POST', timeout=60)
 
         # hotel
         headers = {
@@ -218,7 +218,7 @@ def get_new_cache(signature):
             "limit": 999999999999
         }
 
-        res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST')
+        res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_hotel['result']['error_code'] == 0:
                 file = open(var_log_path() + "hotel_cache_data.txt", "w+")
@@ -241,7 +241,7 @@ def get_new_cache(signature):
             "signature": signature
         }
 
-        res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+        res_config_visa = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=60)
         #
 
         # issuedoffline
@@ -256,7 +256,7 @@ def get_new_cache(signature):
         }
 
         res_config_issued_offline = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers,
-                                                      method='POST')
+                                                      method='POST', timeout=60)
 
         # return res
 
@@ -279,7 +279,7 @@ def get_new_cache(signature):
             "action": "get_config",
             "signature": signature
         }
-        res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+        res_config_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -293,7 +293,7 @@ def get_new_cache(signature):
             "limit": 9999
         }
 
-        res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+        res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_activity['result']['error_code'] == 0:
                 file = open(var_log_path() + "activity_cache_data.txt", "w+")
@@ -314,7 +314,7 @@ def get_new_cache(signature):
             "signature": signature,
         }
         res_config_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers,
-                                                method='POST')
+                                                method='POST', timeout=120)
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -328,7 +328,7 @@ def get_new_cache(signature):
             "limit": 9999
         }
 
-        res_cache_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+        res_cache_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_tour['result']['error_code'] == 0:
                 file = open(var_log_path() + "tour_cache_data.txt", "w+")

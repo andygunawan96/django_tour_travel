@@ -3401,6 +3401,6 @@ function update_cache_version_func(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update cache </span>' + errorThrown,
             })
-       },timeout: 60000
+       },timeout: 300000
     });
 }

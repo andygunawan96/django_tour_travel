@@ -1,6 +1,35 @@
 offset_transaction = 0;
 
 
+function signin_rodextrip(type){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/issued_offline",
+       headers:{
+            'action': 'signin',
+       },
+       data: {},
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                signature = msg.result.response.signature;
+            }
+            if(type == 'reservation'){
+                get_transactions('reset');
+            }else if(type == 'top_up_history'){
+                get_top_up();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
 function get_balance(val){
     using_cache = '';
     if(val != undefined)
@@ -132,8 +161,9 @@ function get_transactions_notification(val){
             'state': '',
             'start_date': '',
             'end_date': '',
-            'name': '',
+//            'name': '',
             'booker_name': '',
+            'passenger_name': '',
             'pnr': '',
             'using_cache': using_cache
        },
@@ -156,15 +186,17 @@ function get_transactions_notification(val){
                         </div>
                         <hr>
                     </div>`;
-                document.getElementById('notification_detail2').innerHTML = `
-                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                        <div class="row">
-                            <div class="col-sm-12" style="text-align:center">
-                                <span style="font-weight:500"> No Notification</span>
+                try{
+                    document.getElementById('notification_detail2').innerHTML = `
+                        <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                            <div class="row">
+                                <div class="col-sm-12" style="text-align:center">
+                                    <span style="font-weight:500"> No Notification</span>
+                                </div>
                             </div>
-                        </div>
-                        <hr>
-                    </div>`;
+                            <hr>
+                        </div>`;
+                }catch(err){}
             }else{
                 for(i in msg.result.response){
                     for(j in msg.result.response[i]){
@@ -228,15 +260,17 @@ function get_transactions_notification(val){
                                 </div>
                                 <hr>
                             </div>`;
-                        document.getElementById('notification_detail2').innerHTML = `
-                            <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                                <div class="row">
-                                    <div class="col-sm-12" style="text-align:center">
-                                        <span style="font-weight:500"> No Notification</span>
+                        try{
+                            document.getElementById('notification_detail2').innerHTML = `
+                                <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                    <div class="row">
+                                        <div class="col-sm-12" style="text-align:center">
+                                            <span style="font-weight:500"> No Notification</span>
+                                        </div>
                                     </div>
-                                </div>
-                                <hr>
-                            </div>`;
+                                    <hr>
+                                </div>`;
+                        }catch(err){}
                     }catch(err){}
                 }
             }
@@ -333,6 +367,7 @@ function get_transactions(type){
     name = '';
     pnr = '';
     booker_name = '';
+    passenger_name = '';
     try{
         state = document.getElementById('state').value;
         start_date = moment(document.getElementById('start_date').value).format('YYYY-MM-DD');
@@ -343,6 +378,9 @@ function get_transactions(type){
     }catch(err){}
     try{
         booker_name = document.getElementById('booker_name').value;
+    }catch(err){}
+    try{
+        booker_name = document.getElementById('passenger_name').value;
     }catch(err){}
     try{
         pnr = document.getElementById('pnr').value;
@@ -370,11 +408,12 @@ function get_transactions(type){
             'provider_type': JSON.stringify(carrier_code),
             'signature': signature,
             'type': 'all',
+//            'name': '',
             'state': state,
             'start_date': start_date,
             'end_date': end_date,
-            'name': name,
             'booker_name': booker_name,
+            'passenger_name': passenger_name,
             'pnr': pnr,
             'using_cache': 'false'
        },
@@ -436,23 +475,26 @@ function get_transactions(type){
                     }
                     radios[j].disabled = false;
                 }
-                if(msg.result.response[filter].length >= 20){
+                if(Object.keys(msg.result.response).length == 0){
+//                    var node = document.createElement("div");
+//                    node.innerHTML = `
+//                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+//                        <div class="row">
+//                            <div class="col-sm-12" style="text-align:center">
+//                                <span style="font-weight:500"> No Record</span>
+//                            </div>
+//                        </div>
+//                    </div>`;
+//                    document.getElementById("desc").appendChild(node);
+                    $('#reservation_found').show();
+                }else if(msg.result.response[filter].length >= 20){
                     offset_transaction++;
                     table_reservation(msg.result.response[filter]);
                     load_more = true;
-                }else if(msg.result.response[filter].length == 0){
-                    var node = document.createElement("div");
-                    node.innerHTML = `
-                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                        <div class="row">
-                            <div class="col-sm-12" style="text-align:center">
-                                <span style="font-weight:500"> No Record</span>
-                            </div>
-                        </div>
-                    </div>`;
-                    document.getElementById("desc").appendChild(node);
+                    $('#reservation_found').hide();
                 }else{
                     table_reservation(msg.result.response[filter]);
+                    $('#reservation_found').hide();
                 }
             }catch(err){
                 //set_notification(msg.result.response.transport_booking);
