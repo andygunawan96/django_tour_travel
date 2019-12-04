@@ -773,8 +773,7 @@ function visa_get_data(data){
                                     }
                                     text+=`
                                         </table>
-                                    </div>
-                                </div><hr/>`;
+                                    <hr/>`;
                             }
                             text+=`
                         </div>
