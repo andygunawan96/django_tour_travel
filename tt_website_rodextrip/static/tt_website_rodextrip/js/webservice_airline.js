@@ -2342,7 +2342,11 @@ function airline_get_booking(data){
             }
 
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-            $text += 'Booking Code: ';
+            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+            localTime  = moment.utc(tes).toDate();
+            msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+            //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
+            $text += msg.result.response.state_description + '\n';
             var localTime;
             text += `
             <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
@@ -2354,7 +2358,7 @@ function airline_get_booking(data){
                         <th>Status</th>
                     </tr>`;
                     for(i in msg.result.response.provider_bookings){
-                        if(check_provider_booking == 0 && msg.result.response.provider_bookings[i].state == 'booked'){
+                        if(check_provider_booking != 0 && msg.result.response.provider_bookings[i].state == 'booked'){
                             get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                             tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
                             localTime  = moment.utc(tes).toDate();
@@ -2395,7 +2399,7 @@ function airline_get_booking(data){
                     check = 0;
                     flight_counter = 1;
                     for(i in msg.result.response.provider_bookings){
-                        $text += msg.result.response.provider_bookings[i].pnr+'\n';
+                        $text += 'Booking Code: ' + msg.result.response.provider_bookings[i].pnr+'\n';
                         text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
                         for(j in msg.result.response.provider_bookings[i].journeys){
                             var cabin_class = '';
@@ -2728,7 +2732,15 @@ function airline_get_booking(data){
                             <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>
                         </div>
                     </div>`;
-                    $text += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
+                    $text += msg.result.response.passengers[j].name + ' ['+i+'] ';
+                    for(k in msg.result.response.passengers[j].fees){
+                        $text += msg.result.response.passengers[j].fees[k].fee_name;
+                        if(parseInt(parseInt(k)+1) != msg.result.response.passengers[j].fees.length)
+                            $text += ', ';
+                        else
+                            $text += ' ';
+                    }
+                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
                     if(counter_service_charge == 0)
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
                     else
@@ -2738,7 +2750,10 @@ function airline_get_booking(data){
                 counter_service_charge++;
             }
             try{
-                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+                if(check_provider_booking != 0 && msg.result.response.provider_bookings[i].state == 'booked'){
+                    $text += '\n\nPrices and availability may change at any time';
+                }
                 text_detail+=`
                 <div>
                     <hr/>

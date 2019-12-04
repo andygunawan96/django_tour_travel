@@ -3731,7 +3731,16 @@ function airline_detail(type){
                     for(i in passengers.adult){
                         if(i == 0)
                             $text += 'Passengers:\n';
-                        $text += passengers.adult[i].title + ' ' + passengers.adult[i].first_name + ' ' + passengers.adult[i].last_name + ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
+                        $text += passengers.adult[i].title + ' ' + passengers.adult[i].first_name + ' ' + passengers.adult[i].last_name + ' ';
+                        for(j in passengers.adult[i].ssr_list){
+                            $text += passengers.adult[i].ssr_list[j].name;
+                            if(parseInt(parseInt(j)+1) != passengers.adult[i].ssr_list.length)
+                                $text += ', ';
+                        }
+                        for(j in passengers.adult[i].seat_list){
+                            $text += ', ' + passengers.adult[i].seat_list[j].seat_pick;
+                        }
+                        $text += ' (ADT / ' + passengers.adult[i].birth_date + ')\n';
                     }
                     for(i in passengers.child){
                         $text += passengers.child[i].title + ' ' + passengers.child[i].first_name + ' ' + passengers.child[i].last_name + ' (CHD / ' + passengers.child[i].birth_date + ')\n';
