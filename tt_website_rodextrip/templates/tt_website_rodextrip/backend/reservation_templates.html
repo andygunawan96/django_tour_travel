@@ -212,13 +212,13 @@
                         <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
                             <div class="row">
                                 <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="pnr" class="form-control" placeholder="PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR'" autocomplete="off"/>
+                                    <input type="text" id="pnr" class="form-control enter_reservation" placeholder="PNR" onfocus="this.placeholder = ''" onblur="this.placeholder = 'PNR'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="booker_name" class="form-control" placeholder="Booker name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
+                                    <input type="text" id="booker_name" class="form-control enter_reservation" placeholder="Booker name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Booker name'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-4 col-md-6">
-                                    <input type="text" id="name" class="form-control" placeholder="Passenger name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
+                                    <input type="text" id="name" class="form-control enter_reservation" placeholder="Passenger name" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passenger Name'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-4 col-md-6">
                                     <span><i class="fas fa-calendar-alt"></i> Start Book Date</span>
@@ -327,6 +327,13 @@
                 }
             }
         });
+
+        $(".enter_reservation").keypress(function(event) {
+            if (event.keyCode === 13) {
+                $("#button").click();
+            }
+        });
+
         try{
             $('input[name="start_date"]').daterangepicker({
               singleDatePicker: true,

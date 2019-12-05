@@ -744,7 +744,7 @@ function train_get_detail(){
                 <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                <button class="primary-btn-ticket next-search-train ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
+                <button class="primary-btn-ticket next-loading next-search-train ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
                     Next
                     <i class="fas fa-angle-right"></i>
                     <div class="ld ld-ring ld-cycle"></div>
@@ -888,16 +888,8 @@ function train_detail(){
                 <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12" style="padding-bottom:10px;">
-            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
-        </div>
-        <div class="col-lg-12" style="padding-bottom:5px;">
-            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
-        </div>
     </div>`;
+
     $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
         console.log(passengers);
@@ -933,6 +925,15 @@ function train_detail(){
                     <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
             }
     text+=`
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" style="padding-bottom:10px;">
+            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+        </div>
+        <div class="col-lg-12" style="padding-bottom:5px;">
+            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
         </div>
     </div>`;
 
