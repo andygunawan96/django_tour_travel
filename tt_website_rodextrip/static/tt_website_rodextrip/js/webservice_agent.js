@@ -3404,3 +3404,20 @@ function update_cache_version_func(){
        },timeout: 300000
     });
 }
+
+function clear_search_pax(type,sequence){
+    if(type == 'booker'){
+        document.getElementById('search_result').innerHTML = '';
+    }else if(type == 'passenger'){
+        document.getElementById('search_result_passenger').innerHTML = '';
+    }else if(type == 'adult'){
+        document.getElementById('search_result_'+type+sequence).innerHTML = '';
+    }else if(type == 'child'){
+        document.getElementById('search_result_'+type+sequence).innerHTML = '';
+    }else if(type == 'infant'){
+        document.getElementById('search_result_'+type+sequence).innerHTML = '';
+    }else if(type == 'senior'){
+        document.getElementById('search_result_'+type+sequence).innerHTML = '';
+    }
+}
+

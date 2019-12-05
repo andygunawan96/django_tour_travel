@@ -32,7 +32,6 @@
     sell_visa();
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
-{% include 'tt_website_rodextrip/plugin_passenger.html' %}
 <header id="header">
     <div class="main-menu">
         <div class="container">
@@ -125,7 +124,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -310,7 +309,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Passenger Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
@@ -339,7 +338,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -513,7 +512,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Passenger Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
@@ -542,7 +541,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -689,7 +688,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
@@ -718,7 +717,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>

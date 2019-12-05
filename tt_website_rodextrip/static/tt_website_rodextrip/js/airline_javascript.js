@@ -823,7 +823,10 @@ function add_multi_city(type){
             if(counter_airline_search == 1)
                 min_date = moment().format('DD MMM YYYY');
             else
-                min_date = airline_request.departure[counter_airline_search-1]
+                if(airline_request.departure[counter_airline_search-1] != undefined)
+                    min_date = airline_request.departure[counter_airline_search-1]
+                else
+                    min_date = $('input[name="airline_departure'+(counter_airline_search - 1)+'"]').val()
             $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,

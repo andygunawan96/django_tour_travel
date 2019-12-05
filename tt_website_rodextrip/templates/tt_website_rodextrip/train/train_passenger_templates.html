@@ -94,7 +94,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -122,7 +122,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -307,7 +307,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -335,7 +335,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -539,7 +539,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row" >
@@ -567,7 +567,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -751,7 +751,7 @@
               autoUpdateInput: true,
               startDate: moment().subtract(17, 'years'),
               minDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-              maxDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+              maxDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(3, 'years'),
               showDropdowns: true,
               opens: 'center',
               locale: {
