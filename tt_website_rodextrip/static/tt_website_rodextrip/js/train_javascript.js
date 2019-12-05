@@ -889,7 +889,6 @@ function train_detail(){
             </div>
         </div>
     </div>`;
-
     $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
         console.log(passengers);

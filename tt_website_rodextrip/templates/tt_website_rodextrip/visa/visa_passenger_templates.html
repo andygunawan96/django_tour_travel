@@ -251,6 +251,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+                                    {% if passenger.adult|length != '0' %}
                                     <label>Do you book this trip for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
@@ -263,6 +264,7 @@
                                         <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','visa');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
+                                    {% endif %}
 
                                     <br/>
                                     <label>Passenger Data</label><br/>

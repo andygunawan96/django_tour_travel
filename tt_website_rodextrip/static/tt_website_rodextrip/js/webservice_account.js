@@ -316,6 +316,7 @@ function get_transactions_notification(val){
 
 function get_transactions(type){
     $('#loading-search-reservation').show();
+    document.getElementById('button').disabled = true;
     load_more = false;
     if(type == 'reset' || type == 'filter'){
         offset_transaction = 0;
@@ -419,6 +420,7 @@ function get_transactions(type){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById('button').disabled = false;
         $('#loading-search-reservation').hide();
         try{
             var radios = document.getElementsByName('filter_type');
@@ -427,6 +429,24 @@ function get_transactions(type){
             }
         }catch(err){}
         if(msg.result.error_code == 0){
+            if(type == 'reset' || type == 'filter'){
+                offset_transaction = 0;
+                data_counter = 0;
+                document.getElementById("table_reservation").innerHTML = `
+                    <tr>
+                        <th style="width:2%;">No.</th>
+                        <th style="width:10%;">Order Number</th>
+                        <th style="width:7%;">Provider</th>
+                        <th style="width:12%;">Book Date</th>
+                        <th style="width:12%;">Booker name</th>
+                        <th style="width:12%;">Hold Date</th>
+                        <th style="width:8%;">State</th>
+                        <th style="width:5%;">PNR</th>
+                        <th style="width:12%;">Issued Date</th>
+                        <th style="width:9%;">Issued By</th>
+                        <th style="width:7%;">Action</th>
+                    </tr>`;
+            }
             try{
                 var date = '';
                 var localTime = '';
@@ -730,6 +750,7 @@ function get_top_up(){
     start_date = '';
     end_date = '';
     type = '';
+    document.getElementById('button').disabled = true;
     var radios = document.getElementsByName('filter');
     for (var j = 0, length = radios.length; j < length; j++) {
         if (radios[j].checked) {
@@ -746,16 +767,6 @@ function get_top_up(){
         name = document.getElementById('name').value;
     }catch(err){}
     $('#loading-search-top-up').show();
-    document.getElementById('table_top_up_history').innerHTML = `<tr>
-                        <th style="width:5%;">No.</th>
-                        <th style="width:20%;">Top Up Number</th>
-                        <th style="width:20%;">Due Date</th>
-                        <th style="width:15%;">Amount</th>
-                        <th style="width:15%;">Status</th>
-                        <th style="width:15%;">Payment Method</th>
-                        <th style="width:15%;">Help By</th>
-                        <th style="width:10%;">Action</th>
-                    </tr>`;
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -772,6 +783,17 @@ function get_top_up(){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById('table_top_up_history').innerHTML = `<tr>
+                        <th style="width:5%;">No.</th>
+                        <th style="width:20%;">Top Up Number</th>
+                        <th style="width:20%;">Due Date</th>
+                        <th style="width:15%;">Amount</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:15%;">Payment Method</th>
+                        <th style="width:15%;">Help By</th>
+                        <th style="width:10%;">Action</th>
+                    </tr>`;
+        document.getElementById('button').disabled = false;
         top_up_history = msg.result.response;
         //edit here
         for(i in top_up_history){
