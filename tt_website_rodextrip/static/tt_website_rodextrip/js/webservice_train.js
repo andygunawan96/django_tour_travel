@@ -321,7 +321,7 @@ function train_get_booking(data){
                 <table style="width:100%;">
                     <tr>
                         <th>PNR</th>`;
-                        if(msg.result.response.state = 'booked')
+                        if(msg.result.response.state == 'booked')
                         text+=`
                         <th>Hold Date</th>`;
                         text+=`
@@ -341,13 +341,13 @@ function train_get_booking(data){
                         }
                         //
                         $text += msg.result.response.provider_bookings[i].pnr;
-                        if(msg.result.response.state = 'booked')
+                        if(msg.result.response.state == 'booked')
                             $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
                         else
                             $text += '\n';
                         text+=`<tr>
                             <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
-                        if(msg.result.response.state = 'booked')
+                        if(msg.result.response.state == 'booked')
                         text +=`
                             <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>`;
                         text +=`
