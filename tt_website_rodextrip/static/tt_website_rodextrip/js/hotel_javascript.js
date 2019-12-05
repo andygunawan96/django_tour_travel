@@ -1454,11 +1454,12 @@ function hotel_detail(hotel_price){
     </div>`;
     $text2 = '';
     for(i in hotel_price.rooms){
-        text += '<h5>'+ hotel_price.rooms[i].category + '</h5>';
-        text += '<span> '+ hotel_price.rooms[i].description + '<span><br/>';
+        text += '<h5>'+ hotel_price.rooms[i].description + '</h5>';
+        text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
+        //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
         text += '<span>Meal Type: ' + hotel_price.meal_type + '</span/><br/><br/>';
 
-        $text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
+        //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
         $text2 += hotel_price.rooms[i].description +'\n';
         $text2 += hotel_price.rooms[i].qty +' room(s) \n';
         $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';

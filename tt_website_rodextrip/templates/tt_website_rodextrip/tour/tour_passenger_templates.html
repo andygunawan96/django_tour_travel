@@ -994,6 +994,14 @@
           }
       });
       for (var i = 1; i <= adult; i++){
+          document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(adult_enter).click();
+            }
+          });
+
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1023,6 +1031,14 @@
       }
 
       for (var i = 1; i <= child; i++){
+          document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(child_enter).click();
+            }
+          });
+
           $('input[name="child_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1052,6 +1068,14 @@
       }
 
       for (var i = 1; i <= infant; i++){
+          document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(infant_enter).click();
+            }
+          });
+
           $('input[name="infant_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,

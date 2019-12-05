@@ -650,7 +650,7 @@
                                                                 <input type="text" id="train_senior{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                                 <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
                                                                 <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
-                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">Search</button>
+                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -922,7 +922,7 @@
                                                                 <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                                 <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
                                                                 <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
-                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">Search</button>
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1166,7 +1166,7 @@
                                                                 <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                                 <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
                                                                 <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
-                                                                <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">Search</button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1432,6 +1432,14 @@
           }
       });
       for (var i = 1; i <= adult; i++){
+          document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(adult_enter).click();
+            }
+          });
+
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1461,6 +1469,14 @@
       }
 
       for (var i = 1; i <= senior; i++){
+          document.getElementById("train_senior"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var senior_enter = "search_senior_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(senior_enter).click();
+            }
+          });
+
           $('input[name="senior_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1490,6 +1506,14 @@
       }
 
       for (var i = 1; i <= child; i++){
+          document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(child_enter).click();
+            }
+          });
+
           $('input[name="child_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1519,6 +1543,14 @@
       }
 
       for (var i = 1; i <= infant; i++){
+          document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(infant_enter).click();
+            }
+          });
+
           $('input[name="infant_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
