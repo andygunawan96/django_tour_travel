@@ -554,17 +554,17 @@ def get_customer_list(request):
             counter = 0
             for pax in res['result']['response']:
                 if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
                         title = 'MRS'
                     else:
                         title = 'MISS'
                 elif pax['gender'] == 'female':
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
                         title = 'MS'
                     else:
                         title = 'MISS'
                 else:
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
                         title = 'MR'
                     else:
                         title = 'MSTR'

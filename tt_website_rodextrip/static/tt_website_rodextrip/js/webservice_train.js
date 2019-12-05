@@ -334,9 +334,11 @@ function train_get_booking(data){
                                 `+msg.result.response.provider_bookings[i].error_msg+`
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
                             </div>`;
-                        tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
-                        var localTime  = moment.utc(tes).toDate();
-                        msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        if(msg.result.response.provider_bookings[i].hold_date != false || msg.result.response.provider_bookings[i].hold_date != ''){
+                            tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
+                            var localTime  = moment.utc(tes).toDate();
+                            msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        }
                         //
                         $text += msg.result.response.provider_bookings[i].pnr;
                         if(msg.result.response.state = 'booked')
@@ -397,7 +399,12 @@ function train_get_booking(data){
                                 </div>
                             </div>`;
                             text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
-                            <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1]+` (`+msg.result.response.provider_bookings[i].journeys[j].class_of_service+`)</span><br/>
+                            <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1];
+                            if(msg.result.response.provider_bookings[i].journeys[j].class_of_service != '')
+                                text+=` (`+msg.result.response.provider_bookings[i].journeys[j].class_of_service+`)</span><br/>`;
+                            else
+                                text += '<br/>';
+                            text += `
                             <div class="row">
                                 <div class="col-lg-6 col-xs-6">
                                     <table style="width:100%">
@@ -900,6 +907,7 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
+                   $("#waitingTransaction").modal('hide');
                    train_get_booking(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
