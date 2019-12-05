@@ -585,6 +585,7 @@ function train_get_booking(data){
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
+                            $(".issued_booking_btn").show();
                         }
                         else{
                             text+=`
@@ -600,7 +601,7 @@ function train_get_booking(data){
                 </div>
             </div>`;
             document.getElementById('train_booking').innerHTML = text;
-            $(".issued_booking_btn").show();
+            //$(".issued_booking_btn").show();
 
             //detail
             text = '';
@@ -711,7 +712,9 @@ function train_get_booking(data){
                 counter_service_charge++;
             }
             try{
-                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+                if(msg.result.response.state == 'booked')
+                $text += '\n\nPrices and availability may change at any time';
                 text_detail+=`
                 <div>
                     <hr/>

@@ -2638,7 +2638,7 @@ function airline_get_booking(data){
             fare = 0;
             total_price = 0;
             commission = 0;
-            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR'];
             text_detail=`
             <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
                 <h5> Price Detail</h5>
@@ -2655,7 +2655,7 @@ function airline_get_booking(data){
                         <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
                     </div>`;
                 for(j in msg.result.response.passengers){
-                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0};
                     for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                         price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                         price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
@@ -2675,7 +2675,7 @@ function airline_get_booking(data){
                     if(check == 0){
                         pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
                         price_arr_repricing[msg.result.response.passengers[j].name] = {
-                            'Fare': price['FARE'],
+                            'Fare': price['FARE'] + price['SSR'],
                             'Tax': price['TAX'] + price['ROC'],
                             'Repricing': price['CSC']
                         }
@@ -2719,7 +2719,7 @@ function airline_get_booking(data){
                             <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                         text_detail+=`</div>
                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR))+`</span>
                         </div>
                     </div>`;
                     $text += msg.result.response.passengers[j].name + ' ['+i+'] ';
@@ -2732,9 +2732,9 @@ function airline_get_booking(data){
                     }
                     $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
                     if(counter_service_charge == 0)
-                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
                     else
-                        total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
                     commission += parseInt(price.RAC);
                 }
                 counter_service_charge++;
