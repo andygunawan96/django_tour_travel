@@ -821,7 +821,8 @@ function commit_booking(){
                    delete_table_of_line();
                }
                document.getElementsByName('myRadios')[1].checked = true;
-               document.getElementById('payment_acq').hidden = true;
+//               document.getElementById('payment_acq').hidden = true;
+                close_div('payment_acq');
                $('select').niceSelect('update');
            }
        },
