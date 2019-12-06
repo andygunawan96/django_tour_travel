@@ -59,6 +59,7 @@ def index(request):
                     javascript_version = get_javascript_version()
                     cache_version = get_cache_version()
                     response = get_cache_data(cache_version)
+                    provider_type = request.session['provider']
                     request.session.create()
 
                     try:
@@ -169,7 +170,7 @@ def index(request):
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'cache': json.dumps(cache),
                         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                        'provider': request.session['provider'],
+                        'provider': provider_type,
                         'countries': airline_country,
                         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                         'username': request.session['user_account'],
