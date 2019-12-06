@@ -59,7 +59,7 @@
 
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
-
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <div class="banner-right" style="margin-bottom:25px; border:1px solid #cdcdcd; background:white;">
@@ -365,7 +365,7 @@
                                 <div class="col-lg-12" style="margin-bottom:15px;">
                                     <span>Total Sale Price</span><br/>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" id="total_sale_price" name="total_sale_price"/>
+                                        <input type="text" class="form-control" id="total_sale_price" name="total_sale_price" onkeyup="this.value=this.value.replace(/[^\d]/,'');total_sales_price_issued_offline();" />
                                     </div>
                                 </div>
                             </div>
@@ -424,7 +424,7 @@
                             <button class="primary-btn" type="button" onclick="check_issued_offline()">SUBMIT</button>
                         </div>
                         <div class="col-lg-12" style="padding-bottom:20px;">
-                            <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+                            <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                             </div>
                         </div>

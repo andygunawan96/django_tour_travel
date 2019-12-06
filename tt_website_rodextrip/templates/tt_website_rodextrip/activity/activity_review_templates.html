@@ -279,9 +279,11 @@
                                 </div>
                             </div>
                         </div>
-                        <button class="primary-btn" type="button" style="width:100%; margin-top:15px;">
+                        {% if 'issued_reservation' username.co_agent_frontend_security %}
+                        <button class="primary-btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
                             Issued Booking
                         </button>
+                        {% endif %}
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:15px; position:relative;" id="payment_acq" hidden>

@@ -340,9 +340,11 @@
                         <table style="width:100%; margin-bottom:10px;">
                         </table>
                     </div>
-                    <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;">
+                    {% if 'issued_reservation' username.co_agent_frontend_security %}
+                    <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
                         Request Booking
                     </button>
+                    {% endif %}
                     <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                     </div>

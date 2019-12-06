@@ -392,6 +392,7 @@ function activity_table_detail(){
            `;
 
    document.getElementById('activity_detail_table').innerHTML = text;
+   if(agent_security.includes('book_reservation') == true)
    text_btn = `
        <center>
        <button type="button" class="primary-btn-ticket" value="Next" onclick='check_detail();' style="width:100%;">
@@ -400,6 +401,8 @@ function activity_table_detail(){
        </button><br/>
        </center>
    `;
+   else
+   text_btn = '';
    document.getElementById('activity_detail_next_btn').innerHTML = text_btn;
    document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
 }

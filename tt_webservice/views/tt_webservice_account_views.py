@@ -361,7 +361,7 @@ def confirm_top_up(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "confirm_top_up",
+            "action": "request_top_up",
             "signature": request.POST['signature'],
         }
     except Exception as e:

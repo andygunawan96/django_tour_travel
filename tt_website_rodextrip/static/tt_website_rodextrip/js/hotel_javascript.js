@@ -1306,9 +1306,11 @@ function hotel_room_pick_button(){
     <div class="col-lg-12" style="padding-top:10px;">
         <input class="primary-btn-standard" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
     </div>`;
+    if(agent_security.includes('book_reservation') == true){
     text += `<div class="col-lg-12">`;
     text += '<button class="primary-btn" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">Next</button></div>';
     text += `</div>`;
+    }
 
     document.getElementById('hotel_detail_button').innerHTML = text;
     $('#not_room_select').hide();
