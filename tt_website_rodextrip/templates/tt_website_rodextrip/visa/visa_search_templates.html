@@ -18,6 +18,16 @@
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
+{% if template == 1%}
+<style>
+    ol {
+     padding-left: 15px!important;
+     text-align:left !important;
+     list-style: disc outside none!important;
+     list-style-type: decimal!important;
+    }
+</style>
+{% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}

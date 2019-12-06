@@ -125,6 +125,25 @@ def signin(request):
             request.session['user_account'] = res_user['result']['response']
             try:
                 if res['result']['error_code'] == 0:
+                    data = {}
+                    headers = {
+                        "Accept": "application/json,text/html,application/xml",
+                        "Content-Type": "application/json",
+                        "action": "get_provider_type_list",
+                        "signature": res['result']['response']['signature']
+                    }
+                    provider_type = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+                    try:
+                        if provider_type['result']['error_code'] == 0:
+                            provider_type_list = []
+                            for provider in provider_type['result']['response']['provider_type_list']:
+                                provider_type_list.append(provider['code'])
+                            request.session['provider'] = provider_type_list
+                        else:
+                            # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
+                            request.session['provider'] = []
+                    except:
+                        request.session['provider'] = []
                     logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     javascript_version = get_cache_version()
                     response = get_cache_data(javascript_version)

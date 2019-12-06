@@ -70,6 +70,12 @@ function search_origin_departure(val,sequence){
     }, 500);
 }
 
+function total_sales_price_issued_offline(){
+    var amount = document.getElementById('total_sale_price').value.split(',');
+    amount = amount.join('');
+    document.getElementById('total_sale_price').value = getrupiah(amount);
+}
+
 function change_transaction_type(type){
     counter_line = 0;
     if(document.getElementById('transaction_type').value  == 'airline')

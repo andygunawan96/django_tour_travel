@@ -957,16 +957,15 @@ function total_price_top_up(evt){
 //            break;
 //        }
 //    }
-    console.log(document.getElementById('amount').value);
-        var amount = document.getElementById('amount').value.split(',');
-        amount = amount.join('');
-        document.getElementById('amount').value = getrupiah(amount);
-        document.getElementById('total_amount').value = "IDR "+document.getElementById('amount').value;
-        try{
-            document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
-            document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
-        }catch(err){
-        }
+    var amount = document.getElementById('amount').value.split(',');
+    amount = amount.join('');
+    document.getElementById('amount').value = getrupiah(amount);
+    document.getElementById('total_amount').value = "IDR "+document.getElementById('amount').value;
+    try{
+        document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
+        document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
+    }catch(err){
+    }
 
 //    $('#amount').niceSelect('update');
 }

@@ -557,7 +557,7 @@ function set_data_issued_offline(){
         error_log += 'Please fill total sale price\n';
         document.getElementById('total_sale_price').style['border-color'] = 'red';
     }else{
-        request["total_sale_price"] = document.getElementById('total_sale_price').value;
+        request["total_sale_price"] = document.getElementById('total_sale_price').value.split(',').join('');
         document.getElementById('total_sale_price').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('social_media').value == ''){
         error_log += 'Please fill social media\n';
@@ -759,7 +759,8 @@ function update_passenger(){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 get_payment_acq('Issued','', '', 'billing', signature, 'issued_offline','', '');
-                document.getElementById('payment_acq').hidden = false;
+                focus_box('payment_acq');
+                //document.getElementById('payment_acq').hidden = false;
             }
 //
 

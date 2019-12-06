@@ -1673,12 +1673,15 @@ function table_price_update(msg,type){
 
     document.getElementById('tour_detail_table').innerHTML = price_txt;
     if(type == 'detail'){
+        if(agent_security.includes('book_reservation') == true)
         next_btn_txt = `<center>
                         <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
                             Next
                             <i class="fas fa-angle-right"></i>
                         </button>
                     </center>`;
+        else
+        next_btn_txt = '';
         document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
     }else if(type == 'passenger'){
         next_btn_txt = `<center>

@@ -132,13 +132,16 @@ def passenger(request):
     request.session['visa_sell'] = sell_journey
     request.session['visa_passenger'] = pax
     request.session['visa_search'] = list_visa
+    list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
+    for visa in list_of_visa['list_of_visa']:
+        del visa['notes']
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'countries': airline_country,
-        'visa': request.session['visa_search']['result']['response'],
+        'visa': list_of_visa,
         'passengers': pax,
         'signature': request.session['visa_signature'],
         'time_limit': request.session['time_limit'],
@@ -324,13 +327,17 @@ def review(request):
                     })
                     count = count + 1
 
+        list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
+        for visa in list_of_visa['list_of_visa']:
+            del visa['notes']
+
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
-            'visa': request.session['visa_search']['result']['response'],
+            'visa': list_of_visa,
             'type': request.session['list_of_visa_type'],
             'visa_request': request.session['visa_request'],
             'passengers': pax,

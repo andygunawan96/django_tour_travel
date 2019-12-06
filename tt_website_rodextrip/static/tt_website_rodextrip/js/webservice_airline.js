@@ -486,34 +486,12 @@ function send_search_to_api(val){
     }
     if(val == undefined){
         console.log(provider_airline);
-        //lama
-//        if(JSON.stringify(provider_airline[0]) == '{}'){
-//            Swal.fire({
-//              type: 'error',
-//              title: 'Oops...',
-//              text: 'Something went wrong, please try again or check your internet connection',
-//            })
-//            $('.loader-rodextrip').fadeOut();
-//            $("#barFlightSearch").hide();
-//            $("#waitFlightSearch").hide();
-//            document.getElementById("airlines_error").innerHTML = '';
-//            text = '';
-//            text += `
-//                <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-//                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your internet connection</span>
-//                </div>
-//            `;
-//            var node = document.createElement("div");
-//            node.innerHTML = text;
-//            document.getElementById("airlines_error").appendChild(node);
-//            node = document.createElement("div");
-//        }
         //baru
-        if(JSON.stringify(provider_airline).length == 0){
+        if(provider_airline.length == 0){
             Swal.fire({
               type: 'error',
               title: 'Oops...',
-              text: 'Something went wrong, please try again or check your internet connection',
+              text: 'Something went wrong, search other airline',
             })
             $('.loader-rodextrip').fadeOut();
             $("#barFlightSearch").hide();
@@ -522,7 +500,7 @@ function send_search_to_api(val){
             text = '';
             text += `
                 <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
-                    <span style="font-weight:bold;"> Oops... Something went wrong, please try again or check your internet connection</span>
+                    <span style="font-weight:bold;"> Oops... Something went wrong, search other airline</span>
                 </div>
             `;
             var node = document.createElement("div");
@@ -1455,7 +1433,9 @@ function get_price_itinerary_request(){
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
-                    </div>
+                    </div>`;
+                if(agent_security.includes('book_reservation') == true)
+                text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <button class="primary-btn btn-next ld-ext-right" style="width:100%;" onclick="next_disabled(); airline_sell_journeys();" type="button" value="Next">
                             Next
@@ -4127,7 +4107,7 @@ function get_price_itinerary_reissue_request(){
             <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
-            <button class="primary-btn" id="next_reissue" style="width:100%;" onclick="sell_journey_reissue_construct();" type="button" value="Next">
+            <button class="primary-btn" id="next_reissue" style="width:100%;" onclick="sell_journey_reissue_construct();" type="button" value="Next" >
                 Next
             </button>
         </div>

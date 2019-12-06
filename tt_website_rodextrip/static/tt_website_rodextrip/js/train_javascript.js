@@ -742,14 +742,17 @@ function train_get_detail(){
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                 <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
-            </div>
+            </div>`;
+            if(agent_security.includes('book_reservation') == true)
+            text+=`
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                 <button class="primary-btn-ticket next-loading next-search-train ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
                     Next
                     <i class="fas fa-angle-right"></i>
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>
-            </div>
+            </div>`;
+            text+=`
         </div>`
     console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;

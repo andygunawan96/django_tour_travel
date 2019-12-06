@@ -220,16 +220,18 @@ function update_table(type){
                    <div class="col-lg-12">
                         <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                    </div>
-                </div>
-                <div class="row" style="margin-top:10px; text-align:center;">
+                </div>`;
+                if(agent_security.includes('book_reservation') == true)
+                text+=
+                `<div class="row" style="margin-top:10px; text-align:center;">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
                             Next
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </div>
-                </div>
-            </div>`;
+                </div>`;
+            text+=`</div>`;
         }
     }else if(type == 'passenger'){
         text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>
