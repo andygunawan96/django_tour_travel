@@ -194,6 +194,11 @@ function show_commission(){
     }
 }
 
+function tour_search_form_submit(){
+    $('.button-search').addClass("running");
+    document.getElementById('tour_search_form').submit();
+}
+
 function read_other_info_dict(data, current_list_type){
     var temp_txt2 = '';
     if (data.message){
