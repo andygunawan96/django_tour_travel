@@ -4107,7 +4107,7 @@ function get_price_itinerary_reissue_request(){
             <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
         </div>
         <div class="col-lg-6 col-md-6 col-sm-6" style="padding-bottom:5px;">
-            <button class="primary-btn" id="next_reissue" style="width:100%;" onclick="sell_journey_reissue_construct();" type="button" value="Next" >
+            <button class="primary-btn" id="next_reissue" style="width:100%;" onclick="sell_journey_reissue_construct();" type="button" value="Next">
                 Next
             </button>
         </div>
