@@ -616,7 +616,8 @@ function submit_top_up(){
             document.getElementById('submit_name').setAttribute( "onClick", "javascript: change_top_up();" );
 
             get_payment_acq('Issued','', '', 'top_up', signature, 'top_up','', '');
-
+            document.getElementById('submit_name').disabled = false;
+            focus_box('payment_acq');
 //            document.getElementById('top_up_form').submit();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
@@ -971,6 +972,7 @@ function total_price_top_up(evt){
 }
 
 function check_top_up(){
+    document.getElementById('submit_name').disabled = true;
     error_text = '';
     if(document.getElementById('tac_checkbox').checked == false){
         error_text += 'Please check Term and Conditions\n';
@@ -1008,6 +1010,7 @@ function check_top_up(){
             $('.loader-rodextrip').fadeIn();
             $('#submit_top_up').prop('disabled', false);
             $('#submit_top_up').removeClass('running');
+            document.getElementById('submit_name').disabled = false;
           }
         })
 
