@@ -2138,36 +2138,29 @@ function sort(){
                             }
 
                            text+=`
-                           <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:15px;">
+                           <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:15px; margin: auto;">
                                <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
                                    <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                     <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                </a>
                            </div>
-                           <div class="col-lg-8 col-md-8 col-sm-8">
-                               <div class="row">
-                                   <div class="col-lg-8" style="margin-top:auto;margin-bottom:auto;">`;
+                           <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
+                               <div>
+                               <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22;"></span>`;
+                               if(provider_list_data[airline[i].provider] != '')
+                                    text += `<br/><span>`+provider_list_data[airline[i].provider]+`</span>`;
+                               text+=`</div>`;
+//                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
+//                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+//                                        else
 
-                                   if(provider_list_data[airline[i].provider] != '')
-                                        text += provider_list_data[airline[i].provider];
-                                   text+=`
-                                   </div>
-                                   <div class="col-lg-4" style="text-align:right;">
-                                       <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
-                                        text+=`</span>`;
-
-    //                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
-    //                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
-    //                                        else
-                                       if(airline[i].can_book == true){
-                                           text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
-                                       }
-                                       else{
-                                           text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
-                                       }
-                                       text+=`
-                                   </div>
-                               </div>
+                               if(airline[i].can_book == true){
+                                   text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+                               }
+                               else{
+                                   text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
+                               }
+                               text+=`
                            </div>
                        </div>
 

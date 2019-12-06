@@ -609,7 +609,7 @@ function train_get_detail(){
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+journeys[i].origin+`</h6></td>
+                        <td><h6>`+journeys[i].departure_date.split(" - ")[1]+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -617,26 +617,25 @@ function train_get_detail(){
                             <div style="display:inline-block;position:relative;width:100%">
                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:40px;position:relative;width:0%">
-                                </div>
+                                <div style="height:30px;min-width:40px;position:relative;width:0%"></div>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <span>`+journeys[i].origin_name+`</span><br>
-                <span>`+journeys[i].departure_date+`</span><br>
+                <span>`+journeys[i].departure_date.split(" - ")[0]+`</span><br/>
+                <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+journeys[i].destination+`</h6></td>
+                        <td><h6>`+journeys[i].arrival_date.split(" - ")[1]+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+journeys[i].destination_name+`</span><br>
-                <span>`+journeys[i].arrival_date+`</span><br>
+                <span>`+journeys[i].arrival_date.split(" - ")[0]+`</span><br/>
+                <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
             </div>
         </div>
         <hr/>
@@ -753,7 +752,7 @@ function train_get_detail(){
                 </button>
             </div>`;
             text+=`
-        </div>`
+        </div>`;
     console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;
 }
@@ -792,7 +791,7 @@ function train_detail(){
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+train_data[i].origin+`</h6></td>
+                        <td><h6>`+train_data[i].departure_date.split(' - ')[1]+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -800,26 +799,25 @@ function train_detail(){
                             <div style="display:inline-block;position:relative;width:100%">
                                 <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
                                 <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                <div style="height:30px;min-width:40px;position:relative;width:0%">
-                                </div>
+                                <div style="height:30px;min-width:40px;position:relative;width:0%"></div>
                             </div>
                         </td>
                     </tr>
                 </table>
-                <span>`+train_data[i].origin_name+`</span><br>
-                <span>`+train_data[i].departure_date+`</span><br>
+                <span>`+train_data[i].departure_date.split(' - ')[0]+`</span><br/>
+                <span style="font-weight:500;">`+train_data[i].origin_name+` (`+train_data[i].origin+`)</span>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+train_data[i].destination+`</h6></td>
+                        <td><h6>`+train_data[i].arrival_date.split(' - ')[1]+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+train_data[i].destination_name+`</span><br>
-                <span>`+train_data[i].arrival_date+`</span><br>
+                <span>`+train_data[i].arrival_date.split(' - ')[0]+`</span><br/>
+                <span style="font-weight:500;">`+train_data[i].destination_name+` (`+train_data[i].destination+`)</span>
             </div>
         </div>
         <hr/>
@@ -892,6 +890,7 @@ function train_detail(){
             </div>
         </div>
     </div>`;
+
     $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
         console.log(passengers);
@@ -1441,22 +1440,54 @@ function sort(value){
         }
     }
     //set
+    ticket_count = parseInt(data_filter.length);
+    document.getElementById("train_result").innerHTML = '';
+    text_co = `
+    <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-top:-2px; margin-bottom:10px; padding:10px;">
+        <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` train</span>
+        <label class="check_box_custom" style="float:right;">
+            <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+            <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
+            <span class="check_box_span_custom"></span>
+        </label>
+    </div>`;
+    var node_co = document.createElement("div");
+    node_co.innerHTML = text_co;
+    document.getElementById("train_result").appendChild(node_co);
+
     var response = '';
     for(i in data_filter){
         if(train_request.departure[train_request_pick] == data_filter[i].departure_date.split(' - ')[0]){
-            if(data_filter[i].available_count > 0)
+            if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                 response+=`<div class="sorting-box-b">`;
+            else if(data_filter[i].available_count > parseInt(passengers.adult)  && data_filter[i].can_book == false)
+                response+=`<div class="sorting-box-b">`;
+            else if(data_filter[i].can_book == false)
+                response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             else
-                response+=`<div style="background-color:#E5E5E5; padding:5px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
+                response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
+                <span class="copy_train" hidden>`+i+`</span>
                 <div class="row">
-                    <div class="col-lg-12">
-                        <h4>`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+`</h4>
+                    <div class="col-lg-9">
+                        <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+`</h4>
+                    </div>
+                    <div class="col-lg-3">`;
+                       if(data_filter[i].available_count > 0 && data_filter[i].can_book == true){
+                           response+=`
+                           <label class="check_box_custom" style="float:right;">
+                               <span class="span-search-ticket"></span>
+                               <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`);"/>
+                               <span class="check_box_span_custom"></span>
+                           </label>
+                           <span class="id_copy_result" hidden>`+i+`</span>`;
+                       }
+                    response+=`
                     </div>
                     <div class="col-lg-4 col-xs-6">
                         <table style="width:100%">
                             <tr>
-                                <td><h5>`+data_filter[i].origin+`</h5></td>
+                                <td><h5 class="copy_time_depart">`+data_filter[i].departure_date.split(" - ")[1]+`</h5></td>
                                 <td style="padding-left:15px;">
                                     <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
                                 </td>
@@ -1469,19 +1500,20 @@ function sort(value){
                                 </td>
                             </tr>
                         </table>
-                        <span>`+data_filter[i].origin_name+`</span><br/>
-                        <span>`+data_filter[i].departure_date+`</span><br/>
+                        <span class="copy_date_depart">`+data_filter[i].departure_date.split(" - ")[0]+`</span><br/>
+                        <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
+
                     </div>
                     <div class="col-lg-4 col-xs-6" style="padding:0;">
                         <table style="width:100%; margin-bottom:6px;">
                             <tr>
-                                <td><h5>`+data_filter[i].destination+`</h5></td>
+                                <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date.split(" - ")[1]+`</h5></td>
                                 <td></td>
                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                             </tr>
                         </table>
-                        <span>`+data_filter[i].destination_name+`</span><br/>
-                        <span>`+data_filter[i].arrival_date+`</span><br/>
+                        <span class="copy_date_arr">`+data_filter[i].arrival_date.split(" - ")[0]+`</span><br/>
+                        <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
                     </div>
 
                     <div class="col-lg-4">
@@ -1490,7 +1522,7 @@ function sort(value){
                         for(j in journeys){
                             if(journeys[j].sequence == data_filter[i].sequence){
                                 response+=`
-                            <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                            <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                             <input class="primary-btn-custom-un" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`);"  id="train_choose`+i+`" disabled value="Chosen">`;
                                 check = 1;
                             }
@@ -1498,21 +1530,25 @@ function sort(value){
                         if(check == 0){
                             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                                 response+=`
-                                <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].available_count > parseInt(passengers.adult)  && data_filter[i].can_book == false)
                                 response+=`
-                                <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+i+`" value="Choose">`;
+                            else if(data_filter[i].can_book == false)
+                                response+=`
+                                <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <input class="disabled-btn" type="button" id="train_choose`+i+`" value="No Available" disabled>`
                             else
                                 response+=`
-                                <span style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
                         }
                     if(data_filter[i].available_count<50)
-                        response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
+                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
                     else if(data_filter[i].available_count<=1 )
-                        response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
+                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
                     response+=`</div>
                     </div>
                 </div>
@@ -1546,7 +1582,7 @@ function train_ticket_pick(){
                 <div class="col-lg-4 col-xs-6">
                     <table style="width:100%">
                         <tr>
-                            <td><h5>`+journeys[i].origin+`</h5></td>
+                            <td><h5>`+journeys[i].departure_date.split(" - ")[1]+`</h5></td>
                             <td style="padding-left:15px;">
                                 <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
                             </td>
@@ -1559,19 +1595,19 @@ function train_ticket_pick(){
                             </td>
                         </tr>
                     </table>
-                    <span>`+journeys[i].origin_name+`</span><br/>
-                    <span>`+journeys[i].departure_date+`</span><br/>
+                    <span>`+journeys[i].departure_date.split(" - ")[0]+`</span><br/>
+                    <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
                 </div>
                 <div class="col-lg-4 col-xs-6" style="padding:0;">
                     <table style="width:100%; margin-bottom:6px;">
                         <tr>
-                            <td><h5>`+journeys[i].destination+`</h5></td>
+                            <td><h5>`+journeys[i].arrival_date.split(" - ")[1]+`</h5></td>
                             <td></td>
                             <td style="height:30px;padding:0 15px;width:100%"></td>
                         </tr>
                     </table>
-                    <span>`+journeys[i].destination_name+`</span><br/>
-                    <span>`+journeys[i].arrival_date+`</span><br/>
+                    <span>`+journeys[i].arrival_date.split(" - ")[0]+`</span><br/>
+                    <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
                 </div>
 
                 <div class="col-lg-4">
@@ -1731,4 +1767,205 @@ function print_seat_map(){
         }
     }
     wagon_pick = 0;
+}
+
+
+function checkboxCopy(){
+    var count_copy = $(".copy_result:checked").length;
+    if(count_copy == 0){
+        $('#button_copy_train').hide();
+    }
+    else{
+        $('#button_copy_train').show();
+    }
+    document.getElementById("badge-copy-notif").innerHTML = count_copy;
+    document.getElementById("badge-copy-notif2").innerHTML = count_copy;
+}
+
+function checkboxCopyBox(id){
+    if(document.getElementById('copy_result'+id).checked) {
+        var copycount = $(".copy_result:checked").length;
+        if(copycount == ticket_count){
+            document.getElementById("check_all_copy").checked = true;
+        }
+
+    } else {
+        document.getElementById("check_all_copy").checked = false;
+    }
+    checkboxCopy();
+}
+
+function check_all_result(){
+   var selectAllCheckbox = document.getElementById("check_all_copy");
+   if(selectAllCheckbox.checked==true){
+        var checkboxes = document.getElementsByClassName("copy_result");
+        for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = true;
+        $('#choose-train-copy').hide();
+    }
+   }else {
+    var checkboxes = document.getElementsByClassName("copy_result");
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+        checkboxes[i].checked = false;
+        $('#choose-train-copy').show();
+    }
+   }
+   checkboxCopy();
+}
+
+function get_checked_copy_result(){
+    document.getElementById("show-list-copy-train").innerHTML = '';
+
+    var search_params = document.getElementById("show-list-copy-train").innerHTML = '';
+
+    var value_idx = [];
+    $("#train_search_params .copy_span").each(function(obj) {
+        value_idx.push( $(this).text() );
+    })
+
+    var value_train_type = "";
+    if($radio_value_string == "oneway"){
+        value_train_type = "Departure";
+    }else if($radio_value_string == "roundtrip"){
+        value_train_type = "Return";
+    }
+    text='';
+    //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
+    $text = value_idx[0]+' - '+value_idx[1]+' → '+value_idx[2]+', '+value_idx[3]+'\n\n';
+    var train_number = 0;
+    node = document.createElement("div");
+    //text+=`<div class="col-lg-12"><h5>`+value_flight_type+`</h5><hr/></div>`;
+    text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
+    $(".copy_result:checked").each(function(obj) {
+        var parent_train = $(this).parent().parent().parent().parent();
+        var name_train = parent_train.find('.copy_train_name').html();
+        var time_depart = parent_train.find('.copy_time_depart').html();
+        var date_depart = parent_train.find('.copy_date_depart').html();
+        var departure_train = parent_train.find('.copy_departure').html();
+        var time_arr = parent_train.find('.copy_time_arr').html();
+        var date_arr = parent_train.find('.copy_date_arr').html();
+        var arrival_train = parent_train.find('.copy_arrival').html();
+        var price_train = parent_train.find('.copy_price').html();
+        var seat_train = parent_train.find('.copy_seat').html();
+
+        var id_train = parent_train.find('.id_copy_result').html();
+        train_number = train_number + 1;
+        $text += 'Option-'+train_number+'\n';
+        $text += ''+name_train+ '\n';
+        $text += departure_train+', '+date_depart+' '+time_depart;
+        $text += ' → ';
+        $text += arrival_train+', '+date_arr+' '+time_arr+'\n';
+        if(seat_train){
+            $text += seat_train+'\n';
+        }
+        $text += price_train+'\n';
+        $text+='====================\n\n';
+
+        text+=`
+        <div class="row" id="div_list`+id_train+`">
+            <div class="col-lg-9">
+                <h6>Option-`+train_number+`</h6>
+                <h6>`+name_train+`</h6>
+                <span>`+departure_train+`, `+date_depart+` `+time_depart+` </span>
+                <i class="fas fa-arrow-right"></i>
+                <span>`+arrival_train+`, `+date_arr+` `+time_arr+` </span><br/>`;
+                if(seat_train){
+                    text+=`<span>`+seat_train+`</span><br/>`;
+                }
+            text+=`
+                <span style="font-size:13px; font-weight:800; color:#f15a22;">Price: `+price_train+`</span>
+            </div>
+            <div class="col-lg-3" style="text-align:right;">
+                <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_train+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
+            </div>
+            <div class="col-lg-12"><hr/></div>
+        </div>`;
+    });
+    text+=`
+    </div>
+    <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
+        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        share_data();
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            text+=`
+                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>`;
+            if(train_number < 11){
+                text+=`
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>`;
+            }
+            else{
+                text+=`
+                <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png"/></a>
+                <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png"/></a>`;
+            }
+            text+=`
+                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+        } else {
+            text+=`
+                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>`;
+            if(train_number < 11){
+                text+=`
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>`;
+            }
+            else{
+                text+=`
+                <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png"/></a>
+                <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png"/></a>`;
+            }
+            text+=`
+                <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+        }
+        if(train_number > 10){
+            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Train</span>`;
+        }
+    text+=`
+    </div>
+    <div class="col-lg-12" id="copy_result">
+        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+    </div>`;
+
+    node.innerHTML = text;
+    node.className = "row";
+    document.getElementById("show-list-copy-train").appendChild(node);
+
+//    if(hotel_number > 10){
+//        document.getElementById("mobile_line").style.display = "none";
+//        document.getElementById("mobile_telegram").style.cursor = "not-allowed";
+//        document.getElementById("pc_line").style.display = "not-allowe";
+//        document.getElementById("pc_telegram").style.cursor = "not-allowed";
+//    }
+//
+    var count_copy = $(".copy_result:checked").length;
+    if (count_copy == 0){
+        $('#choose-train-copy').show();
+        $("#share_result").remove();
+        $("#copy_result").remove();
+        $text = '';
+        $text_share = '';
+    }else{
+        $('#choose-train-copy').hide();
+    }
+}
+
+function delete_checked_copy_result(id){
+    $("#div_list"+id).remove();
+    $("#copy_result"+id).prop("checked", false);
+    checkboxCopyBox(id)
+    var count_copy = $(".copy_result:checked").length;
+    if (count_copy == 0){
+        $('#choose-train-copy').show();
+        $("#share_result").remove();
+        $("#copy_result").remove();
+        $text = '';
+        $text_share = '';
+    }
+    else{
+        $('#choose-train-copy').hide();
+        get_checked_copy_result();
+        share_data();
+    }
+    checkboxCopy();
 }
