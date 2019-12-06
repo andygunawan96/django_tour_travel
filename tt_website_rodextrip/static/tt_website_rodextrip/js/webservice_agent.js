@@ -898,10 +898,6 @@ function pick_passenger(type, sequence, product){
     if(type == 'Booker'){
         //change booker
         check = 0;
-        for(i in passenger_data_pick){
-            if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
-                check = 1;
-        }
         if(check == 0){
             document.getElementById('train_booker_search').value = '';
             console.log(document.getElementsByName('myRadios')[0].checked);
@@ -984,7 +980,7 @@ function pick_passenger(type, sequence, product){
         if(document.getElementById('adult_id'+passenger_number).value == ''){
             check = 0;
             for(i in passenger_data_pick){
-                if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id)
+                if(passenger_data_pick[i].seq_id == passenger_data[sequence].seq_id && passenger_data_pick[i].sequence != 'booker')
                     check = 1;
             }
             if(check == 0){
