@@ -165,7 +165,14 @@ function search_visa(){
                                 <hr/>
                                 <div id="journey0segment0" style="background-color:white;">
                                     <h6>Consulate Address</h6>
-                                    <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>
+                                    <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>`;
+                                    if(msg.result.response.list_of_visa[i].notes != '')
+                                    text+=`
+                                    <h6>Notes</h6>
+                                    <span>`+msg.result.response.list_of_visa[i].notes+`</span>`;
+
+                                    if(msg.result.response.list_of_visa[i].requirements.length > 0)
+                                    text+=`
                                     <h6>Visa Required</h6>`;
                                     for(j in msg.result.response.list_of_visa[i].requirements){
                                         text+=`<span>`+parseInt(parseInt(j)+1)+` `+msg.result.response.list_of_visa[i].requirements[j].name;

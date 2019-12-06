@@ -616,7 +616,7 @@ function submit_top_up(){
             document.getElementById('submit_name').setAttribute( "onClick", "javascript: change_top_up();" );
 
             get_payment_acq('Issued','', '', 'top_up', signature, 'top_up','', '');
-            focus_box('payment_acq');
+
 //            document.getElementById('top_up_form').submit();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
@@ -826,35 +826,48 @@ function get_top_up(){
     });
 }
 
-function confirm_top_up(payment_seq_id){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/account",
-       headers:{
-            'action': 'confirm_top_up',
-       },
-       data: {
-            'name': top_up_history[top_up_value].name,
-            'payment_seq_id': payment_seq_id,
-            'signature': signature
-       },
-       success: function(msg) {
-        console.log(msg);
-        document.getElementById("table_top_up_history").innerHTML = '';
-        document.getElementById("payment_acq").innerHTML = '';
-        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
-        get_top_up();
-//        document.getElementById('top_up_form').submit();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
+function confirm_top_up(name){
+    Swal.fire({
+      title: 'Already pay for this top up?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value)
+            $.ajax({
+               type: "POST",
+               url: "/webservice/account",
+               headers:{
+                    'action': 'confirm_top_up',
+               },
+               data: {
+                    'name': name,
+                    'signature': signature
+               },
+               success: function(msg) {
+                console.log(msg);
+                document.getElementById("table_top_up_history").innerHTML = '';
+                get_top_up();
+        //        document.getElementById('top_up_form').submit();
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error confirm topup </span>' + errorThrown,
+                    })
+               },timeout: 60000
+            });
+      else{
+           Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error confirm topup </span>' + errorThrown,
+              text: 'Please pay for this top up!',
             })
-       },timeout: 60000
-    });
+      }
+    })
 }
 
 function request_top_up(val){
@@ -912,14 +925,16 @@ function table_top_up_history(data){
             }else{
                 text+= `<td>-</td>`;
             }
-            if(data[i].state == 'request'){
-                text+= `<td>
+            text+= `<td>`;
+            if(data[i].state == 'request' || data[i].state == 'confirm'){
+                text+= `
                 <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
-
-                text+=`</td>`;
-            }else{
-                text+= `<td></td>`;
             }
+            if(data[i].state == 'confirm'){
+                text+= `
+                <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Payment' onclick="confirm_top_up('`+data[i].name+`')" />`;
+            }
+            text+=`</td>`;
             text+= `</tr>`;
             node.innerHTML = text;
             document.getElementById("table_top_up_history").appendChild(node);
@@ -966,7 +981,10 @@ function check_top_up(){
         error_text += 'Please Input Amount\n';
     }
     try{
-        if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
+        if(document.getElementById('amount').value.split(',')[document.getElementById('amount').value.split(',').length-1] != '000'){
+            error_text += 'Please input last 3 digits amount 000\n';
+        }
+        else if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
             error_text += 'Amount (Min Top Up Amount IDR 50,000)\n';
         }
     }catch(err){
