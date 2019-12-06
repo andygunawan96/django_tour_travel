@@ -140,8 +140,8 @@ def signin(request):
                                 provider_type_list.append(provider['code'])
                             request.session['provider'] = provider_type_list
                         else:
-                            request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
-                            # request.session['provider'] = []
+                            # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
+                            request.session['provider'] = []
                     except:
                         request.session['provider'] = []
                     logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
