@@ -617,6 +617,11 @@ function show_commission(){
     }
 }
 
+function activity_search_form_submit(){
+    $('.button-search').addClass("running");
+    document.getElementById('activity_search_form').submit();
+}
+
 function check_flight(value){
     var checkword = "^[A-Z0-9][A-Z0-9][0-9]{0,4}$";
     if(value.match(checkword)!=null){
