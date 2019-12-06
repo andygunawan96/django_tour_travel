@@ -353,12 +353,10 @@ def cancel_top_up(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-#DEPRECATED
 def confirm_top_up(request):
     try:
         data = {
             'name': request.POST['name'],
-            'payment_seq_id': request.POST['payment_seq_id']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -377,6 +375,7 @@ def confirm_top_up(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+#DEPRECATED
 def request_top_up(request):
     try:
         data = {

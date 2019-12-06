@@ -59,6 +59,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             document.getElementById('payment_acq').innerHTML = text;
             $('#payment_via').niceSelect();
             set_payment(val,type);
+            focus_box('payment_acq');
 //            document.getElementById('payment_acq').hidden = false;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
