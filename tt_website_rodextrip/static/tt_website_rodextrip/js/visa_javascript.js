@@ -69,6 +69,7 @@ function update_table(type){
     $text = '';
     var check_price_detail = 0;
     if(type == 'search'){
+        check_visa = 0;
         text += `<div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
                 <h4>Price detail `+visa_request.destination+`</h4><hr/>
                 <table style="width:100%;">`;
@@ -76,6 +77,8 @@ function update_table(type){
         commission = 0;
         count_i = 0;
         for(i in visa){
+            if(moment(visa_request.departure_date) < moment().subtract(visa[i].type.duration*-1,'days'))
+                check_visa = 1;
             pax_count = parseInt(document.getElementById('qty_pax_'+i).value);
             if(isNaN(pax_count)){
                 pax_count = 0;
@@ -221,7 +224,7 @@ function update_table(type){
                         <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                    </div>
                 </div>`;
-                if(agent_security.includes('book_reservation') == true)
+                if(agent_security.includes('book_reservation') == true || check_visa == 1)
                 text+=
                 `<div class="row" style="margin-top:10px; text-align:center;">
                     <div class="col-lg-12" style="padding-bottom:10px;">
@@ -232,6 +235,13 @@ function update_table(type){
                     </div>
                 </div>`;
             text+=`</div>`;
+            if(check_visa == 1){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: "You can't buy this visa for your departure date!",
+                })
+            }
         }
     }else if(type == 'passenger'){
         text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>

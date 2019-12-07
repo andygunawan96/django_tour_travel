@@ -555,7 +555,8 @@ def get_customer_list(request):
             'upper': upper,
             'lower': lower,
             'type': passenger,
-            'mode': 'btb'
+            'email': '',
+            'cust_code': ''
         }
 
         headers = {
@@ -665,15 +666,21 @@ def create_customer(request):
             pax['identity'][identity].update({
                 'identity_image': image_selected
             })
-            pax['identity'][identity].update({
-                'identity_expdate': '%s-%s-%s' % (
-                    pax['identity'][identity]['identity_expdate'].split(' ')[2], month[pax['identity'][identity]['identity_expdate'].split(' ')[1]],
-                    pax['identity'][identity]['identity_expdate'].split(' ')[0])
-            })
-            for country in response['result']['response']['airline']['country']:
-                if pax['identity'][identity]['identity_country_of_issued_name'] == country['name']:
-                    pax['identity'][identity]['identity_country_of_issued_code'] = country['code']
-                    break
+            try:
+                pax['identity'][identity].update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity'][identity]['identity_expdate'].split(' ')[2], month[pax['identity'][identity]['identity_expdate'].split(' ')[1]],
+                        pax['identity'][identity]['identity_expdate'].split(' ')[0])
+                })
+            except:
+                pass
+            try:
+                for country in response['result']['response']['airline']['country']:
+                    if pax['identity'][identity]['identity_country_of_issued_name'] == country['name']:
+                        pax['identity'][identity]['identity_country_of_issued_code'] = country['code']
+                        break
+            except:
+                pax['identity'][identity]['identity_country_of_issued_code'] = ''
         data = {
             'passengers': pax
         }
