@@ -240,26 +240,23 @@ function create_new_passenger(){
                 identity_type = 'sim';
             else if(i == 4)
                 identity_type = 'other';
-            if(document.getElementById('passenger_identity_number'+i).value != '' ||
-               document.getElementById('passenger_identity_expired_date'+i).value != '' ||
-               document.getElementById('passenger_identity_country_of_issued'+i).value != ''){
-               if(document.getElementById('passenger_identity_number'+i).value == ''){
-                   error_log+= 'Please fill '+identity_type+' number !</br>\n';
-                   document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('passenger_identity_expired_date'+i).value == ''){
-                   error_log+= 'Please fill '+identity_type+' expired date !</br>\n';
-                   document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('passenger_identity_country_of_issued'+i).value == ''){
-                   error_log+= 'Please fill '+identity_type+' country of issued !</br>\n';
-                   document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-               }
-            }
+           if(document.getElementById('passenger_identity_number'+i).value == ''){
+               error_log+= 'Please fill '+identity_type+' number !</br>\n';
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('passenger_identity_number'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('passenger_identity_expired_date'+i).value == '' && i == 1){
+               error_log+= 'Please fill '+identity_type+' expired date !</br>\n';
+               document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('passenger_identity_expired_date'+i).style['border-color'] = '#EFEFEF';
+           }if(document.getElementById('passenger_identity_country_of_issued'+i).value == '' && i == 1){
+               error_log+= 'Please fill '+identity_type+' country of issued !</br>\n';
+               document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('passenger_identity_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+
        }
        for(i = 1; i<= passenger_data_phone ; i++){
             try{
