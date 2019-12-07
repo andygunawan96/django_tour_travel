@@ -311,7 +311,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #f15a22;">
-                                    {% if adult_count != '0' %}
+                                    {% if adult_count != 0 %}
                                     <label>Do you book this ticket for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
@@ -324,8 +324,8 @@
                                         <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
-                                    {% endif %}
                                     <br/>
+                                    {% endif %}
                                     <label>Guest Data</label><br/>
                                     <ul>
                                         <li>1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM</li>
@@ -1320,9 +1320,9 @@
                                 <hr/>
                                 <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
                                 {% if response.name != detail.name %}
-                                <br/><span id="product_type_title">{{detail.name}}</span>
+                                <br/><span id="product_type_title" style="font-size:13px; font-weight:500;">{{detail.name}}</span>
                                 {% endif %}
-                                <br/><span id="product_visit_date"></span>
+                                <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                 <br/><br/>
                                 <div class="row">
                                     <div class="col-lg-12" id="activity_detail_table">
