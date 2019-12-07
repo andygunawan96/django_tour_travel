@@ -155,7 +155,6 @@ function elapse_time(departure){
   var diff = parseInt(Math.abs(dep - today)/3600000);
   if(today > dep)
     diff *= -1;
-  console.log(diff);
   if(diff >= 3)
     return true;
   else

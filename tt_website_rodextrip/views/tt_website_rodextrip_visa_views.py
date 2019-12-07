@@ -205,11 +205,16 @@ def review(request):
                 })
 
                 if i == 0:
-                    if request.POST['myRadios'] == 'true':
-                        adult[len(adult) - 1].update({
-                            'is_booker': True
-                        })
-                    else:
+                    try:
+                        if request.POST['myRadios'] == 'true':
+                            adult[len(adult) - 1].update({
+                                'is_booker': True
+                            })
+                        else:
+                            adult[len(adult) - 1].update({
+                                'is_booker': False
+                            })
+                    except:
                         adult[len(adult) - 1].update({
                             'is_booker': False
                         })
@@ -243,11 +248,16 @@ def review(request):
                             "contact_seq_id": request.POST['adult_id' + str(i + 1)]
                         })
                     if i == 0:
-                        if request.POST['myRadios'] == 'yes':
-                            contact[len(contact)].update({
-                                'is_booker': True
-                            })
-                        else:
+                        try:
+                            if request.POST['myRadios'] == 'yes':
+                                contact[len(contact)].update({
+                                    'is_booker': True
+                                })
+                            else:
+                                contact[len(contact)].update({
+                                    'is_booker': False
+                                })
+                        except:
                             contact[len(contact)].update({
                                 'is_booker': False
                             })
