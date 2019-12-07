@@ -430,7 +430,7 @@
                                             <label>ID Type</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
-                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
                                                         {% for id_type in id_types%}
                                                         <option value="{{id_type.0}}">{{id_type.1}}</option>
                                                         {% endfor %}
@@ -446,7 +446,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label id="adult_passport_number_required{{forloop.counter}}" style="color:white">*</label>
                                             <label>ID Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="ID Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
@@ -455,7 +455,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:white">*</label>
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">

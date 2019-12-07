@@ -743,7 +743,7 @@ function train_get_detail(){
                 <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
             </div>`;
             if(agent_security.includes('book_reservation') == true)
-            text+=`
+            train_detail_text+=`
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                 <button class="primary-btn-ticket next-loading next-search-train ld-ext-right" style="width:100%;" onclick="goto_passenger();" type="button" value="Next">
                     Next
@@ -751,7 +751,7 @@ function train_get_detail(){
                     <div class="ld ld-ring ld-cycle"></div>
                 </button>
             </div>`;
-            text+=`
+            train_detail_text+=`
         </div>`;
     console.log($text);
     document.getElementById('train_detail').innerHTML = train_detail_text;
@@ -1121,11 +1121,24 @@ function check_passenger(adult, infant){
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }
 
-           if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
-               error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+           if(document.getElementById('adult_id_type'+i).value == 'passport'){
+               if(document.getElementById('adult_id_type'+i).value == 'passport' && check_passport(document.getElementById('adult_passport_number'+i).value) == false){
+                   error_log+= 'Please fill id number, passport only contain more than 6 digits  for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
+               }
+               if(document.getElementById('adult_passport_expired_date'+i).value == ''){
+                   error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
+               }if(document.getElementById('adult_country_of_issued'+i).value == ''){
+                   error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+               }
            }
            if(document.getElementById('adult_id_type'+i).value == 'other' && document.getElementById('adult_passport_number'+i).value.length < 6){
                error_log+= 'Please fill id number for passenger adult '+i+'!</br>\n';
@@ -1134,24 +1147,7 @@ function check_passenger(adult, infant){
                document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
            }
        }
-       if(document.getElementById('adult_passport_number'+i).value == ''){
-           error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_passport_number'+i).style['border-color'] = '#EFEFEF';
-       }
-
-       if(document.getElementById('adult_passport_expired_date'+i).value == ''){
-           error_log+= 'Please fill passport expired date for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_passport_expired_date'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_passport_expired_date'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_country_of_issued'+i).value == ''){
-           error_log+= 'Please fill country of issued for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_cp'+i).checked == true){
+       if(document.getElementById('adult_cp'+i).checked == true){
             if(check_email(document.getElementById('adult_email'+i).value)==false){
                 error_log+= 'Invalid Contact person email!</br>\n';
                 document.getElementById('adult_email'+i).style['border-color'] = 'red';
@@ -1377,7 +1373,6 @@ function filtering(type){
 function sort(value){
     var data_filter = value;
     var temp = '';
-    console.log(sorting_value);
     if(sorting_value == 'Lowest Price'){
         for(var i = 0; i < data_filter.length-1; i++) {
             for(var j = i+1; j < data_filter.length; j++) {
@@ -1435,6 +1430,32 @@ function sort(value){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
                     data_filter[j] = temp;
+                }
+            }
+        }
+    }
+
+    if(sorting_value == ''){
+        for(var i = 0; i < data_filter.length-1; i++) {
+            for(var j = i+1; j <data_filter.length; j++) {
+                if (data_filter[i].can_book == false && data_filter[j].can_book == true || data_filter[i].available_count < parseInt(passengers.adult) && data_filter[j].can_book == true){
+                    temp = data_filter[i];
+                    data_filter[i] = data_filter[j];
+                    data_filter[j] = temp;
+                }
+            }
+        }
+    }else{
+        for(var i = data_filter.length-1; i >= 0; i--) {
+            if(data_filter[i].can_book == false || data_filter[i].available_count < parseInt(passengers.adult)){
+                for(j=i;j<data_filter.length-1;j++){
+                    if(data_filter[j+1].can_book == false || data_filter[j+1].available_count < parseInt(passengers.adult)){
+                        break;
+                    }else{
+                        temp = data_filter[j];
+                        data_filter[j] = data_filter[j+1];
+                        data_filter[j+1] = temp
+                    }
                 }
             }
         }

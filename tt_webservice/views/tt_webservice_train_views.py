@@ -208,17 +208,22 @@ def commit_booking(request):
                             pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
                             pax['birth_date'].split(' ')[0]),
                     })
-                    if pax['pax_type'] == 'ADT' and pax['identity_expdate'] != '':
-                        pax.update({
-                            'identity_expdate': '%s-%s-%s' % (
-                                pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
-                                pax['identity_expdate'].split(' ')[0])
-                        })
+                    if pax['pax_type'] == 'ADT':
+                        try:
+                            pax.update({
+                                'identity_expdate': '%s-%s-%s' % (
+                                    pax['identity_expdate'].split(' ')[2], month[pax['identity_expdate'].split(' ')[1]],
+                                    pax['identity_expdate'].split(' ')[0])
+                            })
+                        except:
+                            pass
                         if pax['identity_country_of_issued_name'] != '':
                             for country in response['result']['response']['airline']['country']:
                                 if pax['identity_country_of_issued_name'] == country['name']:
                                     pax['identity_country_of_issued_code'] = country['code']
                                     break
+                        else:
+                            pax['identity_country_of_issued_code'] = ''
                         pax['identity'] = {
                             "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
                             "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),

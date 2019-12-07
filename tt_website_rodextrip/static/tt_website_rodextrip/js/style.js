@@ -778,7 +778,7 @@ $(document).ready(function(){
                 text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="airline_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                 </div>
                 <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
 
@@ -826,7 +826,7 @@ $(document).ready(function(){
               opens: 'center',
               startDate: moment(),
               minDate: moment(),
-              maxDate: moment().subtract(-365, 'days'),
+              maxDate: moment().subtract(-30, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
@@ -896,7 +896,7 @@ $(document).ready(function(){
               startDate: moment(),
               endDate: moment().subtract(-1, 'days'),
               minDate: moment(),
-              maxDate: moment().subtract(-365, 'days'),
+              maxDate: moment().subtract(-30, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',

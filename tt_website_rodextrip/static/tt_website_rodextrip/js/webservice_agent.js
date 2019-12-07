@@ -798,25 +798,37 @@ function gotoForm(){
 }
 
 function change_booker_value(type){
-    if(document.getElementsByName('myRadios')[0].checked == true){
-        if(type == 'title'){
-            document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
-        }else if(type == 'first_name'){
-            document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
-        }else if(type == 'last_name'){
-            document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
-        }else if(type == 'nationality'){
-            document.getElementById('select2-adult_nationality1_id-container').value = document.getElementById('booker_nationality').value;
-            document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
-        }else if(type == 'email'){
-            document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
-        }else if(type == 'phone_id'){
-            document.getElementById('select2-adult_phone_code1_id-container').innerHTML = document.getElementById('booker_phone_code').value;
-            document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
+    try{
+        if(document.getElementsByName('myRadios')[0].checked == true){
+            if(type == 'title'){
+                document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
+            }else if(type == 'first_name'){
+                document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
+            }else if(type == 'last_name'){
+                document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
+            }else if(type == 'nationality'){
+                document.getElementById('select2-adult_nationality1_id-container').value = document.getElementById('booker_nationality').value;
+                document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
+            }else if(type == 'email'){
+                document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
+            }else if(type == 'phone_id'){
+                document.getElementById('select2-adult_phone_code1_id-container').innerHTML = document.getElementById('booker_phone_code').value;
+                document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
 
-        }else if(type == 'phone'){
-            document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
+            }else if(type == 'phone'){
+                document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
+            }
         }
+    }catch(err){}
+}
+
+function id_type_change(type, sequence){
+    if(document.getElementById(type+'_id_type'+sequence).value == 'passport'){
+        document.getElementById('adult_passport_number_required'+sequence).style.color = 'red';
+        document.getElementById('adult_country_of_issued_required'+sequence+'_id').style.color = 'red';
+    }else{
+        document.getElementById('adult_passport_number_required'+sequence).style.color = 'white';
+        document.getElementById('adult_country_of_issued_required'+sequence+'_id').style.color = 'white';
     }
 }
 
