@@ -442,9 +442,9 @@ function hotel_detail_request(id){
                 var total_night = document.getElementById("total_night_search").textContent;
 
                 if(result.prices[i].currency != 'IDR')
-                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span style="font-size:13px; font-weight:500; color:#f15a22;"> (for '+total_room+' room, '+total_night+' night)</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span class="copy_total_rn" style="font-size:13px; font-weight:500; color:#f15a22;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
                 else
-                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span style="font-size:13px; font-weight:500; color:#f15a22;"> (for '+total_room+' room, '+total_night+' night)</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span class="copy_total_rn" style="font-size:13px; font-weight:500; color:#f15a22;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
 
                 text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
                 text+='</div></div>';
@@ -533,20 +533,20 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
             if (view_type == '0'){
                 // each Room Picking
                 text = '<ul style="list-style-type: disc; margin: 0 15px;">';
-                $text2 += 'Cancellation Policy: \n';
+                //$text2 += 'Cancellation Policy: \n';
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
                             text += '<li>Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>';
-                            $text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
+                            //$text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
                         } else {
                             text += '<li>No Cancellation after: ' + result.policies[i].date;
-                            $text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
+                            //$text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
                         }
                     }
                 } else {
                     text += '<li>No Cancellation Policy Provided</li>';
-                    $text2 += 'No Cancellation Policy Provided \n';
+                    //$text2 += 'No Cancellation Policy Provided \n';
                 }
                 text += '</ul>';
                 document.getElementById('cancellation_policy_choose').innerHTML = text;
@@ -556,7 +556,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 var text = '<h4>Cancellation Policy</h4>';
                 text += '<b id="js_hotel_name">' + result.hotel_name + '</b><hr/>';
                 text += '<ul style="list-style-type: disc; margin: 0 15px;">';
-                $text2 += '\n Cancellation Policy: \n';
+                //$text2 += '\n Cancellation Policy: \n';
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
@@ -564,12 +564,12 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                             $text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n'
                         } else {
                             text += '<li style="color:#f15a22;">No Cancellation after: ' + result.policies[i].date;
-                            $text2 += 'No Cancellation after: ' + result.policies[i].date+ '\n';
+                            //$text2 += 'No Cancellation after: ' + result.policies[i].date+ '\n';
                         }
                     }
                 } else {
                     text += '<li style="color:#f15a22;">No Cancellation Policy Provided</li>';
-                    $text2 += 'No Cancellation Policy Provided \n';
+                    //$text2 += 'No Cancellation Policy Provided \n';
                 };
                 text += '</ul>';
                 //console.log(text);
@@ -770,12 +770,14 @@ function get_checked_copy_result_room(){
         var qty_room = parent_room.find('.qty_room').html();
         var meal_room = parent_room.find('.meal_room').html();
         var price_room = parent_room.find('.price_room').html();
+        var total_room_night = parent_room.find('.copy_total_rn').html();
         var id_room = parent_room.find('.id_copy_result').html();
         room_number = room_number + 1;
         $text += room_number+'. '+name_room+ ' ' + desc_room+'\n';
         $text += qty_room+'\n';
         $text += ''+meal_room+'\n';
-        $text += 'Price: '+price_room+'\n \n';
+        $text += 'Price: '+price_room+' ';
+        $text += total_room_night+'\n \n';
         text+=`
             <div class="row" id="div_list`+id_room+`">
                 <div class="col-lg-8">
@@ -783,6 +785,7 @@ function get_checked_copy_result_room(){
                     <span>`+qty_room+` Room</span><br/>
                     <span>`+meal_room+`</span><br/>
                     <span style="font-weight:500;">Price: `+price_room+`</span>
+                    <span style="font-weight:500;">`+total_room_night+`</span>
                 </div>
                 <div class="col-lg-4" style="text-align:right;">
                     <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result_room(`+id_room+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
@@ -793,7 +796,7 @@ function get_checked_copy_result_room(){
     $text += '\n===Price may change at any time===';
     text+=`</div>
     <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;">Share this on:</span><br/>`;
         share_data_room();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {

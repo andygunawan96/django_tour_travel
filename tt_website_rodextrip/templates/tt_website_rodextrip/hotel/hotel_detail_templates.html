@@ -265,7 +265,7 @@
                         <div class="col-lg-12">
                             <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
                             <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                            <span class="rating_hotel" hidden>{{response.rating}}</span>
+                            <span class="rating_hotel" id="rating_hotel" hidden>{{response.rating}}</span>
                             <span>
                                 {% for i in rating %}
                                     <i class="fas fa-star" style="color:#FFC44D;"></i>
@@ -273,7 +273,7 @@
                             </span>
                             <br/>
                             <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
-                            <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                            <span class="address_hotel" id="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
                             <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
                             <hr/>
                         </div>
@@ -431,7 +431,14 @@
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding-bottom: 15px; margin-top:20px;">
                                     <h4 style="padding-top:15px;"> Price Detail</h4>
                                     <hr/>
-                                    <h5 id="product_title">{{response.name}}</h5>
+                                    <span style="font-size:16px; font-weight:700;" id="product_title">{{response.name}} </span>
+                                    <span>
+                                        {% for i in rating %}
+                                            <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                        {% endfor %}
+                                    </span><br/>
+                                    <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span><br/>
+                                    <span id="date_hotel"n>Date: {{check_in}} - {{check_out}}</span>
                                     <hr/>
                                     <div style="padding-top:10px;" id="hotel_detail_table">
 
