@@ -692,7 +692,6 @@ function commit_top_up(){
     });
 }
 
-
 function cancel_top_up(name){
     Swal.fire({
       title: 'Proceed this request?',
@@ -804,9 +803,11 @@ function get_top_up(){
         top_up_history = msg.result.response;
         //edit here
         for(i in top_up_history){
-            tes = moment.utc(top_up_history[i].due_date).format('YYYY-MM-DD HH:mm:ss')
-            var localTime  = moment.utc(tes).toDate();
-            top_up_history[i].due_date = moment(localTime).format('DD MMM YYYY HH:mm');
+            if(top_up_history[i].due_date != ''){
+                tes = moment.utc(top_up_history[i].due_date).format('YYYY-MM-DD HH:mm:ss')
+                var localTime  = moment.utc(tes).toDate();
+                top_up_history[i].due_date = moment(localTime).format('DD MMM YYYY HH:mm');
+            }
         }
         if(msg.result.error_code == 0)
             table_top_up_history(msg.result.response);
@@ -1014,8 +1015,7 @@ function check_top_up(){
         })
 
     }else{
-//        document.getElementById('submit_top_up').classList.remove('running');
-//        document.getElementById('submit_top_up').disabled = false;
+        document.getElementById('submit_name').disabled = false;
         Swal.fire({
           type: 'error',
           title: 'Oops!',

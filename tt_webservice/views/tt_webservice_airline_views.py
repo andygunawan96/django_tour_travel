@@ -220,7 +220,7 @@ def get_carrier_code_list(request):
                         'is_favorite': False
                     },
                     # 'SQ1': {
-                    #     'name': 'Singapore Airline - NDC',
+                    #     'name': 'Singapore Airlines - NDC',
                     #     'code': 'SQ1',
                     #     'icao': 'SIA',
                     #     'call_sign': 'SINGAPORE',
@@ -229,7 +229,7 @@ def get_carrier_code_list(request):
                     #     'is_favorite': True
                     # },
                     'SQ2': {
-                        'name': 'Singapore Airline - Amadeus (GDS)',
+                        'name': 'Singapore Airlines - Amadeus (GDS)',
                         'code': 'SQ2',
                         'icao': 'SIA',
                         'call_sign': 'SINGAPORE',
