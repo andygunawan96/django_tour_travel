@@ -1015,8 +1015,7 @@ function check_top_up(){
         })
 
     }else{
-//        document.getElementById('submit_top_up').classList.remove('running');
-//        document.getElementById('submit_top_up').disabled = false;
+        document.getElementById('submit_name').disabled = false;
         Swal.fire({
           type: 'error',
           title: 'Oops!',
