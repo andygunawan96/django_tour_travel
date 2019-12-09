@@ -4914,7 +4914,40 @@
             }
             {% endif %}
             {% if "train" in provider %}
-            //get_train_config('home');
+            get_train_config('home');
+
+            var train_origin = new autoComplete({
+                selector: '#train_origin',
+                minChars: 1,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.split(' - ').length == 2)
+                            term = ''
+                    if(term.length > 1)
+                        suggest(train_search_autocomplete(term));
+                },
+                onSelect: function(e, term, item){
+                    $("#train_origin").trigger("blur");
+                    set_train_search_value_to_true();
+                }
+            });
+            var train_destination = new autoComplete({
+                selector: '#train_destination',
+                minChars: 0,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.split(' - ').length == 4)
+                        term = ''
+                    if(term.length > 1)
+                        suggest(train_search_autocomplete(term));
+                },
+                onSelect: function(e, term, item){
+                    $("#train_destination").trigger("blur");
+                    set_train_search_value_to_true();
+                }
+            });
             {% endif %}
             {% if "activity" in provider %}
             get_activity_config('home');
@@ -4948,42 +4981,6 @@
                 },
                 onSelect: function(e, term, item){
                     $("#tour_query").trigger("blur");
-                }
-            });
-            {% endif %}
-            {% if "train" in provider %}
-            get_train_config('home');
-
-            var train_origin = new autoComplete({
-                selector: '#train_origin',
-                minChars: 1,
-                cache: false,
-                delay:0,
-                source: function(term, suggest){
-                    if(term.split(' - ').length == 2)
-                            term = ''
-                    if(term.length > 1)
-                        suggest(train_search_autocomplete(term));
-                },
-                onSelect: function(e, term, item){
-                    $("#train_origin").trigger("blur");
-                    set_train_search_value_to_true();
-                }
-            });
-            var train_destination = new autoComplete({
-                selector: '#train_destination',
-                minChars: 0,
-                cache: false,
-                delay:0,
-                source: function(term, suggest){
-                    if(term.split(' - ').length == 4)
-                        term = ''
-                    if(term.length > 1)
-                        suggest(train_search_autocomplete(term));
-                },
-                onSelect: function(e, term, item){
-                    $("#train_destination").trigger("blur");
-                    set_train_search_value_to_true();
                 }
             });
             {% endif %}
