@@ -858,7 +858,8 @@ function tour_issued_booking(order_number)
            'payment_method': payment_method_choice,
            'seq_id': payment_acq2[payment_method][selected].seq_id,
            'member': payment_acq2[payment_method][selected].method,
-           'signature': signature
+           'signature': signature,
+//           'voucher_code': voucher_code
        },
        success: function(msg) {
            console.log(msg);

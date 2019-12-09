@@ -386,6 +386,7 @@
                         </div>
                         <div class="col-lg-4" style="margin-top:10px;">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                            <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
                             <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                  Issued Booking
                             </button>
@@ -431,8 +432,8 @@
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
-                        {{username.co_agent_frontend_security}}
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                        <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
                         <div class="col-lg-12" style="padding-bottom:15px;">
                             <button class="primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                  Issued Booking

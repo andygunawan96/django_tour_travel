@@ -393,6 +393,7 @@ def issued(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
+            # 'voucher_code': request.POST['voucher_code']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

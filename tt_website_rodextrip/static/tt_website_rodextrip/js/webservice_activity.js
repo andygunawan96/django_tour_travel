@@ -1054,6 +1054,7 @@ function activity_commit_booking(val){
     try{
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
+//        data['voucher_code'] =  voucher_code;
     }catch(err){
     }
     getToken();
