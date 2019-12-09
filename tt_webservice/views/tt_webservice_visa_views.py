@@ -347,6 +347,7 @@ def commit_booking(request):
         data.update({
             'member': member,
             'seq_id': request.POST['seq_id'],
+            # 'voucher_code': request.POST['voucher_code']
         })
 
         headers = {

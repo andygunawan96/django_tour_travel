@@ -216,6 +216,7 @@ function set_price(val, type, product_type){
                 </div>`;
     }
     try{
+        payment_total = 0;
         text += `
             <div class='col-sm-6' style='text-align:left;'>
                 <span>Discount:</span>
@@ -223,10 +224,10 @@ function set_price(val, type, product_type){
             <div class='col-sm-6' style='text-align:right;'>
                 <span>`+discount_voucher['currency']+` `+getrupiah(discount_voucher['discount'])+`</span>
             </div>`;
-        payment_total = payment_acq2[payment_method][selected].price_component.amount + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount) - discount_voucher['discount'];
+        payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount) - discount_voucher['discount'];
     }catch(err){
         try{
-            payment_total = payment_acq2[payment_method][selected].price_component.amount + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
+            payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
         }catch(err){}
     }
 

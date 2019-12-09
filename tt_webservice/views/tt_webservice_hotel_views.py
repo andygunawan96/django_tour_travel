@@ -391,6 +391,7 @@ def create_booking(request):
             # 'cancellation_policy': request.session['hotel_cancellation_policy']['result']['response'],
             'cancellation_policy': [],
             'promotion_codes_booking': [],
+            # 'voucher_code': request.POST['voucher_code'],
             # Remove Versi Baru
             # 'hotel_code': [{
             #     "hotel_code": request.session['hotel_detail']['result']['hotel_code'][request.session['hotel_room_pick']['provider']],

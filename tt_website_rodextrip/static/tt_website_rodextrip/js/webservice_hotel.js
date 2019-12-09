@@ -668,7 +668,9 @@ function hotel_issued_booking(){
        },
        data: {
             'seq_id': payment_acq2[payment_method][selected].seq_id,
-            'member': payment_acq2[payment_method][selected].method
+            'member': payment_acq2[payment_method][selected].method,
+//            'voucher_code': voucher_code,
+            'signature': signature
        },
        success: function(msg) {
             console.log('Result');

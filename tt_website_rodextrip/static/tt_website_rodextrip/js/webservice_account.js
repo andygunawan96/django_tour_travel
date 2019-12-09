@@ -672,9 +672,15 @@ function commit_top_up(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error commit topup </span>' + msg.result.error_msg,
-            })
+            }).then((result) => {
+                if (result.value) {
+                    document.getElementById('top_up_form').submit();
+                }
+            });
+
+
         }
-        document.getElementById('top_up_form').submit();
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

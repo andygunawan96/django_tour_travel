@@ -892,7 +892,8 @@ function train_issued(data){
                'order_number': data,
                'seq_id': payment_acq2[payment_method][selected].seq_id,
                'member': payment_acq2[payment_method][selected].method,
-               'signature': signature
+               'signature': signature,
+//               'voucher_code': voucher_code
            },
            success: function(msg) {
                console.log(msg);
@@ -1000,8 +1001,7 @@ function train_cancel_booking(){
            success: function(msg) {
            console.log(msg);
             if(msg.result.error_code == 0)
-                continue
-    //            document.getElementById('train_booking').submit();
+                document.getElementById('train_booking').submit();
             else
                 Swal.fire({
                   type: 'error',

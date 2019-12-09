@@ -779,7 +779,8 @@ function commit_booking(){
 
     data = {
         'seq_id':payment_acq2[payment_method][selected].seq_id,
-        'member':payment_acq2[payment_method][selected].method
+        'member':payment_acq2[payment_method][selected].method,
+//        'voucher_code': voucher_code
     }
 
     getToken();
@@ -822,7 +823,7 @@ function commit_booking(){
                }
                document.getElementsByName('myRadios')[1].checked = true;
 //               document.getElementById('payment_acq').hidden = true;
-                close_div('payment_acq');
+               close_div('payment_acq');
                $('select').niceSelect('update');
            }
        },
