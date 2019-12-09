@@ -378,12 +378,12 @@ function hotel_detail_request(id){
         if(typeof result.prices === "undefined"){
             //alert("There's no room in this hotel!");
             $('#loading-detail-hotel').hide();
-            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
+            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can`t find any room for this criteria. Please try another day or another hotel</span></div>');
             // window.location.href = "http://localhost:8000";
         }else if(result.prices.length == 0){
             //alert("There's no room in this hotel!");
             $('#loading-detail-hotel').hide();
-            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can find any room for this criteria. Please try another day or another hotel</span></div>');
+            $('#detail_room_pick').html('<div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert"><span style="font-weight:bold;"> Sorry, We can`t find any room for this criteria. Please try another day or another hotel</span></div>');
         }else{
             text2+=`
             <div class="row">
