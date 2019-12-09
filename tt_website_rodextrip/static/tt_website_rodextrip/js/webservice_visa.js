@@ -450,11 +450,13 @@ function update_contact(){
 function commit_booking(){
     data = {
         'force_issued': 'true',
-        'signature': signature
+        'signature': signature,
+        'voucher_code': ''
     }
     try{
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
+        data['voucher_code'] = voucher_code;
     }catch(err){
     }
     getToken();

@@ -130,8 +130,7 @@ def check_voucher(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['visa_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
+        pass
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

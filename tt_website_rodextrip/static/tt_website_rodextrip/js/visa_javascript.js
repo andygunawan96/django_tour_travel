@@ -95,7 +95,7 @@ function update_table(type){
                 </tr>`;
                 count_i = count_i+1;
                 $text += count_i + '. ';
-                $text += 'Visa '+ country +'('+visa[i].sale_price.currency+ ' ' +getrupiah(visa[i].sale_price.total_price)+')\n';
+                $text += 'Visa '+ country +'\n';
                 $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
                 $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
@@ -262,7 +262,7 @@ function update_table(type){
 
                 count_i = count_i+1;
                 $text += count_i + '. ';
-                $text += 'Visa '+ visa_request.destination +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
+                $text += 'Visa '+ visa_request.destination +'\n';
                 $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
                 $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
@@ -378,7 +378,7 @@ function update_table(type){
 
                 count_i = count_i+1;
                 $text += count_i + '. ';
-                $text += 'Visa '+ visa_request.destination +'('+visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price)+')\n';
+                $text += 'Visa '+ visa_request.destination +'\n';
                 $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
                 $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';

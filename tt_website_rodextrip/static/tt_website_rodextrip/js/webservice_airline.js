@@ -436,7 +436,29 @@ function carrier_to_provider(){
                 break;
             }else if(airline_carriers[i][j].bool == true){
                 try{
-                    airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
+                    if(airline_carriers[i][j].name.split(' - ').length == 2){
+                        provider_choose = '';
+                        if(airline_carriers[i][j].name.split(' - ')[1] == 'Amadeus (GDS)')
+                            provider_choose = 'amadeus';
+                        else if(airline_carriers[i][j].name.split(' - ')[1] == 'NDC')
+                            provider_choose = 'sia';
+                        else if(airline_carriers[i][j].name.split(' - ')[1] == 'AGS')
+                            provider_choose = 'garuda';
+                        else if(airline_carriers[i][j].name.split(' - ')[1] == 'Althea')
+                            provider_choose = 'althea';
+                        if(airline[i].hasOwnProperty(airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)) == true){
+                            check_provider = false;
+                            for(k in airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)]){
+                                if(airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)][k] == provider_choose)
+                                    check_provider = true;
+                            }
+                            if(check_provider == false)
+                                airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)].push(provider_choose);
+                        }else
+                            airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)] = [provider_choose]
+                    }else{
+                        airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
+                    }
                 }catch(err){
 
                 }

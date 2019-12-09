@@ -191,6 +191,53 @@ def get_carrier_code_list(request):
                 a.set_new_time_out('carrier')
                 a.set_first_time('carrier')
                 res = res['result']['response']
+                res.update({
+                    'GA1': {
+                        'name': 'Garuda Indonesia - AGS',
+                        'code': 'GA1',
+                        'icao': 'GIA',
+                        'call_sign': 'INDONESIA',
+                        'provider_type': 'airline',
+                        'active': True,
+                        'is_favorite': False
+                    },
+                    # 'GA2': {
+                    #     'name': 'Garuda Indonesia - Althea',
+                    #     'code': 'GA2',
+                    #     'icao': 'GIA',
+                    #     'call_sign': 'INDONESIA',
+                    #     'provider_type': 'airline',
+                    #     'active': True,
+                    #     'is_favorite': False
+                    # },
+                    'GA3': {
+                        'name': 'Garuda Indonesia - Amadeus (GDS)',
+                        'code': 'GA3',
+                        'icao': 'GIA',
+                        'call_sign': 'INDONESIA',
+                        'provider_type': 'airline',
+                        'active': True,
+                        'is_favorite': False
+                    },
+                    # 'SQ1': {
+                    #     'name': 'Singapore Airline - NDC',
+                    #     'code': 'SQ1',
+                    #     'icao': 'SIA',
+                    #     'call_sign': 'SINGAPORE',
+                    #     'provider_type': 'airline',
+                    #     'active': True,
+                    #     'is_favorite': True
+                    # },
+                    'SQ2': {
+                        'name': 'Singapore Airline - Amadeus (GDS)',
+                        'code': 'SQ2',
+                        'icao': 'SIA',
+                        'call_sign': 'SINGAPORE',
+                        'provider_type': 'airline',
+                        'active': True,
+                        'is_favorite': True
+                    }
+                })
                 fav = {}
                 carrier_code_list = {}
                 for key in res:
