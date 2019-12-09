@@ -1,0 +1,22 @@
+<script src="{{ static_path }}js/webservice_voucher.js?version={{javascript_version}}"></script>
+
+<div id="voucher">
+    <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+        Use Voucher Code
+    </button>
+</div>
+<script>
+    function use_voucher(){
+        document.getElementById('voucher').innerHTML = `
+            <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+                <h6 style="padding-bottom:10px;">1. Code:</h6>
+                <div class="input-container-search-ticket btn-group">
+                    <input class="form-select" id="default-select" type="text"/>
+                </div>
+                <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="();">
+                    Check Voucher
+                </button>
+            </div>
+        `;
+    }
+</script>

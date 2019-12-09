@@ -48,6 +48,8 @@ def api_models(request):
             res = get_voucher(request)
         elif req_data['action'] == 'set_voucher':
             res = set_voucher(request)
+        elif req_data['action'] == 'check_voucher':
+            res = check_voucher(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -90,10 +92,43 @@ def set_voucher(request):
             "signature": request.POST['signature']
         }
 
-        data = {}
+        data = {
+            'voucher_reference': '',
+            'date': datetime.now().strftime('%Y-%m-%d'),
+            'provider_type_id': 'airline',
+            'provider_id': 'amadeus',
+            'purchase_amount': 0
+        }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    try:
+        request.session['visa_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def check_voucher(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "check_voucher",
+            "signature": request.POST['signature']
+        }
+
+        data = {
+            'voucher_reference': request.POST['voucher_reference'],
+            'date': datetime.now().strftime('%Y-%m-%d'),
+            'provider_type_id': request.POST['provider_type_id'],
+            'provider_id': request.POST['provider_id'],
+            # 'purchase_amount': 0
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']

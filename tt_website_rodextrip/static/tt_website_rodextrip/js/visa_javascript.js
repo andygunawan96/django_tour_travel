@@ -224,7 +224,7 @@ function update_table(type){
                         <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                    </div>
                 </div>`;
-                if(agent_security.includes('book_reservation') == true || check_visa == 1)
+                if(agent_security.includes('book_reservation') == true && check_visa == 1)
                 text+=
                 `<div class="row" style="margin-top:10px; text-align:center;">
                     <div class="col-lg-12" style="padding-bottom:10px;">
@@ -235,7 +235,7 @@ function update_table(type){
                     </div>
                 </div>`;
             text+=`</div>`;
-            if(check_visa == 1){
+            if(check_visa == 0){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',

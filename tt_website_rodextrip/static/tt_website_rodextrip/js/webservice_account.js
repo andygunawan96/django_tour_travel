@@ -861,13 +861,6 @@ function confirm_top_up(name){
                     })
                },timeout: 60000
             });
-      else{
-           Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              text: 'Please pay for this top up!',
-            })
-      }
     })
 }
 
