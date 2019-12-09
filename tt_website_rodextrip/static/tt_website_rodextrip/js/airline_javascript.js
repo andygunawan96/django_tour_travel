@@ -3504,7 +3504,11 @@ function airline_detail(type){
                 text+=`</div>`;
 
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
-                    $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    try{
+                        $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    }catch(err){
+                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    }
                     $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
                     $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
                     $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
