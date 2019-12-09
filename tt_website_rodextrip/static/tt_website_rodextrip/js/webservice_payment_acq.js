@@ -162,19 +162,6 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
                 </div>`;
-
-    //    grand total
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span style='font-weight:500;'>Grand Total:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
-                    text += getrupiah(parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount))
-
-                    text+=`</span>
-                </div>`;
-        text+= `</div><br/>`;
     }
     else if(payment_method == 'credit_limit'){
         usage = payment_acq2[payment_method][selected].credit_limit - payment_acq2[payment_method][selected].actual_balance;
@@ -227,20 +214,35 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
                 </div>`;
+    }
+    try{
+        text += `
+            <div class='col-sm-6' style='text-align:left;'>
+                <span>Discount:</span>
+            </div>
+            <div class='col-sm-6' style='text-align:right;'>
+                <span>`+discount_voucher['currency']+` `+getrupiah(discount_voucher['discount'])+`</span>
+            </div>`;
+        payment_total = payment_acq2[payment_method][selected].price_component.amount + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount) - discount_voucher['discount'];
+    }catch(err){
+        try{
+            payment_total = payment_acq2[payment_method][selected].price_component.amount + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
+        }catch(err){}
+    }
 
-    //    grand total
+//    grand total
+    if(payment_method != 'credit_limit'){
         text += `
                 <div class='col-sm-6' style='text-align:left;'>
                     <span style='font-weight:500;'>Grand Total:</span>
                 </div>
                 <div class='col-sm-6' style='text-align:right;'>
                     <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
-                    text += getrupiah(parseInt(parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount)));
+                    text += getrupiah(payment_total)
 
                     text+=`</span>
                 </div>`;
         text+= `</div><br/>`;
-
     }
     if(type == 'visa')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_hold_booking();" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
