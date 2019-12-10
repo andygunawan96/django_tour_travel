@@ -10,6 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice_voucher_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -347,8 +348,12 @@ def commit_booking(request):
         data.update({
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher_code': request.POST['voucher_code']
+            # 'voucher': {}
         })
+        # if request.POST['voucher_code'] != '':
+        #     data.update({
+        #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
+        #     })
 
         headers = {
             "Accept": "application/json,text/html,application/xml",

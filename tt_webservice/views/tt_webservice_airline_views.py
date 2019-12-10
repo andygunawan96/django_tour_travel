@@ -737,9 +737,19 @@ def get_price_itinerary(request, boolean, counter):
             get_price_itinerary(request, True, counter)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
-        res['result']['response'].update({
-            'is_combo_price': not boolean
-        })
+        if boolean == False:
+            check_special_price = True
+            for schedule in data['schedules']:
+                if len(schedule['journey']) > 1:
+                    check_special_price = False
+                    break
+            res['result']['response'].update({
+                'is_combo_price': not check_special_price
+            })
+        else:
+            res['result']['response'].update({
+                'is_combo_price': not boolean
+            })
     except:
         pass
     return res

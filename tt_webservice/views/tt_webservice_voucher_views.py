@@ -135,3 +135,13 @@ def check_voucher(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res
+
+def data_voucher(voucher_code, provider_type_id, provider_id):
+    data = {
+        'voucher_reference': voucher_code,
+        'date': datetime.now().strftime('%Y-%m-%d'),
+        'provider_type_id': provider_type_id,
+        'provider_id': provider_id,
+        # 'purchase_amount': 0
+    }
+    return data

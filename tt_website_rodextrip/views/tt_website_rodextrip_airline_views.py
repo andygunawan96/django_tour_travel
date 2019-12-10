@@ -393,6 +393,7 @@ def ssr(request):
                     'airline_list': airline_list
                 })
                 airline_list = []
+            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_request': request.session['airline_request'],

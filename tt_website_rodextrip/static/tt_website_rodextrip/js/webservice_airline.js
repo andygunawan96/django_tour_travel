@@ -1829,7 +1829,7 @@ function set_passenger_seat_map_airline(val){
     text += `<hr/><h5 style="color:#f15a22;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
     for(i in passengers[val].seat_list){
         text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
-        text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+passengers[val].seat_list[i].price+`</span><br/><br/>`;
+        text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
         for(j in passengers[val].seat_list[i].description){
             //if(j == 0)
                 //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
