@@ -1401,6 +1401,7 @@ function tour_get_booking(order_number)
                }
                get_payment_rules(tour_package.id);
                get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
+               document.getElementById("final_issued_btn").style.display = "block";
            }
            else
            {

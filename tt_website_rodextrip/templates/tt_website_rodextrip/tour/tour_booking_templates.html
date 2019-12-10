@@ -94,7 +94,7 @@
                         </div>
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
                         <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
-                        <button id="final_issued_btn" class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
+                        <button id="final_issued_btn" class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
                             Issued Booking
                         </button>
                         {% endif %}

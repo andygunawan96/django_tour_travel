@@ -877,9 +877,9 @@ function tour_hold_booking(val){
         book_setup_txt += `<input type="hidden" id="force_issued_opt" name="force_issued_opt" value="`+val+`"/>`;
         title = '';
         if(val == 0)
-            title = 'Are you sure want to Hold Booking?';
+            title = 'Are you sure you want to Hold Booking?';
         else if(val == 1)
-            title = 'Are you sure want to Force Issued this booking?';
+            title = 'Are you sure you want to Force Issued this booking?';
         Swal.fire({
           title: title,
           type: 'warning',

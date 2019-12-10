@@ -312,9 +312,11 @@
                 <div class="col-lg-12" style="margin-top: 20px;">
                     <div class="row">
                         <div class="col-lg-4" style="margin-bottom:10px;">
+                            {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             <button class="for-show-mobile next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="tour_hold_booking(0);" style="width:100%;">
                                 Hold Booking <div class="ld ld-ring ld-cycle"></div>
                             </button>
+                            {% endif %}
                         </div>
                         <div align="center" class="col-lg-4" style="margin-bottom:10px;">
                             <button class="for-show-mobile primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{printout_rec}}')" style="width:100%;">
