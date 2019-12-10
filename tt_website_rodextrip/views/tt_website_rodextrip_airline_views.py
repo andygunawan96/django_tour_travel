@@ -91,7 +91,8 @@ def search(request):
                             'name': response[j]['name'],
                             'code': response[j]['code'],
                             'icao': response[j]['icao'],
-                            'call_sign': response[j]['call_sign']
+                            'call_sign': response[j]['call_sign'],
+                            'is_favorite': response[j]['is_favorite']
                         }
                     airline_carriers.append(airline_carrier)
                     airline_carrier = []
