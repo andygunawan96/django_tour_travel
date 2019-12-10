@@ -72,7 +72,7 @@
     </div>
 </section>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12" style="padding:0;">
@@ -223,6 +223,17 @@
                     </div>
                 </div>
 
+                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; z-index: 2; display:none;">
+                    <div class="col-lg-12">
+                        <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>
+                            <hr/>
+                            <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span><br/>
+                            <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                        </div>
+                    </div>
+                </div>
+
                 <div style="background-color:white; padding:10px; margin-top:20px; border:1px solid #cdcdcd" id="session_timer">
 
                 </div>
@@ -296,6 +307,20 @@
         breadcrumb_create("tour", 2, 0);
         $('.js-example-basic-single').select2();
         get_tour_config('search');
+
+        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+        $(window).scroll(function() {
+            if ($(this).scrollTop() >= 66) {
+                if ($(window).width() >= 992){
+                   document.getElementById("info_user_search").style.display = "block";
+                }else{
+                   document.getElementById("info_user_search").style.display = "none";
+                }
+            }else{
+                document.getElementById("info_user_search").style.display = "none";
+            }
+        });
 
         var tour_autocomplete = new autoComplete({
             selector: '#tour_query',

@@ -2805,7 +2805,7 @@ function sort(){
         <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:-5px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` flights</span>
             <label class="check_box_custom" style="float:right;">
-                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                <span class="span-search-ticket" style="color:black;">Select all</span>
                 <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
                 <span class="check_box_span_custom"></span>
             </label>
