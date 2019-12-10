@@ -427,6 +427,8 @@ function radio_button(type,val){
         }
     }
     if(type == 'pax_cache'){
+        document.getElementById('passenger_update').hidden = true;
+
         if(value == 'chosen'){
             document.getElementById('passenger_chosen').hidden = false;
         }else{
@@ -2568,7 +2570,7 @@ function get_passenger_cache(){
 }
 
 function edit_passenger_cache(val){
-    passenger_data_phone = 0;
+    passenger_data_edit_phone = 0;
     passenger_cache_pick = val;
     document.getElementById('passenger_edit_title').innerHTML = passenger_data_cache[val].title;
     if(agent_security.includes('p_cache_3') == true){
@@ -2629,7 +2631,7 @@ function edit_passenger_cache(val){
     document.getElementById('attachment2').innerHTML = '';
     document.getElementById('attachment3').innerHTML = '';
     document.getElementById('attachment4').innerHTML = '';
-
+    text = '';
     //avatar
     if(passenger_data_cache[val].face_image.length != 0)
     text+= `
