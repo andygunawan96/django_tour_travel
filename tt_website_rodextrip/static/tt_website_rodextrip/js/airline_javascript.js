@@ -1909,6 +1909,10 @@ function sort(){
         text = '';
         var first = sort_key * 10;
         var last = (sort_key+1) * 10;
+        if(sort_key == 0)
+            text += `<div style="background-color:#f15a22; padding:10px;">
+                    <h6 style="color:white;">Flight `+counter_search+`</h6>
+                </div>`;
         for(i in airline){
            if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
                ticket_count++;
@@ -2805,7 +2809,7 @@ function sort(){
         <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:-5px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` flights</span>
             <label class="check_box_custom" style="float:right;">
-                <span class="span-search-ticket" style="color:black;">Select all</span>
+                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
                 <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
                 <span class="check_box_span_custom"></span>
             </label>
@@ -3954,6 +3958,11 @@ function airline_detail(type){
 
 function on_change_srr(){
     additional_price = 0;
+    for(i in passengers){
+        for(j in passengers[i].seat_list){
+            additional_price += parseInt(passengers[i].seat_list[j].price);
+        }
+    }
     for(i=1;i<=len_passenger;i++){
         for(j in ssr_keys){
             for(k=1;k<=ssr_keys[j].len;k++){
@@ -4282,18 +4291,23 @@ function get_airline_review(){
         for(j in airline_pick[i].price_itinerary){
             if(airline_pick[i].price_itinerary[j].is_combo_price == true){
                 text += `<h6>Combo Price</h6>`;
-            }else if(i == 0){
-                text += `<h6>Departure</h6>`;
-                if(airline_request.direction != 'MC'){}
-                else{
-                    flight_count++;
+            }else if(airline_request.direction != 'MC'){
+                if(i == 0){
+                    text += `<h6>Departure</h6>`;
+                    if(airline_request.direction != 'MC'){}
+                    else{
+                        flight_count++;
+                    }
+                }else{
+                    text += `<h6>Return</h6>`;
+                    if(airline_request.direction != 'MC'){}
+                    else{
+                        flight_count++;
+                    }
                 }
-            }else{
-                text += `<h6>Return</h6>`;
-                if(airline_request.direction != 'MC'){}
-                else{
-                    flight_count++;
-                }
+            }else if(airline_request.direction == 'MC'){
+                flight_count++;
+                text += `<h6>Flight `+flight_count+`</h6>`;
             }
             //logo
             for(k in airline_pick[i].price_itinerary[j].carrier_code_list) //print gambar airline

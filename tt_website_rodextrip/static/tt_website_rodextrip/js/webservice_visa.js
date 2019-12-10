@@ -409,6 +409,10 @@ function update_passenger(){
             console.log(msg);
             if(msg.result.error_code == 0){
                 update_contact();
+            }else{
+                $("#waitingTransaction").modal('hide');
+                close_div('payment_acq');
+                set_payment('Issued','visa');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -437,6 +441,10 @@ function update_contact(){
            console.log(msg);
             if(msg.result.error_code == 0){
                 commit_booking();
+            }else{
+                $("#waitingTransaction").modal('hide');
+                close_div('payment_acq');
+                set_payment('Issued','visa');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -474,6 +482,10 @@ function commit_booking(){
             if(msg.result.error_code == 0){
                 document.getElementById('order_number').value = msg.result.response.id;
                 document.getElementById('visa_booking').submit();
+            }else{
+                $("#waitingTransaction").modal('hide');
+                close_div('payment_acq');
+                set_payment('Issued','visa');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
