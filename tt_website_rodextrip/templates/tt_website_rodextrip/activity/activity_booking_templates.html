@@ -10,10 +10,14 @@
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
+    activity_order_number = '{{order_number}}';
 </script>
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
@@ -33,6 +37,7 @@
 </header>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
+
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <form method="POST" id="acitivity_booking" action="{% url 'tt_website_rodextrip:activity_booking'%}">
@@ -76,6 +81,17 @@
 
                                 </div>
                             </div>
+                        </div>
+                        {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                        <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
+                        <button id="final_issued_btn" class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
+                            Issued Booking
+                        </button>
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:15px;" id="payment_acq" hidden>
+
                         </div>
                     </div>
                 </div>

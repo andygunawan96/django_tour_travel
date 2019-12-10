@@ -894,8 +894,16 @@ function activity_get_price_date(activity_type_pick, pricing_days){
 }
 
 function activity_pre_create_booking(value){
+    if(value == 0)
+    {
+        var temp_title = 'Are you sure you want to Hold Booking?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Force Issued this booking?';
+    }
     Swal.fire({
-      title: 'Are you sure you want to issued this order?',
+      title: temp_title,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -1027,7 +1035,7 @@ function update_options_activity(){
             {
                 act_booker_id = '';
             }
-            get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity');
+            get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity_review');
         }else{
             Swal.fire({
               type: 'error',
@@ -1292,7 +1300,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Reissued`;
                     document.getElementById('display_state').innerHTML = `Reissued`;
                 }
-                else if(msg.result.response.status == 'pending' || msg.result.response.status == 'paid'){
+                else if(msg.result.response.status == 'paid' || msg.result.response.status == 'pending'){
                     conv_status = 'On Request (max 3 working days)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-pending");
@@ -1703,6 +1711,16 @@ function activity_get_booking(data){
             $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
             document.getElementById('activity_detail_table').innerHTML = price_text;
             add_repricing();
+
+            if(msg.result.response.status == 'booked')
+            {
+                get_payment_acq('Issued', msg.result.response.booker_seq_id, activity_order_number, 'billing',signature,'activity');
+                document.getElementById("final_issued_btn").style.display = "block";
+            }
+            else
+            {
+                $('#final_issued_btn').remove();
+            }
         }else{
             Swal.fire({
               type: 'error',
