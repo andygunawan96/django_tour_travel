@@ -1270,7 +1270,7 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:67px; z-index:997; display:none;" id="mybuttonsticky">
+            <div class="col-lg-12" style="position:sticky; top:67px; z-index:997; display:none; margin-bottom:15px;" id="mybuttonsticky">
                 <div class="row">
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding-right:10px; text-align:center;">
                         <button class="primary-btn-all-sticky" style="width:100%;" data-toggle="modal" data-target="#myModalCopyAirline">
@@ -1292,6 +1292,16 @@
             </div>
 
             <div class="col-lg-3">
+                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; z-index: 1; display:none;">
+                    <div class="col-lg-12">
+                        <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>
+                            <hr/>
+                            <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span><br/>
+                            <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                        </div>
+                    </div>
+                </div>
                 <div class="row" style="padding-top:15px; padding-bottom:10px;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
@@ -1507,6 +1517,21 @@
     $( document ).ready(function() {
         breadcrumb_create("airline", 2, 0);
         //$('.js-example-basic-single').select2();
+
+        //show hide balance
+        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+        $(window).scroll(function() {
+            if ($(this).scrollTop() >= 66) {
+                if ($(window).width() >= 992){
+                   document.getElementById("info_user_search").style.display = "block";
+                }else{
+                   document.getElementById("info_user_search").style.display = "none";
+                }
+            }else{
+                document.getElementById("info_user_search").style.display = "none";
+            }
+        });
 
         get_airline_config('search');
 

@@ -307,6 +307,7 @@ function check_hold_booking(){
         $('.payment_method').prop('disabled', false).niceSelect('update');
         $('.option').removeClass("disabled");
         $(".payment_acq *").prop('disabled',false);
+        $("#waitingTransaction").modal('hide');
     }
 }
 
@@ -411,6 +412,7 @@ function update_passenger(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#waitingTransaction").modal('hide');
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -475,6 +477,7 @@ function commit_booking(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#waitingTransaction").modal('hide');
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -840,6 +843,7 @@ function visa_get_data(data){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#waitingTransaction").modal('hide');
             Swal.fire({
               type: 'error',
               title: 'Oops!',

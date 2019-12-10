@@ -389,6 +389,7 @@ function create_new_passenger(){
                processData:false,
                error: function(XMLHttpRequest, textStatus, errorThrown) {
                    alert(errorThrown);
+                   document.getElementById('create_new_passenger_btn').disabled = true;
                }
            });
 
@@ -399,6 +400,7 @@ function create_new_passenger(){
                title: 'Oops...',
                html: error_log,
            })
+           document.getElementById('create_new_passenger_btn').disabled = false;
        }
 
     }catch(err){

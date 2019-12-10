@@ -705,21 +705,21 @@ $(document).ready(function(){
 
     $('#information-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-hotel").offset().top - 50
+            scrollTop: $("div.div-information-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("information");
     });
 
     $('#facility-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-facility-hotel").offset().top - 50
+            scrollTop: $("div.div-facility-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("facility");
     });
 
     $('#location-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-location-hotel").offset().top - 50
+            scrollTop: $("div.div-location-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("location");
     });
@@ -727,14 +727,14 @@ $(document).ready(function(){
 
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-room-hotel").offset().top - 50
+            scrollTop: $("div.div-select-room-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("select");
     });
 
     $('#review-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-review-hotel").offset().top - 50
+            scrollTop: $("div.div-review-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("review");
     });

@@ -1067,6 +1067,7 @@ function train_manual_seat(){
               html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.error_msg,
             })
             $('.submit-seat-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
             $('.change-seat-train-buttons').prop('disabled', false);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1076,6 +1077,7 @@ function train_manual_seat(){
               html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
             })
             $('.submit-seat-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
             $('.change-seat-train-buttons').prop('disabled', false);
        },timeout: 60000
     });
