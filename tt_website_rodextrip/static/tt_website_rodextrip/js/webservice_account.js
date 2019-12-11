@@ -54,11 +54,13 @@ function get_balance(val){
             document.getElementById("balance").innerHTML = text;
             try{
                 document.getElementById("balance_mob").innerHTML = text;
+                document.getElementById("balance_search").innerHTML = text;
             }catch(err){}
             text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
             document.getElementById("credit_limit").innerHTML = text;
             try{
                 document.getElementById("credit_mob").innerHTML = text;
+                document.getElementById("credit_search").innerHTML = text;
             }catch(err){}
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -68,11 +70,13 @@ function get_balance(val){
           document.getElementById("balance").innerHTML = text;
           try{
             document.getElementById("balance_mob").innerHTML = text;
+            document.getElementById("balance_search").innerHTML = text;
           }catch(err){}
           text = `Credit Limit: Timeout`;
           document.getElementById("credit_limit").innerHTML = text;
           try{
             document.getElementById("credit_mob").innerHTML = text;
+            document.getElementById("credit_search").innerHTML = text;
           }catch(err){}
 
 //            Swal.fire({
@@ -88,11 +92,13 @@ function get_balance(val){
           document.getElementById("balance").innerHTML = text;
           try{
                 document.getElementById("balance_mob").innerHTML = text;
+                document.getElementById("balance_search").innerHTML = text;
           }catch(err){}
           text = `Credit Limit: Failed`;
           document.getElementById("credit_limit").innerHTML = text;
           try{
             document.getElementById("credit_mob").innerHTML = text;
+            document.getElementById("credit_search").innerHTML = text;
           }catch(err){}
 
 //            Swal.fire({
