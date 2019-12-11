@@ -533,6 +533,13 @@
                                             <label style="font-size:12px; padding:0;">Example: 812345678</label>
                                         </div>
                                     </div>
+                                    {% for airline in airline_pick %}
+                                        {% if airline.provider == 'lionair' %}
+                                    <span><span style="color:red">* </span>Passport is required for lion air, wings air, or batik air</span>
+                                    {{ "<!--" }}
+                                      {%endif%}
+                                    {%endfor%}
+                                    {{ "-->" }}
                                 </div>
                             </div>
                         </div>

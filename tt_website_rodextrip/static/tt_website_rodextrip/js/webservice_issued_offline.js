@@ -758,7 +758,7 @@ function update_passenger(){
        data: request,
        success: function(msg) {
             if(msg.result.error_code == 0){
-                get_payment_acq('Issued','', '', 'billing', signature, 'issued_offline','', '');
+                get_payment_acq('Issued', document.getElementById('booker_id').value, '', 'billing', signature, 'issued_offline','', '');
                 focus_box('payment_acq');
                 //document.getElementById('payment_acq').hidden = false;
             }

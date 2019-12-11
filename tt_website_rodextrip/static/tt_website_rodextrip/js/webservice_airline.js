@@ -1952,7 +1952,7 @@ function airline_update_passenger(val){
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'update_contacts',
+            'action': 'update_passengers',
        },
        data: {
             'signature': signature
@@ -1994,7 +1994,7 @@ function airline_update_contact_booker(val){
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'update_passengers',
+            'action': 'update_contacts',
        },
        data: {
             'signature': signature
