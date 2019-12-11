@@ -893,31 +893,6 @@ function activity_get_price_date(activity_type_pick, pricing_days){
    });
 }
 
-function activity_pre_create_booking(value){
-    if(value == 0)
-    {
-        var temp_title = 'Are you sure you want to Hold Booking?';
-    }
-    else
-    {
-        var temp_title = 'Are you sure you want to Force Issued this booking?';
-    }
-    Swal.fire({
-      title: temp_title,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        show_loading();
-        please_wait_transaction();
-        activity_commit_booking(value);
-      }
-    })
-}
-
 function update_sell_activity(){
     getToken();
     $.ajax({
@@ -1103,6 +1078,58 @@ function activity_commit_booking(val){
     });
 }
 
+function activity_issued_booking(order_number)
+{
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'issued_booking',
+       },
+       data: {
+           'order_number': order_number,
+           'seq_id': payment_acq2[payment_method][selected].seq_id,
+           'member': payment_acq2[payment_method][selected].method,
+           'signature': signature,
+//           'voucher_code': voucher_code
+       },
+       success: function(msg) {
+           console.log(msg);
+           var booking_num = msg.result.response.order_number;
+           if (booking_num)
+           {
+               activity_get_booking(booking_num);
+               document.getElementById('payment_acq').innerHTML = '';
+               document.getElementById('payment_acq').hidden = true;
+               document.getElementById("overlay-div-box").style.display = "none";
+               $("#waitingTransaction").modal('hide');
+           }
+           else
+           {
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error activity issued booking </span>' + msg.result.error_msg,
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $("#waitingTransaction").modal('hide');
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error activity issued booking </span>' + errorThrown,
+            })
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
+       },timeout: 60000
+    });
+}
+
 function copy_data(){
     const el = document.createElement('textarea');
     el.value = $test;
@@ -1204,6 +1231,8 @@ function activity_get_booking(data){
        act_get_booking = msg;
        $('#loading-search-activity').hide();
         if(msg.result.error_code == 0){
+            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+            localTime  = moment.utc(tes).toDate();
             if(msg.result.response.no_order_number){
                 text = ``;
                 voucher_text = ``;
@@ -1214,7 +1243,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                    document.getElementById('display_state').innerHTML = `Issued`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                 }
                 else if(msg.result.response.status == 'booked'){
                     conv_status = 'Booked';
@@ -1222,7 +1251,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Booked`;
-                    document.getElementById('display_state').innerHTML = `Booked`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Booked`;
                 }
                 else if(msg.result.response.status == 'rejected'){
                     conv_status = 'Rejected';
@@ -1232,7 +1261,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Rejected`;
-                    document.getElementById('display_state').innerHTML = `Rejected`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Rejected`;
                 }
                 else if(msg.result.response.status == 'cancel'){
                     conv_status = 'Cancelled';
@@ -1242,7 +1271,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
-                    document.getElementById('display_state').innerHTML = `Cancelled`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Cancelled`;
                 }
                 else if(msg.result.response.status == 'cancel2'){
                     conv_status = 'Expired';
@@ -1252,7 +1281,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-                    document.getElementById('display_state').innerHTML = `Expired`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
                 }
                 else if(msg.result.response.status == 'fail_issued'){
                     conv_status = 'Failed (Issue)';
@@ -1262,7 +1291,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
-                    document.getElementById('display_state').innerHTML = `Failed (Issue)`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
                 }
                 else if(msg.result.response.status == 'fail_booked'){
                     conv_status = 'Failed (Book)';
@@ -1272,7 +1301,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
-                    document.getElementById('display_state').innerHTML = `Failed (Book)`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
                 }
                 else if(msg.result.response.status == 'fail_refunded'){
                     conv_status = 'Failed (Refunded)';
@@ -1282,7 +1311,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
-                    document.getElementById('display_state').innerHTML = `Failed (Refunded)`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
                 }
                 else if(msg.result.response.status == 'refund'){
                     conv_status = 'Refunded';
@@ -1290,7 +1319,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
-                    document.getElementById('display_state').innerHTML = `Refunded`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
                 }
                 else if(msg.result.response.status == 'reissue'){
                     conv_status = 'Reissued';
@@ -1298,7 +1327,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Reissued`;
-                    document.getElementById('display_state').innerHTML = `Reissued`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Reissued`;
                 }
                 else if(msg.result.response.status == 'paid' || msg.result.response.status == 'pending'){
                     conv_status = 'On Request (max 3 working days)';
@@ -1308,6 +1337,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
                 }
                 else{
                     console.log(msg.result.response.status);
@@ -1318,6 +1348,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
                     document.getElementById('issued-breadcrumb-span').innerHTML = `On Request (max 3 working days)`;
+                    document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
                 }
 
                 text = `
@@ -1328,10 +1359,12 @@ function activity_get_booking(data){
                                      <table style="width:100%;">
                                         <tr>
                                             <th>PNR</th>
+                                            <th>Hold Date</th>
                                             <th>Status</th>
                                         </tr>
                                         <tr>
                                             <td>`+msg.result.response.pnr+`</td>
+                                            <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+`</td>
                                             <td>`+conv_status+`</td>
                                         </tr>
                                      </table>

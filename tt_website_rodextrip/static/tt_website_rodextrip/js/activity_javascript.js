@@ -2116,6 +2116,48 @@ function sort(activity_dat, check){
     }
 }
 
+function activity_pre_create_booking(value){
+    if(value == 0)
+    {
+        var temp_title = 'Are you sure you want to Hold Booking?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Force Issued this booking?';
+    }
+    Swal.fire({
+      title: temp_title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        activity_commit_booking(value);
+      }
+    })
+}
+
+function activity_pre_issued_booking(order_number){
+    Swal.fire({
+      title: 'Are you sure you want to Issued this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        activity_issued_booking(order_number);
+      }
+    })
+}
+
 function checking_price_slider(filter, type){
    if(filter == 1){
        var from_price = parseInt(document.getElementById('price-from').value);
