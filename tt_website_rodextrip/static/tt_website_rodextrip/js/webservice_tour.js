@@ -200,9 +200,9 @@ function tour_search(){
                             <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
                             <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
                                 <div class="single-destination relative">
-                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                    <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                         <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
+                                        <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                     </div>
                                     <div class="card card-effect-promotion">
                                         <div class="card-body">
