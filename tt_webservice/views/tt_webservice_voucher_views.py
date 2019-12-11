@@ -95,8 +95,8 @@ def set_voucher(request):
         data = {
             'voucher_reference': '',
             'date': datetime.now().strftime('%Y-%m-%d'),
-            'provider_type_id': 'airline',
-            'provider_id': 'amadeus',
+            'provider_type': 'airline',
+            'provider': 'amadeus',
             'purchase_amount': 0
         }
     except Exception as e:
@@ -122,8 +122,8 @@ def check_voucher(request):
         data = {
             'voucher_reference': request.POST['voucher_reference'],
             'date': datetime.now().strftime('%Y-%m-%d'),
-            'provider_type_id': request.POST['provider_type_id'],
-            'provider_id': request.POST['provider_id'],
+            'provider_type': request.POST['provider_type_id'],
+            'provider': request.POST['provider_id'],
             # 'purchase_amount': 0
         }
     except Exception as e:
@@ -140,8 +140,8 @@ def data_voucher(voucher_code, provider_type_id, provider_id):
     data = {
         'voucher_reference': voucher_code,
         'date': datetime.now().strftime('%Y-%m-%d'),
-        'provider_type_id': provider_type_id,
-        'provider_id': provider_id,
+        'provider_type': provider_type_id,
+        'provider': provider_id,
         # 'purchase_amount': 0
     }
     return data

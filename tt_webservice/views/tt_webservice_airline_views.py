@@ -7,6 +7,7 @@ from datetime import *
 from tools.parser import *
 from ..static.tt_webservice.url import *
 from .tt_webservice_views import *
+from .tt_webservice_voucher_views import *
 import json
 import logging
 import traceback
@@ -1047,8 +1048,12 @@ def commit_booking(request):
                 data.update({
                     'member': member,
                     'seq_id': request.POST['seq_id'],
-                    # 'voucher_code': request.POST['voucher_code']
+                    # 'voucher': {}
                 })
+            # if request.POST['voucher_code'] != '':
+            #     data.update({
+            #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
+            #     })
         except:
             pass
         headers = {
@@ -1213,8 +1218,16 @@ def issued(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher_code': request.POST['voucher_code']
+            # 'voucher': {}
         }
+        # provider = []
+        # for provider_type in request.session['airline_get_booking_response']['result']['response']['provider_bookings']:
+        #     if not provider_type['provider'] in provider:
+        #         provider.append(provider_type['provider'])
+        # if request.POST['voucher_code'] != '':
+        #     data.update({
+        #         'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider_type),
+        #     })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
