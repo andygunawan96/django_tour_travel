@@ -62,6 +62,8 @@ def api_models(request):
             res = update_options(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
+        elif req_data['action'] == 'issued_booking':
+            res = issued_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':

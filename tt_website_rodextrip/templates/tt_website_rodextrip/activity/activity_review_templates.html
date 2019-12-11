@@ -249,16 +249,25 @@
                     </div>
 
                     <div class="row" style="margin-top: 20px;">
-                        <div class="col-lg-4">
-
+                        <div class="col-lg-4" style="margin-bottom:10px;">
+                            {% if 'issued_reservation' in username.co_agent_frontend_security and response.can_hold_booking %}
+                            <button class="next-loading primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="activity_pre_create_booking(0);" style="width:100%;">
+                                Hold Booking <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                            {% endif %}
                         </div>
-                        <div align="center" class="col-lg-4">
+                        <div align="center" class="col-lg-4" style="margin-bottom:10px;">
                             <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{printout_rec}}')" style="width:100%;">
                                 Print Itinerary Form
                             </button>
                         </div>
-                        <div class="col-lg-4">
-
+                        <div class="col-lg-4" style="margin-bottom:10px;">
+                            {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                            <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
+                            <button class="primary-btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                                Issued Booking
+                            </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -280,12 +289,6 @@
                                 </div>
                             </div>
                         </div>
-                        {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                        <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
-                        <button class="primary-btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
-                            Issued Booking
-                        </button>
-                        {% endif %}
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:15px; position:relative;" id="payment_acq" hidden>
