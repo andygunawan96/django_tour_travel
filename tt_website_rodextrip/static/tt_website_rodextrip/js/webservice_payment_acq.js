@@ -125,7 +125,7 @@ function set_price(val, type, product_type){
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_number+`<br/>
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].account_name+`<br>
                 </div>`;
-    else if(payment_method == 'credit_limit')
+    else if(payment_method == 'credit_limit'){
         text+=`<div class='row'>
                 <div class="col-sm-5" style='text-align:left;'>
                 <span style="font-size:13px;;"> Account Name: </span>
@@ -134,36 +134,6 @@ function set_price(val, type, product_type){
                 <div class="col-sm-7" style='text-align:right;'>
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].name+`<br>
                 </div>`;
-    if(payment_method == 'cash'){
-        //price
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Price:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
-                    text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
-
-                    text+=`</span>
-                </div>`;
-        //fee
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Fee:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
-                </div>`;
-        //unique amount
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Unique Amount:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
-                </div>`;
-    }
-    else if(payment_method == 'credit_limit'){
         usage = payment_acq2[payment_method][selected].credit_limit - payment_acq2[payment_method][selected].actual_balance;
         text+= `<div class='col-sm-6' style='text-align:left;'>
                     <span>Usage:</span>
@@ -183,38 +153,34 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].credit_limit)+`</span>
                 </div>`;
-        text+= `</div><br/>`;
     }
-    else if(payment_method == 'transfer'){
-        //price
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Price:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
+    //price
+    text += `
+            <div class='col-sm-6' style='text-align:left;'>
+                <span>Price:</span>
+            </div>
+            <div class='col-sm-6' style='text-align:right;'>
+                <span id="payment_method_price">`+payment_acq2[payment_method][selected].currency+` `;
+                text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
 
-                    text += getrupiah(payment_acq2[payment_method][selected].price_component.amount)
-
-                    text+=`</span>
-                </div>`;
-        //fee
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Fee:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
-                </div>`;
-        //unique amount
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span>Unique Amount:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
-                </div>`;
-    }
+                text+=`</span>
+            </div>`;
+    //fee
+    text += `
+            <div class='col-sm-6' style='text-align:left;'>
+                <span>Fee:</span>
+            </div>
+            <div class='col-sm-6' style='text-align:right;'>
+                <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.fee)+`</span>
+            </div>`;
+    //unique amount
+    text += `
+            <div class='col-sm-6' style='text-align:left;'>
+                <span>Unique Amount:</span>
+            </div>
+            <div class='col-sm-6' style='text-align:right;'>
+                <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
+            </div>`;
     try{
         payment_total = 0;
         text += `
@@ -232,19 +198,18 @@ function set_price(val, type, product_type){
     }
 
 //    grand total
-    if(payment_method != 'credit_limit'){
-        text += `
-                <div class='col-sm-6' style='text-align:left;'>
-                    <span style='font-weight:500;'>Grand Total:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
-                    text += getrupiah(payment_total)
+    text += `
+            <div class='col-sm-6' style='text-align:left;'>
+                <span style='font-weight:500;'>Grand Total:</span>
+            </div>
+            <div class='col-sm-6' style='text-align:right;'>
+                <span style='font-weight:500;' id="payment_method_grand_total">`+payment_acq2[payment_method][selected].currency+` `;
+                text += getrupiah(payment_total)
 
-                    text+=`</span>
-                </div>`;
-        text+= `</div><br/>`;
-    }
+                text+=`</span>
+            </div>`;
+    text+= `</div><br/>`;
+
     if(type == 'visa')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_hold_booking();" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'train')

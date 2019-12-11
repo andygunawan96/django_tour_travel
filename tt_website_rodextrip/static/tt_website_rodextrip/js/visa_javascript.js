@@ -407,8 +407,16 @@ function update_table(type){
             }
         }
         text+=`</table>`;
+        $text += 'Passenger\n';
+        for(i in passenger){
+            if(i != 'booker' && i != 'contact'){
+                for(j in passenger[i]){
+                    $text += passenger[i][j].first_name + ' ' + passenger[i][j].last_name + '\n';
+                }
+            }
+        }
 
-        $text += 'Price\n';
+        $text += '\nPrice\n';
         for(i in visa.list_of_visa){
             if(visa.list_of_visa[i].pax_count != 0){
                 $text += visa.list_of_visa[i].pax_count + ' ' + visa.list_of_visa[i].pax_type[1];
