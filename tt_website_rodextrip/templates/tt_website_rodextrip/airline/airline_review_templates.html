@@ -463,6 +463,11 @@
 
     $( document ).ready(function() {
         breadcrumb_create("airline", 4, 0);
+        $("#airline_booking").bind("keypress", function(e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+        });
     });
 
 </script>

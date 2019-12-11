@@ -2314,6 +2314,17 @@ function airline_get_booking(data){
                //document.getElementById('issued-breadcrumb').classList.add("current");
                document.getElementById('issued-breadcrumb').classList.add("br-active");
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+            }else if(msg.result.response.state == 'draft'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('Booking-breadcrumb').classList.remove("br-book");
+               document.getElementById('Booking-breadcrumb').classList.add("br-fail");
+               document.getElementById('Booking-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('Booking-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('Booking-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
             }else{
                //document.getElementById('issued-breadcrumb').classList.remove("current");
                //document.getElementById('issued-breadcrumb').classList.add("active");

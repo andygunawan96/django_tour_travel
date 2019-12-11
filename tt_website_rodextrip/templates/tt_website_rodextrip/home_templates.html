@@ -70,10 +70,10 @@
 {%if template == 1%}
 {% if username != null %}
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
-    {% else %}
-    <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:150px; z-index:1; position:relative;">
-        {% endif %}
-        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
+{% else %}
+<section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:150px; z-index:1; position:relative;">
+{% endif %}
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
                 {% if username != null %}
@@ -89,7 +89,7 @@
                     <!--                    <div class="animate"></div>-->
                     <!--                </h4>-->
                 </div>
-                {% else %};
+                {% else %}
                 <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
                     <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
                         <h3 style="color:white;">Already a <span class="lamp">RODEXTRIP</span> member?</h3>
@@ -1288,23 +1288,24 @@
     <!--</section>-->
 
     {% elif template == 2 %}
-    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url({{static_path}}images/bg_8.jpg);">
+    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url({{static_path}}images/christmas-wallpaper3.jpg);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
             </div>
         </div>
     </div>
     <section class="welcome-area">
+        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="hotel-search-form-area">
             <div class="container-fluid">
+                {% if username != null %}
+                <h3 style="color:white; padding-bottom:20px;">
+                    Hello, {{username.co_user_name}}!
+                    Grow your business with <span class="lamp">RODEXTRIP</span>
+                </h3>
+                {% endif %}
                 <div class="hotel-search-form">
                     {% if username != null %}
-                    <h3>
-                        Hello, {{username.agent_name}} !
-                    </h3>
-                    <h3 style="padding-top:5px; padding-bottom:15px;">
-                        Enjoy your trip with RODEXTRIP
-                    </h3>
 
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
@@ -1337,27 +1338,27 @@
                             <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
                                 {% csrf_token %}
                                 <div class="row justify-content-between align-items-end">
-                                    <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:25px;">
-                                        <label class="radio-button-custom">
-                                            <span style="font-size:14px; color:#7D7D7D;">One Way</span>
+                                    <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px;">One Way</span>
                                             <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
                                             <span class="checkmark-radio"></span>
                                         </label>
-                                        <label class="radio-button-custom">
-                                            <span style="font-size:14px; color:#7D7D7D;">Round-trip</span>
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px;">Round-trip</span>
                                             <input type="radio" name="radio_airline_type" value="roundtrip">
                                             <span class="checkmark-radio"></span>
                                         </label>
-                                        <label class="radio-button-custom">
-                                            <span style="font-size:14px; color:#7D7D7D;">Multi-City</span>
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px;">Multi-City</span>
                                             <input type="radio" name="radio_airline_type" value="multicity">
                                             <span class="checkmark-radio"></span>
                                         </label>
                                     </div>
-                                    <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                    <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                            <label class="check_box_custom">
-                                                <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px;">Is Combo Price</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -1370,8 +1371,12 @@
                                                     <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
                                                         <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
                                                         <div class="input-container-search-ticket">
-                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
+
+                                                            <!--</select>-->
                                                         </div>
+                                                        <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
                                                     </div>
                                                     <div class="image-change-route-vertical">
                                                         <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
@@ -1382,8 +1387,12 @@
                                                     <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                                                         <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                                         <div class="input-container-search-ticket">
-                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                            <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
+
+                                                            <!--</select>-->
                                                         </div>
+                                                        <!--<input type="hidden" name="destination_id_flight" id="airline_destination_flight" />-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -1395,7 +1404,7 @@
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-6">
                                                 <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left;">
+                                                <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left;">
                                                     1 Adult, 0 Child, 0 Infant
                                                 </button>
                                                 <ul class="dropdown-menu" role="menu">
@@ -1464,35 +1473,10 @@
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-6">
                                                 <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left;">Choose Airline</button>
+                                                <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
                                                 <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
-                                                <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
-                                                    {% for provider in airline_provider_list %}
-                                                    {% if forloop.counter == 1 %}
-                                                    <li>
-                                                        <a class="small" data-value="option1" tabIndex="-1">
-                                                            <label class="check_box_custom">
-                                                                <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
-                                                                <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label>
-                                                        </a>
-                                                        <br/>
-                                                        <!--                                                        <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
-                                                    </li>
-                                                    {% else %}
-                                                    <li>
-                                                        <a class="small" data-value="option1" tabIndex="-1">
-                                                            <label class="check_box_custom">
-                                                                <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
-                                                                <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>
-                                                                <span class="check_box_span_custom"></span>
-                                                            </label><br/>
-                                                            <!--                                                            <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
-                                                        </a>
-                                                    </li>
-                                                    {% endif %}
-                                                    {% endfor %}
+                                                <ul id="provider_flight_content" role="menu" class="dropdown-menu" style="padding:10px; z-index:5;">
+
                                                 </ul>
                                             </div>
                                             <div class="col-lg-4 col-md-6 col-sm-6">

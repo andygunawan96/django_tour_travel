@@ -2088,17 +2088,17 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
           if(step < current_step){
             if(breadcrumbs_url[i] != ""){
                 text+=`
-                <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                <div class="breadcrumbs-rdx br-done" id="`+breadcrumbs[i]+`-breadcrumb" onclick="`+breadcrumbs_url[i]+`">
+                    <span class="breadcrumb-rdx-icon br-icon-done" id="`+breadcrumbs[i]+`-breadcrumb-icon"><i class="fas fa-check"></i></span>
                     <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
             else{
                 text+=`
-                <div class="breadcrumbs-rdx br-done">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-done" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-done" id="`+breadcrumbs[i]+`-breadcrumb-icon"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
@@ -2107,17 +2107,17 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
           else if(step == current_step){
             if(step != breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-active" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
             else{
                 text+=`
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-active" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 </div>`;
             }
           }
@@ -2125,16 +2125,16 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
           else{
               if(step == breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 </div>`;
               }
               else{
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
               }
@@ -2145,9 +2145,9 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         //home
         if(step == 1){
             text+=`
-            <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
-                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+            <div class="breadcrumbs-rdx br-done" id="`+breadcrumbs[i]+`-breadcrumb" onclick="`+breadcrumbs_url[i]+`">
+                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check" id="`+breadcrumbs[i]+`-breadcrumb-icon"></i></span>
+                <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
             </div>`;
         }
@@ -2155,9 +2155,9 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         else if(step == current_step && step != 1){
             if(step != breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-active" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
@@ -2171,26 +2171,26 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         }
         else if(step < current_step && step > 1){
             text+=`
-            <div class="breadcrumbs-rdx br-book">
-                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+            <div class="breadcrumbs-rdx br-book" id="`+breadcrumbs[i]+`-breadcrumb">
+                <span class="breadcrumb-rdx-icon br-icon-book" id="`+breadcrumbs[i]+`-breadcrumb-icon"><i class="fas fa-check"></i></span>
+                <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
             </div>`;
         }
         else{
             if(step != breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
             else{
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 </div>`;
             }
         }
