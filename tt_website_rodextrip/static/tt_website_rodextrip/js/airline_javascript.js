@@ -4030,13 +4030,11 @@ function check_passenger(adult, child, infant){
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }
     length_name = 100;
-    is_lion_air = false;
     for(j in airline_pick){
        for(k in airline_pick[j].carrier_code_list){
            if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
                if(length_name>24)
                    length_name = 24;
-               is_lion_air = true;
            }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
                if(length_name>31)
                    length_name = 31;
@@ -4100,9 +4098,10 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_passport_number'+i).value != '' ||
+       }
+       if(document.getElementById('adult_passport_number'+i).value != '' ||
           document.getElementById('adult_passport_expired_date'+i).value != '' ||
-          document.getElementById('adult_country_of_issued'+i).value != '' || is_lion_air == true){
+          document.getElementById('adult_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
            if(document.getElementById('adult_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
@@ -4174,7 +4173,7 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_passport_number'+i).value != '' ||
           document.getElementById('child_passport_expired_date'+i).value != '' ||
-          document.getElementById('child_country_of_issued'+i).value != '' || is_lion_air == true){
+          document.getElementById('child_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
            if(document.getElementById('child_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
@@ -4235,7 +4234,7 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_passport_number'+i).value != '' ||
           document.getElementById('infant_passport_expired_date'+i).value != '' ||
-          document.getElementById('infant_country_of_issued'+i).value != '' || is_lion_air == true){
+          document.getElementById('infant_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
            if(document.getElementById('infant_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';

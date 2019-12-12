@@ -62,7 +62,12 @@
     adult = airline_request.adult;
     child = airline_request.child;
     infant = airline_request.infant;
-
+    is_lionair = `{{is_lionair}}`;
+    is_lionair = is_lionair.replace(/False/g, 'false');
+    is_lionair = is_lionair.replace(/True/g, 'true');
+    is_international = `{{is_international}}`;
+    is_international = is_international.replace(/False/g, 'false');
+    is_international = is_international.replace(/True/g, 'true');
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -471,12 +476,18 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_passport_number{{forloop.counter}}" id="adult_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
@@ -485,6 +496,9 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -533,13 +547,10 @@
                                             <label style="font-size:12px; padding:0;">Example: 812345678</label>
                                         </div>
                                     </div>
-                                    {% for airline in airline_pick %}
-                                        {% if airline.provider == 'lionair' %}
+
+                                    {% if is_lionair == True and is_international == True %}
                                     <span><span style="color:red">* </span>Passport is required for lion air, wings air, or batik air</span>
-                                    {{ "<!--" }}
-                                      {%endif%}
-                                    {%endfor%}
-                                    {{ "-->" }}
+                                    {%endif%}
                                 </div>
                             </div>
                         </div>
@@ -688,12 +699,18 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_passport_number{{forloop.counter}}" id="child_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
@@ -701,6 +718,9 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -714,6 +734,9 @@
                                                 <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
+                                        {% if is_lionair == True and is_international == True %}
+                                        <span><span style="color:red">* </span>Passport is required for lion air, wings air, or batik air</span>
+                                        {%endif%}
                                     </div>
                                 </div>
                             </div>
@@ -866,12 +889,18 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Passport Number</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="infant_passport_number{{forloop.counter}}" id="infant_passport_number{{forloop.counter}}" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
@@ -879,6 +908,9 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
+                                            {% if is_lionair == True and is_international == True %}
+                                            <label style="color:red">*</label>
+                                            {% endif %}
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -892,6 +924,9 @@
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
+                                        {% if is_lionair == True and is_international == True %}
+                                        <span><span style="color:red">* </span>Passport is required for lion air, wings air, or batik air</span>
+                                        {%endif%}
                                     </div>
                                 </div>
                             </div>

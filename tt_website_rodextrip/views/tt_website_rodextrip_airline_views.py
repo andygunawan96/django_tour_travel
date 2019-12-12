@@ -325,10 +325,24 @@ def passenger(request):
                 journey['rules'] = []
         request.session['airline_price_itinerary'] = airline_pick_price_itinerary
 
+        is_lionair = False
+        is_international = False
+        for airline in request.session['airline_pick']:
+            if airline['provider'] == 'lionair':
+                is_lionair = True
+                break
+            for seq in airline['price_itinerary']:
+                if seq['origin_country'] != 'Indonesia' or seq['destination_country'] != 'Indonesia':
+                    is_international = True
+                    break
+                elif is_international == True:
+                    break
 
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'ssr': ssr,
+            'is_lionair': is_lionair,
+            'is_internation': is_international,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'seat_map': seat_map,

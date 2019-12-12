@@ -2721,7 +2721,7 @@ function airline_get_booking(data){
                        text_repricing += `
                        <div class="col-lg-12">
                             <div style="padding:5px;" class="row" id="adult">
-                                <div class="col-lg-3" id="`+k+`_`+l+`">`+k+`</div>
+                                <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
                                 <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
                                 if(price_arr_repricing[k].Repricing == 0)
                                 text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
