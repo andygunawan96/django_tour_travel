@@ -175,11 +175,16 @@ def get_carrier_code_list(request):
         data = {
             'provider_type': 'airline'
         }
+        signature = ''
+        try:
+            signature = request.POST['signature']
+        except:
+            signature = request.data['signature']
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_carriers",
-            "signature": request.POST['signature'],
+            "signature": signature
         }
         date_time = datetime.now() - a.get_time_carrier_airline
     except Exception as e:

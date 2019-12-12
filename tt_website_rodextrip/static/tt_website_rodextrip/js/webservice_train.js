@@ -557,7 +557,7 @@ function train_get_booking(data){
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1'"/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/1'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -569,14 +569,14 @@ function train_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/3'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/3'" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/2'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/2'" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -596,7 +596,8 @@ function train_get_booking(data){
                         else{
                             text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/4'"/>
+                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train
+                                /`+msg.result.response.order_number+`/4'"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                             $(".issued_booking_btn").remove();
@@ -751,13 +752,13 @@ function train_get_booking(data){
                             <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
                             <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
                             <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                            <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                     } else {
                         text_detail+=`
                             <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
                             <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
                             <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                            <a href="mailto:?subject=This is the train price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                     }
 
                 text_detail+=`
@@ -1089,13 +1090,13 @@ function gotoForm(){
 
 function update_service_charge(data){
     upsell = []
-    for(i in airline_get_detail.result.response.passengers){
-        for(j in airline_get_detail.result.response.passengers[i].sale_service_charges){
-            currency = airline_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+    for(i in train_get_detail.result.response.passengers){
+        for(j in train_get_detail.result.response.passengers[i].sale_service_charges){
+            currency = train_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
         }
         list_price = []
         for(j in list){
-            if(airline_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+            if(train_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
                 list_price.push({
                     'amount': list[j],
                     'currency_code': currency
@@ -1104,7 +1105,7 @@ function update_service_charge(data){
 
         }
         upsell.push({
-            'sequence': airline_get_detail.result.response.passengers[i].sequence,
+            'sequence': train_get_detail.result.response.passengers[i].sequence,
             'pricing': JSON.parse(JSON.stringify(list_price))
         });
     }
