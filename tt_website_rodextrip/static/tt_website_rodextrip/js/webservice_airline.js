@@ -2176,7 +2176,8 @@ function airline_assign_seats(val){
 function airline_commit_booking(val){
     data = {
         'value': val,
-        'signature': signature
+        'signature': signature,
+//        'voucher_code': ''
     }
     try{
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
@@ -2310,6 +2311,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
             }else if(msg.result.response.state == 'booked'){
                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+//               document.getElementById('voucher_div').style.display = '';
                //document.getElementById('issued-breadcrumb').classList.remove("active");
                //document.getElementById('issued-breadcrumb').classList.add("current");
                document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -2760,8 +2762,9 @@ function airline_get_booking(data){
                 counter_service_charge++;
             }
             try{
+                airline_get_detail.result.response.total_price = total_price;
                 $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
-                if(check_provider_booking != 0 && msg.result.response.provider_bookings[i].state == 'booked'){
+                if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
                     $text += '\n\nPrices and availability may change at any time';
                 }
                 text_detail+=`
@@ -2825,16 +2828,8 @@ function airline_get_booking(data){
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                 </div>
             </div>`;
-            }catch(err){
-
-            }
-            try{
-                testing_price = price.currency;
-                text += text_detail;
-            }catch(err){
-
-            }
-            document.getElementById('airline_detail').innerHTML = text;
+            }catch(err){}
+            document.getElementById('airline_detail').innerHTML = text_detail;
             $("#show_loading_booking_airline").hide();
 
             //

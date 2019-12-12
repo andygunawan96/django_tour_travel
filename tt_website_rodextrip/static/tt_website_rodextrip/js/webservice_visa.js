@@ -105,6 +105,10 @@ function search_visa(){
        success: function(msg) {
             console.log(msg);
             var node;
+            try{
+                visa = msg.result.response.list_of_visa;
+                country = msg.result.response.country;
+            }catch(err){}
             if(msg.result.error_code == 0 && msg.result.response.list_of_visa.length != 0){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
@@ -202,6 +206,7 @@ function search_visa(){
                     node.innerHTML = text;
                     document.getElementById("visa_ticket").appendChild(node);
                 }
+                update_table('search');
             }
             else{
                 node = document.createElement("div");
@@ -217,10 +222,9 @@ function search_visa(){
                 node.innerHTML = text;
                 document.getElementById("show-visa-search").appendChild(node);
             }
-            visa = msg.result.response.list_of_visa;
-            country = msg.result.response.country;
+
             document.getElementById('loading-search-visa').hidden = true;
-            update_table('search');
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
