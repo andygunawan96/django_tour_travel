@@ -828,21 +828,24 @@ def get_ssr_availabilty(request):
     }
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
-        for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
-            for ssr_availability in ssr_availability_provider['ssr_availability']:
-                for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
-                    ssrs.update({
-                        'origin': ssrs['segments'][0]['origin'],
-                        'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
-                    })
-                    for ssr in ssrs['ssrs']:
-                        total = 0
-                        currency = ''
-                        for service_charge in ssr['service_charges']:
-                            currency = service_charge['currency']
-                            total = service_charge['amount']
-                        ssr['total_price'] = total
-                        ssr['currency'] = currency
+        if res['result']['error_code'] == 0:
+            for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
+                for ssr_availability in ssr_availability_provider['ssr_availability']:
+                    for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
+                        ssrs.update({
+                            'origin': ssrs['segments'][0]['origin'],
+                            'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
+                        })
+                        for ssr in ssrs['ssrs']:
+                            total = 0
+                            currency = ''
+                            for service_charge in ssr['service_charges']:
+                                currency = service_charge['currency']
+                                total = service_charge['amount']
+                            ssr['total_price'] = total
+                            ssr['currency'] = currency
+        else:
+            logging.getLogger("error_logger").error(str(res['result']['error_msg']) + '  ' + request.POST['signature'] + '\n' + traceback.format_exc())
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
