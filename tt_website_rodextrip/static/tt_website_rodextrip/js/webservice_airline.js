@@ -2183,9 +2183,82 @@ function airline_commit_booking(val){
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
 //        data['voucher_code'] =  voucher_code;
-    }catch(err){
+    }catch(err){}
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'commit_booking',
+       },
+       data: data,
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               //send order number
+               document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+               document.getElementById('airline_booking').submit();
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else if(msg.result.error_code == 1026){
+                Swal.fire({
+                  title: msg.result.error_msg+ ' Are you sure want to Book this booking?',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
+                }).then((result) => {
+                  if (result.value) {
+                        please_wait_transaction();
+                        $('.next-loading-booking').addClass("running");
+                        $('.next-loading-booking').prop('disabled', true);
+                        $('.next-loading-issued').prop('disabled', true);
+                        $('.issued_booking_btn').prop('disabled', true);
+                        airline_force_commit_booking(1);
+                  }
+                })
+                $("#waitingTransaction").modal('hide');
+                $('.loader-rodextrip').fadeOut();
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                })
+                $("#waitingTransaction").modal('hide');
+                $('.loader-rodextrip').fadeOut();
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
+            })
+            $("#waitingTransaction").modal('hide');
+            $('.loader-rodextrip').fadeOut();
+            $('.btn-next').removeClass('running');
+            $('.btn-next').prop('disabled', false);
+       },timeout: 300000
+    });
+}
+
+function airline_force_commit_booking(val){
+    data = {
+        'value': val,
+        'signature': signature,
+        'voucher_code': ''
     }
-    getToken();
+    try{
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+        data['bypass_psg_validator'] = true;
+        data['voucher_code'] =  voucher_code;
+    }catch(err){}
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2659,6 +2732,8 @@ function airline_get_booking(data){
             tax = 0;
             fare = 0;
             total_price = 0;
+            total_price_provider = [];
+            price_provider = 0;
             commission = 0;
             service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR'];
             text_detail=`
@@ -2753,12 +2828,20 @@ function airline_get_booking(data){
                             $text += ' ';
                     }
                     $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
-                    if(counter_service_charge == 0)
+                    if(counter_service_charge == 0){
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
-                    else
+                        price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
+                    }else{
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
+                        price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
+                    }
                     commission += parseInt(price.RAC);
                 }
+                total_price_provider.push({
+                    'pnr': i,
+                    'price': price_provider
+                })
+                price_provider = 0;
                 counter_service_charge++;
             }
             try{

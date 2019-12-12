@@ -2287,23 +2287,34 @@ function sort(){
                                            <div style="overflow:auto; white-space:nowrap;">
                                            <table>
                                                <tr>`;
+                                               fare_check = 0;
                                                for(k in airline[i].segments[j].fares){
                                                    text+=`
                                                    <td style="padding:10px 15px 0px 0px;">`;
-                                                   if(k==0)
+                                                   if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
                                                        text+=`
                                                        <label class="radio-button-custom">
                                                            <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                            <span class="checkmark-radio"></span>
                                                        </label>`;
-                                                   else
-                                                       text+=`
-                                                       <label class="radio-button-custom">
-                                                           <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
-                                                           <span class="checkmark-radio"></span>
-                                                       </label>`;
+                                                   }else{
+                                                       if(fare_check == 0){
+                                                            text+=`
+                                                               <label class="radio-button-custom">
+                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                                   <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                                   <span class="checkmark-radio"></span>
+                                                               </label>`;
+                                                               fare_check = 1;
+                                                       }else if(fare_check == 1)
+                                                           text+=`
+                                                           <label class="radio-button-custom">
+                                                               <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+                                                               <span class="checkmark-radio"></span>
+                                                           </label>`;
+                                                   }
                                                    text+=`<br/>`;
                                                    var total_price = 0;
                                                    for(l in airline[i].segments[j].fares[k].service_charge_summary)
@@ -2716,23 +2727,34 @@ function sort(){
                                            <div style="overflow:auto; white-space:nowrap;">
                                            <table>
                                                <tr>`;
+                                               fare_check = 0;
                                                for(k in airline[i].segments[j].fares){
                                                    text+=`
                                                    <td style="padding:10px 15px 0px 0px;">`;
-                                                   if(k==0)
+                                                   if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
                                                        text+=`
                                                        <label class="radio-button-custom">
                                                            <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                            <span class="checkmark-radio"></span>
                                                        </label>`;
-                                                   else
-                                                       text+=`
-                                                       <label class="radio-button-custom">
-                                                           <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
-                                                           <span class="checkmark-radio"></span>
-                                                       </label>`;
+                                                   }else{
+                                                       if(fare_check == 0){
+                                                            text+=`
+                                                               <label class="radio-button-custom">
+                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                                   <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                                   <span class="checkmark-radio"></span>
+                                                               </label>`;
+                                                               fare_check = 1;
+                                                       }else if(fare_check == 1)
+                                                           text+=`
+                                                           <label class="radio-button-custom">
+                                                               <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+                                                               <span class="checkmark-radio"></span>
+                                                           </label>`;
+                                                   }
                                                    text+=`<br/>`;
                                                    var total_price = 0;
                                                    for(l in airline[i].segments[j].fares[k].service_charge_summary)
@@ -3471,7 +3493,6 @@ function airline_detail(type){
                 }
             }
         }
-
         total_price = 0;
         commission_price = 0;
         rules = 0;
@@ -4404,12 +4425,17 @@ function get_airline_review(){
                         <th style="width:18%;">Birth Date</th>
                         <th style="width:18%;">Special Service Request</th>
                     </tr>`;
-                    count_pax = 0
+                    count_pax = 0;
                     for(i in passengers_ssr){
                         text+=`<tr>
                                 <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
                                 <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
-                                <td>Adult</td>
+                                <td>`;
+                                if(passengers_ssr[i].pax_type == 'ADT')
+                                    text += `Adult`;
+                                else
+                                    text += `Child`;
+                                text+=`</td>
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list){
