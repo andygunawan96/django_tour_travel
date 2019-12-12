@@ -1073,6 +1073,9 @@ def commit_booking(request):
             #     data.update({
             #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
             #     })
+            # data.update({
+            #     'bypass_psg_validator': request.POST['bypass_psg_validator']
+            # })
         except:
             pass
         headers = {
