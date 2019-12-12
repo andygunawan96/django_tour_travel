@@ -661,7 +661,7 @@ def get_auto_complete(request):
                 break
 
         # res = search2(request)
-        logging.getLogger("error_info").error("SUCCESS get_autocomplete ACTIVITY SIGNATURE " + request.POST['signature'])
+        logging.getLogger("error_info").error("SUCCESS get_autocomplete ACTIVITY")
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
