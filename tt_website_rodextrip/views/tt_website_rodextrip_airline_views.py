@@ -91,7 +91,8 @@ def search(request):
                             'name': response[j]['name'],
                             'code': response[j]['code'],
                             'icao': response[j]['icao'],
-                            'call_sign': response[j]['call_sign']
+                            'call_sign': response[j]['call_sign'],
+                            'is_favorite': response[j]['is_favorite']
                         }
                     airline_carriers.append(airline_carrier)
                     airline_carrier = []
@@ -127,13 +128,14 @@ def search(request):
                         is_combo_price = 'false'
 
                     airline_carriers = []
-                    airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
+                    airline_carrier = {'All': {'name': 'All', 'code': 'all', 'is_favorite': False}}
                     for j in response:
                         airline_carrier[j] = {
                             'name': response[j]['name'],
                             'code': response[j]['code'],
                             'icao': response[j]['icao'],
-                            'call_sign': response[j]['call_sign']
+                            'call_sign': response[j]['call_sign'],
+                            'is_favorite': response[j]['is_favorite']
                         }
                     airline_carriers.append(airline_carrier)
                     airline_carrier = []
@@ -391,6 +393,7 @@ def ssr(request):
                     'airline_list': airline_list
                 })
                 airline_list = []
+            passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             values = {
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_request': request.session['airline_request'],

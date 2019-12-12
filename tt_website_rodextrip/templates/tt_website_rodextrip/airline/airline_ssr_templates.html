@@ -20,6 +20,12 @@
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
     len_passenger = {{passengers|length}};
+    passengers = `{{passengers}}`;
+    passengers = passengers.replace(/&#39;/g, '"');
+    passengers = passengers.replace(/&quot;/g, '"');
+    passengers = passengers.replace(/False/g, 'false');
+    passengers = passengers.replace(/True/g, 'true');
+    passengers = JSON.parse(passengers);
     ssr_keys = [];
     {% for ssr_availability_provider in airline_ssrs.ssr_availability_provider %}
         {% with forloop.counter as counter_provider%}
@@ -74,16 +80,20 @@
     }
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
-<header>
     {%if template == 1%}
+    <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
     {%elif template == 2%}
+    <header>
     <div class="main-menu" style="padding:10px;">
     {%elif template == 3%}
+    <header>
     <div style="padding:10px;">
     {%elif template == 4%}
+    <header>
     <div style="padding:10px;">
     {%elif template == 5%}
+    <header>
     <div style="padding:10px;">
     {%endif%}
         <div class="container">
@@ -111,6 +121,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                             <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                         </div>
+                        {% include 'tt_website_rodextrip/balance_credit.html' %}
                     </div>
                 </div>
             </div>
@@ -155,7 +166,7 @@
                                     {% for key, ssr_values in ssr_provider.ssr_availability.items %}
 
                                         {% for values in ssr_values %}
-                                    <span style="text-transform: capitalize; font-size:14px; font-weight:600;">{{key}}<i class="fas fa-suitcase"></i> <br/>
+                                    <span style="text-transform: capitalize; font-size:14px; font-weight:600;">{{key}} <i class="fas fa-suitcase"></i> <br/>
                                     {{values.origin}} - {{values.destination}}</span>
                                 <br/>
                                 <span class="span-search-ticket">{{key}}</span>

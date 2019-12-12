@@ -35,7 +35,7 @@
     session_time_limit();
 </script>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<header id="header">
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -53,6 +53,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                     <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                 </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>
@@ -143,13 +144,20 @@
                                         <div class="row">
                                             <div class="col-lg-7" style="margin-bottom:10px;">
                                                 <h5 id="adult_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h5>
-                                                <span style="font-size:14px;">Adult - Birth Date: {{person.birth_date}}</span sty>
+                                                <span style="font-size:14px;">Adult - Birth Date: {{person.birth_date}}</span>
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
                                                 <h6>Price <span id="adult_price{{counter}}"></span></h6>
 
                                                 <h6 style="cursor:pointer;color:#f15a22;" onclick="set_value_radio_first('adult',{{counter}})">Reset <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="adult_check{{counter}}" value="false"/>
+                                            </div>
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                <h6 id="adult_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('adult',{{counter}});">Required <i class="fas fa-chevron-up"></i></h6>
+                                                <h6 id="adult_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('adult',{{counter}});">Required <i class="fas fa-chevron-down"></i></h6>
+                                                <div id="adult_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
+                                                    Please select visa, entry and process!
+                                                </div>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
@@ -189,12 +197,6 @@
                                                 <h6 style="margin-bottom:5px;">Notes</h6>
                                                 <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_adult{{counter}}" name="notes_adult{{counter}}"></textarea>
                                             </div>
-                                            <div class="col-lg-12">
-                                                <h6 style="margin-bottom:5px;">Required</h6>
-                                                <div id="adult_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px;">
-
-                                                </div>
-                                            </div>
                                         </div>
                                         <hr/>
                                         {% endwith %}
@@ -213,6 +215,13 @@
 
                                                 <h6 style="cursor:pointer;color:#f15a22;" onclick="set_value_radio_first('child',{{counter}})">Reset <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="child_check{{counter}}" value="false"/>
+                                            </div>
+                                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                                <h6 id="child_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('child',{{counter}});">Required <i class="fas fa-chevron-up"></i></h6>
+                                                <h6 id="child_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('child',{{counter}});">Required <i class="fas fa-chevron-down"></i></h6>
+                                                <div id="child_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
+                                                    Please select visa, entry and process!
+                                                </div>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
@@ -251,12 +260,6 @@
                                             <div class="col-lg-5">
                                                 <h6 style="margin-bottom:5px;">Notes</h6>
                                                 <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_child{{counter}}" name="notes_child{{counter}}"></textarea>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <h6>Required</h6>
-                                                <div id="child_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px;">
-
-                                                </div>
                                             </div>
                                         </div>
                                         <hr/>
@@ -338,10 +341,13 @@
                         <table style="width:100%; margin-bottom:10px;">
                         </table>
                     </div>
+                    {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                    <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
                     <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
                         Request Booking
                     </button>
-                    <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px; position:relative;" id="payment_acq" onclick="focus_box('payment_acq');" hidden>
+                    {% endif %}
+                    <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                     </div>
                 </div>
@@ -410,7 +416,7 @@
             set_value_radio_first('infant',parseInt(i)+1);
         for(i in passenger.elder)
             set_value_radio_first('elder',parseInt(i)+1);
-        get_payment_acq('Issued','{{passenger.booker.booker_id}}', '', 'billing',signature,'visa');
+        get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'visa');
     });
 
 </script>

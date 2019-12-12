@@ -29,7 +29,7 @@
     </div>
 </div>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
-<header id="header">
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -39,6 +39,9 @@
                 <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
                 </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>
@@ -89,13 +92,15 @@
                                 </div>
                             </div>
                         </div>
-
-                        <button id="final_issued_btn" class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
+                        {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                        <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
+                        <button id="final_issued_btn" class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
                             Issued Booking
                         </button>
+                        {% endif %}
                     </div>
                     <div class="row">
-                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:15px;" id="payment_acq" onclick="focus_box('payment_acq');" hidden>
+                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:15px;" id="payment_acq" hidden>
 
                         </div>
                     </div>

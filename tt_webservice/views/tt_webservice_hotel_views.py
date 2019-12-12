@@ -186,7 +186,13 @@ def search(request):
             'destination_id': destination_id,
             'child_ages': child_age,
         }
-        request.session['hotel_request_data'] = data
+        try:
+            if data == request.session['hotel_request_data']:
+                data = {}
+            else:
+                request.session['hotel_request_data'] = data
+        except:
+            request.session['hotel_request_data'] = data
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -195,7 +201,11 @@ def search(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
+    if data:
+        res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
+        request.session['hotel_response_search'] = res
+    else:
+        res = request.session['hotel_response_search']
     try:
         counter = 0
         sequence = 0
@@ -381,6 +391,7 @@ def create_booking(request):
             # 'cancellation_policy': request.session['hotel_cancellation_policy']['result']['response'],
             'cancellation_policy': [],
             'promotion_codes_booking': [],
+            # 'voucher_code': request.POST['voucher_code'],
             # Remove Versi Baru
             # 'hotel_code': [{
             #     "hotel_code": request.session['hotel_detail']['result']['hotel_code'][request.session['hotel_room_pick']['provider']],

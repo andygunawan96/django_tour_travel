@@ -118,12 +118,12 @@
     </div>
 </section>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="padding:0;">
                 <div class="banner-right">
-                    <form action="{% url 'tt_website_rodextrip:activity_search'%}" class="form-wrap" method="post">
+                    <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" class="form-wrap" method="post">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
@@ -199,7 +199,7 @@
                             </div>
                         </div>
                         <br/>
-                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                             Search
                             <div class="ld ld-ring ld-cycle"></div>
@@ -226,11 +226,20 @@
                 <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
             </div>
         </div>
+        <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 0px; z-index: 2;">
+            <div class="col-lg-12">
+                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                    <i class="fas fa-user" style="padding-right:5px; color:#f15a22; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
+                    <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                    <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
+                </div>
+            </div>
+        </div>
         <div class="row full_activity_details">
             <div class="col-lg-12">
                 <form method='POST' action="{% url 'tt_website_rodextrip:activity_passenger'%}" id="go_to_pax" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <div class="row" style="position:sticky;top: 0px;z-index: 89;">
+                    <div class="row" style="position:sticky;top: 42px;z-index: 89;">
                         <div class="col-lg-12">
                             <div class="box-sticky-hotel">
                                 <button class="content-activity primary-btn-sticky-hotel" type="button" id="description-activity">Description</button>
@@ -471,8 +480,8 @@
                                         <h4> Price Detail </h4>
                                         <hr/>
                                         <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
-                                        <br/><span id="product_type_title"></span>
-                                        <br/><span id="product_visit_date"></span>
+                                        <br/><span id="product_type_title" style="font-size:13px; font-weight:500;"></span>
+                                        <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                         <br/><br/>
                                         <div id="activity_detail_table">
 
@@ -508,6 +517,20 @@
         $('.js-example-basic-single').select2();
         get_activity_config('search');
 
+        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+        $(window).scroll(function() {
+            if ($(this).scrollTop() >= 66) {
+                if ($(window).width() >= 992){
+                   document.getElementById("info_user_search").style.display = "block";
+                }else{
+                   document.getElementById("info_user_search").style.display = "none";
+                }
+            }else{
+                document.getElementById("info_user_search").style.display = "none";
+            }
+        });
+
         var activity_autocomplete = new autoComplete({
             selector: '#activity_query',
             minChars: 1,
@@ -536,6 +559,12 @@
                 scrollTop: $("#div-description-activity").offset().top - 110
             }, 500);
             active_sticky_activity("description");
+        });
+
+        $("#activity_search_form").bind("keypress", function(e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
         });
 
       $(window).scroll(function() {

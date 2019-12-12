@@ -82,16 +82,20 @@ img {vertical-align: middle;}
 }
 </style>
 {% include 'tt_website_rodextrip/logout.html' %}
-<header>
     {%if template == 1%}
+    <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
     {%elif template == 2%}
+    <header>
     <div class="main-menu" style="padding:10px;">
     {%elif template == 3%}
+    <header>
     <div style="padding:10px">
     {%elif template == 4%}
+    <header>
     <div style="padding:10px">
     {%elif template == 5%}
+    <header>
     <div style="padding:10px">
     {%endif%}
         <div class="container">
@@ -111,7 +115,9 @@ img {vertical-align: middle;}
                 <!--                        <li><span>Issued <i class="fas fa-check-circle"></i></span></li>-->
                 <!--                    </ul>-->
                 <!--                </div>-->
-
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>

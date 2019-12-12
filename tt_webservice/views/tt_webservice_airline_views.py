@@ -7,6 +7,7 @@ from datetime import *
 from tools.parser import *
 from ..static.tt_webservice.url import *
 from .tt_webservice_views import *
+from .tt_webservice_voucher_views import *
 import json
 import logging
 import traceback
@@ -191,6 +192,53 @@ def get_carrier_code_list(request):
                 a.set_new_time_out('carrier')
                 a.set_first_time('carrier')
                 res = res['result']['response']
+                res.update({
+                    'GA1': {
+                        'name': 'Garuda Indonesia - AGS',
+                        'code': 'GA1',
+                        'icao': 'GIA',
+                        'call_sign': 'INDONESIA',
+                        'provider_type': 'airline',
+                        'active': True,
+                        'is_favorite': False
+                    },
+                    # 'GA2': {
+                    #     'name': 'Garuda Indonesia - Althea',
+                    #     'code': 'GA2',
+                    #     'icao': 'GIA',
+                    #     'call_sign': 'INDONESIA',
+                    #     'provider_type': 'airline',
+                    #     'active': True,
+                    #     'is_favorite': False
+                    # },
+                    'GA3': {
+                        'name': 'Garuda Indonesia - Amadeus (GDS)',
+                        'code': 'GA3',
+                        'icao': 'GIA',
+                        'call_sign': 'INDONESIA',
+                        'provider_type': 'airline',
+                        'active': True,
+                        'is_favorite': False
+                    },
+                    # 'SQ1': {
+                    #     'name': 'Singapore Airlines - NDC',
+                    #     'code': 'SQ1',
+                    #     'icao': 'SIA',
+                    #     'call_sign': 'SINGAPORE',
+                    #     'provider_type': 'airline',
+                    #     'active': True,
+                    #     'is_favorite': True
+                    # },
+                    'SQ2': {
+                        'name': 'Singapore Airlines - Amadeus (GDS)',
+                        'code': 'SQ2',
+                        'icao': 'SIA',
+                        'call_sign': 'SINGAPORE',
+                        'provider_type': 'airline',
+                        'active': True,
+                        'is_favorite': True
+                    }
+                })
                 fav = {}
                 carrier_code_list = {}
                 for key in res:
@@ -690,9 +738,19 @@ def get_price_itinerary(request, boolean, counter):
             get_price_itinerary(request, True, counter)
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
-        res['result']['response'].update({
-            'is_combo_price': not boolean
-        })
+        if boolean == False:
+            check_special_price = True
+            for schedule in data['schedules']:
+                if len(schedule['journey']) > 1:
+                    check_special_price = False
+                    break
+            res['result']['response'].update({
+                'is_combo_price': not check_special_price
+            })
+        else:
+            res['result']['response'].update({
+                'is_combo_price': not boolean
+            })
     except:
         pass
     return res
@@ -990,7 +1048,12 @@ def commit_booking(request):
                 data.update({
                     'member': member,
                     'seq_id': request.POST['seq_id'],
+                    # 'voucher': {}
                 })
+            # if request.POST['voucher_code'] != '':
+            #     data.update({
+            #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
+            #     })
         except:
             pass
         headers = {
@@ -1155,7 +1218,16 @@ def issued(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
+            # 'voucher': {}
         }
+        # provider = []
+        # for provider_type in request.session['airline_get_booking_response']['result']['response']['provider_bookings']:
+        #     if not provider_type['provider'] in provider:
+        #         provider.append(provider_type['provider'])
+        # if request.POST['voucher_code'] != '':
+        #     data.update({
+        #         'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider_type),
+        #     })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

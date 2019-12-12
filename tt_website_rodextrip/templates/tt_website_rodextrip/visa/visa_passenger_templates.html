@@ -32,8 +32,7 @@
     sell_visa();
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
-{% include 'tt_website_rodextrip/plugin_passenger.html' %}
-<header id="header">
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -51,6 +50,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                     <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                 </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>
@@ -125,7 +125,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,6 +252,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
+                                    {% if passenger.adult|length != '0' %}
                                     <label>Do you book this trip for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
@@ -264,6 +265,7 @@
                                         <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','visa');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
+                                    {% endif %}
 
                                     <br/>
                                     <label>Passenger Data</label><br/>
@@ -310,36 +312,31 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Passenger Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
-                                                        <div class="row" id="loading-pax-train" style="display:none;">
+                                                        <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_adult{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_adult{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -513,36 +510,31 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Passenger Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
-                                                        <div class="row" id="loading-paxc-train" style="display:none;">
+                                                        <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <div class="row">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
-                                                                </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                                                                <br/>
+                                                                <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_child{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div class="row loading-pax-train" style="display:none;">
+                                                            <div class="col-lg-12">
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="search_result_child{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -689,36 +681,25 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'visa')">Search</button>
-                                                        <div class="row" id="loading-paxi-train" style="display:none;">
+                                                        <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'visa')">Search</button>
+                                                        <div class="row loading-pax-train" style="display:none;">
                                                             <div class="col-lg-12">
-                                                                <div class="sk-circle">
-                                                                    <div class="sk-circle1 sk-child"></div>
-                                                                    <div class="sk-circle2 sk-child"></div>
-                                                                    <div class="sk-circle3 sk-child"></div>
-                                                                    <div class="sk-circle4 sk-child"></div>
-                                                                    <div class="sk-circle5 sk-child"></div>
-                                                                    <div class="sk-circle6 sk-child"></div>
-                                                                    <div class="sk-circle7 sk-child"></div>
-                                                                    <div class="sk-circle8 sk-child"></div>
-                                                                    <div class="sk-circle9 sk-child"></div>
-                                                                    <div class="sk-circle10 sk-child"></div>
-                                                                    <div class="sk-circle11 sk-child"></div>
-                                                                    <div class="sk-circle12 sk-child"></div>
+                                                                <br/>
+                                                                <div style="text-align:center">
+                                                                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT </span><img src="{{static_path}}img/search.gif" style="height:50px; width:50px;"/>
                                                                 </div>
-                                                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
                                                             </div>
                                                         </div>
-                                                        <div id="search_result_infant{{forloop.counter}}" style="overflow:auto;height:300px;">
+                                                        <div id="search_result_infant{{forloop.counter}}">
 
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -919,6 +900,14 @@
         {% endfor %}
         //sesuaikan mindate max date
         for (var i = 1; i <= adult; i++){
+              document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                 event.preventDefault();
+                 var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                 document.getElementById(adult_enter).click();
+                }
+              });
+
               $('input[name="adult_birth_date'+i+'"]').daterangepicker({
                   singleDatePicker: true,
                   autoUpdateInput: true,
@@ -948,6 +937,14 @@
         }
 
         for (var i = 1; i <= child; i++){
+              document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                 event.preventDefault();
+                 var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                 document.getElementById(child_enter).click();
+                }
+              });
+
               $('input[name="child_birth_date'+i+'"]').daterangepicker({
                   singleDatePicker: true,
                   autoUpdateInput: true,
@@ -977,6 +974,14 @@
         }
 
         for (var i = 1; i <= infant; i++){
+              document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+                if (event.keyCode === 13) {
+                 event.preventDefault();
+                 var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+                 document.getElementById(infant_enter).click();
+                }
+              });
+
               $('input[name="infant_birth_date'+i+'"]').daterangepicker({
                   singleDatePicker: true,
                   autoUpdateInput: true,

@@ -13,6 +13,7 @@ from ..views import tt_webservice_registration_views as RegisterWebserviceView
 from ..views import tt_webservice_bank_views as BankWebserviceView
 from ..views import tt_webservice_testing_views as TestWebserviceView
 from ..views import tt_webservice_content_views as ContentWebserviceView
+from ..views import tt_webservice_voucher_views as VoucherWebserviceView
 
 app_name = 'tt_webservice'
 
@@ -30,6 +31,7 @@ urlpatterns = [
     re_path('visa', VisaWebserviceView.api_models, name="visa"),
     re_path('bank', BankWebserviceView.api_models, name="bank"),
     re_path('content', ContentWebserviceView.api_models, name="content"),
+    re_path('voucher', VoucherWebserviceView.api_models, name="voucher"),
     re_path('test', TestWebserviceView.api_models, name="test"),
     # url(r'^$', views.index),
 ]

@@ -200,9 +200,9 @@ function tour_search(){
                             <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
                             <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
                                 <div class="single-destination relative">
-                                    <div class="thumb relative" style="margin: auto; width:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                    <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                         <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                     </div>
                                     <div class="card card-effect-promotion">
                                         <div class="card-body">
@@ -858,7 +858,8 @@ function tour_issued_booking(order_number)
            'payment_method': payment_method_choice,
            'seq_id': payment_acq2[payment_method][selected].seq_id,
            'member': payment_acq2[payment_method][selected].method,
-           'signature': signature
+           'signature': signature,
+//           'voucher_code': voucher_code
        },
        success: function(msg) {
            console.log(msg);
@@ -871,6 +872,17 @@ function tour_issued_booking(order_number)
                $("#issuedModal").modal('hide');
                $("#waitingTransaction").modal('hide');
                document.getElementById("overlay-div-box").style.display = "none";
+           }
+           else
+           {
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour issued booking </span>' + msg.result.error_msg,
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $("#waitingTransaction").modal('hide');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1389,6 +1401,7 @@ function tour_get_booking(order_number)
                }
                get_payment_rules(tour_package.id);
                get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
+               document.getElementById("final_issued_btn").style.display = "block";
            }
            else
            {
@@ -1673,12 +1686,15 @@ function table_price_update(msg,type){
 
     document.getElementById('tour_detail_table').innerHTML = price_txt;
     if(type == 'detail'){
+        if(agent_security.includes('book_reservation') == true)
         next_btn_txt = `<center>
                         <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
                             Next
                             <i class="fas fa-angle-right"></i>
                         </button>
                     </center>`;
+        else
+        next_btn_txt = '';
         document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
     }else if(type == 'passenger'){
         next_btn_txt = `<center>

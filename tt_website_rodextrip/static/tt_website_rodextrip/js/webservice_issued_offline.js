@@ -557,7 +557,7 @@ function set_data_issued_offline(){
         error_log += 'Please fill total sale price\n';
         document.getElementById('total_sale_price').style['border-color'] = 'red';
     }else{
-        request["total_sale_price"] = document.getElementById('total_sale_price').value;
+        request["total_sale_price"] = document.getElementById('total_sale_price').value.split(',').join('');
         document.getElementById('total_sale_price').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('social_media').value == ''){
         error_log += 'Please fill social media\n';
@@ -758,8 +758,9 @@ function update_passenger(){
        data: request,
        success: function(msg) {
             if(msg.result.error_code == 0){
-                get_payment_acq('Issued','', '', 'billing', signature, 'issued_offline','', '');
-                document.getElementById('payment_acq').hidden = false;
+                get_payment_acq('Issued', document.getElementById('booker_id').value, '', 'billing', signature, 'issued_offline','', '');
+                focus_box('payment_acq');
+                //document.getElementById('payment_acq').hidden = false;
             }
 //
 
@@ -778,7 +779,8 @@ function commit_booking(){
 
     data = {
         'seq_id':payment_acq2[payment_method][selected].seq_id,
-        'member':payment_acq2[payment_method][selected].method
+        'member':payment_acq2[payment_method][selected].method,
+//        'voucher_code': voucher_code
     }
 
     getToken();
@@ -820,7 +822,8 @@ function commit_booking(){
                    delete_table_of_line();
                }
                document.getElementsByName('myRadios')[1].checked = true;
-               document.getElementById('payment_acq').hidden = true;
+//               document.getElementById('payment_acq').hidden = true;
+               close_div('payment_acq');
                $('select').niceSelect('update');
            }
        },

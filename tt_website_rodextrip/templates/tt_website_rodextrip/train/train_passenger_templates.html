@@ -31,7 +31,7 @@
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
-<header id="header">
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -49,6 +49,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
                     <span style="font-size:13px; font-weight:500;">Elapsed Time <span style="font-size:14px; font-weight:600; color:#f15a22;" id="elapse_time"> </span></span>
                 </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>
@@ -94,7 +95,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -122,7 +123,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -307,7 +308,7 @@
                                                     <div class="modal-content">
                                                         <div class="modal-header">
                                                             <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
@@ -335,7 +336,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">Close</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -430,7 +431,7 @@
                                             <label>ID Type</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
-                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}'>
+                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
                                                         {% for id_type in id_types%}
                                                         <option value="{{id_type.0}}">{{id_type.1}}</option>
                                                         {% endfor %}
@@ -446,7 +447,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label id="adult_passport_number_required{{forloop.counter}}" style="color:white">*</label>
                                             <label>ID Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="ID Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
@@ -455,7 +456,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:white">*</label>
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -539,7 +540,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row" >
@@ -567,7 +568,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -751,7 +752,7 @@
               autoUpdateInput: true,
               startDate: moment().subtract(17, 'years'),
               minDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(100, 'years'),
-              maxDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(12, 'years'),
+              maxDate: moment(train_request.departure[train_request.departure.length-1],'DD MMM YYYY').subtract(3, 'years'),
               showDropdowns: true,
               opens: 'center',
               locale: {

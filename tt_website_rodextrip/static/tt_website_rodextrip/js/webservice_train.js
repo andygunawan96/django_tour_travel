@@ -155,7 +155,6 @@ function elapse_time(departure){
   var diff = parseInt(Math.abs(dep - today)/3600000);
   if(today > dep)
     diff *= -1;
-  console.log(diff);
   if(diff >= 3)
     return true;
   else
@@ -321,7 +320,7 @@ function train_get_booking(data){
                 <table style="width:100%;">
                     <tr>
                         <th>PNR</th>`;
-                        if(msg.result.response.state = 'booked')
+                        if(msg.result.response.state == 'booked')
                         text+=`
                         <th>Hold Date</th>`;
                         text+=`
@@ -334,18 +333,20 @@ function train_get_booking(data){
                                 `+msg.result.response.provider_bookings[i].error_msg+`
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
                             </div>`;
-                        tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
-                        var localTime  = moment.utc(tes).toDate();
-                        msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        if(msg.result.response.provider_bookings[i].hold_date != false || msg.result.response.provider_bookings[i].hold_date != ''){
+                            tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
+                            var localTime  = moment.utc(tes).toDate();
+                            msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        }
                         //
                         $text += msg.result.response.provider_bookings[i].pnr;
-                        if(msg.result.response.state = 'booked')
+                        if(msg.result.response.state == 'booked')
                             $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
                         else
                             $text += '\n';
                         text+=`<tr>
                             <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
-                        if(msg.result.response.state = 'booked')
+                        if(msg.result.response.state == 'booked')
                         text +=`
                             <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>`;
                         text +=`
@@ -397,7 +398,12 @@ function train_get_booking(data){
                                 </div>
                             </div>`;
                             text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
-                            <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1]+` (`+msg.result.response.provider_bookings[i].journeys[j].class_of_service+`)</span><br/>
+                            <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1];
+                            if(msg.result.response.provider_bookings[i].journeys[j].class_of_service != '')
+                                text+=` (`+msg.result.response.provider_bookings[i].journeys[j].class_of_service+`)</span><br/>`;
+                            else
+                                text += '<br/>';
+                            text += `
                             <div class="row">
                                 <div class="col-lg-6 col-xs-6">
                                     <table style="width:100%">
@@ -585,6 +591,7 @@ function train_get_booking(data){
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
+                            $(".issued_booking_btn").show();
                         }
                         else{
                             text+=`
@@ -600,7 +607,7 @@ function train_get_booking(data){
                 </div>
             </div>`;
             document.getElementById('train_booking').innerHTML = text;
-            $(".issued_booking_btn").show();
+            //$(".issued_booking_btn").show();
 
             //detail
             text = '';
@@ -711,7 +718,9 @@ function train_get_booking(data){
                 counter_service_charge++;
             }
             try{
-                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price) + '\n\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+                if(msg.result.response.state == 'booked')
+                $text += '\n\nPrices and availability may change at any time';
                 text_detail+=`
                 <div>
                     <hr/>
@@ -883,7 +892,8 @@ function train_issued(data){
                'order_number': data,
                'seq_id': payment_acq2[payment_method][selected].seq_id,
                'member': payment_acq2[payment_method][selected].method,
-               'signature': signature
+               'signature': signature,
+//               'voucher_code': voucher_code
            },
            success: function(msg) {
                console.log(msg);
@@ -897,6 +907,7 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
+                   $("#waitingTransaction").modal('hide');
                    train_get_booking(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
@@ -990,8 +1001,7 @@ function train_cancel_booking(){
            success: function(msg) {
            console.log(msg);
             if(msg.result.error_code == 0)
-                continue
-    //            document.getElementById('train_booking').submit();
+                document.getElementById('train_booking').submit();
             else
                 Swal.fire({
                   type: 'error',
@@ -1057,6 +1067,7 @@ function train_manual_seat(){
               html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.error_msg,
             })
             $('.submit-seat-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
             $('.change-seat-train-buttons').prop('disabled', false);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1066,6 +1077,7 @@ function train_manual_seat(){
               html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
             })
             $('.submit-seat-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
             $('.change-seat-train-buttons').prop('disabled', false);
        },timeout: 60000
     });

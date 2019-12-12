@@ -54,13 +54,13 @@ def index(request):
                     'template': template
                 }
             elif bool(request.session._session):
-                request.session.create()
-
                 #get_data_awal
                 try:
                     javascript_version = get_javascript_version()
                     cache_version = get_cache_version()
                     response = get_cache_data(cache_version)
+                    provider_type = request.session['provider']
+                    request.session.create()
 
                     try:
                         airline_country = response['result']['response']['airline']['country']
@@ -170,6 +170,7 @@ def index(request):
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'cache': json.dumps(cache),
                         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                        'provider': provider_type,
                         'countries': airline_country,
                         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                         'username': request.session['user_account'],

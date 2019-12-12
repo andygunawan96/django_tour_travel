@@ -278,14 +278,12 @@ function activity_table_detail(){
             {
                 if(document.getElementById(low_sku_id+'_passenger').value != 0){
                    text+= `<div class="row">
-                                <div class="col-xs-1">`+document.getElementById(low_sku_id+'_passenger').value+`x</div>
-                                <div class="col-xs-1">`+skus[sku].sku_title+`</div>
-                                <div class="col-xs-2"></div>
-                                <div class="col-xs-4" style="text-align: right;">IDR @`;
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                    <span style="font-size:13px; font-weight:500;">`+document.getElementById(low_sku_id+'_passenger').value+`x `+skus[sku].sku_title+` @IDR `;
 
                    if(document.getElementById(low_sku_id+'_passenger').value in skus[sku])
                    {
-                       text+= getrupiah(parseInt(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
+                       text+= getrupiah(parseInt(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price);
                        $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][document.getElementById(low_sku_id+'_passenger').value.toString()].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku][document.getElementById(low_sku_id+'_passenger').value].sale_price;
@@ -293,13 +291,13 @@ function activity_table_detail(){
                    }
                    else
                    {
-                       text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-xs-4" style="text-align: right;">IDR `;
+                       text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
                        text+= getrupiah(parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price);
                        $test += document.getElementById(low_sku_id+'_passenger').value.toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                        grand_total += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].sale_price;
                        grand_commission += parseInt(document.getElementById(low_sku_id+'_passenger').value) * skus[sku]['1'].commission_price;
                    }
-                   text+= `</div></div>`;
+                   text+= `</span></div></div>`;
                }
             }
        }
@@ -307,15 +305,15 @@ function activity_table_detail(){
        {
             if(document.getElementById('infant_passenger').value != 0){
                text+= `<div class="row">
-                            <div class="col-xs-1">`+document.getElementById('infant_passenger').value+`x</div>
-                            <div class="col-xs-1">Infant</div>
-                            <div class="col-xs-2"></div>
-                            <div class="col-xs-4" style="text-align: right;">IDR @0</div>
-                            <div class="col-xs-4" style="text-align: right;">IDR `;
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight:500;">`+document.getElementById('infant_passenger').value+`x Infant @IDR 0</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+                                <span style="font-size:13px; font-weight:500;">IDR `;
 
                text+= getrupiah(0);
                $test += document.getElementById('infant_passenger').value.toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
-               text+= `</div></div>`;
+               text+= `</span></div></div>`;
            }
        }
    }catch(err){
@@ -332,21 +330,21 @@ function activity_table_detail(){
    if (additional_price)
    {
         text+= `<div class="row">
-                <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>`+additional_price+`</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price' style="font-size:13px; font-weight:500;">`+additional_price+`</span></div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
-                <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>0</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price' style="font-size:13px; font-weight:500;">0</span></div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
-                <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:bold">Grand Total</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-weight:bold">IDR `+getrupiah(grand_total)+`</span></div>
            </div>
            <div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
@@ -392,6 +390,7 @@ function activity_table_detail(){
            `;
 
    document.getElementById('activity_detail_table').innerHTML = text;
+   if(agent_security.includes('book_reservation') == true)
    text_btn = `
        <center>
        <button type="button" class="primary-btn-ticket" value="Next" onclick='check_detail();' style="width:100%;">
@@ -400,6 +399,8 @@ function activity_table_detail(){
        </button><br/>
        </center>
    `;
+   else
+   text_btn = '';
    document.getElementById('activity_detail_next_btn').innerHTML = text_btn;
    document.getElementById('activity_detail_next_btn2').innerHTML = text_btn;
 }
@@ -449,14 +450,12 @@ function activity_table_detail2(pagetype){
             if(passenger[low_sku_id] && passenger[low_sku_id] != 0)
             {
                text+= `<div class="row">
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger[low_sku_id]+`x</div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+skus[sku].sku_title+`</div>
-                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @`;
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight:500;">`+passenger[low_sku_id]+`x `+skus[sku].sku_title+` @IDR `;
 
                if(passenger[low_sku_id] in skus[sku])
                {
-                   text+= getrupiah(parseInt(skus[sku][passenger[low_sku_id]].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
+                   text+= getrupiah(parseInt(skus[sku][passenger[low_sku_id]].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price);
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
@@ -464,27 +463,27 @@ function activity_table_detail2(pagetype){
                }
                else
                {
-                   text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</div><div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
+                   text+= getrupiah(parseInt(skus[sku]['1'].sale_price))+`</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR `;
                    text+= getrupiah(parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price);
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku]['1'].commission_price;
                }
-               text+= `</div></div>`;
+               text+= `</span></div></div>`;
            }
        }
        if (passenger['infant'] && passenger['infant'] != 0)
        {
            text+= `<div class="row">
-                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`+passenger['infant']+`x</div>
-                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">Infant</div>
-                       <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
-                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR @0</div>
-                       <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align: right;">IDR `;
+                       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight:500;">`+passenger['infant']+`x Infant @IDR 0</span>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+                                <span style="font-size:13px; font-weight:500;">IDR `;
 
            text+= getrupiah(0);
            $test += passenger['infant'].toString() + ' Infant Price @IDR ' + getrupiah(0)+'\n';
-           text+= `</div></div>`;
+           text+= `</span></div></div>`;
        }
 
    }catch(err){
@@ -501,21 +500,21 @@ function activity_table_detail2(pagetype){
    if (additional_price)
    {
         text+= `<div class="row">
-                <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>`+additional_price+`</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price'>`+additional_price+`</span></div>
            </div>`;
    }
    else
    {
         text+= `<div class="row">
-                <div class="col-xs-8">Additional Charge</div>
-                <div class="col-xs-4" style="text-align: right;">IDR <span id='additional_price'>0</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span style="font-size:13px; font-weight:500;">Additional Charge</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-size:13px; font-weight:500;">IDR </span><span id='additional_price' style="font-size:13px; font-weight:500;">0</span></div>
            </div>`;
    }
    text+= `<hr style="padding:0px;">
            <div class="row">
-                <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
-                <div class="col-xs-4" style="text-align: right;">IDR `+getrupiah(grand_total)+`</div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><span style="font-weight:bold">Grand Total</span></div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align: right;"><span style="font-weight:bold">IDR `+getrupiah(grand_total)+`</span></div>
            </div>
 
            <div class="row">
@@ -614,6 +613,11 @@ function show_commission(){
     }
 }
 
+function activity_search_form_submit(){
+    $('.button-search').addClass("running");
+    document.getElementById('activity_search_form').submit();
+}
+
 function check_flight(value){
     var checkword = "^[A-Z0-9][A-Z0-9][0-9]{0,4}$";
     if(value.match(checkword)!=null){
@@ -658,8 +662,10 @@ function check_detail(){
     console.log(activity_type[activity_type_pick].maxPax);
     if(pax > activity_type[activity_type_pick].maxPax)
         text+= 'Total Passenger must be below than '+activity_type[activity_type_pick].maxPax+'</br>\n';
-    if(pax < activity_type[activity_type_pick].minPax)
-        text+= 'Total Passenger must be more than '+activity_type[activity_type_pick].minPax+'</br>\n';
+    if(pax < activity_type[activity_type_pick].minPax && pax > 0)
+        text+= 'Total Passenger must be '+activity_type[activity_type_pick].minPax+' or more</br>\n';
+    if(pax <= 0)
+        text+= 'Total Passenger must be more than 0';
 
     //check perbooking
     for(i in activity_type[activity_type_pick].options.perBooking){
@@ -822,20 +828,26 @@ function check_passenger(adult, senior, child, infant){
     }
     length_name = 25;
 
-    var radios = document.getElementsByName('myRadios');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            booker_copy = radios[j].value;
-            // only one radio can be logically checked, don't check the rest
-            break;
+    try{
+        var radios = document.getElementsByName('myRadios');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                booker_copy = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
         }
+        if(booker_copy == 'yes')
+            if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
+               document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
+               document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+                    error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
     }
-    if(booker_copy == 'yes')
-        if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
-           document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
-           document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
-                error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
+    catch{
+        booker_copy = 'no';
+    }
+
    //adult
    for(i=1;i<=adult;i++){
 
@@ -2102,6 +2114,48 @@ function sort(activity_dat, check){
             $('#pagination-container2').show();
         }
     }
+}
+
+function activity_pre_create_booking(value){
+    if(value == 0)
+    {
+        var temp_title = 'Are you sure you want to Hold Booking?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Force Issued this booking?';
+    }
+    Swal.fire({
+      title: temp_title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        activity_commit_booking(value);
+      }
+    })
+}
+
+function activity_pre_issued_booking(order_number){
+    Swal.fire({
+      title: 'Are you sure you want to Issued this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        activity_issued_booking(order_number);
+      }
+    })
 }
 
 function checking_price_slider(filter, type){

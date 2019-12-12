@@ -114,7 +114,7 @@ def set_data_issued_offline(request):
                 temp_date = request.POST['line_arrival' + str(i)].split(' ')
                 arrival = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 if request.POST['type'] == 'airline':
-                    origin = request.POST['line_origin'+str(i)][-4:].split(' - ')[0]
+                    origin = request.POST['line_origin'+str(i)].split(' - ')[0]
                     destination = request.POST['line_destination'+str(i)].split(' - ')[0]
                 elif request.POST['type'] == 'train':
                     origin = request.POST['line_origin' + str(i)].split(' - ')[0]
@@ -375,6 +375,7 @@ def commit_booking(request):
         data = {
             'member': member,
             'seq_id': request.POST['seq_id'],
+            # 'voucher_code': request.POST['voucher_code']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

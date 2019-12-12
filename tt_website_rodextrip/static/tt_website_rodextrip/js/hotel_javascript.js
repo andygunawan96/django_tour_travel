@@ -1225,13 +1225,18 @@ function hotel_room_pick(key){
     hotel_room = hotel_price[key];
     text='';
     var get_name_hotel = document.getElementById("get_name_hotel").value;
-    $text2 = ''+ get_name_hotel +'\n';
+    var get_rating_hotel = document.getElementById("rating_hotel").textContent;
+    var get_address_hotel = document.getElementById("address_hotel").textContent;
+    var get_date_hotel = document.getElementById("date_hotel").textContent;
+    $text2 = ''+ get_name_hotel +' *'+ get_rating_hotel +'\n';
+    $text2 += 'Address: '+ get_address_hotel +'\n';
+    $text2 += get_date_hotel +'\n\n';
     for(i in hotel_room.rooms){
         text += '<h5>'+ hotel_room.rooms[i].description + '</h5>';
         //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
         text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
         text += '<span>Meal Type: ' + hotel_room.meal_type +'</span/><br/><br/>';
-        text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
+        //text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
         text += '<div id="cancellation_policy_choose">';
         text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
         text += '</div><br/>';
@@ -1254,12 +1259,16 @@ function hotel_room_pick(key){
                 $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_room.rooms[i].nightly_prices[j].price)) + '\n';
             }
         }
+        var total_room = document.getElementById("hotel_room").value;
+        var total_night = document.getElementById("total_night_search").textContent;
+
         text += `<div class="col-lg-12"><hr/></div>`;
         text += `<div class="col-lg-6">
             <span style="font-weight:bold;">Total</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(parseInt(hotel_room.rooms[i].price_total)) +`</span>
+            <span style="font-weight:bold;">IDR `+ getrupiah(parseInt(hotel_room.rooms[i].price_total)) +`</span><br/>
+            <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
         </div>
         <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
             <div class="alert alert-success">
@@ -1268,7 +1277,8 @@ function hotel_room_pick(key){
         </div>`;
         text += `</div>`;
 
-        $text2 += 'Total: IDR '+getrupiah(parseInt(hotel_room.rooms[i].price_total)) + '\n\n';
+        $text2 += 'Total: IDR '+getrupiah(parseInt(hotel_room.rooms[i].price_total)) + ' ';
+        $text2 += '(for '+ total_room +' room, ' +total_night+ 'night) \n\n';
     }
 
     document.getElementById('button'+key).innerHTML = 'Chosen';
@@ -1282,7 +1292,7 @@ function hotel_room_pick_button(){
     text = '';
     text += `<div class="row" style="padding-top:10px;">`;
     text += `<div class="col-lg-12" style="padding-bottom:15px;">
-        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        <span style="font-size:14px; font-weight:bold;">Share this on:</span><br/>`;
         share_data2();
         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         if (isMobile) {
@@ -1306,9 +1316,11 @@ function hotel_room_pick_button(){
     <div class="col-lg-12" style="padding-top:10px;">
         <input class="primary-btn-standard" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
     </div>`;
+    if(agent_security.includes('book_reservation') == true){
     text += `<div class="col-lg-12">`;
     text += '<button class="primary-btn" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">Next</button></div>';
     text += `</div>`;
+    }
 
     document.getElementById('hotel_detail_button').innerHTML = text;
     $('#not_room_select').hide();
@@ -1454,11 +1466,12 @@ function hotel_detail(hotel_price){
     </div>`;
     $text2 = '';
     for(i in hotel_price.rooms){
-        text += '<h5>'+ hotel_price.rooms[i].category + '</h5>';
-        text += '<span> '+ hotel_price.rooms[i].description + '<span><br/>';
+        text += '<h5>'+ hotel_price.rooms[i].description + '</h5>';
+        text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
+        //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
         text += '<span>Meal Type: ' + hotel_price.meal_type + '</span/><br/><br/>';
 
-        $text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
+        //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
         $text2 += hotel_price.rooms[i].description +'\n';
         $text2 += hotel_price.rooms[i].qty +' room(s) \n';
         $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';

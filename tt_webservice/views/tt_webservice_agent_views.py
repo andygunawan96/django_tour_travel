@@ -125,6 +125,25 @@ def signin(request):
             request.session['user_account'] = res_user['result']['response']
             try:
                 if res['result']['error_code'] == 0:
+                    data = {}
+                    headers = {
+                        "Accept": "application/json,text/html,application/xml",
+                        "Content-Type": "application/json",
+                        "action": "get_provider_type_list",
+                        "signature": res['result']['response']['signature']
+                    }
+                    provider_type = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+                    try:
+                        if provider_type['result']['error_code'] == 0:
+                            provider_type_list = []
+                            for provider in provider_type['result']['response']['provider_type_list']:
+                                provider_type_list.append(provider['code'])
+                            request.session['provider'] = provider_type_list
+                        else:
+                            # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
+                            request.session['provider'] = []
+                    except:
+                        request.session['provider'] = []
                     logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     javascript_version = get_cache_version()
                     response = get_cache_data(javascript_version)
@@ -536,7 +555,8 @@ def get_customer_list(request):
             'upper': upper,
             'lower': lower,
             'type': passenger,
-            'mode': 'btb'
+            'email': '',
+            'cust_code': ''
         }
 
         headers = {
@@ -554,17 +574,17 @@ def get_customer_list(request):
             counter = 0
             for pax in res['result']['response']:
                 if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
                         title = 'MRS'
                     else:
                         title = 'MISS'
                 elif pax['gender'] == 'female':
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
                         title = 'MS'
                     else:
                         title = 'MISS'
                 else:
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior':
+                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
                         title = 'MR'
                     else:
                         title = 'MSTR'
@@ -646,15 +666,21 @@ def create_customer(request):
             pax['identity'][identity].update({
                 'identity_image': image_selected
             })
-            pax['identity'][identity].update({
-                'identity_expdate': '%s-%s-%s' % (
-                    pax['identity'][identity]['identity_expdate'].split(' ')[2], month[pax['identity'][identity]['identity_expdate'].split(' ')[1]],
-                    pax['identity'][identity]['identity_expdate'].split(' ')[0])
-            })
-            for country in response['result']['response']['airline']['country']:
-                if pax['identity'][identity]['identity_country_of_issued_name'] == country['name']:
-                    pax['identity'][identity]['identity_country_of_issued_code'] = country['code']
-                    break
+            try:
+                pax['identity'][identity].update({
+                    'identity_expdate': '%s-%s-%s' % (
+                        pax['identity'][identity]['identity_expdate'].split(' ')[2], month[pax['identity'][identity]['identity_expdate'].split(' ')[1]],
+                        pax['identity'][identity]['identity_expdate'].split(' ')[0])
+                })
+            except:
+                pass
+            try:
+                for country in response['result']['response']['airline']['country']:
+                    if pax['identity'][identity]['identity_country_of_issued_name'] == country['name']:
+                        pax['identity'][identity]['identity_country_of_issued_code'] = country['code']
+                        break
+            except:
+                pax['identity'][identity]['identity_country_of_issued_code'] = ''
         data = {
             'passengers': pax
         }

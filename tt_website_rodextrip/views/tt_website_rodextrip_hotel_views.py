@@ -153,7 +153,7 @@ def passengers(request):
         for i in range(int(request.session['hotel_request']['adult'])):
             adult.append('')
         for i in range(int(request.session['hotel_request']['child'])):
-            child.append()
+            child.append('')
         request.session['hotel_request'].update({
             'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
             'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
@@ -165,10 +165,10 @@ def passengers(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'hotel_search': request.session['hotel_request'],
             'hotel_room_detail_pick': request.session['hotel_room_pick'],
-            'username': request.session['username'],
+            # 'username': request.session['username'],
+            'username': request.session['user_account'],
             'childs': child,
             'adults': adult,
-            'username': request.session['user_account'],
             'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
             'adult_count': int(request.session['hotel_request']['adult']),
             'child_count': int(request.session['hotel_request']['child']),

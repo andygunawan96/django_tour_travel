@@ -823,7 +823,10 @@ function add_multi_city(type){
             if(counter_airline_search == 1)
                 min_date = moment().format('DD MMM YYYY');
             else
-                min_date = airline_request.departure[counter_airline_search-1]
+                if(airline_request.departure[counter_airline_search-1] != undefined)
+                    min_date = airline_request.departure[counter_airline_search-1]
+                else
+                    min_date = $('input[name="airline_departure'+(counter_airline_search - 1)+'"]').val()
             $('input[name="airline_departure'+counter_airline_search+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1906,6 +1909,10 @@ function sort(){
         text = '';
         var first = sort_key * 10;
         var last = (sort_key+1) * 10;
+        if(sort_key == 0)
+            text += `<div style="background-color:#f15a22; padding:10px;">
+                    <h6 style="color:white;">Flight `+counter_search+`</h6>
+                </div>`;
         for(i in airline){
            if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
                ticket_count++;
@@ -2135,36 +2142,29 @@ function sort(){
                             }
 
                            text+=`
-                           <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:15px;">
+                           <div class="col-lg-4 col-md-4 col-sm-4" style="padding-top:15px; margin: auto;">
                                <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
                                    <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                     <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                </a>
                            </div>
-                           <div class="col-lg-8 col-md-8 col-sm-8">
-                               <div class="row">
-                                   <div class="col-lg-8" style="margin-top:auto;margin-bottom:auto;">`;
+                           <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
+                               <div>
+                               <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22;"></span>`;
+                               if(provider_list_data[airline[i].provider] != '')
+                                    text += `<br/><span>`+provider_list_data[airline[i].provider]+`</span>`;
+                               text+=`</div>`;
+//                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
+//                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+//                                        else
 
-                                   if(provider_list_data[airline[i].provider] != '')
-                                        text += provider_list_data[airline[i].provider];
-                                   text+=`
-                                   </div>
-                                   <div class="col-lg-4" style="text-align:right;">
-                                       <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
-                                        text+=`</span>`;
-
-    //                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
-    //                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
-    //                                        else
-                                       if(airline[i].can_book == true){
-                                           text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
-                                       }
-                                       else{
-                                           text+=`<input type='button' style="margin:10px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
-                                       }
-                                       text+=`
-                                   </div>
-                               </div>
+                               if(airline[i].can_book == true){
+                                   text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
+                               }
+                               else{
+                                   text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
+                               }
+                               text+=`
                            </div>
                        </div>
 
@@ -2809,7 +2809,7 @@ function sort(){
         <div class="we_found_box" style="border:1px solid #cdcdcd; background-color:white; margin-bottom:-5px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> We found `+ticket_count+` flights</span>
             <label class="check_box_custom" style="float:right;">
-                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
+                <span class="span-search-ticket" style="color:black;">Select all</span>
                 <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
                 <span class="check_box_span_custom"></span>
             </label>
@@ -3508,7 +3508,11 @@ function airline_detail(type){
                 text+=`</div>`;
 
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
-                    $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    try{
+                        $text += airline_carriers[price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    }catch(err){
+                        $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + ' ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number + '\n';
+                    }
                     $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date + ' → ' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date + '\n';
                     $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city + ') - ';
                     $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
@@ -3954,6 +3958,11 @@ function airline_detail(type){
 
 function on_change_srr(){
     additional_price = 0;
+    for(i in passengers){
+        for(j in passengers[i].seat_list){
+            additional_price += parseInt(passengers[i].seat_list[j].price);
+        }
+    }
     for(i=1;i<=len_passenger;i++){
         for(j in ssr_keys){
             for(k=1;k<=ssr_keys[j].len;k++){
@@ -4282,18 +4291,23 @@ function get_airline_review(){
         for(j in airline_pick[i].price_itinerary){
             if(airline_pick[i].price_itinerary[j].is_combo_price == true){
                 text += `<h6>Combo Price</h6>`;
-            }else if(i == 0){
-                text += `<h6>Departure</h6>`;
-                if(airline_request.direction != 'MC'){}
-                else{
-                    flight_count++;
+            }else if(airline_request.direction != 'MC'){
+                if(i == 0){
+                    text += `<h6>Departure</h6>`;
+                    if(airline_request.direction != 'MC'){}
+                    else{
+                        flight_count++;
+                    }
+                }else{
+                    text += `<h6>Return</h6>`;
+                    if(airline_request.direction != 'MC'){}
+                    else{
+                        flight_count++;
+                    }
                 }
-            }else{
-                text += `<h6>Return</h6>`;
-                if(airline_request.direction != 'MC'){}
-                else{
-                    flight_count++;
-                }
+            }else if(airline_request.direction == 'MC'){
+                flight_count++;
+                text += `<h6>Flight `+flight_count+`</h6>`;
             }
             //logo
             for(k in airline_pick[i].price_itinerary[j].carrier_code_list) //print gambar airline
@@ -4400,31 +4414,10 @@ function get_airline_review(){
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list){
-                                    try{
-                                        text+=`<div class="popover__wrapper">
-                                                  <a href="#">
-                                                    `+passengers_ssr[i].ssr_list[j].availability_type+`
-                                                  </a>
-                                                  <div class="popover__content">`;
-                                        text+= passengers_ssr[i].ssr_list[j].name + '<br>';
-                                        text+=`</p></div></div><br/>`;
-                                  }catch(err){}
-                                  text+=`
-                                </div>`;
+                                    text+= `<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
                                 }
                                 for(j in passengers_ssr[i].seat_list){
-                                    try{
-                                        if(passengers_ssr[i].seat_list[j].seat_pick != ''){
-                                            text+=`<div class="popover__wrapper">
-                                                      <a href="#">
-                                                        Seat `+passengers_ssr[i].seat_list[j].segment_code+`
-                                                      </a>
-                                                      <div class="popover__content">`;
-                                            text+= passengers_ssr[i].seat_list[j].seat_pick + '<br>';
-                                            text+=`</p></div></div><br/></div>`;
-                                        }
-                                  }catch(err){}
-
+                                    text+= `<label>`+passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
                                 }
                                 text+=`</td>
                                </tr>`;
@@ -4535,15 +4528,7 @@ function get_airline_review_after_sales(){
                                 <td>`;
                                   try{
                                       for(j in airline_get_booking.passengers[i]){
-                                        text+=`<div class="popover__wrapper">
-                                                  <a href="#">
-                                                    `+msg.result.response.passengers[i].fees[j].fee_name+`
-                                                  </a>
-                                                  <div class="popover__content">`;
-                                        text+= msg.result.response.passengers[i].fees[j].fee_value + '<br>';
-                                        for(k in msg.result.response.passengers[i].fees[j].description)
-                                            text += msg.result.response.passengers[i].fees[j].description[k] + '<br>';
-                                        text+=`</p></div></div><br/>`;
+                                        text += `<label>`+msg.result.response.passengers[i].fees[j].fee_name+ ' ' + msg.result.response.passengers[i].fees[j].fee_value + `</label><br/>`;
                                       }
                                   }catch(err){}
                                   text+=`
@@ -4552,30 +4537,15 @@ function get_airline_review_after_sales(){
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list){
                                     try{
-                                        text+=`<div class="popover__wrapper">
-                                                  <a href="#">
-                                                    `+passengers_ssr[i].ssr_list[j].availability_type+`
-                                                  </a>
-                                                  <div class="popover__content">`;
-                                        text+= passengers_ssr[i].ssr_list[j].name + '<br>';
-                                        text+=`</p></div></div><br/>`;
+                                        text += `<label>`+passengers_ssr[i].ssr_list[j].availability_type+ ' ' + passengers_ssr[i].ssr_list[j].name + `</label><br/>`;
                                   }catch(err){}
-                                  text+=`
-                                </div>`;
                                 }
                                 for(j in passengers_ssr[i].seat_list){
                                     try{
                                         if(passengers_ssr[i].seat_list[j].seat_pick != ''){
-                                            text+=`<div class="popover__wrapper">
-                                                      <a href="#">
-                                                        Seat `+passengers_ssr[i].seat_list[j].segment_code+`
-                                                      </a>
-                                                      <div class="popover__content">`;
-                                            text+= passengers_ssr[i].seat_list[j].seat_pick + '<br>';
-                                            text+=`</p></div></div><br/></div>`;
+                                            text += `<label>Seat `+passengers_ssr[i].seat_list[j].segment_code+ ' ' + passengers_ssr[i].seat_list[j].seat_pick + `</label><br/>`;
                                         }
                                   }catch(err){}
-
                                 }
                                 text+=`</td>
                                </tr>`;
@@ -4597,9 +4567,6 @@ function get_airline_review_after_sales(){
 
     text+=`</div>`;
     document.getElementById('airline_review').innerHTML = text;
-    try{
-        $('#popoverOption').popover({ trigger: "hover" });
-    }catch(err){}
 }
 
 function update_contact_cp(val){

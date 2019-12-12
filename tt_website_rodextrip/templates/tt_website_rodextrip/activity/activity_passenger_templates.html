@@ -90,7 +90,7 @@
     session_time_limit();
 </script>
 
-<header id="header">
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -108,6 +108,7 @@
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                     <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                 </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
         </div>
     </div>
@@ -155,7 +156,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
@@ -185,7 +186,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('booker','');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -311,6 +312,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #f15a22;">
+                                    {% if adult_count != 0 %}
                                     <label>Do you book this ticket for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
@@ -323,8 +325,8 @@
                                         <input type="radio" name="myRadios" onclick="copy_booker_to_passenger('change','tour');" value="no" checked="checked"/>
                                         <span class="checkmark-radio"></span>
                                     </label>
-
                                     <br/>
+                                    {% endif %}
                                     <label>Guest Data</label><br/>
                                     <ul>
                                         <li>1. Caution: the name of the guests must be right and appropriate with KTP/Passport/SIM</li>
@@ -372,7 +374,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -402,7 +404,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -642,7 +644,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Senior - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('senior','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -650,7 +652,7 @@
                                                                 <input type="text" id="train_senior{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                                 <input type="hidden" id="train_senior{{forloop.counter}}_min_age" value="{{senior.min_age}}"/>
                                                                 <input type="hidden" id="train_senior{{forloop.counter}}_max_age" value="{{senior.max_age}}"/>
-                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">Search</button>
+                                                                <button type="button" id="search_senior_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('senior',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -672,7 +674,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('senior','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -914,7 +916,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Child - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row">
@@ -922,7 +924,7 @@
                                                                 <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                                 <input type="hidden" id="train_child{{forloop.counter}}_min_age" value="{{child.min_age}}"/>
                                                                 <input type="hidden" id="train_child{{forloop.counter}}_max_age" value="{{child.max_age}}"/>
-                                                                <button type="button" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">Search</button>
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -944,7 +946,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1158,7 +1160,7 @@
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
                                                         <div class="row" >
@@ -1166,7 +1168,7 @@
                                                                 <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
                                                                 <input type="hidden" id="train_infant{{forloop.counter}}_min_age" value="{{infant.min_age}}"/>
                                                                 <input type="hidden" id="train_infant{{forloop.counter}}_max_age" value="{{infant.max_age}}"/>
-                                                                <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">Search</button>
+                                                                <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'activity')">Search</button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -1188,7 +1190,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">Close</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1319,9 +1321,9 @@
                                 <hr/>
                                 <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
                                 {% if response.name != detail.name %}
-                                <br/><span id="product_type_title">{{detail.name}}</span>
+                                <br/><span id="product_type_title" style="font-size:13px; font-weight:500;">{{detail.name}}</span>
                                 {% endif %}
-                                <br/><span id="product_visit_date"></span>
+                                <br/><span id="product_visit_date" style="font-size:13px; font-weight:500;"></span>
                                 <br/><br/>
                                 <div class="row">
                                     <div class="col-lg-12" id="activity_detail_table">
@@ -1432,6 +1434,14 @@
           }
       });
       for (var i = 1; i <= adult; i++){
+          document.getElementById("train_adult"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var adult_enter = "search_adult_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(adult_enter).click();
+            }
+          });
+
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1461,6 +1471,14 @@
       }
 
       for (var i = 1; i <= senior; i++){
+          document.getElementById("train_senior"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var senior_enter = "search_senior_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(senior_enter).click();
+            }
+          });
+
           $('input[name="senior_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1490,6 +1508,14 @@
       }
 
       for (var i = 1; i <= child; i++){
+          document.getElementById("train_child"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var child_enter = "search_child_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(child_enter).click();
+            }
+          });
+
           $('input[name="child_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
@@ -1519,6 +1545,14 @@
       }
 
       for (var i = 1; i <= infant; i++){
+          document.getElementById("train_infant"+i+"_search").addEventListener("keyup", function(event) {
+            if (event.keyCode === 13) {
+             event.preventDefault();
+             var infant_enter = "search_infant_"+event.target.id.toString().replace(/[^\d.]/g, '');
+             document.getElementById(infant_enter).click();
+            }
+          });
+
           $('input[name="infant_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,

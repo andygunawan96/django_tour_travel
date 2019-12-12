@@ -64,7 +64,7 @@
                         </li>
                         <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
                             <ul>
-                                <li><a title="{{username.co_user_login}}" style="cursor:text; color:black;"> {{username.co_user_login}}</a></li>
+                                <li><a title="{{username.co_user_login}}" style="cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"> {{username.co_user_login}}</a></li>
                                 <li class="menu-has-children pt5"><a href="#">Partnership</a>
                                     <ul>
                                         <li><a href="/registration">Register Agent</a></li>
@@ -206,42 +206,34 @@
                                     </ul>
                                 </li>
                                 {% endif%}
-                                <li><a href="#" style="margin-right:5px;">Issued Offline</a>
-                                    <ul class="dropdown">
-                                        <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Create</a></li>
-                                        <li><a href="{% url 'tt_website_rodextrip:issued_offline_history'%}">History</a></li>
-                                    </ul>
-                                </li>
+                                <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                                 {% endif %}
-                                <li><a href="#">Partnership</a>
-                                    <ul class="dropdown">
-                                        <li><a href="/registration">Register Agent</a></li>
-                                        <li><a href="#">Registration List</a></li>
-                                        <li><a href="#">Search Registration</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="#">User Guide</a>
+
+                                <li class="balance_mobile"><a id="balance" style="color:black;"></a></li>
+                                <li class="credit_mobile"><a id="credit_limit" style="color:black;"></a></li>
+
+                                <li class="notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
                                     <ul class="dropdown">
                                         <li><a href="#">Guidelines</a></li>
                                         <li><a href="#">FAQ</a></li>
                                     </ul>
                                 </li>
                                 {% if username != null %}
-                                <li><a href="#">Setting</a>
+                                <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
                                     <ul class="dropdown">
+                                        <li><a id="username" title="{{username.co_user_login}}" style="color:black !important;">{{username.co_user_login}}</a></li>
+                                        <li><a href="#">Partnership</a>
+                                            <ul class="dropdown">
+                                                <li><a href="/registration">Register Agent</a></li>
+                                                <li><a href="#">Registration List</a></li>
+                                                <li><a href="#">Search Registration</a></li>
+                                            </ul>
+                                        </li>
                                         {% if "admin" in username.co_agent_frontend_security %}
                                         <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                         {% endif %}
-                                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
-                                    </ul>
-                                </li>
-                                <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
-                                    <ul class="dropdown">
-                                        <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                        <li><a id="balance"></a></li>
-                                        <li><a id="credit_limit"></a></li>
-                                        <li><a href="#">Edit Agent Profile</a></li>
-                                        <li>
+                                        <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                        <li style="z-index:5;">
                                             <a>
                                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Sign Out</button>
                                             </a>
@@ -251,16 +243,32 @@
 
                                 <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.agent_name}}</a>
                                     <ul class="dropdown">
-                                        <li><a>My Virtual Account: 9317918739186</a></li>
-                                        <li><a href="#">Edit Agent Profile</a></li>
-                                        <li>
+                                        <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                        <li><a href="#">Partnership</a>
+                                            <ul class="dropdown">
+                                                <li><a href="/registration">Register Agent</a></li>
+                                                <li><a href="#">Registration List</a></li>
+                                                <li><a href="#">Search Registration</a></li>
+                                            </ul>
+                                        </li>
+                                        {% if "admin" in username.co_agent_frontend_security %}
+                                        <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                        {% endif %}
+                                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                                        <li style="z-index:5;">
                                             <a>
-                                                <button type="button" onclick="logout();" class="btn roberto-btn" style="color:white;">Sign Out</button>
-
+                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Sign Out</button>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
+                                <li class="notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
+                                    <ul class="dropdown">
+                                        <li><a href="#">Guidelines</a></li>
+                                        <li><a href="#">FAQ</a></li>
+                                    </ul>
+                                </li>
+
                                 <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                                     {% endif %}
                             </ul>
@@ -282,9 +290,10 @@
         </div>
     </div>
 </header>
+<div id="status" class="status on" style="display:none;"></div>
 {% elif template == 3%}
 <header id="header" id="home">
-    <div class="main-menu" style="background:rgba(0, 0, 0, 0.9);">
+    <div class="main-menu" style="background:rgba(30, 30, 30, 0.8);">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
                 <!--                <div class="col-lg-12" style="padding:0px 0px 0px 15px;">-->
@@ -318,47 +327,59 @@
                             </ul>
                         </li>
                         {% endif %}
-                        <li class="menu-has-children"><a href="#">Partnership</a>
-                            <ul>
-                                <li><a href="/registration">Register Agent</a></li>
-                                <li><a href="#">Registration List</a></li>
-                                <li><a href="#">Search Registration</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children"><a href="#">User Guide</a>
+                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
+                        <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
+                        <li class="menu-has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:24px;"></i></a>
                             <ul>
                                 <li><a href="#">Guidelines</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
-                        {% if username != null %}
-                        <li class="menu-has-children"><a href="#">Setting</a>
+                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
                             <ul>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
+
+                        {% if username != null %}
                         <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
                             <ul>
-                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                <li><a id="balance"></a></li>
-                                <li><a id="credit_limit"></a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
+                                <li><a title="{{username.co_user_login}}" style="color:black;">{{username.co_user_login}}</a></li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li class="menu-has-children"><a href="#">Partnership</a>
+                                    <ul style="width:100%;">
+                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="#">Registration List</a></li>
+                                        <li><a href="#">Search Registration</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
-                                    <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
-                                    </a>
+                                    <center>
+                                        <a>
+                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
+                                        </a>
+                                    </center>
                                 </li>
                             </ul>
                         </li>
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.agent_name}}</a>
                             <ul>
                                 <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                <li><a id="balance"></a></li>
-                                <li><a id="credit_limit"></a></li>
-                                <li><a href="#">Edit Agent Profile</a></li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li class="menu-has-children"><a href="#">Partnership</a>
+                                    <ul style="width:100%;">
+                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="#">Registration List</a></li>
+                                        <li><a href="#">Search Registration</a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
@@ -367,8 +388,7 @@
                             </ul>
                         </li>
                         <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
-                            {% endif %}
-
+                        {% endif %}
                     </ul>
                 </nav>
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">

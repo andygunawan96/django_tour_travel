@@ -46,7 +46,7 @@ function table_reservation(data){
             text+= `<td>`+data[i].issued_uid+`</td>`;
         }
 
-        if(data[i].state != 'fail_booking')
+        if(data[i].state != 'fail_booking' && data[i].order_number.split('.')[0] != 'RO')
             text+= `<td><input type='button' value='Search' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)" /></td>`;
         else{
             text+= `<td> - </td>`;

@@ -62,6 +62,8 @@ def api_models(request):
             res = update_options(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
+        elif req_data['action'] == 'issued_booking':
+            res = issued_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':
@@ -510,6 +512,7 @@ def commit_booking(request):
             data.update({
                 'member': member,
                 'seq_id': request.POST['seq_id'],
+                # 'voucher_code': request.POST['voucher_code']
             })
     except:
         pass
@@ -561,6 +564,7 @@ def issued_booking(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
+            # 'voucher_code': request.POST['voucher_code']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

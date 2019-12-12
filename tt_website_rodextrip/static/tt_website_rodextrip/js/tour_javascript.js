@@ -194,6 +194,11 @@ function show_commission(){
     }
 }
 
+function tour_search_form_submit(){
+    $('.button-search').addClass("running");
+    document.getElementById('tour_search_form').submit();
+}
+
 function read_other_info_dict(data, current_list_type){
     var temp_txt2 = '';
     if (data.message){
@@ -872,9 +877,9 @@ function tour_hold_booking(val){
         book_setup_txt += `<input type="hidden" id="force_issued_opt" name="force_issued_opt" value="`+val+`"/>`;
         title = '';
         if(val == 0)
-            title = 'Are you sure want to Hold Booking?';
+            title = 'Are you sure you want to Hold Booking?';
         else if(val == 1)
-            title = 'Are you sure want to Force Issued this booking?';
+            title = 'Are you sure you want to Force Issued this booking?';
         Swal.fire({
           title: title,
           type: 'warning',
@@ -1291,20 +1296,20 @@ function sort(tour_dat, exist_check){
                     var dept_datej = '';
                     if(tour_dat[i].tour_category == 'private')
                     {
-                        dept_datei = Date.parse(tour_dat[i].start_period_ori);
+                        dept_datei = Date.parse(tour_dat[i].start_period);
                     }
                     else
                     {
-                        dept_datei = Date.parse(tour_dat[i].departure_date_ori);
+                        dept_datei = Date.parse(tour_dat[i].departure_date);
                     }
 
                     if(tour_dat[j].tour_category == 'private')
                     {
-                        dept_datej = Date.parse(tour_dat[j].start_period_ori);
+                        dept_datej = Date.parse(tour_dat[j].start_period);
                     }
                     else
                     {
-                        dept_datej = Date.parse(tour_dat[j].departure_date_ori);
+                        dept_datej = Date.parse(tour_dat[j].departure_date);
                     }
                     if(dept_datei > dept_datej){
                         var temp = tour_dat[i];
@@ -1316,20 +1321,20 @@ function sort(tour_dat, exist_check){
                     var dept_datej = '';
                     if(tour_dat[i].tour_category == 'private')
                     {
-                        dept_datei = Date.parse(tour_dat[i].start_period_ori);
+                        dept_datei = Date.parse(tour_dat[i].start_period);
                     }
                     else
                     {
-                        dept_datei = Date.parse(tour_dat[i].departure_date_ori);
+                        dept_datei = Date.parse(tour_dat[i].departure_date);
                     }
 
                     if(tour_dat[j].tour_category == 'private')
                     {
-                        dept_datej = Date.parse(tour_dat[j].start_period_ori);
+                        dept_datej = Date.parse(tour_dat[j].start_period);
                     }
                     else
                     {
-                        dept_datej = Date.parse(tour_dat[j].departure_date_ori);
+                        dept_datej = Date.parse(tour_dat[j].departure_date);
                     }
                     if(dept_datei < dept_datej){
                         var temp = tour_dat[i];

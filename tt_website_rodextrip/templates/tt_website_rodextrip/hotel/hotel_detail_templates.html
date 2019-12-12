@@ -55,7 +55,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:2; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12" style="padding:0;">
@@ -200,8 +200,17 @@
                 <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
             </div>
         </div>
+        <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 0px; z-index: 2;">
+            <div class="col-lg-12">
+                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                    <i class="fas fa-user" style="padding-right:5px; color:#f15a22; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
+                    <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                    <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
+                </div>
+            </div>
+        </div>
 
-        <div class="row nav-hotel" style="position:sticky;top: 0px;z-index: 24;">
+        <div class="row nav-hotel" style="position:sticky;top: 41px;z-index: 24;">
             <div class="col-lg-12">
                 <div class="box-sticky-hotel" style="padding-right:0px;">
                     <button class="content-hotel primary-btn-sticky-hotel" type="button" id="information-hotel">Description</button>
@@ -265,7 +274,7 @@
                         <div class="col-lg-12">
                             <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
                             <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                            <span class="rating_hotel" hidden>{{response.rating}}</span>
+                            <span class="rating_hotel" id="rating_hotel" hidden>{{response.rating}}</span>
                             <span>
                                 {% for i in rating %}
                                     <i class="fas fa-star" style="color:#FFC44D;"></i>
@@ -273,7 +282,7 @@
                             </span>
                             <br/>
                             <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
-                            <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                            <span class="address_hotel" id="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
                             <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
                             <hr/>
                         </div>
@@ -431,7 +440,14 @@
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding-bottom: 15px; margin-top:20px;">
                                     <h4 style="padding-top:15px;"> Price Detail</h4>
                                     <hr/>
-                                    <h5 id="product_title">{{response.name}}</h5>
+                                    <span style="font-size:16px; font-weight:700;" id="product_title">{{response.name}} </span>
+                                    <span>
+                                        {% for i in rating %}
+                                            <i class="fas fa-star" style="color:#FFC44D;"></i>
+                                        {% endfor %}
+                                    </span><br/>
+                                    <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span><br/>
+                                    <span id="date_hotel"n>Date: {{check_in}} - {{check_out}}</span>
                                     <hr/>
                                     <div style="padding-top:10px;" id="hotel_detail_table">
 
@@ -488,26 +504,41 @@
 
 <script>
     var myIndex = 0;
+    $(document).ready(function () {
+        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+        $(window).scroll(function() {
+            if ($(this).scrollTop() >= 66) {
+                if ($(window).width() >= 992){
+                   document.getElementById("info_user_search").style.display = "block";
+                }else{
+                   document.getElementById("info_user_search").style.display = "none";
+                }
+            }else{
+                document.getElementById("info_user_search").style.display = "none";
+            }
+        });
+    });
 
     $(function() {
       breadcrumb_create("hotel", 3, 0);
       $(window).scroll(function() {
-        if($(this).scrollTop()>=$('.div-information-hotel').position().top-50 && $(this).scrollTop()<$('.div-facility-hotel').position().top-50){
+        if($(this).scrollTop()>=$('.div-information-hotel').position().top-90 && $(this).scrollTop()<$('.div-facility-hotel').position().top-90){
             active_sticky_hotel("information");
         }
-        else if($(this).scrollTop()>=$('.div-facility-hotel').position().top-50 && $(this).scrollTop()<$('.div-location-hotel').position().top-50){
+        else if($(this).scrollTop()>=$('.div-facility-hotel').position().top-90 && $(this).scrollTop()<$('.div-location-hotel').position().top-90){
             active_sticky_hotel("facility");
         }
-        else if($(this).scrollTop()>=$('.div-location-hotel').position().top-50 && $(this).scrollTop()<$('.div-select-room-hotel').position().top-50){
+        else if($(this).scrollTop()>=$('.div-location-hotel').position().top-90 && $(this).scrollTop()<$('.div-select-room-hotel').position().top-90){
             active_sticky_hotel("location");
         }
-        else if($(this).scrollTop()>=$('.div-select-room-hotel').position().top-50){
+        else if($(this).scrollTop()>=$('.div-select-room-hotel').position().top-90){
             active_sticky_hotel("select");
         }
-        //else if($(this).scrollTop()>=$('.div-select-room-hotel').position().top-50 && $(this).scrollTop()<$('.div-review-hotel').position().top-50){
+        //else if($(this).scrollTop()>=$('.div-select-room-hotel').position().top-90 && $(this).scrollTop()<$('.div-review-hotel').position().top-90){
         //    active_sticky_hotel("select");
         //}
-        //else if($(this).scrollTop()>=$('.div-review-hotel').position().top-50){
+        //else if($(this).scrollTop()>=$('.div-review-hotel').position().top-90){
         //    active_sticky_hotel("review");
         //}
         else if($(this).scrollTop() < $('.div-information-hotel').position().top){

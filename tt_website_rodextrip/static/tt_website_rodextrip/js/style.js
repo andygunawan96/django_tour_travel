@@ -705,21 +705,21 @@ $(document).ready(function(){
 
     $('#information-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-hotel").offset().top - 50
+            scrollTop: $("div.div-information-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("information");
     });
 
     $('#facility-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-facility-hotel").offset().top - 50
+            scrollTop: $("div.div-facility-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("facility");
     });
 
     $('#location-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-location-hotel").offset().top - 50
+            scrollTop: $("div.div-location-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("location");
     });
@@ -727,14 +727,14 @@ $(document).ready(function(){
 
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-room-hotel").offset().top - 50
+            scrollTop: $("div.div-select-room-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("select");
     });
 
     $('#review-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-review-hotel").offset().top - 50
+            scrollTop: $("div.div-review-hotel").offset().top - 90
         }, 500);
         active_sticky_hotel("review");
     });
@@ -778,7 +778,7 @@ $(document).ready(function(){
                 text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="airline_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                 </div>
                 <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
 
@@ -826,7 +826,7 @@ $(document).ready(function(){
               opens: 'center',
               startDate: moment(),
               minDate: moment(),
-              maxDate: moment().subtract(-365, 'days'),
+              maxDate: moment().subtract(-30, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
@@ -896,7 +896,7 @@ $(document).ready(function(){
               startDate: moment(),
               endDate: moment().subtract(-1, 'days'),
               minDate: moment(),
-              maxDate: moment().subtract(-365, 'days'),
+              maxDate: moment().subtract(-30, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
@@ -2088,17 +2088,17 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
           if(step < current_step){
             if(breadcrumbs_url[i] != ""){
                 text+=`
-                <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                <div class="breadcrumbs-rdx br-done" id="`+breadcrumbs[i]+`-breadcrumb" onclick="`+breadcrumbs_url[i]+`">
+                    <span class="breadcrumb-rdx-icon br-icon-done" id="`+breadcrumbs[i]+`-breadcrumb-icon"><i class="fas fa-check"></i></span>
                     <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
             else{
                 text+=`
-                <div class="breadcrumbs-rdx br-done">
-                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-done" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-done" id="`+breadcrumbs[i]+`-breadcrumb-icon"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
@@ -2107,17 +2107,17 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
           else if(step == current_step){
             if(step != breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-active" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
             else{
                 text+=`
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-active" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 </div>`;
             }
           }
@@ -2125,16 +2125,16 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
           else{
               if(step == breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 </div>`;
               }
               else{
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
               }
@@ -2145,9 +2145,9 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         //home
         if(step == 1){
             text+=`
-            <div class="breadcrumbs-rdx br-done" onclick="`+breadcrumbs_url[i]+`">
-                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
-                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+            <div class="breadcrumbs-rdx br-done" id="`+breadcrumbs[i]+`-breadcrumb" onclick="`+breadcrumbs_url[i]+`">
+                <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check" id="`+breadcrumbs[i]+`-breadcrumb-icon"></i></span>
+                <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
             </div>`;
         }
@@ -2155,9 +2155,9 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         else if(step == current_step && step != 1){
             if(step != breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx br-active">
-                    <span class="breadcrumb-rdx-icon br-icon-active">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx br-active" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
@@ -2171,26 +2171,26 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         }
         else if(step < current_step && step > 1){
             text+=`
-            <div class="breadcrumbs-rdx br-book">
-                <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
-                <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+            <div class="breadcrumbs-rdx br-book" id="`+breadcrumbs[i]+`-breadcrumb">
+                <span class="breadcrumb-rdx-icon br-icon-book" id="`+breadcrumbs[i]+`-breadcrumb-icon"><i class="fas fa-check"></i></span>
+                <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
             </div>`;
         }
         else{
             if(step != breadcrumbs.length){
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                     <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
                 </div>`;
             }
             else{
                 text+=`
-                <div class="breadcrumbs-rdx">
-                    <span class="breadcrumb-rdx-icon">`+step+`</span>
-                    <span style="padding-left:5px;">`+breadcrumbs[i]+`</span>
+                <div class="breadcrumbs-rdx" id="`+breadcrumbs[i]+`-breadcrumb">
+                    <span class="breadcrumb-rdx-icon" id="`+breadcrumbs[i]+`-breadcrumb-icon">`+step+`</span>
+                    <span style="padding-left:5px;" id="`+breadcrumbs[i]+`-breadcrumb-span">`+breadcrumbs[i]+`</span>
                 </div>`;
             }
         }

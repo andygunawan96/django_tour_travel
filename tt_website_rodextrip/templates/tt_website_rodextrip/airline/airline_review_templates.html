@@ -114,7 +114,7 @@
     </div>
 </div>
 {%if template == 1%}
-<header id="header">
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -132,6 +132,7 @@
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                             <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
                         </div>
+                        {% include 'tt_website_rodextrip/balance_credit.html' %}
                     </div>
                 </div>
             </div>
@@ -384,9 +385,11 @@
                         <div class="col-lg-4">
                         </div>
                         <div class="col-lg-4" style="margin-top:10px;">
+                            {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                  Issued Booking
                             </button>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -394,7 +397,8 @@
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd;" id="airline_detail">
 
                     </div>
-                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd; margin-top:25px; position:relative;" id="payment_acq" onclick="focus_box('payment_acq');" hidden>
+                    <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd; margin-top:25px; position:relative;" id="payment_acq" hidden>
 
                     </div>
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
@@ -428,11 +432,14 @@
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                        <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
                         <div class="col-lg-12" style="padding-bottom:15px;">
                             <button class="primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                  Issued Booking
                             </button>
                         </div>
+                        {% endif %}
 
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
@@ -456,6 +463,11 @@
 
     $( document ).ready(function() {
         breadcrumb_create("airline", 4, 0);
+        $("#airline_booking").bind("keypress", function(e) {
+            if (e.keyCode == 13) {
+                return false;
+            }
+        });
     });
 
 </script>

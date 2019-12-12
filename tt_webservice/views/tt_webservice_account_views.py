@@ -266,9 +266,10 @@ def get_top_up(request):
     try:
         if res['result']['error_code'] == 0:
             for top_up in res['result']['response']:
-                top_up.update({
-                    'due_date': convert_string_to_date_to_string_front_end_with_time(top_up['due_date'])
-                })
+                if top_up['due_date'] != '':
+                    top_up.update({
+                        'due_date': convert_string_to_date_to_string_front_end_with_time(top_up['due_date'])
+                    })
             logging.getLogger("info_logger").info("get_top_up SUCCESS SIGNATURE " + request.POST['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -353,17 +354,15 @@ def cancel_top_up(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-#DEPRECATED
 def confirm_top_up(request):
     try:
         data = {
             'name': request.POST['name'],
-            'payment_seq_id': request.POST['payment_seq_id']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "confirm_top_up",
+            "action": "request_top_up",
             "signature": request.POST['signature'],
         }
     except Exception as e:
@@ -377,6 +376,7 @@ def confirm_top_up(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+#DEPRECATED
 def request_top_up(request):
     try:
         data = {

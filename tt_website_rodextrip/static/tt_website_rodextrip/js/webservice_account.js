@@ -54,11 +54,13 @@ function get_balance(val){
             document.getElementById("balance").innerHTML = text;
             try{
                 document.getElementById("balance_mob").innerHTML = text;
+                document.getElementById("balance_search").innerHTML = text;
             }catch(err){}
             text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
             document.getElementById("credit_limit").innerHTML = text;
             try{
                 document.getElementById("credit_mob").innerHTML = text;
+                document.getElementById("credit_search").innerHTML = text;
             }catch(err){}
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -68,11 +70,13 @@ function get_balance(val){
           document.getElementById("balance").innerHTML = text;
           try{
             document.getElementById("balance_mob").innerHTML = text;
+            document.getElementById("balance_search").innerHTML = text;
           }catch(err){}
           text = `Credit Limit: Timeout`;
           document.getElementById("credit_limit").innerHTML = text;
           try{
             document.getElementById("credit_mob").innerHTML = text;
+            document.getElementById("credit_search").innerHTML = text;
           }catch(err){}
 
 //            Swal.fire({
@@ -88,11 +92,13 @@ function get_balance(val){
           document.getElementById("balance").innerHTML = text;
           try{
                 document.getElementById("balance_mob").innerHTML = text;
+                document.getElementById("balance_search").innerHTML = text;
           }catch(err){}
           text = `Credit Limit: Failed`;
           document.getElementById("credit_limit").innerHTML = text;
           try{
             document.getElementById("credit_mob").innerHTML = text;
+            document.getElementById("credit_search").innerHTML = text;
           }catch(err){}
 
 //            Swal.fire({
@@ -316,6 +322,7 @@ function get_transactions_notification(val){
 
 function get_transactions(type){
     $('#loading-search-reservation').show();
+    document.getElementById('button').disabled = true;
     load_more = false;
     if(type == 'reset' || type == 'filter'){
         offset_transaction = 0;
@@ -419,6 +426,7 @@ function get_transactions(type){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById('button').disabled = false;
         $('#loading-search-reservation').hide();
         try{
             var radios = document.getElementsByName('filter_type');
@@ -427,6 +435,24 @@ function get_transactions(type){
             }
         }catch(err){}
         if(msg.result.error_code == 0){
+            if(type == 'reset' || type == 'filter'){
+                offset_transaction = 0;
+                data_counter = 0;
+                document.getElementById("table_reservation").innerHTML = `
+                    <tr>
+                        <th style="width:2%;">No.</th>
+                        <th style="width:10%;">Order Number</th>
+                        <th style="width:7%;">Provider</th>
+                        <th style="width:12%;">Book Date</th>
+                        <th style="width:12%;">Booker name</th>
+                        <th style="width:12%;">Hold Date</th>
+                        <th style="width:8%;">State</th>
+                        <th style="width:5%;">PNR</th>
+                        <th style="width:12%;">Issued Date</th>
+                        <th style="width:9%;">Issued By</th>
+                        <th style="width:7%;">Action</th>
+                    </tr>`;
+            }
             try{
                 var date = '';
                 var localTime = '';
@@ -596,6 +622,7 @@ function submit_top_up(){
             document.getElementById('submit_name').setAttribute( "onClick", "javascript: change_top_up();" );
 
             get_payment_acq('Issued','', '', 'top_up', signature, 'top_up','', '');
+            document.getElementById('submit_name').disabled = false;
             focus_box('payment_acq');
 //            document.getElementById('top_up_form').submit();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -651,9 +678,15 @@ function commit_top_up(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error commit topup </span>' + msg.result.error_msg,
-            })
+            }).then((result) => {
+                if (result.value) {
+                    document.getElementById('top_up_form').submit();
+                }
+            });
+
+
         }
-        document.getElementById('top_up_form').submit();
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -664,7 +697,6 @@ function commit_top_up(){
        },timeout: 60000
     });
 }
-
 
 function cancel_top_up(name){
     Swal.fire({
@@ -730,6 +762,7 @@ function get_top_up(){
     start_date = '';
     end_date = '';
     type = '';
+    document.getElementById('button').disabled = true;
     var radios = document.getElementsByName('filter');
     for (var j = 0, length = radios.length; j < length; j++) {
         if (radios[j].checked) {
@@ -746,16 +779,6 @@ function get_top_up(){
         name = document.getElementById('name').value;
     }catch(err){}
     $('#loading-search-top-up').show();
-    document.getElementById('table_top_up_history').innerHTML = `<tr>
-                        <th style="width:5%;">No.</th>
-                        <th style="width:20%;">Top Up Number</th>
-                        <th style="width:20%;">Due Date</th>
-                        <th style="width:15%;">Amount</th>
-                        <th style="width:15%;">Status</th>
-                        <th style="width:15%;">Payment Method</th>
-                        <th style="width:15%;">Help By</th>
-                        <th style="width:10%;">Action</th>
-                    </tr>`;
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -772,12 +795,25 @@ function get_top_up(){
        },
        success: function(msg) {
         console.log(msg);
+        document.getElementById('table_top_up_history').innerHTML = `<tr>
+                        <th style="width:5%;">No.</th>
+                        <th style="width:20%;">Top Up Number</th>
+                        <th style="width:20%;">Due Date</th>
+                        <th style="width:15%;">Amount</th>
+                        <th style="width:15%;">Status</th>
+                        <th style="width:15%;">Payment Method</th>
+                        <th style="width:15%;">Help By</th>
+                        <th style="width:10%;">Action</th>
+                    </tr>`;
+        document.getElementById('button').disabled = false;
         top_up_history = msg.result.response;
         //edit here
         for(i in top_up_history){
-            tes = moment.utc(top_up_history[i].due_date).format('YYYY-MM-DD HH:mm:ss')
-            var localTime  = moment.utc(tes).toDate();
-            top_up_history[i].due_date = moment(localTime).format('DD MMM YYYY HH:mm');
+            if(top_up_history[i].due_date != ''){
+                tes = moment.utc(top_up_history[i].due_date).format('YYYY-MM-DD HH:mm:ss')
+                var localTime  = moment.utc(tes).toDate();
+                top_up_history[i].due_date = moment(localTime).format('DD MMM YYYY HH:mm');
+            }
         }
         if(msg.result.error_code == 0)
             table_top_up_history(msg.result.response);
@@ -804,35 +840,41 @@ function get_top_up(){
     });
 }
 
-function confirm_top_up(payment_seq_id){
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/account",
-       headers:{
-            'action': 'confirm_top_up',
-       },
-       data: {
-            'name': top_up_history[top_up_value].name,
-            'payment_seq_id': payment_seq_id,
-            'signature': signature
-       },
-       success: function(msg) {
-        console.log(msg);
-        document.getElementById("table_top_up_history").innerHTML = '';
-        document.getElementById("payment_acq").innerHTML = '';
-        document.getElementById("payment_acq").style = 'padding-bottom:20px;';
-        get_top_up();
-//        document.getElementById('top_up_form').submit();
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error confirm topup </span>' + errorThrown,
-            })
-       },timeout: 60000
-    });
+function confirm_top_up(name){
+    Swal.fire({
+      title: 'Already pay for this top up?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value)
+            $.ajax({
+               type: "POST",
+               url: "/webservice/account",
+               headers:{
+                    'action': 'confirm_top_up',
+               },
+               data: {
+                    'name': name,
+                    'signature': signature
+               },
+               success: function(msg) {
+                console.log(msg);
+                document.getElementById("table_top_up_history").innerHTML = '';
+                get_top_up();
+        //        document.getElementById('top_up_form').submit();
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error confirm topup </span>' + errorThrown,
+                    })
+               },timeout: 60000
+            });
+    })
 }
 
 function request_top_up(val){
@@ -890,14 +932,16 @@ function table_top_up_history(data){
             }else{
                 text+= `<td>-</td>`;
             }
-            if(data[i].state == 'request'){
-                text+= `<td>
+            text+= `<td>`;
+            if(data[i].state == 'request' || data[i].state == 'confirm'){
+                text+= `
                 <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
-
-                text+=`</td>`;
-            }else{
-                text+= `<td></td>`;
             }
+            if(data[i].state == 'confirm'){
+                text+= `
+                <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Payment' onclick="confirm_top_up('`+data[i].name+`')" />`;
+            }
+            text+=`</td>`;
             text+= `</tr>`;
             node.innerHTML = text;
             document.getElementById("table_top_up_history").appendChild(node);
@@ -920,21 +964,21 @@ function total_price_top_up(evt){
 //            break;
 //        }
 //    }
-    console.log(document.getElementById('amount').value);
-        var amount = document.getElementById('amount').value.split(',');
-        amount = amount.join('');
-        document.getElementById('amount').value = getrupiah(amount);
-        document.getElementById('total_amount').value = "IDR "+document.getElementById('amount').value;
-        try{
-            document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
-            document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
-        }catch(err){
-        }
+    var amount = document.getElementById('amount').value.split(',');
+    amount = amount.join('');
+    document.getElementById('amount').value = getrupiah(amount);
+    document.getElementById('total_amount').value = "IDR "+document.getElementById('amount').value;
+    try{
+        document.getElementById('payment_method_price').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value);
+        document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
+    }catch(err){
+    }
 
 //    $('#amount').niceSelect('update');
 }
 
 function check_top_up(){
+    document.getElementById('submit_name').disabled = true;
     error_text = '';
     if(document.getElementById('tac_checkbox').checked == false){
         error_text += 'Please check Term and Conditions\n';
@@ -944,7 +988,10 @@ function check_top_up(){
         error_text += 'Please Input Amount\n';
     }
     try{
-        if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
+        if(document.getElementById('amount').value.split(',')[document.getElementById('amount').value.split(',').length-1] != '000'){
+            error_text += 'Please input last 3 digits amount 000\n';
+        }
+        else if(parseInt(document.getElementById('amount').value.split(',').join('')) < 50000){
             error_text += 'Amount (Min Top Up Amount IDR 50,000)\n';
         }
     }catch(err){
@@ -969,12 +1016,12 @@ function check_top_up(){
             $('.loader-rodextrip').fadeIn();
             $('#submit_top_up').prop('disabled', false);
             $('#submit_top_up').removeClass('running');
+            document.getElementById('submit_name').disabled = false;
           }
         })
 
     }else{
-//        document.getElementById('submit_top_up').classList.remove('running');
-//        document.getElementById('submit_top_up').disabled = false;
+        document.getElementById('submit_name').disabled = false;
         Swal.fire({
           type: 'error',
           title: 'Oops!',

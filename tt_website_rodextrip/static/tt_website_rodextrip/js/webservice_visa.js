@@ -105,6 +105,10 @@ function search_visa(){
        success: function(msg) {
             console.log(msg);
             var node;
+            try{
+                visa = msg.result.response.list_of_visa;
+                country = msg.result.response.country;
+            }catch(err){}
             if(msg.result.error_code == 0 && msg.result.response.list_of_visa.length != 0){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
@@ -165,17 +169,24 @@ function search_visa(){
                                 <hr/>
                                 <div id="journey0segment0" style="background-color:white;">
                                     <h6>Consulate Address</h6>
-                                    <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>
-                                    <h6>Visa Required</h6>`;
-                                    for(j in msg.result.response.list_of_visa[i].requirements){
-                                        text+=`<span>`+parseInt(parseInt(j)+1)+` `+msg.result.response.list_of_visa[i].requirements[j].name;
-                                        if(msg.result.response.list_of_visa[i].requirements[j].description != '')
-                                            text+=
-                                            `, `+msg.result.response.list_of_visa[i].requirements[j].description+`</span><br/>
-                                        `;
-                                        else
-                                            text+='<span> - </span><br/>';
-                                    }
+                                    <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>`;
+                                    if(msg.result.response.list_of_visa[i].notes != '')
+                                    text+=`
+                                    <h6>Visa Required</h6>
+                                    <span>`+msg.result.response.list_of_visa[i].notes+`</span>`;
+
+//                                    if(msg.result.response.list_of_visa[i].requirements.length > 0)
+//                                    text+=`
+//                                    <h6>Visa Required</h6>`;
+//                                    for(j in msg.result.response.list_of_visa[i].requirements){
+//                                        text+=`<span>`+parseInt(parseInt(j)+1)+` `+msg.result.response.list_of_visa[i].requirements[j].name;
+//                                        if(msg.result.response.list_of_visa[i].requirements[j].description != '')
+//                                            text+=
+//                                            `, `+msg.result.response.list_of_visa[i].requirements[j].description+`</span><br/>
+//                                        `;
+//                                        else
+//                                            text+='<span> - </span><br/>';
+//                                    }
 
                                     text+=`
 
@@ -195,6 +206,7 @@ function search_visa(){
                     node.innerHTML = text;
                     document.getElementById("visa_ticket").appendChild(node);
                 }
+                update_table('search');
             }
             else{
                 node = document.createElement("div");
@@ -210,10 +222,9 @@ function search_visa(){
                 node.innerHTML = text;
                 document.getElementById("show-visa-search").appendChild(node);
             }
-            visa = msg.result.response.list_of_visa;
-            country = msg.result.response.country;
+
             document.getElementById('loading-search-visa').hidden = true;
-            update_table('search');
+
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -300,6 +311,7 @@ function check_hold_booking(){
         $('.payment_method').prop('disabled', false).niceSelect('update');
         $('.option').removeClass("disabled");
         $(".payment_acq *").prop('disabled',false);
+        $("#waitingTransaction").modal('hide');
     }
 }
 
@@ -401,9 +413,14 @@ function update_passenger(){
             console.log(msg);
             if(msg.result.error_code == 0){
                 update_contact();
+            }else{
+                $("#waitingTransaction").modal('hide');
+                close_div('payment_acq');
+                set_payment('Issued','visa');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#waitingTransaction").modal('hide');
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -428,6 +445,10 @@ function update_contact(){
            console.log(msg);
             if(msg.result.error_code == 0){
                 commit_booking();
+            }else{
+                $("#waitingTransaction").modal('hide');
+                close_div('payment_acq');
+                set_payment('Issued','visa');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -443,11 +464,13 @@ function update_contact(){
 function commit_booking(){
     data = {
         'force_issued': 'true',
-        'signature': signature
+        'signature': signature,
+        'voucher_code': ''
     }
     try{
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
+        data['voucher_code'] = voucher_code;
     }catch(err){
     }
     getToken();
@@ -463,9 +486,14 @@ function commit_booking(){
             if(msg.result.error_code == 0){
                 document.getElementById('order_number').value = msg.result.response.id;
                 document.getElementById('visa_booking').submit();
+            }else{
+                $("#waitingTransaction").modal('hide');
+                close_div('payment_acq');
+                set_payment('Issued','visa');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#waitingTransaction").modal('hide');
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -706,18 +734,66 @@ function visa_get_data(data){
                                     </div>
                                 </div>
                                 <div class="row" style="margin-top:10px;">
-                                    <div class="col-lg-4">
-                                        <h6>Required</h6>
-                                        <div id="adult_required{{counter}}">`;
+                                    <div class="col-lg-12">
+                                        <div class="row" id="adult_required{{counter}}">
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:10px;">
+                                                <h6>Required</h6>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                <h6>Original</h6>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                <h6>Copy</h6>
+                                            </div>`;
+                                        console.log(msg.result.response.passengers[i]);
                                         for(j in msg.result.response.passengers[i].visa.requirement){
-                                            text+=`<label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>`;
+                                            text+=`
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                if(msg.result.response.passengers[i].visa.requirement[j].is_original == false){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }else if(msg.result.response.passengers[i].visa.requirement[j].is_original == true){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled checked/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }
+                                            text+=`
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                if(msg.result.response.passengers[i].visa.requirement[j].is_copy == false){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }else if(msg.result.response.passengers[i].visa.requirement[j].is_copy == true){
+                                                    text+=`
+                                                    <label class="check_box_custom">
+                                                        <span style="font-size:13px;"></span>
+                                                        <input type="checkbox" disabled checked/>
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>`;
+                                                }
+                                            text+=`
+                                            </div>`;
                                         }
                                         text+=`
                                         </div>
                                     </div>`;
                                     if(msg.result.response.passengers[i].visa.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
                                     text+=`
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-12" style="margin-top:15px;">
                                         <h6>Interview</h6>
                                         <table style="width:100%;" id="list-of-passenger">
                                             <tr>
@@ -737,18 +813,14 @@ function visa_get_data(data){
                                                 <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].ho_employee+`</td>
                                                 <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].datetime+`</td>
                                                 <td>`+msg.result.response.passengers[i].visa.interview.needs+`</td>
-                                            </tr>
-                                                `
+                                            </tr>`;
                                             }
-
-
+                                        text+=`</table>
+                                        </div>`;
                                     }
-                                    text+=`
-                                        </table>
-                                    </div>`;
                                     if(msg.result.response.passengers[i].visa.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].visa.biometrics.biometrics_list.length > 0 ){
                                     text+=`
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-12" style="margin-top:15px;">
                                         <h6>Biometrics</h6>
                                         <table style="width:100%;" id="list-of-passenger">
                                             <tr>
@@ -770,10 +842,12 @@ function visa_get_data(data){
                                                 <td>`+msg.result.response.passengers[i].visa.biometrics.needs+`</td>
                                             </tr>`
                                             }
-                                    }
-                                    text+=`
-                                        </table>
-                                    <hr/>`;
+                                        text+=`</table>
+                                    </div>`;
+                                }
+                                text+=`
+                                </div>
+                            <hr/>`;
                             }
                             text+=`
                         </div>
@@ -785,6 +859,7 @@ function visa_get_data(data){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#waitingTransaction").modal('hide');
             Swal.fire({
               type: 'error',
               title: 'Oops!',
