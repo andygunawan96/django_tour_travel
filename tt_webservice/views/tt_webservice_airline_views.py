@@ -175,11 +175,16 @@ def get_carrier_code_list(request):
         data = {
             'provider_type': 'airline'
         }
+        signature = ''
+        try:
+            signature = request.POST['signature']
+        except:
+            signature = request.data['signature']
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_carriers",
-            "signature": request.POST['signature'],
+            "signature": signature
         }
         date_time = datetime.now() - a.get_time_carrier_airline
     except Exception as e:
@@ -381,7 +386,8 @@ def search2(request):
             airline_destinations.append({
                 'code': country['code'],
                 'name': country['name'],
-                'city': country['city']
+                'city': country['city'],
+                'country': country['country'],
             })
 
         # get_data_awal
@@ -493,6 +499,7 @@ def search2(request):
                             journey.update({
                                 'origin_city': destination['city'],
                                 'origin_name': destination['name'],
+                                'origin_country': destination['country'],
                             })
                             break
                     for destination in airline_destinations:
@@ -500,6 +507,7 @@ def search2(request):
                             journey.update({
                                 'destination_city': destination['city'],
                                 'destination_name': destination['name'],
+                                'destination_country': destination['country'],
                             })
                             break
                     for segment in journey['segments']:
@@ -512,6 +520,7 @@ def search2(request):
                                 segment.update({
                                     'origin_city': destination['city'],
                                     'origin_name': destination['name'],
+                                    'origin_country': destination['country'],
                                 })
                                 break
 
@@ -519,7 +528,8 @@ def search2(request):
                             if destination['code'] == segment['destination']:
                                 segment.update({
                                     'destination_city': destination['city'],
-                                    'destination_name': destination['name']
+                                    'destination_name': destination['name'],
+                                    'destination_country': destination['country'],
                                 })
                                 break
 
@@ -534,6 +544,7 @@ def search2(request):
                                     leg.update({
                                         'origin_city': destination['city'],
                                         'origin_name': destination['name'],
+                                        'origin_country': destination['country'],
                                     })
                                     break
 
@@ -541,7 +552,8 @@ def search2(request):
                                 if destination['code'] == leg['destination']:
                                     leg.update({
                                         'destination_city': destination['city'],
-                                        'destination_name': destination['name']
+                                        'destination_name': destination['name'],
+                                        'destination_country': destination['country'],
                                     })
                                     break
             logging.getLogger("error_info").error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
@@ -583,7 +595,8 @@ def get_price_itinerary(request, boolean, counter):
             airline_destinations.append({
                 'code': country['code'],
                 'name': country['name'],
-                'city': country['city']
+                'city': country['city'],
+                'country': country['country'],
             })
         #baru
         schedules = []
@@ -670,6 +683,7 @@ def get_price_itinerary(request, boolean, counter):
                             journey.update({
                                 'origin_city': destination['city'],
                                 'origin_name': destination['name'],
+                                'origin_country': destination['country'],
                             })
                             break
                     for destination in airline_destinations:
@@ -677,6 +691,7 @@ def get_price_itinerary(request, boolean, counter):
                             journey.update({
                                 'destination_city': destination['city'],
                                 'destination_name': destination['name'],
+                                'destination_country': destination['country'],
                             })
                             break
                     for segment in journey['segments']:
@@ -689,6 +704,7 @@ def get_price_itinerary(request, boolean, counter):
                                 segment.update({
                                     'origin_city': destination['city'],
                                     'origin_name': destination['name'],
+                                    'origin_country': destination['country'],
                                 })
                                 break
 
@@ -696,7 +712,8 @@ def get_price_itinerary(request, boolean, counter):
                             if destination['code'] == segment['destination']:
                                 segment.update({
                                     'destination_city': destination['city'],
-                                    'destination_name': destination['name']
+                                    'destination_name': destination['name'],
+                                    'destination_country': destination['country'],
                                 })
                                 break
 
@@ -711,6 +728,7 @@ def get_price_itinerary(request, boolean, counter):
                                     leg.update({
                                         'origin_city': destination['city'],
                                         'origin_name': destination['name'],
+                                        'origin_country': destination['country'],
                                     })
                                     break
 
@@ -718,7 +736,8 @@ def get_price_itinerary(request, boolean, counter):
                                 if destination['code'] == leg['destination']:
                                     leg.update({
                                         'destination_city': destination['city'],
-                                        'destination_name': destination['name']
+                                        'destination_name': destination['name'],
+                                        'destination_country': destination['country'],
                                     })
                                     break
             request.session['airline_price_itinerary'] = res['result']['response']
@@ -809,21 +828,24 @@ def get_ssr_availabilty(request):
     }
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     try:
-        for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
-            for ssr_availability in ssr_availability_provider['ssr_availability']:
-                for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
-                    ssrs.update({
-                        'origin': ssrs['segments'][0]['origin'],
-                        'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
-                    })
-                    for ssr in ssrs['ssrs']:
-                        total = 0
-                        currency = ''
-                        for service_charge in ssr['service_charges']:
-                            currency = service_charge['currency']
-                            total = service_charge['amount']
-                        ssr['total_price'] = total
-                        ssr['currency'] = currency
+        if res['result']['error_code'] == 0:
+            for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
+                for ssr_availability in ssr_availability_provider['ssr_availability']:
+                    for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
+                        ssrs.update({
+                            'origin': ssrs['segments'][0]['origin'],
+                            'destination': ssrs['segments'][len(ssrs['segments']) - 1]['destination']
+                        })
+                        for ssr in ssrs['ssrs']:
+                            total = 0
+                            currency = ''
+                            for service_charge in ssr['service_charges']:
+                                currency = service_charge['currency']
+                                total = service_charge['amount']
+                            ssr['total_price'] = total
+                            ssr['currency'] = currency
+        else:
+            logging.getLogger("error_logger").error(str(res['result']['error_msg']) + '  ' + request.POST['signature'] + '\n' + traceback.format_exc())
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
@@ -1054,6 +1076,9 @@ def commit_booking(request):
             #     data.update({
             #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
             #     })
+            # data.update({
+            #     'bypass_psg_validator': request.POST['bypass_psg_validator']
+            # })
         except:
             pass
         headers = {

@@ -330,6 +330,7 @@ def booking(request):
             'cabin_class_types': cabin_class_type,
             'order_number': order_number,
             'username': request.session['user_account'],
+            'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),

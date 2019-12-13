@@ -2287,23 +2287,34 @@ function sort(){
                                            <div style="overflow:auto; white-space:nowrap;">
                                            <table>
                                                <tr>`;
+                                               fare_check = 0;
                                                for(k in airline[i].segments[j].fares){
                                                    text+=`
                                                    <td style="padding:10px 15px 0px 0px;">`;
-                                                   if(k==0)
+                                                   if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
                                                        text+=`
                                                        <label class="radio-button-custom">
                                                            <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                            <span class="checkmark-radio"></span>
                                                        </label>`;
-                                                   else
-                                                       text+=`
-                                                       <label class="radio-button-custom">
-                                                           <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
-                                                           <span class="checkmark-radio"></span>
-                                                       </label>`;
+                                                   }else{
+                                                       if(fare_check == 0){
+                                                            text+=`
+                                                               <label class="radio-button-custom">
+                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                                   <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                                   <span class="checkmark-radio"></span>
+                                                               </label>`;
+                                                               fare_check = 1;
+                                                       }else if(fare_check == 1)
+                                                           text+=`
+                                                           <label class="radio-button-custom">
+                                                               <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+                                                               <span class="checkmark-radio"></span>
+                                                           </label>`;
+                                                   }
                                                    text+=`<br/>`;
                                                    var total_price = 0;
                                                    for(l in airline[i].segments[j].fares[k].service_charge_summary)
@@ -2716,23 +2727,34 @@ function sort(){
                                            <div style="overflow:auto; white-space:nowrap;">
                                            <table>
                                                <tr>`;
+                                               fare_check = 0;
                                                for(k in airline[i].segments[j].fares){
                                                    text+=`
                                                    <td style="padding:10px 15px 0px 0px;">`;
-                                                   if(k==0)
+                                                   if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
                                                        text+=`
                                                        <label class="radio-button-custom">
                                                            <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                            <span class="checkmark-radio"></span>
                                                        </label>`;
-                                                   else
-                                                       text+=`
-                                                       <label class="radio-button-custom">
-                                                           <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
-                                                           <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
-                                                           <span class="checkmark-radio"></span>
-                                                       </label>`;
+                                                   }else{
+                                                       if(fare_check == 0){
+                                                            text+=`
+                                                               <label class="radio-button-custom">
+                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                                   <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
+                                                                   <span class="checkmark-radio"></span>
+                                                               </label>`;
+                                                               fare_check = 1;
+                                                       }else if(fare_check == 1)
+                                                           text+=`
+                                                           <label class="radio-button-custom">
+                                                               <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                               <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
+                                                               <span class="checkmark-radio"></span>
+                                                           </label>`;
+                                                   }
                                                    text+=`<br/>`;
                                                    var total_price = 0;
                                                    for(l in airline[i].segments[j].fares[k].service_charge_summary)
@@ -3471,7 +3493,6 @@ function airline_detail(type){
                 }
             }
         }
-
         total_price = 0;
         commission_price = 0;
         rules = 0;
@@ -4030,13 +4051,11 @@ function check_passenger(adult, child, infant){
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
     }
     length_name = 100;
-    is_lion_air = false;
     for(j in airline_pick){
        for(k in airline_pick[j].carrier_code_list){
            if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
                if(length_name>24)
                    length_name = 24;
-               is_lion_air = true;
            }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
                if(length_name>31)
                    length_name = 31;
@@ -4100,9 +4119,10 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_passport_number'+i).value != '' ||
+       }
+       if(document.getElementById('adult_passport_number'+i).value != '' ||
           document.getElementById('adult_passport_expired_date'+i).value != '' ||
-          document.getElementById('adult_country_of_issued'+i).value != '' || is_lion_air == true){
+          document.getElementById('adult_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
            if(document.getElementById('adult_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger adult '+i+'!</br>\n';
                document.getElementById('adult_passport_number'+i).style['border-color'] = 'red';
@@ -4174,7 +4194,7 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('child_passport_number'+i).value != '' ||
           document.getElementById('child_passport_expired_date'+i).value != '' ||
-          document.getElementById('child_country_of_issued'+i).value != '' || is_lion_air == true){
+          document.getElementById('child_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
            if(document.getElementById('child_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger child '+i+'!</br>\n';
                document.getElementById('child_passport_number'+i).style['border-color'] = 'red';
@@ -4235,7 +4255,7 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_nationality'+i).style['border-color'] = '#EFEFEF';
        }if(document.getElementById('infant_passport_number'+i).value != '' ||
           document.getElementById('infant_passport_expired_date'+i).value != '' ||
-          document.getElementById('infant_country_of_issued'+i).value != '' || is_lion_air == true){
+          document.getElementById('infant_country_of_issued'+i).value != '' || is_lionair == 'true' && is_international == 'true'){
            if(document.getElementById('infant_passport_number'+i).value == ''){
                error_log+= 'Please fill passport number for passenger infant '+i+'!</br>\n';
                document.getElementById('infant_passport_number'+i).style['border-color'] = 'red';
@@ -4405,12 +4425,17 @@ function get_airline_review(){
                         <th style="width:18%;">Birth Date</th>
                         <th style="width:18%;">Special Service Request</th>
                     </tr>`;
-                    count_pax = 0
+                    count_pax = 0;
                     for(i in passengers_ssr){
                         text+=`<tr>
                                 <td class="list-of-passenger-left">`+(parseInt(count_pax)+1)+`</td>
                                 <td>`+passengers_ssr[i].title+` `+passengers_ssr[i].first_name+` `+ passengers_ssr[i].last_name +`</td>
-                                <td>Adult</td>
+                                <td>`;
+                                if(passengers_ssr[i].pax_type == 'ADT')
+                                    text += `Adult`;
+                                else
+                                    text += `Child`;
+                                text+=`</td>
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                 for(j in passengers_ssr[i].ssr_list){
