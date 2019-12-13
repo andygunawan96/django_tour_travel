@@ -94,7 +94,7 @@ function get_balance(val){
                 document.getElementById("credit_search").innerHTML = text;
             }catch(err){}
           }catch(err){}
-
+            logout();
 //            Swal.fire({
 //              type: 'error',
 //              title: 'Oops!',
@@ -104,6 +104,7 @@ function get_balance(val){
         get_transactions_notification(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          logout();
           text = `Balance: Failed`;
           try{
             document.getElementById("balance").innerHTML = text;
@@ -161,11 +162,12 @@ function get_account(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error account </span>' + errorThrown,
-            })
+            logout();
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: red;">Error account </span>' + errorThrown,
+//            })
        },timeout: 60000
     });
 }

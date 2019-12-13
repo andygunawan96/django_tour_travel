@@ -119,7 +119,7 @@ function update_table(type){
             }
             try{
                 price += pax_count * visa[i].sale_price.total_price;
-                commission += pax_count * visa[i].sale_price.commission;
+                commission += pax_count * (visa.list_of_visa[i].commission[0].amount * -1);
             }catch(err){
 
             }
@@ -285,7 +285,7 @@ function update_table(type){
             }
             try{
                 price += visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.total_price;
-                commission += visa.list_of_visa[i].total_pax * visa.list_of_visa[i].sale_price.commission;
+                commission += visa.list_of_visa[i].total_pax * (visa.list_of_visa[i].commission[0].amount * -1);
             }catch(err){
 
             }
@@ -401,7 +401,7 @@ function update_table(type){
             }
             try{
                 price += visa.list_of_visa[i].pax_count * visa.list_of_visa[i].sale_price.total_price;
-                commission += visa.list_of_visa[i].pax_count * visa.list_of_visa[i].sale_price.commission;
+                commission += visa.list_of_visa[i].pax_count * (visa.list_of_visa[i].commission[0].amount * -1);
             }catch(err){
 
             }

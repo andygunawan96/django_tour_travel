@@ -93,7 +93,7 @@
                 </div>
                 {% if 'issued_reservation' in username.co_agent_frontend_security %}
                 <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
-                <button id="issued_btn_train" class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                <button id="issued_btn_train" class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; display:none;margin-top:15px;" onclick="focus_box('payment_acq');">
                     Issued Booking
                 </button>
                 {% endif %}
@@ -165,6 +165,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
+    document.getElementById('voucher').style.display = 'none';
     train_signin('{{order_number}}');
     $( document ).ready(function() {
         breadcrumb_create("train", 5, 1);

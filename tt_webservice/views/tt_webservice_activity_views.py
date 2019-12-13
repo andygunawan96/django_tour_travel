@@ -5,6 +5,7 @@ from tools import util, ERR
 from datetime import *
 from tools.parser import *
 from ..static.tt_webservice.url import *
+from .tt_webservice_voucher_views import *
 import json
 import logging
 import traceback
@@ -512,8 +513,16 @@ def commit_booking(request):
             data.update({
                 'member': member,
                 'seq_id': request.POST['seq_id'],
-                # 'voucher_code': request.POST['voucher_code']
+                # 'voucher_code': {}
             })
+
+            # if request.POST['voucher_code'] != '':
+            #     data.update({
+            #         'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
+            #     })
+            # data.update({
+            #     'bypass_psg_validator': request.POST['bypass_psg_validator']
+            # })
     except:
         pass
 

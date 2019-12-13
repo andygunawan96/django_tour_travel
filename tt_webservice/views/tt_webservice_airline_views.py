@@ -640,7 +640,7 @@ def get_price_itinerary(request, boolean, counter):
                 journeys = []
         request.session['airline_promotion_code'] = json.loads(request.POST['promotion_code'])
         data = {
-            "promotion_code": request.session['airline_promotion_code'],
+            "promotion_codes": request.session['airline_promotion_code'],
             "adult": int(request.session['airline_request']['adult']),
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
