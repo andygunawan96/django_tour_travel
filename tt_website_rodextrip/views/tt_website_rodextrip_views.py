@@ -274,6 +274,9 @@ def login(request):
         # if 'session' in request:
         try:
             if 'login' in request.session['user_account']['co_agent_frontend_security']:
+                javascript_version = get_javascript_version()
+                cache_version = get_cache_version()
+                response = get_cache_data(cache_version)
                 return goto_dashboard()
         except:
             request.session.delete()
