@@ -2264,7 +2264,7 @@ function focus_box(id_string){
     document.getElementById("overlay-div-box").style.display = "block";
     document.getElementById("payment_acq").hidden = false;
     $('html, body').animate({
-        scrollTop: $("#payment_acq").offset().top - 65
+        scrollTop: $("#payment_acq").offset().top - 100
     }, 500);
 }
 
