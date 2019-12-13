@@ -28,9 +28,13 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                 }
             }
             text=`<h4 style="color:#f15a22;">Customer Payment Method</h4><hr/>
-            <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
-            <div class="input-container-search-ticket btn-group">
-
+            <h6 style="padding-bottom:10px;">1. Payment Via: </h6>`;
+            if(template == 1){
+                text+=`<div class="input-container-search-ticket btn-group">`;
+            }else{
+                text+=`<div>`;
+            }
+        text+=`
         <div class="form-select" id="default-select">
             <select class="payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
             for(i in payment_acq2){

@@ -413,12 +413,22 @@
     hotel_filter_render();
 
     $(document).ready(function () {
-        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+       try{
+           document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+       }catch(err){}
+       try{
+           document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+       }catch(err){}
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
                    document.getElementById("info_user_search").style.display = "block";
+                   try{
+                       document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+                   }catch(err){}
+                   try{
+                       document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+                   }catch(err){}
                 }else{
                    document.getElementById("info_user_search").style.display = "none";
                 }

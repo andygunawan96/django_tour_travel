@@ -84,7 +84,7 @@
     <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
     {%elif template == 2%}
-    <header>
+    <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     <div class="main-menu" style="padding:10px;">
     {%elif template == 3%}
     <header>
@@ -266,7 +266,7 @@
     </div>
 </section>
 
-
+{% include 'tt_website_rodextrip/footer.html' %}
 <script>
     if(time_limit != ''){
         document.getElementById('div_4').hidden = false;

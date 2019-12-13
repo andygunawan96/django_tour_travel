@@ -108,7 +108,7 @@ img {vertical-align: middle;}
     <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
     {%elif template == 2%}
-    <header>
+    <header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
     <div class="main-menu" style="padding:10px;">
     {%elif template == 3%}
     <header>
@@ -282,7 +282,7 @@ img {vertical-align: middle;}
         <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
     </div>
 </section>
-
+{% include 'tt_website_rodextrip/footer.html' %}
 <script>
     try{
         airline_detail(type);
