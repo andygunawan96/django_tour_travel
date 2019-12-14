@@ -292,7 +292,7 @@ function hotel_facility_request(hotel_facilities){
         success: function(msg) {
             //console.log('start');
             facility_image = msg.result.response;
-            facility_image_html = ``;
+            facility_image_html = '';
             //console.log(hotel_facilities);
             //console.log(facility_image);
             hotel_facilities = $.parseJSON(hotel_facilities);

@@ -301,7 +301,9 @@
 
                             </div>
                         </div>
+                        {% if 'issued_reservation' in username.co_agent_frontend_security %}
                         <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
+                        {% endif %}
                     </div>
                     <div class="row">
                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>

@@ -309,7 +309,10 @@ function train_get_booking(data){
             train_get_detail = msg;
             if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued'){
                 get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
+//                document.getElementById('voucher').style.display = '';
             }
+            total_price_provider = [];
+            price_provider = 0;
             $text = '';
             text = '';
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -710,12 +713,20 @@ function train_get_booking(data){
                         text_detail+=`
                         </div>
                     </div>`;
-                    if(counter_service_charge == 0)
+                    if(counter_service_charge == 0){
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
-                    else
+                        price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                    }else{
                         total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                        price_provider += parseInt(price.TAX + price.ROC + price.FARE);
+                    }
                     commission += parseInt(price.RAC);
                 }
+                total_price_provider.push({
+                    'pnr': i,
+                    'price': price_provider
+                })
+                price_provider = 0;
                 counter_service_charge++;
             }
             try{

@@ -10,6 +10,7 @@ import copy
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice_voucher_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -419,7 +420,12 @@ def create_booking(request):
             data.update({
                 'member': member,
                 'seq_id': request.POST['seq_id'],
+                # 'voucher': {}
             })
+            # if request.POST['voucher_code'] != '':
+            #     data.update({
+            #         'voucher': data_voucher(request.POST['voucher_code'], 'hotel', ''),
+            #     })
         except:
             pass
         headers = {

@@ -372,7 +372,7 @@ def review(request):
             'adult_count': int(request.session['hotel_request']['adult']),
             'infant_count': int(request.session['hotel_request']['child']),
             'special_request': request.session['hotel_request']['special_request'],
-            'username': request.session['username'],
+            'username': request.session['user_account'],
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
