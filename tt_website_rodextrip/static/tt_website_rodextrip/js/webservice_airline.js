@@ -2678,7 +2678,7 @@ function airline_get_booking(data){
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1'"/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1','_blank');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2690,14 +2690,14 @@ function airline_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/3'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/3'','_blank');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/2'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/2','_blank');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2716,7 +2716,7 @@ function airline_get_booking(data){
                         else{
                             text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/4'"/>
+                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/4','_blank');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -3099,6 +3099,8 @@ function airline_issued(data){
                     fare = 0;
                     total_price = 0;
                     commission = 0;
+                    total_price_provider_show = [];
+                    price_provider_show = 0;
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
                     text=`
                         <div style="background-color:#f15a22; margin-top:20px;">
@@ -3137,9 +3139,44 @@ function airline_issued(data){
                             </div>`;
 
                             total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE);
                             commission += parseInt(price.RAC);
                         }
+                        total_price_provider_show.push(price_provider_show);
+                        price_provider_show = 0;
                     }
+                    total_price_show = total_price;
+                    if(voucher_discount_response.result.error_code == 0){
+                        discount_voucher_new = {
+                            'discount': 0,
+                            'currency': ''
+                        };
+                        for(i in total_price_provider_show){
+                            if(total_price_provider_show[i] > voucher_discount_response.result.response.voucher_minimum_purchase || voucher_discount_response.result.response.voucher_minimum_purchase == false){
+                                if(voucher_discount_response.result.response.provider[i].able_to_use == true){
+                                    if(voucher_discount_response.result.response.voucher_type == 'percent'){
+                                        discount_voucher_new['discount'] += total_price_provider_show[i] * voucher_discount_response.result.response.voucher_value / 100;
+
+                                    }else if(voucher_discount_response.result.response.voucher_type == 'amount'){
+                                        discount_voucher_new['discount'] += voucher_discount_response.result.response.voucher_value;
+                                    }
+                                }
+                            }
+                        }
+                        discount_voucher_new['currency'] = voucher_discount_response.result.response.voucher_currency;
+                        if(discount_voucher_new['discount'] > voucher_discount_response.result.response.voucher_cap && voucher_discount_response.result.response.voucher_cap != false)
+                            discount_voucher_new['discount'] = voucher_discount_response.result.response.voucher_cap;
+                        text+=`<div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Discount
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+discount_voucher_new['currency']+` `+getrupiah(parseInt(discount_voucher_new['discount']))+`</span>
+                                </div>
+                            </div>`;
+                        total_price_show -= discount_voucher_new['discount'];
+                    }
+
                     text+=`
                     <div>
                         <hr/>
@@ -3149,7 +3186,7 @@ function airline_issued(data){
                             <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price)+`</span>
+                            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>
 
@@ -3174,6 +3211,8 @@ function airline_issued(data){
                             </center>
                         </div>
                         <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
+                    total_price_provider_show = [];
+                    price_provider_show = 0;
                     for(i in msg.result.response.passengers[0].sale_service_charges){
                         text+=`
                         <div style="text-align:center">
@@ -3204,8 +3243,42 @@ function airline_issued(data){
                             </div>`;
 
                             total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE);
                             commission += parseInt(price.RAC);
                         }
+                        total_price_provider_show.push(price_provider_show)
+                        total_price_show = 0;
+                    }
+                    total_price_show = total_price;
+                    if(voucher_discount_response.result.error_code == 0){
+                        discount_voucher_new = {
+                            'discount': 0,
+                            'currency': ''
+                        };
+                        for(i in total_price_provider_show){
+                            if(total_price_provider_show[i] > voucher_discount_response.result.response.voucher_minimum_purchase || voucher_discount_response.result.response.voucher_minimum_purchase == false){
+                                if(voucher_discount_response.result.response.provider[i].able_to_use == true){
+                                    if(voucher_discount_response.result.response.voucher_type == 'percent'){
+                                        discount_voucher_new['discount'] += total_price_provider_show[i] * voucher_discount_response.result.response.voucher_value / 100;
+
+                                    }else if(voucher_discount_response.result.response.voucher_type == 'amount'){
+                                        discount_voucher_new['discount'] += voucher_discount_response.result.response.voucher_value;
+                                    }
+                                }
+                            }
+                        }
+                        discount_voucher_new['currency'] = voucher_discount_response.result.response.voucher_currency;
+                        if(discount_voucher_new['discount'] > voucher_discount_response.result.response.voucher_cap && voucher_discount_response.result.response.voucher_cap != false)
+                            discount_voucher_new['discount'] = voucher_discount_response.result.response.voucher_cap;
+                        text+=`<div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Discount
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+discount_voucher_new['currency']+` `+getrupiah(parseInt(discount_voucher_new['discount']))+`</span>
+                                </div>
+                            </div>`;
+                        total_price_show -= discount_voucher_new['discount'];
                     }
                     text+=`
                     <div>
@@ -3216,7 +3289,7 @@ function airline_issued(data){
                             <span style="font-size:13px; font-weight: bold;">Grand Total</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price)+`</span>
+                            <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
                     </div>
 

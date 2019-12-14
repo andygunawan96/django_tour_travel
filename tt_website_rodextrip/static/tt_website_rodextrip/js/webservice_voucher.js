@@ -88,9 +88,9 @@ function check_voucher(){
            },
            success: function(msg) {
                 console.log(msg);
-
+                voucher_code = voucher_reference;
+                voucher_discount_response = msg;
                 if(msg.result.error_code == 0){
-                    voucher_code = voucher_reference;
                     if(provider_type_id == 'visa'){
                         discount_voucher = {
                             'discount': 0,
@@ -120,13 +120,16 @@ function check_voucher(){
                                 Change Voucher Code
                             </button>
                         </div>`;
+                        try{
+                            set_price('Issued','visa');
+                        }catch(err){}
                     }else if(provider_type_id == 'airline'){
                         discount_voucher = {
                             'discount': 0,
                             'currency': ''
                         };
                         try{
-                            for(i in msg.result.response.provider){
+                            for(i in airline_get_detail.result.response.provider_bookings){
                                 if(total_price_provider[i].price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                                     if(msg.result.response.provider[i].able_to_use == true){
                                         if(msg.result.response.voucher_type == 'percent'){
@@ -138,8 +141,8 @@ function check_voucher(){
                                     }
                                 }
                                 discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(discount > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
-                                    discount = msg.result.response.voucher_cap
+                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                    discount_voucher['discount'] = msg.result.response.voucher_cap
                             }
                         }catch(err){
                             if(total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
@@ -152,8 +155,8 @@ function check_voucher(){
                                     discount_voucher['discount'] = msg.result.response.voucher_value;
                                 }
                                 discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(discount > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
-                                    discount = msg.result.response.voucher_cap
+                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                    discount_voucher['discount'] = msg.result.response.voucher_cap
                             }
                         }
 
@@ -166,6 +169,9 @@ function check_voucher(){
                                 Change Voucher Code
                             </button>
                         </div>`;
+                        try{
+                            set_price('Issued','airline');
+                        }catch(err){}
                     }else if(provider_type_id == 'activity'){
                         console.log(grand_total)
                         discount_voucher = {
@@ -184,8 +190,8 @@ function check_voucher(){
                                 }
                             }
                             discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(discount > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
-                                discount = msg.result.response.voucher_cap
+                            if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                discount_voucher['discount'] = msg.result.response.voucher_cap
                         }
 
                         document.getElementById('voucher').innerHTML = `
@@ -197,6 +203,9 @@ function check_voucher(){
                                 Change Voucher Code
                             </button>
                         </div>`;
+                        try{
+                            set_price('Issued','activity');
+                        }catch(err){}
                     }else if(provider_type_id == 'hotel'){
                         console.log(grand_total)
                         discount_voucher = {
@@ -215,8 +224,8 @@ function check_voucher(){
                                 }
                             }
                             discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(discount > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
-                                discount = msg.result.response.voucher_cap
+                            if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                discount_voucher['discount'] = msg.result.response.voucher_cap
                         }
 
                         document.getElementById('voucher').innerHTML = `
@@ -228,12 +237,15 @@ function check_voucher(){
                                 Change Voucher Code
                             </button>
                         </div>`;
+                        try{
+                            set_price('Issued','hotel');
+                        }catch(err){}
                     }else if(provider_type_id == 'train'){
                         discount_voucher = {
                             'discount': 0,
                             'currency': ''
                         };
-                        for(i in msg.result.response.provider){
+                        for(i in train_get_detail.result.response.provider_bookings){
                             if(total_price_provider[i].price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
@@ -245,6 +257,8 @@ function check_voucher(){
                                 }
                             }
                         }
+                        if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                            discount_voucher['discount'] = msg.result.response.voucher_cap
                         document.getElementById('voucher').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
@@ -254,6 +268,9 @@ function check_voucher(){
                                 Change Voucher Code
                             </button>
                         </div>`;
+                        try{
+                            set_price('Issued','train');
+                        }catch(err){}
                     }
                 }else{
                     document.getElementById('voucher').innerHTML = `
