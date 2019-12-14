@@ -1072,9 +1072,13 @@ def commit_booking(request):
                     'seq_id': request.POST['seq_id'],
                     # 'voucher': {}
                 })
+            # provider = []
+            # for provider_type in request.session['airline_pick']:
+            #     if not provider_type['provider'] in provider:
+            #         provider.append(provider_type['provider'])
             # if request.POST['voucher_code'] != '':
             #     data.update({
-            #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
+            #         'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
             #     })
             # data.update({
             #     'bypass_psg_validator': request.POST['bypass_psg_validator']
