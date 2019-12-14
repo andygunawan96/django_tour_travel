@@ -1484,9 +1484,20 @@ function get_price_itinerary_request(){
                 document.getElementById('airline_pick').value = text;
                 get_fare_rules();
 
-            }else if(resJson.result.error_code == 4003){
+            }else if(resJson.result.error_code == 4003 || resJson.result.error_code == 4002){
                 logout();
-            }else{
+            }else if(resJson.result.error_code == 4024){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: resJson.result.error_msg,
+                }).then((result) =>{
+                  if (result.value) {
+                    window.location.href="/airline";
+                  }
+                })
+            }
+            else{
                 document.getElementById("badge-flight-notif").innerHTML = "0";
                 document.getElementById("badge-flight-notif2").innerHTML = "0";
                 $("#badge-flight-notif").removeClass("infinite");
@@ -1575,6 +1586,16 @@ function get_fare_rules(){
 
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
+            }else if(msg.result.error_code == 4024){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: msg.result.error_msg,
+                }).then((result) =>{
+                  if (result.value) {
+                    window.location.href="/airline";
+                  }
+                })
             }else{
                 try{
                     for(var i=0;i<100;i++)//hardcode
@@ -1614,6 +1635,16 @@ function airline_sell_journeys(){
                get_seat_availability('');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
+           }else if(msg.result.error_code == 4024){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: msg.result.error_msg,
+                }).then((result) =>{
+                  if (result.value) {
+                    window.location.href="/airline";
+                  }
+                })
            }else{
                 Swal.fire({
                   type: 'error',
@@ -1968,6 +1999,16 @@ function airline_update_passenger(val){
                 airline_commit_booking(val);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
+           }else if(msg.result.error_code == 4024){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: msg.result.error_msg,
+                }).then((result) =>{
+                  if (result.value) {
+                    window.location.href="/airline";
+                  }
+                })
            }else{
                 Swal.fire({
                   type: 'error',
@@ -2005,6 +2046,16 @@ function airline_update_contact_booker(val){
                 airline_update_passenger(val);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
+           }else if(msg.result.error_code == 4024){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: msg.result.error_msg,
+                }).then((result) =>{
+                  if (result.value) {
+                    window.location.href="/airline";
+                  }
+                })
            }else{
                 Swal.fire({
                   type: 'error',
@@ -2067,7 +2118,6 @@ function airline_set_ssr(val){
                       }else{
                            window.location.href="/dashboard";
                       }
-
                     })
                 }else{
                     if(seat == 0)
@@ -2221,7 +2271,17 @@ function airline_commit_booking(val){
                 $('.loader-rodextrip').fadeOut();
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
-           }else{
+           }else if(msg.result.error_code == 4024){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: msg.result.error_msg,
+                }).then((result) =>{
+                  if (result.value) {
+                    window.location.href="/airline";
+                  }
+                })
+            }else{
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -2274,6 +2334,16 @@ function airline_force_commit_booking(val){
                document.getElementById('airline_booking').submit();
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
+           }else if(msg.result.error_code == 4024){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: msg.result.error_msg,
+                }).then((result) =>{
+                  if (result.value) {
+                    window.location.href="/airline";
+                  }
+                })
            }else{
                 Swal.fire({
                   type: 'error',
