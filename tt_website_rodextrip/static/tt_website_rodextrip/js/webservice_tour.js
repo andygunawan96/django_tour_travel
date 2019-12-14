@@ -804,35 +804,11 @@ function get_payment_rules(id)
        },
        success: function(msg) {
            console.log(msg);
-           var today = new Date();
-           var dd = String(today.getDate()).padStart(2, '0');
-           var mm = String(today.getMonth() + 1).padStart(2, '0');
-           var yyyy = today.getFullYear();
-           date_today = yyyy + '-' + mm + '-' + dd;
-           pay_text = ``;
            payment = msg.result.response.payment_rules;
-           var idx = 1;
-           for (i in payment)
+           if (payment)
            {
-               var payment_price = 0;
-               if(payment[i].payment_type == 'percentage')
-               {
-                   payment_price = (parseInt(payment[i].payment_percentage) / 100) * grand_total;
-               }
-               else
-               {
-                   payment_price = parseInt(payment[i].payment_amount);
-               }
-               pay_text += `
-                <tr>
-                    <td>` +payment[i].name+ `</td>
-                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">IDR ` + getrupiah(Math.ceil(payment_price))+ `</td>
-                    <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
-                </tr>
-               `;
-               idx += 1;
+               print_payment_rules(payment);
            }
-           document.getElementById('tour_payment_rules').innerHTML += pay_text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -1014,7 +990,9 @@ function tour_get_booking(order_number)
            var passengers = msg.result.response.passengers;
            var rooms = msg.result.response.rooms;
            var contact = msg.result.response.contacts;
+           var payment = msg.result.response.payment_rules;
            var cur_state = msg.result.response.state;
+
            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
            localTime  = moment.utc(tes).toDate();
            if(cur_state == 'booked'){
@@ -1429,7 +1407,7 @@ function tour_get_booking(order_number)
                {
                    full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
                }
-               get_payment_rules(tour_package.id);
+               print_payment_rules(payment);
                get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
                document.getElementById("final_issued_btn").style.display = "block";
            }

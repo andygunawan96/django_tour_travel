@@ -920,6 +920,28 @@ function tour_pre_create_booking()
     $("#issuedModal").modal('show');
 }
 
+function print_payment_rules(payment)
+{
+    pay_text = ``;
+    var idx = 1;
+    for (i in payment)
+    {
+        var payment_price = (parseFloat(payment[i].payment_percentage) / 100) * grand_total;
+        if (payment_price > 0)
+        {
+            pay_text += `
+            <tr>
+                 <td>` +payment[i].name+ `</td>
+                 <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">IDR ` + getrupiah(Math.ceil(payment_price))+ `</td>
+                 <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
+            </tr>
+            `;
+            idx += 1;
+        }
+    }
+    document.getElementById('tour_payment_rules').innerHTML += pay_text;
+}
+
 function tour_filter_render(){
 
     var node = document.createElement("div");
