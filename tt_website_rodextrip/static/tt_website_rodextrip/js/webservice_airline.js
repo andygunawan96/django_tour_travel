@@ -2942,7 +2942,7 @@ function airline_get_booking(data){
                     })
                     price_provider = 0;
                     counter_service_charge++;
-                catch(err){}
+                }catch(err){}
             }
             try{
                 airline_get_detail.result.response.total_price = total_price;
