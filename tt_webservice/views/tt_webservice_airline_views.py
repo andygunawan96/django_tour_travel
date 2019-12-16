@@ -1181,16 +1181,16 @@ def commit_booking(request):
                 data.update({
                     'member': member,
                     'seq_id': request.POST['seq_id'],
-                    # 'voucher': {}
+                    'voucher': {}
                 })
-            # provider = []
-            # for provider_type in request.session['airline_pick']:
-            #     if not provider_type['provider'] in provider:
-            #         provider.append(provider_type['provider'])
-            # if request.POST['voucher_code'] != '':
-            #     data.update({
-            #         'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
-            #     })
+            provider = []
+            for provider_type in request.session['airline_pick']:
+                if not provider_type['provider'] in provider:
+                    provider.append(provider_type['provider'])
+            if request.POST['voucher_code'] != '':
+                data.update({
+                    'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+                })
             # data.update({
             #     'bypass_psg_validator': request.POST['bypass_psg_validator']
             # })
@@ -1358,16 +1358,16 @@ def issued(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher': {}
+            'voucher': {}
         }
-        # provider = []
-        # for provider_type in request.session['airline_get_booking_response']['result']['response']['provider_bookings']:
-        #     if not provider_type['provider'] in provider:
-        #         provider.append(provider_type['provider'])
-        # if request.POST['voucher_code'] != '':
-        #     data.update({
-        #         'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider_type),
-        #     })
+        provider = []
+        for provider_type in request.session['airline_get_booking_response']['result']['response']['provider_bookings']:
+            if not provider_type['provider'] in provider:
+                provider.append(provider_type['provider'])
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

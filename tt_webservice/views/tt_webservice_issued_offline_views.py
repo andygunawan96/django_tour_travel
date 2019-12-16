@@ -9,6 +9,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice_voucher_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -167,7 +168,7 @@ def set_data_issued_offline(request):
 
         if request.POST['type'] == 'airline':
             data_issued_offline["sector_type"] = request.POST['sector_type']
-
+        request.session['sell_journey_io'] = data_issued_offline
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -381,8 +382,12 @@ def commit_booking(request):
         data = {
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher_code': request.POST['voucher_code']
+            'voucher_code': request.POST['voucher_code']
         }
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], request.session['sell_journey_io']['type'], []),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

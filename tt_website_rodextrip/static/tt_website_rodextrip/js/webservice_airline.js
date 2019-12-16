@@ -2256,12 +2256,12 @@ function airline_commit_booking(val){
     data = {
         'value': val,
         'signature': signature,
-//        'voucher_code': ''
+        'voucher_code': ''
     }
     try{
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
         data['member'] = payment_acq2[payment_method][selected].method;
-//        data['voucher_code'] =  voucher_code;
+        data['voucher_code'] =  voucher_code;
     }catch(err){}
     $.ajax({
        type: "POST",
@@ -2483,7 +2483,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
             }else if(msg.result.response.state == 'booked'){
                get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-//               document.getElementById('voucher_div').style.display = '';
+               document.getElementById('voucher_div').style.display = '';
                //document.getElementById('issued-breadcrumb').classList.remove("active");
                //document.getElementById('issued-breadcrumb').classList.add("current");
                document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -2508,6 +2508,7 @@ function airline_get_booking(data){
             }
 
             if(msg.result.response.state == 'issued'){
+               document.getElementById('voucher').style.display = 'none';
                //tanya ko sam kalau nyalain
 //                document.getElementById('ssr_request_after_sales').hidden = false;
 //                document.getElementById('ssr_request_after_sales').innerHTML = `
@@ -2833,7 +2834,7 @@ function airline_get_booking(data){
             total_price_provider = [];
             price_provider = 0;
             commission = 0;
-            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR'];
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
             text_detail=`
             <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
                 <h5> Price Detail</h5>
@@ -2851,7 +2852,7 @@ function airline_get_booking(data){
                             <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
                         </div>`;
                     for(j in msg.result.response.passengers){
-                        price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0};
+                        price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0};
                         for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
                             price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
                             price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
@@ -2859,9 +2860,7 @@ function airline_get_booking(data){
                         try{
                             price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
 
-                        }catch(err){
-
-                        }
+                        }catch(err){}
                         //repricing
                         check = 0;
                         for(k in pax_type_repricing){
@@ -2871,13 +2870,13 @@ function airline_get_booking(data){
                         if(check == 0){
                             pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
                             price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                'Fare': price['FARE'] + price['SSR'],
+                                'Fare': price['FARE'] + price['SSR'] - price['DISC'],
                                 'Tax': price['TAX'] + price['ROC'],
                                 'Repricing': price['CSC']
                             }
                         }else{
                             price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] - price['DISC'],
                                 'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
                                 'Repricing': price['CSC']
                             }
@@ -2915,7 +2914,7 @@ function airline_get_booking(data){
                                 <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                             text_detail+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR))+`</span>
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR - price.DISC))+`</span>
                             </div>
                         </div>`;
                         $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
@@ -2926,13 +2925,13 @@ function airline_get_booking(data){
                             else
                                 $text += ' ';
                         }
-                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
+                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC - price.DISC))+'\n';
                         if(counter_service_charge == 0){
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR - price.DISC);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR - price.DISC);
                         }else{
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR - price.DISC);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR - price.DISC);
                         }
                         commission += parseInt(price.RAC);
                     }
@@ -3164,7 +3163,7 @@ function airline_issued(data){
                'order_number': data,
                'seq_id': payment_acq2[payment_method][selected].seq_id,
                'member': payment_acq2[payment_method][selected].method,
-//               'voucher_code': voucher_code,
+               'voucher_code': voucher_code,
                'signature': signature
            },
            success: function(msg) {

@@ -394,13 +394,13 @@ def issued(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher': {}
+            'voucher': {}
         }
 
-        # if request.POST['voucher_code'] != '':
-        #     data.update({
-        #         'voucher': data_voucher(request.POST['voucher_code'], 'train', ''),
-        #     })
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'train', []),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

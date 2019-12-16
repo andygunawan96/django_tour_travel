@@ -786,7 +786,7 @@ function commit_booking(){
     data = {
         'seq_id':payment_acq2[payment_method][selected].seq_id,
         'member':payment_acq2[payment_method][selected].method,
-//        'voucher_code': voucher_code
+        'voucher_code': voucher_code
     }
 
     getToken();

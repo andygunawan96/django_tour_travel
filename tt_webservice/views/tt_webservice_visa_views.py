@@ -350,12 +350,12 @@ def commit_booking(request):
         data.update({
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher': {}
+            'voucher': {}
         })
-        # if request.POST['voucher_code'] != '':
-        #     data.update({
-        #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
-        #     })
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'visa', ['visa_rodextrip']),
+            })
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
