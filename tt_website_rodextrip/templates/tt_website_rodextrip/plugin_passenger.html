@@ -2,7 +2,6 @@
     get_countries();
     agent_security = `{{username.co_agent_frontend_security}}`;
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
-    console.log(agent_security);
     passenger_data_phone = 0;
     try{ // buat halaman passenger
         document.getElementById("train_booker_search").addEventListener("keyup", function(event) {
@@ -16,7 +15,6 @@
               }
           });
     }catch(err){
-        console.log(err);
     }
 </script>
 {%if "p_cache_1" in username.co_agent_frontend_security%}

@@ -147,7 +147,7 @@ function get_carrier_code_list(type, val){
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'get_carrier_code_list',
+            'action': 'get_carriers_search',
        },
        data: {
             'signature': signature
@@ -184,7 +184,7 @@ function get_carrier_code_list(type, val){
                         <li>
                             <a class="small" data-value="option1" tabIndex="-1">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">`+msg[i].name+`</span>`;
+                                    <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
                                     if(val == undefined)
                                     text+=`
                                         <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>`;
@@ -234,7 +234,7 @@ function get_carrier_code_list(type, val){
                                 <li>
                                     <a class="small" data-value="option1" tabIndex="-1">
                                         <label class="check_box_custom">
-                                            <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][i].name+`</span>`;
+                                            <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][i].display_name+`</span>`;
                                             if(val == undefined)
                                             text+=`
                                                 <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
@@ -287,6 +287,32 @@ function get_carrier_code_list(type, val){
     });
 
 }
+
+//function get_carriers_search(type, val){
+//    getToken();
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/airline",
+//       headers:{
+//            'action': 'get_carriers_search',
+//       },
+//       data: {
+//            'signature': signature
+//       },
+//       success: function(msg) {
+//           console.log(msg);
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: red;">Error airline carrier code list </span>' + errorThrown,
+//            })
+//            $('.loader-rodextrip').fadeOut();
+//       },timeout: 60000
+//    });
+//
+//}
 
 function get_carrier_providers(){
     getToken();
@@ -436,29 +462,8 @@ function carrier_to_provider(){
                 break;
             }else if(airline_carriers[i][j].bool == true){
                 try{
-                    if(airline_carriers[i][j].name.split(' - ').length == 2){
-                        provider_choose = '';
-                        if(airline_carriers[i][j].name.split(' - ')[1] == 'Amadeus (GDS)')
-                            provider_choose = 'amadeus';
-                        else if(airline_carriers[i][j].name.split(' - ')[1] == 'NDC')
-                            provider_choose = 'sia';
-                        else if(airline_carriers[i][j].name.split(' - ')[1] == 'AGS')
-                            provider_choose = 'garuda';
-                        else if(airline_carriers[i][j].name.split(' - ')[1] == 'Althea')
-                            provider_choose = 'althea';
-                        if(airline[i].hasOwnProperty(airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)) == true){
-                            check_provider = false;
-                            for(k in airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)]){
-                                if(airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)][k] == provider_choose)
-                                    check_provider = true;
-                            }
-                            if(check_provider == false)
-                                airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)].push(provider_choose);
-                        }else
-                            airline[i][airline_carriers[i][j].code.substring(0, airline_carriers[i][j].code.length - 1)] = [provider_choose]
-                    }else{
-                        airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
-                    }
+                    airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
+
                 }catch(err){
 
                 }

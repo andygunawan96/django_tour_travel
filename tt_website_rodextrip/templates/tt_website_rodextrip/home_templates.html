@@ -60,11 +60,12 @@
     }
 </style>
 
-{% include 'tt_website_rodextrip/header.html' %}
+
 {% if username != null %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
+{% include 'tt_website_rodextrip/header.html' %}
 <!-- Search Ticket -->
 
 {%if template == 1%}
