@@ -27,7 +27,6 @@
     passengers = passengers.replace(/&#39;/g, '"');
     passengers = passengers.replace(/True/g, '"true"');
     passengers = JSON.parse(passengers.replace(/False/g, '"false"'));
-    console.log(passengers);
     signature = `{{signature}}`;
     additional_price = `{{additional_price}}`;
     additional_price = parseFloat(additional_price);
@@ -306,7 +305,6 @@ img {vertical-align: middle;}
     }
 
     function showSlides(n, no) {
-      console.log(no);
       var i;
       var x = document.getElementsByClassName(slideId[no]);
       if (n > x.length) {slideIndex[no] = 1}
@@ -317,7 +315,7 @@ img {vertical-align: middle;}
       x[slideIndex[no]-1].style.display = "block";
       //wagon = slideIndex[no]-1;
     }
-
+    set_first_passenger_seat_map_airline(0);
 </script>
 <!-- loader -->
 {% endblock %}

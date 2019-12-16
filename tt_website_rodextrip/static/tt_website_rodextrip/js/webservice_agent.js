@@ -1525,7 +1525,7 @@ function copy_booker_to_passenger(val,type){
                         document.getElementById('adult_country_of_issued1').value = document.getElementById('booker_country_of_issued').value;
                     }
                 }
-            }else if(type == 'airline'){
+            }else if(type == 'airline' || type == 'activity' || type == 'tour' || type == 'visa'){
                 if(document.getElementById('booker_id_number').value != 'undefined' && document.getElementById('booker_id_number').value != '')
                     document.getElementById('adult_passport_number1').value = document.getElementById('booker_id_number').value;
                 if(document.getElementById('booker_exp_date').value != 'undefined' && document.getElementById('booker_exp_date').value != '')
