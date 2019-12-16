@@ -420,12 +420,12 @@ def create_booking(request):
             data.update({
                 'member': member,
                 'seq_id': request.POST['seq_id'],
-                # 'voucher': {}
+                'voucher': {}
             })
-            # if request.POST['voucher_code'] != '':
-            #     data.update({
-            #         'voucher': data_voucher(request.POST['voucher_code'], 'hotel', ''),
-            #     })
+            if request.POST['voucher_code'] != '':
+                data.update({
+                    'voucher': data_voucher(request.POST['voucher_code'], 'hotel', []),
+                })
         except:
             pass
         headers = {

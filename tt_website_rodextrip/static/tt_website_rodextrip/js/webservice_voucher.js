@@ -119,6 +119,7 @@ function check_voucher(){
                             <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
+                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
                         </div>`;
                         try{
                             set_price('Issued','visa');
@@ -168,6 +169,7 @@ function check_voucher(){
                             <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
+                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
                         </div>`;
                         try{
                             set_price('Issued','airline');
@@ -202,6 +204,7 @@ function check_voucher(){
                             <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
+                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
                         </div>`;
                         try{
                             set_price('Issued','activity');
@@ -236,6 +239,7 @@ function check_voucher(){
                             <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
+                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
                         </div>`;
                         try{
                             set_price('Issued','hotel');
@@ -267,6 +271,7 @@ function check_voucher(){
                             <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
+                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
                         </div>`;
                         try{
                             set_price('Issued','train');

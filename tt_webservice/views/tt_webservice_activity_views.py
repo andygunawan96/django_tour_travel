@@ -513,16 +513,16 @@ def commit_booking(request):
             data.update({
                 'member': member,
                 'seq_id': request.POST['seq_id'],
-                # 'voucher_code': {}
+                'voucher_code': {}
             })
 
-            # if request.POST['voucher_code'] != '':
-            #     data.update({
-            #         'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
-            #     })
-            # data.update({
-            #     'bypass_psg_validator': request.POST['bypass_psg_validator']
-            # })
+            if request.POST['voucher_code'] != '':
+                data.update({
+                    'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
+                })
+            data.update({
+                'bypass_psg_validator': request.POST['bypass_psg_validator']
+            })
     except:
         pass
 
