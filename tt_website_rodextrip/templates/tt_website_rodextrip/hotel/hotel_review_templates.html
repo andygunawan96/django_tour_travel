@@ -22,7 +22,7 @@
     facilities = facilities.replace(/True/g, 'true');
     adult = `{{adults}}`;
     adult = adult.replace(/True/g, 'true');
-    adult = adult.replace(/False/g, 'False');
+    adult = adult.replace(/False/g, 'false');
     adult = adult.replace(/&#39;/g, '"');
     adult = JSON.parse(adult);
     console.log(adult);
