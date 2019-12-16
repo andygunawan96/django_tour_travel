@@ -1784,74 +1784,78 @@ function show_seat_map(val, checked){
                 break;
             for(j in seat_map.seat_availability_provider[i].segments){
                 if(seat_map.seat_availability_provider[i].segments[j].segment_code2 == set_seat_show_segments){
-                    for(k in seat_map.seat_availability_provider[i].segments[j].seat_cabins){
-                        text+=`<div class="mySlides1">
-                                    <div style="width:100%;text-align:center;">`;
-                        percent = parseInt(50 / seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[0].seats.length+1);
-                        for(l in seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows){
-                            if(l == 0){
+                    try{
+                        for(k in seat_map.seat_availability_provider[i].segments[j].seat_cabins){
+                            text+=`<div class="mySlides1">
+                                        <div style="width:100%;text-align:center;">`;
+
+                            percent = parseInt(50 / seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[0].seats.length+1);
+                            for(l in seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows){
+                                if(l == 0){
+                                    text+=`<div style="width:100%;text-align:center;">`;
+                                    for(m in seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats){
+                                        if(m == 0)
+                                            text+=`<input type="button" style="width:`+(percent)+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;" id="" disabled/>`;
+                                        text+=`<input type="button" style="width:`+(percent+0.5)+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;" id="" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" disabled/>`;
+    //                                    text+=`<label style="width:`+percent+`%;margin:3px;cursor:not-allowed;">`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`</label>`;
+                                    }
+                                    text+=`</div>`;
+                                }
                                 text+=`<div style="width:100%;text-align:center;">`;
                                 for(m in seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats){
                                     if(m == 0)
-                                        text+=`<input type="button" style="width:`+(percent)+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;" id="" disabled/>`;
-                                    text+=`<input type="button" style="width:`+(percent+0.5)+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;" id="" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" disabled/>`;
-//                                    text+=`<label style="width:`+percent+`%;margin:3px;cursor:not-allowed;">`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`</label>`;
-                                }
-                                text+=`</div>`;
-                            }
-                            text+=`<div style="width:100%;text-align:center;">`;
-                            for(m in seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats){
-                                if(m == 0)
-                                    text+=`<label style="width:`+percent+`%; color:white; padding:3px;font-size:13px;color:black" id="">`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`</label>`;
-                                check = 0;
-                                for(n in passengers){
-                                    if(check == 1)
-                                        break;
-                                    for(o in passengers[n].seat_list){
-                                        if(passenger_pick == n){
-                                            if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == passengers[n].seat_list[o].seat_pick){
+                                        text+=`<label style="width:`+percent+`%; color:white; padding:3px;font-size:13px;color:black" id="">`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`</label>`;
+                                    check = 0;
+                                    for(n in passengers){
+                                        if(check == 1)
+                                            break;
+                                        for(o in passengers[n].seat_list){
+                                            if(passenger_pick == n){
+                                                if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == passengers[n].seat_list[o].seat_pick){
+                                                    check = 1;
+                                                    text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#f15a22; padding:3px;color:white;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
+                                                    break;
+                                                }
+                                            }else if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == passengers[n].seat_list[o].seat_pick){
+                                                console.log('other_pax');
                                                 check = 1;
-                                                text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#f15a22; padding:3px;color:white;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
+                                                text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#ff8971; padding:3px;color:white;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"  value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
                                                 break;
                                             }
-                                        }else if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == passengers[n].seat_list[o].seat_pick){
-                                            console.log('other_pax');
-                                            check = 1;
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#ff8971; padding:3px;color:white;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"  value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
-                                            break;
+                                        }
+                                    }
+                                    if(check == 0){
+                                        if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 0){
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#656565; color:white; padding:3px;" id="" onclick="alert('Already booked');" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
+                                        }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 1){
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#CACACA; padding:3px;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"
+                                            onclick="update_seat_passenger('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].seat_code+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].seat_name+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].currency+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].amount+`',
+                                                                           '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].description+`')"
+                                            value='`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`'/>`;
+                                        }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == -1){
+                                            text+=`<input type="button" style="width:`+percent+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;" id="" value="" disabled/>`;
                                         }
                                     }
                                 }
-                                if(check == 0){
-                                    if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 0){
-                                        text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#656565; color:white; padding:3px;" id="" onclick="alert('Already booked');" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
-                                    }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == 1){
-                                        text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#CACACA; padding:3px;" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"
-                                        onclick="update_seat_passenger('`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].seat_code+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].seat_name+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].currency+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].service_charges[0].amount+`',
-                                                                       '`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].description+`')"
-                                        value='`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`'/>`;
-                                    }else if(seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].availability == -1){
-                                        text+=`<input type="button" style="width:`+percent+`%;background-color:transparent;font-size:13px;border:transparent; padding:3px;" id="" value="" disabled/>`;
-                                    }
-                                }
+                                text+=`</div>`;
                             }
-                            text+=`</div>`;
+                            text+=`
+                                </div>
+                            </div>`;
                         }
-                        text+=`
-                            </div>
-                        </div>`;
-                    }
 
-                    check = 1;
-                    text+=`<a class="prev" onclick="plusSlides(-1, 0)" style="font-size:15px; padding:0px;">&#10094; Prev</a>
-                           <a class="next" onclick="plusSlides(1, 0)" style="font-size:15px; padding:0px;">Next &#10095;</a>`;
-                    break;
+                        check = 1;
+                        if(text != '')
+                            text+=`<a class="prev" onclick="plusSlides(-1, 0)" style="font-size:15px; padding:0px;">&#10094; Prev</a>
+                               <a class="next" onclick="plusSlides(1, 0)" style="font-size:15px; padding:0px;">Next &#10095;</a>`;
+                        break;
+                    }catch(err){}
                 }
             }
         }
@@ -1887,6 +1891,26 @@ function set_passenger_seat_map_airline(val){
         airline_detail('request_new');
     }
 
+}
+
+function set_first_passenger_seat_map_airline(val){
+    text='';
+    text += `<hr/><h5 style="color:#f15a22;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
+    for(i in passengers[val].seat_list){
+        text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
+        text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
+        for(j in passengers[val].seat_list[i].description){
+            //if(j == 0)
+                //text+=`<span style="font-weight:400; font-size:14px;">Description:</span><br/>`;
+            text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
+        }
+        if(passengers[val].seat_list[i].seat_name != '')
+            text+= `<input class="button-seat-pass" type="button" id="cancel_seat" style="width: 30%; background: rgb(241, 90, 34); padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+    }
+    document.getElementById('passenger'+(val+1)).style.background = '#f15a22';
+    document.getElementById('passenger'+(val+1)).style.color = 'white';
+    passenger_pick = val;
+    document.getElementById('airline_passenger_detail_seat').innerHTML = text;
 }
 
 function set_cancel_seat(segment_number){
@@ -2742,7 +2766,6 @@ function airline_get_booking(data){
 
             <div class="row" style="margin-top:20px;">
                 <div class="col-lg-4" style="padding-bottom:10px;">`;
-                    console.log(msg.result.response.state);
                     if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                         if (msg.result.response.state == 'booked'){
                             text+=`
@@ -2821,103 +2844,105 @@ function airline_get_booking(data){
             //repricing
             counter_service_charge = 0;
             $text += '\nPrice:\n';
-            for(i in msg.result.response.passengers[0].sale_service_charges){
-                text_detail+=`
-                    <div style="text-align:left">
-                        <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
-                    </div>`;
-                for(j in msg.result.response.passengers){
-                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0};
-                    for(k in msg.result.response.passengers[j].sale_service_charges[i]){
-                        price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
-                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
-                    }
-                    try{
-                        price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-
-                    }catch(err){
-
-                    }
-                    //repricing
-                    check = 0;
-                    for(k in pax_type_repricing){
-                        if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
-                            check = 1;
-                    }
-                    if(check == 0){
-                        pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
-                        price_arr_repricing[msg.result.response.passengers[j].name] = {
-                            'Fare': price['FARE'] + price['SSR'],
-                            'Tax': price['TAX'] + price['ROC'],
-                            'Repricing': price['CSC']
+            for(i in msg.result.response.provider_bookings){
+                try{
+                    text_detail+=`
+                        <div style="text-align:left">
+                            <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
+                        </div>`;
+                    for(j in msg.result.response.passengers){
+                        price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0};
+                        for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
+                            price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].amount;
+                            price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
                         }
-                    }else{
-                        price_arr_repricing[msg.result.response.passengers[j].name] = {
-                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
-                            'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
-                            'Repricing': price['CSC']
+                        try{
+                            price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+
+                        }catch(err){
+
                         }
-                    }
-                    text_repricing = `
-                    <div class="col-lg-12">
-                        <div style="padding:5px;" class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-lg-3">Price</div>
-                            <div class="col-lg-3">Repricing</div>
-                            <div class="col-lg-3">Total</div>
-                        </div>
-                    </div>`;
-                    for(k in price_arr_repricing){
-                       text_repricing += `
-                       <div class="col-lg-12">
-                            <div style="padding:5px;" class="row" id="adult">
-                                <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                if(price_arr_repricing[k].Repricing == 0)
-                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                else
-                                text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                        //repricing
+                        check = 0;
+                        for(k in pax_type_repricing){
+                            if(pax_type_repricing[k][0] == msg.result.response.passengers[j].name)
+                                check = 1;
+                        }
+                        if(check == 0){
+                            pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
+                            price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                'Fare': price['FARE'] + price['SSR'],
+                                'Tax': price['TAX'] + price['ROC'],
+                                'Repricing': price['CSC']
+                            }
+                        }else{
+                            price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                                'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                                'Repricing': price['CSC']
+                            }
+                        }
+                        text_repricing = `
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-3">Price</div>
+                                <div class="col-lg-3">Repricing</div>
+                                <div class="col-lg-3">Total</div>
                             </div>
                         </div>`;
-                    }
-                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                    document.getElementById('repricing_div').innerHTML = text_repricing;
-                    //repricing
+                        for(k in price_arr_repricing){
+                           text_repricing += `
+                           <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="adult">
+                                    <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                                    <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                    if(price_arr_repricing[k].Repricing == 0)
+                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                    else
+                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                                </div>
+                            </div>`;
+                        }
+                        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                        document.getElementById('repricing_div').innerHTML = text_repricing;
+                        //repricing
 
-                    text_detail+=`
-                    <div class="row" style="margin-bottom:5px;">
-                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                            <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
-                        text_detail+=`</div>
-                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR))+`</span>
-                        </div>
-                    </div>`;
-                    $text += msg.result.response.passengers[j].name + ' ['+i+'] ';
-                    for(k in msg.result.response.passengers[j].fees){
-                        $text += msg.result.response.passengers[j].fees[k].fee_name;
-                        if(parseInt(parseInt(k)+1) != msg.result.response.passengers[j].fees.length)
-                            $text += ', ';
-                        else
-                            $text += ' ';
+                        text_detail+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
+                            text_detail+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR))+`</span>
+                            </div>
+                        </div>`;
+                        $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
+                        for(k in msg.result.response.passengers[j].fees){
+                            $text += msg.result.response.passengers[j].fees[k].fee_name;
+                            if(parseInt(parseInt(k)+1) != msg.result.response.passengers[j].fees.length)
+                                $text += ', ';
+                            else
+                                $text += ' ';
+                        }
+                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
+                        if(counter_service_charge == 0){
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
+                        }else{
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
+                        }
+                        commission += parseInt(price.RAC);
                     }
-                    $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+'\n';
-                    if(counter_service_charge == 0){
-                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
-                        price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR);
-                    }else{
-                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
-                        price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR);
-                    }
-                    commission += parseInt(price.RAC);
-                }
-                total_price_provider.push({
-                    'pnr': i,
-                    'price': price_provider
-                })
-                price_provider = 0;
-                counter_service_charge++;
+                    total_price_provider.push({
+                        'pnr': msg.result.response.provider_bookings[i].pnr,
+                        'price': price_provider
+                    })
+                    price_provider = 0;
+                    counter_service_charge++;
+                }catch(err){}
             }
             try{
                 airline_get_detail.result.response.total_price = total_price;

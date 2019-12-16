@@ -664,9 +664,12 @@ function visa_get_data(data){
                                     if(j == 'TOTAL'){
                                         price['FARE'] += msg.result.response.passengers[i].visa.price[j].amount;
                                         price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
-                                    }else{
+                                    }else if(j == 'RAC'){
                                         price[j] += msg.result.response.passengers[i].visa.price[j].amount;
                                         price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                    }else if(j == 'CSC'){
+                                        price['CSC'] = msg.result.response.passengers[i].visa.price[j].amount;
+
                                     }
                                 }
                                 //repricing
@@ -680,13 +683,13 @@ function visa_get_data(data){
                                     price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
                                         'Fare': price['FARE'],
                                         'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': 0
+                                        'Repricing': price['CSC']
                                     }
                                 }else{
                                     price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
                                         'Fare': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Fare'] + price['FARE'],
                                         'Tax': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Tax'] + price['TAX'] + price['ROC'],
-                                        'Repricing': 0
+                                        'Repricing': price['CSC']
                                     }
                                 }
                                 text_repricing = `
@@ -856,7 +859,6 @@ function visa_get_data(data){
                 document.getElementById('visa_booking').innerHTML = text;
                 update_table('booking');
             }
-            console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             $("#waitingTransaction").modal('hide');

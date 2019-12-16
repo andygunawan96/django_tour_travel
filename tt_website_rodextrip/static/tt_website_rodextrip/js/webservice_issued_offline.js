@@ -95,26 +95,30 @@ function check_issued_offline(){
                 request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
                 document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
             }
-            if(document.getElementById('adult_passport_number'+ (i + 1)).value == ''){
-                error_log+= 'Please fill passport number for passenger '+i+'!\n';
-                document.getElementById('adult_passport_number'+ (i + 1)).style['border-color'] = 'red';
-            }else{
-                request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
-                document.getElementById('adult_passport_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
-            }
-            if(document.getElementById('adult_passport_expired_date'+ (i + 1)).value == ''){
-                error_log+= 'Please fill passport expired date for passenger '+i+'!\n';
-                document.getElementById('adult_passport_expired_date'+ (i + 1)).style['border-color'] = 'red';
-            }else{
-                request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
-                document.getElementById('adult_passport_expired_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
-            }
-            if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
-                error_log+= 'Please fill country of issued for passenger '+i+'!\n';
-                document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
-            }else{
-                request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
-                document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
+            if(document.getElementById('transaction_type').value == 'airline'){
+                if(document.getElementById('sector').value == 'international'){
+                    if(document.getElementById('adult_passport_number'+ (i + 1)).value == ''){
+                        error_log+= 'Please fill passport number for passenger '+i+'!\n';
+                        document.getElementById('adult_passport_number'+ (i + 1)).style['border-color'] = 'red';
+                    }else{
+                        request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
+                        document.getElementById('adult_passport_number'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_passport_expired_date'+ (i + 1)).value == ''){
+                        error_log+= 'Please fill passport expired date for passenger '+i+'!\n';
+                        document.getElementById('adult_passport_expired_date'+ (i + 1)).style['border-color'] = 'red';
+                    }else{
+                        request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
+                        document.getElementById('adult_passport_expired_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                    }
+                    if(document.getElementById('adult_country_of_issued'+ (i + 1)).value == ''){
+                        error_log+= 'Please fill country of issued for passenger '+i+'!\n';
+                        document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = 'red';
+                    }else{
+                        request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+                        document.getElementById('adult_country_of_issued'+ (i + 1)).style['border-color'] = '#EFEFEF';
+                    }
+                }
             }
             if(document.getElementById('adult_cp' + (i + 1)).checked == true){
                 if(check_phone_number(document.getElementById('adult_phone' + (i + 1)).value)==false){
@@ -743,9 +747,11 @@ function update_passenger(){
         }
 
         request['passenger_birth_date'+i] = document.getElementById('adult_birth_date' + (i + 1)).value;
-        request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
-        request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
-        request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+        try{
+            request['passenger_passport_number'+i] = document.getElementById('adult_passport_number' + (i + 1)).value;
+            request['passenger_passport_expired_date'+i] = document.getElementById('adult_passport_expired_date' + (i + 1)).value;
+            request['passenger_country_of_issued'+i] = document.getElementById('adult_country_of_issued' + (i + 1)).value;
+        }catch(err){}
     }
     request["counter_passenger"] = counter_passenger;
     getToken();
