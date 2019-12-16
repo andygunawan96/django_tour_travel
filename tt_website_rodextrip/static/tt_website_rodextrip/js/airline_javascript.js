@@ -3344,7 +3344,7 @@ function check_provider(carrier_code,val){
     if(val == undefined){
         if(carrier_code == 'all'){
             for(i in airline_provider_list){
-                document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
+                document.getElementById('provider_box_'+i).checked = false;
             }
             document.getElementById('provider_box_All').checked = true;
         }
@@ -3352,11 +3352,10 @@ function check_provider(carrier_code,val){
             document.getElementById('provider_box_All').checked = false;
         check = 0;
         for(i in airline_provider_list){
-            if(document.getElementById('provider_box_'+airline_provider_list[i].code).checked == true){
+            if(document.getElementById('provider_box_'+i).checked == true){
                 check++;
             }
         }
-        console.log(check);
         if(check == 0){
             document.getElementById('provider_box_All').checked = true
             document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
@@ -3366,8 +3365,8 @@ function check_provider(carrier_code,val){
     }else{
         if(carrier_code == 'all'){
             for(i in airline_provider_list){
-                document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked = false;
-                document.getElementById('provider_box_'+airline_provider_list[i].code).checked = false;
+                document.getElementById('provider_box_'+i+'_'+val).checked = false;
+                document.getElementById('provider_box_'+i).checked = false;
             }
             document.getElementById('provider_box_All_'+val).checked = true;
             document.getElementById('provider_box_All').checked = true;

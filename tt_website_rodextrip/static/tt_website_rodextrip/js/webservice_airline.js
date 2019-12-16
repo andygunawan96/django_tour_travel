@@ -187,14 +187,14 @@ function get_carrier_code_list(type, val){
                                     <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
                                     if(val == undefined)
                                     text+=`
-                                        <input type="checkbox" id="provider_box_`+msg[i].code+`" name="provider_box_`+msg[i].code+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`')"/>`;
+                                        <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
                                     else{
                                         if(document.getElementById('provider_box_'+msg[i].code).checked == false)
                                             text+=`
-                                                <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
+                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
                                         else
                                             text+=`
-                                                <input type="checkbox" id="provider_box_`+msg[i].code+`_`+val+`" name="provider_box_`+msg[i].code+`_`+val+`" value="`+msg[i].code+`" checked="checked" onclick="check_provider('`+msg[i].code+`',`+val+`)"/>`;
+                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" checked="checked" onclick="check_provider('`+i+`',`+val+`)"/>`;
                                     }
                                     text+=`
                                     <span class="check_box_span_custom"></span>
@@ -662,63 +662,69 @@ function airline_search(provider,carrier_codes){
                document.getElementById('filter_airline_span2').innerHTML = " Airline";
                document.getElementById('filter_airline_span2').parentNode.insertBefore(document.createElement('hr'), document.getElementById('filter_airline_span2'));
            }
+           try{
+               msg.response.schedules.forEach((obj)=> {
 
-           airline_data.forEach((obj)=> {
-               check = 0;
-               carrier_code.forEach((obj1)=> {
-                   if(obj1.code == obj.segments[0].carrier_code)
-                       check=1;
-                   else if(airline_carriers[0][obj.segments[0].carrier_code] == undefined)
-                       check=1;
+                   obj.journeys.forEach((obj2) =>{
+                       check = 0;
+                       carrier_code.forEach((obj1)=> {
+                           if(obj1.code == obj2.segments[0].carrier_code)
+                               check=1;
+                           else if(airline_carriers[0][obj2.segments[0].carrier_code] == undefined)
+                               check=1;
+                       });
+                       carrier_code_airline_checkbox = '';
+                       if(check == 0){
+                           carrier_code_airline_checkbox += `
+                           <div class="checkbox-inline1">
+                           <label class="check_box_custom">`;
+                           try{
+                           carrier_code_airline_checkbox +=`
+                                <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
+                           }catch(err){
+                           console.log(err);
+                           carrier_code_airline_checkbox +=`
+                                <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
+                           }
+                           carrier_code_airline_checkbox +=`
+                                <input type="checkbox" id="checkbox_airline`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
+                                <span class="check_box_span_custom"></span>
+                            </label><br/>
+                           </div>`;
+                           node.innerHTML = carrier_code_airline_checkbox;
+                           document.getElementById("airlineAirline_generalShow").appendChild(node);
+                           node = document.createElement("div");
+                           carrier_code_airline_checkbox = '';
+                           carrier_code_airline_checkbox += `
+                           <div class="checkbox-inline1">
+                           <label class="check_box_custom">`;
+                           try{
+                           carrier_code_airline_checkbox +=`
+                                <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
+                           }catch(err){
+                           carrier_code_airline_checkbox +=`
+                                <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
+                           }
+                           carrier_code_airline_checkbox +=`<input type="checkbox" id="checkbox_airline2`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
+                                <span class="check_box_span_custom"></span>
+                            </label><br/>
+                           </div>`;
+                           node2.innerHTML = carrier_code_airline_checkbox;
+                           document.getElementById("airline_list2").appendChild(node2);
+                           node2 = document.createElement("div");
+
+                           carrier_code.push({
+                               airline:airline_carriers[0][obj2.segments[0].carrier_code],
+                               code:obj2.segments[0].carrier_code,
+                               status: false,
+                               key: airline_list_count
+                           });
+                           airline_list_count++;
+                       }
+                   })
+
                });
-               carrier_code_airline_checkbox = '';
-               if(check == 0){
-                   carrier_code_airline_checkbox += `
-                   <div class="checkbox-inline1">
-                   <label class="check_box_custom">`;
-                   try{
-                   carrier_code_airline_checkbox +=`
-                        <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj.segments[0].carrier_code].name+`</span>`;
-                   }catch(err){
-                   carrier_code_airline_checkbox +=`
-                        <span class="span-search-ticket" style="color:black;">`+obj.segments[0].carrier_code+`</span>`;
-                   }
-                   carrier_code_airline_checkbox +=`
-                        <input type="checkbox" id="checkbox_airline`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
-                        <span class="check_box_span_custom"></span>
-                    </label><br/>
-                   </div>`;
-                   node.innerHTML = carrier_code_airline_checkbox;
-                   document.getElementById("airlineAirline_generalShow").appendChild(node);
-                   node = document.createElement("div");
-                   carrier_code_airline_checkbox = '';
-                   carrier_code_airline_checkbox += `
-                   <div class="checkbox-inline1">
-                   <label class="check_box_custom">`;
-                   try{
-                   carrier_code_airline_checkbox +=`
-                        <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj.segments[0].carrier_code].name+`</span>`;
-                   }catch(err){
-                   carrier_code_airline_checkbox +=`
-                        <span class="span-search-ticket" style="color:black;">`+obj.segments[0].carrier_code+`</span>`;
-                   }
-                   carrier_code_airline_checkbox +=`<input type="checkbox" id="checkbox_airline2`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
-                        <span class="check_box_span_custom"></span>
-                    </label><br/>
-                   </div>`;
-                   node2.innerHTML = carrier_code_airline_checkbox;
-                   document.getElementById("airline_list2").appendChild(node2);
-                   node2 = document.createElement("div");
-
-                   carrier_code.push({
-                       airline:airline_carriers[0][obj.segments[0].carrier_code],
-                       code:obj.segments[0].carrier_code,
-                       status: false,
-                       key: airline_list_count
-                   });
-                   airline_list_count++;
-               }
-           });
+           }catch(err){console.log(err)}
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
