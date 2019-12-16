@@ -73,8 +73,8 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
-{%if template == 1%}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
+{%if template == 1%}
 <section class="destinations-area change_search_area" style="padding:7px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div class="container" id="airline_search_params">
         <div class="row">
@@ -310,7 +310,7 @@
 </section>
 
 {% elif template == 2 %}
-<section style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+<section class="destinations-area change_search_area" style="padding:9px 0px 9px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div class="container">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-6 {% else %} col-lg-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
@@ -342,7 +342,7 @@
             </div>
             {%endif%}
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-3 {% else %} col-lg-4 {% endif %}" style="text-align:right; padding-top:5px; padding-bottom:5px;">
-                <button class="button-search btn roberto-btn ld-ext-right" type="button" onclick="show_hide_change_search();">
+                <button class="button-search primary-btn-custom ld-ext-right" type="button" onclick="show_hide_change_search();">
                     <img src="{{static_path}}img/icon/search-icon.png" style="width:20px; height:20px;"/>
                     Change Search
                     <div class="ld ld-ring ld-cycle"></div>
@@ -351,7 +351,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{static_path}}images/bg_8.jpg); padding-top:5px; padding-bottom:5px; z-index:2; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{static_path}}images/christmas-wallpaper2.jpg); padding-top:5px; padding-bottom:5px; z-index:2; position:relative; display:none;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="padding-top:20px; padding-bottom:20px;">
@@ -1292,7 +1292,7 @@
             </div>
 
             <div class="col-lg-3">
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; z-index: 1; display:none;">
+                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; z-index: 1 !important; display:none;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
                             <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>
@@ -1519,12 +1519,23 @@
         //$('.js-example-basic-single').select2();
 
         //show hide balance
-        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
-        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+        try{
+            document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+        }catch(err){}
+        try{
+            document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+        }catch(err){}
+
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
                    document.getElementById("info_user_search").style.display = "block";
+                   try{
+                       document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+                   }catch(err){}
+                   try{
+                       document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+                   }catch(err){}
                 }else{
                    document.getElementById("info_user_search").style.display = "none";
                 }

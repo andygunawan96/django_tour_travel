@@ -197,30 +197,60 @@ function tour_search(){
                             <div id='csrf`+tour_data[i].sequence+`'></div>
                             <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
                             <input id='uuid' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
-                            <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>
-                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
-                                <div class="single-destination relative">
-                                    <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                        <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
-                                    </div>
-                                    <div class="card card-effect-promotion">
-                                        <div class="card-body">
-                                            <div class="row details">
-                                                <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                                </div>
-                                                <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                    <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                            <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>`;
+                            if(template == 1){
+                                text+=`
+                                <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_data[i].sequence+`')">
+                                    <div class="single-destination relative">
+                                        <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                            <div class="overlay overlay-bg"></div>
+                                            <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                        </div>
+                                        <div class="card card-effect-promotion">
+                                            <div class="card-body">
+                                                <div class="row details">
+                                                    <div class="col-lg-12" style="text-align:left;">
+                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                        <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                        <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
+                                                        <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                </div>`;
+                            }else{
+                                text+=`
+                                <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].sequence+`')" style="cursor:pointer;">
+                                    <div class="single-destination relative">
+                                        <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                            <div class="overlay overlay-bg"></div>
+                                            <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                        </div>
+                                        <div class="card card-effect-promotion">
+                                            <div class="card-body" style="padding:15px;">
+                                                <div class="row details">
+                                                    <div class="col-lg-12" style="text-align:left;">
+                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                        <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                        <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
+                                                        <br/>
+                                                        <a href="#" class="btn roberto-btn" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                            }
+                            text+=`
                         </form>
                     </div>
                    `;
@@ -774,35 +804,11 @@ function get_payment_rules(id)
        },
        success: function(msg) {
            console.log(msg);
-           var today = new Date();
-           var dd = String(today.getDate()).padStart(2, '0');
-           var mm = String(today.getMonth() + 1).padStart(2, '0');
-           var yyyy = today.getFullYear();
-           date_today = yyyy + '-' + mm + '-' + dd;
-           pay_text = ``;
            payment = msg.result.response.payment_rules;
-           var idx = 1;
-           for (i in payment)
+           if (payment)
            {
-               var payment_price = 0;
-               if(payment[i].payment_type == 'percentage')
-               {
-                   payment_price = (parseInt(payment[i].payment_percentage) / 100) * grand_total;
-               }
-               else
-               {
-                   payment_price = parseInt(payment[i].payment_amount);
-               }
-               pay_text += `
-                <tr>
-                    <td>` +payment[i].name+ `</td>
-                    <td id="payment_` + String(idx) + `" name="payment_` + String(idx) + `">IDR ` + getrupiah(Math.ceil(payment_price))+ `</td>
-                    <td id="payment_date_` + String(idx) + `" name="payment_date_` + String(idx) + `">` +payment[i].due_date+ `</td>
-                </tr>
-               `;
-               idx += 1;
+               print_payment_rules(payment);
            }
-           document.getElementById('tour_payment_rules').innerHTML += pay_text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -984,7 +990,9 @@ function tour_get_booking(order_number)
            var passengers = msg.result.response.passengers;
            var rooms = msg.result.response.rooms;
            var contact = msg.result.response.contacts;
+           var payment = msg.result.response.payment_rules;
            var cur_state = msg.result.response.state;
+
            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
            localTime  = moment.utc(tes).toDate();
            if(cur_state == 'booked'){
@@ -1399,7 +1407,7 @@ function tour_get_booking(order_number)
                {
                    full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
                }
-               get_payment_rules(tour_package.id);
+               print_payment_rules(payment);
                get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
                document.getElementById("final_issued_btn").style.display = "block";
            }

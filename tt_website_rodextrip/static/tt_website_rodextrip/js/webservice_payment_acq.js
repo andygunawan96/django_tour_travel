@@ -28,9 +28,13 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                 }
             }
             text=`<h4 style="color:#f15a22;">Customer Payment Method</h4><hr/>
-            <h6 style="padding-bottom:10px;">1. Payment Via: </h6>
-            <div class="input-container-search-ticket btn-group">
-
+            <h6 style="padding-bottom:10px;">1. Payment Via: </h6>`;
+            if(template == 1){
+                text+=`<div class="input-container-search-ticket btn-group">`;
+            }else{
+                text+=`<div>`;
+            }
+        text+=`
         <div class="form-select" id="default-select">
             <select class="payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
             for(i in payment_acq2){
@@ -231,7 +235,7 @@ function set_price(val, type, product_type){
     else if(type == 'issued_offline')
         text += `<button type="button" id="submit_top_up" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="show_loading();commit_booking();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'tour')
-        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="tour_pre_create_booking();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading-issued ld-ext-right" onclick="tour_pre_create_booking();" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     document.getElementById('set_price').innerHTML = text;
 }
 

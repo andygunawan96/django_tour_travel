@@ -22,7 +22,7 @@
     facilities = facilities.replace(/True/g, 'true');
     adult = `{{adults}}`;
     adult = adult.replace(/True/g, 'true');
-    adult = adult.replace(/False/g, 'False');
+    adult = adult.replace(/False/g, 'false');
     adult = adult.replace(/&#39;/g, '"');
     adult = JSON.parse(adult);
     console.log(adult);
@@ -32,7 +32,9 @@
     child = child.replace(/&#39;/g, '"');
     child = JSON.parse(child);
     hotel = `{{hotel_pick}}`;
-    hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true');
+    hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""');
+    hotel_pick_provider = `{{hotel_room_detail_pick}}`;
+    hotel_pick_provider = JSON.parse(hotel_pick_provider.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""'));
     //console.log(hotel);
     hotel_facility_request(facilities);
 </script>

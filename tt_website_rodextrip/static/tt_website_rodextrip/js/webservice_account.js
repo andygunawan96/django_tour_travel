@@ -51,34 +51,50 @@ function get_balance(val){
             balance = parseInt(msg.result.response.balance);
             credit_limit = parseInt(msg.result.response.credit_limit);
             text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
-            document.getElementById("balance").innerHTML = text;
             try{
-                document.getElementById("balance_mob").innerHTML = text;
-                document.getElementById("balance_search").innerHTML = text;
+                document.getElementById("balance").innerHTML = text;
+                try{
+                    document.getElementById("balance_mob").innerHTML = text;
+                }catch(err){}
+                try{
+                    document.getElementById("balance_search").innerHTML = text;
+                }catch(err){}
             }catch(err){}
             text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
-            document.getElementById("credit_limit").innerHTML = text;
             try{
-                document.getElementById("credit_mob").innerHTML = text;
-                document.getElementById("credit_search").innerHTML = text;
+                document.getElementById("credit_limit").innerHTML = text;
+                try{
+                    document.getElementById("credit_mob").innerHTML = text;
+                }catch(err){}
+                try{
+                    document.getElementById("credit_search").innerHTML = text;
+                }catch(err){}
             }catch(err){}
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             logout();
         }else{
           text = `Balance: Timeout`;
-          document.getElementById("balance").innerHTML = text;
           try{
-            document.getElementById("balance_mob").innerHTML = text;
-            document.getElementById("balance_search").innerHTML = text;
+            document.getElementById("balance").innerHTML = text;
+            try{
+                document.getElementById("balance_mob").innerHTML = text;
+            }catch(err){}
+            try{
+                document.getElementById("balance_search").innerHTML = text;
+            }catch(err){}
           }catch(err){}
           text = `Credit Limit: Timeout`;
-          document.getElementById("credit_limit").innerHTML = text;
           try{
-            document.getElementById("credit_mob").innerHTML = text;
-            document.getElementById("credit_search").innerHTML = text;
+            document.getElementById("credit_limit").innerHTML = text;
+            try{
+                document.getElementById("credit_mob").innerHTML = text;
+            }catch(err){}
+            try{
+                document.getElementById("credit_search").innerHTML = text;
+            }catch(err){}
           }catch(err){}
-
+            logout();
 //            Swal.fire({
 //              type: 'error',
 //              title: 'Oops!',
@@ -88,17 +104,26 @@ function get_balance(val){
         get_transactions_notification(val);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+          logout();
           text = `Balance: Failed`;
-          document.getElementById("balance").innerHTML = text;
           try{
+            document.getElementById("balance").innerHTML = text;
+            try{
                 document.getElementById("balance_mob").innerHTML = text;
+            }catch(err){}
+            try{
                 document.getElementById("balance_search").innerHTML = text;
+            }catch(err){}
           }catch(err){}
           text = `Credit Limit: Failed`;
-          document.getElementById("credit_limit").innerHTML = text;
           try{
-            document.getElementById("credit_mob").innerHTML = text;
-            document.getElementById("credit_search").innerHTML = text;
+            document.getElementById("credit_limit").innerHTML = text;
+            try{
+                document.getElementById("credit_mob").innerHTML = text;
+            }catch(err){}
+            try{
+                document.getElementById("credit_search").innerHTML = text;
+            }catch(err){}
           }catch(err){}
 
 //            Swal.fire({
@@ -137,11 +162,12 @@ function get_account(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error account </span>' + errorThrown,
-            })
+            logout();
+//            Swal.fire({
+//              type: 'error',
+//              title: 'Oops!',
+//              html: '<span style="color: red;">Error account </span>' + errorThrown,
+//            })
        },timeout: 60000
     });
 }

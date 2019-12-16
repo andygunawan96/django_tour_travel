@@ -309,7 +309,10 @@ function train_get_booking(data){
             train_get_detail = msg;
             if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued'){
                 get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
+//                document.getElementById('voucher').style.display = '';
             }
+            total_price_provider = [];
+            price_provider = 0;
             $text = '';
             text = '';
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -557,7 +560,7 @@ function train_get_booking(data){
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/1'"/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/1','_blank');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -569,14 +572,14 @@ function train_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/3'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/3','_blank');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/2'" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/2','_blank');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -596,8 +599,7 @@ function train_get_booking(data){
                         else{
                             text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train
-                                /`+msg.result.response.order_number+`/4'"/>
+                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/4','_blank');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                             $(".issued_booking_btn").remove();
@@ -710,12 +712,20 @@ function train_get_booking(data){
                         text_detail+=`
                         </div>
                     </div>`;
-                    if(counter_service_charge == 0)
+                    if(counter_service_charge == 0){
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
-                    else
+                        price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                    }else{
                         total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                        price_provider += parseInt(price.TAX + price.ROC + price.FARE);
+                    }
                     commission += parseInt(price.RAC);
                 }
+                total_price_provider.push({
+                    'pnr': i,
+                    'price': price_provider
+                })
+                price_provider = 0;
                 counter_service_charge++;
             }
             try{

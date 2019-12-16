@@ -54,17 +54,13 @@
                         {% endif %}
 
                         {% if username != null %}
-                        <li class="balance_mobile pt5"><a id="balance" style="color:black;"></a></li>
+                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
                         <li class="credit_mobile pt5"><a id="credit_limit" style="color:black;"></a></li>
-                        <li class="menu-has-children notification-pc pt5" style="padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
+                        {% else %}
+                        <li class="balance_mobile pt5"><a id="balance" style="color:black;"></a></li>
+                        {% endif %}
+                        <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}}</a>
                             <ul>
-                                <li><a href="#">Guidelines</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-pc" style="padding-right:15px;cursor:pointer;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
-                            <ul>
-                                <li><a title="{{username.co_user_login}}" style="cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"> {{username.co_user_login}}</a></li>
                                 <li class="menu-has-children pt5"><a href="#">Partnership</a>
                                     <ul>
                                         <li><a href="/registration">Register Agent</a></li>
@@ -81,6 +77,12 @@
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Logout</button>
                                     </a>
                                 </li>
+                            </ul>
+                        </li>
+                        <li class="menu-has-children notification-pc pt5" style="padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
+                            <ul>
+                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
@@ -209,19 +211,15 @@
                                 <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                                 {% endif %}
 
-                                <li class="balance_mobile"><a id="balance" style="color:black;"></a></li>
-                                <li class="credit_mobile"><a id="credit_limit" style="color:black;"></a></li>
+                                {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                                <li class="credit_mobile"><a id="credit_limit"></a></li>
+                                {% else %}
+                                <li class="balance_mobile"><a id="balance"></a></li>
+                                {% endif %}
 
-                                <li class="notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
-                                    <ul class="dropdown">
-                                        <li><a href="#">Guidelines</a></li>
-                                        <li><a href="#">FAQ</a></li>
-                                    </ul>
-                                </li>
                                 {% if username != null %}
-                                <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/></a>
+                                <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                                     <ul class="dropdown">
-                                        <li><a id="username" title="{{username.co_user_login}}" style="color:black !important;">{{username.co_user_login}}</a></li>
                                         <li><a href="#">Partnership</a>
                                             <ul class="dropdown">
                                                 <li><a href="/registration">Register Agent</a></li>
@@ -268,9 +266,14 @@
                                         <li><a href="#">FAQ</a></li>
                                     </ul>
                                 </li>
-
-                                <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
-                                    {% endif %}
+                                <li class="notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
+                                    <ul class="dropdown">
+                                        <li><a href="#">Guidelines</a></li>
+                                        <li><a href="#">FAQ</a></li>
+                                    </ul>
+                                </li>
+                                <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                                {% endif %}
                             </ul>
                             <!-- Search -->
                             <!--                            <div class="search-btn ml-4">-->

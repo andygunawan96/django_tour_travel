@@ -6,7 +6,7 @@ from ..views import tt_webservice_issued_offline_views as IssuedOfflineWebservic
 from ..views import tt_webservice_activity_views as ActivityWebserviceView
 from ..views import tt_webservice_airline_views as AirlineWebserviceView
 from ..views import tt_webservice_tour_views as TourWebserviceView
-from ..views import tt_webservice_payment as PaymentWebserviceView
+from ..views import tt_webservice_payment_views as PaymentWebserviceView
 from ..views import tt_webservice_hotel_views as HotelWebserviceView
 from ..views import tt_webservice_visa_views as VisaWebserviceView
 from ..views import tt_webservice_registration_views as RegisterWebserviceView
@@ -14,6 +14,7 @@ from ..views import tt_webservice_bank_views as BankWebserviceView
 from ..views import tt_webservice_testing_views as TestWebserviceView
 from ..views import tt_webservice_content_views as ContentWebserviceView
 from ..views import tt_webservice_voucher_views as VoucherWebserviceView
+from ..views import tt_webservice_printout_views as PrintoutWebserviceView
 
 app_name = 'tt_webservice'
 

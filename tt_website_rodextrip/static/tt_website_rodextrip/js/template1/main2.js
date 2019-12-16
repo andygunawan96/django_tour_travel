@@ -669,6 +669,8 @@ $(document).ready(function() {
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
         try{
             document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;
+        }catch(err){}
+        try{
             document.getElementById("credit_mob").innerHTML = document.getElementById("credit_limit").innerHTML;
         }catch(err){}
         $(document).on('click', '.menu-has-children i', function(e) {

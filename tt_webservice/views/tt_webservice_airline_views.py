@@ -89,6 +89,8 @@ def api_models(request):
             res = get_data(request)
         elif req_data['action'] == 'get_carrier_providers':
             res = get_carrier_providers(request)
+        elif req_data['action'] == 'get_carriers_search':
+            res = get_carriers_search(request)
         elif req_data['action'] == 'get_provider_description':
             res = get_provider_description(request)
         elif req_data['action'] == 'get_carrier_code_list':
@@ -326,6 +328,115 @@ def get_carrier_providers(request):
             file.close()
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_carriers_search(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_carriers_search",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'airline'
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    date_time = datetime.now() - a.get_time_carrier_airline
+    if date_time.seconds >= 300 or a.get_time_carrier_airline_first_time == True:
+        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        try:
+            if res['result']['error_code'] == 0:
+                a.set_new_time_out('carrier')
+                a.set_first_time('carrier')
+                res = res['result']['response']
+                # res.update({
+                #     'GA1': {
+                #         'name': 'Garuda Indonesia - AGS',
+                #         'code': 'GA1',
+                #         'icao': 'GIA',
+                #         'call_sign': 'INDONESIA',
+                #         'provider_type': 'airline',
+                #         'active': True,
+                #         'is_favorite': False
+                #     },
+                #     # 'GA2': {
+                #     #     'name': 'Garuda Indonesia - Althea',
+                #     #     'code': 'GA2',
+                #     #     'icao': 'GIA',
+                #     #     'call_sign': 'INDONESIA',
+                #     #     'provider_type': 'airline',
+                #     #     'active': True,
+                #     #     'is_favorite': False
+                #     # },
+                #     'GA3': {
+                #         'name': 'Garuda Indonesia - Amadeus (GDS)',
+                #         'code': 'GA3',
+                #         'icao': 'GIA',
+                #         'call_sign': 'INDONESIA',
+                #         'provider_type': 'airline',
+                #         'active': True,
+                #         'is_favorite': False
+                #     },
+                #     # 'SQ1': {
+                #     #     'name': 'Singapore Airlines - NDC',
+                #     #     'code': 'SQ1',
+                #     #     'icao': 'SIA',
+                #     #     'call_sign': 'SINGAPORE',
+                #     #     'provider_type': 'airline',
+                #     #     'active': True,
+                #     #     'is_favorite': True
+                #     # },
+                #     'SQ2': {
+                #         'name': 'Singapore Airlines - Amadeus (GDS)',
+                #         'code': 'SQ2',
+                #         'icao': 'SIA',
+                #         'call_sign': 'SINGAPORE',
+                #         'provider_type': 'airline',
+                #         'active': True,
+                #         'is_favorite': True
+                #     }
+                # })
+                # fav = {}
+                # carrier_code_list = {}
+                # for key in res:
+                #     if res[key]['is_favorite'] == True:
+                #         fav.update({
+                #             key: res[key]
+                #         })
+                #     else:
+                #         carrier_code_list.update({
+                #             res[key]['name']: key
+                #         })
+                #
+                # for key in sorted(carrier_code_list):
+                #     fav.update({
+                #         carrier_code_list[key]: res[carrier_code_list[key]]
+                #     })
+                #
+                # res = fav
+                file = open(var_log_path()+"get_airline_active_carriers" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+                logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            else:
+                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+                for line in file:
+                    res = json.loads(line)
+                file.close()
+                logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+            for line in file:
+                res = json.loads(line)
+            file.close()
+        except Exception as e:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -640,7 +751,7 @@ def get_price_itinerary(request, boolean, counter):
                 journeys = []
         request.session['airline_promotion_code'] = json.loads(request.POST['promotion_code'])
         data = {
-            "promotion_code": request.session['airline_promotion_code'],
+            "promotion_codes": request.session['airline_promotion_code'],
             "adult": int(request.session['airline_request']['adult']),
             "child": int(request.session['airline_request']['child']),
             "infant": int(request.session['airline_request']['infant']),
@@ -1072,9 +1183,13 @@ def commit_booking(request):
                     'seq_id': request.POST['seq_id'],
                     # 'voucher': {}
                 })
+            # provider = []
+            # for provider_type in request.session['airline_pick']:
+            #     if not provider_type['provider'] in provider:
+            #         provider.append(provider_type['provider'])
             # if request.POST['voucher_code'] != '':
             #     data.update({
-            #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
+            #         'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
             #     })
             # data.update({
             #     'bypass_psg_validator': request.POST['bypass_psg_validator']
