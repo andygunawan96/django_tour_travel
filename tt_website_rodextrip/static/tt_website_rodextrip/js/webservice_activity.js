@@ -1287,6 +1287,7 @@ function activity_get_booking(data){
             }
             else{
                 if(msg.result.response.status == 'issued'){
+                    document.getElementById('voucher_discount').style.display = 'none';
                     conv_status = 'Issued';
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
@@ -1470,7 +1471,7 @@ function activity_get_booking(data){
                             <tr>
                                 <td>`+temp_seq+`</td>
                                 <td>`+msg.result.response.booking_options[i].name+`</td>
-                                <td>`+msg.result.response.booking_options[i].value+`</td>
+                                <td>`+msg.result.response.booking_options[i].description+`</td>
                             </tr>
                         `;
                         temp_seq += 1;
