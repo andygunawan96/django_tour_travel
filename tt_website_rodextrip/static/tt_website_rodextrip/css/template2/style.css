@@ -85,9 +85,6 @@ a:active,
 a:focus {
   color: #2a303b;
   text-decoration: none;
-  -webkit-transition-duration: 500ms;
-  -o-transition-duration: 500ms;
-  transition-duration: 500ms;
   outline: none;
   font-weight: 500; }
 
@@ -425,13 +422,13 @@ input:focus {
 .roberto-btn {
   position: relative;
   z-index: 1;
-  min-width: 140px;
-  height: 43px;
-  line-height: 46px;
+  min-width: 100px;
+  height: 35px;
+  line-height: 35px;
   font-size: 16px;
   font-weight: 500;
   display: inline-block;
-  padding: 0 40px;
+  padding: 0 30px;
   text-align: center;
   text-transform: capitalize;
   background-color: #f15a22;
@@ -1783,7 +1780,7 @@ html .ui-button.ui-state-disabled:active {
     .hotel-search-form-area .hotel-search-form .form-control {
       width: 100%;
       margin-bottom: 15px;
-      height: 50px;
+      height: 45px;
       border: 1px solid #cdcdcd;
       font-size: 13px; }
       @media only screen and (max-width: 767px) {
@@ -6146,4 +6143,34 @@ display: block;
 
 .mystickycopybot:hover {
   background-color: #C04B21;
+}
+
+.box-sticky-hotel{
+    background-color:white;
+    border: 1px solid #cdcdcd;
+    padding-right:20px;
+    margin-bottom:15px;
+}
+
+.primary-btn-sticky-hotel {
+  background: transparent;
+  line-height: 17px;
+  padding: 15px 20px 15px 20px;
+  border: none;
+  color: black;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-sticky-hotel:hover {
+  background: #f15a22;
+  color:white;
 }
