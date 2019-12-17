@@ -462,7 +462,14 @@ function carrier_to_provider(){
                 break;
             }else if(airline_carriers[i][j].bool == true){
                 try{
-                    airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
+                    if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == false)
+                        airline[i][airline_carriers[i][j].code] = airline_carriers[i][j].provider;
+                    else{
+                        for(k in airline_carriers[i][j].provider){
+                            if(airline[i][airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == false)
+                                airline[i][airline_carriers[i][j].code].push(airline_carriers[i][j].provider[k]);
+                        }
+                    }
 
                 }catch(err){
 
@@ -486,8 +493,9 @@ function carrier_to_provider(){
                         break;
                     }
 
-                }if(check == 0)
+                }if(check == 0){
                     provider_airline.push([airline[0][i][j],[i], airline_carriers[0][i].is_favorite])
+                }
             }catch(err){}
         }
     }
@@ -2454,7 +2462,6 @@ function airline_get_booking(data){
        success: function(msg) {
            console.log(msg);
 
-
            airline_get_detail = msg;
            //get booking view edit here
            if(msg.result.error_code == 0){
@@ -2514,7 +2521,7 @@ function airline_get_booking(data){
             }
 
             if(msg.result.response.state == 'issued'){
-               document.getElementById('voucher').style.display = 'none';
+               document.getElementById('voucher_discount').style.display = 'none';
                //tanya ko sam kalau nyalain
 //                document.getElementById('ssr_request_after_sales').hidden = false;
 //                document.getElementById('ssr_request_after_sales').innerHTML = `

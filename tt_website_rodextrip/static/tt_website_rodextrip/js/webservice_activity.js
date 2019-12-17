@@ -1294,7 +1294,7 @@ function activity_get_booking(data){
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                 }
                 else if(msg.result.response.status == 'booked'){
-                    document.getElementById('voucher').style.display = '';
+                    document.getElementById('voucher_discount').style.display = '';
                     conv_status = 'Booked';
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");

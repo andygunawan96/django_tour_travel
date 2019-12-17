@@ -292,7 +292,6 @@
                         </div>
                         <div class="col-lg-4" style="margin-bottom:10px;">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                            {% include 'tt_website_rodextrip/voucher_code.html'  %}
                             <button class="primary-btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
                                 Issued Booking
                             </button>
@@ -320,6 +319,9 @@
                         </div>
                     </div>
                     <div class="row">
+                        {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                        {% include 'tt_website_rodextrip/voucher_code.html'  %}
+                        {% endif %}
                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                         </div>

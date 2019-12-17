@@ -93,7 +93,8 @@ def search(request):
                             'display_name': response[j]['display_name'],
                             'icao': response[j]['icao'],
                             'call_sign': response[j]['call_sign'],
-                            'is_favorite': response[j]['is_favorite']
+                            'is_favorite': response[j]['is_favorite'],
+                            'provider': response[j]['provider']
                         }
                     airline_carriers.append(airline_carrier)
                     airline_carrier = []
@@ -137,7 +138,8 @@ def search(request):
                             'code': response[j]['code'],
                             'icao': response[j]['icao'],
                             'call_sign': response[j]['call_sign'],
-                            'is_favorite': response[j]['is_favorite']
+                            'is_favorite': response[j]['is_favorite'],
+                            'provider': response[j]['provider']
                         }
                     airline_carriers.append(airline_carrier)
                     airline_carrier = []
