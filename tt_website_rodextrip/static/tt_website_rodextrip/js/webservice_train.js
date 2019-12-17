@@ -309,7 +309,9 @@ function train_get_booking(data){
             train_get_detail = msg;
             if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued'){
                 get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
-                document.getElementById('voucher').style.display = '';
+                document.getElementById('voucher_discount').style.display = '';
+            }else{
+                document.getElementById('voucher_discount').style.display = 'none';
             }
             total_price_provider = [];
             price_provider = 0;
@@ -920,6 +922,7 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
+                   document.getElementById('voucher_discount').style.display = 'none';
                    $("#waitingTransaction").modal('hide');
                    train_get_booking(msg.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){

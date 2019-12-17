@@ -87,7 +87,6 @@ function check_voucher(){
                 'voucher_reference': voucher_reference
            },
            success: function(msg) {
-                console.log(msg);
                 voucher_code = voucher_reference;
                 voucher_discount_response = msg;
                 if(msg.result.error_code == 0){
@@ -111,7 +110,7 @@ function check_voucher(){
                             discount = msg.result.response.voucher_cap
 
 
-                        document.getElementById('voucher').innerHTML = `
+                        document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
@@ -161,7 +160,7 @@ function check_voucher(){
                             }
                         }
 
-                        document.getElementById('voucher').innerHTML = `
+                        document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
@@ -196,7 +195,7 @@ function check_voucher(){
                                 discount_voucher['discount'] = msg.result.response.voucher_cap
                         }
 
-                        document.getElementById('voucher').innerHTML = `
+                        document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
@@ -231,7 +230,7 @@ function check_voucher(){
                                 discount_voucher['discount'] = msg.result.response.voucher_cap
                         }
 
-                        document.getElementById('voucher').innerHTML = `
+                        document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
@@ -263,7 +262,7 @@ function check_voucher(){
                         }
                         if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
                             discount_voucher['discount'] = msg.result.response.voucher_cap
-                        document.getElementById('voucher').innerHTML = `
+                        document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
@@ -278,7 +277,7 @@ function check_voucher(){
                         }catch(err){}
                     }
                 }else{
-                    document.getElementById('voucher').innerHTML = `
+                    document.getElementById('voucher_discount').innerHTML = `
                     <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                         <div class="alert alert-danger" role="alert">
                             <h6>Sorry, Voucher can't be use</h6>
