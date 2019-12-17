@@ -90,6 +90,7 @@ def search(request):
                         airline_carrier[j] = {
                             'name': response[j]['name'],
                             'code': response[j]['code'],
+                            'display_name': response[j]['display_name'],
                             'icao': response[j]['icao'],
                             'call_sign': response[j]['call_sign'],
                             'is_favorite': response[j]['is_favorite']
@@ -132,6 +133,7 @@ def search(request):
                     for j in response:
                         airline_carrier[j] = {
                             'name': response[j]['name'],
+                            'display_name': response[j]['display_name'],
                             'code': response[j]['code'],
                             'icao': response[j]['icao'],
                             'call_sign': response[j]['call_sign'],

@@ -54,7 +54,7 @@
     time_limit = {{time_limit}};
     session_time_limit();
     flight = `{{flight}}`;
-    airline_provider_list = [];
+    airline_provider_list = {};
     {% for airline_carrier in airline_carriers %}
         tes = `{{airline_carrier}}`;
         tes = tes.replace(/&#39;/g, '"');
@@ -63,9 +63,7 @@
         tes = JSON.parse(tes);
     {% endfor %}
     for(i in tes){
-        airline_provider_list.push({
-            'code': i
-        });
+        airline_provider_list[i] = {};
     }
     template = {{template}};
 </script>
@@ -265,8 +263,8 @@
                                                 <li>
                                                     <a class="small" data-value="option1" tabIndex="-1">
                                                         <label class="check_box_custom">
-                                                            <span class="span-search-ticket" style="color:black;">{{value.name}}</span>
-                                                            <input type="checkbox" id="provider_box_{{value.code}}" name="provider_box_{{value.code}}" value="{{value.code}}" onclick="check_provider('{{value.code}}')" {%if value.bool == True %} checked {% endif %}/>
+                                                            <span class="span-search-ticket" style="color:black;">{{value.display_name}}</span>
+                                                            <input type="checkbox" id="provider_box_{{key}}" name="provider_box_{{key}}" value="{{key}}" onclick="check_provider('{{key}}')" {%if value.bool == True %} checked {% endif %}/>
                                                             <span class="check_box_span_custom"></span>
                                                         </label><br/>
                                                     </a>
