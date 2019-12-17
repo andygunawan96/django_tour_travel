@@ -57,7 +57,7 @@ def get_printout(request):
             'order_number': request.POST['order_number'],
             'mode': request.POST['mode'],
             'provider_type': request.POST['provider_type'],
-            'bill_to_name': request.POST['bill_to_name'],
+            'bill_to_name': request.POST['bill_name_to'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -67,7 +67,6 @@ def get_printout(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    i
     res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] == 0:

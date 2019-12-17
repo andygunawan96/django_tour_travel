@@ -1777,7 +1777,7 @@ function check_date_time(value){
 function check_ktp(value){
     var checknumber = "^[0-9]*$";//number
     if(value.match(checknumber)!=null){
-        if(value.length==16){
+        if(value.length==16 || value.length == 17){
             return true;
         }else{
             return false;
