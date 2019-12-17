@@ -525,15 +525,20 @@ function update_table(type){
                     $text += visa.passengers[i].visa.biometrics.biometrics_list[j].location + ' ' + visa.passengers[i].visa.biometrics.biometrics_list[j].datetime + '\n';
                 }
             }
+            price_pax = 0;
             for(j in visa.passengers[i].visa.price){
                 if(visa.passengers[i].visa.price[j].charge_code == 'total'){
-                    $text += 'Price '+ visa.passengers[i].visa.price[j].currency + ' ' + getrupiah(visa.passengers[i].visa.price[j].amount) + '\n';
                     price += visa.passengers[i].visa.price[j].amount;
-                    price_pax = visa.passengers[i].visa.price[j].amount;
+                    price_pax += visa.passengers[i].visa.price[j].amount;
                     currency = visa.passengers[i].visa.price[j].currency;
-                }else if(visa.passengers[i].visa.price[j].charge_code == 'rac')
+                }else if(visa.passengers[i].visa.price[j].charge_code == 'rac'){
                     commission += (visa.passengers[i].visa.price[j].amount) *-1;
+                }else if(visa.passengers[i].visa.price[j].charge_code == 'csc'){
+                    price += visa.passengers[i].visa.price[j].amount;
+                    price_pax += visa.passengers[i].visa.price[j].amount;
+                }
             }
+            $text += 'Price '+ visa.passengers[i].visa.price[j].currency + ' ' + getrupiah(price_pax) + '\n';
             text+=`
                     <tr>
                         <td>`+visa.passengers[i].title+` `+visa.passengers[i].first_name+` `+visa.passengers[i].last_name+`</td>

@@ -21,7 +21,6 @@
     sorting_value = '';
 
     time_limit = {{time_limit}};
-    template = {{template}};
     session_time_limit();
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
@@ -463,7 +462,6 @@
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
                    document.getElementById("info_user_search").style.display = "block";
-                   document.getElementById("info_user_search").style.zIndex = "1";
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
                    }catch(err){}

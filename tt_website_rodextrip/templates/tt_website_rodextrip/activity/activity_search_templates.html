@@ -35,7 +35,9 @@
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
     <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
 </button>
+<div id="overlay-search-box" onclick="off_overlay()"></div>
 
+{%if template == 1%}
 <section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div class="container">
         <div class="row">
@@ -71,7 +73,6 @@
         </div>
     </div>
 </section>
-<div id="overlay-search-box" onclick="off_overlay()"></div>
 <section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
     <div class="container">
         <div class="row">
@@ -164,8 +165,142 @@
         </div>
     </div>
 </section>
+{% elif template == 2 %}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8" style="text-align:left;">
+                <span style="text-transform: capitalize;">Activity Search: {% if query %}{{query}}{% else %}All Activities{% endif %}</span><br/>
+                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
+                    <span id="search_country_name">
+                        All Countries
+                    </span>,
+                    <span id="search_city_name">
+                        All Cities
+                    </span>
+                </span>
+                <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
+                    <span id="search_type_name">
+                        All Types
+                    </span>,
+                    <span id="search_category_name">
+                        All Categories
+                    </span>,
+                    <span id="search_sub_category_name">
+                        All Sub Categories
+                    </span>
+                </span>
+                <br/>
+            </div>
+            <div class="col-lg-4" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{static_path}}images/christmas-wallpaper2.jpg); padding-top:40px; padding-bottom:40px; z-index:2; position:relative; display:none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">
+                        <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                    <span style="color:white;"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                    <span style="color:white;">&nbsp;</span>
+                                    <div class="input-container-search-ticket">
+                                        <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                        <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="activity_advanced_search" style="display:none;">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <span style="color:white;"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="form-select" id="default-select">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
+                                                    <option value="" selected="">All Countries</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                            <div class="form-select">
+                                                <div id="temp_activity_cities">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
+                                                        <option value="" selected="">All Cities</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12 search_type">
+                                            <span style="color:white;"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
+                                            <div class="form-select">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                    <option value="0" selected="">All Types</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="form-select">
+                                                <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
+                                                    <option value="0" selected="">All Categories</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="form-select">
+                                                <div id="temp_activity_sub_category">
+                                                    <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                        <option value="0" selected="">All Sub Categories</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                    Search
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%endif%}
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="row" style="padding-bottom:10px;">
             <div class="col-lg-12" id="breadcrumbs_create">

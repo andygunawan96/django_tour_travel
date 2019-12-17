@@ -664,9 +664,12 @@ function visa_get_data(data){
                                     if(j == 'TOTAL'){
                                         price['FARE'] += msg.result.response.passengers[i].visa.price[j].amount;
                                         price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
-                                    }else{
+                                    }else if(j == 'RAC'){
                                         price[j] += msg.result.response.passengers[i].visa.price[j].amount;
                                         price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                    }else if(j == 'CSC'){
+                                        price['CSC'] = msg.result.response.passengers[i].visa.price[j].amount;
+
                                     }
                                 }
                                 //repricing
@@ -680,13 +683,13 @@ function visa_get_data(data){
                                     price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
                                         'Fare': price['FARE'],
                                         'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': 0
+                                        'Repricing': price['CSC']
                                     }
                                 }else{
                                     price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
                                         'Fare': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Fare'] + price['FARE'],
                                         'Tax': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Tax'] + price['TAX'] + price['ROC'],
-                                        'Repricing': 0
+                                        'Repricing': price['CSC']
                                     }
                                 }
                                 text_repricing = `
@@ -856,7 +859,6 @@ function visa_get_data(data){
                 document.getElementById('visa_booking').innerHTML = text;
                 update_table('booking');
             }
-            console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             $("#waitingTransaction").modal('hide');
@@ -867,4 +869,66 @@ function visa_get_data(data){
             })
        },timeout: 60000
     });
+}
+
+function update_service_charge(data){
+    upsell = []
+    for(i in visa.passengers){
+        for(j in visa.passengers[i].sale_service_charges){
+            currency = visa.passengers[i].sale_service_charges[j].TOTAL.currency;
+        }
+        list_price = []
+        console.log(list);
+        for(j in list){
+            if(visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
+                list_price.push({
+                    'amount': list[j],
+                    'currency_code': currency
+                });
+            }
+
+        }
+        upsell.push({
+            'sequence': visa.passengers[i].sequence,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+    }
+    console.log(upsell);
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'update_service_charge',
+       },
+       data: {
+           'order_number': visa.journey.name,
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                visa_get_data(order_number);
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline service charge </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+            })
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
 }

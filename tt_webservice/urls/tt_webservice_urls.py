@@ -33,6 +33,7 @@ urlpatterns = [
     re_path('bank', BankWebserviceView.api_models, name="bank"),
     re_path('content', ContentWebserviceView.api_models, name="content"),
     re_path('voucher', VoucherWebserviceView.api_models, name="voucher"),
+    re_path('printout', PrintoutWebserviceView.api_models, name="printout"),
     re_path('test', TestWebserviceView.api_models, name="test"),
     # url(r'^$', views.index),
 ]

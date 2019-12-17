@@ -30,6 +30,10 @@
     </div>
 </div>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+
+{%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
@@ -47,9 +51,26 @@
         </div>
     </div>
 </header>
-{% include 'tt_website_rodextrip/logout.html' %}
-{% include 'tt_website_rodextrip/loading_screen.html' %}
-<div class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% elif template == 2 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
+<div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <form method="POST" id="acitivity_booking" action="{% url 'tt_website_rodextrip:activity_booking'%}">
             {% csrf_token %}
@@ -94,7 +115,7 @@
                             </div>
                         </div>
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                        <!--{% include 'tt_website_rodextrip/voucher_code.html'  %}-->
+                        {% include 'tt_website_rodextrip/voucher_code.html'  %}
                         <button id="final_issued_btn" class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
                             Issued Booking
                         </button>
@@ -172,6 +193,7 @@
 {% include 'tt_website_rodextrip/footer.html' %}
 
 <script>
+    document.getElementById('voucher_discount').style.display = 'none';
     $(document).ready(function () {
         breadcrumb_create("activity", 5, 1);
     });

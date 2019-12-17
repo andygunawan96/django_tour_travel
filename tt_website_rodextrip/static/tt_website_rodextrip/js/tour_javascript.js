@@ -298,59 +298,78 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         'double': 'Double/Twin',
         'triple': 'Triple'
     }
-    var template = '';
-        template += '<div id="room_field_' + idx + '" style="margin-bottom:20px; padding:15px; border: 1px solid #cdcdcd;"><div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">';
-        template += '<input type="hidden" id="room_id_' + idx + '" name="room_id_' + idx + '" value="'+ room_data.id + '"/>';
-        template += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '">Room ' +  idx +  ' - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
-        template += '<span style="font-size:12px;">' + room_data.description +'</span>';
-        template += '<br/><span style="margin: 0px;"><i class="fa fa-building"></i> ' + room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address +'</span>';
-        template += '<div class="row" style="margin-top:15px;">';
-        template += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template += '<span>Adult</span>';
-        template += '<div class="input-container-search-ticket btn-group"><div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+    var template_txt = '';
+        template_txt += '<div id="room_field_' + idx + '" style="margin-bottom:20px; padding:15px; border: 1px solid #cdcdcd;"><div class="banner-right"><div class="form-wrap" style="padding:0px !important; text-align:left;">';
+        template_txt += '<input type="hidden" id="room_id_' + idx + '" name="room_id_' + idx + '" value="'+ room_data.id + '"/>';
+        template_txt += '<h6 title="'+ room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address + '">Room ' +  idx +  ' - ' + room_data.name + ' ' + room_lib[room_data.bed_type] + '</h6>';
+        template_txt += '<span style="font-size:12px;">' + room_data.description +'</span>';
+        template_txt += '<br/><span style="margin: 0px;"><i class="fa fa-building"></i> ' + room_data.hotel + ' (' + room_data.star + ') - ' + room_data.address +'</span>';
+        template_txt += '<div class="row" style="margin-top:15px;">';
+        template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
+        template_txt += '<span>Adult</span>';
+        if(template == 1){
+            template_txt += '<div class="input-container-search-ticket btn-group">';
+        }
+        template_txt += '<div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
         for (var i=1; i<=parseInt(room_data.adult_limit); i++)
         {
-            if (i == 1) {template += '<option selected value="' + i + '">' + i + '</option>';}
-            else {template += '<option value="' + i + '">' + i + '</option>';}
+            if (i == 1) {template_txt += '<option selected value="' + i + '">' + i + '</option>';}
+            else {template_txt += '<option value="' + i + '">' + i + '</option>';}
         }
-        template += '</select></div></div>';
-        template += '<small id="tour_child_age_range' + i + '" class="hidden">(12-120 years old)</small>';
-        template += '</div>';
-        template += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template += '<span>Child</span>';
-        template += '<div class="input-container-search-ticket btn-group"><div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        template_txt += '</select></div>';
+        if(template == 1){
+            template_txt += '</div>';
+        }
+        template_txt += '<small id="tour_child_age_range' + i + '" class="hidden">(12-120 years old)</small>';
+        template_txt += '</div>';
+        template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
+        template_txt += '<span>Child</span>';
+        if(template == 1){
+            template_txt += '<div class="input-container-search-ticket btn-group">';
+        }
+        template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
         for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
         {
-            if (i == 0) {template += '<option selected value="' + i + '">' + i + '</option>';}
-            else {template += '<option value="' + i + '">' + i + '</option>';}
+            if (i == 0) {template_txt += '<option selected value="' + i + '">' + i + '</option>';}
+            else {template_txt += '<option value="' + i + '">' + i + '</option>';}
         }
-        template += '</select></div></div>';
-        template += '<small id="tour_child_age_range' + i + '" class="hidden">(2-11 years old)</small>';
-        template += '</div>';
-        template += '<div class="col-lg-4 col-md-4 col-sm-4">';
-        template += '<span>Infant</span>';
-        template += '<div class="input-container-search-ticket btn-group"><div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
-        template += '<option selected value="0">0</option>';
-        template += '<option value="1">1</option>';
-        template += '</select></div></div>';
-        template += '<small id="tour_child_age_range' + i + '" class="hidden">(0-1 years old)</small>';
-        template += '</div>';
+        template_txt += '</select></div>';
+        if(template == 1){
+            template_txt += '</div>';
+        }
+        template_txt += '<small id="tour_child_age_range' + i + '" class="hidden">(2-11 years old)</small>';
+        template_txt += '</div>';
+        template_txt += '<div class="col-lg-4 col-md-4 col-sm-4">';
+        template_txt += '<span>Infant</span>';
+        if(template == 1){
+            template_txt += '<div class="input-container-search-ticket btn-group">';
+        }
+        template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        template_txt += '<option selected value="0">0</option>';
+        template_txt += '<option value="1">1</option>';
+        template_txt += '</select></div>';
+        if(template == 1){
+            template_txt += '</div>';
+        }
+        template_txt += '<small id="tour_child_age_range' + i + '" class="hidden">(0-1 years old)</small>';
+        template_txt += '</div>';
 
         if (room_data.bed_type=="double")
         {
-            template += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
-            template += '<textarea class="form-control" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes" style="margin-bottom:5px;"/>';
-            template += '<small style="color: #787878; margin-left: 2px;">Ex: king size, twin, non smoking, etc.</small>';
-            template += '</div>';
+            template_txt += '<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;">';
+            template_txt += '<textarea class="form-control" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes" style="margin-bottom:5px;"/>';
+            template_txt += '<small style="color: #787878; margin-left: 2px;">Ex: king size, twin, non smoking, etc.</small>';
+            template_txt += '</div>';
         }
         else
         {
-            template += '<input type="text" class="form-control hide" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes" value=" "/>';
+            template_txt += '<input type="text" class="form-control hide" id="notes_' + idx + '" name="notes_' + idx + '" placeholder="Notes" value=" "/>';
         }
-        template += '</div>';
-        template += '<input type="hidden" id="accomodation_index_' + idx + '" name="accomodation_index_' + idx + '" value="' + key_accomodation + '"/>';
-        template += '</div></div></div>';
-    return template;
+        template_txt += '</div>';
+        template_txt += '<input type="hidden" id="accomodation_index_' + idx + '" name="accomodation_index_' + idx + '" value="' + key_accomodation + '"/>';
+        template_txt += '</div></div>'
+        template_txt += '</div>';
+    return template_txt;
 }
 
 function delete_tour_room(){

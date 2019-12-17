@@ -74,6 +74,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -348,12 +350,12 @@ def commit_booking(request):
         data.update({
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher': {}
+            'voucher': {}
         })
-        # if request.POST['voucher_code'] != '':
-        #     data.update({
-        #         'voucher': data_voucher(request.POST['voucher_code'], 'visa', 'visa_rodextrip'),
-        #     })
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'visa', ['visa_rodextrip']),
+            })
 
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -393,4 +395,30 @@ def get_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
+    return res
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -1,5 +1,6 @@
-function get_printout(order_number,type,provider_type,bill_to_name){
-    getToken();
+function get_printout(order_number,type,provider_type,bill_name_to){
+    //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
+
     $.ajax({
        type: "POST",
        url: "/webservice/printout",
@@ -9,18 +10,28 @@ function get_printout(order_number,type,provider_type,bill_to_name){
        data: {
             'order_number': order_number,
             'mode': type,
-            'provider_type': provider_type
-            'bill_to_name': bill_to_name,
+            'provider_type': provider_type,
+            'bill_name_to': bill_name_to,
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
-
+            if(msg.result.error_code == 0){
+                window.open(msg.result.response.url,'_blank');
+//                window.open('https://static.rodextrip.com/ebe/6b5/74e/ig%20no%20socmed.jpg','_blank');
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+                })
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error payment acq </span>' + errorThrown,
+              html: '<span style="color: red;">Error printout </span>' + errorThrown,
             })
        },timeout: 60000
     });

@@ -9,6 +9,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice_voucher_views import *
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -167,7 +168,7 @@ def set_data_issued_offline(request):
 
         if request.POST['type'] == 'airline':
             data_issued_offline["sector_type"] = request.POST['sector_type']
-
+        request.session['sell_journey_io'] = data_issued_offline
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -268,6 +269,12 @@ def update_contact(request):
 
     return res
 
+
+def calculateAge(birthDate):
+    today = date.today()
+    age = today.year - birthDate.year -((today.month, today.day) < (birthDate.month, birthDate.day))
+    return age
+
 def update_passenger(request):
     try:
         passenger = []
@@ -280,17 +287,20 @@ def update_passenger(request):
                 birth_date = '%s-%s-%s' % (request.POST['passenger_birth_date' + str(i)].split(' ')[2],
                                            month[request.POST['passenger_birth_date' + str(i)].split(' ')[1]],
                                            request.POST['passenger_birth_date' + str(i)].split(' ')[0])
-            if request.POST['passenger_passport_expired_date' + str(i)] != '':
-                passport_expdate = '%s-%s-%s' % (request.POST['passenger_passport_expired_date' + str(i)].split(' ')[2],
-                                                 month[request.POST['passenger_passport_expired_date' + str(i)].split(' ')[
-                                                     1]],
-                                                 request.POST['passenger_passport_expired_date' + str(i)].split(' ')[0])
-            pax_type = ''
-            if int(request.POST['passenger_years_old' + str(i)]) > 12:
+            try:
+                if request.POST['passenger_passport_expired_date' + str(i)] != '':
+                    passport_expdate = '%s-%s-%s' % (request.POST['passenger_passport_expired_date' + str(i)].split(' ')[2],
+                                                     month[request.POST['passenger_passport_expired_date' + str(i)].split(' ')[
+                                                         1]],
+                                                     request.POST['passenger_passport_expired_date' + str(i)].split(' ')[0])
+            except:
+                _logger.error(msg=str('no passport issued_offline update_passengers') + '\n')
+            pax_type = calculateAge(datetime(int(birth_date.split('-')[0]), int(birth_date.split('-')[1]), int(birth_date.split('-')[2])))
+            if pax_type > 12:
                 pax_type = 'ADT'
-            elif int(request.POST['passenger_years_old' + str(i)]) >= 2:
+            elif pax_type >= 2:
                 pax_type = 'CHD'
-            elif int(request.POST['passenger_years_old' + str(i)]) < 2:
+            elif pax_type < 2:
                 pax_type = 'INF'
             passenger.append({
                 "pax_type": pax_type,
@@ -299,12 +309,20 @@ def update_passenger(request):
                 "title": request.POST['passenger_title' + str(i)],
                 "birth_date": birth_date,
                 "nationality_name": request.POST['passenger_nationality_code' + str(i)],
-                "identity_country_of_issued_name": request.POST['passenger_country_of_issued' + str(i)],
-                "identity_expdate": passport_expdate,
-                "identity_number": request.POST['passenger_passport_number' + str(i)],
-                "identity_type": "passport",
                 'passenger_seq_id': request.POST['passenger_id' + str(i)] != '' and request.POST['passenger_id' + str(i)] or ''
             })
+            try:
+                if(request.POST['passenger_passport_number' + str(i)] != ''):
+                    passenger[len(passenger)-1].update({
+                        'identity': {
+                            "identity_country_of_issued_name": request.POST['passenger_country_of_issued' + str(i)],
+                            "identity_expdate": passport_expdate,
+                            "identity_number": request.POST['passenger_passport_number' + str(i)],
+                            "identity_type": "passport"
+                        }
+                    })
+            except:
+                pass
             if i == 0:
                 if request.POST['myRadios'] == 'true':
                     passenger[len(passenger)-1].update({
@@ -338,25 +356,14 @@ def update_passenger(request):
                     if pax['nationality_name'] == country['name']:
                         pax['nationality_code'] = country['code']
                         break
-
-            if pax['identity_country_of_issued_name'] != '':
-                for country in response['result']['response']['airline']['country']:
-                    if pax['nationality_name'] == country['name']:
-                        pax['identity_country_of_issued_code'] = country['code']
-                        break
-            if pax['identity_expdate'] != '':
-                pax['identity'] = {
-                    "identity_country_of_issued_name": pax.pop('identity_country_of_issued_name'),
-                    "identity_country_of_issued_code": pax.pop('identity_country_of_issued_code'),
-                    "identity_expdate": pax.pop('identity_expdate'),
-                    "identity_number": pax.pop('identity_number'),
-                    "identity_type": pax.pop('identity_type'),
-                }
-            else:
-                pax.pop('identity_country_of_issued_name')
-                pax.pop('identity_expdate')
-                pax.pop('identity_number')
-                pax.pop('identity_type')
+            try:
+                if pax['identity']['identity_country_of_issued_name'] != '':
+                    for country in response['result']['response']['airline']['country']:
+                        if pax['nationality_name'] == country['name']:
+                            pax['identity_country_of_issued_code'] = country['code']
+                            break
+            except:
+                pass
         data = {
             'passengers': passenger
         }
@@ -375,8 +382,12 @@ def commit_booking(request):
         data = {
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher_code': request.POST['voucher_code']
+            'voucher_code': request.POST['voucher_code']
         }
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], request.session['sell_journey_io']['type'], []),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
