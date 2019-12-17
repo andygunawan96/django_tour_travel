@@ -3686,7 +3686,7 @@ function airline_detail(type){
                                         <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
-                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.adult+`x Infant Fare @`+airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
+                                                    <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
                                                 </div>
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_price[i].INF.currency+` `+getrupiah(Math.ceil((airline_price[i].INF.fare+price) * airline_request.infant))+`</span>
