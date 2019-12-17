@@ -2026,7 +2026,9 @@ function sort(activity_dat, check){
                         <div id='csrf`+activity_dat[i].sequence+`'></div>
                         <input type='hidden' value='`+JSON.stringify(activity_dat[i]).replace(/[']/g, /["]/g)+`'/>
                         <input id='uuid' name='uuid' type=hidden value='`+activity_dat[i].uuid+`'/>
-                        <input id='sequence' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>
+                        <input id='sequence' name='sequence' type=hidden value='`+activity_dat[i].sequence+`'/>`;
+                   if(template == 1){
+                        text+=`
                         <div class="single-recent-blog-post item activity_box" style="cursor:pointer;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">
                             <div class="single-destination relative">
                                 <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
@@ -2055,7 +2057,40 @@ function sort(activity_dat, check){
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div>`;
+                   }else{
+                        text+=`
+                        <div class="single-post-area mb-30 activity_box" style="cursor:pointer;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">
+                            <div class="single-destination relative">
+                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
+                                    <div class="overlay overlay-bg"></div>
+                                    <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
+                                </div>
+                                <div class="card card-effect-promotion">
+                                    <div class="card-body" style="padding:15px;">
+                                        <div class="row details">
+                                            <div class="col-lg-12" style="text-align:left;">
+                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+activity_dat[i].name+`">`+activity_dat[i].name+`</h6>`;
+                                                for(j in activity_dat[i].locations) {
+                                                    text+=`
+                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> `+activity_dat[i].locations[j].city_name+`, `+activity_dat[i].locations[j].country_name+` </span>
+                                                        <br/>`;
+                                                }
+                                            text+=`
+                                            <span class="span-activity-desc" style="font-size:13px;"> `+activity_dat[i].reviewAverageScore+` <i style="color:#FFC801 !important;" class="fas fa-star"></i> (`+activity_dat[i].reviewCount+`)</span>
+                                            <br/><br/>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:right;">
+                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`</span><br/>
+                                                <a href="#" class="btn roberto-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
+                   }
+                   text+=`
                    </form>
                </div>`;
            }
