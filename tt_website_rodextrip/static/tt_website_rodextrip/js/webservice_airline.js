@@ -638,6 +638,91 @@ function airline_search(provider,carrier_codes){
                     $("#waitFlightSearch").hide();
                   }
               }
+              if (count_progress_bar_airline == airline_choose && airline_data.length == 0){
+                    document.getElementById("airlines_ticket").innerHTML = '';
+                    text = '';
+                    text += `
+                    <div style="text-align:center">
+                        <img src="/static/tt_website_rodextrip/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
+                        <br/>
+                    </div>
+                    <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight. Please try another flight. </h6></div></center>`;
+                    var node = document.createElement("div");
+                    node.innerHTML = text;
+                    document.getElementById("airlines_ticket").appendChild(node);
+                    node = document.createElement("div");
+              }
+              var node = document.createElement("div");
+              var node2 = document.createElement("div");
+              if(document.getElementById("filter_airline_span").innerHTML == '' && airline_data.length > 0){
+                   document.getElementById('filter_airline_span').innerHTML = " Airline"+ '<i class="fas fa-chevron-down" id="airlineAirline_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineAirline_generalUp" style="float:right; display:block;"></i>';
+                   document.getElementById('filter_airline_span').parentNode.insertBefore(document.createElement('hr'), document.getElementById('filter_airline_span'));
+                   document.getElementById('filter_airline_span2').innerHTML = " Airline";
+                   document.getElementById('filter_airline_span2').parentNode.insertBefore(document.createElement('hr'), document.getElementById('filter_airline_span2'));
+              }
+              try{
+                   msg.response.schedules.forEach((obj)=> {
+
+                       obj.journeys.forEach((obj2) =>{
+                           check = 0;
+                           carrier_code.forEach((obj1)=> {
+                               if(obj1.code == obj2.segments[0].carrier_code)
+                                   check=1;
+                               else if(airline_carriers[0][obj2.segments[0].carrier_code] == undefined)
+                                   check=1;
+                           });
+                           carrier_code_airline_checkbox = '';
+                           if(check == 0){
+                               carrier_code_airline_checkbox += `
+                               <div class="checkbox-inline1">
+                               <label class="check_box_custom">`;
+                               try{
+                               carrier_code_airline_checkbox +=`
+                                    <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
+                               }catch(err){
+                               console.log(err);
+                               carrier_code_airline_checkbox +=`
+                                    <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
+                               }
+                               carrier_code_airline_checkbox +=`
+                                    <input type="checkbox" id="checkbox_airline`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                               </div>`;
+                               node.innerHTML = carrier_code_airline_checkbox;
+                               document.getElementById("airlineAirline_generalShow").appendChild(node);
+                               node = document.createElement("div");
+                               carrier_code_airline_checkbox = '';
+                               carrier_code_airline_checkbox += `
+                               <div class="checkbox-inline1">
+                               <label class="check_box_custom">`;
+                               try{
+                               carrier_code_airline_checkbox +=`
+                                    <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
+                               }catch(err){
+                               carrier_code_airline_checkbox +=`
+                                    <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
+                               }
+                               carrier_code_airline_checkbox +=`<input type="checkbox" id="checkbox_airline2`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
+                                    <span class="check_box_span_custom"></span>
+                                </label><br/>
+                               </div>`;
+                               node2.innerHTML = carrier_code_airline_checkbox;
+                               document.getElementById("airline_list2").appendChild(node2);
+                               node2 = document.createElement("div");
+
+                               carrier_code.push({
+                                   airline:airline_carriers[0][obj2.segments[0].carrier_code],
+                                   code:obj2.segments[0].carrier_code,
+                                   status: false,
+                                   key: airline_list_count
+                               });
+                               airline_list_count++;
+                           }
+                       })
+
+                   });
+              }catch(err){console.log(err)}
            }else{
               airline_choose++;
               var bar1 = new ldBar("#barFlightSearch");
@@ -648,91 +733,6 @@ function airline_search(provider,carrier_codes){
                 $("#waitFlightSearch").hide();
               }
            }
-           if (count_progress_bar_airline == airline_choose && airline_data.length == 0){
-                document.getElementById("airlines_ticket").innerHTML = '';
-                text = '';
-                text += `
-                <div style="text-align:center">
-                    <img src="/static/tt_website_rodextrip/images/nofound/no-airlines.png" style="width:70px; height:70px;" alt="" title="" />
-                    <br/>
-                </div>
-                <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Sorry no ticket for flight. Please try another flight. </h6></div></center>`;
-                var node = document.createElement("div");
-                node.innerHTML = text;
-                document.getElementById("airlines_ticket").appendChild(node);
-                node = document.createElement("div");
-           }
-           var node = document.createElement("div");
-           var node2 = document.createElement("div");
-           if(document.getElementById("filter_airline_span").innerHTML == '' && airline_data.length > 0){
-               document.getElementById('filter_airline_span').innerHTML = " Airline"+ '<i class="fas fa-chevron-down" id="airlineAirline_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineAirline_generalUp" style="float:right; display:block;"></i>';
-               document.getElementById('filter_airline_span').parentNode.insertBefore(document.createElement('hr'), document.getElementById('filter_airline_span'));
-               document.getElementById('filter_airline_span2').innerHTML = " Airline";
-               document.getElementById('filter_airline_span2').parentNode.insertBefore(document.createElement('hr'), document.getElementById('filter_airline_span2'));
-           }
-           try{
-               msg.response.schedules.forEach((obj)=> {
-
-                   obj.journeys.forEach((obj2) =>{
-                       check = 0;
-                       carrier_code.forEach((obj1)=> {
-                           if(obj1.code == obj2.segments[0].carrier_code)
-                               check=1;
-                           else if(airline_carriers[0][obj2.segments[0].carrier_code] == undefined)
-                               check=1;
-                       });
-                       carrier_code_airline_checkbox = '';
-                       if(check == 0){
-                           carrier_code_airline_checkbox += `
-                           <div class="checkbox-inline1">
-                           <label class="check_box_custom">`;
-                           try{
-                           carrier_code_airline_checkbox +=`
-                                <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
-                           }catch(err){
-                           console.log(err);
-                           carrier_code_airline_checkbox +=`
-                                <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
-                           }
-                           carrier_code_airline_checkbox +=`
-                                <input type="checkbox" id="checkbox_airline`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
-                                <span class="check_box_span_custom"></span>
-                            </label><br/>
-                           </div>`;
-                           node.innerHTML = carrier_code_airline_checkbox;
-                           document.getElementById("airlineAirline_generalShow").appendChild(node);
-                           node = document.createElement("div");
-                           carrier_code_airline_checkbox = '';
-                           carrier_code_airline_checkbox += `
-                           <div class="checkbox-inline1">
-                           <label class="check_box_custom">`;
-                           try{
-                           carrier_code_airline_checkbox +=`
-                                <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
-                           }catch(err){
-                           carrier_code_airline_checkbox +=`
-                                <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
-                           }
-                           carrier_code_airline_checkbox +=`<input type="checkbox" id="checkbox_airline2`+airline_list_count+`" onclick="change_filter('airline',`+airline_list_count+`);"/>
-                                <span class="check_box_span_custom"></span>
-                            </label><br/>
-                           </div>`;
-                           node2.innerHTML = carrier_code_airline_checkbox;
-                           document.getElementById("airline_list2").appendChild(node2);
-                           node2 = document.createElement("div");
-
-                           carrier_code.push({
-                               airline:airline_carriers[0][obj2.segments[0].carrier_code],
-                               code:obj2.segments[0].carrier_code,
-                               status: false,
-                               key: airline_list_count
-                           });
-                           airline_list_count++;
-                       }
-                   })
-
-               });
-           }catch(err){console.log(err)}
 //            document.getElementById('train_searchForm').submit();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2883,13 +2883,13 @@ function airline_get_booking(data){
                         if(check == 0){
                             pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
                             price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                'Fare': price['FARE'] + price['SSR'] - price['DISC'],
+                                'Fare': price['FARE'] + price['SSR'] + price['DISC'],
                                 'Tax': price['TAX'] + price['ROC'],
                                 'Repricing': price['CSC']
                             }
                         }else{
                             price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] - price['DISC'],
+                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'],
                                 'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
                                 'Repricing': price['CSC']
                             }
@@ -2927,7 +2927,7 @@ function airline_get_booking(data){
                                 <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                             text_detail+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR - price.DISC))+`</span>
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.DISC))+`</span>
                             </div>
                         </div>`;
                         $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
@@ -2938,13 +2938,13 @@ function airline_get_booking(data){
                             else
                                 $text += ' ';
                         }
-                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC - price.DISC))+'\n';
+                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                         if(counter_service_charge == 0){
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR - price.DISC);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR - price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
                         }else{
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR - price.DISC);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR - price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
                         }
                         commission += parseInt(price.RAC);
                     }
