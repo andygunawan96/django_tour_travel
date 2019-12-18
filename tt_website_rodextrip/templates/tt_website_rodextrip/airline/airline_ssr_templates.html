@@ -173,7 +173,7 @@
                                 {%if template == 1%}
                                 <div class="input-container-search-ticket btn-group">
                                     <div class="form-select" id="default-select">
-                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}" {% for ssr_list_pax in pax.ssr_list %}
@@ -188,7 +188,7 @@
                                 </div>
                                 {% elif template == 2 %}
                                 <div class="input-container-search-ticket btn-group">
-                                    <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                    <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_ssr()">
                                         <option value=""></option>
                                         {% for ssr in values.ssrs %}
                                         <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
@@ -198,7 +198,7 @@
                                 {% elif template == 3 %}
                                 <div class="form-group">
                                     <div class="default-select" id="default-select">
-                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_srr()">
+                                        <select id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" data-live-search="true" size="4" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
@@ -210,7 +210,7 @@
                                 <div class="select-wrap">
                                     <span class="span-search-ticket">Class</span><br/>
                                     <span class="icon"><br/><span class="icon-keyboard_arrow_down"></span></span>
-                                    <select class="form-control rounded" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
+                                    <select class="form-control rounded" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_ssr()">
                                         <option value=""></option>
                                         {% for ssr in values.ssrs %}
                                         <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>
@@ -220,7 +220,7 @@
                                 {% elif template == 5 %}
                                 <div class="input-container-search-ticket" style="display:inline-block !important;">
                                     <div id="default-select">
-                                        <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_srr()">
+                                        <select class="app-select form-control" id="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" name="{{key}}_{{counter_provider}}_{{counter}}_{{forloop.counter}}" onchange="on_change_ssr()">
                                             <option value=""></option>
                                             {% for ssr in values.ssrs %}
                                             <option value="{{ssr.ssr_code}}_{{ssr.total_price}}">{{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}</option>

@@ -57,6 +57,9 @@ function get_visa_config(type){
               title: 'Oops!',
               html: '<span style="color: red;">Error visa config </span>' + errorThrown,
             })
+            try{
+                $("#show_loading_booking_airline").hide();
+            }catch(err){}
        },timeout: 120000
     });
 }
@@ -71,12 +74,23 @@ function visa_signin(data){
        },
        data: {},
        success: function(msg) {
-            signature = msg.result.response.signature;
-            if(data == ''){
-                search_visa();
-            }else if(data != ''){
-                visa_get_data(data);
-            }
+            if(msg.result.error_code == 0){
+                signature = msg.result.response.signature;
+                if(data == ''){
+                    search_visa();
+                }else if(data != ''){
+                    visa_get_data(data);
+                }
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#waitingTransaction").modal('hide');
+               }catch(err){}
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

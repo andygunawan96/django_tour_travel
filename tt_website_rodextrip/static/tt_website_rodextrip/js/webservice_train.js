@@ -52,11 +52,22 @@ function train_signin(data){
        data: {},
        success: function(msg) {
             console.log(msg);
-            signature = msg.result.response.signature;
-            if(data == '')
-                train_search(msg.result.response.signature);
-            else if(data != '')
-                train_get_booking(data);
+            if(msg.result.error_code == 0){
+                signature = msg.result.response.signature;
+                if(data == '')
+                    train_search(msg.result.response.signature);
+                else if(data != '')
+                    train_get_booking(data);
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $("#waitingTransaction").modal('hide');
+               }catch(err){}
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -64,6 +75,9 @@ function train_signin(data){
               title: 'Oops!',
               html: '<span style="color: red;">Error train signin </span>' + errorThrown,
             })
+            try{
+                $("#waitingTransaction").modal('hide');
+            }catch(err){}
        },timeout: 60000
     });
 }

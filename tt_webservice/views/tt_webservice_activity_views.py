@@ -513,16 +513,13 @@ def commit_booking(request):
             data.update({
                 'member': member,
                 'seq_id': request.POST['seq_id'],
-                'voucher_code': {}
+                'voucher': {}
             })
 
             if request.POST['voucher_code'] != '':
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
                 })
-            data.update({
-                'bypass_psg_validator': request.POST['bypass_psg_validator']
-            })
     except:
         pass
 
@@ -557,6 +554,7 @@ def get_booking(request):
         res['result']['response'].update({
             'visit_date': new_visit_date
         })
+        request.session['activity_get_booking_response'] = res
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -573,8 +571,13 @@ def issued_booking(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher_code': request.POST['voucher_code']
+            'voucher': {}
         }
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'activity',[request.session['activity_get_booking_response']['result']['response']['provider']]),
+                # 'voucher': data_voucher(request.POST['voucher_code'], 'activity',['bemyguest']),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

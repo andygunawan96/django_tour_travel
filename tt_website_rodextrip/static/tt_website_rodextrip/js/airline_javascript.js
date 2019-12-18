@@ -3976,13 +3976,15 @@ function airline_detail(type){
 
 }
 
-function on_change_srr(){
+function on_change_ssr(){
     additional_price = 0;
     for(i in passengers){
         for(j in passengers[i].seat_list){
-            additional_price += parseInt(passengers[i].seat_list[j].price);
+            if(isNaN(parseInt(passengers[i].seat_list[j].price)) == false)
+                additional_price += parseInt(passengers[i].seat_list[j].price);
         }
     }
+
     for(i=1;i<=len_passenger;i++){
         for(j in ssr_keys){
             for(k=1;k<=ssr_keys[j].len;k++){
@@ -4441,7 +4443,8 @@ function get_airline_review(){
                                     text+= `<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
                                 }
                                 for(j in passengers_ssr[i].seat_list){
-                                    text+= `<label>`+passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
+                                    if(passengers_ssr[i].seat_list[j].seat_pick != '')
+                                        text+= `<label>`+passengers_ssr[i].seat_list[j].segment_code + ` ` +passengers_ssr[i].seat_list[j].seat_pick + '</label><br>';
                                 }
                                 text+=`</td>
                                </tr>`;
@@ -4453,6 +4456,7 @@ function get_airline_review(){
                                 <td>`+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</td>
                                 <td>Infant</td>
                                 <td>`+passengers.infant[i].birth_date+`</td>
+                                <td></td>
                                </tr>`;
                         count_pax++;
                     }

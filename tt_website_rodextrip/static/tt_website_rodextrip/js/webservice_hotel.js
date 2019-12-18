@@ -96,20 +96,25 @@ function hotel_signin(data){
                     hotel_get_booking(data);
                }
            }else{
-                Swal.fire({
+               Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error hotel signin </span>' + msg.result.error_msg,
-                })
+                  html: msg.result.error_msg,
+               })
+               try{
+                $('#loading-search-hotel').hide();
+               }catch(err){}
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-          $("#loading-search-hotel").hide();
             Swal.fire({
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error hotel signin </span>' + errorThrown,
             })
+          try{
+            $('#loading-search-hotel').hide();
+          }catch(err){}
        },timeout: 120000
     });
 }

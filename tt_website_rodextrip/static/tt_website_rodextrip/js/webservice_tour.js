@@ -17,11 +17,22 @@ function tour_login(data){
 
        },
        success: function(msg) {
-           signature = msg.result.response.signature;
-           if(data == ''){
-               tour_search();
-           }else if(data != ''){
-               tour_get_booking(data);
+           if(msg.result.error_code == 0){
+               signature = msg.result.response.signature;
+               if(data == ''){
+                   tour_search();
+               }else if(data != ''){
+                   tour_get_booking(data);
+               }
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               try{
+                $('#loading-search-tour').hide();
+               }catch(err){}
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -30,6 +41,9 @@ function tour_login(data){
               title: 'Oops!',
               html: '<span style="color: red;">Error tour login </span>' + errorThrown,
             })
+            try{
+                $('#loading-search-tour').hide();
+            }catch(err){}
        },timeout: 60000
     });
 }
