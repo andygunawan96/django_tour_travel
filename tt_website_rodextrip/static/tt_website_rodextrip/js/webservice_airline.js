@@ -2560,9 +2560,7 @@ function airline_get_booking(data){
                     for(i in msg.result.response.provider_bookings){
                         if(check_provider_booking != 0 && msg.result.response.provider_bookings[i].state == 'booked'){
                             get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-                            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
-                            localTime  = moment.utc(tes).toDate();
-                            $text += 'Please make payment before '+ moment(localTime).format('DD MMM YYYY HH:mm') + `\n`;
+                            $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
                             $(".issued_booking_btn").show();
                             check_provider_booking++;
                         }

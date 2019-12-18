@@ -520,9 +520,6 @@ def commit_booking(request):
                 data.update({
                     'voucher': data_voucher(request.POST['voucher_code'], 'activity', [request.session['activity_pick']['provider']]),
                 })
-            data.update({
-                'bypass_psg_validator': request.POST['bypass_psg_validator']
-            })
     except:
         pass
 
@@ -573,7 +570,7 @@ def issued_booking(request):
             'order_number': request.POST['order_number'],
             'member': member,
             'seq_id': request.POST['seq_id'],
-            # 'voucher_code': request.POST['voucher_code']
+            'voucher_code': request.POST['voucher_code']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
