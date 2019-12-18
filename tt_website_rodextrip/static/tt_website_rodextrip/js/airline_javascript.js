@@ -3703,7 +3703,7 @@ function airline_detail(type){
                                         text+=`</div>`;
                                     }
                                 }catch(err){
-                                    continue
+
                                 }
 
                                 try{//child
@@ -3742,7 +3742,7 @@ function airline_detail(type){
                                         price = 0;
                                     }
                                 }catch(err){
-                                    continue
+
                                 }
 
                                 try{//infant
@@ -3787,7 +3787,7 @@ function airline_detail(type){
                                         price = 0;
                                     }
                                 }catch(err){
-                                    continue
+
                                 }
                                 $text += '\n';
                             }

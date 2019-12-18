@@ -1348,7 +1348,7 @@ function get_price_itinerary_request(){
                                                 price = 0;
                                             }
                                         }catch(err){
-                                            continue
+
                                         }
 
                                         try{//child
@@ -1388,7 +1388,7 @@ function get_price_itinerary_request(){
                                                 price = 0;
                                             }
                                         }catch(err){
-                                            continue
+
                                         }
 
                                         try{//infant
@@ -1433,7 +1433,7 @@ function get_price_itinerary_request(){
                                                 price = 0;
                                             }
                                         }catch(err){
-                                            continue
+
                                         }
                                         $text += '\n';
                                     }
@@ -4336,7 +4336,7 @@ function get_price_itinerary_reissue_request(){
                 total_price += airline_get_detail.result.response.ADT * price_list.ADT.price;
             }
         }catch(err){
-            continue
+
         }
 
         try{//child
@@ -4356,7 +4356,7 @@ function get_price_itinerary_reissue_request(){
                 total_price += airline_get_detail.result.response.CHD * price_list.CHD.price;
             }
         }catch(err){
-            continue
+
         }
         try{//infant
             if(airline_get_detail.result.response.INF != 0){
@@ -4375,7 +4375,7 @@ function get_price_itinerary_reissue_request(){
                 total_price += airline_get_detail.result.response.INF * price_list.INF.price;
             }
         }catch(err){
-            continue
+
         }
         $text += '\n';
     }
