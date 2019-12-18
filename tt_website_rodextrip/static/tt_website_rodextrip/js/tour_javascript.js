@@ -1417,14 +1417,13 @@ function sort(tour_dat, exist_check){
 
                if (tour_dat[i].state_tour == 'sold')
                {
-                   dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
+                   dat_content1 = ``+tour_dat[i].departure_date_str+` - `+tour_dat[i].return_date_str;
                    dat_content2 = `Sold Out`;
                }
                else
                {
-                   dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
-                   var count_quota = tour_data[i].quota - tour_data[i].seat;
-                   dat_content2 = ``+count_quota+`/`+tour_dat[i].quota;
+                   dat_content1 = ``+tour_dat[i].departure_date_str+` - `+tour_dat[i].return_date_str;
+                   dat_content2 = ``+tour_data[i].seat+`/`+tour_data[i].quota + ` Available`;
                }
 
                text+=`

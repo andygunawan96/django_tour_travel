@@ -200,8 +200,7 @@ function tour_search(){
                    else
                    {
                        dat_content1 = ``+tour_data[i].departure_date_str+` - `+tour_data[i].return_date_str;
-                       var count_quota = tour_data[i].quota - tour_data[i].seat;
-                       dat_content2 = ``+count_quota+`/`+tour_data[i].quota;
+                       dat_content2 = ``+tour_data[i].seat+`/`+tour_data[i].quota + ` Available`;
                    }
 
                    text+=`
@@ -358,8 +357,6 @@ function tour_get_details(package_id){
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.selected_tour;
-               com_agent = msg.result.response.commission_agent_type;
-               console.log(tour_data)
                 package_id = tour_data.id;
                 country_text += `<br/><span style="font-weight: bold; color: black; font-size: 16px;"> <i class="fa fa-map-marker" aria-hidden="true"></i>`;
                 for (j in tour_data.country_names)
