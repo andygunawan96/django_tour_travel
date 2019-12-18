@@ -21,7 +21,7 @@
     all_pax = all_pax.replace(/False/g,'false');
     all_pax = all_pax.replace(/None/g,'""');
     all_pax = JSON.parse(all_pax);
-
+    provider = '{{tour_data.provider}}';
     signature = '{{signature}}';
     room_amount = {{room_amount}};
     total_pax_amount = {{total_pax_all}};
