@@ -2294,7 +2294,17 @@ function sort(){
                                                    if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
                                                        text+=`
                                                        <label class="radio-button-custom">
-                                                           <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                           <b>`+airline[i].segments[j].fares[k].class_of_service;
+                                                       if(airline[i].segments[j].fares[k].cabin_class != '')
+                                                            if(airline[i].segments[j].fares[k].cabin_class == 'Y')
+                                                                text += 'Economy';
+                                                            else if(airline[i].segments[j].fares[k].cabin_class == 'W')
+                                                                text += 'Premium Economy';
+                                                            else if(airline[i].segments[j].fares[k].cabin_class == 'C')
+                                                                text += 'Business';
+                                                            else if(airline[i].segments[j].fares[k].cabin_class == 'F')
+                                                                text += 'First Class';
+                                                       text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
                                                            <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                            <span class="checkmark-radio"></span>
                                                        </label>`;
@@ -2302,18 +2312,39 @@ function sort(){
                                                        if(fare_check == 0){
                                                             text+=`
                                                                <label class="radio-button-custom">
-                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service;
+                                                                    if(airline[i].segments[j].fares[k].cabin_class != '')
+                                                                        if(airline[i].segments[j].fares[k].cabin_class == 'Y')
+                                                                            text += 'Economy';
+                                                                        else if(airline[i].segments[j].fares[k].cabin_class == 'W')
+                                                                            text += 'Premium Economy';
+                                                                        else if(airline[i].segments[j].fares[k].cabin_class == 'C')
+                                                                            text += 'Business';
+                                                                        else if(airline[i].segments[j].fares[k].cabin_class == 'F')
+                                                                            text += 'First Class';
+                                                                   text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
                                                                    <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
                                                                    <span class="checkmark-radio"></span>
                                                                </label>`;
                                                                fare_check = 1;
-                                                       }else if(fare_check == 1)
+                                                       }else if(fare_check == 1){
                                                            text+=`
                                                            <label class="radio-button-custom">
-                                                               <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                               <b>`+airline[i].segments[j].fares[k].class_of_service;
+                                                               if(airline[i].segments[j].fares[k].cabin_class != '')
+                                                                    if(airline[i].segments[j].fares[k].cabin_class == 'Y')
+                                                                        text += 'Economy';
+                                                                    else if(airline[i].segments[j].fares[k].cabin_class == 'W')
+                                                                        text += 'Premium Economy';
+                                                                    else if(airline[i].segments[j].fares[k].cabin_class == 'C')
+                                                                        text += 'Business';
+                                                                    else if(airline[i].segments[j].fares[k].cabin_class == 'F')
+                                                                        text += 'First Class';
+                                                               text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
                                                                <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
                                                                <span class="checkmark-radio"></span>
                                                            </label>`;
+                                                       }
                                                    }
                                                    text+=`<br/>`;
                                                    var total_price = 0;
@@ -2734,7 +2765,17 @@ function sort(){
                                                    if(airline_request.adult + airline_request.child > airline[i].segments[j].fares[k].available_count){
                                                        text+=`
                                                        <label class="radio-button-custom">
-                                                           <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                           <b>`+airline[i].segments[j].fares[k].class_of_service;
+                                                           if(airline[i].segments[j].fares[k].cabin_class != '')
+                                                                if(airline[i].segments[j].fares[k].cabin_class == 'Y')
+                                                                    text += 'Economy';
+                                                                else if(airline[i].segments[j].fares[k].cabin_class == 'W')
+                                                                    text += 'Premium Economy';
+                                                                else if(airline[i].segments[j].fares[k].cabin_class == 'C')
+                                                                    text += 'Business';
+                                                                else if(airline[i].segments[j].fares[k].cabin_class == 'F')
+                                                                    text += 'First Class';
+                                                           text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
                                                            <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                                            <span class="checkmark-radio"></span>
                                                        </label>`;
@@ -2742,18 +2783,39 @@ function sort(){
                                                        if(fare_check == 0){
                                                             text+=`
                                                                <label class="radio-button-custom">
-                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                                   <b>`+airline[i].segments[j].fares[k].class_of_service;
+                                                                   if(airline[i].segments[j].fares[k].cabin_class != '')
+                                                                        if(airline[i].segments[j].fares[k].cabin_class == 'Y')
+                                                                            text += 'Economy';
+                                                                        else if(airline[i].segments[j].fares[k].cabin_class == 'W')
+                                                                            text += 'Premium Economy';
+                                                                        else if(airline[i].segments[j].fares[k].cabin_class == 'C')
+                                                                            text += 'Business';
+                                                                        else if(airline[i].segments[j].fares[k].cabin_class == 'F')
+                                                                            text += 'First Class';
+                                                                   text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
                                                                    <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked">
                                                                    <span class="checkmark-radio"></span>
                                                                </label>`;
                                                                fare_check = 1;
-                                                       }else if(fare_check == 1)
+                                                       }else if(fare_check == 1){
                                                            text+=`
                                                            <label class="radio-button-custom">
-                                                               <b>`+airline[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
+                                                               <b>`+airline[i].segments[j].fares[k].class_of_service;
+                                                               if(airline[i].segments[j].fares[k].cabin_class != '')
+                                                                    if(airline[i].segments[j].fares[k].cabin_class == 'Y')
+                                                                        text += 'Economy';
+                                                                    else if(airline[i].segments[j].fares[k].cabin_class == 'W')
+                                                                        text += 'Premium Economy';
+                                                                    else if(airline[i].segments[j].fares[k].cabin_class == 'C')
+                                                                        text += 'Business';
+                                                                    else if(airline[i].segments[j].fares[k].cabin_class == 'F')
+                                                                        text += 'First Class';
+                                                               text+=`</span> / <span>`+airline[i].segments[j].fares[k].available_count+`</b>
                                                                <input onclick="change_fare(`+i+`,`+j+`,`+k+`);" id="journey`+i+`segment`+j+`fare" name="journey`+i+`segment`+j+`fare" type="radio" value="`+k+`">
                                                                <span class="checkmark-radio"></span>
                                                            </label>`;
+                                                       }
                                                    }
                                                    text+=`<br/>`;
                                                    var total_price = 0;
@@ -3274,20 +3336,41 @@ function airline_pick_mc(type){
                                     for(k in airline_pick_list[i].segments[j].fares){
                                         text+=`
                                         <td style="padding:10px 15px 0px 0px;">`;
-                                        if(k==airline_pick_list[i].segments[j].fare_pick)
+                                        if(k==airline_pick_list[i].segments[j].fare_pick){
                                         text+=`
                                         <label class="radio-button-custom">
-                                            `+airline_pick_list[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
+                                            `+airline_pick_list[i].segments[j].fares[k].class_of_service;
+                                            if(airline_pick_list[i].segments[j].fares[k].cabin_class != '')
+                                                if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'Y')
+                                                    text += 'Economy';
+                                                else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
+                                                    text += 'Premium Economy';
+                                                else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'C')
+                                                    text += 'Business';
+                                                else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'F')
+                                                    text += 'First Class';
+                                            text+=`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
                                             <input id="journeypick`+airline[i].sequence+`segment`+j+`fare" name="journeypick`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`" checked="checked" disabled>
                                             <span class="checkmark-radio"></span>
                                         </label>`;
-                                        else
+                                        }else{
                                         text+=`
                                         <label class="radio-button-custom">
-                                            `+airline_pick_list[i].segments[j].fares[k].class_of_service+`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
+                                            `+airline_pick_list[i].segments[j].fares[k].class_of_service;
+                                            if(airline_pick_list[i].segments[j].fares[k].cabin_class != '')
+                                                if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'Y')
+                                                    text += 'Economy';
+                                                else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'W')
+                                                    text += 'Premium Economy';
+                                                else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'C')
+                                                    text += 'Business';
+                                                else if(airline_pick_list[i].segments[j].fares[k].cabin_class == 'F')
+                                                    text += 'First Class';
+                                            text+=`</span> / <span>`+airline_pick_list[i].segments[j].fares[k].available_count+`
                                             <input id="journeypick`+airline[i].sequence+`segment`+j+`fare" name="journeypick`+airline[i].sequence+`segment`+j+`fare" type="radio" value="`+k+`" disabled>
                                             <span class="checkmark-radio"></span>
                                         </label>`;
+                                        }
                                         text+=`<br/>`;
                                         var total_price = 0;
                                         for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){

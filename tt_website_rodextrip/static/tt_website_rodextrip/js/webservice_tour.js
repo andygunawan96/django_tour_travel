@@ -1009,6 +1009,7 @@ function tour_get_booking(order_number)
            localTime  = moment.utc(tes).toDate();
            if(cur_state == 'booked'){
                 conv_status = 'Booked';
+                document.getElementById('voucher_discount').style.display = '';
                 document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
             }
             else if(cur_state == 'issued'){
@@ -1243,7 +1244,7 @@ function tour_get_booking(order_number)
             fare = 0;
             total_price = 0;
             commission = 0;
-            service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'DISC'];
 
             //repricing
             type_amount_repricing = ['Repricing'];
@@ -1256,7 +1257,7 @@ function tour_get_booking(order_number)
                         <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
                     </div>`;
                 for(j in msg.result.response.passengers){
-                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                    price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'DISC': 0};
                     for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                         price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                         price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
@@ -1276,13 +1277,13 @@ function tour_get_booking(order_number)
                     if(check == 0){
                         pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
                         price_arr_repricing[msg.result.response.passengers[j].name] = {
-                            'Fare': price['FARE'],
+                            'Fare': price['FARE'] + price['DISC'],
                             'Tax': price['TAX'] + price['ROC'],
                             'Repricing': price['CSC']
                         }
                     }else{
                         price_arr_repricing[msg.result.response.passengers[j].name] = {
-                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'],
+                            'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'],
                             'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
                             'Repricing': price['CSC']
                         }
@@ -1323,20 +1324,20 @@ function tour_get_booking(order_number)
 
                         if(counter_service_charge == 0){
                         price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price['DISC']))+`</span>`;
                         }else{
                             price_text+=`
-                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
+                            <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price['DISC']))+`</span>`;
                         }
                         price_text+=`
                         </div>
                     </div>`;
                     if(counter_service_charge == 0){
-                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
-                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.CSC))+'\n';
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price['DISC']);
+                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price['DISC']))+'\n';
                     }else{
-                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE))+'\n';
-                        total_price += parseInt(price.TAX + price.ROC + price.FARE);
+                        $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price['DISC']))+'\n';
+                        total_price += parseInt(price.TAX + price.ROC + price.FARE + price['DISC']);
                     }
                     commission += parseInt(price.RAC);
                 }
