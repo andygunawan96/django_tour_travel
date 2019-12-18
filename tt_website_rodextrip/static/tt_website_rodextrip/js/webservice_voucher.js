@@ -64,7 +64,12 @@ function check_voucher(){
         }else if(provider_type_id == 'train'){
 
         }else if(provider_type_id == 'activity'){
-            provider_id.push(response.provider)
+            try{
+                provider_id.push(response.provider)
+            }catch(err){
+//                console.log(act_get_booking.result.response.provider);
+                provider_id.push(act_get_booking.result.response.provider);
+            }
         }else if(provider_type_id == 'tour'){
             //pending RESPONSE BELOM FIX
 //            console.log(price_data);
@@ -174,7 +179,7 @@ function check_voucher(){
                             set_price('Issued','airline');
                         }catch(err){}
                     }else if(provider_type_id == 'activity'){
-                        console.log(grand_total)
+                        //console.log(grand_total)
                         discount_voucher = {
                             'discount': 0,
                             'currency': ''

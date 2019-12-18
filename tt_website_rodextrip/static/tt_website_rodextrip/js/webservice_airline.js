@@ -96,13 +96,25 @@ function airline_signin(data){
        success: function(msg) {
        try{
            console.log(msg);
-           airline_signature = msg.result.response.signature;
-           signature = msg.result.response.signature;
-           if(data == ''){
-               get_carrier_providers();
+           if(msg.result.error_code == 0){
+               airline_signature = msg.result.response.signature;
+               signature = msg.result.response.signature;
+               if(data == ''){
+                   get_carrier_providers();
 
-           }else if(data != ''){
-               airline_get_booking(data);
+               }else if(data != ''){
+                   airline_get_booking(data);
+               }
+           }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               })
+               $('.loader-rodextrip').fadeOut();
+               try{
+                $("#show_loading_booking_airline").hide();
+               }catch(err){}
            }
        }catch(err){
            $("#barFlightSearch").hide();
@@ -130,12 +142,15 @@ function airline_signin(data){
           $("#barFlightSearch").hide();
           $("#waitFlightSearch").hide();
 
-            Swal.fire({
+          Swal.fire({
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error airline signin </span>' + errorThrown,
-            })
-            $('.loader-rodextrip').fadeOut();
+          })
+          $('.loader-rodextrip').fadeOut();
+          try{
+            $("#show_loading_booking_airline").hide();
+          }catch(err){}
        },timeout: 60000
     });
 
