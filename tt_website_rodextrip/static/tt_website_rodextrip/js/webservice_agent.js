@@ -2655,7 +2655,7 @@ function edit_passenger_cache(val){
             document.getElementById('passenger_edit_identity_expired_date1').value = passenger_data_cache[val].identities[i].identity_expdate;
             document.getElementById('select2-passenger_edit_identity_country_of_issued1_id-container').innerHTML = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
             document.getElementById('passenger_edit_identity_country_of_issued1').value = passenger_data_cache[val].identities[i].identity_country_of_issued_name;
-            for(j in passenger_data_cache[val].identities[i].identity_images)
+            for(j in passenger_data_cache[val].identities[i].identity_images){
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
                         <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
@@ -2670,6 +2670,7 @@ function edit_passenger_cache(val){
                             </div>
                         </div>
                 </div>`;
+            }
             document.getElementById('attachment1').innerHTML = text;
         }else if(i == 'ktp'){
             document.getElementById('passenger_edit_identity_number2').value = passenger_data_cache[val].identities[i].identity_number;

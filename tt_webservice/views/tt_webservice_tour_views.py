@@ -563,6 +563,7 @@ def get_booking(request):
                 res['result']['response']['return_date'].split('-')[0])
             res['result']['response']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['departure_date'])
             res['result']['response']['return_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['return_date'])
+            request.session['tour_get_booking_response'] = res
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -584,7 +585,7 @@ def issued_booking(request):
         }
         if request.POST['voucher_code'] != '':
             data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+                'voucher': data_voucher(request.POST['voucher_code'], 'tour', [request.session['tour_get_booking_response']['result']['response']['provider']]),
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",

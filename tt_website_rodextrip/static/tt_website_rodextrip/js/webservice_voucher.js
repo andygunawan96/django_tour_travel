@@ -71,6 +71,11 @@ function check_voucher(){
                 provider_id.push(act_get_booking.result.response.provider);
             }
         }else if(provider_type_id == 'tour'){
+            try{
+                provider_id.push(provider);
+            }catch(err){
+                provider_id.push(tr_get_booking.result.response.provider);
+            }
             //pending RESPONSE BELOM FIX
 //            console.log(price_data);
 //            console.log(grand_total);
@@ -212,6 +217,55 @@ function check_voucher(){
                         </div>`;
                         try{
                             set_price('Issued','activity');
+                        }catch(err){}
+                    }else if(provider_type_id == 'tour'){
+                        discount_voucher = {
+                            'discount': 0,
+                            'currency': ''
+                        };
+                        try{
+                            for(i in airline_get_detail.result.response.provider_bookings){
+                                if(total_price_provider[i].price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                                    if(msg.result.response.provider[i].able_to_use == true){
+                                        if(msg.result.response.voucher_type == 'percent'){
+                                            discount_voucher['discount'] += total_price_provider[i].price * msg.result.response.voucher_value / 100;
+
+                                        }else if(msg.result.response.voucher_type == 'amount'){
+                                            discount_voucher['discount'] += msg.result.response.voucher_value;
+                                        }
+                                    }
+                                }
+                                discount_voucher['currency'] = msg.result.response.voucher_currency;
+                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                    discount_voucher['discount'] = msg.result.response.voucher_cap
+                            }
+                        }catch(err){
+                            //review
+                            if(grand_total > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                                if(msg.result.response.voucher_type == 'percent' ){
+                                    discount_voucher['discount'] += grand_total * msg.result.response.voucher_value / 100;
+
+                                }else if(msg.result.response.voucher_type == 'amount'){
+                                    discount_voucher['discount'] = msg.result.response.voucher_value;
+                                }
+                                discount_voucher['currency'] = msg.result.response.voucher_currency;
+                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                    discount_voucher['discount'] = msg.result.response.voucher_cap
+                            }
+                        }
+
+                        document.getElementById('voucher_discount').innerHTML = `
+                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+                            <div class="alert alert-success" role="alert">
+                                <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
+                            </div>
+                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                                Change Voucher Code
+                            </button>
+                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
+                        </div>`;
+                        try{
+                            set_price('Issued','tour');
                         }catch(err){}
                     }else if(provider_type_id == 'hotel'){
                         console.log(grand_total)
