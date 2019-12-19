@@ -575,7 +575,7 @@ input:focus {
     -webkit-transition-duration: 500ms;
     -o-transition-duration: 500ms;
     transition-duration: 500ms;
-    height: 80px;
+    height: 60px;
     padding: 0; }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .classy-nav-container .classy-navbar {
@@ -1752,13 +1752,13 @@ html .ui-button.ui-state-disabled:active {
 
   @media only screen and (min-width: 768px) and (max-width: 1024px) {
     .hotel-search-form-area {
-      bottom:100px !important; } }
+     } }
   @media only screen and (min-width: 426px) and (max-width: 767px) {
     .hotel-search-form-area {
-      bottom:100px !important; } }
+     } }
   @media only screen and (max-width: 425px) {
     .hotel-search-form-area {
-      bottom:100px !important; } }
+     } }
 
   .hotel-search-form-area .hotel-search-form {
     position: relative;
@@ -1773,14 +1773,14 @@ html .ui-button.ui-state-disabled:active {
         padding: 30px; } }
     .hotel-search-form-area .hotel-search-form label {
       font-size: 13px;
-      font-weight: 700; }
+      font-weight: 600; }
       @media only screen and (max-width: 767px) {
         .hotel-search-form-area .hotel-search-form label {
           font-size: 13px; } }
     .hotel-search-form-area .hotel-search-form .form-control {
       width: 100%;
       margin-bottom: 15px;
-      height: 45px;
+      height: 43px;
       border: 1px solid #cdcdcd;
       font-size: 13px; }
       @media only screen and (max-width: 767px) {
@@ -2704,7 +2704,7 @@ ul.tabs li.current .image-rounded-icon{
 }
 
 .span-search-ticket{
-  color:#525252;
+  color:white;
   margin-bottom:3px;
   font-size:14px;
 }
@@ -2738,7 +2738,7 @@ ul.tabs li.current .image-rounded-icon{
     transform-origin: left top;
 
     position: absolute;
-    top: 71px;
+    top: 65px;
     left: 52%;
     z-index: 10;
     height: 40px;
@@ -3131,7 +3131,7 @@ ul.tabs li.current .image-rounded-icon{
     background-color:white;
     padding:10px;
     margin-bottom:15px;
-    border:1px solid #f15a22;
+    border:1px solid #cdcdcd;
 }
 
 .primary-btn-all-sticky:hover{
@@ -4149,6 +4149,13 @@ display: block;
   .for-show-website{
     display:block !important;
   }
+  .modal{
+    top:60px !important;
+  }
+
+  body{
+    padding-right:unset !important;
+  }
 }
 
 .loader-rodextrip {
@@ -4723,7 +4730,7 @@ input[type="radio"].activity, input[type="checkbox"].activity {
 
 .img-hotel-search {
     width: auto;
-    height: 202px;
+    height: 196px;
     background-size:cover;
     background-position:50% 50%;
     border-radius: 3px;
@@ -5237,7 +5244,7 @@ th input {
   font-size: 18px;
   text-align: center;
   border-radius:50%;
-  padding:4px 9px 6px 7px;
+  padding:9px;
 }
 .breadcrumb-header{
     padding-right:0px;
@@ -5710,7 +5717,7 @@ display: block;
   color: #FFF;
   transition: all .575s;
   position:sticky;
-  top:67px;
+  top:0px;
   z-index:900;
 }
 
@@ -6034,6 +6041,8 @@ display: block;
     border-radius:4px;
     cursor:pointer;
     border:1px solid #cdcdcd;
+    height:50px;
+    width:50px;
 }
 
 .img_hotel_smallbot:hover{
@@ -6145,6 +6154,64 @@ display: block;
   background-color: #C04B21;
 }
 
+.myticket_static {
+  background-color: #f15a22;
+  color: white;
+  height: 32px;
+  width: 160px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  float: right;
+}
+.myticket_static_detail {
+  background-color: #f15a22;
+  color: white;
+  height: 32px;
+  width: 160px;
+  border: 1px solid gray;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
+  float: right;
+  margin:8px;
+}
+
+.mystickyticket {
+  position: fixed;
+  top: 85px;
+  right: 55px;
+  z-index: 99;
+  height:55px;
+  cursor: pointer;
+  outline: none;
+  cursor: pointer;
+}
+
+.mystickycopybot {
+    position: fixed;
+    bottom: 180px;
+    right: 58px;
+    z-index: 99;
+    font-size: 20px;
+    border: 1px solid gray;
+    outline: none;
+    background-color: #f15a22;
+    color: white;
+    cursor: pointer;
+    height: 55px;
+    width: 55px;
+    border-radius: 30px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.mystickycopybot:hover {
+  background-color: #C04B21;
+}
+
+
 .box-sticky-hotel{
     background-color:white;
     border: 1px solid #cdcdcd;
@@ -6173,4 +6240,40 @@ display: block;
 .primary-btn-sticky-hotel:hover {
   background: #f15a22;
   color:white;
+}
+
+.header_breadcrumb{
+    background:white;
+    padding-top:15px;
+    padding-bottom:15px;
+}
+
+.primary-btn-standard {
+  background: #f7f7f7;
+  line-height: 42px;
+  padding-left: 30px;
+  padding-right: 30px;
+  border: 1px solid #f15a22;
+  color: #000;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  border-radius: 3px;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+}
+
+.primary-btn-standard:hover{
+    background:#f15a22;
+    color:white;
+    border: 1px solid #C04B21;
+}
+
+.modal-rdx{
+    top:0px !important;
 }

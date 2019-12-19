@@ -978,14 +978,24 @@ function tour_filter_render(){
     var node = document.createElement("div");
     text = '';
     text+= `<h4>Filter</h4>
-            <hr/>
-            <div class="banner-right">
+            <hr/>`;
+
+            if(template == 1){
+                text+=`<div class="banner-right">`;
+            }else if(template == 2){
+                text+=`
+                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+            }
+            text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">
                     <h6 class="filter_general" onclick="show_hide_general('tourName');">Tour Name <i class="fas fa-chevron-down" id="tourName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourName_generalUp" style="float:right; display:block;"></i></h6>
-                    <div id="tourName_generalShow" style="display:inline-block;">
+                    <div id="tourName_generalShow" style="display:inline-block; width:100%;">
                         <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(1);"/>
                     </div>
                     <hr/>
+
+
                     <h6 class="filter_general" onclick="show_hide_general('tourType');">Tour Type <i class="fas fa-chevron-down" id="tourType_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourType_generalUp" style="float:right; display:block;"></i></h6>
                     <div id="tourType_generalShow" style="display:inline-block;">`;
     for(i in tour_type_list){
@@ -1005,7 +1015,9 @@ function tour_filter_render(){
             </label><br/>`;
     }
     text += `</div>`;
-
+    if(template == 2){
+        text+=`</div>`;
+    }
     node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -1053,12 +1065,25 @@ function tour_filter_render(){
     var node2 = document.createElement("div");
     text = '';
     text+= `<h4>Filter</h4>
-            <h6 style="padding-bottom:10px;">Tour Name</h6>
-            <div class="banner-right">
+            <h6 style="padding-bottom:10px;">Tour Name</h6>`;
+
+            if(template == 1){
+                text+=`<div class="banner-right">`;
+            }else if(template == 2){
+                text+=`
+                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+            }
+            text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">
                     <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name2" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(2);"/>
                 </div>
-            </div>
+            </div>`;
+
+            if(template == 2){
+                text+=`</div>`;
+            }
+            text+=`
             <hr/>
             <h6 style="padding-bottom:10px;">Tour Type</h6>`;
     for(i in tour_type_list){
@@ -1077,7 +1102,6 @@ function tour_filter_render(){
                 <span class="check_box_span_custom"></span>
             </label><br/>`;
     }
-
     text+=`
     <hr/>
     <h6 style="padding-bottom:10px;">Price Range</h6><br/>

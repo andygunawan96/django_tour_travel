@@ -25,6 +25,8 @@
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+{%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
@@ -42,7 +44,25 @@
         </div>
     </div>
 </header>
-<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+{% elif template == 2 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
 <div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
     <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <!-- Modal content-->
@@ -55,7 +75,7 @@
         </div>
     </div>
 </div>
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
 
         <div id="show_title_train" hidden>
