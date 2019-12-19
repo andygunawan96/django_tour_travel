@@ -994,11 +994,18 @@ function hotel_filter_render(){
 
     text = '';
     text+= `<h4>Filter</h4>
-    <hr/>
-    <div class="banner-right">
+    <hr/>`;
+    if(template == 1){
+        text+=`<div class="banner-right">`;
+    }else if(template == 2){
+        text+=`
+        <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
+            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+    }
+    text+=`
         <div class="form-wrap" style="padding:0px; text-align:left;">
             <h6 class="filter_general" onclick="show_hide_general('hotelName');">Hotel Name <i class="fas fa-chevron-down" id="hotelName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelName_generalUp" style="float:right; display:block;"></i></h6>
-            <div id="hotelName_generalShow" style="display:inline-block;">
+            <div id="hotelName_generalShow" style="display:inline-block; width:100%;">
                 <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(1);"/>
             </div>
             <hr/>
@@ -1059,6 +1066,9 @@ function hotel_filter_render(){
             </label><br/>`;
     }
     text+=`</div>`;
+    if(template == 2){
+        text+=`</div>`;
+    }
     var node = document.createElement("div");
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
@@ -1086,11 +1096,22 @@ function hotel_filter_render(){
     text+= `<h4>Filter</h4>
             <hr/>
             <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
-    text+= `<div class="banner-right">
+            if(template == 1){
+                text+=`<div class="banner-right">`;
+            }else if(template == 2){
+                text+=`
+                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+            }
+            text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">
                     <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
                 </div>
-            </div>
+            </div>`;
+            if(template == 2){
+                text+=`</div>`;
+            }
+            text+=`
             <hr/>
             <h6 style="padding-bottom:10px;">Price Range</h6>
             <div class="banner-right">
