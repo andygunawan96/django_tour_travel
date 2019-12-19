@@ -2616,12 +2616,13 @@ function airline_get_booking(data){
                         $text += 'Booking Code: ' + msg.result.response.provider_bookings[i].pnr+'\n';
                         text+=`<h5>PNR: `+msg.result.response.provider_bookings[i].pnr+`</h5>`;
                         for(j in msg.result.response.provider_bookings[i].journeys){
-                            var cabin_class = '';
+
 
                             text+=`<h6>Flight `+flight_counter+`</h6>`;
                             $text += 'Flight '+ flight_counter+'\n';
                             flight_counter++;
                             for(k in msg.result.response.provider_bookings[i].journeys[j].segments){
+                                var cabin_class = '';
                                 //yang baru harus diganti
                                 if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'Y')
                                     cabin_class = 'Economy Class';
@@ -2633,19 +2634,24 @@ function airline_get_booking(data){
                                     cabin_class = 'First Class';
                                 for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
                                     try{
-                                        $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name+'\n';
+                                        $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name;
                                     }catch(err){
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code+'\n';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code;
                                     }
+                                    if(cabin_class != '')
+                                        $text += ' ' + cabin_class;
+                                    else
+                                        $text += ' ' + cabin_class;
+                                    $text += '\n';
                                     if(msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0] == msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]){
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+' - ';
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+'\n';
-                                    }else{
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+' - ';
                                         $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+'\n';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
+                                    }else{
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[0]+' ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].departure_date.split('  ')[1]+' - ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[0]+' ';
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].arrival_date.split('  ')[1]+'\n';
                                     }
                                     $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].origin_city+') - '+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_name +' ('+msg.result.response.provider_bookings[i].journeys[j].segments[k].legs[l].destination_city+')\n\n';
 
@@ -2944,7 +2950,7 @@ function airline_get_booking(data){
                                 <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.DISC))+`</span>
                             </div>
                         </div>`;
-                        $text += msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
+                        $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
                         for(k in msg.result.response.passengers[j].fees){
                             $text += msg.result.response.passengers[j].fees[k].fee_name;
                             if(parseInt(parseInt(k)+1) != msg.result.response.passengers[j].fees.length)
