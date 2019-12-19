@@ -378,7 +378,8 @@ function get_transactions(type){
             }
             radios[j].disabled = true
         }
-        carrier_code.push(filter);
+        if(filter != '')
+            carrier_code.push(filter);
     }catch(err){
 
     }
