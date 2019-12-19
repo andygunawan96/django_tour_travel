@@ -165,6 +165,7 @@
             <div class="col-lg-12">
                 <div class="form-wrap" style="margin-bottom:25px;">
                     <h4>Search by</h4>
+                    {%if template == 1%}
                     <div class="row banner-right">
                         <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
                             <div class="row">
@@ -209,8 +210,52 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
+                    {% elif template == 2 %}
+                    <div class="row hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
+                        <div class="col-lg-12 hotel-search-form" style="background-color:unset; padding:15px; box-shadow:unset;" id="search">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6">
+                                    <span>Top Up. Number</span>
+                                    <input type="text" id="name" class="form-control enter_topup" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <span>State</span>
+                                    <div class="form-select" id="default-select">
+                                        <select id="state">
+                                            <option value="all">All</option>
+                                            <option value="draft">Draft</option>
+                                            <option value="request">Request</option>
+                                            <option value="valid">Validated</option>
+                                            <option value="cancel">Cancelled</option>
+                                            <option value="expired">Expired</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> Start Date</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Start Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6">
+                                    <span><i class="fas fa-calendar-alt"></i> End Date</span>
+                                    <div class="input-container-search-ticket">
+                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="End Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12" style="text-align:right;">
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> RESET</a>
+                                </div>
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="button" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {%endif%}
                 </div>
                 <table style="width:100%; background:white;" id="table_top_up_history" class="list-of-reservation">
                     <tr>
