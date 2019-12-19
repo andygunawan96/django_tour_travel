@@ -575,6 +575,7 @@ def seat_map(request):
                         for segment in seat_provider['segments']:
                             pax['seat_list'].append({
                                 'segment_code': segment['segment_code2'],
+                                'departure_date': segment['departure_date'],
                                 'seat_pick': '',
                                 'seat_code': '',
                                 'seat_name': '',
@@ -669,6 +670,7 @@ def seat_map(request):
                     for segment in seat_provider['segments']:
                         pax['seat_list'].append({
                             'segment_code': segment['segment_code2'],
+                            'departure_date': segment['departure_date'],
                             'seat_pick': '',
                             'seat_code': '',
                             'seat_name': '',
