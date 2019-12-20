@@ -198,7 +198,6 @@ function search_visa(){
                                     if(msg.result.response.list_of_visa[i].notes != '')
                                     text+=`
                                     <h6>Visa Required</h6>`;
-                                    console.log(msg.result.response.list_of_visa[i].notes);
                                     for(j in msg.result.response.list_of_visa[i].notes){
                                         text+=`<span>`+msg.result.response.list_of_visa[i].notes[j]+`</span><br/>`;
                                     }
@@ -510,7 +509,7 @@ function commit_booking(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                document.getElementById('order_number').value = msg.result.response.id;
+                document.getElementById('order_number').value = msg.result.response.journey.name;
                 document.getElementById('visa_booking').submit();
             }else{
                 $("#waitingTransaction").modal('hide');

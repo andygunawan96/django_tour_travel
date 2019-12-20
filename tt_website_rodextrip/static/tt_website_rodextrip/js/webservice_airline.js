@@ -681,10 +681,9 @@ function airline_search(provider,carrier_codes){
                        obj.journeys.forEach((obj2) =>{
                            check = 0;
                            carrier_code.forEach((obj1)=> {
-                               if(obj1.code == obj2.segments[0].carrier_code)
+                               if(obj1.code == obj2.segments[0].carrier_code){
                                    check=1;
-                               else if(airline_carriers[0][obj2.segments[0].carrier_code] == undefined)
-                                   check=1;
+                               }
                            });
                            carrier_code_airline_checkbox = '';
                            if(check == 0){
@@ -695,7 +694,6 @@ function airline_search(provider,carrier_codes){
                                carrier_code_airline_checkbox +=`
                                     <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
                                }catch(err){
-                               console.log(err);
                                carrier_code_airline_checkbox +=`
                                     <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
                                }

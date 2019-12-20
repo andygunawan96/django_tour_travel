@@ -1,6 +1,9 @@
-function get_printout(order_number,type,provider_type,bill_name_to){
+function get_printout(order_number,type,provider_type){
     //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
-
+    bill_name_to = '';
+    try{
+        bill_name_to = document.getElementById('bill_name').value;
+    }catch(err){}
     $.ajax({
        type: "POST",
        url: "/webservice/printout",
