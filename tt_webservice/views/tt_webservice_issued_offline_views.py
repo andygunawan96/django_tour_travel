@@ -382,7 +382,7 @@ def commit_booking(request):
         data = {
             'member': member,
             'seq_id': request.POST['seq_id'],
-            'voucher_code': request.POST['voucher_code']
+            'voucher': {}
         }
         if request.POST['voucher_code'] != '':
             data.update({
