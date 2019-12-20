@@ -349,7 +349,7 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{static_path}}images/christmas-wallpaper2.jpg); padding-top:5px; padding-bottom:5px; z-index:2; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{static_path}}images/christmas-wallpaper2.jpg); padding-top:5px; padding-bottom:5px; z-index:2; display:none;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12" style="padding-top:20px; padding-bottom:20px;">
@@ -375,16 +375,16 @@
                                         <span class="checkmark-radio"></span>
                                     </label>
                                 </div>
-                                <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                     <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
                                         <label class="check_box_custom">
-                                            <span style="font-size:14px; color:white;">Is Combo Price</span>
+                                            <span style="font-size:14px;">Is Combo Price</span>
                                             <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" id="ori_airline">
+                                <div class="col-lg-12" id="ori_airline" style="margin-top:15px;">
                                     <div class="row">
                                         <div class="col-lg-8">
                                             <div class="row">
@@ -408,7 +408,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
                                             <div id="airline_date_search"></div>
                                             <input type="hidden" class="form-control" name="airline_departure_temp" id="airline_departure_temp" value="{{airline_request.departure.0}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="airline_return_temp" id="airline_return_temp" {% if airline_request.direction == 'RT'%} value="{{airline_request.return.0}}" {% endif %} placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
@@ -482,7 +482,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
                                             <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
                                             <div class="input-container-search-ticket btn-group">
                                                 <button style="text-align:left;" id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">Choose Airline</button>
@@ -513,7 +513,7 @@
                                                 </ul>
                                             </div>
                                         </div>
-                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                        <div class="col-lg-4 col-md-6 col-sm-6">
                                             <span class="span-search-ticket">Class</span>
                                             <div id="default-select">
                                                 <select class="form-control" id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
@@ -525,7 +525,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" id="mc_airline_default">
+                                <div class="col-lg-12" id="mc_airline_default" style="margin-top:15px;">
 
                                 </div>
                                 <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
@@ -1290,7 +1290,7 @@
             </div>
 
             <div class="col-lg-3">
-                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; display:none;">
+                <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; display:none; z-index: 2;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
                             <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>

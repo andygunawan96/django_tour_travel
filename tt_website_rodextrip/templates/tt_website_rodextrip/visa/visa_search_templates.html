@@ -31,6 +31,9 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
+<div id="overlay-search-box" onclick="off_overlay()"></div>
+
+{%if template == 1%}
 <section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div id="hotel_search_params" class="container">
         <div class="row">
@@ -48,7 +51,6 @@
         </div>
     </div>
 </section>
-<div id="overlay-search-box" onclick="off_overlay()"></div>
 <section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -101,8 +103,78 @@
         </div>
     </div>
 </section>
+{% elif template == 2 %}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{visa_request.destination}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{visa_request.consulate}} | Departure: {{visa_request.departure}}</span><br/>
+            </div>
 
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="background-image: url({{static_path}}images/christmas-wallpaper2.jpg); padding-top:40px; padding-bottom:40px; z-index:2; position:relative; display:none;">
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">
+
+                        <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" method="post" id="visa_searchForm">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                    <span style="color:white;"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination')">
+
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <span style="color:white;"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                    <div class="form-group">
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <span style="color:white;"><i class="fas fa-city"></i> Consulate</span>
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate')">
+
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                                </div>
+                            </div>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                    Change Search
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%endif%}
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="row" style="padding-bottom:10px;">
             <div class="col-lg-12" id="breadcrumbs_create">
@@ -110,7 +182,7 @@
             </div>
         </div>
 
-        <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 72px; z-index: 2;">
+        <div class="row" id="info_user_search" style="padding-bottom:5px; position: sticky; top: 67px; z-index: 2;">
             <div class="col-lg-12">
                 <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
                     <i class="fas fa-user" style="padding-right:5px; color:#f15a22; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>

@@ -919,8 +919,12 @@ $(document).ready(function(){
                 document.getElementById("airline_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
+                if(template == 1){
+                    text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>`;
+                }else if(template == 2){
+                    text+=`<span style="color:white;"><i class="fas fa-calendar-alt"></i> Departure</span>`;
+                }
                 text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                 </div>
@@ -997,8 +1001,13 @@ $(document).ready(function(){
                 document.getElementById('mc_airline_default').innerHTML = "";
                 airline_counter_config = 0;
                 counter_airline_search = 0;
+                if(template == 1){
+                    text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
+                }else if(template == 2){
+                    text+=`<span style="color:white;"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
+                }
+
                 text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
                 <div class="input-container-search-ticket">
                     <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
                 </div>

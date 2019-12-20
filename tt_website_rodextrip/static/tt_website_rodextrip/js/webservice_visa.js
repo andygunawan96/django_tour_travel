@@ -145,12 +145,23 @@ function search_visa(){
                                             <td>`+msg.result.response.list_of_visa[i].visa_type[1]+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].entry_type[1]+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)</td>
-                                            <td>
-                                            <div class="banner-right">
+                                            <td>`;
+                                            if(template == 1){
+                                                text+=`<div class="banner-right">`;
+                                            }else if(template == 2){
+                                                text+=`
+                                                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
+                                                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+                                            }
+                                            text+=`
                                                 <div class="form-wrap" style="padding:0px;">
                                                     <input style="margin-bottom:unset;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
                                                 </div>
-                                            </div>
+                                            </div>`;
+                                            if(template == 2){
+                                                text+=`</div>`;
+                                            }
+                                            text+=`
                                             </td>
                                         </tr>
                                     </table>
@@ -186,9 +197,11 @@ function search_visa(){
                                     <span>`+msg.result.response.list_of_visa[i].consulate.address+`, `+msg.result.response.list_of_visa[i].consulate.city+`</span><hr>`;
                                     if(msg.result.response.list_of_visa[i].notes != '')
                                     text+=`
-                                    <h6>Visa Required</h6>
-                                    <span>`+msg.result.response.list_of_visa[i].notes+`</span>`;
-
+                                    <h6>Visa Required</h6>`;
+                                    console.log(msg.result.response.list_of_visa[i].notes);
+                                    for(j in msg.result.response.list_of_visa[i].notes){
+                                        text+=`<span>`+msg.result.response.list_of_visa[i].notes[j]+`</span><br/>`;
+                                    }
 //                                    if(msg.result.response.list_of_visa[i].requirements.length > 0)
 //                                    text+=`
 //                                    <h6>Visa Required</h6>`;
@@ -203,7 +216,6 @@ function search_visa(){
 //                                    }
 
                                     text+=`
-
                                 </div>
                             </div>
                             <div id="detail_attachment`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
@@ -764,8 +776,14 @@ function visa_get_data(data){
                                             </div>`;
                                         console.log(msg.result.response.passengers[i]);
                                         for(j in msg.result.response.passengers[i].visa.requirement){
+                                            if(template != 2){
+                                                text+=`
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
+                                            }else{
+                                                text+=`
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                                            }
                                             text+=`
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                 <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
