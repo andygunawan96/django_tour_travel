@@ -1,8 +1,12 @@
 function get_printout(order_number,type,provider_type){
     //type ticket, ticket_price, invoice, itinerary, voucher, visa_handling,
     bill_name_to = '';
+    bill_address = '';
     try{
         bill_name_to = document.getElementById('bill_name').value;
+    }catch(err){}
+    try{
+        bill_address = document.getElementById('bill_address').value;
     }catch(err){}
     $.ajax({
        type: "POST",
@@ -15,6 +19,7 @@ function get_printout(order_number,type,provider_type){
             'mode': type,
             'provider_type': provider_type,
             'bill_name_to': bill_name_to,
+            'bill_address': bill_address,
             'signature': signature
        },
        success: function(msg) {

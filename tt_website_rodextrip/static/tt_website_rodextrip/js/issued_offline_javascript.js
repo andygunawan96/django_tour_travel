@@ -514,7 +514,7 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
 
@@ -530,7 +530,7 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
         $('#provider_data'+counter_line).select2();
@@ -601,7 +601,7 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
           });
 
@@ -617,7 +617,7 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
           });
           $('.js-example-basic-single').select2();
@@ -677,7 +677,7 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
         $('.js-example-basic-single').select2();
