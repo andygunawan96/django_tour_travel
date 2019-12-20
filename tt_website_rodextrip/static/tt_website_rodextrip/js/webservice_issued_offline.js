@@ -831,6 +831,13 @@ function commit_booking(){
 //               document.getElementById('payment_acq').hidden = true;
                close_div('payment_acq');
                $('select').niceSelect('update');
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error issued offline commit booking </span>' + msg.result.error_msg,
+                })
+                close_div('payment_acq');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
