@@ -528,7 +528,7 @@ function get_transactions(type){
                     }
                     radios[j].disabled = false;
                 }
-                if(Object.keys(msg.result.response).length == 0){
+                if(Object.keys(msg.result.response).length == 0 && data_counter == 0){
 //                    var node = document.createElement("div");
 //                    node.innerHTML = `
 //                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
@@ -539,15 +539,27 @@ function get_transactions(type){
 //                        </div>
 //                    </div>`;
 //                    document.getElementById("desc").appendChild(node);
-                    $('#reservation_found').show();
+                    document.getElementById('reservation_found').innerHTML = `
+                        <h6><i class="fas fa-search-minus"></i> Oops! Data not found!</h6>
+                    `;
+                    document.getElementById('reservation_found').style.display = '';
+                }if(Object.keys(msg.result.response).length == 0 && data_counter != 0){
+                    document.getElementById('reservation_found').innerHTML = `
+                        <h6><i class="fas fa-search-minus"></i> End of data!</h6>
+                    `;
+                    document.getElementById('reservation_found').style.display = '';
+
                 }else if(msg.result.response[filter].length >= 20){
                     offset_transaction++;
                     table_reservation(msg.result.response[filter]);
                     load_more = true;
-                    $('#reservation_found').hide();
+                    console.log('lalala');
+                    document.getElementById('reservation_found').style.display = 'none';
+//                    $('#reservation_found').hide();
                 }else{
                     table_reservation(msg.result.response[filter]);
-                    $('#reservation_found').hide();
+                    document.getElementById('reservation_found').style.display = 'none';
+//                    $('#reservation_found').hide();
                 }
             }catch(err){
                 //set_notification(msg.result.response.transport_booking);

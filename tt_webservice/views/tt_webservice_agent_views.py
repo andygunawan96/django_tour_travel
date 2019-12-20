@@ -122,6 +122,14 @@ def signin(request):
             }
 
             res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+            # pakai kalo template PER USER
+            # user_template = UserTemplate().get_data_by_id(request.POST['username'], True) #true buat rodextrip false buat tors
+            # res_user['result']['response'].update({
+            #     'logo_url': user_template.logo_url,
+            #     'name': user_template.name,
+            #     'template': user_template.template_id,
+            #     'desc': user_template.desc
+            # })
             request.session['user_account'] = res_user['result']['response']
             try:
                 if res['result']['error_code'] == 0:
@@ -161,7 +169,7 @@ def signin(request):
             except:
                 get_new_cache(res['result']['response']['signature'])
         else:
-            logging.getLogger("info_logger").info(json.dumps(res))
+            logging.getLogger("error_logger").error('ERROR SIGNIN SOMETHING WHEN WRONG ' + json.dumps(res))
 
     except Exception as e:
         logging.getLogger("error_logger").error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())

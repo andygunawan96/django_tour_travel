@@ -106,17 +106,19 @@ function check_voucher(){
                             'currency': ''
                         };
                         if(price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                            if(msg.result.response.provider[i].able_to_use == true){
-                                if(msg.result.response.voucher_type == 'percent'){
-                                    discount_voucher['discount'] += price * msg.result.response.voucher_value / 100;
+                            for(i in msg.result.response.provider){
+                                if(msg.result.response.provider[i].able_to_use == true){
+                                    if(msg.result.response.voucher_type == 'percent'){
+                                        discount_voucher['discount'] += price * msg.result.response.voucher_value / 100;
 
-                                }else if(msg.result.response.voucher_type == 'amount'){
-                                    discount_voucher['discount'] += msg.result.response.voucher_value;
+                                    }else if(msg.result.response.voucher_type == 'amount'){
+                                        discount_voucher['discount'] += msg.result.response.voucher_value;
+                                    }
                                 }
                             }
                         }
                         discount_voucher['currency'] = msg.result.response.voucher_currency;
-                        if(discount > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                        if(msg.result.response.voucher_cap != false && discount > msg.result.response.voucher_cap)
                             discount = msg.result.response.voucher_cap
 
 
@@ -151,7 +153,7 @@ function check_voucher(){
                                     }
                                 }
                                 discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                                     discount_voucher['discount'] = msg.result.response.voucher_cap
                             }
                         }catch(err){
@@ -165,7 +167,7 @@ function check_voucher(){
                                     discount_voucher['discount'] = msg.result.response.voucher_value;
                                 }
                                 discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                                     discount_voucher['discount'] = msg.result.response.voucher_cap
                             }
                         }
@@ -201,7 +203,7 @@ function check_voucher(){
                                 }
                             }
                             discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                                 discount_voucher['discount'] = msg.result.response.voucher_cap
                         }
 
@@ -236,7 +238,7 @@ function check_voucher(){
                                     }
                                 }
                                 discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                                     discount_voucher['discount'] = msg.result.response.voucher_cap
                             }
                         }catch(err){
@@ -249,7 +251,7 @@ function check_voucher(){
                                     discount_voucher['discount'] = msg.result.response.voucher_value;
                                 }
                                 discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                                     discount_voucher['discount'] = msg.result.response.voucher_cap
                             }
                         }
@@ -285,7 +287,7 @@ function check_voucher(){
                                 }
                             }
                             discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                                 discount_voucher['discount'] = msg.result.response.voucher_cap
                         }
 
@@ -319,7 +321,7 @@ function check_voucher(){
                                 }
                             }
                         }
-                        if(discount_voucher['discount'] > msg.result.response.voucher_cap && msg.result.response.voucher_cap != false)
+                        if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                             discount_voucher['discount'] = msg.result.response.voucher_cap
                         document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
