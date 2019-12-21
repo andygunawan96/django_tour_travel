@@ -1449,7 +1449,7 @@ function sort(tour_dat, exist_check){
                     <input id='uuid' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
                     <input id='sequence' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>`;
                     if(template == 1){
-                        if (tour_dat[i].state == 'sold')
+                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
                         {
                             text+=`
                             <div class="single-recent-blog-post item" style="cursor:not-allowed;" onclick="">
@@ -1507,7 +1507,7 @@ function sort(tour_dat, exist_check){
                             </div>`;
                         }
                     }else{
-                        if (tour_dat[i].state == 'sold')
+                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
                         {
                             text+=`
                             <div class="single-post-area mb-30" onclick="" style="cursor:not-allowed;">
