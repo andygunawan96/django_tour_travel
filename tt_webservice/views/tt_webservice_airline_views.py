@@ -60,6 +60,8 @@ class provider_airline:
         self.get_time_provider_airline_first_time = True
         self.get_time_carrier_airline = name
         self.get_time_carrier_airline_first_time = True
+        self.get_time_carrier_airline_cache = name
+        self.get_time_carrier_airline_cache_first_time = True
         self.get_time_provider_list_data = name
         self.get_time_provider_list_data_first_time = True
     def set_new_time_out(self, val):
@@ -67,6 +69,8 @@ class provider_airline:
             self.get_time_provider_airline = datetime.now()
         elif val == 'carrier':
             self.get_time_carrier_airline = datetime.now()
+        elif val == 'carrier_cache':
+            self.get_time_carrier_airline_cache = datetime.now()
         elif val == 'provider_list_data':
             self.get_time_provider_list_data = datetime.now()
     def set_first_time(self,val):
@@ -74,6 +78,8 @@ class provider_airline:
             self.get_time_provider_airline_first_time = False
         elif val == 'carrier':
             self.get_time_carrier_airline_first_time = False
+        elif val == 'carrier_cache':
+            self.get_time_carrier_airline_cache_first_time = False
         elif val == 'provider_list_data':
             self.get_time_provider_list_data_first_time = False
 
@@ -91,6 +97,8 @@ def api_models(request):
             res = get_carrier_providers(request)
         elif req_data['action'] == 'get_carriers_search':
             res = get_carriers_search(request)
+        elif req_data['action'] == 'get_carriers':
+            res = get_carriers(request)
         elif req_data['action'] == 'get_provider_description':
             res = get_provider_description(request)
         elif req_data['action'] == 'get_carrier_code_list':
@@ -328,6 +336,50 @@ def get_carrier_providers(request):
             file.close()
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+def get_carriers(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_carriers",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'airline'
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    date_time = datetime.now() - a.get_time_carrier_airline
+    if date_time.seconds >= 300 or a.get_time_carrier_airline_first_time == True:
+        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        try:
+            if res['result']['error_code'] == 0:
+                a.set_new_time_out('carrier')
+                a.set_first_time('carrier')
+                res = res['result']['response']
+                file = open(var_log_path()+"get_airline_carriers" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+                logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            else:
+                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+                for line in file:
+                    res = json.loads(line)
+                file.close()
+                logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            file = open(var_log_path()+"get_airline_carriers.txt", "r")
+            for line in file:
+                res = json.loads(line)
+            file.close()
+        except Exception as e:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
     return res
 
