@@ -323,11 +323,10 @@ function add_table_of_passenger(){
     node.innerHTML = text;
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
-
-    $('input[type="text"].date-picker-birth').daterangepicker({
+    $('input[name="adult_birth_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
-          startDate: moment(),
+          startDate: moment().subtract(+18, 'years'),
           maxDate: moment(),
           showDropdowns: true,
           opens: 'center',
@@ -336,7 +335,7 @@ function add_table_of_passenger(){
           }
     });
 
-    $('input[type="text"].date-picker-passport').daterangepicker({
+    $('input[name="adult_passport_expired_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
           startDate: moment(),
@@ -347,6 +346,7 @@ function add_table_of_passenger(){
               format: 'DD MMM YYYY',
           }
     });
+    document.getElementById('adult_passport_expired_date'+parseInt(counter_passenger+1)).value = '';
 
 //    document.getElementById("radio_passenger_search"+(counter_passenger+1)).onclick = "radio_button('passenger',counter_passenger);"
 
@@ -502,7 +502,7 @@ function add_table_of_line(type){
             }
         });
 
-        $('input[type="text"].departure_date').daterangepicker({
+        $('input[name="departure'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -517,8 +517,9 @@ function add_table_of_line(type){
                   format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
+        document.getElementById('departure'+counter_line).value = '';
 
-        $('input[type="text"].arrival_date').daterangepicker({
+        $('input[name="arrival'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -533,6 +534,7 @@ function add_table_of_line(type){
                   format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
+        document.getElementById('arrival'+counter_line).value = '';
         $('#provider_data'+counter_line).select2();
 //        set_data(0,'origin');
 //        set_data(0,'destination');
@@ -589,7 +591,7 @@ function add_table_of_line(type){
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 
-        $('input[type="text"].check-in-date').daterangepicker({
+        $('input[name="hotel_check_in'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -605,7 +607,7 @@ function add_table_of_line(type){
               }
           });
 
-          $('input[type="text"].check-out-date').daterangepicker({
+          $('input[name="hotel_check_out'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -620,6 +622,8 @@ function add_table_of_line(type){
                   format: 'DD MMM YYYY hh:mm:ss A',
               }
           });
+          document.getElementById('hotel_check_in'+counter_line).value = '';
+          document.getElementById('hotel_check_out'+counter_line).value = '';
           $('.js-example-basic-single').select2();
 
     }else if(type == 'activity'){
@@ -665,7 +669,7 @@ function add_table_of_line(type){
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 
-        $('input[type="text"].visit_date').daterangepicker({
+        $('input[name="activity_datetime'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -680,6 +684,7 @@ function add_table_of_line(type){
                   format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
+        document.getElementById('activity_datetime'+counter_line).value = '';
         $('.js-example-basic-single').select2();
     }
 
