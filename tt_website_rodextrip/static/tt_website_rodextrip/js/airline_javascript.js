@@ -2041,6 +2041,9 @@ function sort(){
                                                 <div class="row"><div class="col-lg-12" id="copy_provider_operated`+i+``+j+`">
                                                 <span class="copy_po" hidden>`+j+`</span>`;
                                                 if(airline[i].segments[j].carrier_code != airline[i].segments[j].operating_airline_code){
+                                                    if(j != 0){
+                                                        text+=`<hr/>`;
+                                                    }
                                                     try{
                                                         text += `<span class="copy_operated_by" style="float:left; font-weight: 700; font-size:12px;">Operated by `+airline_carriers[0][airline[i].segments[j].operating_airline_code].name+`</span><br/>`;
                                                     }catch(err){
@@ -2055,10 +2058,10 @@ function sort(){
                                                         <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline[i].segments[j].carrier_code+`</span><br/>
                                                         <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                                                     }
-                                                    if(j != 0){
-                                                        text+=`<hr style="margin-top:unset;"/>`;
-                                                    }
                                                 }else if(carrier_code_airline.includes(airline[i].segments[j].carrier_code) == false){
+                                                    if(j != 0){
+                                                        text+=`<hr/>`;
+                                                    }
                                                     try{
                                                         text+=`
                                                         <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
@@ -2067,9 +2070,6 @@ function sort(){
                                                         text+=`
                                                         <span class="copy_carrier_provider" style="font-weight:500; font-size:12px;">`+airline[i].segments[j].carrier_code+`</span><br/>
                                                         <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline[i].segments[j].carrier_code+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
-                                                    }
-                                                    if(j != 0){
-                                                        text+=`<hr style="margin-top:unset;"/>`;
                                                     }
                                                 }
                                                 if(carrier_code_airline.includes(airline[i].segments[j].carrier_code) == false)
