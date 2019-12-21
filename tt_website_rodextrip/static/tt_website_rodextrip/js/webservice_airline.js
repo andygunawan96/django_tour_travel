@@ -370,6 +370,26 @@ function get_carrier_providers(){
 
 }
 
+function get_carriers(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           airline_carriers[0] = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
 function get_provider_list(){
     $.ajax({
        type: "POST",
@@ -383,6 +403,8 @@ function get_provider_list(){
        success: function(msg) {
            console.log(msg);
            provider_list_data = JSON.parse(msg);
+
+           airline_carriers_full = JSON.parse(msg);
            //carrier_to_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -411,58 +433,6 @@ function get_provider_list(){
 }
 
 function carrier_to_provider(){
-    //MC
-//    airline = [];
-//    for(i in airline_carriers){
-//        airline.push({});
-//        for(j in airline_carriers[i]){
-//            if(airline_carriers[i][j].code == 'all' && airline_carriers[i][j].bool == true){
-//                for(k in provider_list){
-//                    airline[i][k] = [];
-//                    for(l in provider_list[k]){
-//                        airline[i][k].push(provider_list[k][l]);
-//                    }
-//                }
-//                break;
-//            }else if(airline_carriers[i][j].bool == true){
-//                try{
-//                    airline[i][airline_carriers[i][j].code] = provider_list[airline_carriers[i][j].code];
-//                }catch(err){
-//
-//                }
-//            }
-//        }
-//    }
-//    provider_airline = []
-//    for(i in airline){
-//        provider_airline.push({});
-//        for(j in airline[i]){
-//            check = 0;
-//            for(l in provider_airline){
-//                if(provider_airline[j] == airline[i][j])
-//                    check = 1;
-//            }
-//            if(check == 0){
-//                for(k in airline[i][j]){
-//                    provider_airline[i][airline[i][j][k]] = [];
-//                }
-//            }
-//        }
-//    }
-//    console.log(provider_airline);
-//    for(i in airline){
-//        for(j in airline[i]){
-//            for(k in airline[i][j]){
-//                for(l in provider_airline[i]){
-//                    if(l == airline[i][j][k])
-//                        provider_airline[i][l].push(j);
-//                    }
-//            }
-//        }
-//    }
-
-//per carrier code
-
     airline = [];
     for(i in airline_carriers){
         airline.push({});
@@ -517,6 +487,7 @@ function carrier_to_provider(){
     airline_choose = 0;
     count_progress_bar_airline = 0;
     send_search_to_api();
+    get_carriers();
 //    document.getElementById('airline_list').innerHTML = '';
     document.getElementById('airline_list2').innerHTML = '';
 }
