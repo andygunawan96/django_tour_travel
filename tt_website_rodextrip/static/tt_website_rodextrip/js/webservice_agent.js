@@ -569,12 +569,20 @@ function get_customer_list(passenger, number, product){
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0){
-                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> `;
+                                            if(template == 1){
+                                                response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
+                                            }else if(template == 2){
+                                                response+=`<br/> <div class="row"><div class="col-lg-12"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
+                                            }
                                             response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
-                                            response+=`</select></div>`;
+                                            if(template == 1){
+                                                response+=`</select></div>`;
+                                            }else if(template == 2){
+                                                response+=`</select></div>`;
+                                            }
                                         }else{
                                             response+=`<br/>`;
                                         }
@@ -722,12 +730,20 @@ function get_customer_list(passenger, number, product){
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0){
-                                            response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i> `;
+                                            if(template == 1){
+                                                response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
+                                            }else if(template == 2){
+                                                response+=`<br/> <div class="row"><div class="col-lg-12"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
+                                            }
                                             response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
-                                            response+=`</select></div>`;
+                                            if(template == 1){
+                                                response+=`</select></div>`;
+                                            }else if(template == 2){
+                                                response+=`</select></div></div>`;
+                                            }
                                         }else{
                                             response+=`<br/>`;
                                         }
@@ -2425,12 +2441,20 @@ function get_passenger_cache(){
                                 if(msg.result.response[i].birth_date != '')
                                     response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                 if(msg.result.response[i].phones.length != 0){
-                                    response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
+                                    if(template == 1){
+                                        response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
+                                    }else if(template == 2){
+                                        response+=`<br/> <div class="row"><div class="col-lg-12"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
+                                    }
                                     response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
                                     for(j in msg.result.response[i].phones){
                                         response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                     }
-                                    response+=`</select></div>`;
+                                    if(template == 1){
+                                        response+=`</select></div>`;
+                                    }else if(template == 1){
+                                        response+=`</select></div></div>`;
+                                    }
                                 }else{
                                     response+=`<br/>`;
                                 }
