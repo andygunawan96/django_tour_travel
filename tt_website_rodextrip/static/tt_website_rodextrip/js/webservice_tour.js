@@ -204,7 +204,7 @@ function tour_search(){
                             <input id='uuid' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
                             <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>`;
                             if(template == 1){
-                                if (tour_data[i].state == 'sold')
+                                if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
                                 {
                                     text+=`
                                     <div class="single-recent-blog-post item" style="cursor:not-allowed;" onclick="">
@@ -263,7 +263,7 @@ function tour_search(){
                                 }
 
                             }else{
-                                if (tour_data[i].state == 'sold')
+                                if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
                                 {
                                     text+=`
                                     <div class="single-post-area mb-30" onclick="" style="cursor:not-allowed;">
@@ -726,7 +726,7 @@ function update_contact_tour(){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -737,7 +737,7 @@ function update_contact_tour(){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -777,7 +777,7 @@ function update_passengers_tour(){
 
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -788,7 +788,7 @@ function update_passengers_tour(){
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");
-           $('.loader-rodextrip').fadeOut();
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -841,11 +841,11 @@ function commit_booking_tour()
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Booking process failed, please try again! </span>',
+                  html: '<span style="color: #ff9900;">Error tour commit booking </span>' + msg.result.error_msg,
                 })
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
-                $('.loader-rodextrip').fadeOut();
+                $("#waitingTransaction").modal('hide');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -856,7 +856,7 @@ function commit_booking_tour()
             })
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
-            $('.loader-rodextrip').fadeOut();
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
