@@ -326,7 +326,7 @@ function add_table_of_passenger(){
     $('input[name="adult_birth_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
-          startDate: moment(),
+          startDate: moment().subtract(+18, 'years'),
           maxDate: moment(),
           showDropdowns: true,
           opens: 'center',
@@ -334,7 +334,6 @@ function add_table_of_passenger(){
               format: 'DD MMM YYYY',
           }
     });
-    document.getElementById('adult_birth_date'+parseInt(counter_passenger+1)).value = '';
 
     $('input[name="adult_passport_expired_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
