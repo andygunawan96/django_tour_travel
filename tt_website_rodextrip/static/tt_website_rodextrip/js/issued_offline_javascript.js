@@ -882,9 +882,16 @@ function set_origin_data(val,type){
 }
 
 function set_data(val,type){
-    if(type == 'provider')
+    if(type == 'provider'){
         document.getElementById('provider'+val).value = document.getElementById('select2-provider_data'+val+'-container').innerHTML;
-    else if(type == 'origin')
+        for(i in issued_offline_data.carrier_id){
+            if(issued_offline_data.carrier_id[i].name == document.getElementById('provider'+val).value){
+                document.getElementById('carrier_code'+val).value = issued_offline_data.carrier_id[i].code;
+                break;
+            }
+        }
+
+    }else if(type == 'origin')
         document.getElementById('origin'+val).value = document.getElementById('select2-origin_data'+val+'-container').title;
     else if(type == 'destination')
         document.getElementById('destination'+val).value = document.getElementById('select2-destination_data'+val+'-container').title;
