@@ -26,7 +26,7 @@ function get_printout(order_number,type,provider_type){
             console.log(msg);
             if(msg.result.error_code == 0){
                 for(i in msg.result.response)
-                    window.open(msg.result.response[i],'_blank');
+                    window.open(msg.result.response[i].url,'_blank');
 //                window.open(msg.result.response.url,'_blank');
 //                window.open('https://static.rodextrip.com/ebe/6b5/74e/ig%20no%20socmed.jpg','_blank');
             }else{
