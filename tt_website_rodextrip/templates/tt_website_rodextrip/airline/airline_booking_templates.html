@@ -334,7 +334,7 @@
     $( document ).ready(function() {
         breadcrumb_create("airline", 5, 1);
         $("#airline_form").bind("keypress", function(e) {
-            if (e.keyCode == 13) {
+            if (e.keyCode == 13 && e.target.id != 'bill_address') {
                 return false;
             }
         });

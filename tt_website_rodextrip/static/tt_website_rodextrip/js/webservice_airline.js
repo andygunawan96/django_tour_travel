@@ -2597,7 +2597,7 @@ function airline_get_booking(data){
                                     cabin_class = 'Economy Class';
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                                     cabin_class = 'Premium Economy Class';
-                                else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'B')
+                                else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'C')
                                     cabin_class = 'Business Class';
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'F')
                                     cabin_class = 'First Class';
