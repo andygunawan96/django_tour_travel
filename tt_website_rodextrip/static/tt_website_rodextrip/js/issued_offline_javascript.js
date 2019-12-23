@@ -151,22 +151,19 @@ function add_table_of_passenger(){
                                     <span class="checkmark-radio"></span>
                                 </label>
                             </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <br/>
-                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
-                                </div>
-                            </div>
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
                                     <input type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search" style="padding:5px;"/>
                                     <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
+                                    <br/><br/>
+                                    <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
+
                                     <div id="search_result_`+(counter_passenger+1)+`">
 
                                     </div>
                                 </div>
                                 <div id="passenger_input`+parseInt(counter_passenger+1)+`" style="background-color:white;" hidden>
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-12" style="padding:0px;">
                                         <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
@@ -191,17 +188,23 @@ function add_table_of_passenger(){
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
 
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label>Title</label>
-                                                    <div class="input-container-search-ticket">
+                                                <div class="col-lg-6 col-md-6 col-sm-6" style="margin-top:15px;">
+                                                    <label>Title</label>`;
+                                                    if(template == 1){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                    }
+                                                    text+=`
                                                         <div class="form-select-2">
                                                             <select id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
                                                                 for(i in titles){
                                                                     text+= `<option>`+titles[i]+`</option>`;
                                                                 }
                                                             text+=`</select>
-                                                        </div>
-                                                    </div>
+                                                        </div>`;
+                                                    if(template == 1){
+                                                        text+=`</div>`;
+                                                    }
+                                                text+=`
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
@@ -222,8 +225,11 @@ function add_table_of_passenger(){
                                                     <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <label>Nationality</label>
-                                                    <div class="input-container-search-ticket">
+                                                    <label>Nationality</label>`;
+                                                    if(template == 1){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                    }
+                                                    text+=`
                                                         <div class="form-select">
                                                             <select class="form-control js-example-basic-single" name="adult_nationality`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_nationality`+parseInt(counter_passenger+1)+`_id" placeholder="Nationality" onchange="auto_complete('adult_nationality`+parseInt(counter_passenger+1)+`')">
                                                                 <option value="">Select Nationality</option>`;
@@ -235,8 +241,11 @@ function add_table_of_passenger(){
                                                                 }
                                                             text+=`</select>
                                                         </div>
-                                                        <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />
-                                                    </div>
+                                                        <input type="hidden" name="adult_nationality`+parseInt(counter_passenger+1)+`" id="adult_nationality`+parseInt(counter_passenger+1)+`" />`;
+                                                    if(template == 1){
+                                                        text+=`</div>`;
+                                                    }
+                                                text+=`
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label>Birth Date</label>
@@ -260,8 +269,11 @@ function add_table_of_passenger(){
                                                 </div>
 
                                                 <div class="col-lg-6">
-                                                    <label>Country of Issued</label>
-                                                    <div class="input-container-search-ticket">
+                                                    <label>Country of Issued</label>`;
+                                                    if(template == 1){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                    }
+                                                    text+=`
                                                         <div class="form-select">
                                                             <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
                                                                 <option value="">Select Country Of Issued</option>`;
@@ -270,8 +282,11 @@ function add_table_of_passenger(){
                                                                 }
                                                             text+=`</select>
                                                         </div>
-                                                        <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />
-                                                    </div>
+                                                        <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                    if(template == 1){
+                                                        text+=`</div>`;
+                                                    }
+                                                text+=`
                                                 </div>
 
                                                 <div class="col-lg-6" id="adult_cp_hidden1_`+parseInt(counter_passenger+1)+`" hidden>
@@ -323,11 +338,10 @@ function add_table_of_passenger(){
     node.innerHTML = text;
     node.setAttribute('id', 'table_passenger'+counter_passenger);
     document.getElementById("table_of_passenger").appendChild(node);
-
-    $('input[type="text"].date-picker-birth').daterangepicker({
+    $('input[name="adult_birth_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
-          startDate: moment(),
+          startDate: moment().subtract(+18, 'years'),
           maxDate: moment(),
           showDropdowns: true,
           opens: 'center',
@@ -336,7 +350,7 @@ function add_table_of_passenger(){
           }
     });
 
-    $('input[type="text"].date-picker-passport').daterangepicker({
+    $('input[name="adult_passport_expired_date'+parseInt(counter_passenger+1)+'"]').daterangepicker({
           singleDatePicker: true,
           autoUpdateInput: true,
           startDate: moment(),
@@ -347,6 +361,7 @@ function add_table_of_passenger(){
               format: 'DD MMM YYYY',
           }
     });
+    document.getElementById('adult_passport_expired_date'+parseInt(counter_passenger+1)).value = '';
 
 //    document.getElementById("radio_passenger_search"+(counter_passenger+1)).onclick = "radio_button('passenger',counter_passenger);"
 
@@ -412,16 +427,21 @@ function add_table_of_line(type){
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Provider</span><br/>
-                    <div class="input-container-search-ticket">`;
+                    <span>Provider</span><br/>`;
+                    if(template == 1){
+                        text+=`<div class="input-container-search-ticket">`;
+                    }
                     text+=`
                         <div class="form-select">
                             <select class="form-control js-example-basic-single" name="state" style="width:100%;" id="provider_data`+counter_line+`" placeholder="Carrier Name" onchange="set_data(`+counter_line+`,'provider')">
 
                             </select>
                         </div>
-                        <input type="hidden" name="provider`+counter_line+`" id="provider`+counter_line+`" />
-                    </div>
+                        <input type="hidden" name="provider`+counter_line+`" id="provider`+counter_line+`" />`;
+                    if(template == 1){
+                        text+=`</div>`;
+                    }
+                text+=`
                 </div>
                 <div class="col-lg-4 col-md-4">
                     <span><i class="fas fa-calendar-alt"></i> Departure Date</span><br/>
@@ -444,16 +464,22 @@ function add_table_of_line(type){
                     <input type="text" class="form-control" id='carrier_number`+counter_line+`' name='carrier_number`+counter_line+`' placeholder="Carrier Number">
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <span>Class</span><br/>
-                    <div class="input-container-search-ticket btn-group">
+                    <span>Class</span><br/>`;
+                    if(template == 1){
+                        text+=`<div class="input-container-search-ticket btn-group">`;
+                    }
+                    text+=`
                         <div class="form-select" id="default-select">
                             <select id='class`+counter_line+`' name='class`+counter_line+`' style="height:42px;">`;
                             for(i in class_of_service)
                                 text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
                         text+=`
                             </select>
-                        </div>
-                    </div>
+                        </div>`;
+                    if(template == 1){
+                        text+=`</div>`;
+                    }
+                text+=`
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <span>Sub Class</span><br/>
@@ -502,7 +528,7 @@ function add_table_of_line(type){
             }
         });
 
-        $('input[type="text"].departure_date').daterangepicker({
+        $('input[name="departure'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -514,11 +540,12 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
+        document.getElementById('departure'+counter_line).value = '';
 
-        $('input[type="text"].arrival_date').daterangepicker({
+        $('input[name="arrival'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -530,9 +557,10 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
+        document.getElementById('arrival'+counter_line).value = '';
         $('#provider_data'+counter_line).select2();
 //        set_data(0,'origin');
 //        set_data(0,'destination');
@@ -580,7 +608,7 @@ function add_table_of_line(type){
                 </div>
                 <div class="col-lg-12">
                     <span>Description</span><br/>
-                    <textarea id='hotel_description`+counter_line+`' class="form-control" name='hotel_description`+counter_line+`'></textarea>
+                    <textarea style="height:100px;" id='hotel_description`+counter_line+`' class="form-control" name='hotel_description`+counter_line+`'></textarea>
                 </div>
             </div>
         </div><hr/>`;
@@ -589,7 +617,7 @@ function add_table_of_line(type){
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 
-        $('input[type="text"].check-in-date').daterangepicker({
+        $('input[name="hotel_check_in'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -601,11 +629,11 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
           });
 
-          $('input[type="text"].check-out-date').daterangepicker({
+          $('input[name="hotel_check_out'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -617,9 +645,11 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
           });
+          document.getElementById('hotel_check_in'+counter_line).value = '';
+          document.getElementById('hotel_check_out'+counter_line).value = '';
           $('.js-example-basic-single').select2();
 
     }else if(type == 'activity'){
@@ -655,7 +685,7 @@ function add_table_of_line(type){
                 </div>
                 <div class="col-lg-8">
                     <span>Description</span><br/>
-                    <textarea id='activity_description`+counter_line+`' class="form-control" name='activity_description`+counter_line+`'></textarea>
+                    <textarea style="height:100px;" id='activity_description`+counter_line+`' class="form-control" name='activity_description`+counter_line+`'></textarea>
                 </div>
             </div>
 
@@ -665,7 +695,7 @@ function add_table_of_line(type){
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 
-        $('input[type="text"].visit_date').daterangepicker({
+        $('input[name="activity_datetime'+counter_line+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
               startDate: moment(),
@@ -677,9 +707,10 @@ function add_table_of_line(type){
               timePickerSeconds: true,
               opens: 'center',
               locale: {
-                  format: 'DD MMM YYYY hh:mm:ss',
+                  format: 'DD MMM YYYY hh:mm:ss A',
               }
         });
+        document.getElementById('activity_datetime'+counter_line).value = '';
         $('.js-example-basic-single').select2();
     }
 
@@ -851,9 +882,18 @@ function set_origin_data(val,type){
 }
 
 function set_data(val,type){
-    if(type == 'provider')
+    if(type == 'provider'){
         document.getElementById('provider'+val).value = document.getElementById('select2-provider_data'+val+'-container').innerHTML;
-    else if(type == 'origin')
+        try{
+            for(i in issued_offline_data.carrier_id){
+                if(issued_offline_data.carrier_id[i].name == document.getElementById('provider'+val).value){
+                    document.getElementById('carrier_code'+val).value = issued_offline_data.carrier_id[i].code;
+                    break;
+                }
+            }
+        }catch(err){}
+
+    }else if(type == 'origin')
         document.getElementById('origin'+val).value = document.getElementById('select2-origin_data'+val+'-container').title;
     else if(type == 'destination')
         document.getElementById('destination'+val).value = document.getElementById('select2-destination_data'+val+'-container').title;

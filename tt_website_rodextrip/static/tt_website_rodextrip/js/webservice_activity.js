@@ -974,6 +974,9 @@ function update_sell_activity(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update sell activity </span>' + msg.result.error_msg,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -982,6 +985,9 @@ function update_sell_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update sell activity </span>' + errorThrown,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1007,6 +1013,9 @@ function update_contact_activity(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update contact activity </span>' + msg.result.error_msg,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1015,6 +1024,9 @@ function update_contact_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update contact activity </span>' + errorThrown,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1040,6 +1052,9 @@ function update_passengers_activity(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update passengers activity </span>' + msg.result.error_msg,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1048,6 +1063,9 @@ function update_passengers_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update passengers activity </span>' + errorThrown,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1077,6 +1095,9 @@ function update_options_activity(){
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update options activity </span>' + msg.result.error_msg,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1085,6 +1106,9 @@ function update_options_activity(){
               title: 'Oops!',
               html: '<span style="color: red;">Error update options activity </span>' + errorThrown,
             })
+            $('.hold-seat-booking-train').prop('disabled', false);
+           $('.hold-seat-booking-train').removeClass("running");
+           $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1117,7 +1141,7 @@ function activity_commit_booking(val){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error activity create booking </span>' + msg.result.error_msg,
+              html: '<span style="color: #ff9900;">Error activity commit booking </span>' + msg.result.error_msg,
             })
 
            $('.hold-seat-booking-train').prop('disabled', false);
@@ -1129,7 +1153,7 @@ function activity_commit_booking(val){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error activity create booking </span>' + errorThrown,
+              html: '<span style="color: red;">Error activity commit booking </span>' + errorThrown,
             })
            $('.hold-seat-booking-train').prop('disabled', false);
            $('.hold-seat-booking-train').removeClass("running");

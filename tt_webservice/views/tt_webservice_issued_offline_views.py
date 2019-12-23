@@ -111,8 +111,14 @@ def set_data_issued_offline(request):
         for i in range(int(request.POST['counter_line'])):
             if request.POST['type'] == 'airline' or request.POST['type'] == 'train':
                 temp_date = request.POST['line_departure' + str(i)].split(' ')
+                if temp_date[4] == 'PM':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
+                    temp_date[3] = temp_date[3].split(' ')[1]
                 departure = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 temp_date = request.POST['line_arrival' + str(i)].split(' ')
+                if temp_date[4] == 'PM':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
+                    temp_date[3] = temp_date[3].split(' ')[1]
                 arrival = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 if request.POST['type'] == 'airline':
                     origin = request.POST['line_origin'+str(i)].split(' - ')[0]
@@ -133,35 +139,51 @@ def set_data_issued_offline(request):
                     "pnr": request.POST['line_pnr'+str(i)],
                 })
             elif request.POST['type'] == 'hotel':
-                departure = request.POST['line_hotel_check_in' + str(i)].split(' ')
-                arrival = request.POST['line_hotel_check_out' + str(i)].split(' ')
+                temp_date = request.POST['line_hotel_check_in' + str(i)].split(' ')
+                if temp_date[4] == 'PM':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
+                    temp_date[3] = temp_date[3].split(' ')[1]
+                departure = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
+                temp_date = request.POST['line_hotel_check_out' + str(i)].split(' ')
+                if temp_date[4] == 'PM':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
+                    temp_date[3] = temp_date[3].split(' ')[1]
+                arrival = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 line.append({
                     "name": request.POST['line_hotel_name' + str(i)],
                     "room": request.POST['line_hotel_room' + str(i)],
                     "qty": request.POST['line_hotel_qty' + str(i)],
-                    "check_in": parse_date_time_to_server(departure[0]+' '+departure[1]+' '+departure[2]) + ' ' + departure[3],
-                    "check_out": parse_date_time_to_server(arrival[0]+' '+arrival[1]+' '+arrival[2]) + ' ' + arrival[3],
+                    "check_in": departure[0]+' '+departure[1],
+                    "check_out": arrival[0]+' '+arrival[1],
                     "description": request.POST['line_hotel_description' + str(i)],
                     "pnr": request.POST['line_pnr' + str(i)],
                 })
             elif request.POST['type'] == 'activity':
-                departure = request.POST['line_activity_datetime' + str(i)].split(' ')
+                temp_date = request.POST['line_activity_datetime' + str(i)].split(' ')
+                if temp_date[4] == 'PM':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
+                    temp_date[3] = temp_date[3].split(' ')[1]
+                departure = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 line.append({
                     "name": request.POST['line_activity_name' + str(i)],
                     "package": request.POST['line_activity_package' + str(i)],
                     "qty": request.POST['line_activity_qty' + str(i)],
-                    "visit_date": parse_date_time_to_server(departure[0]+' '+departure[1]+' '+departure[2]) + ' ' + departure[3],
+                    "visit_date": departure[0]+' '+departure[1],
                     "description": request.POST['line_activity_description' + str(i)],
                     "pnr": request.POST['line_pnr' + str(i)],
                 })
         temp_date = request.POST['expired_date'].split(' ')
-        exp_date = parse_date_time_to_server(temp_date[0]+' '+temp_date[1]+' '+temp_date[2]) + ' ' + temp_date[3],
+        if temp_date[4] == 'PM':
+            temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
+            temp_date[3] = temp_date[3].split(' ')[1]
+        exp_date = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
+
         data_issued_offline = {
             "type": request.POST['type'],
             "total_sale_price": int(request.POST['total_sale_price']),
             "desc": request.POST['desc'],
             "social_media_id": request.POST['social_media'],
-            "expired_date": exp_date,
+            "expired_date": exp_date[0]+' '+exp_date[1],
             "line_ids": line,
             "provider": "rodextrip_issued_offline"
         }
@@ -382,7 +404,7 @@ def commit_booking(request):
         data = {
             'member': member,
             'seq_id': request.POST['seq_id'],
-            'voucher_code': request.POST['voucher_code']
+            'voucher': {}
         }
         if request.POST['voucher_code'] != '':
             data.update({

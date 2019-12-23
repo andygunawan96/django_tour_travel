@@ -994,8 +994,6 @@ function tour_filter_render(){
                         <input type="text" style="margin-bottom:unset;" class="form-control" id="tour_filter_name" placeholder="Tour Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tour Name '" autocomplete="off" onkeyup="filter_name(1);"/>
                     </div>
                     <hr/>
-
-
                     <h6 class="filter_general" onclick="show_hide_general('tourType');">Tour Type <i class="fas fa-chevron-down" id="tourType_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourType_generalUp" style="float:right; display:block;"></i></h6>
                     <div id="tourType_generalShow" style="display:inline-block;">`;
     for(i in tour_type_list){
@@ -1439,17 +1437,8 @@ function sort(tour_dat, exist_check){
                    img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                }
 
-               if (tour_dat[i].state_tour == 'sold')
-               {
-                   dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
-                   dat_content2 = `Sold Out`;
-               }
-               else
-               {
-                   dat_content1 = ``+tour_dat[i].departure_date+` - `+tour_dat[i].return_date;
-                   var count_quota = tour_data[i].quota - tour_data[i].seat;
-                   dat_content2 = ``+count_quota+`/`+tour_dat[i].quota;
-               }
+               dat_content1 = ``+tour_dat[i].departure_date_str+` - `+tour_dat[i].return_date_str;
+               dat_content2 = ``+tour_dat[i].seat+`/`+tour_dat[i].quota + ` Available`;
 
                text+=`
 
@@ -1460,56 +1449,123 @@ function sort(tour_dat, exist_check){
                     <input id='uuid' name='uuid' type='hidden' value='`+tour_dat[i].id+`'/>
                     <input id='sequence' name='sequence' type='hidden' value='`+tour_dat[i].sequence+`'/>`;
                     if(template == 1){
-                        text+=`
-                        <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].sequence+`')">
-                            <div class="single-destination relative">
-                                <div class="thumb relative">
-                                    <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="`+img_src+`" alt="">
-                                </div>
-                                <div class="card card-effect-promotion">
-                                    <div class="card-body">
-                                        <div class="row details">
-                                            <div class="col-lg-12" style="text-align:left;">
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                            </div>
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
-                                                <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
+                        {
+                            text+=`
+                            <div class="single-recent-blog-post item" style="cursor:not-allowed;" onclick="">
+                                <div class="single-destination relative">
+                                    <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                        <h5 style="color:white;">SOLD OUT</h5>
+                                    </div>
+                                    <div class="thumb relative">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
+                                                    <a href="#" class="btn btn-primary disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
+                        }
+                        else
+                        {
+                            text+=`
+                            <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].sequence+`')">
+                                <div class="single-destination relative">
+                                    <div class="thumb relative">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
+                                                    <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
                     }else{
-                        text+=`
-                        <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
-                            <div class="single-destination relative">
-                                <div class="thumb relative">
-                                    <div class="overlay overlay-bg"></div>
-                                    <img class="img-fluid" src="`+img_src+`" alt="">
-                                </div>
-                                <div class="card card-effect-promotion">
-                                    <div class="card-body" style="padding:15px;">
-                                        <div class="row details">
-                                            <div class="col-lg-12" style="text-align:left;">
-                                                <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
-                                            </div>
-                                            <div class="col-lg-12" style="text-align:right;">
-                                                <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
-                                                <br/>
-                                                <a href="#" class="btn roberto-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
+                        {
+                            text+=`
+                            <div class="single-post-area mb-30" onclick="" style="cursor:not-allowed;">
+                                <div class="single-destination relative">
+                                    <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                        <h5 style="color:white;">SOLD OUT</h5>
+                                    </div>
+                                    <div class="thumb relative">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body" style="padding:15px;">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                    <br/>
+                                                    <a href="#" class="btn roberto-btn disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
+                        }
+                        else
+                        {
+                            text+=`
+                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                                <div class="single-destination relative">
+                                    <div class="thumb relative">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body" style="padding:15px;">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                    <br/>
+                                                    <a href="#" class="btn roberto-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
                     }
 
                     text+=`

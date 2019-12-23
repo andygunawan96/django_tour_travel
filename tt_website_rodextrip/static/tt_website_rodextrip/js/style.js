@@ -130,6 +130,26 @@ $(document).ready(function(){
 		$("#"+tab_id).addClass('current');
 	})
 
+    $('ul.create_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.create_tabs li').removeClass('current');
+		$('.create_tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
+    $('ul.edit_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.edit_tabs li').removeClass('current');
+		$('.edit_tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
 //    $('#myModalTicketFlight').click(function() {
 //
 //    });

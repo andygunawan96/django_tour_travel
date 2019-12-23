@@ -705,7 +705,8 @@ input:focus {
 /* :: 8.0 Hero Area CSS */
 .welcome-area {
   position: relative;
-  z-index: 2; }
+  z-index: 2;
+   background:white; }
 
 .welcome-slides {
   position: relative;
@@ -1732,7 +1733,6 @@ html .ui-button.ui-state-disabled:active {
 }
 
 .hotel-search-form-area {
-  position: relative;
   z-index: 1;
   bottom:15vh;
   padding-left: 10%;
@@ -1761,7 +1761,6 @@ html .ui-button.ui-state-disabled:active {
      } }
 
   .hotel-search-form-area .hotel-search-form {
-    position: relative;
     z-index: 1;
     width: 100%;
     box-shadow: 0 2px 15px 1px rgba(0, 0, 0, 0.55);
@@ -1781,6 +1780,7 @@ html .ui-button.ui-state-disabled:active {
       width: 100%;
       margin-bottom: 15px;
       height: 43px;
+      line-height: 32px;
       border: 1px solid #cdcdcd;
       font-size: 13px; }
       @media only screen and (max-width: 767px) {
@@ -2549,6 +2549,97 @@ ul.tabs li.current .image-rounded-icon{
 .tab-content.current{
     display: inherit;
 }
+
+
+/* create new */
+ul.create_tabs{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+ul.create_tabs li{
+    /*background: rgba(0,0,0,0.5);*/
+    color: black;
+    display: inline-block;
+    padding: 10px 15px 5px 15px;
+    cursor: pointer;
+}
+
+ul.create_tabs li:hover{
+   color:#f15a22;
+}
+
+li.create_tab-link label{
+    cursor: pointer;
+    text-align:center;
+}
+
+ul.create_tabs li.current{
+    /*background: rgba(0,0,0,0.5);*/
+    border-top: 5px solid #f15a22;
+    color: #f15a22;
+}
+
+ul.create_tabs li.current .image-rounded-icon{
+    background: #f15a22 !important;
+}
+
+.create_tab-content{
+    display: none;
+    /*background: rgba(0,0,0,0.5);*/
+    padding: 20px;
+}
+
+.create_tab-content.current{
+    display: inherit;
+}
+
+
+
+/* edit new */
+ul.edit_tabs{
+    margin: 0px;
+    padding: 0px;
+    list-style: none;
+}
+ul.edit_tabs li{
+    /*background: rgba(0,0,0,0.5);*/
+    color: black;
+    display: inline-block;
+    padding: 10px 15px 5px 15px;
+    cursor: pointer;
+}
+
+ul.edit_tabs li:hover{
+   color:#f15a22;
+}
+
+li.edit_tab-link label{
+    cursor: pointer;
+    text-align:center;
+}
+
+ul.edit_tabs li.current{
+    /*background: rgba(0,0,0,0.5);*/
+    border-top: 5px solid #f15a22;
+    color: #f15a22;
+}
+
+ul.edit_tabs li.current .image-rounded-icon{
+    background: #f15a22 !important;
+}
+
+.edit_tab-content{
+    display: none;
+    /*background: rgba(0,0,0,0.5);*/
+    padding: 20px;
+}
+
+.edit_tab-content.current{
+    display: inherit;
+}
+
+
 
 
 /* The container */
@@ -4149,10 +4240,6 @@ display: block;
   .for-show-website{
     display:block !important;
   }
-  .modal{
-    top:60px !important;
-  }
-
   body{
     padding-right:unset !important;
   }

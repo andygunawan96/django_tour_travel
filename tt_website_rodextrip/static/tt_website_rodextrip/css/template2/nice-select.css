@@ -14,6 +14,7 @@
   height: 42px;
   line-height: 40px;
   outline: none;
+  width:100%;
   padding-left: 12px;
   padding-right: 30px;
   position: relative;
@@ -24,8 +25,7 @@
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  white-space: nowrap;
-  width: 100%; }
+  white-space: nowrap; }
   .nice-select:hover {
     border-color: #dbdbdb; }
   .nice-select:active, .nice-select.open, .nice-select:focus {
@@ -123,7 +123,7 @@
     min-height: 40px;
     outline: none;
     padding-left: 18px;
-    padding-right: 29px;
+    padding-right: 18px;
     text-align: left;
     white-space: normal;
     word-wrap: break-word;
@@ -149,6 +149,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     position:relative;
+
 }
 
 .nice-select .current{

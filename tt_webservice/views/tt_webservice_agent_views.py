@@ -122,6 +122,14 @@ def signin(request):
             }
 
             res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+            # pakai kalo template PER USER
+            # user_template = UserTemplate().get_data_by_id(request.POST['username'], True) #true buat rodextrip false buat tors
+            # res_user['result']['response'].update({
+            #     'logo_url': user_template.logo_url,
+            #     'name': user_template.name,
+            #     'template': user_template.template_id,
+            #     'desc': user_template.desc
+            # })
             request.session['user_account'] = res_user['result']['response']
             try:
                 if res['result']['error_code'] == 0:
@@ -161,7 +169,7 @@ def signin(request):
             except:
                 get_new_cache(res['result']['response']['signature'])
         else:
-            logging.getLogger("info_logger").info(json.dumps(res))
+            logging.getLogger("error_logger").error('ERROR SIGNIN SOMETHING WHEN WRONG ' + json.dumps(res))
 
     except Exception as e:
         logging.getLogger("error_logger").error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
@@ -573,59 +581,62 @@ def get_customer_list(request):
         if res['result']['error_code'] == 0:
             counter = 0
             for pax in res['result']['response']:
-                if pax['gender'] == 'female' and pax['marital_status'] == 'married':
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
-                        title = 'MRS'
+                try:
+                    if pax['gender'] == 'female' and pax['marital_status'] == 'married':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                            title = 'MRS'
+                        else:
+                            title = 'MISS'
+                    elif pax['gender'] == 'female':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                            title = 'MS'
+                        else:
+                            title = 'MISS'
                     else:
-                        title = 'MISS'
-                elif pax['gender'] == 'female':
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
-                        title = 'MS'
-                    else:
-                        title = 'MISS'
-                else:
-                    if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker':
-                        title = 'MR'
-                    else:
-                        title = 'MSTR'
-                pax.update({
-                    'sequence': counter,
-                    'title': title
-                })
-                if pax['birth_date'] != '':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                            title = 'MR'
+                        else:
+                            title = 'MSTR'
                     pax.update({
-                        'birth_date': '%s %s %s' % (
-                            pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
-                            pax['birth_date'].split('-')[0]),
+                        'sequence': counter,
+                        'title': title
                     })
-                if pax['identities'].get('passport'):
-                    pax['identities']['passport'].update({
-                        'identity_expdate': '%s %s %s' % (
-                            pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
-                            pax['identities']['passport']['identity_expdate'].split('-')[0]),
-                    })
-                if pax['identities'].get('ktp'):
-                    if ['identities']['ktp']['identity_expdate'] != '':
-                        pax['identities']['ktp'].update({
-                            'identity_expdate': '%s %s %s' % (
-                                pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
-                                pax['identities']['ktp']['identity_expdate'].split('-')[0]),
+                    if pax['birth_date'] != '':
+                        pax.update({
+                            'birth_date': '%s %s %s' % (
+                                pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
+                                pax['birth_date'].split('-')[0]),
                         })
-                if pax['identities'].get('sim'):
-                    if ['identities']['sim']['identity_expdate'] != '':
-                        pax['identities']['sim'].update({
+                    if pax['identities'].get('passport'):
+                        pax['identities']['passport'].update({
                             'identity_expdate': '%s %s %s' % (
-                                pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
-                                pax['identities']['sim']['identity_expdate'].split('-')[0]),
+                                pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
+                                pax['identities']['passport']['identity_expdate'].split('-')[0]),
                         })
-                if pax['identities'].get('other'):
-                    if ['identities']['other']['identity_expdate'] != '':
-                        pax['identities']['other'].update({
-                            'identity_expdate': '%s %s %s' % (
-                                pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
-                                pax['identities']['other']['identity_expdate'].split('-')[0]),
-                        })
-                counter += 1
+                    if pax['identities'].get('ktp'):
+                        if pax['identities']['ktp']['identity_expdate'] != '':
+                            pax['identities']['ktp'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('sim'):
+                        if pax['identities']['sim']['identity_expdate'] != '':
+                            pax['identities']['sim'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['sim']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('other'):
+                        if pax['identities']['other']['identity_expdate'] != '':
+                            pax['identities']['other'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['other']['identity_expdate'].split('-')[0]),
+                            })
+                    counter += 1
+                except:
+                    pass
             logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error(str(res))
