@@ -576,7 +576,7 @@ function train_get_booking(data){
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/1','_blank');"/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`msg.result.response.order_number+`', 'ticket','train');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -588,14 +588,14 @@ function train_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/3','_blank');" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`msg.result.response.order_number+`', 'itinerary','train');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/2','_blank');" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`msg.result.response.order_number+`', 'ticket_price','train');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
