@@ -77,7 +77,7 @@ function update_table(type){
         commission = 0;
         count_i = 0;
         for(i in visa){
-            if(moment(visa_request.departure_date) < moment().subtract(visa[i].type.duration*-1,'days'))
+            if(moment(visa_request.departure) >= moment().subtract(visa[i].type.duration*-1,'days'))
                 check_visa = 1;
             pax_count = parseInt(document.getElementById('qty_pax_'+i).value);
             if(isNaN(pax_count)){
