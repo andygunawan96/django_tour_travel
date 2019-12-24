@@ -50,6 +50,8 @@ def api_models(request):
             res = get_data(request)
         elif req_data['action'] == 'search':
             res = search(request)
+        elif req_data['action'] == 'sell_journeys':
+            res = sell_journeys(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
@@ -177,6 +179,35 @@ def search(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
+    return res
+
+def sell_journeys(request):
+    #nanti ganti ke select journey
+    try:
+
+        data = {
+            "promotion_codes": [],
+            "adult": int(request.session['train_request']['adult']),
+            "infant": int(request.session['train_request']['infant']),
+            "schedules": request.session['train_booking'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "sell_journeys",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS sell_journeys TRAIN SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR sell_journeys TRAIN SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def commit_booking(request):
