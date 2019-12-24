@@ -1127,16 +1127,17 @@ function get_price_itinerary_request(){
     }catch(err){
 
     }
-    promotion_code = [];
+    promotion_code_list = [];
     for(i=0;i<promotion_code;i++){
         try{
             if(document.getElementById('carrier_code_line'+i).value != '' && document.getElementById('code_line'+i).value != '')
-                promotion_code.push({
+                promotion_code_list.push({
                     'carrier_code': document.getElementById('carrier_code_line'+i).value,
                     'promotion_code': document.getElementById('code_line'+i).value
                 })
         }catch(err){}
     }
+
     document.getElementById("airlines_ticket").innerHTML = '';
     $.ajax({
        type: "POST",

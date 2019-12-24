@@ -328,7 +328,9 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    try{
     document.getElementById('voucher_div').style.display = 'none';
+    }catch(err){}
     airline_signin('{{order_number}}');
     //testing_bca();
 
