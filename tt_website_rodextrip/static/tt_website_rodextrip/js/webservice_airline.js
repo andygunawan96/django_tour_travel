@@ -1133,7 +1133,7 @@ function get_price_itinerary_request(){
             if(document.getElementById('carrier_code_line'+i).value != '' && document.getElementById('code_line'+i).value != '')
                 promotion_code_list.push({
                     'carrier_code': document.getElementById('carrier_code_line'+i).value,
-                    'promotion_code': document.getElementById('code_line'+i).value
+                    'promo_code': document.getElementById('code_line'+i).value
                 })
         }catch(err){}
     }
@@ -1146,7 +1146,7 @@ function get_price_itinerary_request(){
             'action': 'get_price_itinerary',
        },
        data: {
-          "promotion_code": JSON.stringify(promotion_code),
+          "promo_codes": JSON.stringify(promotion_code_list),
           "journeys_booking": JSON.stringify(journey),
           'signature': airline_signature,
           'separate_journey': separate,
