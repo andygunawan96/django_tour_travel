@@ -60,6 +60,13 @@ def get_printout(request):
             'bill_to_name': request.POST['bill_name_to'],
             'bill_address': request.POST['bill_address']
         }
+        # if request.POST['bill_address'] != '':
+        #     bill_address = request.POST['bill_address']
+        #     bill_address = bill_address.split('\n')
+        #     bill_address = "<br/>".join(bill_address)
+        #     data.update({
+        #         'bill_address': bill_address
+        #     })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

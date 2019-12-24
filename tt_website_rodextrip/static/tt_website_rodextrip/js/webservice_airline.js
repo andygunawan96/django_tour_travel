@@ -1127,16 +1127,17 @@ function get_price_itinerary_request(){
     }catch(err){
 
     }
-    promotion_code = [];
+    promotion_code_list = [];
     for(i=0;i<promotion_code;i++){
         try{
             if(document.getElementById('carrier_code_line'+i).value != '' && document.getElementById('code_line'+i).value != '')
-                promotion_code.push({
+                promotion_code_list.push({
                     'carrier_code': document.getElementById('carrier_code_line'+i).value,
                     'promotion_code': document.getElementById('code_line'+i).value
                 })
         }catch(err){}
     }
+
     document.getElementById("airlines_ticket").innerHTML = '';
     $.ajax({
        type: "POST",
@@ -2597,7 +2598,7 @@ function airline_get_booking(data){
                                     cabin_class = 'Economy Class';
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'W')
                                     cabin_class = 'Premium Economy Class';
-                                else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'B')
+                                else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'C')
                                     cabin_class = 'Business Class';
                                 else if(msg.result.response.provider_bookings[i].journeys[j].segments[k].cabin_class == 'F')
                                     cabin_class = 'First Class';
@@ -2779,7 +2780,7 @@ function airline_get_booking(data){
                         }else{
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/1','_blank');"/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','airline');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2791,14 +2792,14 @@ function airline_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/3,'_blank');" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else{
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/2','_blank');" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -2817,9 +2818,50 @@ function airline_get_booking(data){
                         else{
                             text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:white;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.airline/`+msg.result.response.order_number+`/4','_blank');"/>
+                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
+                            // modal invoice
+                            text+=`
+                                <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                    <div class="modal-dialog">
+
+                                      <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" style="color:white">Invoice</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <span class="control-label" for="Name">Name</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <span class="control-label" for="Address">Address</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                            <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br/>
+                                                <div style="text-align:right;">
+                                                    <span>Don't want to edit? just submit</span>
+                                                    <br/>
+                                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline');"/>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
                         }
                     }
                         text+=`

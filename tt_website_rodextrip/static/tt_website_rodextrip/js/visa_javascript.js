@@ -1,12 +1,12 @@
 list_passenger = [];
 count_price_detail = [];
 
-function visa_autocomplete(type){
+function visa_autocomplete(type,page){
     if(type == 'consulate'){
         document.getElementById('visa_consulate_id_hidden').value = document.getElementById('select2-visa_consulate_id-container').innerHTML;
     }else if(type == 'destination'){
         document.getElementById('visa_destination_id_hidden').value = document.getElementById('select2-visa_destination_id-container').innerHTML;
-        get_consulate();
+        get_consulate(page);
     }
 }
 
@@ -77,7 +77,7 @@ function update_table(type){
         commission = 0;
         count_i = 0;
         for(i in visa){
-            if(moment(visa_request.departure_date) < moment().subtract(visa[i].type.duration*-1,'days'))
+            if(moment(visa_request.departure) >= moment().subtract(visa[i].type.duration*-1,'days'))
                 check_visa = 1;
             pax_count = parseInt(document.getElementById('qty_pax_'+i).value);
             if(isNaN(pax_count)){
