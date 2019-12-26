@@ -488,7 +488,7 @@ function update_contact(){
 
 function commit_booking(){
     data = {
-        'force_issued': 'true',
+        'force_issued': 'false',
         'signature': signature,
         'voucher_code': ''
     }
