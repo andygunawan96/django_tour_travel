@@ -127,7 +127,7 @@ function check_voucher(){
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                             </div>
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
                             <h6><span style="color:red">* </span>This will be use if you issued</h6>
@@ -177,7 +177,7 @@ function check_voucher(){
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                             </div>
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
                             <h6><span style="color:red">* </span>This will be use if you issued</h6>
@@ -212,7 +212,7 @@ function check_voucher(){
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                             </div>
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
                             <h6><span style="color:red">* </span>This will be use if you issued</h6>
@@ -261,7 +261,7 @@ function check_voucher(){
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                             </div>
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
                             <h6><span style="color:red">* </span>This will be use if you issued</h6>
@@ -296,7 +296,7 @@ function check_voucher(){
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                             </div>
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
                             <h6><span style="color:red">* </span>This will be use if you issued</h6>
@@ -328,7 +328,7 @@ function check_voucher(){
                             <div class="alert alert-success" role="alert">
                                 <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                             </div>
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code
                             </button>
                             <h6><span style="color:red">* </span>This will be use if you issued</h6>
@@ -343,7 +343,7 @@ function check_voucher(){
                         <div class="alert alert-danger" role="alert">
                             <h6>Sorry, Voucher can't be use</h6>
                         </div>
-                        <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                        <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                             Change Voucher Code
                         </button>
                     </div>`;

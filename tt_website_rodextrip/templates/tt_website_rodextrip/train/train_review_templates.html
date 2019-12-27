@@ -126,44 +126,50 @@
 
                                 {% for data in response %}
                                 {% if forloop.counter == 1 %}
-                                <h5>Departure</h5><br/>
+                                <h5>Departure</h5>
                                 {% else %}
-                                <h5>Return</h5><br/>
+                                <h5>Return</h5>
                                 {% endif %}
-                                <h4>{{data.carrier_name}} {{data.carrier_number}}</h4>
-                                <span>Class {{data.cabin_class.1}} ({{data.class_of_service}})</span><br/>
                                 <div class="row">
-                                    <div class="col-lg-6 col-xs-6">
-                                        <table style="width:100%">
-                                            <tr>
-                                                <td>{{data.origin_name}}</td>
-                                                <td style="padding-left:15px;">
-                                                    <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
-                                                </td>
-                                                <td style="height:30px;padding:0 15px;width:100%">
-                                                    <div style="display:inline-block;position:relative;width:100%">
-                                                        <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                        <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                        <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                        <span>{{data.origin}}</span><br/>
-                                        <span>Schedule departure</span><br>
-                                        <span>{{data.departure_date}}</span>
+                                    <div class="col-lg-4" style="padding-top:10px;">
+                                        <h6>{{data.carrier_name}} {{data.carrier_number}}</h6>
+                                        <span>Class {{data.cabin_class.1}} ({{data.class_of_service}})</span><br/>
                                     </div>
-                                    <div class="col-lg-6 col-xs-6" style="padding:0;">
-                                        <table style="width:100%; margin-bottom:6px;">
-                                            <tr>
-                                                <td>{{data.destination_name}}</td>
-                                                <td></td>
-                                                <td style="height:30px;padding:0 15px;width:100%"></td>
-                                            </tr>
-                                        </table>
-                                        <span>{{data.destination}}</span><br/>
-                                        <span>Schedule arrival</span><br>
-                                        <span>{{data.arrival_date}}</span>
+                                    <div class="col-lg-8">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-xs-6">
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td><h6>{{data.origin_name}}</h6></td>
+                                                        <td style="padding-left:15px;">
+                                                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
+                                                        </td>
+                                                        <td style="height:30px;padding:0 15px;width:100%">
+                                                            <div style="display:inline-block;position:relative;width:100%">
+                                                                <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                                <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                                <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <span>{{data.origin}}</span><br/>
+                                                <span>Schedule departure</span><br>
+                                                <span>{{data.departure_date}}</span>
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="padding:0;">
+                                                <table style="width:100%; margin-bottom:6px;">
+                                                    <tr>
+                                                        <td><h6>{{data.destination_name}}</h6></td>
+                                                        <td></td>
+                                                        <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                    </tr>
+                                                </table>
+                                                <span>{{data.destination}}</span><br/>
+                                                <span>Schedule arrival</span><br>
+                                                <span>{{data.arrival_date}}</span>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 {%if forloop.counter != response|length %}<hr/>{%endif%}

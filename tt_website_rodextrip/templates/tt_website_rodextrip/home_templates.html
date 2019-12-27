@@ -1307,10 +1307,10 @@
                 {% endif %}
                 <div class="hotel-search-form">
                     {% if username != null %}
-
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
+                    {% if "ticketing" in username.co_agent_frontend_security %}
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                         <ul class="tabs">
                             {% if "airline" in provider %}
@@ -1953,6 +1953,7 @@
                         </div>
                         {% endif %}
                     </div>
+                    {% endif %}
                     {% else %}
                     <div>
                         <h4 style="padding-top:15px;">Already a RODEXTRIP member?</h4>
@@ -2240,15 +2241,13 @@
                 <div class="col-lg-12">
                     <div class="row fullscreen d-flex" style="margin-top:150px; margin-bottom:60px; padding:15px;">
                         {% if username != null %}
-                        <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: rgba(32, 46, 69, 0.8);">
+                        {% if "ticketing" in username.co_agent_frontend_security %}
+                        <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: rgba(32, 46, 69, 0.8); border:1px solid #cdcdcd;">
                             <h4 class="text-white">
-                                Hello, {{username.agent_name}} !
+                                Hello, {{username.co_user_name}}!<br/>
+                                Grow your business with <span class="lamp">RODEXTRIP</span>
                             </h4>
-                            <h5 style="color:white; padding-top:5px;">
-                                Enjoy your trip with RODEXTRIP
-                            </h5>
                             <br/>
-
                             <div class="div-tabs style-scrollbar" style="margin-top:10px;">
                                 <input type="hidden" id="country_id"/>
                                 <input type="hidden" id="start"/>
@@ -2284,30 +2283,30 @@
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
                             {% if "airline" in provider %}
                             <div id="tab-airline" class="tab-content current">
-                                <h4 class="pb-30">Book Your Airline!</h4>
+                                <h4 class="pb-30" style="color:white;">Book Your Airline!</h4>
                                 <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:25px;">
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">One Way</span>
+                                        <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:white;">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
                                                 <span class="checkmark-radio"></span>
                                             </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">Round-trip</span>
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:white;">Round-trip</span>
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">Multi-City</span>
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:white;">Multi-City</span>
                                                 <input type="radio" name="radio_airline_type" value="multicity">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                         </div>
-                                        <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                        <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                             <div class="checkbox" style="display:none;" id="checkbox_combo_price">
-                                                <label class="check_box_custom">
+                                                <label class="check_box_custom" style="margin-bottom:0px;">
                                                     <span style="font-size:13px; color:white;">Is Combo Price</span>
                                                     <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                     <span class="check_box_span_custom"></span>
@@ -2316,21 +2315,36 @@
                                         </div>
                                         <div class="col-lg-12" id="ori_airline">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                                    <div class="form-group">
-                                                        <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SUB - Juanda International Airport - Surabaya - Indonesia" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <h3 class="image-change-route-vertical"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
-                                                    <h3 class="image-change-route-horizontal"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h3>
-                                                    <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                                                    <div class="form-group">
-                                                        <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="SIN - Changi Intl - Singapore - Singapore" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
-                                                    </div>
-                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
+                                                            <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
+                                                            <div class="form-group">
+                                                                <div class="form-select">
+                                                                    <input id="origin_id_flight" name="origin_id_flight" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('origin_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                    <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="origin_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('origin')">-->
 
+                                                                    <!--</select>-->
+                                                                </div>
+                                                                <!--<input type="hidden" name="origin_id_flight" id="airline_origin_flight" />-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
+                                                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                                                            <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                                                            <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
+                                                            <div class="form-group">
+                                                                <div class="form-select">
+                                                                    <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                    <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
+
+                                                                    <!--</select>-->
+                                                                </div>
+                                                                <!--<input type="hidden" name="destination_id_flight" id="airline_destination_flight" />-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" id="airline_date_search">
                                                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                                                     <div class="form-group">
@@ -2339,8 +2353,10 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                                    <div class="form-group">
-                                                        <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left;"></button>
+                                                    <div class="form-group btn-group" style="width:100%;">
+                                                        <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
+                                                            1 Adult, 0 Child, 0 Infant
+                                                        </button>
                                                         <ul class="dropdown-menu" role="menu">
                                                             <div class="row" style="padding:10px;">
                                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -2356,7 +2372,7 @@
                                                                         <button type="button" class="left-minus-adult-flight btn-custom-circle" id="left-minus-adult-flight" data-type="minus" data-field="" disabled>
                                                                             <i class="fas fa-minus"></i>
                                                                         </button>
-                                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px; height:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
+                                                                        <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="adult_flight" name="adult_flight" value="1" min="1" readonly>
                                                                         <button type="button" class="right-plus-adult-flight btn-custom-circle" id="right-plus-adult-flight" data-type="plus" data-field="">
                                                                             <i class="fas fa-plus"></i>
                                                                         </button>
@@ -2376,7 +2392,7 @@
                                                                         <button type="button" class="left-minus-child-flight btn-custom-circle" id="left-minus-child-flight" data-type="minus" data-field="" disabled>
                                                                             <i class="fas fa-minus"></i>
                                                                         </button>
-                                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;height:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
+                                                                        <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="child_flight" name="child_flight" value="0" min="0" readonly>
                                                                         <button type="button" class="right-plus-child-flight btn-custom-circle" id="right-plus-child-flight" data-type="plus" data-field="">
                                                                             <i class="fas fa-plus"></i>
                                                                         </button>
@@ -2396,7 +2412,7 @@
                                                                         <button type="button" class="left-minus-infant-flight btn-custom-circle" id="left-minus-infant-flight" data-type="minus" data-field="" disabled>
                                                                             <i class="fas fa-minus"></i>
                                                                         </button>
-                                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px; height:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
+                                                                        <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="infant_flight" name="infant_flight" value="0" readonly>
                                                                         <button type="button" class="right-plus-infant-flight btn-custom-circle" id="right-plus-infant-flight" data-type="plus" data-field="">
                                                                             <i class="fas fa-plus"></i>
                                                                         </button>
@@ -2408,35 +2424,11 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                                                    <div class="form-group">
-                                                        <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left;">Choose Airline</button>
-                                                        <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5; max-height:400px; overflow:auto; width:inherit;">
-                                                            {% for provider in airline_provider_list %}
-                                                            {% if forloop.counter == 1 %}
-                                                            <li>
-                                                                <a class="small" data-value="option1" tabIndex="-1">
-                                                                    <label class="check_box_custom">
-                                                                        <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
-                                                                        <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>
-                                                                        <span class="check_box_span_custom"></span>
-                                                                    </label>
-                                                                </a>
-                                                                <br/>
-                                                                <!--                                                        <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" checked="checked" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
-                                                            </li>
-                                                            {% else %}
-                                                            <li>
-                                                                <a class="small" data-value="option1" tabIndex="-1">
-                                                                    <label class="check_box_custom">
-                                                                        <span class="span-search-ticket" style="color:black;">{{provider.name}}</span>
-                                                                        <input type="checkbox" id="provider_box_{{provider.value}}" name="provider_box_{{provider.value}}" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>
-                                                                        <span class="check_box_span_custom"></span>
-                                                                    </label><br/>
-                                                                    <!--                                                            <input id="provider_box_{{provider.value}}" type="checkbox" name="provider_box_{{provider.value}}" class="provider_box" value="{{provider.value}}" onclick="check_provider('{{provider.value}}')"/>{{provider.name}}-->
-                                                                </a>
-                                                            </li>
-                                                            {% endif %}
-                                                            {% endfor %}
+                                                    <div class="form-group btn-group" style="width:100%;">
+                                                        <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
+                                                        <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
+                                                        <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
+
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -2444,7 +2436,7 @@
                                                     <span class="span-search-ticket">Class</span>
                                                     <div class="form-group">
                                                         <div class="default-select" id="default-select">
-                                                            <select id="cabin_class_flight" name="cabin_class_flight" data-live-search="true" size="4">
+                                                            <select id="cabin_class_flight" name="cabin_class_flight">
                                                                 {% for cabin_class in airline_cabin_class_list %}
                                                                 <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
                                                                 {% endfor %}
@@ -2458,9 +2450,8 @@
 
                                         </div>
                                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
-
-                                        <div class="col-lg-12" style="text-align:right; padding-top:15px;">
-                                            <button class="button-search primary-btn text-center ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
+                                        <div class="col-lg-12" style="text-align:center; padding-top:15px;">
+                                            <button class="button-search primary-btn text-center ld-ext-right" type="submit" value="Submit">
                                                 <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                 Search
                                                 <div class="ld ld-ring ld-cycle"></div>
@@ -2472,50 +2463,47 @@
                             {% endif %}
                             {% if "train" in provider %}
                             <div id="tab-train" class="tab-content">
-                                <h4 class="pb-30">Book Your Train!</h4>
-                                <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" id="train_searchForm" onsubmit="return search_train_validation()">
+                                <h4 class="pb-30" style="color:white;">Book Your Train!</h4>
+                                <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_train_search" style="margin-bottom:10px;">
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">One Way</span>
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:white;">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_train_type" value="oneway">
                                                 <span class="checkmark-radio"></span>
                                             </label>
-                                            <label class="radio-button-custom">
-                                                <span style="font-size:14px; color:#7D7D7D;">Round-trip</span>
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:white;">Round-trip</span>
                                                 <input type="radio" name="radio_train_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-01.png" style="width: 20px;height:20px;"/> From</span>
+                                            <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-from-white.png" style="width:20px; height: 20px;"/> From</span>
                                             <div class="form-group">
-                                                <input list="train_origin_name" id="train_origin" value="SGU - SURABAYA GUBENG (SGU)" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
-                                                <datalist id="train_origin_name"/>
+                                                <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="BD - Bandung">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="z-index:4;">
-                                            <h3 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h3>
-                                            <h3 class="image-change-route-horizontal"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h3>
-                                            <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-02.png" style="width: 20px;height:20px;"/> To</span>
+                                            <h4 class="image-change-route-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                            <h4 class="image-change-route-horizontal"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
+                                            <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width: 20px;height:20px;"/> To</span>
                                             <div class="form-group">
                                                 <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
                                                 <datalist id="train_destination_name"/>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="train_date_search">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white !important;"/>
+                                                <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                            <div class="form-group">
-                                                <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown">
-                                                    1 Adult, 0 Child, 0 Infant
-                                                </button>
+                                            <div class="form-group btn-group" style="width:100%;">
+                                                <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
                                                 <ul class="dropdown-menu" role="menu">
                                                     <div class="row" style="padding:10px;">
                                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
@@ -2531,7 +2519,7 @@
                                                                 <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
+                                                                <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" readonly>
                                                                 <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -2551,7 +2539,7 @@
                                                                 <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:4px !important; border:1px solid #cdcdcd; color:black; text-align:center; width:30px;" id="train_infant" name="train_infant" value="0" readonly>
+                                                                <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" readonly>
                                                                 <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -2562,9 +2550,10 @@
                                             </div>
                                         </div>
                                         <input type="hidden" id="train_response" name="response"/>
-                                        <div class="col-lg-12">
+
+                                        <div class="col-lg-12" style="margin-top:15px;">
                                             <center>
-                                                <button class="button-search btn btn-default btn-lg text-center ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                                <button class="button-search primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
                                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                     Search
                                                     <div class="ld ld-ring ld-cycle"></div>
@@ -2578,15 +2567,14 @@
                             {% endif %}
                             {% if "hotel" in provider %}
                             <div id="tab-hotel" class="tab-content">
-                                <h4 class="pb-30">Book Your Hotel!</h4>
+                                <h4 class="pb-30" style="color:white;">Book Your Hotel!</h4>
                                 <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" id="hotel_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel</span>
                                             <div class="form-group">
-                                                <input list="hotel_destination_name" id="hotel_id_destination" class="form-control" name="hotel_id_destination" onkeyup="search_hotel('destination');" placeholder="City or Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Hotel Name '" autocomplete="off"/>
-                                                <datalist id="hotel_destination_name"/>
+                                                <input id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Select Destination City or Hotel Name" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -2599,7 +2587,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> CheckIn - CheckOut</span>
                                             <div class="form-group">
-                                                <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly style="background:white !important;"/>
+                                                <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                                 <span class="span-search-ticket"><i class="fas fa-moon" id="total_night_search">1</i> night</span>
                                             </div>
                                             <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
@@ -2624,7 +2612,7 @@
                                                                 <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="1" min="1" readonly>
+                                                                <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="1" min="1" readonly>
                                                                 <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -2644,7 +2632,7 @@
                                                                 <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="2" min="1" readonly>
+                                                                <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="2" min="1" readonly>
                                                                 <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -2664,7 +2652,7 @@
                                                                 <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
-                                                                <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="0" readonly>
+                                                                <input type="text" style="border:none; background:none; font-size:13px; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="0" readonly>
                                                                 <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
@@ -2692,9 +2680,10 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <center>
-                                                <button class="btn btn-default btn-lg text-center" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
+                                                <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
                                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                     Search
+                                                    <div class="ld ld-ring ld-cycle"></div>
                                                 </button>
                                             </center>
                                         </div>
@@ -2704,41 +2693,42 @@
                             {% endif %}
                             {% if "activity" in provider %}
                             <div id="tab-activity" class="tab-content">
-                                <h4 class="pb-30">Book Your Activity!</h4>
-                                <form action="{% url 'tt_website_rodextrip:activity_search'%}" method="post">
+                                <h4 class="pb-30" style="color:white;">Book Your Activity!</h4>
+                                <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-9 col-md-7 col-sm-6 col-xs-6">
+                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="themespark_query" id="themespark_query" placeholder="Search for Activity" autocomplete="off"/>
+                                                <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
+                                            <span class="span-search-ticket">&nbsp;</span>
+                                            <div class="form-group">
+                                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
+
+                                    <div class="row" id="activity_advanced_search" style="display:none;">
                                         <div class="col-lg-12">
-                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Location </span>
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                                     <div class="form-group">
-                                                        <div class="default-select">
-                                                            <select id="themespark_countries" onchange="set_city();" size="5" data-live-search="true" name="themespark_countries">
-                                                                <option value="" selected="">All Countries</option>
-                                                                {% for country in activity_countries %}
-                                                                <option value="{{country.id}}">{{country.name}}</option>
-                                                                {% endfor %}
-                                                                <!--<option id="temp_themespark_countries"/>-->
-                                                            </select>
-                                                        </div>
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
+                                                            <option value="" selected="">All Countries</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <div id="temp_themespark_cities">
-                                                        <div class="form-group">
-                                                            <div class="default-select">
-                                                                <select id="themespark_cities" name="themespark_cities" size="5">
-                                                                    <option value="" selected="">Cities</option>
-                                                                </select>
-                                                            </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <div id="temp_activity_cities">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
+                                                                <option value="" selected="">All Cities</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2746,133 +2736,138 @@
                                         </div>
 
                                         <div class="col-lg-12">
+                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Category / Type </span>
                                             <div class="row">
-                                                <div class="col-lg-12 search_type">
-                                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-4 col-md-4 col-sm-4 search_type">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                     <div class="form-group">
-                                                        <div class="default-select">
-                                                            <select id="themespark_type" name="themespark_type" data-live-search="true" size="5">
-                                                                <option value="0" selected="">All Types</option>
-                                                                {% for type in activity_types %}
-                                                                <option value="{{type.id}}">{{type.name}}</option>
-                                                                {% endfor %}
-                                                            </select>
-                                                        </div>
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
+                                                            <option value="0" selected="">All Types</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                     <div class="form-group">
-                                                        <div class="default-select">
-                                                            <select id="themespark_category" onchange="set_sub_category();" name="themespark_category" size="5">
-                                                                <option value="0" selected="">All Categories</option>
-                                                                {% for category in activity_categories %}
-                                                                <option value="{{category.id}} - {{category.name}}">{{category.name}}</option>
-                                                                {% endfor %}
-                                                                <!--<option id="temp_themespark_category"/>-->
-                                                            </select>
-                                                        </div>
+                                                        <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
+                                                            <option value="0" selected="">All Categories</option>
+                                                        </select>
                                                     </div>
                                                 </div>
-                                                <div class="col-lg-4 col-md-4 col-sm-4">
-                                                    <div id="temp_themespark_sub_category">
-                                                        <div class="form-group">
-                                                            <div class="default-select">
-                                                                <select id="themespark_sub_category" name="themespark_sub_category" size="5">
-                                                                    <option value="0" selected="">Sub Categories</option>
-                                                                </select>
-                                                            </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                                    <div class="form-group">
+                                                        <div id="temp_activity_sub_category">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
+                                                                <option value="0" selected="">All Sub Categories</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <center>
-                                            <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
-                                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                                Search
-                                            </button>
-                                        </center>
+
+                                    <div class="row" style="margin-top:20px;">
+                                        <div class="col-lg-12">
+                                            <center>
+                                                <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
+                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    Search
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </center>
+                                        </div>
                                     </div>
                                 </form>
                             </div>
                             {% endif %}
                             {% if "tour" in provider %}
                             <div id="tab-tour" class="tab-content">
-                                <h4 class="pb-30">Book Your Tour!</h4>
-                                <form action="{% url 'tt_website_rodextrip:tour_search'%}" method="post">
+                                <h4 class="pb-30" style="color:white;">Book Your Tour!</h4>
+                                <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
-                                            <input id="tour_hidden_destination" type="hidden" value=""/>
+                                        <div class="col-lg-9 col-md-7 col-sm-6 col-xs-6">
+                                            <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
                                             <div class="form-group">
-                                                <div class="default-select">
-                                                    <select onchange="" name="tour_destination" id="tour_destination" size="5">
+                                                <input type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3 col-md-5 col-sm-6 col-xs-6">
+                                            <span class="span-search-ticket">&nbsp;</span>
+                                            <div class="form-group">
+                                                <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                                <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="tour_advanced_search" style="display:none;">
+                                        <div class="col-lg-12">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination </span>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
+                                                            <option value="0" selected="">All Countries</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <div id="temp_tour_cities">
+                                                            <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
+                                                                <option value="0" selected="">All Cities</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                                    </select>
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure Time </span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Destination Month</span>
-                                            <div class="form-group">
-                                                <div class="default-select">
-                                                    <select onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
-                                                        <option value="00" selected="True">All Months</option>
-                                                        <option value="01">January</option>
-                                                        <option value="02">February</option>
-                                                        <option value="03">March</option>
-                                                        <option value="04">April</option>
-                                                        <option value="05">May</option>
-                                                        <option value="06">June</option>
-                                                        <option value="07">July</option>
-                                                        <option value="08">August</option>
-                                                        <option value="09">September</option>
-                                                        <option value="10">October</option>
-                                                        <option value="11">November</option>
-                                                        <option value="12">December</option>
-                                                    </select>
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <div class="form-group">
+                                                        <div class="form-select">
+                                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                                <option value="00" selected="True">All Months</option>
+                                                                <option value="01">January</option>
+                                                                <option value="02">February</option>
+                                                                <option value="03">March</option>
+                                                                <option value="04">April</option>
+                                                                <option value="05">May</option>
+                                                                <option value="06">June</option>
+                                                                <option value="07">July</option>
+                                                                <option value="08">August</option>
+                                                                <option value="09">September</option>
+                                                                <option value="10">October</option>
+                                                                <option value="11">November</option>
+                                                                <option value="12">December</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <span class="span-search-ticket">Destination Year</span>
-                                            <input id="tour_hidden_year" type="hidden" value=""/>
-                                            <div class="form-group">
-                                                <div class="default-select">
-                                                    <select onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                                    <input id="tour_hidden_year" type="hidden" value=""/>
+                                                    <div class="form-group">
+                                                        <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
 
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <span class="span-search-ticket"><i class="fas fa-coins"></i> Budget</span>
-                                            <div class="form-group">
-                                                <div class="default-select">
-                                                    <select onchange="" class="form-control" name="tour_budget" id="tour_budget" size="5">
-                                                        <option value="0-999999999" selected="True">All Budget</option>
-                                                        <option value="0-1000000">0-1 juta</option>
-                                                        <option value="1000000-2000000">1-2 juta</option>
-                                                        <option value="2000000-5000000">2-5 juta</option>
-                                                        <option value="5000000-10000000">5-10 juta</option>
-                                                        <option value="10000000-20000000">10-20 juta</option>
-                                                        <option value="20000000-99000000">> 20 juta</option>
-                                                    </select>
+                                                        </select>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <br/>
+
                                     <center>
-                                        <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
+                                        <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
                                             <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                             Search
+                                            <div class="ld ld-ring ld-cycle"></div>
                                         </button>
                                     </center>
                                 </form>
@@ -2880,7 +2875,7 @@
                             {% endif %}
                             {% if "visa" in provider %}
                             <div id="tab-visa" class="tab-content">
-                                <h4 class="pb-30">Book Your Visa!</h4>
+                                <h4 class="pb-30" style="color:white;">Book Your Visa!</h4>
                                 <form action="{% url 'tt_website_rodextrip:visa_search'%}" method="post">
                                     {% csrf_token %}
                                     <div class="row">
@@ -2893,12 +2888,12 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden"/>
+                                            <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure Date</span>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white !important;">
+                                                <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4" style="margin-bottom:15px;">
@@ -2912,9 +2907,10 @@
                                         </div>
                                         <div class="col-lg-12">
                                             <center>
-                                                <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
+                                                <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                     Search
+                                                    <div class="ld ld-ring ld-cycle"></div>
                                                 </button>
                                             </center>
                                         </div>
@@ -2923,6 +2919,7 @@
                             </div>
                             {% endif %}
                         </div>
+                        {% endif %}
                         {% else %}
                         <div class="col-lg-12 header-right" style="padding:50px 0px 50px 20px;">
                             <h4>Already a RODEXTRIP member?</h4>

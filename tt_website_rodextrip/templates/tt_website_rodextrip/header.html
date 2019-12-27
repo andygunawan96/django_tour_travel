@@ -339,7 +339,6 @@
                         {% if username != null %}
                         <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul>
-                                {% if "admin" in username.co_agent_frontend_security %}
                                 <li class="menu-has-children"><a href="#">Partnership</a>
                                     <ul style="width:100%;">
                                         <li><a href="/registration">Register Agent</a></li>
@@ -347,6 +346,7 @@
                                         <li><a href="#">Search Registration</a></li>
                                     </ul>
                                 </li>
+                                {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
                                 <li><a href="https://backend.rodextrip.com">Backend</a></li>
