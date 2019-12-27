@@ -939,7 +939,7 @@ $(document).ready(function(){
                 document.getElementById("airline_date_search").innerHTML = '';
                 text='';
                 var node = document.createElement("div");
-                if(template == 1){
+                if(template == 1 || template == 3){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>`;
                 }else if(template == 2){
                     text+=`<span style="color:white;"><i class="fas fa-calendar-alt"></i> Departure</span>`;
@@ -1021,7 +1021,7 @@ $(document).ready(function(){
                 document.getElementById('mc_airline_default').innerHTML = "";
                 airline_counter_config = 0;
                 counter_airline_search = 0;
-                if(template == 1){
+                if(template == 1 || template == 3){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
                 }else if(template == 2){
                     text+=`<span style="color:white;"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;

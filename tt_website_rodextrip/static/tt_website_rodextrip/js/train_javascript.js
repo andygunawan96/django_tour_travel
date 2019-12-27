@@ -591,6 +591,13 @@ function train_get_detail(){
         }
     }
     console.log(journeys);
+    train_detail_text += `
+    <div class="row">
+        <div class="col-lg-12">
+            <h5>Price Detail</h5>
+            <br/>
+        </div>
+    </div>`;
     for(i in journeys){
         $text +=
             journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
@@ -599,12 +606,15 @@ function train_get_detail(){
             $text +=` - `+journeys[i].arrival_date.split(' - ')[1]+`\n\n`;
         else
             $text +=` - `+journeys[i].arrival_date+`\n\n`;
+
         train_detail_text += `
         <div class="row">
-            <div class="col-lg-12">
-                <h5>Price Detail</h5>
+            <div class="col-lg-12">`;
+                if(i != 0){
+                    train_detail_text += `<hr/>`;
+                }
+            train_detail_text += `
                 <h6>`+journeys[i].carrier_name+` - `+journeys[i].carrier_number+`</h6>
-                </hr>
             </div>
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
@@ -638,7 +648,7 @@ function train_get_detail(){
                 <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
             </div>
         </div>
-        <hr/>
+        <br/>
         <div class="row">`;
             if(parseInt(passengers.adult) > 0){
                 total_commission += journeys[i].fares[0].service_charge_summary[0].total_rac*-1;
@@ -772,6 +782,14 @@ function train_detail(){
     total_tax = 0;
     text = '';
     $text = '';
+    text+=`
+    <div class="row" style:"background-color:white; padding:5px;">
+        <div class="col-lg-12">
+            <h4>Price Detail</h4>
+            <hr/>
+        </div>
+        <div class="col-lg-12">`;
+
     for(i in train_data){
     $text +=
         train_data[i].carrier_name+`-`+train_data[i].carrier_number+`(`+train_data[i].cabin_class[1]+`)\n`+
@@ -782,12 +800,11 @@ function train_detail(){
     else
         $text += train_data[i].arrival_date.split(' - ')[1]+`\n\n`;
     text += `
-
-        <div class="row" style:"background-color:white; padding:5px;">
-            <div class="col-lg-12">
-                <h4>Price Detail</h4>
-                <hr/>
-            </div>
+        <div class="row">`;
+            if(i != 0){
+                text+=`<div class="col-lg-12"><hr/></div>`;
+            }
+            text+=`
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
@@ -820,7 +837,7 @@ function train_detail(){
                 <span style="font-weight:500;">`+train_data[i].destination_name+` (`+train_data[i].destination+`)</span>
             </div>
         </div>
-        <hr/>
+        <br/>
         <div class="row">`;
         price = {
             'fare': 0,

@@ -629,7 +629,7 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt"></i></a></h4>
                             <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="input-container-search-ticket">`;
@@ -3600,35 +3600,37 @@ function airline_detail(type){
         rules = 0;
         $text = '';
         text += `
-        <div class="row" style="margin-bottom:5px; ">
+        <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-12">
                <h4> Price Detail </h4>
                <hr/>
             </div>
         </div>`;
         text += `
-                <div class="row">
-                    <div class="col-lg-12">`;
+        <div class="row">
+            <div class="col-lg-12">`;
         flight_count = 0;
         for(i in price_itinerary.price_itinerary_provider){
             for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
                 if(i == 0 && j == 0 && Boolean(price_itinerary.is_combo_price) == true && price_itinerary.price_itinerary_provider.length > 1){
                     text += `<h6>Special Price</h6>`;
                     $text +='Special Price\n';
-                }else if( i!= 0 && j != 0){
+                }else if( i != 0 && j != 0){
                     text+=`<hr/>`;
                 }
                 flight_count++;
+                if(i != 0){
+                    text+=`<hr/>`;
+                }
                 text += `<h6>Flight `+flight_count+`</h6>`;
                 $text +='Flight '+flight_count+'\n';
                 //logo
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
                     try{
-                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                     }
-                text+=`</div>`;
 
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
                     try{
@@ -3641,39 +3643,38 @@ function airline_detail(type){
                     $text += price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_name + ' (' + price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city + ')\n\n';
 
                     text+=`
-                        <div class="col-lg-12">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td class="airport-code"><h5>`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date.split(' - ')[1]+`</h5></td>
-                                            <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-                                            </td>
-                                            <td style="height:30px;padding:0 15px;width:100%">
-                                                <div style="display:inline-block;position:relative;width:100%">
-                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <span style="font-size:13px;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date.split(' - ')[0]+`</span></br>
-                                    <span style="font-size:13px; font-weight:500;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city+` (`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin+`)</span>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <table style="width:100%; margin-bottom:6px;">
-                                        <tr>
-                                            <td><h5>`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date.split(' - ')[1]+`</h5></td>
-                                            <td></td>
-                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                        </tr>
-                                    </table>
-                                    <span style="font-size:13px;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date.split(' - ')[0]+`</span><br/>
-                                    <span style="font-size:13px; font-weight:500;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city+` (`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination+`)</span>
-                                </div>
-                            </div>`;
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <table style="width:100%">
+                                <tr>
+                                    <td class="airport-code"><h5>`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date.split(' - ')[1]+`</h5></td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span style="font-size:13px;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].departure_date.split(' - ')[0]+`</span></br>
+                            <span style="font-size:13px; font-weight:500;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin_city+` (`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].origin+`)</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <table style="width:100%; margin-bottom:6px;">
+                                <tr>
+                                    <td><h5>`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date.split(' - ')[1]+`</h5></td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                            </table>
+                            <span style="font-size:13px;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].arrival_date.split(' - ')[0]+`</span><br/>
+                            <span style="font-size:13px; font-weight:500;">`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination_city+` (`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].destination+`)</span>
+                        </div>
+                    </div>`;
                     for(l in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].legs){
 
                     }
@@ -3685,11 +3686,9 @@ function airline_detail(type){
                             price = 0;
                             //adult
                             $text+= 'Price\n';
-                            text+=`<hr/>
-                            </div>`;
+                            text+=`<br/>`;
                                 try{//adult
                                     if(airline_request.adult != 0){
-                                        text += `<div class="col-lg-12">`;
                                         try{
                                             if(airline_price[i].ADT['roc'] != null)
                                                 price = airline_price[i].ADT['roc'];
@@ -3720,7 +3719,6 @@ function airline_detail(type){
                                             </div>`;
                                         $text += airline_request.adult + ' Adult @'+ airline_price[i].ADT.currency +' '+getrupiah(Math.ceil(airline_price[i].ADT.fare+price))+'\n';
                                         price = 0;
-                                        text+=`</div>`;
                                     }
                                 }catch(err){
 
@@ -3742,7 +3740,6 @@ function airline_detail(type){
                                         commission_price += airline_request.child * commission;
                                         total_price += airline_request.child * (airline_price[i].CHD['fare'] + price);
                                         text+=`
-                                        <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.child+`x Child Fare @`+airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare))+`</span><br/>
@@ -3756,8 +3753,7 @@ function airline_detail(type){
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;"></span>
                                                 </div>
-                                            </div>
-                                        </div>`;
+                                            </div>`;
                                         $text += airline_request.child + ' Child Fare @'+ airline_price[i].CHD.currency +' '+getrupiah(Math.ceil(airline_price[i].CHD.fare+price))+'\n';
                                         price = 0;
                                     }
@@ -3786,7 +3782,6 @@ function airline_detail(type){
                                         commission_price += airline_request.infant * commission;
                                         total_price += airline_request.infant * (airline_price[i].INF['fare'] + price);
                                         text+=`
-                                        <div class="col-lg-12">
                                             <div class="row">
                                                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8" style="text-align:left;">
                                                     <span style="font-size:13px; font-weight:500;">`+airline_request.infant+`x Infant Fare @`+airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare))+`</span><br/>
@@ -3800,9 +3795,7 @@ function airline_detail(type){
                                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">
                                                     <span style="font-size:13px; font-weight:500;"></span>
                                                 </div>
-
-                                            </div>
-                                        </div>`;
+                                            </div>`;
                                         $text += airline_request.infant + ' Infant Fare @'+ airline_price[i].INF.currency +' '+getrupiah(Math.ceil(airline_price[i].INF.fare+price))+'\n';
                                         price = 0;
                                     }
@@ -3812,15 +3805,13 @@ function airline_detail(type){
                                 $text += '\n';
                             }
                         }
-                        text+=`<br/>`;
                     }
-                    text+=`
-                    </div>`;
                 }
 //                text+=`<div class="row"><div class="col-lg-12"><hr/></div></div>`;
             }
         }
         text+=`
+            <hr/>
             </div>
         </div>
         <div class="row">
@@ -4434,6 +4425,8 @@ function get_airline_review(){
                 text += `<h6>Flight `+flight_count+`</h6>`;
             }
             //logo
+            text+=`<div class="row">
+                <div class="col-lg-4">`;
             for(k in airline_pick[i].price_itinerary[j].carrier_code_list) //print gambar airline
                 try{
                     text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
@@ -4441,51 +4434,56 @@ function get_airline_review(){
                     text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
                 }
             text+=`</div>`;
-
             for(k in airline_pick[i].price_itinerary[j].segments){
                 if(airline_pick[i].price_itinerary[j].journey_type == 'COM'){
                     text += `<div><h6>Flight `+parseInt(flight_count+1)+`</h6></div>`;
                     flight_count++;
                 }
+                if(k != 0){
+                    text+=`<div class="col-lg-4"></div>`;
+                }
+                text+=`<div class="col-lg-8">`;
                 for(l in airline_pick[i].price_itinerary[j].segments[k].legs){
                     text+=`
-                        <div>
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td class="airport-code"><h5>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[1]+`</h5></td>
-                                            <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-                                            </td>
-                                            <td style="height:30px;padding:0 15px;width:100%">
-                                                <div style="display:inline-block;position:relative;width:100%">
-                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <span style="font-size:13px;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span></br>
-                                    <span style="font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin+`)</span>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                    <table style="width:100%; margin-bottom:6px;">
-                                        <tr>
-                                            <td><h5>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[1]+`</h5></td>
-                                            <td></td>
-                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                        </tr>
-                                    </table>
-                                    <span style="font-size:13px;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br/>
-                                    <span style="font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination+`)</span>
-                                </div>
-                            </div>`;
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <table style="width:100%">
+                                <tr>
+                                    <td class="airport-code"><h5>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[1]+`</h5></td>
+                                    <td style="padding-left:15px;">
+                                        <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                    </td>
+                                    <td style="height:30px;padding:0 15px;width:100%">
+                                        <div style="display:inline-block;position:relative;width:100%">
+                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <span style="font-size:13px;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].departure_date.split(' - ')[0]+`</span></br>
+                            <span style="font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].origin+`)</span>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                            <table style="width:100%; margin-bottom:6px;">
+                                <tr>
+                                    <td><h5>`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[1]+`</h5></td>
+                                    <td></td>
+                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                </tr>
+                            </table>
+                            <span style="font-size:13px;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].arrival_date.split(' - ')[0]+`</span><br/>
+                            <span style="font-size:13px; font-weight:500;">`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination_city+` (`+airline_pick[i].price_itinerary[j].segments[k].legs[l].destination+`)</span>
+                        </div>
+                    </div>`;
                 }
-                text+=`<hr/>
+                text+=`
                 </div>`;
             }
+            text+=`
+            </div>
+            <hr/>`;
         }
     }
 

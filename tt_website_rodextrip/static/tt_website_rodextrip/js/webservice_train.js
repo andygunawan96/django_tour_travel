@@ -392,8 +392,11 @@ function train_get_booking(data){
                                 msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['K', 'Economy']
                             else if(msg.result.response.provider_bookings[i].journeys[j].cabin_class == 'B')
                                 msg.result.response.provider_bookings[i].journeys[j].cabin_class = ['B', 'Business']
+                            if(i != 0){
+                                text+=`<hr/>`;
+                            }
                             text += `<h5>PNR: `+msg.result.response.provider_bookings[i].journeys[j].pnr+`</h5>`;
-                            text+=`<h6>Journey `+flight_counter+`</h6>`;
+                            text+=`<h6>Journey `+flight_counter+`</h6><br/>`;
                             $text += 'Journey '+ flight_counter+'\n';
                             flight_counter++;
                             //yang baru harus diganti
@@ -412,48 +415,50 @@ function train_get_booking(data){
                             $text += '\n';
                             text+= `
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>
-                                </div>
-                            </div>`;
-                            text+=`<h5>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
+                                <div class="col-lg-4">
+                                    <img data-toggle="tooltip" style="width:auto; height:50px;" title="`+msg.result.response.provider_bookings[i].journeys[j].carrier_code+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>`;
+                            text+=`<h6>`+msg.result.response.provider_bookings[i].journeys[j].carrier_name+' '+msg.result.response.provider_bookings[i].journeys[j].carrier_number+`</h5>
                             <span>Class : `+msg.result.response.provider_bookings[i].journeys[j].cabin_class[1];
                             if(msg.result.response.provider_bookings[i].journeys[j].class_of_service != '')
                                 text+=` (`+msg.result.response.provider_bookings[i].journeys[j].class_of_service+`)</span><br/>`;
                             else
                                 text += '<br/>';
+                            text+=`</div>`;
                             text += `
-                            <div class="row">
-                                <div class="col-lg-6 col-xs-6">
-                                    <table style="width:100%">
-                                        <tr>
-                                            <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
-                                            <td style="padding-left:15px;">
-                                                <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
-                                            </td>
-                                            <td style="height:30px;padding:0 15px;width:100%">
-                                                <div style="display:inline-block;position:relative;width:100%">
-                                                    <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
-                                                    <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
-                                                    <div style="height:30px;min-width:40px;position:relative;width:0%"/>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                    <span>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0]+`</span><br/>
-                                    <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].origin_name+` (`+msg.result.response.provider_bookings[i].journeys[j].origin+`)</span>
-                                </div>
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-xs-6">
+                                            <table style="width:100%">
+                                                <tr>
+                                                    <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[1]+`</h5></td>
+                                                    <td style="padding-left:15px;">
+                                                        <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
+                                                    </td>
+                                                    <td style="height:30px;padding:0 15px;width:100%">
+                                                        <div style="display:inline-block;position:relative;width:100%">
+                                                            <div style="height:2px;position:absolute;top:16px;width:100%;background-color:#d4d4d4;"></div>
+                                                            <div class="origin-code-snippet" style="background-color:#d4d4d4;right:-6px"></div>
+                                                            <div style="height:30px;min-width:40px;position:relative;width:0%"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <span>`+msg.result.response.provider_bookings[i].journeys[j].departure_date.split(' - ')[0]+`</span><br/>
+                                            <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].origin_name+` (`+msg.result.response.provider_bookings[i].journeys[j].origin+`)</span>
+                                        </div>
 
-                                <div class="col-lg-6 col-xs-6" style="padding:0;">
-                                    <table style="width:100%; margin-bottom:6px;">
-                                        <tr>
-                                            <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1]+`</h5></td>
-                                            <td></td>
-                                            <td style="height:30px;padding:0 15px;width:100%"></td>
-                                        </tr>
-                                    </table>
-                                    <span>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0]+`</span><br/>
-                                    <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].destination_name+`  (`+msg.result.response.provider_bookings[i].journeys[j].destination+`)</span>
+                                        <div class="col-lg-6 col-xs-6" style="padding:0;">
+                                            <table style="width:100%; margin-bottom:6px;">
+                                                <tr>
+                                                    <td><h5>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[1]+`</h5></td>
+                                                    <td></td>
+                                                    <td style="height:30px;padding:0 15px;width:100%"></td>
+                                                </tr>
+                                            </table>
+                                            <span>`+msg.result.response.provider_bookings[i].journeys[j].arrival_date.split(' - ')[0]+`</span><br/>
+                                            <span style="font-weight:500;">`+msg.result.response.provider_bookings[i].journeys[j].destination_name+`  (`+msg.result.response.provider_bookings[i].journeys[j].destination+`)</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>`;
                         }
@@ -871,7 +876,7 @@ function train_get_booking(data){
             document.getElementById('show_loading_booking_train').hidden = true;
             if(msg.result.response.state == 'booked'){
                 text += `
-                <div style="margin-bottom:5px;">
+                <div>
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="train_cancel_booking();" value="Cancel Booking"/>
                 </div>`;
             }
