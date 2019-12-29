@@ -403,7 +403,8 @@ function update_passenger(){
                     if(visa.list_of_visa[j].pax_type[0] == passenger[i][k].pax_type &&
                     visa.list_of_visa[j].visa_type[0] == visa_type &&
                     visa.list_of_visa[j].type.process_type[0] == process_type &&
-                    visa.list_of_visa[j].entry_type[0] == entry_type){
+                    visa.list_of_visa[j].entry_type[0] == entry_type &&
+                    document.getElementById(visa.list_of_visa[j].pax_type[1].toLowerCase()+'_check'+pax_count).value == visa.list_of_visa[j].sequence){
                         required = [];
                         for(count in visa.list_of_visa[j].requirements){
                             required.push({
