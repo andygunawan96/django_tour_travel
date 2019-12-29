@@ -1053,7 +1053,8 @@ function check_on_off_radio(pax_type,number,value){
             if(visa.list_of_visa[i].pax_type[1].toLowerCase() == pax_type &&
                 visa.list_of_visa[i].visa_type[0] == visa_type &&
                 visa.list_of_visa[i].entry_type[0] == entry_type &&
-                visa.list_of_visa[i].type.process_type[0] == process_type){
+                visa.list_of_visa[i].type.process_type[0] == process_type &&
+                visa.list_of_visa[i].pax_count != 0){
                 pax_price.innerHTML = visa.list_of_visa[i].sale_price.currency + ' ' + getrupiah(visa.list_of_visa[i].sale_price.total_price.toString());
                 text_requirements = '';
                 text_requirements+=`<div class="row">
@@ -1099,7 +1100,6 @@ function check_on_off_radio(pax_type,number,value){
                 pax_required_up.style.display = "block";
                 pax_required_down.style.display = "none";
 
-                console.log(visa.list_of_visa[i].total_pax);
                 visa.list_of_visa[i].total_pax = visa.list_of_visa[i].total_pax - 1;
                 pax_check.value = i;
                 list_of_name = name.split(' ');
@@ -1107,7 +1107,6 @@ function check_on_off_radio(pax_type,number,value){
                 list_of_name.shift();
                 list_of_name = list_of_name.join(' ');
 
-                console.log(list_of_name);
                 check = 0;
                 for(j in list_passenger){
                     if(list_passenger[j].name == list_of_name)
