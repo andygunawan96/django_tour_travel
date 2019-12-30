@@ -636,7 +636,6 @@ def search2(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=60)
     try:
-        print(res)
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:

@@ -24,7 +24,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 def index(request):
     try:
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
@@ -493,6 +493,9 @@ def get_cache_data(javascript_version):
     return response
 
 def get_logo_template():
+    color = '#f15a22'
+    logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+    template = 1
     try:
         file = open(var_log_path()+"data_cache_template.txt", "r")
         for idx, line in enumerate(file):
@@ -505,12 +508,9 @@ def get_logo_template():
                 template = int(line)
             elif idx == 2:
                 color = line
-        if color == '':
-            color = '#f15a22'
         file.close()
     except:
-        template = 1
-        logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+        pass
     return template, logo, color
 
 # @api_view(['GET'])
