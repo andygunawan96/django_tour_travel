@@ -726,7 +726,7 @@ function sort(response, check_filter){
                                             }
                                             text+=`<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
                                             if(facility_check == 1){
-                                                text+=`<span style="margin-right:5px; color:#f15a22; font-size:11px; word-break: break-all;"><i class="fas fa-circle" style="font-size:9px;"></i> `+top_facility[j].facility_name+`</span>`;
+                                                text+=`<span class="facility_hotel"><i class="fas fa-circle" style="font-size:9px;"></i> `+top_facility[j].facility_name+`</span>`;
                                             }
                                             else{
                                                 text+=`<span style="margin-right:5px; color:gray; font-size:11px; word-break: break-all;"><i class="fas fa-circle" style="font-size:9px;"></i> No `+top_facility[j].facility_name+`</span>`;
@@ -831,7 +831,7 @@ function sort(response, check_filter){
                                         var total_room = document.getElementById("hotel_room").value;
                                         var total_night = document.getElementById("total_night_search").textContent;
                                         text+=`
-                                        <span style="font-weight:500; color:#f15a22;">( for `+total_room+` room, `+total_night+` night )</span>`;
+                                        <span class="carrier_code_template">( for `+total_room+` room, `+total_night+` night )</span>`;
                                         if(best_price[0] != undefined)
                                             text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>`;
                                         else
@@ -983,9 +983,9 @@ function hotel_filter_render(){
     var node = document.createElement("div");
     text = '';
     text+= `
-    <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
     <hr/>
-    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>`;
+    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>`;
 
     node = document.createElement("div");
     node.innerHTML = text;

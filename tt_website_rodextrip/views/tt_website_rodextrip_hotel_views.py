@@ -23,7 +23,7 @@ def search(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -62,6 +62,7 @@ def search(request):
             'template': template,
             'time_limit': 600,
             'signature': request.session['signature'],
+            'color': color
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -75,7 +76,7 @@ def detail(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -103,6 +104,7 @@ def detail(request):
             'template': template,
             'time_limit': request.session['time_limit'],
             'rating': range(request.session['hotel_detail']['rating']),
+            'color': color
         }
 
         return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
@@ -123,7 +125,7 @@ def detail_static(request):
         'static_path_url_server': get_url_static_path(),
         'javascript_version': javascript_version,
         'logo': '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png',
-        'template': 1
+        'template': 1,
     }
     return render(request, MODEL_NAME+'/hotel/hotel_detail_static.html', values)
 
@@ -133,7 +135,7 @@ def passengers(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -179,7 +181,8 @@ def passengers(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'time_limit': request.session['time_limit'],
-            'template': template
+            'template': template,
+            'color': color
         }
         return render(request, MODEL_NAME+'/hotel/hotel_passenger_templates.html', values)
     else:
@@ -190,7 +193,7 @@ def review(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         spc_req = ''
         for rec in request.POST.keys():
@@ -380,6 +383,7 @@ def review(request):
             'time_limit': request.session['time_limit'],
             'template': template,
             'printout_rec': print_json,
+            'color': color
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -391,7 +395,7 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
 
         try:
             resv_obj = json.loads(request.POST['result'])['result']['response']
@@ -417,6 +421,7 @@ def booking(request):
                 'rooms': resv_obj['hotel_rooms'],
                 'static_path_url_server': get_url_static_path(),
                 'passengers': resv_obj['passengers'],
+                'color': color
             }
             return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
         else:
@@ -432,6 +437,7 @@ def booking(request):
                 'static_path_url_server': get_url_static_path(),
                 'logo': logo,
                 'template': template,
+                'color': color
             }
             return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
     else:

@@ -1732,7 +1732,7 @@ function show_flight_details(key){
         flight_down.style.display = "none";
         flight.style.display = "block";
         journey.style.marginBottom = "15px";
-        journey.style.border= "1px solid #f15a22";
+        journey.style.border= "1px solid "+color;
     }
     else {
         flight_up.style.display = "none";
@@ -2288,7 +2288,7 @@ function showImageItinerary(index, idx){
 
 function focus_box(id_string){
     var focus = document.getElementById(id_string);
-    focus.style.border = "1px solid #f15a22";
+    focus.style.border = "1px solid "+ color;
     focus.style.zIndex = "5";
     document.getElementById("overlay-div-box").style.display = "block";
     document.getElementById("payment_acq").hidden = false;

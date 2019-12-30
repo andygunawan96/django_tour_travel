@@ -8125,3 +8125,45 @@ display: block;
         display:none;
     }
 }
+
+.count_time{
+    font-size:16px; font-weight:700; color:#f15a22;
+}
+.activity_btn_advance{
+    background: rgb(241, 90, 34);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: block;
+}
+.price_template{
+    font-size: 15px;
+    font-weight: bold;
+    color: #f15a22;
+}
+.carrier_code_template{
+    color: #f15a22;
+    font-weight: 500;
+}
+.flight_type_template{
+    font-weight: bold;
+    font-size: 14px;
+    color: #f15a22;
+}
+.passenger_div {
+    background-color: #f15a22;
+    padding: 5px;
+    cursor: pointer;
+    box-shadow: 0px 5px #888888;
+}
+.voucher_div {
+    background-color: white;
+    text-align:left;
+    padding: 10px;
+    border: 1px solid rgb(241, 90, 34);
+    margin-top: 15px;
+    position: relative;
+    z-index: 5;
+}
+.facility_hotel {
+    margin-right:5px; color:#f15a22; font-size:11px; word-break: break-all;
+}

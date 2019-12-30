@@ -601,12 +601,11 @@ function train_get_detail(){
     for(i in journeys){
         $text +=
             journeys[i].carrier_name+`-`+journeys[i].carrier_number+`(`+journeys[i].cabin_class[1]+`)\n`+
-            journeys[i].origin_name+` (`+journeys[i].origin+`) - `+journeys[i].destination_name+` (`+journeys[i].destination+`) `+journeys[i].departure_date;
-        if(journeys[i].arrival_date.split(' - ')[0] == journeys[i].departure_date.split(' - ')[0])
-            $text +=` - `+journeys[i].arrival_date.split(' - ')[1]+`\n\n`;
+            journeys[i].origin_name+` (`+journeys[i].origin+`) - `+journeys[i].destination_name+` (`+journeys[i].destination+`) `+journeys[i].departure_date[0] + ` ` + journeys[i].departure_date[1];
+        if(journeys[i].arrival_date[0] == journeys[i].departure_date[0])
+            $text +=` - `+journeys[i].arrival_date[1]+`\n\n`;
         else
-            $text +=` - `+journeys[i].arrival_date+`\n\n`;
-
+            $text +=` - `+journeys[i].arrival_date[0] + ' ' + journeys[i].arrival_date[1] +`\n\n`;
         train_detail_text += `
         <div class="row">
             <div class="col-lg-12">`;
@@ -619,7 +618,7 @@ function train_get_detail(){
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+journeys[i].departure_date.split(" - ")[1]+`</h6></td>
+                        <td><h6>`+journeys[i].departure_date[1]+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -632,19 +631,19 @@ function train_get_detail(){
                         </td>
                     </tr>
                 </table>
-                <span>`+journeys[i].departure_date.split(" - ")[0]+`</span><br/>
+                <span>`+journeys[i].departure_date[0]+`</span><br/>
                 <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+journeys[i].arrival_date.split(" - ")[1]+`</h6></td>
+                        <td><h6>`+journeys[i].arrival_date[1]+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+journeys[i].arrival_date.split(" - ")[0]+`</span><br/>
+                <span>`+journeys[i].arrival_date[0]+`</span><br/>
                 <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
             </div>
         </div>
@@ -794,11 +793,11 @@ function train_detail(){
     $text +=
         train_data[i].carrier_name+`-`+train_data[i].carrier_number+`(`+train_data[i].cabin_class[1]+`)\n`+
         train_data[i].origin_name+` (`+train_data[i].origin+`) - `+train_data[i].destination_name+` (`+train_data[i].destination+`) `;
-    $text += train_data[i].departure_date.split(' - ')[0]+' ' + train_data[i].departure_date.split(' - ')[1]+ ` - `;
-    if(train_data[i].departure_date.split(' - ')[0] != train_data[i].arrival_date.split(' - ')[0])
-        $text += train_data[i].arrival_date.split(' - ')[0] + ' ' + train_data[i].arrival_date.split(' - ')[1]+`\n\n`;
+    $text += train_data[i].departure_date[0]+' ' + train_data[i].departure_date[1]+ ` - `;
+    if(train_data[i].departure_date[0] != train_data[i].arrival_date[0])
+        $text += train_data[i].arrival_date[0] + ' ' + train_data[i].arrival_date[1]+`\n\n`;
     else
-        $text += train_data[i].arrival_date.split(' - ')[1]+`\n\n`;
+        $text += train_data[i].arrival_date[1]+`\n\n`;
     text += `
         <div class="row">`;
             if(i != 0){
@@ -808,7 +807,7 @@ function train_detail(){
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%">
                     <tr>
-                        <td><h6>`+train_data[i].departure_date.split(' - ')[1]+`</h6></td>
+                        <td><h6>`+train_data[i].departure_date[1]+`</h6></td>
                         <td style="padding-left:15px;">
                             <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;">
                         </td>
@@ -821,23 +820,23 @@ function train_detail(){
                         </td>
                     </tr>
                 </table>
-                <span>`+train_data[i].departure_date.split(' - ')[0]+`</span><br/>
+                <span>`+train_data[i].departure_date[0]+`</span><br/>
                 <span style="font-weight:500;">`+train_data[i].origin_name+` (`+train_data[i].origin+`)</span>
             </div>
 
             <div class="col-lg-6 col-xs-6">
                 <table style="width:100%; margin-bottom:6px;">
                     <tr>
-                        <td><h6>`+train_data[i].arrival_date.split(' - ')[1]+`</h6></td>
+                        <td><h6>`+train_data[i].arrival_date[1]+`</h6></td>
                         <td></td>
                         <td style="height:30px;padding:0 15px;width:100%"></td>
                     </tr>
                 </table>
-                <span>`+train_data[i].arrival_date.split(' - ')[0]+`</span><br/>
+                <span>`+train_data[i].arrival_date[0]+`</span><br/>
                 <span style="font-weight:500;">`+train_data[i].destination_name+` (`+train_data[i].destination+`)</span>
             </div>
         </div>
-        <br/>
+        <hr/>
         <div class="row">`;
         price = {
             'fare': 0,
@@ -1495,7 +1494,7 @@ function sort(value){
 
     var response = '';
     for(i in data_filter){
-        if(train_request.departure[train_request_pick] == data_filter[i].departure_date.split(' - ')[0]){
+        if(train_request.departure[train_request_pick] == data_filter[i].departure_date[0]){
             if(data_filter[i].available_count >= parseInt(passengers.adult) && data_filter[i].can_book == true)
                 response+=`<div class="sorting-box-b">`;
             else if(data_filter[i].available_count > parseInt(passengers.adult)  && data_filter[i].can_book == false)
@@ -1525,7 +1524,7 @@ function sort(value){
                     <div class="col-lg-4 col-xs-6">
                         <table style="width:100%">
                             <tr>
-                                <td><h5 class="copy_time_depart">`+data_filter[i].departure_date.split(" - ")[1]+`</h5></td>
+                                <td><h5 class="copy_time_depart">`+data_filter[i].departure_date[1]+`</h5></td>
                                 <td style="padding-left:15px;">
                                     <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
                                 </td>
@@ -1538,19 +1537,19 @@ function sort(value){
                                 </td>
                             </tr>
                         </table>
-                        <span class="copy_date_depart">`+data_filter[i].departure_date.split(" - ")[0]+`</span><br/>
+                        <span class="copy_date_depart">`+data_filter[i].departure_date[0]+`</span><br/>
                         <span class="copy_departure" style="font-weight:500;">`+data_filter[i].origin_name+` (`+data_filter[i].origin+`)</span>
 
                     </div>
                     <div class="col-lg-4 col-xs-6" style="padding:0;">
                         <table style="width:100%; margin-bottom:6px;">
                             <tr>
-                                <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date.split(" - ")[1]+`</h5></td>
+                                <td><h5 class="copy_time_arr">`+data_filter[i].arrival_date[1]+`</h5></td>
                                 <td></td>
                                 <td style="height:30px;padding:0 15px;width:100%"></td>
                             </tr>
                         </table>
-                        <span class="copy_date_arr">`+data_filter[i].arrival_date.split(" - ")[0]+`</span><br/>
+                        <span class="copy_date_arr">`+data_filter[i].arrival_date[0]+`</span><br/>
                         <span class="copy_arrival" style="font-weight:500;">`+data_filter[i].destination_name+` (`+data_filter[i].destination+`)</span>
                     </div>
 
@@ -1633,18 +1632,18 @@ function train_ticket_pick(){
                             </td>
                         </tr>
                     </table>
-                    <span>`+journeys[i].departure_date.split(" - ")[0]+`</span><br/>
+                    <span>`+journeys[i].departure_date[0]+`</span><br/>
                     <span style="font-weight:500;">`+journeys[i].origin_name+` (`+journeys[i].origin+`)</span>
                 </div>
                 <div class="col-lg-4 col-xs-6" style="padding:0;">
                     <table style="width:100%; margin-bottom:6px;">
                         <tr>
-                            <td><h5>`+journeys[i].arrival_date.split(" - ")[1]+`</h5></td>
+                            <td><h5>`+journeys[i].arrival_date[1]+`</h5></td>
                             <td></td>
                             <td style="height:30px;padding:0 15px;width:100%"></td>
                         </tr>
                     </table>
-                    <span>`+journeys[i].arrival_date.split(" - ")[0]+`</span><br/>
+                    <span>`+journeys[i].arrival_date[0]+`</span><br/>
                     <span style="font-weight:500;">`+journeys[i].destination_name+` (`+journeys[i].destination+`)</span>
                 </div>
 

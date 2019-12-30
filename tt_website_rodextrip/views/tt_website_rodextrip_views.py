@@ -188,7 +188,8 @@ def index(request):
                         'javascript_version': javascript_version,
                         'update_data': 'false',
                         'static_path_url_server': get_url_static_path(),
-                        'signature': request.session['signature']
+                        'signature': request.session['signature'],
+                        'color': color
                     }
                     return render(request, MODEL_NAME + '/home_templates.html', values)
                 except:
@@ -251,7 +252,7 @@ def testing(request):
 
 def login(request):
     javascript_version = get_javascript_version()
-    template, logo = get_logo_template()
+    template, logo, color = get_logo_template()
 
     try:
         if request.POST['logout'] == 'true':
@@ -267,6 +268,7 @@ def login(request):
                 'static_path_url_server': get_url_static_path(),
                 'logo': logo,
                 'template': template,
+                'color': color
             }
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
@@ -288,6 +290,7 @@ def login(request):
                 'static_path_url_server': get_url_static_path(),
                 'logo': logo,
                 'template': template,
+                'color': color
             }
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
@@ -322,7 +325,8 @@ def admin(request):
                         text += '\n'
                         pass
 
-                text += request.POST['template']
+                text += request.POST['template'] + '\n'
+                text += "#" + request.POST['color_pick']
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -333,6 +337,7 @@ def admin(request):
 
 
             try:
+                color = ''
                 file = open(var_log_path()+"data_cache_template.txt", "r")
                 for idx, line in enumerate(file):
                     if idx == 0:
@@ -342,10 +347,15 @@ def admin(request):
                             logo = line
                     elif idx == 1:
                         template = int(line)
+                    elif idx == 2:
+                        color = line
                 file.close()
+                if color == '':
+                    color = '#f15a22'
             except:
                 template = 1
                 logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+                color = '#f15a22'
                 file = open('data_cache_template.txt', "w+")
                 file.write(logo+'\n'+str(template))
                 file.close()
@@ -361,7 +371,8 @@ def admin(request):
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'template': template,
-                'signature': request.session['signature']
+                'signature': request.session['signature'],
+                'color': color
             }
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
         else:
@@ -381,7 +392,7 @@ def reservation(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
 
         new_airline_carriers = {}
         for key, value in airline_carriers.items():
@@ -400,7 +411,8 @@ def reservation(request):
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'logo': logo,
-            'template': template
+            'template': template,
+            'color': color
         }
         return render(request, MODEL_NAME+'/backend/reservation_templates.html', values)
     else:
@@ -412,7 +424,7 @@ def top_up(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -426,7 +438,8 @@ def top_up(request):
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'logo': logo,
-            'template': template
+            'template': template,
+            'color': color
         }
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
     else:
@@ -439,7 +452,7 @@ def top_up_history(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo = get_logo_template()
+        template, logo, color = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -453,7 +466,8 @@ def top_up_history(request):
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'logo': logo,
-            'template': template
+            'template': template,
+            'color': color
         }
         return render(request, MODEL_NAME+'/backend/top_up_history_templates.html', values)
     else:
@@ -489,11 +503,15 @@ def get_logo_template():
                     logo = line
             elif idx == 1:
                 template = int(line)
+            elif idx == 2:
+                color = line
+        if color == '':
+            color = '#f15a22'
         file.close()
     except:
         template = 1
         logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
-    return template, logo
+    return template, logo, color
 
 # @api_view(['GET'])
 # def testing(request):

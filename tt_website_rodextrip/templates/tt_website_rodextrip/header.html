@@ -111,7 +111,7 @@
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
-                        <li title="Click to show your notification" class="notification-pc pt5" style="color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:24px;"></i>
+                        <li title="Click to show your notification" class="notification-pc pt5" style="color:{{color}}; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:24px;"></i>
 
                         </li>
                         {% else %}
@@ -123,7 +123,7 @@
                 </nav>
                 <nav class="notification-mobile" style="display:none;">
                     <ul class="nav-menu">
-                        <li title="Click to show your notification" style="font-size:16px;color:#f15a22; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                        <li title="Click to show your notification" style="font-size:16px;color:{{color}}; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
 
                         </li>
                     </ul>
@@ -272,7 +272,7 @@
                                         <li><a href="#">FAQ</a></li>
                                     </ul>
                                 </li>
-                                <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; color:#f15a22; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                                <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; color:{{color}}; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                                 {% endif %}
                             </ul>
                             <!-- Search -->
@@ -393,13 +393,13 @@
                             </ul>
                         </li>
 
-                        <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                        <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                         {% endif %}
                     </ul>
                 </nav>
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">
                     <ul class="nav-menu" style="display:inline;">
-                        <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer; color:#f15a22;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" id="red_notification" style="font-size:16px; color:white; padding-top:5px;"></i></li>
+                        <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer; color:{{color}};" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" id="red_notification" style="font-size:16px; color:white; padding-top:5px;"></i></li>
                     </ul>
                 </nav>
             </div>
@@ -513,7 +513,7 @@
                             </ul>
                         </li>
 
-                        <li title="Click to show your notification" class="notification-pc" style="color:#f15a22; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                        <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
 
                             {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">Sign in</span></a></li>
@@ -634,7 +634,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li title="Click to show your notification" class="menu-has-children notification-pc" style="color:#f15a22; padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                        <li title="Click to show your notification" class="menu-has-children notification-pc" style="color:{{color}}; padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                             {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">Sign in <i class="fas fa-sign-in-alt"></i></span></a></li>
                         {% endif %}

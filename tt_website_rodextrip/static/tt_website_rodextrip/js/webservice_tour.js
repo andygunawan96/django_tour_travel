@@ -495,7 +495,7 @@ function tour_get_details(package_id){
                     <div class="col-lg-12" style="margin-bottom:10px;">
                         <div class="row">
                             <div class="col-lg-4" style="margin-bottom:10px;">
-                                <h5 style="border:1px solid #cdcdcd; padding:10px; cursor:pointer; overflow-y: hidden;" onclick="show_hide_itinerary_tour(`+it_idx+`)"> Day `+tour_data.itinerary_ids[it_idx].day+` - `+tour_data.itinerary_ids[it_idx].name+` <i class="fas fa-chevron-right" id="itinerary_day`+it_idx+`_down" style="float:right; color:#f15a22; display:none;"></i><i class="fas fa-chevron-left" id="itinerary_day`+it_idx+`_up" style="float:right; color:#f15a22; display:inline-block;"></i></h5>
+                                <h5 style="border:1px solid #cdcdcd; padding:10px; cursor:pointer; overflow-y: hidden;" onclick="show_hide_itinerary_tour(`+it_idx+`)"> Day `+tour_data.itinerary_ids[it_idx].day+` - `+tour_data.itinerary_ids[it_idx].name+` <i class="fas fa-chevron-right" id="itinerary_day`+it_idx+`_down" style="float:right; color:`+color+`; display:none;"></i><i class="fas fa-chevron-left" id="itinerary_day`+it_idx+`_up" style="float:right; color:`+color+`; display:inline-block;"></i></h5>
                             </div>
                             <div class="col-lg-8" style="display:block;" id="div_itinerary_day`+it_idx+`">
                                 <div style="border:1px solid #cdcdcd; padding:15px 15px 0px 15px;">
@@ -518,7 +518,7 @@ function tour_get_details(package_id){
                                     }
                                     if (tour_data.itinerary_ids[it_idx].items[it_item].image){
                                         itinerary_text += `
-                                        <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:#f15a22; font-weight:700; cursor:pointer;">Show image</span>
+                                        <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</span>
                                         <img id="image_itinerary`+it_idx+``+it_item+`" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: 150px; height: 150px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
                                     }
 
@@ -980,7 +980,7 @@ function show_repricing(){
     $("#myModalRepricing").modal();
 }
 
-function update_service_charge(data){
+function update_service_charge(){
     upsell = []
     for(i in tr_get_booking.result.response.passengers){
         for(j in tr_get_booking.result.response.passengers[i].sale_service_charges){
@@ -1041,6 +1041,7 @@ function update_service_charge(data){
 
 function tour_get_booking(order_number)
 {
+    price_arr_repricing = {};
     getToken();
     $.ajax({
        type: "POST",

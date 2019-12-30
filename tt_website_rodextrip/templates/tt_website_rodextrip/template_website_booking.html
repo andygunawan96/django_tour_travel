@@ -127,6 +127,510 @@ Licence URI: http://www.os-templates.com/template-terms
             background-size: 60% auto !important;
         }
     </style>
+    <style>
+        .check_box_custom input:checked ~ .check_box_span_custom {
+            background-color: {{color}};
+        }
+        .radio-button-custom input:checked ~ .checkmark-radio {
+            background-color: {{color}};
+        }
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            background-color: rgba(30, 30, 30, 0.9);
+            color: {{color}};
+        }
+        .nav-tabs .nav-link:hover .image-rounded-icon {
+            background:{{color}};
+        }
+        .br-done {
+            color: {{color}};
+        }
+        .br-done:hover {
+            color: {{color}};
+            cursor: pointer;
+            opacity:0.9;
+        }
+        .br-icon-done {
+            background-color: {{color}};
+        }
+        .br-icon-done:hover {
+            background-color: {{color}};
+            opacity:0.9;
+            cursor: pointer;
+        }
+
+        .br-icon-active {
+            background-color: {{color}};
+        }
+        .br-active {
+            color: {{color}};
+        }
+        .nav-link.active .image-rounded-icon {
+            background: {{color}};
+        }
+        #myBtnBTP {
+            display: none;
+            position: fixed;
+            bottom: 55px;
+            left: 55px;
+            z-index: 999;
+            font-size: 20px;
+            border: 1px solid gray;
+            outline: none;
+            background-color: {{color}};
+            color: white;
+            cursor: pointer;
+            height: 55px;
+            width: 55px;
+            border-radius: 28px;
+        }
+        .nav-link.active .image-rounded-icon {
+            background: {{color}};
+        }
+        .count_time{
+            font-size:16px; font-weight:700; color:{{color}};
+        }
+        .primary-btn-custom {
+            background: {{color}};
+            line-height: 35px;
+            padding-left: 15px;
+            padding-right: 15px;
+            border: none;
+            border-radius: 3px;
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+            border-radius: 3px;
+        }
+        .primary-btn {
+            background: {{color}};
+            line-height: 42px;
+            padding-left: 30px;
+            padding-right: 30px;
+            border: none;
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            border-radius: 3px;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+        .center-div div {
+            background-color: {{color}};
+            display: inline-block;
+            color: rgb(174, 215, 241);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            -webkit-animation-name: inner-center-div;
+            -webkit-animation-duration: 4s;
+            -webkit-animation-iteration-count: infinite;
+            animation-name: inner-center-div;
+            animation-duration: 4s;
+            animation-iteration-count: infinite;
+        }
+        .form-select .nice-select .list .option.selected {
+            color: {{color}};
+            background: transparent;
+        }
+        .nav-menu li:hover > a {
+            color: {{color}};
+        }
+        .nav-menu ul li:hover > a {
+            color: {{color}};
+        }
+        .primary-btn-logout {
+            background: {{color}};
+            line-height: 30px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: none;
+            border-radius: 3px;
+            color: black;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+            width: 100%;
+        }
+        #mobile-nav ul li a:hover {
+            color: {{color}};
+        }
+        #mobile-nav ul li a:hover {
+            color: {{color}};
+        }
+        .banner-right .form-wrap .form-control:focus {
+            box-shadow: none;
+            border: 1px solid {{color}};
+        }
+        .btn-custom-circle {
+            text-align: center;
+            background-color: {{color}};
+            opacity:0.7;
+            text-align: center;
+            white-space: nowrap;
+            user-select: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            color: #303030;
+            height: 30px;
+        }
+        .btn-custom-circle:hover {
+            background-color: {{color}};
+            opacity:1;
+        }
+        .activity_btn_advance{
+            background: {{color}};
+            color: rgb(255, 255, 255);
+            cursor: pointer;
+            display: block;
+        }
+        .select2-container--default .select2-results__option--highlighted[aria-selected] {
+            background-color: {{color}};
+            color: white;
+        }
+        .autocomplete-suggestion.selected {
+            background: {{color}};
+        }
+        .primary-btn:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .primary-btn-ad {
+            background: {{color}};
+            line-height: 42px;
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-right: 5px;
+            border: none;
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+        .primary-btn-ad:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .primary-btn-custom:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .search-box-result:hover {
+            border: 1px solid {{color}} !important;
+        }
+        .price_template{
+            font-size: 15px;
+            font-weight: bold;
+            color: {{color}};
+        }
+        .carrier_code_template{
+            color: {{color}};
+            font-weight: 500;
+        }
+        .flight_type_template{
+            font-weight: bold;
+            font-size: 14px;
+            color: {{color}};
+        }
+        .StepProgress-item.is-done::before {
+            border-left: 2px solid {{color}};
+        }
+        .StepProgress-item.is-done::after {
+            /* content: "?"; */
+            font-size: 10px;
+            color: #FFF;
+            text-align: center;
+            border: 2px solid {{color}};
+            background-color: white;
+        }
+        .StepProgress-item.is-end::after {
+            font-size: 10px;
+            color: #FFF;
+            text-align: center;
+            border: 2px solid {{color}};
+            background-color: white;
+        }
+        .filter_general:hover {
+            color: {{color}};
+        }
+        .primary-btn-ticket {
+            background: {{color}};
+            line-height: 35px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: none;
+            border-radius: 3px;
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+        .primary-btn-ticket:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .mystickycopybot {
+            position: fixed;
+            bottom: 180px;
+            right: 58px;
+            z-index: 99;
+            font-size: 20px;
+            border: 1px solid gray;
+            outline: none;
+            background-color: {{color}};
+            color: white;
+            cursor: pointer;
+            height: 55px;
+            width: 55px;
+            border-radius: 30px;
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+        }
+        .mystickycopybot:hover {
+            background-color: {{color}};
+            opacity:0.9;
+        }
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+            background-color: {{color}};
+        }
+        .myticket {
+            position: fixed;
+            top: 85px;
+            right: 55px;
+            z-index: 999;
+            background-color: {{color}};
+            color: white;
+            height: 55px;
+            width: 55px;
+            border: 1px solid #cdcdcd;
+            border-radius: 28px;
+            cursor: pointer;
+            outline: none;
+            cursor: pointer;
+        }
+        .myticket:hover {
+            background-color: {{color}};
+            opacity: 0.9;
+        }
+        .passenger_div {
+            background-color: {{color}};
+            padding: 5px;
+            cursor: pointer;
+            box-shadow: 0px 5px #888888;
+        }
+        .voucher_div {
+            background-color: white;
+            text-align:left;
+            padding: 10px;
+            border: 1px solid {{color}};
+            margin-top: 15px;
+            position: relative;
+            z-index: 5;
+        }
+        .br-book {
+            color: {{color}};
+        }
+        .br-icon-book {
+            background-color: {{color}};
+        }
+        .single-footer-widget ul li a:hover {
+            color: {{color}};
+            text-decoration: unset;
+        }
+        .form-login-control:focus {
+            color: black;
+            border-bottom: 1px solid {{color}} !important;
+        }
+        .primary-btn-logout:hover {
+            background: {{color}};
+            opacity: 0.9;
+        }
+        .nice-select:active, .nice-select.open, .nice-select:focus {
+            border-color: {{color}};
+        }
+        .form-select .nice-select .list {
+            margin-top: 0;
+            border: 1px solid {{color}};
+            border-radius: 0px;
+            box-shadow: none;
+            width: 100%;
+            padding: 10px 0px 0px 0px;
+            min-height: 30px;
+            max-height: 150px;
+            overflow-y: scroll;
+        }
+        .irs-from, .irs-to, .irs-single {
+            color: #fff;
+            font-size: 14px;
+            line-height: 1.333;
+            text-shadow: none;
+            padding: 1px 5px;
+            background: {{color}};
+            border-radius: 3px;
+            -moz-border-radius: 3px;
+        }
+        .btn-primary {
+            color: #fff;
+            background-color: {{color}};
+            border-color: {{color}};
+        }
+        .sticky-tour-active {
+            background: {{color}};
+            color: white;
+        }
+        .primary-btn-sticky-hotel:hover {
+            background: {{color}};
+            color: white;
+        }
+        .nav-tabs-activity {
+            background-color: {{color}};
+            height: 41px !important;
+        }
+        .tab-menu-activity:hover {
+            color: white;
+            background-color: {{color}};
+            opacity:0.9;
+            text-decoration: unset;
+        }
+        .tab-menu-activity.active {
+            color: white;
+            background-color: {{color}};
+            opacity:0.9;
+        }
+
+        .tab-menu-activity {
+            color: white;
+            background-color: {{color}};
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding-top: 10px;
+        }
+        .li-activity:hover {
+            background-color: white;
+        }
+        .owl-theme .owl-nav [class*=owl-] {
+            color: {{color}};
+            font-size: 20px;
+            margin: 5px;
+            padding: 7px;
+            background: rgba(50,50,50,0.8);
+            text-shadow: 2px 2px black;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .myticket_static {
+            background-color: {{color}};
+            color: white;
+            height: 32px;
+            width: 160px;
+            border: 1px solid gray;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+            float: right;
+        }
+        .irs-bar {
+            height: 10px;
+            top: 33px;
+            border-top: 1px solid {{color}};
+            border-bottom: 1px solid {{color}};
+            background: {{color}};
+            background: linear-gradient(to top, {{color}} 0%, {{color}} 100%);
+        }
+        .facility_hotel {
+            margin-right:5px; color:{{color}}; font-size:11px; word-break: break-all;
+        }
+        .myticket_static_detail {
+            background-color: {{color}};
+            color: white;
+            height: 32px;
+            width: 160px;
+            border: 1px solid gray;
+            border-radius: 3px;
+            cursor: pointer;
+            outline: none;
+            float: right;
+            margin: 8px;
+        }
+        .sticky-hotel-active {
+            background: {{color}};
+            opacity: 0.9;
+            color: white;
+        }
+        .light-theme .current {
+            background: {{color}};
+            border: 2px solid {{color}};
+            color: {{color}};
+            opacity: 0.9;
+            box-shadow: 0 1px 0 rgba(255,255,255,1), 0 0 2px rgba(0, 0, 0, 0.3) inset;
+            cursor: default;
+        }
+        .sticky-activity-active {
+            background: {{color}};
+            color: white;
+        }
+        .btn-activity.active {
+            background-color: {{color}};
+            opacity: 0.9;
+            color: white;
+        }
+        .btn-activity:hover {
+            background-color: {{color}};
+            color: white;
+        }
+        .btn-activity {
+            background: white;
+            border: 2px solid {{color}};
+            color: black;
+        }
+        .form-select .nice-select .list .option:hover {
+            color: {{color}};
+            background: transparent;
+        }
+    </style>
 
     <script type="text/javascript" >
     /*{% if order_number %}
@@ -158,6 +662,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <!--IVAN-->
 <script>
     url_home = `{% url 'tt_website_rodextrip:index'%}`;
+    color = '{{color}}';
 </script>
 {% if template == 1%}
 <script src="{{ static_path }}js/template1/easing.min.js?version={{javascript_version}}"></script>

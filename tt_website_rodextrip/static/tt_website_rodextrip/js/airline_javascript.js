@@ -125,7 +125,7 @@ var sorting_list2 = [
 //autocomplete
 
 function set_airline_search_value_to_false(){
-        airline_search_value = 'false';
+    airline_search_value = 'false';
 }
 function set_airline_search_value_to_true(){
     airline_search_value = 'true';
@@ -1910,7 +1910,7 @@ function sort(){
         var first = sort_key * 10;
         var last = (sort_key+1) * 10;
         if(sort_key == 0)
-            text += `<div style="background-color:#f15a22; padding:10px;">
+            text += `<div style="background-color:`+color+`; padding:10px;">
                     <h6 style="color:white;">Flight `+counter_search+`</h6>
                 </div>`;
         for(i in airline){
@@ -1972,7 +1972,7 @@ function sort(){
                                                 <div class="row">`;
                                                 text+=`
                                                 <div class="col-lg-12" style="margin-top:10px;">
-                                                    <span class="copy_flight_number" style="font-weight: 500; color:#f15a22;">Flight `+flight_number+` </span>
+                                                    <span class="copy_flight_number carrier_code_template">Flight `+flight_number+` </span>
                                                 </div>`;
 
                                                 text+=`
@@ -2150,7 +2150,7 @@ function sort(){
                            </div>
                            <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
                                <div>
-                               <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22;"></span>`;
+                               <span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span>`;
                                if(provider_list_data[airline[i].provider] != '')
                                     text += `<br/><span>`+provider_list_data[airline[i].provider]+`</span>`;
                                text+=`</div>`;
@@ -2190,13 +2190,13 @@ function sort(){
                                if(depart == 0 && j == 0)
                                    text+=`
                                    <div style="text-align:left; background-color:white; padding:5px 10px 5px 10px;">
-                                       <span style="font-weight: bold; font-size: 14px; color:#f15a22;">Departure</span>
+                                       <span class="flight_type_template">Departure</span>
                                        <hr/>
                                    </div>`;
                                else if(depart == 1){
                                    text+=`
                                    <div style="text-align:left; background-color:white; padding:5px 10px 5px 10px;">
-                                       <span style="font-weight: bold; font-size: 14px; color:#f15a22;">Return</span>
+                                       <span class="flight_type_template">Return</span>
                                        <hr/>
                                    </div>`;
                                    depart = 2;
@@ -2207,12 +2207,12 @@ function sort(){
                                try{
                                text+=`
                                    <span style="font-weight: 500; font-size:12px;" class="copy_carrier_provider_details">`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`</span><br/>
-                                   <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>
+                                   <span class="carrier_code_template">`+airline[i].segments[j].carrier_name+`</span><br/>
                                    <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[0][airline[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+airline[i].segments[j].carrier_code+`.png"><br/>`;
                                }catch(err){
                                text+=`
                                    <span style="font-weight: 500;" class="copy_carrier_provider_details">`+airline[i].segments[j].carrier_code+`</span><br/>
-                                   <span style="color:#f15a22; font-weight: 500;">`+airline[i].segments[j].carrier_name+`</span><br/>`;
+                                   <span class="carrier_code_template">`+airline[i].segments[j].carrier_name+`</span><br/>`;
                                }
                                text+=`
                                </div>
@@ -2359,7 +2359,7 @@ function sort(){
     //                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
     //                                                }
                                                    id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
-                                                   text+=`<span id="`+id_price_segment+`" style="font-weight:bold;"><b>`+airline[i].currency+` `+getrupiah(total_price)+`</b></span>`;
+                                                   text+=`<span id="`+id_price_segment+`" class="price_template" style="font-weight:bold;">`+airline[i].currency+` `+getrupiah(total_price)+`</span>`;
                                                    if(airline[i].segments[j].fares[k].description.length != 0){
                                                         text+=`<br/>`;
                                                         for(l in airline[i].segments[j].fares[k].description){
@@ -2631,7 +2631,7 @@ function sort(){
                                 <div class="col-lg-8 col-md-8 col-sm-8">
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:right;">
-                                            <span id="fare`+i+`" class="basic_fare_field copy_price" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
+                                            <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
 
                                             text+=`</span>`;
     //                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
@@ -2838,7 +2838,7 @@ function sort(){
     //                                                    total_price += airline[i].segments[j].fares[k].service_charges[l].amount;
     //                                                }
                                                    id_price_segment = `journey`+i+`segment`+airline[i].segments[j].sequence+`fare`+airline[i].segments[j].fares[k].sequence;
-                                                   text+=`<span id="`+id_price_segment+`" style="font-weight:bold;"><b>`+airline[i].currency+` `+getrupiah(total_price)+`</b></span>`;
+                                                   text+=`<span id="`+id_price_segment+`" class="price_template" style="font-weight:bold;">`+airline[i].currency+` `+getrupiah(total_price)+`</span>`;
                                                    if(airline[i].segments[j].fares[k].description.length != 0){
                                                         text+=`<br/>`;
                                                         for(l in airline[i].segments[j].fares[k].description){
@@ -2990,23 +2990,23 @@ function airline_pick_mc(type){
         if($radio_value_string != "multicity"){
             if(airline_pick_list[i].is_combo_price == true){
                 text+=`
-                <div style="background-color:#f15a22; padding:10px;">
+                <div style="background-color:`+color+`; padding:10px;">
                     <h6 style="color:white;">Departure-Return Flight</h6>
                 </div>`;
             }else if(airline_pick_list[i].airline_pick_sequence == 1){
                 text+=`
-                <div style="background-color:#f15a22; padding:10px;">
+                <div style="background-color:`+color+`; padding:10px;">
                     <h6 style="color:white;">Departure Flight</h6>
                 </div>`;
             }else if(airline_pick_list[i].airline_pick_sequence == 2){
                 text+=`
-                <div style="background-color:#f15a22; padding:10px;">
+                <div style="background-color:`+color+`; padding:10px;">
                     <h6 style="color:white;">Return Flight</h6>
                 </div>`;
             }
         }else{
             text+=`
-            <div style="background-color:#f15a22; padding:10px;">
+            <div style="background-color:`+color+`; padding:10px;">
                 <h6 style="color:white;">Flight - `+(airline_pick_list[i].airline_pick_sequence)+`</h6>
             </div>`;
         }
@@ -3037,7 +3037,7 @@ function airline_pick_mc(type){
                                     <div class="row">`;
                                     text+=`
                                     <div class="col-lg-12" style="margin-top:10px;">
-                                        <span class="copy_flight_number" style="font-weight: 500; color:#f15a22;">Flight `+flight_number+` </span>
+                                        <span class="copy_flight_number" class="carrier_code_template">Flight `+flight_number+` </span>
                                     </div>`;
 
                                     text+=`
@@ -3209,7 +3209,7 @@ function airline_pick_mc(type){
                 </div>
 
                 <div class="col-lg-8" style="text-align:right;">
-                    <span id="fare_detail_pick`+airline[i].sequence+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#f15a22; padding:10px;">`;
+                    <span id="fare_detail_pick`+airline[i].sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:#f15a22; padding:10px;">`;
                     price = 0;
                     for(j in airline_pick_list[i].segments){
                         for(k in airline_pick_list[i].segments[j].fares){
@@ -3266,7 +3266,7 @@ function airline_pick_mc(type){
                     text+=`
                     <div class="col-lg-12">
                         <div style="text-align:left; background-color:white; padding-top:10px;">
-                            <span style="font-weight: bold; font-size: 14px; color:#f15a22;">Departure</span>
+                            <span class="flight_type_template">Departure</span>
                             <hr/>
                         </div>
                     </div>`;
@@ -3274,7 +3274,7 @@ function airline_pick_mc(type){
                     text+=`
                     <div class="col-lg-12">
                         <div style="text-align:left; background-color:white; padding-top:10px;">
-                            <span style="font-weight: bold; font-size: 14px; color:#f15a22;">Return</span>
+                            <span class="flight_type_template">Return</span>
                             <hr/>
                         </div>
                     </div>`;
@@ -3395,7 +3395,7 @@ function airline_pick_mc(type){
                                                 break;
                                             }
                                         }
-                                        text+=`<span id="journeypick`+airline[i].sequence+`segment`+j+`fare`+k+`" style="font-weight:bold;"><b>`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</b></span>`;
+                                        text+=`<span id="journeypick`+airline[i].sequence+`segment`+j+`fare`+k+`" class="price_template" style="font-weight:bold;">`+airline_pick_list[i].currency+` `+getrupiah(total_price)+`</span>`;
                                         if(airline_pick_list[i].segments[j].fares[k].description.length != 0){
                                             text+=`<br/>`;
                                             for(l in airline_pick_list[i].segments[j].fares[k].description){
@@ -3600,7 +3600,7 @@ function airline_detail(type){
         rules = 0;
         $text = '';
         text += `
-        <div class="row" style="margin-bottom:5px;">
+        <div class="row" style="margin-bottom:5px; ">
             <div class="col-lg-12">
                <h4> Price Detail </h4>
                <hr/>
@@ -4845,10 +4845,10 @@ function get_checked_copy_result(){
             }
 
             if(combo_price != undefined){
-                text+=`<span style="font-size:13px; font-weight:800; color:#f15a22;">Price: `+price_airline+` (`+combo_price+`)</span><br/>`;
+                text+=`<span class="price_template">Price: `+price_airline+` (`+combo_price+`)</span><br/>`;
                 $text += 'Price: '+price_airline+ ' ('+combo_price+')\n';
             }else{
-                text+=`<span style="font-size:13px; font-weight:800; color:#f15a22;">Price: `+price_airline+`</span><br/>`;
+                text+=`<span class="price_template">Price: `+price_airline+`</span><br/>`;
                 $text += 'Price: '+price_airline+'\n';
             }
 

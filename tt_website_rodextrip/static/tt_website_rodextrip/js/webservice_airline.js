@@ -1273,7 +1273,7 @@ function get_price_itinerary_request(){
                                     //term n condition
                                         text+=`
                                         <div class="col-lg-12" id="rules`+rules+`" style="padding-bottom:15px; padding-top:15px;">
-                                            <span style="font-weight:bold; color:#f15a22;"> Term and Condition </span><br/>
+                                            <span class="carrier_code_template"> Term and Condition </span><br/>
                                             <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span><img src="/static/tt_website_rodextrip/img/loading-screen.gif" style="height:20px; width:20px;"/>
                                         </div>`;
                                 rules++;
@@ -1555,8 +1555,8 @@ function get_fare_rules(){
                         if(msg.result.response.fare_rule_provider[i].status != 'FAILED'){
                             for(j in msg.result.response.fare_rule_provider[i].journeys){
                                 text_fare+=`
-                                <span id="span-tac-up`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
-                                <span id="span-tac-down`+count_fare+`" style="font-size:14px;font-weight:bold; color:#f15a22; display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
+                                <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
+                                <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
                                 <div id="div-tac`+count_fare+`" style="display:block;">`;
                                 for(k in msg.result.response.fare_rule_provider[i].journeys[j].rules){
                                     if(msg.result.response.fare_rule_provider[i].journeys[j].rules[k] != ""){
@@ -2434,6 +2434,7 @@ function airline_hold_booking(val){
 }
 
 function airline_get_booking(data){
+    price_arr_repricing = {};
     getToken();
     $.ajax({
        type: "POST",
@@ -3481,7 +3482,8 @@ function airline_issued(data){
     })
 }
 
-function update_service_charge(data){
+function update_service_charge(){
+    document.getElementById('airline_booking').innerHTML = '';
     upsell = []
     for(i in airline_get_detail.result.response.passengers){
         for(j in airline_get_detail.result.response.passengers[i].sale_service_charges){

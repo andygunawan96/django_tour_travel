@@ -1239,7 +1239,7 @@ function show_repricing(){
     $("#myModalRepricing").modal();
 }
 
-function update_service_charge(data){
+function update_service_charge(){
     upsell = []
     for(i in act_get_booking.result.response.passengers){
         for(j in act_get_booking.result.response.passengers[i].sale_service_charges){
@@ -1299,6 +1299,7 @@ function update_service_charge(data){
 }
 
 function activity_get_booking(data){
+    price_arr_repricing = {};
     getToken();
     $.ajax({
        type: "POST",
