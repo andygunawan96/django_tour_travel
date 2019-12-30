@@ -1881,8 +1881,8 @@ h1, h2, h3, h4, h5, h6 {
 # Header
 --------------------------------------------------------------*/
 #header {
-  /*padding: 14px 0px 14px 0;*/
-  position: absolute;
+  /*padding: 14px 0px 14px 0;
+  position: absolute;*/
   left: 0;
   top: 0;
   right: 0;
@@ -3909,6 +3909,86 @@ ul.tabs li.current .image-rounded-icon{
     }
 }
 
+
+.image-change-route-vertical2 {
+  z-index: 10;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 47%;
+  top: 22px;
+}
+
+.image-change-route-horizontal2 {
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: left top;
+    -moz-transform: rotate(90deg);
+    -moz-transform-origin: left top;
+    -ms-transform: rotate(90deg);
+    -ms-transform-origin: left top;
+    -o-transform: rotate(90deg);
+    -o-transform-origin: left top;
+    transform: rotate(90deg);
+    transform-origin: left top;
+
+    position: absolute;
+    left: 53%;
+    z-index: 10;
+    height: 40px;
+    width: 40px;
+}
+
+@media (max-width: 575px) {
+    .image-change-route-vertical2{
+      display:none;
+    }
+    .image-change-route-horizontal2{
+      display:block;
+    }
+}
+
+@media (min-width: 576px) {
+    .image-change-route-vertical2{
+      display:block;
+    }
+    .image-change-route-horizontal2{
+      display:none;
+    }
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1199px){
+    .image-change-route-vertical2 {
+      z-index: 10;
+      height: 15px;
+      width: 15px;
+      position: absolute;
+      left: 46.5%;
+      top: 22px;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px){
+    .image-change-route-vertical2 {
+      z-index: 10;
+      height: 15px;
+      width: 15px;
+      position: absolute;
+      left: -6%;
+      top: 30px;
+    }
+}
+
+@media only screen and (min-width: 576px) and (max-width: 767px){
+    .image-change-route-vertical2 {
+      z-index: 10;
+      height: 15px;
+      width: 15px;
+      position: absolute;
+      left: -5%;
+      top: 30px;
+    }
+}
+
 .btn-custom-circle {
   text-align:center;
   background-color:#F56430;
@@ -4226,7 +4306,7 @@ ul.tabs li.current .image-rounded-icon{
     background-color:white;
     padding:10px;
     margin-bottom:15px;
-    border:1px solid #f15a22;
+    border:1px solid #cdcdcd;
 }
 
 .primary-btn-sorting {
@@ -7242,4 +7322,214 @@ display: block;
 
 .modal-rdx{
     top:0px !important;
+}
+
+@media (max-width: 767px) {
+  #mybuttonsticky {
+    top:0px !important;
+  }
+  .change_search_area{
+    position:relative !important;
+    top:unset !important;
+  }
+  .nav-hotel{
+    top:0px !important;
+  }
+
+  .myticket_static_detail{
+    margin: 10px 0px 10px 0px !important;
+  }
+}
+
+@media (max-width: 405px) {
+  .span_icon_fixed{
+    display:none !important;
+  }
+  .btn_icon_fixed{
+    width:50px !important;
+  }
+}
+@media (min-width: 406px) {
+  .span_icon_fixed{
+    display:inline-block !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .primary-myticket {
+    display:block !important;
+  }
+
+  .myticket {
+    display:block;
+  }
+  .mystickycopybot {
+    display:block;
+  }
+  .mystickyticket {
+    display:block !important;
+  }
+
+  #filter-search-flight {
+    display:block !important;
+  }
+
+  #sorting-search-flight {
+    display:block !important;
+  }
+
+  #sorting-search-hotel{
+    display:block !important;
+  }
+
+  #filter-search-train {
+    display:block !important;
+  }
+
+  #sorting-search-train {
+    display:block !important;
+  }
+
+  #mybuttonsticky {
+    display:none !important;
+  }
+  .my_sticky_button {
+    display:none !important;
+  }
+
+  .myticket_static {
+    display:block !important;
+  }
+
+  .name_hotel_search{
+    padding-left:0px;
+    padding-top:0px;
+  }
+}
+
+@media (max-width: 991px) {
+  .header_breadcrumb{
+      position:unset !important;
+      top: unset !important;
+  }
+
+  .primary-myticket {
+    display:none !important;
+  }
+
+  .myticket {
+    display:none;
+  }
+  .mystickycopybot {
+    display:none;
+  }
+  .mystickyticket {
+    display:none !important;
+  }
+
+  #filter-search-flight {
+    display:none !important;
+  }
+
+  #sorting-search-flight {
+    display:none !important;
+  }
+
+  #sorting-search-hotel {
+    display:none !important;
+  }
+
+  #filter-search-train {
+    display:none !important;
+  }
+
+  #sorting-search-train {
+    display:none !important;
+  }
+
+  #mybuttonsticky {
+    display:block !important;
+  }
+  .my_sticky_button {
+    display:block !important;
+  }
+
+  .myticket_static {
+    display:none !important;
+  }
+
+  .name_hotel_search{
+    padding-left:15px;
+    padding-top:15px;
+  }
+}
+
+@media (max-height: 390px) {
+
+  #myBtnBTP {
+    bottom: 12px !important;
+  }
+
+  .my_sticky_button{
+    bottom: 12px !important;
+  }
+
+  .b24-widget-button-wrapper.b24-widget-button-position-bottom-right, .b24-widget-button-wrapper.b24-widget-button-position-bottom-middle, .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{
+    bottom: 10px !important;
+  }
+  .mystickypaxs{
+    bottom: 80px !important;
+  }
+  .mystickycopybot{
+    bottom: 80px !important;
+    left: 20px !important;
+  }
+}
+
+@media (max-width: 575px) {
+  #myBtnBTP {
+    left: 20px !important;
+    font-size: 18px !important;
+  }
+
+  .mystickypaxs{
+    right: 22px !important;
+  }
+
+  .mystickycopybot{
+    right: 22px !important;
+  }
+
+  .main-menu{
+    padding-left:0px !important;
+    padding-right:0px !important;
+  }
+
+  .b24-widget-button-wrapper.b24-widget-button-position-bottom-right, .b24-widget-button-wrapper.b24-widget-button-position-bottom-middle, .b24-widget-button-wrapper.b24-widget-button-position-bottom-left{
+    right: 18px !important;
+    font-size: 14px !important;
+  }
+}
+
+.primary-btn-all-sticky:hover{
+  background: #C04B21;
+}
+
+.primary-btn-all-sticky {
+  background: #f15a22;
+  line-height: 38px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  color: #fff;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
 }

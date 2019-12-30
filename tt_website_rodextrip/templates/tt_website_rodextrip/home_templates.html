@@ -174,7 +174,7 @@
                         </ul>
                     </div>
                     <div class="banner-right">
-                        <img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">
+                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent">
                             {% if "airline" in provider %}
                             <div class="tab-pane fade show active" id="airline" role="tabpanel" aria-labelledby="airline-tab">
@@ -836,7 +836,7 @@
                                 <!--</center>-->
                             <!--</div>-->
                         </div>
-                        <img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">
+                        <!--<img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">-->
                     </div>
                     {% endif %}
                 </div>
@@ -2239,7 +2239,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="row fullscreen d-flex" style="margin-top:150px; margin-bottom:60px; padding:15px;">
+                    <div class="row fullscreen d-flex" style="margin-top:60px; margin-bottom:60px; padding:15px;">
                         {% if username != null %}
                         {% if "ticketing" in username.co_agent_frontend_security %}
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: rgba(32, 46, 69, 0.8); border:1px solid #cdcdcd;">
@@ -2256,8 +2256,8 @@
                                     {% if "airline" in provider %}
                                     <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></i><label>AIRLINE</label></li>
                                     {% endif %}
-                                    {% if "train" in provider %}
-                                    <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label>TRAIN</label></li>
+                                    {% if "tour" in provider %}
+                                    <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label>TOUR</label></li>
                                     {% endif %}
                                     {% if "hotel" in provider %}
                                     <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/></i><label>HOTEL</label></li>
@@ -2265,8 +2265,8 @@
                                     {% if "activity" in provider %}
                                     <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></i><label>ACTIVITY</label></li>
                                     {% endif %}
-                                    {% if "tour" in provider %}
-                                    <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label>TOUR</label></li>
+                                    {% if "train" in provider %}
+                                    <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label>TRAIN</label></li>
                                     {% endif %}
                                     {% if "visa" in provider %}
                                     <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/></i><label>VISA</label></li>
@@ -2334,14 +2334,11 @@
                                                             <h4 class="image-change-route-horizontal"><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                                                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                                                             <div class="form-group">
-                                                                <div class="form-select">
-                                                                    <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
-                                                                    <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
-
-                                                                    <!--</select>-->
-                                                                </div>
-                                                                <!--<input type="hidden" name="destination_id_flight" id="airline_destination_flight" />-->
+                                                                <input id="destination_id_flight" name="destination_id_flight" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('destination_id_flight').select();" onclick="set_airline_search_value_to_false();">
+                                                                <!--<select class="form-control js-example-basic-single" name="state" style="width:100%;" id="destination_id_flight" name="destination_id_flight" placeholder="City or Airport or IATA" onchange="airline_autocomplete('destination')">-->
+                                                                <!--</select>-->
                                                             </div>
+                                                            <!--<input type="hidden" name="destination_id_flight" id="airline_destination_flight" />-->
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2451,11 +2448,11 @@
                                         </div>
                                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
                                         <div class="col-lg-12" style="text-align:center; padding-top:15px;">
-                                            <button class="button-search primary-btn text-center ld-ext-right" type="submit" value="Submit">
-                                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
-                                                Search
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
+                                        <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">
+                                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                            Search
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
                                         </div>
                                     </div>
                                 </form>
@@ -2490,8 +2487,7 @@
                                             <h4 class="image-change-route-horizontal"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h4>
                                             <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width: 20px;height:20px;"/> To</span>
                                             <div class="form-group">
-                                                <input list="train_destination_name" id="train_destination" value="GMR - GAMBIR (GMR)" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>
-                                                <datalist id="train_destination_name"/>
+                                                <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="GMR - Gambir">
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="train_date_search">
@@ -2553,7 +2549,7 @@
 
                                         <div class="col-lg-12" style="margin-top:15px;">
                                             <center>
-                                                <button class="button-search primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                                <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
                                                     <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
                                                     Search
                                                     <div class="ld ld-ring ld-cycle"></div>
