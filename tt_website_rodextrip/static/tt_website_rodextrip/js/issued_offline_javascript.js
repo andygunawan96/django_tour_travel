@@ -164,17 +164,17 @@ function add_table_of_passenger(){
                                 </div>
                                 <div id="passenger_input`+parseInt(counter_passenger+1)+`" style="background-color:white;" hidden>
                                     <div class="col-lg-12" style="padding:0px;">
-                                        <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
+                                        <div style="background-color:`+color+`; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <span style="color:white; text-align:center; font-size:15px;">Passenger - `+parseInt(counter_passenger+1)+`</span>
+                                                    <span class="passenger_div">Passenger - `+parseInt(counter_passenger+1)+`</span>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
 
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
+                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid `+color+`;" id="adult_paxs`+parseInt(counter_passenger+1)+`">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                                     <div class="input-container-search-ticket">

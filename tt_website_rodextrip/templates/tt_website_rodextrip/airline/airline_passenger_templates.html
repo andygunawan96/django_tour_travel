@@ -97,10 +97,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500; padding-right:10px;">Session Time <span style="font-size:14px; font-weight:600; color:#f15a22;" id="session_time"></span></span>
+                    <span style="font-size:13px; font-weight:500; padding-right:10px;">Session Time <span class="count_time" id="session_time"></span></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                    <span style="font-size:13px; font-weight:500;">Elapsed Time <span style="font-size:14px; font-weight:600; color:#f15a22;" id="elapse_time"> </span></span>
+                    <span style="font-size:13px; font-weight:500;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
                 </div>
                 {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
@@ -328,7 +328,7 @@
                         {% for adult in adults%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
@@ -339,7 +339,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                             <div class="input-container-search-ticket">
@@ -560,7 +560,7 @@
                         {% for child in childs%}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
@@ -571,7 +571,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
@@ -748,7 +748,7 @@
                         {% for infant in infants%}
                         <div class="row" id="infant{{forloop.counter}}">
                             <div class="col-lg-12">
-                                <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
@@ -760,7 +760,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
@@ -1023,10 +1023,10 @@
                         <div class="col-lg-12">
                             <div class="row">
                                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                                    <span style="font-size:14px; font-weight:600; padding-right:10px;">Session Time <span style="font-size:14px; font-weight:600; color:#f15a22;" id="session_time"></span></span>
+                                    <span style="font-size:14px; font-weight:600; padding-right:10px;">Session Time <span class="count_time" id="session_time"></span></span>
                                 </div>
                                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:14px; font-weight:600; color:#f15a22;" id="elapse_time"> </span></span>
+                                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
                                 </div>
                                 {% include 'tt_website_rodextrip/balance_credit.html' %}
                             </div>
@@ -1223,7 +1223,7 @@
                                 {% for adult in adults%}
                                 <div class="row" id="adult{{forloop.counter}}">
                                     <div class="col-lg-12">
-                                        <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                                        <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                     <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
@@ -1234,7 +1234,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                                     <div class="input-container-search-ticket">
@@ -1405,7 +1405,7 @@
                                 {% for child in childs%}
                                 <div class="row" id="child{{forloop.counter}}">
                                     <div class="col-lg-12">
-                                        <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                                        <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                     <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
@@ -1416,7 +1416,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
+                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                             <div class="row">
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
@@ -1547,7 +1547,7 @@
                                 {% for infant in infants%}
                                 <div class="row" id="infant{{forloop.counter}}">
                                     <div class="col-lg-12">
-                                        <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                                        <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                                     <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
@@ -1559,7 +1559,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                                        <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
                                             <div class="row">
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
@@ -1767,10 +1767,10 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600; padding-right:10px;">Session Time <span style="font-size:14px; font-weight:600; color:#f15a22;" id="session_time"></span></span>
+                <span style="font-size:14px; font-weight:600; padding-right:10px;">Session Time <span class="count_time" id="session_time"></span></span>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:14px; font-weight:600; color:#f15a22;" id="elapse_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
             </div>
             {% include 'tt_website_rodextrip/balance_credit.html' %}
         </div>
@@ -1961,7 +1961,6 @@
                                         </div>
                                         <label style="font-size:12px; padding:0;">Example: 812345678</label>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -1996,7 +1995,7 @@
                     {% for adult in adults%}
                     <div class="row" id="adult{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
@@ -2007,7 +2006,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                         <div class="input-container-search-ticket">
@@ -2160,7 +2159,6 @@
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
                                             <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
@@ -2228,7 +2226,7 @@
                     {% for child in childs%}
                     <div class="row" id="child{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
@@ -2239,7 +2237,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">
@@ -2412,11 +2410,10 @@
                     <br/>
                     {% endfor %}
 
-
                     {% for infant in infants%}
                     <div class="row" id="infant{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
@@ -2428,7 +2425,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">
@@ -2602,7 +2599,6 @@
                     </div>
                     <br/>
                     {% endfor %}
-
                     <div class="row">
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4"></div>
@@ -2712,10 +2708,10 @@
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                        <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                        <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
                     </div>
                     <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                        <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                        <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
                     </div>
                 </div>
             </div>
@@ -2909,7 +2905,7 @@
                     {% for adult in adults%}
                     <div class="row" id="adult{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
@@ -2920,7 +2916,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                         <div class="input-container-search-ticket">
@@ -3093,7 +3089,7 @@
                     {% for child in childs%}
                     <div class="row" id="child{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
@@ -3104,7 +3100,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">
@@ -3237,7 +3233,7 @@
                     {% for infant in infants%}
                     <div class="row" id="infant{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
@@ -3249,7 +3245,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">
@@ -3480,10 +3476,10 @@
         </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px">
-                <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
     </div>
@@ -3673,7 +3669,7 @@
                     {% for adult in adults%}
                     <div class="row" id="adult{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
@@ -3684,7 +3680,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                         <div class="input-container-search-ticket">
@@ -3853,7 +3849,7 @@
                     {% for child in childs%}
                     <div class="row" id="child{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Child - {{forloop.counter}}</span>
@@ -3864,7 +3860,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="child_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="child_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">
@@ -3993,7 +3989,7 @@
                     {% for infant in infants%}
                     <div class="row" id="infant{{forloop.counter}}">
                         <div class="col-lg-12">
-                            <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
+                            <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                         <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
@@ -4005,7 +4001,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #f15a22; display:none;" id="infant_paxs{{forloop.counter}}">
+                            <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; display:none;" id="infant_paxs{{forloop.counter}}">
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">

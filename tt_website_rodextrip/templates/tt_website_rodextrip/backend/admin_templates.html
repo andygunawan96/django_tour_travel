@@ -9,6 +9,7 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/jscolor.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
@@ -107,6 +108,10 @@
                                 </select>
                             </div>
                             {% endif %}
+                            <span>Color</span><br/>
+                            <div class="form-select" id="default-select">
+                                <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
+                            </div>
                         </div>
 
                         <div class="col-lg-6">

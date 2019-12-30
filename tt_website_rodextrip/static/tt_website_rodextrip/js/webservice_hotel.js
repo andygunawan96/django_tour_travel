@@ -91,7 +91,7 @@ function hotel_signin(data){
                signature = msg.result.response.signature;
                if(data == ''){
                     get_top_facility();
-                    hotel_search();
+
                }else if(data != ''){
                     hotel_get_booking(data);
                }
@@ -242,6 +242,7 @@ function get_top_facility(){
        },
        success: function(msg) {
         console.log(msg);
+        hotel_search();
         top_facility = msg.result.response;
         if (top_facility){
             facility_filter_html = `<hr><h6 class="filter_general" onclick="show_hide_general('hotelFacilities');">Facilities <i class="fas fa-chevron-down" id="hotelFacilities_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelFacilities_generalUp" style="float:right; display:block;"></i></h6>
@@ -699,6 +700,7 @@ function hotel_issued_booking(){
 }
 
 function hotel_get_booking(data){
+    price_arr_repricing = {};
     getToken();
     $.ajax({
        type: "POST",

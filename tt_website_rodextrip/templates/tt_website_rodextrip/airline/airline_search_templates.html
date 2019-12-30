@@ -1276,9 +1276,9 @@
                 <div class="row" style="padding-top:15px; padding-bottom:10px;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                            <span style="font-size:14px; font-weight:600;">Session Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="session_time"> </span></span>
+                            <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
                             <hr/>
-                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span style="font-size:16px; font-weight:700; color:#f15a22;" id="elapse_time"> </span></span>
+                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
                         </div>
                     </div>
                 </div>
@@ -1355,7 +1355,7 @@
                         <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
                     </div>
                 </div>
-                <div data-preset="line" id="barFlightSearch" class="ldBar label-center" style="width:100%;height:50px; margin-bottom:15px;" data-stroke="#f15a22" data-value="0"></div>
+                <div data-preset="line" id="barFlightSearch" class="ldBar label-center" style="width:100%;height:50px; margin-bottom:15px;" data-stroke="{{color}}" data-value="0"></div>
                 <div id="airlines_result_ticket">
 
                 </div>

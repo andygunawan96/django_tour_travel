@@ -171,13 +171,13 @@ function search_visa(){
                                         <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6" style="text-align:left;">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #f15a22;" aria-expanded="true">
+                                                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: `+color+`;" aria-expanded="true">
                                                         <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                         <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a id="detail_button_attachment0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_attachment_details(`+i+`);" href="#detail_attachment`+i+`" style="color: #f15a22;" aria-expanded="true">
+                                                    <a id="detail_button_attachment0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_attachment_details(`+i+`);" href="#detail_attachment`+i+`" style="color: `+color+`;" aria-expanded="true">
                                                         <span style="text-align:left; font-weight: bold; display:none;" id="attach_details_up`+i+`"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                                         <span style="text-align:left; font-weight: bold; display:block;" id="attach_details_down`+i+`"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                     </a>
@@ -222,7 +222,7 @@ function search_visa(){
                                 <div id="attachment">
                                     <h6>Attachment</h6>`;
                                     for(j in msg.result.response.list_of_visa[i].attachments){
-                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" style="padding-right:10px; color:#f15a22; font-size:14px; font-weight:500;" download><i class="fas fa-file-download"></i> `+msg.result.response.list_of_visa[i].attachments[j].name+`</a>`
+                                        text+=`<a href="`+msg.result.response.list_of_visa[i].attachments[j].url+`" style="padding-right:10px; color:`+color+`; font-size:14px; font-weight:500;" download><i class="fas fa-file-download"></i> `+msg.result.response.list_of_visa[i].attachments[j].name+`</a>`
                                     }
                                     text+=`
                                 </div>
@@ -530,6 +530,7 @@ function commit_booking(){
 }
 
 function visa_get_data(data){
+    price_arr_repricing = {};
     getToken();
     $.ajax({
        type: "POST",
@@ -895,49 +896,50 @@ function visa_get_data(data){
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </a>
                                     </div>
-                                    <div class="col-lg-4">
-                                        <a class="issued-booking-train ld-ext-right" style="color:white;">
-                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </a>
-                                        <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                            <div class="modal-dialog">
-
-                                              <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white">Invoice</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                <span class="control-label" for="Name">Name</span>
-                                                                <div class="input-container-search-ticket">
-                                                                    <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                <span class="control-label" for="Address">Address</span>
-                                                                <div class="input-container-search-ticket">
-                                                                    <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                    <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <br/>
-                                                        <div style="text-align:right;">
-                                                            <span>Don't want to edit? just submit</span>
-                                                            <br/>
-                                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','visa');"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                    <div class="col-lg-4">`;
+//                                        <a class="issued-booking-train ld-ext-right" style="color:white;">
+//                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+//                                            <div class="ld ld-ring ld-cycle"></div>
+//                                        </a>
+//                                        <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+//                                            <div class="modal-dialog">
+//
+//                                              <!-- Modal content-->
+//                                                <div class="modal-content">
+//                                                    <div class="modal-header">
+//                                                        <h4 class="modal-title" style="color:white">Invoice</h4>
+//                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+//                                                    </div>
+//                                                    <div class="modal-body">
+//                                                        <div class="row">
+//                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+//                                                                <span class="control-label" for="Name">Name</span>
+//                                                                <div class="input-container-search-ticket">
+//                                                                    <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+//                                                                </div>
+//                                                            </div>
+//                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+//                                                                <span class="control-label" for="Address">Address</span>
+//                                                                <div class="input-container-search-ticket">
+//                                                                    <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+//                                                                    <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+//                                                                </div>
+//                                                            </div>
+//                                                        </div>
+//                                                        <br/>
+//                                                        <div style="text-align:right;">
+//                                                            <span>Don't want to edit? just submit</span>
+//                                                            <br/>
+//                                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','visa');"/>
+//                                                        </div>
+//                                                    </div>
+//                                                    <div class="modal-footer">
+//                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+//                                                    </div>
+//                                                </div>
+//                                            </div>
+//                                        </div>
+                                        text+=`
                                     </div>
                                 </div>
                             <hr/>`;
@@ -961,7 +963,7 @@ function visa_get_data(data){
     });
 }
 
-function update_service_charge(data){
+function update_service_charge(){
     upsell = []
     for(i in visa.passengers){
         for(j in visa.passengers[i].sale_service_charges){

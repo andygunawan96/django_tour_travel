@@ -193,6 +193,8 @@ function datasearch2(train){
            date = train.schedules[i].journeys[j].departure_date;
            date = date.split(' - ')[0].split(' ')[2] + ' ' + date.split(' - ')[0].split(' ')[1] + ' ' + date.split(' - ')[0].split(' ')[0] + ' ' +date.split(' - ')[1];
            train.schedules[i].journeys[j].can_book = elapse_time(date);
+           train.schedules[i].journeys[j].departure_date = train.schedules[i].journeys[j].departure_date.split(' - ');
+           train.schedules[i].journeys[j].arrival_date = train.schedules[i].journeys[j].arrival_date.split(' - ');
            for(k in train.schedules[i].journeys[j].fares){
                 for(l in train.schedules[i].journeys[j].fares[k].service_charge_summary){
                     train.schedules[i].journeys[j].price = 0
@@ -306,6 +308,7 @@ function train_create_booking(val){
 }
 
 function train_get_booking(data){
+    price_arr_repricing = {};
     getToken();
     $.ajax({
        type: "POST",
@@ -1168,7 +1171,7 @@ function gotoForm(){
     document.getElementById('train_searchForm').submit();
 }
 
-function update_service_charge(data){
+function update_service_charge(){
     upsell = []
     for(i in train_get_detail.result.response.passengers){
         for(j in train_get_detail.result.response.passengers[i].sale_service_charges){
