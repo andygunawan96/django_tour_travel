@@ -256,7 +256,7 @@ def testing(request):
 
 def login(request):
     javascript_version = get_javascript_version()
-    template, logo, color, name, desc, background = get_logo_template()
+    template, logo, color, name, desc, background = get_logo_template('login')
 
     try:
         if request.POST['logout'] == 'true':
@@ -322,7 +322,7 @@ def admin(request):
                         file = open(var_log_path()+"data_cache_template.txt", "r")
                         for idx, line in enumerate(file):
                             if idx == 0:
-                                text = line
+                                text = line + '\n'
                         file.close()
                 except:
                     try:
@@ -330,24 +330,50 @@ def admin(request):
                         for idx, line in enumerate(file):
                             if idx == 0:
                                 text = line
+                                break
                         file.close()
                     except:
                         text += '\n'
                         pass
-                # logo template color name desc background
+                # logo template color name desc backgroundhome backgroundlogin
                 text += request.POST['template'] + '\n'
                 text += "#" + request.POST['color_pick'] + '\n'
                 text += request.POST['website_name'] + '\n'
-                text += request.POST['website_description'] + '\n'
+                text += '<br>'.join(''.join(request.POST['website_description'].split('\r')).split('\n')) + '\n'
                 try:
-                    if request.FILES['fileBackground'].content_type == 'image/jpeg' or request.FILES['fileBackground'].content_type == 'image/png' or request.FILES['fileBackground'].content_type == 'image/png':
+                    if request.FILES['fileBackgroundHome'].content_type == 'image/jpeg' or request.FILES['fileBackgroundHome'].content_type == 'image/png' or request.FILES['fileBackgroundHome'].content_type == 'image/png':
                         text += 'data:'
-                        text += request.FILES['fileBackground'].content_type
+                        text += request.FILES['fileBackgroundHome'].content_type
                         text += ';base64, '
-                        text += base64.b64encode(request.FILES['fileBackground'].read()).decode("utf-8")
+                        text += base64.b64encode(request.FILES['fileBackgroundHome'].read()).decode("utf-8")
                         text += '\n'
                 except:
-                    pass
+                    check = 0
+                    file = open(var_log_path() + "data_cache_template.txt", "r")
+                    for idx, line in enumerate(file):
+                        if idx == 5:
+                            text += line
+                            check = 1
+                            break
+                    file.close()
+                    if check == 0:
+                        text += '\n'
+                try:
+                    if request.FILES['fileBackgroundLogin'].content_type == 'image/jpeg' or request.FILES['fileBackgroundLogin'].content_type == 'image/png' or request.FILES['fileBackgroundLogin'].content_type == 'image/png':
+                        text += 'data:'
+                        text += request.FILES['fileBackgroundLogin'].content_type
+                        text += ';base64, '
+                        text += base64.b64encode(request.FILES['fileBackgroundLogin'].read()).decode("utf-8")
+                except:
+                    check = 0
+                    file = open(var_log_path() + "data_cache_template.txt", "r")
+                    for idx, line in enumerate(file):
+                        if idx == 6:
+                            text += line
+                            break
+                    file.close()
+                    if check == 0:
+                        text += '\n'
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -356,30 +382,6 @@ def admin(request):
             response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
 
-
-            try:
-                color = ''
-                file = open(var_log_path()+"data_cache_template.txt", "r")
-                for idx, line in enumerate(file):
-                    if idx == 0:
-                        if line == '\n':
-                            logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
-                        else:
-                            logo = line
-                    elif idx == 1:
-                        template = int(line)
-                    elif idx == 2:
-                        color = line
-                file.close()
-                if color == '':
-                    color = '#f15a22'
-            except:
-                template = 1
-                logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
-                color = '#f15a22'
-                file = open('data_cache_template.txt', "w+")
-                file.write(logo+'\n'+str(template))
-                file.close()
             template, logo, color, name, desc, background = get_logo_template()
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -526,7 +528,7 @@ def get_cache_data(javascript_version):
     file.close()
     return response
 
-def get_logo_template():
+def get_logo_template(type='home'):
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     background = '/static/tt_website_rodextrip/images/bg_7.jpg'
@@ -550,8 +552,10 @@ We build this application for our existing partner and public users who register
             elif idx == 3:
                 website_name = line
             elif idx == 4:
-                website_description = line
-            elif idx == 5:
+                website_description = '\n'.join(line.split('<br>'))
+            elif idx == 5 and type == 'home':
+                background = line
+            elif idx == 6 and type == 'login':
                 background = line
         if color == '':
             color = '#f15a22'

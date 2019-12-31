@@ -564,7 +564,7 @@ function add_table_of_line(type){
         $('#provider_data'+counter_line).select2();
 //        set_data(0,'origin');
 //        set_data(0,'destination');
-        set_data(0,'provider');
+        set_data(counter_line,'provider');
     }else if(type == 'hotel'){
         text += `
         <div class="col-lg-12">
