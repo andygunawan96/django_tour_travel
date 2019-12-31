@@ -29,7 +29,7 @@ def open_page(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
         social_medias = []
         try:
             social_medias = response['result']['response']['issued_offline']['social_media_id']
@@ -44,7 +44,9 @@ def open_page(request):
             'signature': request.session['signature'],
             'social_medias': social_medias,
             'logo': logo,
-            'template': template
+            'template': template,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'username': request.session['username'],
             # 'co_uid': request.session['co_uid'],
         }
@@ -56,7 +58,9 @@ def open_page(request):
             'signature': request.session['signature'],
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
     return render(request, MODEL_NAME + '/agent_registration/registration_form_template.html', values)
 
@@ -68,7 +72,7 @@ def register_agent(request):
     counter = 1
     javascript_version = get_javascript_version()
 
-    template, logo, color = get_logo_template()
+    template, logo, color, name, desc = get_logo_template()
 
     #pic
     while(check):
@@ -131,7 +135,9 @@ def register_agent(request):
         'javascript_version': javascript_version,
         'logo': logo,
         'template': template,
-        'color': color
+        'color': color,
+        'desc': desc.split('\n'),
+        'name': name,
     }
     return render(request, MODEL_NAME + '/agent_registration/registration_finish_template.html', values)
 

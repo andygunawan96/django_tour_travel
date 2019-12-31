@@ -24,7 +24,7 @@ def issued_offline(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
@@ -54,7 +54,9 @@ def issued_offline(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -71,7 +73,7 @@ def issued_offline_history(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -84,7 +86,9 @@ def issued_offline_history(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_history_templates.html', values)
     else:

@@ -108,6 +108,10 @@
                                 </select>
                             </div>
                             {% endif %}
+                            <span>Website Name</span><br/>
+                            <div class="form-select">
+                                <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
+                            </div>
                             <span>Color</span><br/>
                             <div class="form-select" id="default-select">
                                 <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
@@ -119,6 +123,8 @@
                             <div class="input-container-search-ticket form-select">
                                 <input type="file" name="fileToUpload" id="fileToUpload"/>
                             </div>
+                            <span>Website Description</span><br/>
+                            <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                         </div>
                         <div class="col-lg-12">
                             <span>Big Banner</span><br/>

@@ -24,7 +24,8 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 def index(request):
     try:
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
+        template = int(request.session['user_account']['template'])
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
@@ -178,6 +179,8 @@ def index(request):
                         'airline_cabin_class_list': airline_cabin_class_list,
                         'logo': logo,
                         'template': template,
+                        'desc': desc.split('\n'),
+                        'name': name,
                         #activity
                         'activity_sub_categories': activity_sub_categories,
                         'activity_categories': activity_categories,
@@ -252,7 +255,7 @@ def testing(request):
 
 def login(request):
     javascript_version = get_javascript_version()
-    template, logo, color = get_logo_template()
+    template, logo, color, name, desc = get_logo_template()
 
     try:
         if request.POST['logout'] == 'true':
@@ -268,7 +271,9 @@ def login(request):
                 'static_path_url_server': get_url_static_path(),
                 'logo': logo,
                 'template': template,
-                'color': color
+                'color': color,
+                'desc': desc.split('\n'),
+                'name': name,
             }
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
@@ -290,7 +295,9 @@ def login(request):
                 'static_path_url_server': get_url_static_path(),
                 'logo': logo,
                 'template': template,
-                'color': color
+                'color': color,
+                'desc': desc.split('\n'),
+                'name': name,
             }
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
@@ -324,9 +331,11 @@ def admin(request):
                     except:
                         text += '\n'
                         pass
-
+                # logo template color name desc
                 text += request.POST['template'] + '\n'
-                text += "#" + request.POST['color_pick']
+                text += "#" + request.POST['color_pick'] + '\n'
+                text += request.POST['website_name'] + '\n'
+                text += request.POST['website_description']
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -359,6 +368,7 @@ def admin(request):
                 file = open('data_cache_template.txt', "w+")
                 file.write(logo+'\n'+str(template))
                 file.close()
+            template, logo, color, name, desc = get_logo_template()
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values = {
@@ -372,7 +382,9 @@ def admin(request):
                 'javascript_version': javascript_version,
                 'template': template,
                 'signature': request.session['signature'],
-                'color': color
+                'color': color,
+                'desc': desc.split('\n'),
+                'name': name,
             }
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
         else:
@@ -392,7 +404,7 @@ def reservation(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         new_airline_carriers = {}
         for key, value in airline_carriers.items():
@@ -412,7 +424,9 @@ def reservation(request):
             'signature': request.session['signature'],
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/backend/reservation_templates.html', values)
     else:
@@ -424,7 +438,7 @@ def top_up(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -439,7 +453,9 @@ def top_up(request):
             'signature': request.session['signature'],
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
     else:
@@ -452,7 +468,7 @@ def top_up_history(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -467,7 +483,9 @@ def top_up_history(request):
             'signature': request.session['signature'],
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/backend/top_up_history_templates.html', values)
     else:
@@ -493,9 +511,13 @@ def get_cache_data(javascript_version):
     return response
 
 def get_logo_template():
-    color = '#f15a22'
-    logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     template = 1
+    logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+    color = '#f15a22'
+    website_name = 'Rodextrip'
+    website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
+
+We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
     try:
         file = open(var_log_path()+"data_cache_template.txt", "r")
         for idx, line in enumerate(file):
@@ -508,10 +530,16 @@ def get_logo_template():
                 template = int(line)
             elif idx == 2:
                 color = line
+            elif idx == 3:
+                website_name = line
+            elif idx == 4:
+                website_description = line
+        if color == '':
+            color = '#f15a22'
         file.close()
     except:
         pass
-    return template, logo, color
+    return template, logo, color, website_name, website_description
 
 # @api_view(['GET'])
 # def testing(request):

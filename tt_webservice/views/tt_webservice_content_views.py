@@ -211,12 +211,13 @@ def add_banner(request):
 
         for i in request.FILES:
             for img in request.FILES.getlist(i):
-                imgData.append({
-                    'filename': img.name,
-                    'file_reference': img.name,
-                    'file': base64.b64encode(img.file.read()).decode('ascii'),
-                    'type': i
-                })
+                if i != 'fileToUpload':
+                    imgData.append({
+                        'filename': img.name,
+                        'file_reference': img.name,
+                        'file': base64.b64encode(img.file.read()).decode('ascii'),
+                        'type': i
+                    })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

@@ -30,7 +30,7 @@ def search(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         try:
             request.session['activity_search_request'] = {
@@ -67,7 +67,9 @@ def search(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
 
         return render(request, MODEL_NAME+'/activity/activity_search_templates.html', values)
@@ -82,7 +84,7 @@ def detail(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         try:
             request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -114,7 +116,9 @@ def detail(request):
             'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/activity/activity_detail_templates.html', values)
     else:
@@ -127,7 +131,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -392,7 +396,9 @@ def passenger(request):
             'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
 
         for temp_sku in request.session['activity_details_data'][request.session['activity_type_pick']]['skus']:
@@ -425,7 +431,7 @@ def review(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -1264,7 +1270,9 @@ def review(request):
             'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/activity/activity_review_templates.html', values)
     else:
@@ -1275,7 +1283,7 @@ def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -1289,7 +1297,9 @@ def booking(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME + '/activity/activity_booking_templates.html', values)
     else:

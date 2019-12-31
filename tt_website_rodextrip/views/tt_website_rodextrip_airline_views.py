@@ -44,7 +44,7 @@ def search(request):
             response = json.loads(line)
         file.close()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
         for i in response:
@@ -250,7 +250,9 @@ def search(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -273,7 +275,7 @@ def passenger(request):
                 carrier = json.loads(line)
             file.close()
 
-            template, logo, color = get_logo_template()
+            template, logo, color, name, desc = get_logo_template()
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
@@ -368,7 +370,9 @@ def passenger(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -389,7 +393,7 @@ def ssr(request):
         carrier = json.loads(file.read())
         file.close()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         try:
             passenger = []
@@ -433,7 +437,9 @@ def ssr(request):
                 'time_limit': int(request.POST['time_limit_input']),
                 'logo': logo,
                 'template': template,
-                'color': color
+                'color': color,
+                'desc': desc.split('\n'),
+                'name': name,
                 # 'cookies': json.dumps(res['result']['cookies']),
 
             }
@@ -547,7 +553,9 @@ def ssr(request):
                 # 'time_limit': int(request.POST['time_limit_input']),
                 'logo': logo,
                 'template': template,
-                'color': color
+                'color': color,
+                'desc': desc.split('\n'),
+                'name': name,
                 # 'cookies': json.dumps(res['result']['cookies']),
 
             }
@@ -566,7 +574,7 @@ def seat_map(request):
             carrier = json.loads(line)
         file.close()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         ssr = []
 
@@ -706,7 +714,9 @@ def seat_map(request):
                 'time_limit': int(request.POST['time_limit_input']),
                 'logo': logo,
                 'template': template,
-                'color': color
+                'color': color,
+                'desc': desc.split('\n'),
+                'name': name,
                 # 'cookies': json.dumps(res['result']['cookies']),
 
             }
@@ -728,7 +738,9 @@ def seat_map(request):
                 'javascript_version': javascript_version,
                 'logo': logo,
                 'template': template,
-                'color': color
+                'color': color,
+                'desc': desc.split('\n'),
+                'name': name,
                 # 'cookies': json.dumps(res['result']['cookies']),
 
             }
@@ -748,7 +760,7 @@ def seat_map_public(request, signature=-1):
             carrier = json.loads(line)
         file.close()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
 
         additional_price_input = '0'
@@ -766,7 +778,9 @@ def seat_map_public(request, signature=-1):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -781,7 +795,7 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         ssr = []
         if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'ssr':
@@ -1036,7 +1050,9 @@ def review(request):
             'time_limit': int(request.POST['time_limit_input']),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
@@ -1051,7 +1067,7 @@ def review_after_sales(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
         goto = 0
         ssr = []
 
@@ -1174,7 +1190,9 @@ def review_after_sales(request):
             # 'time_limit': int(request.POST['time_limit_input']),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
@@ -1193,7 +1211,7 @@ def booking(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -1212,7 +1230,9 @@ def booking(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
 
             # 'order_number': 'AL.19072446048',
         }

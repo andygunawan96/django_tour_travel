@@ -51,7 +51,7 @@ def search(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         dest_month_data = [
             {'value': '00', 'string': 'All Months'},
@@ -99,7 +99,9 @@ def search(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME + '/tour/tour_search_templates.html', values)
     else:
@@ -113,7 +115,7 @@ def detail(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -163,7 +165,9 @@ def detail(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
 
         return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
@@ -177,7 +181,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -326,7 +330,9 @@ def passenger(request):
             'signature': request.session['tour_signature'],
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/tour/tour_passenger_templates.html', values)
     else:
@@ -339,7 +345,7 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -590,7 +596,9 @@ def review(request):
             'signature': request.session['tour_signature'],
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
 
         return render(request, MODEL_NAME+'/tour/tour_review_templates.html', values)
@@ -601,7 +609,7 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -614,7 +622,9 @@ def booking(request):
             'logo': logo,
             'static_path_url_server': get_url_static_path(),
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/tour/tour_booking_templates.html', values)
     else:
