@@ -24,7 +24,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 def index(request):
     try:
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
         template = int(request.session['user_account']['template'])
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
@@ -181,6 +181,7 @@ def index(request):
                         'template': template,
                         'desc': desc.split('\n'),
                         'name': name,
+                        'background': background,
                         #activity
                         'activity_sub_categories': activity_sub_categories,
                         'activity_categories': activity_categories,
@@ -255,7 +256,7 @@ def testing(request):
 
 def login(request):
     javascript_version = get_javascript_version()
-    template, logo, color, name, desc = get_logo_template()
+    template, logo, color, name, desc, background = get_logo_template()
 
     try:
         if request.POST['logout'] == 'true':
@@ -274,6 +275,7 @@ def login(request):
                 'color': color,
                 'desc': desc.split('\n'),
                 'name': name,
+                'background': background
             }
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
@@ -298,6 +300,7 @@ def login(request):
                 'color': color,
                 'desc': desc.split('\n'),
                 'name': name,
+                'background': background
             }
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
@@ -331,11 +334,20 @@ def admin(request):
                     except:
                         text += '\n'
                         pass
-                # logo template color name desc
+                # logo template color name desc background
                 text += request.POST['template'] + '\n'
                 text += "#" + request.POST['color_pick'] + '\n'
                 text += request.POST['website_name'] + '\n'
-                text += request.POST['website_description']
+                text += request.POST['website_description'] + '\n'
+                try:
+                    if request.FILES['fileBackground'].content_type == 'image/jpeg' or request.FILES['fileBackground'].content_type == 'image/png' or request.FILES['fileBackground'].content_type == 'image/png':
+                        text += 'data:'
+                        text += request.FILES['fileBackground'].content_type
+                        text += ';base64, '
+                        text += base64.b64encode(request.FILES['fileBackground'].read()).decode("utf-8")
+                        text += '\n'
+                except:
+                    pass
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -368,7 +380,7 @@ def admin(request):
                 file = open('data_cache_template.txt', "w+")
                 file.write(logo+'\n'+str(template))
                 file.close()
-            template, logo, color, name, desc = get_logo_template()
+            template, logo, color, name, desc, background = get_logo_template()
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values = {
@@ -385,6 +397,7 @@ def admin(request):
                 'color': color,
                 'desc': desc.split('\n'),
                 'name': name,
+                'background': background
             }
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
         else:
@@ -404,7 +417,7 @@ def reservation(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
 
         new_airline_carriers = {}
         for key, value in airline_carriers.items():
@@ -427,6 +440,7 @@ def reservation(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
         }
         return render(request, MODEL_NAME+'/backend/reservation_templates.html', values)
     else:
@@ -438,7 +452,7 @@ def top_up(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -456,6 +470,7 @@ def top_up(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
         }
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
     else:
@@ -468,7 +483,7 @@ def top_up_history(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -486,6 +501,7 @@ def top_up_history(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
         }
         return render(request, MODEL_NAME+'/backend/top_up_history_templates.html', values)
     else:
@@ -513,6 +529,7 @@ def get_cache_data(javascript_version):
 def get_logo_template():
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+    background = '/static/tt_website_rodextrip/images/bg_7.jpg'
     color = '#f15a22'
     website_name = 'Rodextrip'
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
@@ -534,12 +551,14 @@ We build this application for our existing partner and public users who register
                 website_name = line
             elif idx == 4:
                 website_description = line
+            elif idx == 5:
+                background = line
         if color == '':
             color = '#f15a22'
         file.close()
     except:
         pass
-    return template, logo, color, website_name, website_description
+    return template, logo, color, website_name, website_description, background
 
 # @api_view(['GET'])
 # def testing(request):

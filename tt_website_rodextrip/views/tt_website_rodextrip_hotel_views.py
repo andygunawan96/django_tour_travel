@@ -23,7 +23,7 @@ def search(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -65,6 +65,7 @@ def search(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -78,7 +79,7 @@ def detail(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -109,6 +110,7 @@ def detail(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
         }
 
         return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
@@ -139,7 +141,7 @@ def passengers(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -189,6 +191,7 @@ def passengers(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
         }
         return render(request, MODEL_NAME+'/hotel/hotel_passenger_templates.html', values)
     else:
@@ -199,7 +202,7 @@ def review(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
         spc_req = ''
         for rec in request.POST.keys():
@@ -392,6 +395,7 @@ def review(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -403,7 +407,7 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
 
         try:
             resv_obj = json.loads(request.POST['result'])['result']['response']
@@ -432,6 +436,7 @@ def booking(request):
                 'color': color,
                 'desc': desc.split('\n'),
                 'name': name,
+                'background': background
             }
             return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
         else:
@@ -450,6 +455,7 @@ def booking(request):
                 'color': color,
                 'desc': desc.split('\n'),
                 'name': name,
+                'background': background
             }
             return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
     else:

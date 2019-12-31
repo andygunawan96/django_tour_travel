@@ -20,7 +20,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 
 def search(request):
-    template, logo, color, name, desc = get_logo_template()
+    template, logo, color, name, desc, background = get_logo_template()
     javascript_version = get_javascript_version()
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
@@ -53,6 +53,7 @@ def search(request):
         'color': color,
         'desc': desc.split('\n'),
         'name': name,
+        'background': background
     }
     return render(request, MODEL_NAME+'/visa/visa_search_templates.html', values)
 
@@ -60,7 +61,7 @@ def passenger(request):
     javascript_version = get_javascript_version()
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
-    template, logo, color, name, desc = get_logo_template()
+    template, logo, color, name, desc, background = get_logo_template()
 
     request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -166,6 +167,7 @@ def passenger(request):
         'color': color,
         'desc': desc.split('\n'),
         'name': name,
+        'background': background
     }
     return render(request, MODEL_NAME+'/visa/visa_passenger_templates.html', values)
 
@@ -175,7 +177,7 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -367,6 +369,7 @@ def review(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
@@ -377,7 +380,7 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        template, logo, color, name, desc = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template()
         javascript_version = get_javascript_version()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -392,6 +395,7 @@ def booking(request):
             'color': color,
             'desc': desc.split('\n'),
             'name': name,
+            'background': background
             # 'order_number': 'VS.19072500003',
             # 'cookies': json.dumps(res['result']['cookies']),
         }
