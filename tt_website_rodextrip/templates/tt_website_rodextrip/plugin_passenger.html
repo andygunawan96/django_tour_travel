@@ -493,7 +493,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6" style="margin-top:auto;">
-                                        <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_passenger"><i class="fas fa-info-circle"></i></button>
+                                        <button type="button" class="btn btn-secondary launch-modal" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_passenger"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_passenger">
                                             <div class="modal-dialog">
 
@@ -1608,6 +1608,13 @@
 
 <script>
     $(function() {
+        $('.mystickypaxs').click(function(){
+            $('#myModalPlugin').modal({
+                backdrop: 'static'
+            });
+        });
+
+
         $('.js-example-basic-single').select2();
         $('input[name="passenger_birth_date"]').daterangepicker({
               singleDatePicker: true,

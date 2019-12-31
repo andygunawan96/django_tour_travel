@@ -44,7 +44,7 @@ def search(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
         try:
             origin = []
             destination = []
@@ -87,7 +87,9 @@ def search(request):
             'javascript_version': javascript_version,
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
 
         }
         return render(request, MODEL_NAME+'/train/train_search_templates.html', values)
@@ -100,7 +102,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -146,7 +148,9 @@ def passenger(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
 
         }
         return render(request, MODEL_NAME+'/train/train_passenger_templates.html', values)
@@ -159,7 +163,7 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
 
         adult = []
         infant = []
@@ -308,7 +312,9 @@ def review(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
             # 'cookies': json.dumps(res['result']['cookies']),
 
         }
@@ -321,7 +327,7 @@ def booking(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
 
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
         try:
             request.session['train_order_number'] = request.POST['order_number']
         except:
@@ -339,7 +345,9 @@ def booking(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
     else:
@@ -348,7 +356,7 @@ def booking(request):
 def seat_map(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        template, logo, color = get_logo_template()
+        template, logo, color, name, desc = get_logo_template()
         try:
             request.session['train_seat_map_request'] = json.loads(request.POST['seat_map_request_input'])
             request.session['train_passenger_request'] = json.loads(request.POST['passenger_input'])
@@ -367,7 +375,9 @@ def seat_map(request):
             'static_path_url_server': get_url_static_path(),
             'logo': logo,
             'template': template,
-            'color': color
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
         }
         return render(request, MODEL_NAME+'/train/train_seat_map_templates.html', values)
     else:

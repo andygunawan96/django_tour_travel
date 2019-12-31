@@ -1,7 +1,6 @@
 function update_banner(){
     var formData = new FormData($('#form_admin').get(0));
     formData.append('signature', signature)
-    console.log(formData);
     getToken();
     $.ajax({
        type: "POST",

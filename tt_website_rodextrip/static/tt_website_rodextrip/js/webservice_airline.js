@@ -4450,7 +4450,7 @@ function get_price_itinerary_reissue_request(){
         </div>
 
         <div class="col-lg-12">
-            <div style="background-color:white; padding:10px; border:1px solid #f15a22;margin-top:10px;" id="payment_acq" hidden>
+            <div style="background-color:white; padding:10px; border:1px solid `+color+`;margin-top:10px;" id="payment_acq" hidden>
 
             </div>
         </div>`;
