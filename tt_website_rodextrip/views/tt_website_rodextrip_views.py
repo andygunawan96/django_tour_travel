@@ -25,7 +25,6 @@ MODEL_NAME = 'tt_website_rodextrip'
 def index(request):
     try:
         template, logo, color, name, desc, background = get_logo_template()
-        template = int(request.session['user_account']['template'])
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
