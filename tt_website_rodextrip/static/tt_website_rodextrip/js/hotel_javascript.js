@@ -691,7 +691,7 @@ function sort(response, check_filter){
                             text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
                             text+=`
                             <div style="padding-bottom:5px;">
-                                <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                                <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
                             if(response.hotel_ids[i].location.address)
                                 text+= response.hotel_ids[i].location.address + '<br/>';
                             if(response.hotel_ids[i].location.district)
@@ -770,7 +770,7 @@ function sort(response, check_filter){
                                                 text+=`
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
                                                 if(check_price == 1){
-                                                    text += `<i class="fas fa-thumbs-up" style="color:#f15a22;"></i>`;
+                                                    text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
                                                 }
                                                 text +=`
                                                 </div>
@@ -794,7 +794,7 @@ function sort(response, check_filter){
                                                         text+=`
                                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
                                                         if(more_price == 1){
-                                                            text += `<i class="fas fa-thumbs-up" style="color:#f15a22;"></i>`;
+                                                            text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
                                                         }
                                                         text +=`
                                                         </div>
@@ -1467,14 +1467,8 @@ function check_passenger(adult, child){
      }
 }
 
-function hotel_detail(hotel_price){
-    hotel_price = hotel_price.replace(/&#39;/g, '"');
-    hotel_price = hotel_price.replace(/&quot;/g, '"');
-    hotel_price = hotel_price.replace(/False/g, 'false');
-    hotel_price = hotel_price.replace(/True/g, 'true');
-    hotel_price = hotel_price.replace(/None/g, '[]');
+function hotel_detail(){
 
-    hotel_price = JSON.parse(hotel_price);
 
     //console.log(hotel_price);
     text = '';

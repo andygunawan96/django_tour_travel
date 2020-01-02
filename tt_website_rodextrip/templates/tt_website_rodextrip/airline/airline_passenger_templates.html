@@ -492,7 +492,6 @@
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
@@ -509,6 +508,7 @@
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
@@ -731,6 +731,7 @@
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
@@ -921,6 +922,7 @@
                                                         {% endfor %}
                                                     </select>
                                                 </div>
+                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
@@ -1361,6 +1363,7 @@
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -1534,6 +1537,7 @@
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -1678,6 +1682,7 @@
                                                             <option value="{{country.code}}">{{country.name}}</option>
                                                             {% endfor %}
                                                         </select>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                                     </div>
                                                 </div>
@@ -2175,6 +2180,7 @@
                                                     {% endfor %}
                                                 </select>
                                             </div>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -2397,6 +2403,7 @@
                                                     {% endfor %}
                                                 </select>
                                             </div>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -2586,6 +2593,7 @@
                                                     {% endfor %}
                                                 </select>
                                             </div>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -3045,6 +3053,7 @@
                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -3220,6 +3229,7 @@
                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -3366,6 +3376,7 @@
                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -3805,6 +3816,7 @@
                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -3976,6 +3988,7 @@
                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="child_country_of_issued{{forloop.counter}}" id="child_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>
@@ -4122,6 +4135,7 @@
                                                 <option value="{{country.code}}">{{country.name}}</option>
                                                 {% endfor %}
                                             </select>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             <input type="hidden" name="infant_country_of_issued{{forloop.counter}}" id="infant_country_of_issued{{forloop.counter}}" />
                                         </div>
                                     </div>

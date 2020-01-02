@@ -23,7 +23,7 @@ def search(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc, background = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template('search')
         airline_country = response['result']['response']['airline']['country']
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

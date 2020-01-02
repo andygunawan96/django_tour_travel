@@ -62,8 +62,10 @@ function get_auto_complete(term,suggest){
                 'name':term
            },
            success: function(msg) {
-            hotel_choices = msg;
-            suggest(hotel_choices);
+            if(document.getElementById('hotel_id_destination').value.split(' - ').length != 2){
+                hotel_choices = msg;
+                suggest(hotel_choices);
+            }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 Swal.fire({
@@ -439,7 +441,7 @@ function hotel_detail_request(id){
                     //<span>' + result.prices[i].rooms[j].category + '</span><br/>
                     text+= '<h5 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].description + '>' + result.prices[i].rooms[j].description + '</h5><span class="qty_room">'+ result.prices[i].rooms[j].qty +' Room(s)</span><br/>';
                     text+= '<span class="meal_room">Meal Type: ' + result.prices[i].meal_type+'</span><br/>';
-                    text+= '<span style="font-weight:500; padding-top:10px;">Cancellation: </span><ul><li id="js_cancellation_button'+i+'" style="color:#f15a22; font-weight:400;"><span style="color:#f15a22; font-weight:500; cursor:pointer;" onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');"><i class="fas fa-question-circle"></i> Show Cancellation Policy</span></li></ul>';
+                    text+= '<span style="font-weight:500; padding-top:10px;">Cancellation: </span><ul><li id="js_cancellation_button'+i+'" style="color:#f15a22; font-weight:400;"><span class="carrier_code_template" onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');"><i class="fas fa-question-circle"></i> Show Cancellation Policy</span></li></ul>';
                     text+=`</div>`;
                 }
 
@@ -448,9 +450,9 @@ function hotel_detail_request(id){
                 var total_night = document.getElementById("total_night_search").textContent;
 
                 if(result.prices[i].currency != 'IDR')
-                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span class="copy_total_rn" style="font-size:13px; font-weight:500; color:#f15a22;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span class="copy_total_rn carrier_code_template" >(for '+total_room+' room, '+total_night+' night)</span><br/>';
                 else
-                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span class="copy_total_rn" style="font-size:13px; font-weight:500; color:#f15a22;">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                    text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span class="copy_total_rn carrier_code_template">(for '+total_room+' room, '+total_night+' night)</span><br/>';
 
                 text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
                 text+='</div></div>';

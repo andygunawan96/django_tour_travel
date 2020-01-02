@@ -270,16 +270,15 @@ function check_voucher(){
                             set_price('Issued','tour');
                         }catch(err){}
                     }else if(provider_type_id == 'hotel'){
-                        console.log(grand_total)
                         discount_voucher = {
                             'discount': 0,
                             'currency': ''
                         };
-                        if(hotel_pick_provider.price_total > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                        if(hotel_price.price_total > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                             for(i in msg.result.response.provider){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += hotel_pick_provider.price_total * msg.result.response.voucher_value / 100;
+                                        discount_voucher['discount'] += hotel_price.price_total * msg.result.response.voucher_value / 100;
 
                                     }else if(msg.result.response.voucher_type == 'amount'){
                                         discount_voucher['discount'] += msg.result.response.voucher_value;

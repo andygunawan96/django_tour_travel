@@ -143,18 +143,18 @@ def set_data_issued_offline(request):
                 if temp_date[4] == 'PM':
                     temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
                     temp_date[3] = temp_date[3].split(' ')[1]
-                departure = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
+                departure = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0]]
                 temp_date = request.POST['line_hotel_check_out' + str(i)].split(' ')
                 if temp_date[4] == 'PM':
                     temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
                     temp_date[3] = temp_date[3].split(' ')[1]
-                arrival = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
+                arrival = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0]]
                 line.append({
                     "name": request.POST['line_hotel_name' + str(i)],
                     "room": request.POST['line_hotel_room' + str(i)],
                     "qty": request.POST['line_hotel_qty' + str(i)],
-                    "check_in": departure[0]+' '+departure[1],
-                    "check_out": arrival[0]+' '+arrival[1],
+                    "check_in": departure[0],
+                    "check_out": arrival[0],
                     "description": request.POST['line_hotel_description' + str(i)],
                     "pnr": request.POST['line_pnr' + str(i)],
                 })

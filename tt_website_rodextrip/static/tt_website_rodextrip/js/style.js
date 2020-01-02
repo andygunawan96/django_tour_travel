@@ -1799,6 +1799,13 @@ function delete_expired_date(type, id){
     document.getElementById(type+'_passport_expired_date'+id).value = "";
 }
 
+function delete_country_of_issued(type, id){
+    document.getElementById('select2-'+type+'_country_of_issued'+id+'_id-container').innerHTML = "Country Of Issued";
+    document.getElementById(type+'_country_of_issued'+id+'_id').value = "";
+    document.getElementById(type+'_country_of_issued'+id).value = "";
+
+}
+
 function show_hide_change_search(){
     var change_search_box = document.getElementById("change_search_box");
 

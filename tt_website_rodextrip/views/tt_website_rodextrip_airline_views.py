@@ -44,7 +44,7 @@ def search(request):
             response = json.loads(line)
         file.close()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template('search')
 
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
         for i in response:

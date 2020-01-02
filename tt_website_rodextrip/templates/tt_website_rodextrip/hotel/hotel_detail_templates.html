@@ -434,7 +434,7 @@
                                 {% endfor %}
                             </span>
                             <br/>
-                            <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                            <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
                             <span class="address_hotel" id="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
                             <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
                             <hr/>
@@ -542,7 +542,7 @@
                 <div class="col-lg-12 div-location-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
                     <h4>Location Info</h4>
                     <hr/>
-                    <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                    <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
                     <span style="font-size:14px; font-weight:500;">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
                 </div>
 
