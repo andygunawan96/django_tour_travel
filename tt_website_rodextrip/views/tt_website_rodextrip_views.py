@@ -363,12 +363,32 @@ def admin(request):
                         text += request.FILES['fileBackgroundLogin'].content_type
                         text += ';base64, '
                         text += base64.b64encode(request.FILES['fileBackgroundLogin'].read()).decode("utf-8")
+                        text += '\n'
                 except:
                     check = 0
                     file = open(var_log_path() + "data_cache_template.txt", "r")
                     for idx, line in enumerate(file):
                         if idx == 6:
                             text += line
+                            check = 1
+                            break
+                    file.close()
+                    if check == 0:
+                        text += '\n'
+
+                try:
+                    if request.FILES['fileBackgroundSearch'].content_type == 'image/jpeg' or request.FILES['fileBackgroundSearch'].content_type == 'image/png' or request.FILES['fileBackgroundSearch'].content_type == 'image/png':
+                        text += 'data:'
+                        text += request.FILES['fileBackgroundSearch'].content_type
+                        text += ';base64, '
+                        text += base64.b64encode(request.FILES['fileBackgroundSearch'].read()).decode("utf-8")
+                except:
+                    check = 0
+                    file = open(var_log_path() + "data_cache_template.txt", "r")
+                    for idx, line in enumerate(file):
+                        if idx == 7:
+                            text += line
+                            check = 1
                             break
                     file.close()
                     if check == 0:
@@ -556,9 +576,12 @@ We build this application for our existing partner and public users who register
                 background = line
             elif idx == 6 and type == 'login':
                 background = line
+            elif idx == 7 and type == 'search':
+                background = line
         if color == '':
             color = '#f15a22'
         file.close()
+        background = background.split('\n')[0]
     except:
         pass
     return template, logo, color, website_name, website_description, background

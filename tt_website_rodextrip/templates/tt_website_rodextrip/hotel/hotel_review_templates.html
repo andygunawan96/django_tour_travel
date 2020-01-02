@@ -37,6 +37,15 @@
     hotel_pick_provider = JSON.parse(hotel_pick_provider.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""'));
     //console.log(hotel);
     hotel_facility_request(facilities);
+    hotel_price = `{{hotel_room_detail_pick}}`;
+    hotel_price = hotel_price.replace(/&#39;/g, '"');
+    hotel_price = hotel_price.replace(/&quot;/g, '"');
+    hotel_price = hotel_price.replace(/False/g, 'false');
+    hotel_price = hotel_price.replace(/True/g, 'true');
+    hotel_price = hotel_price.replace(/None/g, '[]');
+
+    hotel_price = JSON.parse(hotel_price);
+
 </script>
 
 {% include 'tt_website_rodextrip/logout.html' %}
@@ -119,7 +128,7 @@
                                 </span><br/>
 
                                 <span>
-                                <i class="fas fa-map-marker-alt" style="color:#f15a22;"></i>
+                                <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
                                     {% if hotel_pick.location.address != False %}
                                     {{hotel_pick.location.address}}
                                     {% endif %}
@@ -259,8 +268,8 @@
 
 
 <script>
-    document.getElementById('voucher_discount').style.display = 'none';
-    hotel_detail('{{hotel_room_detail_pick}}')
+    //document.getElementById('voucher_discount').style.display = 'none';
+    hotel_detail();
     hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
     get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {

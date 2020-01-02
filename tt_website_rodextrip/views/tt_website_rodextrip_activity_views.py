@@ -30,7 +30,7 @@ def search(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color, name, desc, background = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template('search')
 
         try:
             request.session['activity_search_request'] = {

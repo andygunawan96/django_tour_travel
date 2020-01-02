@@ -1773,7 +1773,7 @@ function show_seat_map(val, checked){
     if(val != set_seat_show_segments || checked == true){
         document.getElementById(set_seat_show_segments).style.background = 'white';
         document.getElementById(set_seat_show_segments).style.color = 'black';
-        document.getElementById(val).style.background = '#f15a22';
+        document.getElementById(val).style.background = color;
         document.getElementById(val).style.color = 'white';
         set_seat_show_segments = val;
         text = '';
@@ -1812,7 +1812,7 @@ function show_seat_map(val, checked){
                                             if(passenger_pick == n){
                                                 if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == passengers[n].seat_list[o].seat_pick && passengers[n].seat_list[o].departure_date == seat_map.seat_availability_provider[i].segments[j].departure_date){
                                                     check = 1;
-                                                    text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:#f15a22; padding:3px;color:white;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
+                                                    text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;font-size:13px;background-color:`+color+`; padding:3px;color:white;" onclick="alert('Already booked');" id="`+seat_map.seat_availability_provider[i].segments[j].segment_code2+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+`_`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`" value="`+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column+`"/>`;
                                                     break;
                                                 }
                                             }else if(passengers[n].seat_list[o].segment_code == seat_map.seat_availability_provider[i].segments[j].segment_code2 && seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].row_number+seat_map.seat_availability_provider[i].segments[j].seat_cabins[k].seat_rows[l].seats[m].column == passengers[n].seat_list[o].seat_pick && passengers[n].seat_list[o].departure_date == seat_map.seat_availability_provider[i].segments[j].departure_date){
@@ -1866,7 +1866,7 @@ function show_seat_map(val, checked){
 
 function set_passenger_seat_map_airline(val){
     text='';
-    text += `<hr/><h5 style="color:#f15a22;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
+    text += `<hr/><h5 style="color:`+color+`;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
     for(i in passengers[val].seat_list){
         text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
         text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
@@ -1880,7 +1880,7 @@ function set_passenger_seat_map_airline(val){
     }
     document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
     document.getElementById('passenger'+(passenger_pick+1)).style.color = 'black';
-    document.getElementById('passenger'+(val+1)).style.background = '#f15a22';
+    document.getElementById('passenger'+(val+1)).style.background = color;
     document.getElementById('passenger'+(val+1)).style.color = 'white';
     passenger_pick = val;
     document.getElementById('airline_passenger_detail_seat').innerHTML = text;
@@ -1895,7 +1895,7 @@ function set_passenger_seat_map_airline(val){
 
 function set_first_passenger_seat_map_airline(val){
     text='';
-    text += `<hr/><h5 style="color:#f15a22;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
+    text += `<hr/><h5 style="color:`+color+`;">`+passengers[val].title+` `+passengers[val].first_name+` `+passengers[val].last_name+`</h5>`;
     for(i in passengers[val].seat_list){
         text+=`<h6 style="padding-top:10px;">`+passengers[val].seat_list[i].segment_code+`: `+passengers[val].seat_list[i].seat_name+` `+passengers[val].seat_list[i].seat_pick+`</h6>`;
         text+=`<span style="font-weight:400; font-size:14px;">Price: `+passengers[val].seat_list[i].currency+` `+getrupiah(passengers[val].seat_list[i].price)+`</span><br/><br/>`;
@@ -1907,7 +1907,7 @@ function set_first_passenger_seat_map_airline(val){
         if(passengers[val].seat_list[i].seat_name != '')
             text+= `<input class="button-seat-pass" type="button" id="cancel_seat" style="width: 30%; background: rgb(241, 90, 34); padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
     }
-    document.getElementById('passenger'+(val+1)).style.background = '#f15a22';
+    document.getElementById('passenger'+(val+1)).style.background = color;
     document.getElementById('passenger'+(val+1)).style.color = 'white';
     passenger_pick = val;
     document.getElementById('airline_passenger_detail_seat').innerHTML = text;
@@ -1945,7 +1945,7 @@ function update_seat_passenger(segment, departure_date, row, column,seat_code,se
                     passengers[passenger_pick].seat_list[i].currency = currency;
                     passengers[passenger_pick].seat_list[i].price = amount;
                     passengers[passenger_pick].seat_list[i].description = description.split(',');
-                    document.getElementById(segment+'_'+departure_date+'_'+row+'_'+column).style.background = '#f15a22';
+                    document.getElementById(segment+'_'+departure_date+'_'+row+'_'+column).style.background = color;
                     document.getElementById(segment+'_'+departure_date+'_'+row+'_'+column).style.color = 'white';
                     break;
                 }
@@ -3250,12 +3250,12 @@ function airline_issued(data){
                     price_provider_show = 0;
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX'];
                     text=`
-                        <div style="background-color:#f15a22; margin-top:20px;">
+                        <div style="background-color:`+color+`; margin-top:20px;">
                             <center>
                                 <span style="color:white; font-size:16px;">Old Price Detail <i class="fas fa-money-bill-wave"></i></span>
                             </center>
                         </div>
-                        <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
+                        <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
                     for(i in airline_get_detail.result.response.passengers[0].sale_service_charges){
                         text+=`
                         <div style="text-align:center">
@@ -3352,12 +3352,12 @@ function airline_issued(data){
                     commission = 0;
                     //new price
                     text=`
-                        <div style="background-color:#f15a22; margin-top:20px;">
+                        <div style="background-color:`+color+`; margin-top:20px;">
                             <center>
                                 <span style="color:white; font-size:16px;">New Price Detail <i class="fas fa-money-bill-wave"></i></span>
                             </center>
                         </div>
-                        <div style="background-color:white; padding:15px; border: 1px solid #f15a22;">`;
+                        <div style="background-color:white; padding:15px; border: 1px solid `+color+`;">`;
                     total_price_provider_show = [];
                     price_provider_show = 0;
                     for(i in msg.result.response.passengers[0].sale_service_charges){
@@ -3900,7 +3900,7 @@ function render_ticket_reissue(){
                             text += `<span style="float:left; font-weight: bold;">Operated By `+reissue_ticket[flight_select].journeys[i].operated_by_carrier_code+`</span>`;
                         }
                     if(reissue_ticket[flight_select].journeys[i].is_combo_price == true){
-                        text+=`<span style="float:right; font-weight: bold; padding:5px; border-bottom:2px solid #f15a22;">Combo Price</span>`;
+                        text+=`<span style="float:right; font-weight: bold; padding:5px; border-bottom:2px solid `+color+`;">Combo Price</span>`;
                     }
                     text += `
                     </div>
@@ -3977,7 +3977,7 @@ function render_ticket_reissue(){
                                     flight_number = parseInt(j) + 1;
                                     text+=`
                                     <div class="col-lg-12" style="margin-top:10px;">
-                                        <span style="font-weight: 500; color:#f15a22;">Flight `+flight_number+` </span>
+                                        <span style="font-weight: 500; color:`+color+`;">Flight `+flight_number+` </span>
                                     </div>`;
 
                                     text+=`
@@ -4039,7 +4039,7 @@ function render_ticket_reissue(){
                     <div class="col-lg-8 col-md-8 col-sm-8">
                         <div class="row">
                             <div class="col-lg-12" style="text-align:right;">
-                                <span id="fare`+i+`" class="basic_fare_field" style="font-size:15px;font-weight: bold; color:#f15a22; padding:10px;">`;
+                                <span id="fare`+i+`" class="basic_fare_field" style="font-size:15px;font-weight: bold; color:`+color+`; padding:10px;">`;
 
                                 text+=`</span>`;
 //                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
@@ -4075,12 +4075,12 @@ function render_ticket_reissue(){
                     try{
                     text+=`
                         <span style="font-weight: 500; font-size:12px;">`+airline_carriers[reissue_ticket[flight_select].journeys[i].segments[j].carrier_code].name+`</span><br/>
-                        <span style="color:#f15a22; font-weight: 500;">`+reissue_ticket[flight_select].journeys[i].segments[j].carrier_name+`</span><br/>
+                        <span style="color:`+color+`; font-weight: 500;">`+reissue_ticket[flight_select].journeys[i].segments[j].carrier_name+`</span><br/>
                         <img data-toggle="tooltip" style="width:50px; height:50px;" title="`+airline_carriers[reissue_ticket[flight_select].journeys[i].segments[j].carrier_code].name+`" src="`+static_path_url_server+`/public/airline_logo/`+reissue_ticket[flight_select].journeys[i].segments[j].carrier_code+`.png"><br/>`;
                     }catch(err){
                     text+=`
                         <span style="font-weight: 500;">`+reissue_ticket[flight_select].journeys[i].segments[j].carrier_code+`</span><br/>
-                        <span style="color:#f15a22; font-weight: 500;">`+reissue_ticket[flight_select].journeys[i].segments[j].carrier_name+`</span><br/>`;
+                        <span style="color:`+color+`; font-weight: 500;">`+reissue_ticket[flight_select].journeys[i].segments[j].carrier_name+`</span><br/>`;
                     }
                     text+=`
                     </div>
