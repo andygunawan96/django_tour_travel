@@ -892,8 +892,8 @@ function visa_get_data(data){
                                     </div>
                                     <div class="col-lg-4">
                                         <a class="print-booking-train ld-ext-right" style="color:white;">
-                                            <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Visa HO Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_ho','visa');" />
-                                            <div class="ld ld-ring ld-cycle"></div>
+                                            <!--<input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Visa HO Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_ho','visa');" />
+                                            <div class="ld ld-ring ld-cycle"></div>-->
                                         </a>
                                     </div>
                                     <div class="col-lg-4">`;

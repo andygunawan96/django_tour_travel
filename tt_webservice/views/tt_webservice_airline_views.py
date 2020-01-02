@@ -720,7 +720,7 @@ def search2(request):
                                     break
             logging.getLogger("error_info").error("SUCCESS SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR SEARCH AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
@@ -903,7 +903,7 @@ def get_price_itinerary(request, boolean, counter):
                                     })
                                     break
             request.session['airline_price_itinerary'] = res['result']['response']
-            logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
         elif boolean == True:
             pass
         else:
@@ -1029,8 +1029,6 @@ def get_seat_availability(request):
 def get_seat_map_response(request):
     return request.session['airline_get_seat_availability']['result']['response']
 
-
-
 def update_contacts(request):
     try:
         booker = request.session['airline_create_passengers']['booker']
@@ -1065,7 +1063,7 @@ def update_contacts(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR update_contacts AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1133,7 +1131,7 @@ def update_passengers(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1157,7 +1155,7 @@ def sell_ssrs(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         if request.session['airline_ssr_request'] == {}:
             logging.getLogger("error_logger").error("NO SSR")
@@ -1197,7 +1195,7 @@ def assign_seats(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         if len(request.session['airline_seat_request']) == 0:
             logging.getLogger("error_logger").error("NO seat")
@@ -1260,7 +1258,7 @@ def commit_booking(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS commit_booking AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR commit_booking AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR commit_booking AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
@@ -1392,7 +1390,7 @@ def update_service_charge(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR update_service_charge AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1433,7 +1431,7 @@ def issued(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("ERROR issued AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
