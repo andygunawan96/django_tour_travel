@@ -2972,7 +2972,7 @@ function modal_help_pax_hide(){
 function delete_country_of_issued_passenger_cache(type,val){
     document.getElementById(type+'_identity_country_of_issued'+val).value = '';
     console.log(document.getElementById('select2-'+type+'_identity_country_of_issued'+val+'_id-container').innerHTML);
-    document.getElementById('select2-'+type+'_identity_country_of_issued'+val+'_id-container').innerHTML = '';
+    document.getElementById('select2-'+type+'_identity_country_of_issued'+val+'_id-container').innerHTML = 'Country Of Issued';
 }
 
 function delete_identity_expired_date(type, id){

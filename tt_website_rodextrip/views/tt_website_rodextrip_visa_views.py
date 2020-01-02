@@ -20,7 +20,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 
 def search(request):
-    template, logo, color, name, desc, background = get_logo_template()
+    template, logo, color, name, desc, background = get_logo_template('search')
     javascript_version = get_javascript_version()
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)

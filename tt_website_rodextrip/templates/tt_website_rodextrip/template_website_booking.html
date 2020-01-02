@@ -21,6 +21,14 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
     <!--template1-->
+    <style>
+        .testimonial-area {
+            background-image: url("{{background}}");
+        }
+        .price-area {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}");
+        }
+    </style>
     <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css">
     <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
     {%if template == 1%}
@@ -634,12 +642,89 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
             background: transparent;
         }
-        .testimonial-area {
-            background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}");
-            height: 100%;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: auto;
+        .primary-btn-standard {
+            background: #f7f7f7;
+            line-height: 42px;
+            padding-left: 30px;
+            padding-right: 30px;
+            border: 1px solid {{color}} !important;
+            color: #000;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            border-radius: 3px;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+        }
+        .primary-btn-standard:hover {
+            background: {{color}} !important;
+            opacity: 0.9;
+            color: white;
+            border: 1px solid #C04B21;
+        }
+        a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+          color: {{color}};
+          text-decoration: none;
+          background:unset;
+        }
+        .detail-hotel-box:hover {
+            border: 1px solid {{color}} !important;
+        }
+        .primary-btn-custom-un {
+            background: {{color}};
+            opacity: 0.9;
+            line-height: 35px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: none;
+            cursor: not-allowed;
+            color: #fff;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            -webkit-transition: all 0.3s ease 0s;
+            -moz-transition: all 0.3s ease 0s;
+            -o-transition: all 0.3s ease 0s;
+            transition: all 0.3s ease 0s;
+            cursor: pointer;
+            position: relative;
+            border-radius: 3px;
+        }
+        .image-rounded-icon2:hover {
+            border: 1px solid {{color}};
+        }
+        a:hover {
+            color: {{color}};
+        }
+        .notif-hover:hover {
+            color: {{color}};
+            opacity: 0.9;
+        }
+
+        .form-control:focus {
+            border: 1px solid {{color}} !important;
+        }
+        .hover_name:hover {
+            color: #f15a22;
+        }
+        .hover_name:hover {
+            color: {{color}} !important;
+        }
+        .sorting-box-b:hover {
+            border: 1px solid {{color}};
+        }
+        a {
+            color: {{color}};
+        }
+        .badge-notif {
+            border: 1px solid {{color}};
+            opacity: 0.9;
         }
     </style>
 
@@ -784,7 +869,7 @@ Licence URI: http://www.os-templates.com/template-terms
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 Tawk_API.visitor = {
     'name': '{{username.co_user_login}}',
-    'email': '{{username.co_user_login}}'
+    'email': 'rodextrip@gmail.com'
 };
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];

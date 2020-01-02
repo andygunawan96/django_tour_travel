@@ -5381,9 +5381,9 @@ div.scrollmenu li {
   animation-delay: 5s;
 }
 
-.form-control:focus {
+/*.form-control:focus {
   border: 1px solid #f15a22;
-}
+}*/
 
 .input-container-search-ticket {
   display: -ms-flexbox; /* IE10 */

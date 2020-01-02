@@ -282,6 +282,7 @@ function add_table_of_passenger(){
                                                                 }
                                                             text+=`</select>
                                                         </div>
+                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
                                                     if(template == 1){
                                                         text+=`</div>`;
