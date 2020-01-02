@@ -499,6 +499,7 @@ function set_passenger_number(val){
 }
 
 function get_customer_list(passenger, number, product){
+    check = 0;
     getToken();
     if(passenger == 'booker'){
         $('.loading-booker-train').show();
@@ -669,6 +670,10 @@ function get_customer_list(passenger, number, product){
 
         }
         if(name.length >= 2){
+            if(passenger == ''){
+                passenger = 'adult';
+                check = 1;
+            }
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -684,6 +689,8 @@ function get_customer_list(passenger, number, product){
                     'signature': signature
                },
                success: function(msg) {
+                if(check == 1)
+                    passenger = '';
                 console.log(msg);
                 if(msg.result.error_code==0){
                     var response = '';
