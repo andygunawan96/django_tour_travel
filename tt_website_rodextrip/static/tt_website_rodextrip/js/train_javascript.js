@@ -1261,7 +1261,7 @@ function select_passenger(val){
         document.getElementById('passenger'+pax_click).style.background = 'white';
         document.getElementById('passenger'+pax_click).style.color = 'black';
     }
-    document.getElementById('passenger'+val).style.background = '#f15a22';
+    document.getElementById('passenger'+val).style.background = color;
     document.getElementById('passenger'+val).style.color = 'white';
     for(i in pax[val-1].seat){
         console.log('seat_journey'+parseInt(parseInt(i)+1));
@@ -1279,7 +1279,7 @@ function select_journey(val){
         document.getElementById('journey'+seat_map_pick).style.background = 'white';
         document.getElementById('journey'+seat_map_pick).style.color = 'black';
     }
-    document.getElementById('journey'+val).style.background = '#f15a22';
+    document.getElementById('journey'+val).style.background = color;
     document.getElementById('journey'+val).style.color = 'white';
     seat_map_pick = val;
     print_seat_map();
@@ -1583,9 +1583,9 @@ function sort(value){
                                 <input class="disabled-btn" type="button" id="train_choose`+i+`" value="Sold" disabled>`
                         }
                     if(data_filter[i].available_count<50)
-                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
+                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
                     else if(data_filter[i].available_count<=1 )
-                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:#f15a22">`+data_filter[i].available_count+` seat(s) left</span>`;
+                        response+=`<br/><span class="copy_seat" style="font-size:13px; float:right; color:`+color+`">`+data_filter[i].available_count+` seat(s) left</span>`;
                     response+=`</div>
                     </div>
                 </div>
@@ -1602,7 +1602,7 @@ function train_ticket_pick(){
     for(i in journeys){
 
         response+=`
-        <div style="background-color:#f15a22; padding:10px;">
+        <div style="background-color:`+color+`; padding:10px;">
             <h6 style="color:white;">`;
         if(journeys[i].sequence == 0)
             response += 'Departure';
@@ -1619,7 +1619,7 @@ function train_ticket_pick(){
                 <div class="col-lg-4 col-xs-6">
                     <table style="width:100%">
                         <tr>
-                            <td><h5>`+journeys[i].departure_date.split(" - ")[1]+`</h5></td>
+                            <td><h5>`+journeys[i].departure_date[1]+`</h5></td>
                             <td style="padding-left:15px;">
                                 <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>
                             </td>
@@ -1654,9 +1654,9 @@ function train_ticket_pick(){
                         <span style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(journeys[i].price)+`</span>
                         <input class="primary-btn-custom" type="button" onclick="change_train(`+i+`)"  id="train_choose`+i+`" value="Change">`;
                 if(journeys[i].available_count<50)
-                    response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+journeys[i].available_count+` seat(s) left</span>`;
+                    response+=`<br/><span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
                 else if(journeys[i].available_count<=1 )
-                    response+=`<br/><span style="font-size:13px; float:right; color:#f15a22">`+journeys[i].available_count+` seat(s) left</span>`;
+                    response+=`<br/><span style="font-size:13px; float:right; color:`+color+`">`+journeys[i].available_count+` seat(s) left</span>`;
                 response+=`</div>
                 </div>
             </div>
@@ -1761,7 +1761,7 @@ function print_seat_map(){
                                 for(n in pax[m].seat_pick){
                                     if(seat_map_pick-1 == n && pax[m].seat_pick[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat_pick[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat_pick[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
                                         if(pax_click-1 == m){
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#f15a22; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:`+color+`; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                             check = 1;
                                             break;
                                         }else{
@@ -1910,7 +1910,7 @@ function get_checked_copy_result(){
                     text+=`<span>`+seat_train+`</span><br/>`;
                 }
             text+=`
-                <span style="font-size:13px; font-weight:800; color:#f15a22;">Price: `+price_train+`</span>
+                <span style="font-size:13px; font-weight:800; color:`+color+`;">Price: `+price_train+`</span>
             </div>
             <div class="col-lg-3" style="text-align:right;">
                 <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_train+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
