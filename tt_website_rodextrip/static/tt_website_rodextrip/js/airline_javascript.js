@@ -3481,7 +3481,7 @@ function check_provider(carrier_code,val){
         }
         check = 0;
         for(i in airline_provider_list){
-            if(document.getElementById('provider_box_'+airline_provider_list[i].code+'_'+val).checked == true){
+            if(document.getElementById('provider_box_'+i+'_'+val).checked == true){
                 check++;
             }
         }

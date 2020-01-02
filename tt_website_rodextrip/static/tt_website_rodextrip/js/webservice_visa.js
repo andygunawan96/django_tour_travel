@@ -890,11 +890,14 @@ function visa_get_data(data){
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </a>
                                     </div>
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4">`;
+                                    if(visa.journey.state == 'booked')
+                                    text+=`
                                         <a class="print-booking-train ld-ext-right" style="color:white;">
-                                            <!--<input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Visa HO Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_ho','visa');" />
-                                            <div class="ld ld-ring ld-cycle"></div>-->
-                                        </a>
+                                            <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','visa');" />
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </a>`;
+                                        text+=`
                                     </div>
                                     <div class="col-lg-4">`;
                                     if(visa.journey.state != 'booked')
