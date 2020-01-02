@@ -274,10 +274,12 @@ def detail(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
-       # request.session['hotel_detail'] = res
-        res = res
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_cancellation_policy(request):
@@ -299,9 +301,12 @@ def get_cancellation_policy(request):
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
         request.session['hotel_cancellation_policy'] = res
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_top_facility(request):
@@ -318,9 +323,12 @@ def get_top_facility(request):
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
         request.session['hotel_cancellation_policy'] = res
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_top_facility_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_top_facility_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_facility_img(request):
@@ -335,6 +343,13 @@ def get_facility_img(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_facility_img_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_facility_img_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def provision(request):
@@ -352,11 +367,15 @@ def provision(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
-
     try:
         request.session['hotel_provision'] = res
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("provision_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
 
     return res
 
@@ -447,8 +466,12 @@ def create_booking(request):
 
     try:
         request.session['hotel_booking'] = res['result']['response']
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("provision_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -469,7 +492,11 @@ def get_booking(request):
 
     try:
         request.session['hotel_provision'] = res
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_booking_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_booking_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return res
