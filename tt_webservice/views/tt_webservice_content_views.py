@@ -263,7 +263,10 @@ def get_banner(request):
 
     res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS get_banner_content SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR get_banner_content SIGNATURE " + request.POST['signature'])
         # request.session['signature'] = res['result']['response']['signature']
         # if func == 'get_config':
         #     get_config(request)

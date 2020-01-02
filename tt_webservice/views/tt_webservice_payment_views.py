@@ -89,7 +89,13 @@ def get_payment_acquirer(request):
     elif request.POST['type'] == 'tour':
         url_post = 'booking/tour'
     res = util.send_request(url=url + url_post, data=data, headers=headers, method='POST')
-
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS get_payment_acquirer_payment " + request.POST['type'] + " SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR get_payment_acquirer_payment " + request.POST['type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     if res['result']['error_code'] == 0:
         pass
     return res

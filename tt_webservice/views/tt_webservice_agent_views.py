@@ -169,7 +169,7 @@ def signin(request):
             except:
                 get_new_cache(res['result']['response']['signature'])
         else:
-            logging.getLogger("error_logger").error('ERROR SIGNIN SOMETHING WHEN WRONG ' + json.dumps(res))
+            logging.getLogger("error_logger").error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
 
     except Exception as e:
         logging.getLogger("error_logger").error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
@@ -639,7 +639,7 @@ def get_customer_list(request):
                     pass
             logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error(str(res))
+            logging.getLogger("error_logger").error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -714,7 +714,7 @@ def create_customer(request):
 
             logging.getLogger("info_logger").info("CREATE CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error(str(res))
+            logging.getLogger("error_logger").error("create_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -829,9 +829,9 @@ def update_customer(request):
                             })
                     break
             request.session['cache_passengers'] = passenger_cache
-            logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS update_customer_agent SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("error_logger").error("update_customer_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
