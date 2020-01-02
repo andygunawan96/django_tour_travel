@@ -130,7 +130,10 @@ def check_voucher(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        pass
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS check_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR check_voucher_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

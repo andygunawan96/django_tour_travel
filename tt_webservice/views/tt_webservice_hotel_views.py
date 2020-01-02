@@ -249,6 +249,8 @@ def search(request):
                 })
                 counter += 1
                 sequence += 1
+        else:
+            logging.getLogger("error_logger").error("ERROR search_hotel SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

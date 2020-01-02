@@ -99,17 +99,17 @@ function update_table(type){
                 $text += visa[i].pax_type[1]+ ' ' + visa[i].visa_type[1] + ' ' + visa[i].entry_type[1] + ' ' + visa[i].type.process_type[1] + ' ' + visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
                 $text += visa[i].consulate.address + ', ' + visa[i].consulate.city + '\n\n';
-                if(visa[i].requirements.length != 0){
+                if(visa[i].notes.length != 0){
                     $text += 'Visa Requirement:\n';
 
-                    for(j in visa[i].requirements){
-                        $text += '- ' + visa[i].requirements[j].name;
-                        if(visa[i].requirements[j].description){
-                            if(visa[i].requirements[j].description != "-"){
-                                $text += ': ' + visa[i].requirements[j].description;
-                            }
-                        }
-                        $text += '\n';
+                    for(j in visa[i].notes){
+                        $text += visa[i].notes[j] + '\n';
+//                        if(visa[i].requirements[j].description){
+//                            if(visa[i].requirements[j].description != "-"){
+//                                $text += ': ' + visa[i].requirements[j].description;
+//                            }
+//                        }
+//                        $text += ;
                     }
                     $text += '\n';
                 }
@@ -267,17 +267,17 @@ function update_table(type){
                 $text += 'Consulate Address :\n';
                 $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
 
-                if(visa.list_of_visa[i].requirements.length != 0){
+                if(visa[i].notes.length != 0){
                     $text += 'Visa Requirement:\n';
 
-                    for(j in visa.list_of_visa[i].requirements){
-                        $text += '- ' + visa.list_of_visa[i].requirements[j].name;
-                        if(visa.list_of_visa[i].requirements[j].description){
-                            if(visa.list_of_visa[i].requirements[j].description != "-"){
-                                $text += ': ' + visa.list_of_visa[i].requirements[j].description;
-                            }
-                        }
-                        $text += '\n';
+                    for(j in visa[i].notes){
+                        $text += visa[i].notes[j] + '\n';
+//                        if(visa[i].requirements[j].description){
+//                            if(visa[i].requirements[j].description != "-"){
+//                                $text += ': ' + visa[i].requirements[j].description;
+//                            }
+//                        }
+//                        $text += ;
                     }
                     $text += '\n';
                 }
@@ -383,17 +383,17 @@ function update_table(type){
                 $text += 'Consulate Address :\n';
                 $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
 
-                if(visa.list_of_visa[i].requirements.length != 0){
+                if(visa[i].notes.length != 0){
                     $text += 'Visa Requirement:\n';
 
-                    for(j in visa.list_of_visa[i].requirements){
-                        $text += '- ' + visa.list_of_visa[i].requirements[j].name;
-                        if(visa.list_of_visa[i].requirements[j].description){
-                            if(visa.list_of_visa[i].requirements[j].description != "-"){
-                                $text += ': ' + visa.list_of_visa[i].requirements[j].description;
-                            }
-                        }
-                        $text += '\n';
+                    for(j in visa[i].notes){
+                        $text += visa[i].notes[j] + '\n';
+//                        if(visa[i].requirements[j].description){
+//                            if(visa[i].requirements[j].description != "-"){
+//                                $text += ': ' + visa[i].requirements[j].description;
+//                            }
+//                        }
+//                        $text += ;
                     }
                     $text += '\n';
                 }
