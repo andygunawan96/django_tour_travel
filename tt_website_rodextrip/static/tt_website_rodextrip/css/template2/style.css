@@ -89,7 +89,7 @@ a:focus {
   font-weight: 500; }
 
 a:hover {
-  color: #f15a22 !important;
+  color: #f15a22;
 }
 
 li {
@@ -3271,6 +3271,7 @@ ul.edit_tabs li.current .image-rounded-icon{
   top: 95px;
   right: 55px;
   z-index: 100;
+  font-size:16px;
   background-color: #f15a22;
   color: white;
   height:55px;
@@ -6219,28 +6220,6 @@ display: block;
   background-color: #C04B21;
 }
 
-.mystickycopybot {
-    position: fixed;
-    bottom: 180px;
-    right: 58px;
-    z-index: 99;
-    font-size: 20px;
-    border: 1px solid gray;
-    outline: none;
-    background-color: #f15a22;
-    color: white;
-    cursor: pointer;
-    height: 55px;
-    width: 55px;
-    border-radius: 30px;
-    padding-left: 0px !important;
-    padding-right: 0px !important;
-}
-
-.mystickycopybot:hover {
-  background-color: #C04B21;
-}
-
 .myticket_static {
   background-color: #f15a22;
   color: white;
@@ -6281,7 +6260,7 @@ display: block;
     bottom: 180px;
     right: 58px;
     z-index: 99;
-    font-size: 20px;
+    font-size: 16px;
     border: 1px solid gray;
     outline: none;
     background-color: #f15a22;

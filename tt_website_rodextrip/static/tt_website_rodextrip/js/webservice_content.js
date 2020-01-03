@@ -180,14 +180,14 @@ function get_banner(type,page){
                         }
                     }
                 }else if(page == 'admin'){
-//                            <img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" style="height:220px;width:auto"/>
+                    //<img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" style="height:220px;width:auto"/>
+                    text+=`<div class="row">`;
                     for(i in msg.result.response){
                         text += `
-                        <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto" />
-
-                            <div class="row" style="justify-content:space-around">
-                                <div class="checkbox" style="display: block;">
+                        <div class="col-lg-6" style="margin-bottom:25px;">
+                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto;" />
+                            <div class="row">
+                                <div class="col-lg-6">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Active</span>
                                         <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active"`;
@@ -197,7 +197,7 @@ function get_banner(type,page){
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
-                                <div class="checkbox" style="display: block;">
+                                <div class="col-lg-6">
                                     <label class="check_box_custom">
                                         <span style="font-size:13px;">Delete</span>
                                         <input type="checkbox" value="" id="`+type+i+`_delete" name="`+type+i+`_delete">
@@ -208,6 +208,7 @@ function get_banner(type,page){
                         </div>
                         `;
                     }
+                    text+=`</div>`;
                 }
                 document.getElementById(type).innerHTML = text;
                 if(page == 'home'){

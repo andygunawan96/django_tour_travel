@@ -450,7 +450,7 @@ function add_multi_city(type){
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-lg-12" style="text-align:left; padding:0px; margin-top:10px; margin-bottom:10px;">
-                        <h5 style="color:white;">Flight-`+counter_airline_search+`</h5>
+                        <h5 style="color:`+color+`">Flight-`+counter_airline_search+`</h5>
                     </div>
                         <div class="col-lg-8">
                             <div class="row">

@@ -253,7 +253,7 @@ function tour_search(){
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                                                            <a href="#" class="primary-btn" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -286,7 +286,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <a href="#" class="btn roberto-btn disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
+                                                            <a href="#" class="primary-btn disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -314,7 +314,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <a href="#" class="btn roberto-btn" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                                                            <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>

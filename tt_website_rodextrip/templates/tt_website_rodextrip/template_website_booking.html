@@ -136,19 +136,90 @@ Licence URI: http://www.os-templates.com/template-terms
         }
     </style>
     <style>
+        ::selection {
+          background-color: {{color}};
+          color: #fff;
+        }
         .check_box_custom input:checked ~ .check_box_span_custom {
-            background-color: {{color}};
+            background-color: {{color}} !important;
+        }
+        .b24-widget-button-inner-block{
+            background-color: {{color}} !important;
+        }
+        .b24-widget-button-openline_livechat{
+            background-color: {{color}} !important;
+        }
+        .b24-widget-button-popup{
+            border-color: {{color}} !important;
+        }
+        .b24-widget-button-popup-triangle{
+            border-color: {{color}} !important;
+        }
+        .b24-widget-button-inner-mask{
+            background: {{color}} !important;
+        }
+        .b24-widget-button-pulse{
+            border-color: {{color}} !important;
         }
         .radio-button-custom input:checked ~ .checkmark-radio {
-            background-color: {{color}};
+            background-color: {{color}} !important;
         }
-        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
-            background-color: rgba(30, 30, 30, 0.9);
-            color: {{color}};
+
+        .notif-hover:hover{
+            color: {{color}} !important;
+            opacity:0.7;
         }
-        .nav-tabs .nav-link:hover .image-rounded-icon {
-            background:{{color}};
+        .lamp{
+            text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px #ff0000, 0 0 10px #ff8d00, 0 0 98px #ff0000
         }
+        @-webkit-keyframes blink {
+          20%,
+          24%,
+          55% {
+            color: #111;
+            text-shadow: none;
+          }
+
+          0%,
+          19%,
+          21%,
+          23%,
+          25%,
+          54%,
+          56%,
+          100% {
+        /*     color: #fccaff;
+            text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+              0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092; */
+          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px #ff0000, 0 0 10px #ff8d00, 0 0 98px #ff0000;
+            color: #fff6a9;
+          }
+        }
+
+        @keyframes blink {
+          20%,
+          24%,
+          55% {
+            color: #111;
+            text-shadow: none;
+          }
+
+          0%,
+          19%,
+          21%,
+          23%,
+          25%,
+          54%,
+          56%,
+          100% {
+        /*     color: #fccaff;
+            text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
+              0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092; */
+          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px #ff0000, 0 0 10px #ff8d00, 0 0 98px #ff0000;
+            color: #fff6a9;
+          }
+        }
+
         .br-done {
             color: {{color}};
         }
@@ -171,32 +242,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .br-active {
             color: {{color}};
-        }
-        .nav-link.active .image-rounded-icon {
-            background: {{color}};
-        }
-        #myBtnBTP {
-            display: none;
-            position: fixed;
-            bottom: 55px;
-            left: 55px;
-            z-index: 999;
-            font-size: 20px;
-            border: 1px solid gray;
-            outline: none;
-            background-color: {{color}};
-            color: white;
-            cursor: pointer;
-            height: 55px;
-            width: 55px;
-            border-radius: 28px;
-        }
-        #myBtnBTP:hover {
-            background-color: {{color}};
-            opacity: 0.9;
-        }
-        .nav-link.active .image-rounded-icon {
-            background: {{color}};
         }
         .count_time{
             font-size:16px; font-weight:700; color:{{color}};
@@ -240,6 +285,7 @@ Licence URI: http://www.os-templates.com/template-terms
             cursor: pointer;
             position: relative;
         }
+
         .center-div div {
             background-color: {{color}};
             display: inline-block;
@@ -253,16 +299,6 @@ Licence URI: http://www.os-templates.com/template-terms
             animation-name: inner-center-div;
             animation-duration: 4s;
             animation-iteration-count: infinite;
-        }
-        .form-select .nice-select .list .option.selected {
-            color: {{color}};
-            background: transparent;
-        }
-        .nav-menu li:hover > a {
-            color: {{color}};
-        }
-        .nav-menu ul li:hover > a {
-            color: {{color}};
         }
         .primary-btn-logout {
             background: {{color}};
@@ -284,20 +320,10 @@ Licence URI: http://www.os-templates.com/template-terms
             position: relative;
             width: 100%;
         }
-        #mobile-nav ul li a:hover {
-            color: {{color}};
-        }
-        #mobile-nav ul li a:hover {
-            color: {{color}};
-        }
-        .banner-right .form-wrap .form-control:focus {
-            box-shadow: none;
-            border: 1px solid {{color}};
-        }
+
         .btn-custom-circle {
             text-align: center;
             background-color: {{color}};
-            opacity:0.7;
             text-align: center;
             white-space: nowrap;
             user-select: none;
@@ -308,7 +334,15 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .btn-custom-circle:hover {
             background-color: {{color}};
-            opacity:1;
+            opacity:0.9;
+        }
+        .detail-link{
+            text-decoration: unset;
+            color: {{color}};
+        }
+        .detail-link:hover{
+            color: {{color}};
+            opacity:0.8;
         }
         .activity_btn_advance{
             background: {{color}};
@@ -394,7 +428,7 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .primary-btn-ticket {
             background: {{color}};
-            line-height: 35px;
+            line-height: 40px;
             padding-left: 20px;
             padding-right: 20px;
             border: none;
@@ -420,7 +454,6 @@ Licence URI: http://www.os-templates.com/template-terms
             bottom: 180px;
             right: 58px;
             z-index: 99;
-            font-size: 20px;
             border: 1px solid gray;
             outline: none;
             background-color: {{color}};
@@ -436,16 +469,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background-color: {{color}};
             opacity:0.9;
         }
-        .modal-header {
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-            padding: 1rem;
-            border-bottom: 1px solid #e9ecef;
-            border-top-left-radius: 0.3rem;
-            border-top-right-radius: 0.3rem;
-            background-color: {{color}};
-        }
         .myticket {
             position: fixed;
             top: 85px;
@@ -453,6 +476,7 @@ Licence URI: http://www.os-templates.com/template-terms
             z-index: 999;
             background-color: {{color}};
             color: white;
+            font-size:16px;
             height: 55px;
             width: 55px;
             border: 1px solid #cdcdcd;
@@ -486,10 +510,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .br-icon-book {
             background-color: {{color}};
         }
-        .single-footer-widget ul li a:hover {
-            color: {{color}};
-            text-decoration: unset;
-        }
         .form-login-control:focus {
             color: black;
             border-bottom: 1px solid {{color}} !important;
@@ -497,20 +517,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn-logout:hover {
             background: {{color}};
             opacity: 0.9;
-        }
-        .nice-select:active, .nice-select.open, .nice-select:focus {
-            border-color: {{color}};
-        }
-        .form-select .nice-select .list {
-            margin-top: 0;
-            border: 1px solid {{color}};
-            border-radius: 0px;
-            box-shadow: none;
-            width: 100%;
-            padding: 10px 0px 0px 0px;
-            min-height: 30px;
-            max-height: 150px;
-            overflow-y: scroll;
         }
         .irs-from, .irs-to, .irs-single {
             color: #fff;
@@ -526,6 +532,11 @@ Licence URI: http://www.os-templates.com/template-terms
             color: #fff;
             background-color: {{color}};
             border-color: {{color}};
+        }
+        .btn-primary:hover{
+            background-color: {{color}};
+            border-color: {{color}};
+            opacity:0.8;
         }
         .sticky-tour-active {
             background: {{color}};
@@ -561,17 +572,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .li-activity:hover {
             background-color: white;
-        }
-        .owl-theme .owl-nav [class*=owl-] {
-            color: {{color}};
-            font-size: 20px;
-            margin: 5px;
-            padding: 7px;
-            background: rgba(50,50,50,0.8);
-            text-shadow: 2px 2px black;
-            display: inline-block;
-            cursor: pointer;
-            border-radius: 2px;
         }
         .myticket_static {
             background-color: {{color}};
@@ -620,6 +620,9 @@ Licence URI: http://www.os-templates.com/template-terms
             box-shadow: 0 1px 0 rgba(255,255,255,1), 0 0 2px rgba(0, 0, 0, 0.3) inset;
             cursor: default;
         }
+        .light-theme a:hover, .light-theme li:not(.disabled):not(.active) span:hover{
+            color: {{color}};
+        }
         .sticky-activity-active {
             background: {{color}};
             color: white;
@@ -637,10 +640,6 @@ Licence URI: http://www.os-templates.com/template-terms
             background: white;
             border: 2px solid {{color}};
             color: black;
-        }
-        .form-select .nice-select .list .option:hover {
-            color: {{color}};
-            background: transparent;
         }
         .primary-btn-standard {
             background: #f7f7f7;
@@ -666,11 +665,6 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity: 0.9;
             color: white;
             border: 1px solid #C04B21;
-        }
-        a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
-          color: {{color}};
-          text-decoration: none;
-          background:unset;
         }
         .detail-hotel-box:hover {
             border: 1px solid {{color}} !important;
@@ -698,20 +692,14 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .image-rounded-icon2:hover {
             border: 1px solid {{color}};
-        }
-        a:hover {
             color: {{color}};
         }
         .notif-hover:hover {
             color: {{color}};
             opacity: 0.9;
         }
-
         .form-control:focus {
             border: 1px solid {{color}} !important;
-        }
-        .hover_name:hover {
-            color: #f15a22;
         }
         .hover_name:hover {
             color: {{color}} !important;
@@ -719,13 +707,173 @@ Licence URI: http://www.os-templates.com/template-terms
         .sorting-box-b:hover {
             border: 1px solid {{color}};
         }
-        a {
-            color: {{color}};
-        }
         .badge-notif {
             border: 1px solid {{color}};
             opacity: 0.9;
         }
+        .img_hotel_smallbot:hover{
+            border: 1px solid {{color}};
+        }
+
+        {% if template == 1%}
+        a {
+            color: {{color}};
+        }
+        a:hover {
+            color: {{color}};
+        }
+
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            background-color: rgba(30, 30, 30, 0.9);
+            color: {{color}};
+        }
+        .nav-tabs .nav-link:hover .image-rounded-icon {
+            background:{{color}};
+        }
+        .nav-link.active .image-rounded-icon {
+            background: {{color}};
+        }
+        #myBtnBTP {
+            display: none;
+            position: fixed;
+            bottom: 55px;
+            left: 55px;
+            z-index: 999;
+            font-size: 20px;
+            border: 1px solid gray;
+            outline: none;
+            background-color: {{color}};
+            color: white;
+            cursor: pointer;
+            height: 55px;
+            width: 55px;
+            border-radius: 28px;
+        }
+        #myBtnBTP:hover {
+            background-color: {{color}};
+            opacity: 0.9;
+        }
+        .nav-link.active .image-rounded-icon {
+            background: {{color}};
+        }
+        .form-select .nice-select .list .option.selected {
+            color: {{color}};
+            background: transparent;
+        }
+        .nav-menu li:hover > a {
+            color: {{color}};
+        }
+        .nav-menu ul li:hover > a {
+            color: {{color}};
+        }
+        #mobile-nav ul li a:hover {
+            color: {{color}};
+        }
+        #mobile-nav ul li a:hover {
+            color: {{color}};
+        }
+        .banner-right .form-wrap .form-control:focus {
+            box-shadow: none;
+            border: 1px solid {{color}};
+        }
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px solid #e9ecef;
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+            background-color: {{color}};
+        }
+        .single-footer-widget ul li a:hover {
+            color: {{color}};
+            text-decoration: unset;
+        }
+        .nice-select:active, .nice-select.open, .nice-select:focus {
+            border-color: {{color}};
+        }
+        .form-select .nice-select .list {
+            margin-top: 0;
+            border: 1px solid {{color}};
+            border-radius: 0px;
+            box-shadow: none;
+            width: 100%;
+            padding: 10px 0px 0px 0px;
+            min-height: 30px;
+            max-height: 150px;
+            overflow-y: scroll;
+        }
+        .owl-theme .owl-nav [class*=owl-] {
+            color: {{color}};
+            font-size: 20px;
+            margin: 5px;
+            padding: 7px;
+            background: rgba(50,50,50,0.8);
+            text-shadow: 2px 2px black;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 2px;
+        }
+        .form-select .nice-select .list .option:hover {
+            color: {{color}};
+            background: transparent;
+        }
+        a:not([href]):not([tabindex]):hover, a:not([href]):not([tabindex]):focus {
+          color: {{color}};
+          text-decoration: none;
+          background:unset;
+        }
+        {% elif template == 2%}
+        a:hover{
+            color:{{color}} !
+        }
+        ul.tabs li.current {
+            border-top: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.tabs li:hover {
+            color: {{color}};
+        }
+        .nice-select .option.selected{
+            color: {{color}};
+        }
+        .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
+            color: {{color}};
+        }
+        #scrollUp{
+            background-color: {{color}};
+        }
+        #scrollUp:focus, #scrollUp:hover{
+            background-color: {{color}};
+            opacity:0.8;
+            color: white !important;
+        }
+        .modal-header {
+            background: {{color}};
+        }
+        ul.create_tabs li.current{
+            border-top: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-top: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+            color: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}} !important;
+        }
+        .nice-select:active, .nice-select.open, .nice-select:focus{
+            border-color: {{color}};
+        }
+        {% endif %}
+
     </style>
 
     <script type="text/javascript" >

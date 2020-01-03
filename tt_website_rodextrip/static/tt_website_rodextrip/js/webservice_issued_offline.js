@@ -367,6 +367,9 @@ function check_issued_offline(){
         request["desc"] = document.getElementById('description').value;
         request["counter_passenger"] = counter_passenger;
         request["counter_line"] = counter_line;
+        $('.payment_acq_btn').prop('disabled', true);
+        $('.payment_acq_btn').addClass("running");
+        $("#loading_payment_acq").show();
         issued_offline_signin();
     }else{
          Swal.fire({

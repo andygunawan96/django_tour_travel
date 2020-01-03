@@ -354,10 +354,10 @@
                                         </div>
                                     </div>
                                 </div>
-<!--                                <div class="col-lg-12">-->
-<!--                                    <span>Elapsed Time</span><br/>-->
-<!--                                    <br/>-->
-<!--                                </div>-->
+                                <!--                                <div class="col-lg-12">-->
+                                <!--                                    <span>Elapsed Time</span><br/>-->
+                                <!--                                    <br/>-->
+                                <!--                                </div>-->
                                 <div class="col-lg-12">
                                     <span>Time Limit</span><br/>
                                     <div class="input-container-search-ticket">
@@ -424,9 +424,29 @@
 
                         <div class="col-lg-12" style="margin-top:15px;margin-bottom:15px;">
                             {% include 'tt_website_rodextrip/voucher_code.html'  %} <br/>
-                            <button class="primary-btn" type="button" onclick="check_issued_offline()">SUBMIT</button>
+                            <button class="payment_acq_btn primary-btn ld-ext-right" type="button" onclick="check_issued_offline()">
+                                SUBMIT
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
                         </div>
                         <div class="col-lg-12" style="padding-bottom:20px;">
+                            <div id="loading_payment_acq" style="display:none;">
+                                <div class="sk-circle">
+                                    <div class="sk-circle1 sk-child"></div>
+                                    <div class="sk-circle2 sk-child"></div>
+                                    <div class="sk-circle3 sk-child"></div>
+                                    <div class="sk-circle4 sk-child"></div>
+                                    <div class="sk-circle5 sk-child"></div>
+                                    <div class="sk-circle6 sk-child"></div>
+                                    <div class="sk-circle7 sk-child"></div>
+                                    <div class="sk-circle8 sk-child"></div>
+                                    <div class="sk-circle9 sk-child"></div>
+                                    <div class="sk-circle10 sk-child"></div>
+                                    <div class="sk-circle11 sk-child"></div>
+                                    <div class="sk-circle12 sk-child"></div>
+                                </div>
+                                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                            </div>
                             <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
 
                             </div>
