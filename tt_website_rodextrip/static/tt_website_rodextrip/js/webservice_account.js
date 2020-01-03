@@ -553,7 +553,6 @@ function get_transactions(type){
                     offset_transaction++;
                     table_reservation(msg.result.response[filter]);
                     load_more = true;
-                    console.log('lalala');
                     document.getElementById('reservation_found').style.display = 'none';
 //                    $('#reservation_found').hide();
                 }else{
