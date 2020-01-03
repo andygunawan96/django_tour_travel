@@ -300,7 +300,7 @@ def update_contact(request):
             logging.getLogger("info_logger").info("SUCCESS update_contact_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_contact_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
-    except:
+    except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -410,7 +410,7 @@ def update_passenger(request):
             logging.getLogger("info_logger").info("SUCCESS update_passenger_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_passenger_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
-    except:
+    except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -443,7 +443,7 @@ def commit_booking(request):
             logging.getLogger("info_logger").info("SUCCESS commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
         else:
             logging.getLogger("error_logger").error("ERROR commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
-    except:
+    except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -466,6 +466,6 @@ def get_history_issued_offline(request):
             logging.getLogger("info_logger").info("SUCCESS get_history_issued_offline SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_history_issued_offline SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except:
+    except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

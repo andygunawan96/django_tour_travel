@@ -493,6 +493,18 @@ def get_booking(request):
     try:
         request.session['hotel_provision'] = res
         if res['result']['error_code'] == 0:
+            res['result']['response'].update({
+                'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
+                'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
+            })
+            for room in res['result']['response']['hotel_rooms']:
+                room.update({
+                    'date': convert_string_to_date_to_string_front_end_with_date(room['date'].split(' ')[0])
+                })
+            for pax in res['result']['response']['passengers']:
+                pax.update({
+                    'birth_date': convert_string_to_date_to_string_front_end(pax['birth_date'])
+                })
             logging.getLogger("info_logger").info("get_booking_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
             logging.getLogger("error_logger").error("get_booking_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
