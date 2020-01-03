@@ -448,13 +448,13 @@ function radio_button(type,val){
         get_passenger_cache();
     }
     else if(value == 'search' && type == 'booker'){
-        document.getElementById('booker_search').hidden = false;
+        document.getElementById('train_booker_search_div').hidden = false;
         document.getElementById('booker_input').hidden = true;
     }else if(value == 'create' && type == 'booker'){
-        document.getElementById('booker_search').hidden = true;
+        document.getElementById('train_booker_search_div').hidden = true;
         document.getElementById('booker_input').hidden = false;
     }else if(value == 'chosen' && type == 'booker'){
-        document.getElementById('booker_search').hidden = true;
+        document.getElementById('train_booker_search_div').hidden = true;
         document.getElementById('booker_input').hidden = true;
     }else if(value == 'search' && type == 'passenger'){
         document.getElementById('passenger_search'+val).hidden = false;

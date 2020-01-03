@@ -1530,7 +1530,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <a href="#" class="primary-btnn disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
+                                                    <a href="#" class="primary-btn disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
                                                 </div>
                                             </div>
                                         </div>

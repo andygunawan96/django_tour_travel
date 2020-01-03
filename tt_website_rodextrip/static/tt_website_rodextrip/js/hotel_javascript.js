@@ -1766,7 +1766,9 @@ function delete_checked_copy_result(id){
 }
 
 function copy_data(){
-    get_checked_copy_result();
+    try{
+        get_checked_copy_result();
+    }catch(err){}
     document.getElementById('data_copy').innerHTML = $text;
     document.getElementById('data_copy').hidden = false;
     var el = document.getElementById('data_copy');

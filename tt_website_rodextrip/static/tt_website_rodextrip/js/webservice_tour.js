@@ -976,10 +976,6 @@ function tour_issued_booking(order_number)
     });
 }
 
-function show_repricing(){
-    $("#myModalRepricing").modal();
-}
-
 function update_service_charge(){
     upsell = []
     for(i in tr_get_booking.result.response.passengers){

@@ -3573,10 +3573,6 @@ function gotoForm(){
     document.getElementById('airline_searchForm').submit();
 }
 
-function show_repricing(){
-    $("#myModalRepricing").modal();
-}
-
 function sell_after_sales(){
     if(after_sales_type == 'ssr'){
         sell_ssrs_after_sales();
