@@ -410,53 +410,23 @@ def booking(request):
         template, logo, color, name, desc, background = get_logo_template()
 
         try:
-            resv_obj = json.loads(request.POST['result'])['result']['response']
+            order_number = request.POST['order_number']
+            request.session['hotel_order_number'] = request.POST['order_number']
         except:
-            resv_obj = False
-
-        try:
-            order_number = resv_obj['booking_name']
-            request.session['hotel_detail'] = resv_obj['booking_name']
-        except:
-            order_number = request.session['hotel_detail']
-        if resv_obj:
-            values = {
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'username': request.session['user_account'],
-                # 'co_uid': request.session['co_user_name'],
-                'javascript_version': javascript_version,
-                'logo': logo,
-                'template': template,
-                'order_number': order_number,
-                'booking_name': resv_obj['booking_name'],
-                'pnrs': resv_obj['pnrs'],
-                'rooms': resv_obj['hotel_rooms'],
-                'static_path_url_server': get_url_static_path(),
-                'passengers': resv_obj['passengers'],
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
-            }
-            return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
-        else:
-            # TODO Ubah state booking jadi in process
-            # TODO setelah 5 menit cek dari BE
-            # TODO Jika state masih blum DONE get booking from vendor
-            values = {
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'username': request.session['user_account'],
-                # 'co_uid': request.session['co_user_name'],
-                'javascript_version': javascript_version,
-                'order_number': order_number,
-                'static_path_url_server': get_url_static_path(),
-                'logo': logo,
-                'template': template,
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
-            }
-            return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
+            order_number = request.session['hotel_order_number']
+        values = {
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'],
+            'order_number': order_number,
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+            'logo': logo,
+            'template': template,
+            'color': color,
+            'desc': desc.split('\n'),
+            'name': name,
+            'background': background
+        }
+        return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
     else:
         return no_session_logout(request)

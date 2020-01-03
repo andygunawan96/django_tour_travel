@@ -266,12 +266,11 @@ function update_table(type){
                 $text += visa.list_of_visa[i].pax_type[1]+ ' ' + visa.list_of_visa[i].visa_type[1] + ' ' + visa.list_of_visa[i].entry_type[1] + ' ' + visa.list_of_visa[i].type.process_type[1] + ' ' + visa.list_of_visa[i].type.duration + ' day(s)' + '\n\n';
                 $text += 'Consulate Address :\n';
                 $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
-
-                if(visa[i].notes.length != 0){
+                if(visa.list_of_visa[i].notes.length != 0){
                     $text += 'Visa Requirement:\n';
 
-                    for(j in visa[i].notes){
-                        $text += visa[i].notes[j] + '\n';
+                    for(j in visa.list_of_visa[i].notes){
+                        $text += visa.list_of_visa[i].notes[j] + '\n';
 //                        if(visa[i].requirements[j].description){
 //                            if(visa[i].requirements[j].description != "-"){
 //                                $text += ': ' + visa[i].requirements[j].description;
@@ -383,11 +382,11 @@ function update_table(type){
                 $text += 'Consulate Address :\n';
                 $text += visa.list_of_visa[i].consulate.address + ', ' + visa.list_of_visa[i].consulate.city + '\n\n';
 
-                if(visa[i].notes.length != 0){
+                if(visa.list_of_visa[i].notes.length != 0){
                     $text += 'Visa Requirement:\n';
 
-                    for(j in visa[i].notes){
-                        $text += visa[i].notes[j] + '\n';
+                    for(j in visa.list_of_visa[i].notes){
+                        $text += visa.list_of_visa[i].notes[j] + '\n';
 //                        if(visa[i].requirements[j].description){
 //                            if(visa[i].requirements[j].description != "-"){
 //                                $text += ': ' + visa[i].requirements[j].description;
@@ -1324,10 +1323,6 @@ function check_before_add_repricing(){
         add_table_of_equation();
     else
         alert('Please fill all visa type, entry type, and process type!');
-}
-
-function show_repricing(){
-    $("#myModalRepricing").modal();
 }
 
 function share_data(){

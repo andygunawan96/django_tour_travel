@@ -137,8 +137,6 @@ def passenger(request):
     request.session['visa_passenger'] = pax
     request.session['visa_search'] = list_visa
     list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
-    for visa in list_of_visa['list_of_visa']:
-        del visa['notes']
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
     values = {
@@ -346,8 +344,6 @@ def review(request):
                     count = count + 1
 
         list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
-        for visa in list_of_visa['list_of_visa']:
-            del visa['notes']
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

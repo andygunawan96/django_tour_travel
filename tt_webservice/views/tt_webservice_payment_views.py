@@ -94,7 +94,7 @@ def get_payment_acquirer(request):
             logging.getLogger("info_logger").info("SUCCESS get_payment_acquirer_payment " + request.POST['type'] + " SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_payment_acquirer_payment " + request.POST['type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except:
+    except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     if res['result']['error_code'] == 0:
         pass

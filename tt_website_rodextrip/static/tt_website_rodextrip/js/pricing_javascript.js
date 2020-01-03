@@ -32,6 +32,11 @@ FORMAT DASAR
     price --> list of Dict --> price:{'adult':{'fare':1000,'tax':1000,'total':1000}}
     price berisi list of pax --> pax berisi list of price yang di pakai sesuai yang dipakai
 */
+
+function show_repricing(){
+    $("#myModalRepricing").modal();
+}
+
 function add_table_of_equation(){
     text= '';
     var node = document.createElement("div");

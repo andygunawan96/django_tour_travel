@@ -571,7 +571,10 @@ We build this application for our existing partner and public users who register
             elif idx == 3:
                 website_name = line
             elif idx == 4:
-                website_description = '\n'.join(line.split('<br>'))
+                if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
+                    website_description = '\n'.join(line.split('<br>')[:-1])
+                else:
+                    website_description = '\n'.join(line.split('<br>'))
             elif idx == 5 and type == 'home':
                 background = line
             elif idx == 6 and type == 'login':

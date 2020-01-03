@@ -131,7 +131,7 @@ def get_promotions(request):
             logging.getLogger("info_logger").info("SUCCESS get_promotion_agent_regis SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_promotion_agent_regis SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except:
+    except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
@@ -159,7 +159,7 @@ def register(request):
             logging.getLogger("info_logger").info("SUCCESS create_agent_agent_regis SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR create_agent_agent_regis SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except:
+    except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return res

@@ -1686,10 +1686,6 @@ function update_contact_cp(val){
     }
 }
 
-function show_repricing(){
-    $("#myModalRepricing").modal();
-}
-
 function share_data(){
     const el = document.createElement('textarea');
     el.value = $text;

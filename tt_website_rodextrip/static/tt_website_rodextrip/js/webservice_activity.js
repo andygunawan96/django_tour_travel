@@ -1235,10 +1235,6 @@ function copy_data(){
     })
 }
 
-function show_repricing(){
-    $("#myModalRepricing").modal();
-}
-
 function update_service_charge(){
     upsell = []
     for(i in act_get_booking.result.response.passengers){
