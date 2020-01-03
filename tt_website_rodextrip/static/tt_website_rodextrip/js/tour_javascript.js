@@ -1498,7 +1498,7 @@ function sort(tour_dat, exist_check){
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
-                                                    <a href="#" class="btn btn-primary" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1530,7 +1530,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <a href="#" class="btn roberto-btn disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
+                                                    <a href="#" class="primary-btnn disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -1558,7 +1558,7 @@ function sort(tour_dat, exist_check){
                                                 <div class="col-lg-12" style="text-align:right;">
                                                     <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
                                                     <br/>
-                                                    <a href="#" class="btn roberto-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</a>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
                                                 </div>
                                             </div>
                                         </div>

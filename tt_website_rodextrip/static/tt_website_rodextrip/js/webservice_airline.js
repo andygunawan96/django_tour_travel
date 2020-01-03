@@ -3171,6 +3171,7 @@ function airline_get_booking(data){
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline booking </span>' + msg.result.error_msg,
                 })
+                $('#show_loading_booking_airline').hide();
                 $('.loader-rodextrip').fadeOut();
            }
        },

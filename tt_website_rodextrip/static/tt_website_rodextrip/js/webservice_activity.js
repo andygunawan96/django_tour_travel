@@ -355,7 +355,7 @@ function activity_search(){
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`  </span>
-                                                        <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</a>
+                                                        <button type="button" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -386,7 +386,7 @@ function activity_search(){
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`</span><br/>
-                                                        <a href="#" class="btn roberto-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</a>
+                                                        <a href="#" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</a>
                                                     </div>
                                                 </div>
                                             </div>

@@ -1047,7 +1047,9 @@ function check_top_up(){
             console.log(result);
           if (result.value) {
             $('.loader-rodextrip').fadeIn();
-
+            $('.payment_acq_btn').prop('disabled', true);
+            $('.payment_acq_btn').addClass("running");
+            $("#loading_payment_acq").show();
             submit_top_up();
 
           }else{
