@@ -45,8 +45,59 @@ function table_reservation(data){
         else{
             text+= `<td>`+data[i].issued_uid+`</td>`;
         }
+        if(data[i].provider_type == 'offline'){
+            text+= `<td>`;
+            if(data[i].state == 'booked' || data[i].state == 'issued'){
+                text+=
+                    `<a class="issued-booking-train ld-ext-right" style="color:white;">
+                        <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                        <div class="ld ld-ring ld-cycle"></div>
+                    </a>
+                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                        <div class="modal-dialog">
 
-        if(data[i].state != 'fail_booking' && data[i].order_number.split('.')[0] != 'RO')
+                          <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" style="color:white">Invoice</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <span class="control-label" for="Name">Name</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <span class="control-label" for="Address">Address</span>
+                                            <div class="input-container-search-ticket">
+                                                <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div style="text-align:right;">
+                                        <span>Don't want to edit? just submit</span>
+                                        <br/>
+                                        <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+data[i].order_number+`', 'invoice','`+data[i].provider_type+`');"/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+            if(data[i].state == 'issued')
+            text+=`
+                    <!--<input type='button' value='Search' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)" />-->
+                    <!--<input type='button' value='Search' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)" />-->
+                    </td>`;
+        }else if(data[i].state != 'fail_booking')
             text+= `<td><input type='button' value='Search' class="primary-btn-custom" onclick="goto_detail_reservation(`+data_counter+`)" /></td>`;
         else{
             text+= `<td> - </td>`;

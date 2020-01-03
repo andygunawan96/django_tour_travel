@@ -811,6 +811,8 @@ function commit_booking(){
                document.getElementById('description').value = '';
                document.getElementById('social_media').value = '';
                document.getElementById('total_sale_price').value = '';
+               document.getElementById('contact_person').value = '';
+               document.getElementById('timelimit').value = '';
 
                //booker
                document.getElementsByName('radio-booker-type')[0].checked = true;

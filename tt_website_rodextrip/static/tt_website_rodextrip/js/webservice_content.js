@@ -117,8 +117,6 @@ function set_inactive_delete_banner(){
 
 
 function get_banner(type,page){
-    console.log(type);
-    console.log(page);
     getToken();
     $.ajax({
        type: "POST",
