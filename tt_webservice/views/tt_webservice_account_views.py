@@ -288,13 +288,7 @@ def get_top_up(request):
 def submit_top_up(request):
     try:
         data = {
-            # 'name': 'New',
-            # 'currency_code': request.POST['currency_code'],
             'amount': request.POST['amount'],
-            # 'amount_count': int(request.POST['amount_count']),
-            # 'unique_amount': int(request.POST['unique_amount']),
-            # 'payment_seq_id': request.POST['seq_id'],
-            # 'fees': 0,
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
