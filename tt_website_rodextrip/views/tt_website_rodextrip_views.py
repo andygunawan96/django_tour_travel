@@ -584,7 +584,8 @@ We build this application for our existing partner and public users who register
         if color == '':
             color = '#f15a22'
         file.close()
-        background = background.split('\n')[0]
+        if len(background.split('\n')) > 1:
+            background = background.split('\n')[0]
     except:
         pass
     return template, logo, color, website_name, website_description, background
