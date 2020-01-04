@@ -48,6 +48,7 @@ $(document).ready(function(){
         if ($(".ld-over-full-inverse").hasClass("running")) {
             $(".ld-over-full-inverse").removeClass("running");
         }
+        $(".bx-livechat-head").removeAttr("style");
     });
 
     $(".img-min-ticket").hide();

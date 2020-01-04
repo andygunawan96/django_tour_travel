@@ -161,6 +161,11 @@ Licence URI: http://www.os-templates.com/template-terms
         .b24-widget-button-pulse{
             border-color: {{color}} !important;
         }
+
+        .bx-livechat-head{
+            background-color: {{color}} !important;
+        }
+
         .radio-button-custom input:checked ~ .checkmark-radio {
             background-color: {{color}} !important;
         }
@@ -714,6 +719,16 @@ Licence URI: http://www.os-templates.com/template-terms
         .img_hotel_smallbot:hover{
             border: 1px solid {{color}};
         }
+        .select2-container--default .select2-search--dropdown .select2-search__field{
+            border: 1px solid {{color}};
+        }
+        .button-seat-pass-cancel{
+            background: #f73a16 !important;
+        }
+
+        .button-seat-pass-cancel:hover{
+            background: #e04022 !important;
+        }
 
         {% if template == 1%}
         a {
@@ -775,6 +790,7 @@ Licence URI: http://www.os-templates.com/template-terms
         .banner-right .form-wrap .form-control:focus {
             box-shadow: none;
             border: 1px solid {{color}};
+            outline:unset;
         }
         .modal-header {
             display: flex;
@@ -826,7 +842,7 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         {% elif template == 2%}
         a:hover{
-            color:{{color}} !
+            color:{{color}};
         }
         ul.tabs li.current {
             border-top: 5px solid {{color}};
@@ -867,10 +883,28 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
         .owl-theme .owl-nav [class*=owl-]{
-            background: {{color}} !important;
+            background: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}};
         }
         .nice-select:active, .nice-select.open, .nice-select:focus{
             border-color: {{color}};
+        }
+        .classy-nav-container .classy-navbar .classynav ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li a:hover{
+            color: {{color}};
+        }
+        .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.cn-dropdown-item ul li a:hover, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:focus, .classy-nav-container .classy-navbar .classynav ul li.megamenu-item ul li a:hover {
+            color: {{color}};
+        }
+        .image-rounded-icon{
+            background: {{color}};
+        }
+        .image-rounded-icon:hover{
+            border: 2px solid {{color}};
+        }
+        .horizontal-arrow:hover{
+            color: {{color}} !important;
         }
         {% endif %}
 

@@ -2070,7 +2070,7 @@ function sort(activity_dat, check){
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
                                                 <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`  </span>
-                                                <a href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</a>
+                                                <button href="#" class="btn btn-primary" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>
                                         </div>
                                     </div>
@@ -2101,7 +2101,7 @@ function sort(activity_dat, check){
                                             </div>
                                             <div class="col-lg-12" style="text-align:right;">
                                                 <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_dat[i].activity_price)+`</span><br/>
-                                                <a href="#" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</a>
+                                                <button href="#" class="primary-btn" onclick="go_to_detail('`+activity_dat[i].sequence+`')">BUY</button>
                                             </div>
                                         </div>
                                     </div>

@@ -1876,7 +1876,7 @@ function set_passenger_seat_map_airline(val){
             text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
         }
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass" type="button" id="cancel_seat`+i+`" style="width: 30%; background: rgb(241, 90, 34); padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat`+i+`" style="width: 30%; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
     }
     document.getElementById('passenger'+(passenger_pick+1)).style.background = 'white';
     document.getElementById('passenger'+(passenger_pick+1)).style.color = 'black';
@@ -1905,7 +1905,7 @@ function set_first_passenger_seat_map_airline(val){
             text+=`<span>`+passengers[val].seat_list[i].description[j]+`</span><br/>`;
         }
         if(passengers[val].seat_list[i].seat_name != '')
-            text+= `<input class="button-seat-pass" type="button" id="cancel_seat" style="width: 30%; background: rgb(241, 90, 34); padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
+            text+= `<input class="button-seat-pass button-seat-pass-cancel" type="button" id="cancel_seat" style="width: 30%; background: #f15a22; padding: 10px; margin-right: 10px; text-align: center; margin-bottom: 10px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white;" onclick="set_cancel_seat(`+i+`);" value="Cancel Seat">`;
     }
     document.getElementById('passenger'+(val+1)).style.background = color;
     document.getElementById('passenger'+(val+1)).style.color = 'white';

@@ -386,7 +386,7 @@ function activity_search(){
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
                                                         <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(activity_data[i].activity_price)+`</span><br/>
-                                                        <a href="#" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</a>
+                                                        <button href="#" class="primary-btn" onclick="go_to_detail('`+activity_data[i].sequence+`')">BUY</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -661,7 +661,7 @@ function activity_get_price(val, bool){
         document.getElementById('date').innerHTML = `
             <div class="col-lg-6 form-group departure_date">
                 <label id="departure_date_activity_label" for="activity_date"><span style="color:red;">* </span><i class="fas fa-calendar-alt"></i> Visit Date</label>
-                <input id="activity_date" name="activity_date" onchange="activity_get_price_date(`+activity_type_pick+`, `+pricing_days+`);" class="form-control" style="margin-bottom:unset;" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
+                <input id="activity_date" name="activity_date" onchange="activity_get_price_date(`+activity_type_pick+`, `+pricing_days+`);" class="form-control" style="margin-bottom:unset; background:white;" type="text" placeholder="Please Select a Date" autocomplete="off" readonly/>
                 <div id="activity_date_desc"></div>
             </div>
        `;

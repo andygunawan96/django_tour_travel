@@ -1331,11 +1331,11 @@ function hotel_room_pick_button(){
         }
     text +=`</div>`;
     text += `<div class="col-lg-12">
-        <input class="primary-btn-standard" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+        <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
     </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
-        <input class="primary-btn-standard" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
+        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
     </div>`;
     if(agent_security.includes('book_reservation') == true){
     text += `<div class="col-lg-12">`;
@@ -1547,7 +1547,7 @@ function hotel_detail(){
             }
         text +=`</div>`;
         text += `<div class="col-lg-12">
-            <input class="primary-btn-standard" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+            <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
         </div>`;
         text += `
         <div class="col-lg-12" style="padding-top:10px;">
