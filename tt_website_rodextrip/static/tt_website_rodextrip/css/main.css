@@ -3345,6 +3345,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 .banner-right .form-wrap .form-control:focus {
   box-shadow: none;
   border: 1px solid #f15a22;
+  outline:unset;
 }
 
 @media (max-width: 1024px) {

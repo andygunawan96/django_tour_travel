@@ -253,7 +253,7 @@ function tour_search(){
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <a href="#" class="primary-btn" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</a>
+                                                            <button href="#" class="primary-btn" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
