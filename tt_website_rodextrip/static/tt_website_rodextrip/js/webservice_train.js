@@ -321,7 +321,6 @@ function train_get_booking(data){
        },
        success: function(msg) {
        console.log(msg);
-
         if(msg.result.error_code == 0){
             train_get_detail = msg;
             if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued'){
@@ -644,10 +643,16 @@ function train_get_booking(data){
                                             </div>
                                             <div class="modal-body">
                                                 <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                         <span class="control-label" for="Name">Name</span>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <span class="control-label" for="Additional Information">Additional Information</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -993,6 +998,25 @@ function train_issued(data){
                    document.getElementById('voucher_discount').style.display = 'none';
                    $("#waitingTransaction").modal('hide');
                    train_get_booking(msg.result.response.order_number);
+               }else if(msg.result.error_code == 1009){
+                   price_arr_repricing = {};
+                   pax_type_repricing = [];
+                   document.getElementById('show_loading_booking_train').hidden = false;
+                   document.getElementById('train_booking').innerHTML = '';
+                   document.getElementById('train_detail').innerHTML = '';
+                   document.getElementById('payment_acq').innerHTML = '';
+                   document.getElementById('show_loading_booking_train').style.display = 'block';
+                   document.getElementById('show_loading_booking_train').hidden = false;
+                   document.getElementById('payment_acq').hidden = true;
+                   document.getElementById("overlay-div-box").style.display = "none";
+                   document.getElementById('voucher_discount').style.display = 'none';
+                   $("#waitingTransaction").modal('hide');
+                   train_get_booking(data);
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error train issued </span>' + msg.result.error_msg,
+                    })
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     logout();
                }else{

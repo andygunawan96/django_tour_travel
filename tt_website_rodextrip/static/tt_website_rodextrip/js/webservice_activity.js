@@ -1180,17 +1180,38 @@ function activity_issued_booking(order_number)
        },
        success: function(msg) {
            console.log(msg);
-           var booking_num = msg.result.response.order_number;
-           if (booking_num)
-           {
-               activity_get_booking(booking_num);
+           if(msg.result.error_code == 0){
+               var booking_num = msg.result.response.order_number;
+               if (booking_num)
+               {
+                   activity_get_booking(booking_num);
+                   document.getElementById('payment_acq').innerHTML = '';
+                   document.getElementById('payment_acq').hidden = true;
+                   document.getElementById("overlay-div-box").style.display = "none";
+                   $("#waitingTransaction").modal('hide');
+               }
+           }else if(msg.result.error_code == 1009){
+               price_arr_repricing = {};
+               pax_type_repricing = [];
+               document.getElementById('activity_final_info').innerHTML = '';
+               document.getElementById('product_title').innerHTML = '';
+               document.getElementById('product_visit_date').innerHTML = '';
+               document.getElementById('repricing_div').innerHTML = '';
+               document.getElementById('activity_detail_table').innerHTML = '';
                document.getElementById('payment_acq').innerHTML = '';
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
                $("#waitingTransaction").modal('hide');
-           }
-           else
-           {
+               activity_get_booking(order_number);
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error activity issued booking </span>' + msg.result.error_msg,
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $("#waitingTransaction").modal('hide');
+           }else{
                Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -1637,10 +1658,16 @@ function activity_get_booking(data){
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <span class="control-label" for="Name">Name</span>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <span class="control-label" for="Additional Information">Additional Information</span>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -1692,10 +1719,16 @@ function activity_get_booking(data){
                                     </div>
                                     <div class="modal-body">
                                         <div class="row">
-                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                 <span class="control-label" for="Name">Name</span>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <span class="control-label" for="Additional Information">Additional Information</span>
+                                                <div class="input-container-search-ticket">
+                                                    <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
