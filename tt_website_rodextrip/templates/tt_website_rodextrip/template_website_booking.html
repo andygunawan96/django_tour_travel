@@ -911,20 +911,8 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
 
     <script type="text/javascript" >
-    /*{% if order_number %}
-        window.onbeforeunload = function () {
-            return "Do you want to leave?"
-        }
-
-        // A jQuery event (I think), which is triggered after "onbeforeunload"
-        $(window).unload(function () {
-            alert("Do Reset..");
-            //I will call my method
-            window.location.href = '/';
-        });
-    {% endif %}*/
     template = {{template}};
-   </script>
+    </script>
     <script src="{{ static_path }}js/auto-complete.js?version={{javascript_version}}"></script>
 </head>
 <script>

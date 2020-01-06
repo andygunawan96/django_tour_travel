@@ -348,13 +348,16 @@ def admin(request):
                         text += '\n'
                 except:
                     check = 0
-                    file = open(var_log_path() + "data_cache_template.txt", "r")
-                    for idx, line in enumerate(file):
-                        if idx == 5:
-                            text += line
-                            check = 1
-                            break
-                    file.close()
+                    try:
+                        file = open(var_log_path() + "data_cache_template.txt", "r")
+                        for idx, line in enumerate(file):
+                            if idx == 5:
+                                text += line
+                                check = 1
+                                break
+                        file.close()
+                    except:
+                        pass
                     if check == 0:
                         text += '\n'
                 try:
@@ -366,13 +369,16 @@ def admin(request):
                         text += '\n'
                 except:
                     check = 0
-                    file = open(var_log_path() + "data_cache_template.txt", "r")
-                    for idx, line in enumerate(file):
-                        if idx == 6:
-                            text += line
-                            check = 1
-                            break
-                    file.close()
+                    try:
+                        file = open(var_log_path() + "data_cache_template.txt", "r")
+                        for idx, line in enumerate(file):
+                            if idx == 6:
+                                text += line
+                                check = 1
+                                break
+                        file.close()
+                    except:
+                        pass
                     if check == 0:
                         text += '\n'
 
@@ -384,13 +390,16 @@ def admin(request):
                         text += base64.b64encode(request.FILES['fileBackgroundSearch'].read()).decode("utf-8")
                 except:
                     check = 0
-                    file = open(var_log_path() + "data_cache_template.txt", "r")
-                    for idx, line in enumerate(file):
-                        if idx == 7:
-                            text += line
-                            check = 1
-                            break
-                    file.close()
+                    try:
+                        file = open(var_log_path() + "data_cache_template.txt", "r")
+                        for idx, line in enumerate(file):
+                            if idx == 7:
+                                text += line
+                                check = 1
+                                break
+                        file.close()
+                    except:
+                        pass
                     if check == 0:
                         text += '\n'
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
