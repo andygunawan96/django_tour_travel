@@ -941,17 +941,31 @@ function tour_issued_booking(order_number)
        },
        success: function(msg) {
            console.log(msg);
-           var booking_num = msg.result.response.order_number;
-           if (booking_num)
-           {
-               tour_get_booking(booking_num);
+           if(msg.result.error_code == 0){
+               var booking_num = msg.result.response.order_number;
+               if (booking_num)
+               {
+                   tour_get_booking(booking_num);
+                   document.getElementById('payment_acq').innerHTML = '';
+                   document.getElementById('payment_acq').hidden = true;
+                   $("#issuedModal").modal('hide');
+                   $("#waitingTransaction").modal('hide');
+                   document.getElementById("overlay-div-box").style.display = "none";
+               }
+           }else if(msg.result.error_code == 1009){
+               price_arr_repricing = {};
+               pax_type_repricing = [];
                document.getElementById('payment_acq').innerHTML = '';
                document.getElementById('payment_acq').hidden = true;
                $("#issuedModal").modal('hide');
                $("#waitingTransaction").modal('hide');
                document.getElementById("overlay-div-box").style.display = "none";
-           }
-           else
+               document.getElementById('tour_final_info').innerHTML = text;
+               document.getElementById('product_title').innerHTML = '';
+               document.getElementById('product_type_title').innerHTML = '';
+               document.getElementById('tour_detail_table').innerHTML = '';
+               tour_get_booking(order_number);
+           }else
            {
                Swal.fire({
                   type: 'error',
@@ -1299,10 +1313,16 @@ function tour_get_booking(order_number)
                                         </div>
                                         <div class="modal-body">
                                             <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                                     <span class="control-label" for="Name">Name</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                    <span class="control-label" for="Additional Information">Additional Information</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
