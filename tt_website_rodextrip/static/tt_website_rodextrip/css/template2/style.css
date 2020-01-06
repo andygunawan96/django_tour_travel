@@ -122,7 +122,7 @@ ul {
     top: 0;
     left: 0;
     z-index: -1;
-    background-color: rgba(14, 39, 55, 0.7); }
+    background-color: rgba(14, 39, 55, 0.5); }
 
 .bg-img {
   background-position: center center !important;
@@ -4103,9 +4103,12 @@ display: block;
 }
 
 .primary-btn-custom:disabled {
-  background: #f5f5f5;
+  background: #f7f7f7 !important;
   cursor: not-allowed;
+  color: #a6a5a2;
+  border: 1px solid #cdcdcd;
 }
+
 
 .primary-btn-custom-un {
   background: #C04B21;

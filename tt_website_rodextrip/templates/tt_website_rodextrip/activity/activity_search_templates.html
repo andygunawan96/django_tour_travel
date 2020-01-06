@@ -28,6 +28,11 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
+{% if query %}
+<title id="title_search">{{name}} Activity - {{query}}</title>
+{% else %}
+<title id="title_search">{{name}} Activity - All Activities</title>
+{% endif %}
 
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
     <span style="color:white; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
@@ -90,8 +95,8 @@
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -219,8 +224,8 @@
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                                     <span style="color:white;">&nbsp;</span>
                                     <div class="input-container-search-ticket">
-                                        <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                        <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                        <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                        <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                     </div>
                                 </div>
                             </div>

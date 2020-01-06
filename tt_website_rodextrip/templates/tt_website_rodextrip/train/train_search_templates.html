@@ -34,6 +34,13 @@
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
+{%if train_request.direction == 'OW'%}
+<title id="title_search">{{name}} Train - One Way From {{train_request.origin.0}} To {{train_request.destination.0}}</title>
+{% endif %}
+
+{%if train_request.direction == 'RT'%}
+<title id="title_search">{{name}} Train - Round Trip From {{train_request.origin.0}} To {{train_request.destination.0}}</title>
+{% endif %}
 
 {%if template == 1%}
 <section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">

@@ -72,8 +72,10 @@
     session_time_limit();
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
-
 {% include 'tt_website_rodextrip/loading_screen.html' %}
+
+<title>{{name}} Airline - Passenger</title>
+
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -2143,7 +2145,7 @@
                                         <label style="color:red">*</label>
                                         <label>Birth Date</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            <input type="text" class="form-control date-picker-birth" style="background:white;" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                         </div>
                                     </div>
@@ -2366,7 +2368,7 @@
                                         <label style="color:red">*</label>
                                         <label>Birth Date</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            <input type="text" class="form-control date-picker-birth" style="background:white;" name="child_birth_date{{forloop.counter}}" id="child_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                             <input type="hidden" class="form-control" name="child_years_old{{forloop.counter}}" id="child_years_old{{forloop.counter}}">
                                         </div>
                                     </div>
@@ -2557,7 +2559,7 @@
                                         <label style="color:red">*</label>
                                         <label>Birth Date</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                            <input type="text" class="form-control date-picker-birth" style="background:white;" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">

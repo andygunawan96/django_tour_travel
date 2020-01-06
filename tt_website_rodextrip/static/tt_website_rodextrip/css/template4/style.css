@@ -3209,8 +3209,10 @@ display: block;
 }
 
 .primary-btn-custom:disabled {
-  background: #f5f5f5;
+  background: #f7f7f7 !important;
   cursor: not-allowed;
+  color: #a6a5a2;
+  border: 1px solid #cdcdcd;
 }
 
 .primary-btn-custom-un {

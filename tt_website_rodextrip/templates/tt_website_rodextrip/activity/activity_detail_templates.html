@@ -82,6 +82,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
+<title id="title_search">{{name}} Activity - {{response.name}}</title>
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 
 {%if template == 1%}
@@ -137,8 +138,8 @@
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -265,8 +266,8 @@
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
