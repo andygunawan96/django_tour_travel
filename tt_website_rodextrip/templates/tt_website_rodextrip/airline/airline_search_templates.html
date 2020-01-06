@@ -72,6 +72,22 @@
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 <div id="overlay-search-box" onclick="off_overlay()"></div>
+{%if airline_request.direction == 'OW'%}
+<title id="title_search">{{name}} Airline - One Way</title>
+{% endif %}
+
+{%if airline_request.direction == 'RT' and airline_request.is_combo_price == 'true' %}
+<title id="title_search">{{name}} Airline - Round Trip (Combo Price)</title>
+{%elif airline_request.direction == 'RT' and airline_request.is_combo_price == 'false' %}
+<title id="title_search">{{name}} Airline - Round Trip</title>
+{% endif %}
+
+{%if airline_request.direction == 'MC' and airline_request.is_combo_price == 'true' %}
+<title id="title_search">{{name}} Airline - Multi City (Combo Price)</title>
+{%elif airline_request.direction == 'MC' and airline_request.is_combo_price == 'false' %}
+<title id="title_search">{{name}} Airline - Multi City</title>
+{% endif %}
+
 {%if template == 1%}
 <section class="destinations-area change_search_area" style="padding:7px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div class="container" id="airline_search_params">
@@ -532,7 +548,7 @@
 </section>
 
 {% elif template == 3 %}
-<section class="change_search_area" style="padding:9px 0px 9px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="change_search_area" style="padding:9px 0px 9px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:100;">
     <div class="container">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-8 col-md-8 {% else %} col-lg-8 col-md-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
@@ -567,17 +583,17 @@
                     <div class="row">
                         <div class="col-lg-12" id="radio_airline_change_search" style="text-align:left;margin-bottom:10px;">
                             <label class="radio-button-custom">
-                                <span style="font-size:14px;">One Way</span>
+                                <span style="font-size:14px; color:white;">One Way</span>
                                 <input type="radio" {%if airline_request.direction == 'OW' %} checked="checked" {% endif %} name="radio_airline_type" id="radio_airline_ow" value="oneway">
                                 <span class="checkmark-radio"></span>
                             </label>
                             <label class="radio-button-custom">
-                                <span style="font-size:14px;">Round-trip</span>
+                                <span style="font-size:14px; color:white;">Round-trip</span>
                                 <input type="radio" name="radio_airline_type" {%if airline_request.direction == 'RT' %} checked="checked" {% endif %} id="radio_airline_rt" value="roundtrip">
                                 <span class="checkmark-radio"></span>
                             </label>
                             <label class="radio-button-custom">
-                                <span style="font-size:14px;">Multi-City</span>
+                                <span style="font-size:14px; color:white;">Multi-City</span>
                                 <input type="radio" {%if airline_request.direction == 'MC' %} checked="checked" {% endif %} id="radio_airline_mc" name="radio_airline_type" value="multicity">
                                 <span class="checkmark-radio"></span>
                             </label>
@@ -585,7 +601,7 @@
                         <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                             <div class="checkbox" style="{% if airline_request.direction == 'OW' or airline_request.direction == 'MC' %}display:none; {% endif %}" id="checkbox_combo_price">
                                 <label class="check_box_custom">
-                                    <span style="font-size:14px;">Is Combo Price</span>
+                                    <span style="font-size:14px; color:white;">Is Combo Price</span>
                                     <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" {% if airline_request.direction == 'OW' %} disabled {% endif %} {% if airline_request.is_combo_price == 'true' %} checked {%endif%}>
                                     <span class="check_box_span_custom"></span>
                                 </label>

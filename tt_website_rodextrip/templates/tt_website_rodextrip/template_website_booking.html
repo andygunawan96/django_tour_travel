@@ -10,7 +10,7 @@ Licence URI: http://www.os-templates.com/template-terms
 -->
 <html>
 <head>
-    <title>{{name}}</title>
+<!--    <title>{{name}}</title>-->
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -22,12 +22,18 @@ Licence URI: http://www.os-templates.com/template-terms
 
     <!--template1-->
     <style>
+        {%if template == 1%}
         .testimonial-area {
             background-image: url("{{background}}") !important;
         }
         .price-area {
           background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
         }
+        {%elif template == 2%}
+        .bg-img{
+            background-image: url("{{background}}") !important;
+        }
+        {% endif %}
     </style>
     <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css">
     <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
@@ -730,6 +736,9 @@ Licence URI: http://www.os-templates.com/template-terms
             background: #e04022 !important;
         }
 
+        .primary-btn-sorting:focus{
+            color: {{color}};
+        }
         {% if template == 1%}
         a {
             color: {{color}};
@@ -840,6 +849,9 @@ Licence URI: http://www.os-templates.com/template-terms
           text-decoration: none;
           background:unset;
         }
+        .horizontal-arrow:hover{
+            color: {{color}} !important;
+        }
         {% elif template == 2%}
         a:hover{
             color:{{color}};
@@ -905,6 +917,31 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .horizontal-arrow:hover{
             color: {{color}} !important;
+        }
+        {% elif template == 3 %}
+        a:focus, a:hover{
+            color: {{color}};
+        }
+        .nav-menu a:hover{
+            color: {{color}} !important;
+        }
+        .nav-menu ul li:hover > a{
+            color: {{color}};
+        }
+        ul.tabs li.current .image-rounded-icon {
+            background: {{color}};
+        }
+        ul.tabs li.current{
+            color: {{color}};
+        }
+        .default-select .nice-select .list .option.selected{
+            color: {{color}};
+        }
+        .default-select .nice-select .list .option:hover{
+            color: {{color}};
+        }
+        .modal-header{
+            background: {{color}};
         }
         {% endif %}
 

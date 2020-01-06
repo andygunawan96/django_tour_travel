@@ -39,6 +39,9 @@
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
+
+<title id="title_search">{{name}} Tour - Detail {{response.name}}</title>
+
 {%if template == 1%}
 <section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:90; position:relative;">
     <div id="hotel_search_params" class="container">
@@ -102,8 +105,8 @@
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -241,8 +244,8 @@
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                                     <span style="color:white;">&nbsp;</span>
                                     <div class="input-container-search-ticket">
-                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:#f15a22; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                        <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                        <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                     </div>
                                 </div>
                             </div>

@@ -1746,7 +1746,7 @@ function show_flight_details(key){
 
 function show_flight_details2(key){
     var journey = document.getElementById('journey2'+key);
-    var flight = document.getElementById('detail_departjourney2'+key);
+    var flight = document.getElementById('detail_departjourney_pick'+key);
     var flight_down = document.getElementById('flight_details_down2'+key);
     var flight_up = document.getElementById('flight_details_up2'+key);
 

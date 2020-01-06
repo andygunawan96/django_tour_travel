@@ -3202,7 +3202,7 @@ function airline_pick_mc(type){
                 }
                 text+=`
                 <div class="col-lg-4" style="text-align:left; padding-top:15px;">
-                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" href="#detail_departjourney_pick`+airline[i].sequence+`" style="color: `+color+`; text-decoration:unset;" aria-expanded="true">
+                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" href="#detail_departjourney_pick`+airline_pick_list[i].sequence+`" style="color: `+color+`; text-decoration:unset;" onclick="show_flight_details2(`+airline_pick_list[i].sequence+`);" aria-expanded="true">
                         <span style="font-weight: bold; display:none;" id="flight_details_up2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                         <span style="font-weight: bold; display:block;" id="flight_details_down2`+airline_pick_list[i].sequence+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                     </a>
@@ -3247,7 +3247,8 @@ function airline_pick_mc(type){
                     }
                     text+=`
                 </div>
-                <div id="detail_departjourney_pick`+airline[i].sequence+`" class="panel-collapse collapse in" aria-expanded="true">`;
+                <div class="col-lg-12" style="padding:0px;">
+                <div id="detail_departjourney_pick`+airline_pick_list[i].sequence+`" class="panel-collapse collapse in" aria-expanded="true" style="display:none;">`;
                 for(j in airline_pick_list[i].segments){
                     if(airline_pick_list[i].segments[j].transit_duration != ''){
                         text += `<div class="col-sm-12" style="text-align:center;"><span style="font-weight:500;"><i class="fas fa-clock"></i>Transit Duration: `;
@@ -3415,7 +3416,7 @@ function airline_pick_mc(type){
                 </div>`;
                 }
                 text+=`
-
+                        </div>
                         </div>
                     </div>
                 </div>
