@@ -2784,7 +2784,7 @@ function airline_get_booking(data){
                                 <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
-                        }else{
+                        }else if (msg.result.response.state == 'issued'){
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
                                 <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','airline');"/>
@@ -2803,7 +2803,7 @@ function airline_get_booking(data){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
-                        else{
+                        else if (msg.result.response.state == 'issued'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
                                 <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
@@ -2822,7 +2822,7 @@ function airline_get_booking(data){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
-                        else{
+                        else if (msg.result.response.state == 'issued'){
                             text+=`
                             <a class="issued-booking-train ld-ext-right" style="color:white;">
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>

@@ -580,7 +580,7 @@ function train_get_booking(data){
                                 <input id='passenger_input' name="passenger_input" type="hidden"/>
                                 <input id='seat_map_request_input' name="seat_map_request_input" type="hidden"/>
                             </form>`;
-                        }else{
+                        }else if(msg.result.response.state == 'issued'){
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
                                 <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','train');"/>
@@ -599,7 +599,7 @@ function train_get_booking(data){
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
-                        else{
+                        else if(msg.result.response.state == 'issued'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:white;">
                                 <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','train');" />
@@ -619,7 +619,7 @@ function train_get_booking(data){
                             </a>`;
                             $(".issued_booking_btn").show();
                         }
-                        else{
+                        else if(msg.result.response.state == 'issued'){
 //                            text+=`
 //                            <a class="issued-booking-train ld-ext-right" style="color:white;">
 //                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/4','_blank');"/>

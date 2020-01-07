@@ -823,7 +823,7 @@ function hotel_get_booking(data){
                             }
                    text+=`</table>`;
                    document.getElementById('hotel_passenger').innerHTML = text;
-
+                    if(msg.result.response.status == 'issued'){
                     text=`<div class="col-sm-4">
                                 <!--<a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
                                     <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.booking_name+`', 'ticket','hotel');"/>
@@ -885,6 +885,7 @@ function hotel_get_booking(data){
                                 </div>
                             </div>
                         </div>`;
+                    }
                     document.getElementById('hotel_btn_printout').innerHTML = text;
                    //detail
                     text = '';
