@@ -242,7 +242,7 @@ def sell_activity(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
@@ -274,7 +274,7 @@ def update_contact(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
@@ -442,7 +442,7 @@ def update_passengers(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
@@ -493,7 +493,7 @@ def update_options(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
@@ -530,7 +530,7 @@ def commit_booking(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     if res['result']['error_code'] == 0:
         request.session['activity_order_number'] = res['result']['response']['order_number']
 
@@ -547,7 +547,7 @@ def get_booking(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     try:
         temp_visit_date = res['result']['response']['visit_date']
         new_visit_date = datetime.strptime(temp_visit_date, '%Y-%m-%d').strftime('%d %b %Y')
