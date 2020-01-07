@@ -302,7 +302,7 @@ def sell_tour(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
@@ -334,7 +334,7 @@ def update_contact(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
@@ -474,7 +474,7 @@ def update_passengers(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
@@ -511,7 +511,7 @@ def commit_booking(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     if res['result']['error_code'] == 0:
         request.session['tour_order_number'] = res['result']['response']['order_number']
 
@@ -619,7 +619,7 @@ def get_payment_rules(request):
         "signature": request.POST['signature']
     }
 
-    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     return res
 
 
