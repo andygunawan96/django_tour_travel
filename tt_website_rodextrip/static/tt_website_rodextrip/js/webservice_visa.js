@@ -884,12 +884,14 @@ function visa_get_data(data){
                                 text+=`
                                 </div>
                                 <div class="row" style="margin-top:10px;">
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-4">`;
+                                    if(visa.journey.state == 'booked' || visa.journey.state == 'issued')
+                                    text+=`
                                         <a class="print-booking-train ld-ext-right" style="color:white;">
                                             <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Visa Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_cust','visa');" />
                                             <div class="ld ld-ring ld-cycle"></div>
-                                        </a>
-                                    </div>
+                                        </a>`;
+                                    text+=`</div>
                                     <div class="col-lg-4">`;
                                     if(visa.journey.state == 'booked')
                                     text+=`
@@ -900,7 +902,7 @@ function visa_get_data(data){
                                         text+=`
                                     </div>
                                     <div class="col-lg-4">`;
-                                    if(visa.journey.state != 'booked')
+                                    if(visa.journey.state == 'issued')
                                         text+=`
                                         <a class="issued-booking-train ld-ext-right" style="color:white;">
                                             <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
