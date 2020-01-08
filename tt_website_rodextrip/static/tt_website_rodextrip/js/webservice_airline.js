@@ -2186,7 +2186,7 @@ function airline_set_ssr(val){
               html: '<span style="color: red;">Error airline seat ssr </span>' + errorThrown,
             })
             $('.loader-rodextrip').fadeOut();
-       }, timeout: 60000
+       }, timeout: 300000
     });
 }
 
@@ -2252,7 +2252,7 @@ function airline_assign_seats(val){
               html: '<span style="color: red;">Error airline assign seats </span>' + errorThrown,
             })
             $('.loader-rodextrip').fadeOut();
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 

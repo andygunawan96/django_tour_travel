@@ -585,11 +585,14 @@ We build this application for our existing partner and public users who register
                 else:
                     website_description = '\n'.join(line.split('<br>'))
             elif idx == 5 and type == 'home':
-                background = line
+                if line != '\n':
+                    background = line
             elif idx == 6 and type == 'login':
-                background = line
+                if line != '\n':
+                    background = line
             elif idx == 7 and type == 'search':
-                background = line
+                if line != '\n':
+                    background = line
         if color == '':
             color = '#f15a22'
         file.close()

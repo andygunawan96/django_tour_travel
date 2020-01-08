@@ -156,6 +156,47 @@ function signin(){
     }
 }
 
+function reset_password(){
+    username = '';
+    if( $(window).width() > 767){
+        username = $('#username2').val();
+    }else{
+        username = $('#username').val();
+    }
+    console.log(username)
+    if(username != ''){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'reset_password',
+           },
+           data: {
+                'email':username,
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    signature = msg.result.response.signature;
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error reset password </span>' + errorThrown,
+                })
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;">Error please input email! </span>',
+        })
+    }
+}
+
 function get_path_url_server(){ //DEPRECATED
     getToken();
     $.ajax({
