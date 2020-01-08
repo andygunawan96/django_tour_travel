@@ -25,6 +25,11 @@ def search(request):
         response = get_cache_data(cache_version)
         template, logo, color, name, desc, background = get_logo_template('search')
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -55,6 +60,7 @@ def search(request):
             'hotel_search': request.session['hotel_request'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
@@ -81,6 +87,11 @@ def detail(request):
         response = get_cache_data(cache_version)
         template, logo, color, name, desc, background = get_logo_template('search')
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
         try:
@@ -96,6 +107,7 @@ def detail(request):
             'hotel_search': data,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'check_in': data['checkin_date'],
             'check_out': data['checkout_date'],
             'response': request.session['hotel_detail'],
@@ -123,9 +135,15 @@ def detail_static(request):
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
     airline_country = response['result']['response']['airline']['country']
+    phone_code = []
+    for i in airline_country:
+        if i['phone_code'] not in phone_code:
+            phone_code.append(i['phone_code'])
+    phone_code = sorted(phone_code)
     values = {
         'static_path': path_util.get_static_path(MODEL_NAME),
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+        'phone_code': phone_code,
         'countries': airline_country,
         'username': request.session['user_account'],
         'static_path_url_server': get_url_static_path(),
@@ -154,6 +172,11 @@ def passengers(request):
         infant_title = ['MSTR', 'MISS']
 
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         # pax
         adult = []
@@ -170,6 +193,7 @@ def passengers(request):
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': airline_country,
+            'phone_code': phone_code,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'hotel_search': request.session['hotel_request'],
             'hotel_room_detail_pick': request.session['hotel_room_pick'],
@@ -204,6 +228,11 @@ def review(request):
         response = get_cache_data(cache_version)
         template, logo, color, name, desc, background = get_logo_template()
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         spc_req = ''
         for rec in request.POST.keys():
             if 'special_request' in rec:
@@ -381,6 +410,7 @@ def review(request):
             'childs': child,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'hotel_search': request.session['hotel_request'],
             'hotel_pick': request.session['hotel_detail'],
             'hotel_room_detail_pick': request.session['hotel_room_pick'],

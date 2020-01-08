@@ -62,6 +62,8 @@ def api_models(request):
             res = seat_map(request)
         elif req_data['action'] == 'assign_seats':
             res = assign_seats(request)
+        elif req_data['action'] == 'cancel':
+            res = cancel(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:

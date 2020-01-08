@@ -310,6 +310,7 @@ function train_create_booking(val){
 function train_get_booking(data){
     price_arr_repricing = {};
     getToken();
+    $("#waitingTransaction").modal('hide');
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -492,7 +493,7 @@ function train_get_booking(data){
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
-                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
+                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
                     </tr>
 
                 </table>
@@ -989,7 +990,7 @@ function train_issued(data){
                    //update ticket
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   document.getElementById('show_loading_booking_train').hidden = false;
+                   document.getElementById('show_loading_booking_train').hidden = true;
                    document.getElementById('train_booking').innerHTML = '';
                    document.getElementById('train_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
@@ -1003,7 +1004,7 @@ function train_issued(data){
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   document.getElementById('show_loading_booking_train').hidden = false;
+                   document.getElementById('show_loading_booking_train').hidden = true;
                    document.getElementById('train_booking').innerHTML = '';
                    document.getElementById('train_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
@@ -1110,15 +1111,40 @@ function train_cancel_booking(){
            },
            success: function(msg) {
            console.log(msg);
-            if(msg.result.error_code == 0)
-                document.getElementById('train_booking').submit();
-            else
+            if(msg.result.error_code == 0){
+                price_arr_repricing = {};
+               pax_type_repricing = [];
+               document.getElementById('show_loading_booking_train').hidden = true;
+               document.getElementById('train_booking').innerHTML = '';
+               document.getElementById('train_detail').innerHTML = '';
+               document.getElementById('payment_acq').innerHTML = '';
+               document.getElementById('show_loading_booking_train').style.display = 'block';
+               document.getElementById('show_loading_booking_train').hidden = false;
+               document.getElementById('payment_acq').hidden = true;
+               document.getElementById("overlay-div-box").style.display = "none";
+               document.getElementById('voucher_discount').style.display = 'none';
+
+               train_get_booking(order_number);
+
+            }else{
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error cancel train </span>' + msg.result.error_msg,
                 })
-                $("#waitingTransaction").modal('hide');
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_train').hidden = true;
+                document.getElementById('train_booking').innerHTML = '';
+                document.getElementById('train_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_train').style.display = 'block';
+                document.getElementById('show_loading_booking_train').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                document.getElementById("overlay-div-box").style.display = "none";
+                document.getElementById('voucher_discount').style.display = 'none';
+                train_get_booking(order_number);
+            }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                Swal.fire({

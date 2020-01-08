@@ -25,6 +25,11 @@ def search(request):
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
     airline_country = response['result']['response']['airline']['country']
+    phone_code = []
+    for i in airline_country:
+        if i['phone_code'] not in phone_code:
+            phone_code.append(i['phone_code'])
+    phone_code = sorted(phone_code)
     try:
         visa_request = {
             'destination': request.POST['visa_destination_id'],
@@ -42,6 +47,7 @@ def search(request):
         'visa_request': visa_request,
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'countries': airline_country,
+        'phone_code': phone_code,
         'signature': request.session['signature'],
         'time_limit': 600,
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -84,6 +90,11 @@ def passenger(request):
     # agent
 
     airline_country = response['result']['response']['airline']['country']
+    phone_code = []
+    for i in airline_country:
+        if i['phone_code'] not in phone_code:
+            phone_code.append(i['phone_code'])
+    phone_code = sorted(phone_code)
 
     # airline_carriers = response['result']['response']['airline']['carriers']
 
@@ -143,6 +154,7 @@ def passenger(request):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'countries': airline_country,
+        'phone_code': phone_code,
         'visa': list_of_visa,
         'passengers': pax,
         'signature': request.session['visa_signature'],
@@ -175,6 +187,11 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         template, logo, color, name, desc, background = get_logo_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -351,6 +368,7 @@ def review(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'visa': list_of_visa,
             'type': request.session['list_of_visa_type'],
             'visa_request': request.session['visa_request'],

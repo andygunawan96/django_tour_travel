@@ -31,7 +31,11 @@ def search(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         # airline
         file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
@@ -239,6 +243,7 @@ def search(request):
             'airline_request': airline_request,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'airline_destinations': airline_destinations,
             'flight': flight,
             'airline_cabin_class_list': airline_cabin_class_list,
@@ -270,7 +275,11 @@ def passenger(request):
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
-
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
             file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
             for line in file:
                 carrier = json.loads(line)
@@ -353,6 +362,7 @@ def passenger(request):
             'is_international': is_international,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'seat_map': seat_map,
             'airline_request': request.session['airline_request'],
             'price': request.session['airline_price_itinerary'],
@@ -390,7 +400,11 @@ def ssr(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         carrier = json.loads(file.read())
         file.close()
@@ -426,6 +440,7 @@ def ssr(request):
                 'price': request.session['airline_price_itinerary'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'phone_code': phone_code,
                 'after_sales': 0,
                 'additional_price': float(additional_price_input),
                 'airline_carriers': carrier,
@@ -544,6 +559,7 @@ def ssr(request):
                 'after_sales': 1,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'phone_code': phone_code,
                 'airline_carriers': carrier,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 # 'airline_destinations': airline_destinations,
@@ -573,6 +589,11 @@ def seat_map(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             carrier = json.loads(line)
@@ -705,6 +726,7 @@ def seat_map(request):
                 'airline_carriers': carrier,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'phone_code': phone_code,
                 'after_sales': 0,
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
@@ -732,6 +754,7 @@ def seat_map(request):
                 'airline_carriers': carrier,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'phone_code': phone_code,
                 'after_sales': 1,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 'additional_price': float(additional_price_input),
@@ -761,6 +784,11 @@ def seat_map_public(request, signature=-1):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             carrier = json.loads(line)
@@ -776,6 +804,7 @@ def seat_map_public(request, signature=-1):
             'airline_carriers': carrier,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'after_sales': 0,
             'additional_price': float(additional_price_input),
             # 'airline_destinations': airline_destinations,
@@ -802,6 +831,11 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         template, logo, color, name, desc, background = get_logo_template()
 
         ssr = []
@@ -1039,6 +1073,7 @@ def review(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'ssr': request.session['airline_get_ssr']['result']['error_code'],
             'seat': request.session['airline_get_seat_availability']['result']['error_code'],
             'airline_request': request.session['airline_request'],
@@ -1075,6 +1110,11 @@ def review_after_sales(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         template, logo, color, name, desc, background = get_logo_template()
         goto = 0
         ssr = []
@@ -1183,6 +1223,7 @@ def review_after_sales(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'back_page': request.META.get('HTTP_REFERER'),
             'airline_carriers': airline_carriers,
             'after_sales_type': after_sales_type,

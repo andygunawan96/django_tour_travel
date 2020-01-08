@@ -43,6 +43,11 @@ def search(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         template, logo, color, name, desc, background = get_logo_template('search')
         try:
@@ -79,6 +84,7 @@ def search(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'signature': request.session['signature'],
             'time_limit': 600,
             'train_request': request.session['train_request'],
@@ -113,7 +119,11 @@ def passenger(request):
         # agent
 
         airline_country = response['result']['response']['airline']['country']
-
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
 
         try:
@@ -134,6 +144,7 @@ def passenger(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'adults': adult,
             'infants': infant,
             'adult_title': adult_title,
