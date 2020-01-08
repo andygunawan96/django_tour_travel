@@ -193,7 +193,7 @@ body {
   }
 
   .myticket {
-    display:none;
+    display:none !important;
   }
   .mystickycopybot {
     display:none;
@@ -2795,9 +2795,9 @@ body.mobile-nav-active #mobile-nav-toggle {
 
 .primary-btn-custom:disabled {
   background: #f7f7f7 !important;
-  cursor: not-allowed;
-  color: #a6a5a2;
-  border: 1px solid #cdcdcd;
+  cursor: not-allowed !important;
+  color: #a6a5a2 !important;
+  border: 1px solid #cdcdcd !important;
 }
 
 .primary-btn-custom-un {
@@ -2826,8 +2826,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .primary-btn:disabled {
-  border: 1px solid #999999;
-  background-color: #cccccc;
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
   cursor: not-allowed;
 }
 
@@ -2856,8 +2856,8 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .primary-btn-ad:disabled {
-  border: 1px solid #999999;
-  background-color: #cccccc;
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
   cursor: not-allowed;
 }
 
@@ -2947,7 +2947,7 @@ body.mobile-nav-active #mobile-nav-toggle {
 }
 
 .primary-btn-ticket:disabled{
-    background-color: #cdcdcd;
+    background-color: #cdcdcd !important;
     cursor: not-allowed;
 }
 

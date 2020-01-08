@@ -127,7 +127,8 @@ ul {
 .bg-img {
   background-position: center center !important;
   background-size: cover !important;
-  background-repeat: no-repeat !important; }
+  background-repeat: no-repeat !important;
+}
 
 .jarallax {
   position: relative;
@@ -6081,7 +6082,7 @@ display: block;
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
-  z-index: 2;
+  z-index: 3;
   cursor: pointer;
 }
 

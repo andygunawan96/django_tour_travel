@@ -10,7 +10,7 @@ Licence URI: http://www.os-templates.com/template-terms
 -->
 <html>
 <head>
-<!--    <title>{{name}}</title>-->
+    <!--<title>{{name}}</title>-->
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -18,20 +18,34 @@ Licence URI: http://www.os-templates.com/template-terms
     <!--<link href="{{ static_path }}layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">-->
 
     <link rel="icon" href="{{ logo }}" sizes="16x16" type="image/png">
-    <!--    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
+    <!--<link href="https://fonts.googleapis.com/css?family=Poppins:100,200,400,300,500,600,700" rel="stylesheet">-->
 
     <!--template1-->
     <style>
         {%if template == 1%}
         .testimonial-area {
             background-image: url("{{background}}") !important;
+            background-position: center center !important;
+            background-size: cover !important;
+            background-repeat: no-repeat !important;
         }
         .price-area {
           background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          min-height: 300px;
+          background-position: center center !important;
+          background-size: cover !important;
+          background-repeat: no-repeat !important;
         }
         {%elif template == 2%}
         .bg-img{
             background-image: url("{{background}}") !important;
+            min-height:250px;
+        }
+        {%elif template == 3%}
+        .banner-area{
+            background: url("{{background}}")!important;
+            padding:20px 0px 20px 0px;
+            min-height:300px;
         }
         {% endif %}
     </style>
@@ -739,6 +753,17 @@ Licence URI: http://www.os-templates.com/template-terms
         .primary-btn-sorting:focus{
             color: {{color}};
         }
+
+        .primary-btn-all-sticky{
+            background: {{color}};
+        }
+
+        .primary-btn-all-sticky:hover{
+            background: {{color}};
+            opacity: 0.8;
+        }
+
+
         {% if template == 1%}
         a {
             color: {{color}};
@@ -756,6 +781,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .nav-link.active .image-rounded-icon {
             background: {{color}};
+        }
+        #mobile-nav ul .menu-item-active{
+            color: {{color}};
         }
         #myBtnBTP {
             display: none;
@@ -840,6 +868,9 @@ Licence URI: http://www.os-templates.com/template-terms
             cursor: pointer;
             border-radius: 2px;
         }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}};
+        }
         .form-select .nice-select .list .option:hover {
             color: {{color}};
             background: transparent;
@@ -868,6 +899,13 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
             color: {{color}};
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}};
+        }
+
+        .breakpoint-on .classynav ul li.has-down.active > .dd-trigger, .breakpoint-on .classynav ul li.megamenu-item.active > .dd-trigger{
+            background-color:{{color}};
         }
         #scrollUp{
             background-color: {{color}};
@@ -942,6 +980,24 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .modal-header{
             background: {{color}};
+        }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}};
+        }
+        .owl-theme .owl-dots .owl-dot.active span, .owl-theme .owl-dots .owl-dot:hover span{
+            background: {{color}};
+        }
+
+        .owl-theme .owl-nav [class*=owl-]:hover{
+            background: {{color}};
+        }
+
+        #myBtnBTP{
+            background: {{color}};
+        }
+        #myBtnBTP:hover{
+            background: {{color}};
+            opacity: 0.8;
         }
         {% endif %}
 
