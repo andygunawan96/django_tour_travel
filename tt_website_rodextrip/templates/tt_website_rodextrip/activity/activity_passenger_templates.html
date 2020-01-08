@@ -456,7 +456,7 @@
                                             <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -727,7 +727,7 @@
                                             <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="senior_first_name{{forloop.counter}}" id="senior_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" class="form-control" name="senior_first_name{{forloop.counter}}" id="senior_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="senior_id{{forloop.counter}}" id="senior_id{{forloop.counter}}">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -1000,7 +1000,7 @@
                                             <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -1245,7 +1245,7 @@
                                             <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('infant_first_name{{forloop.counter}}');" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="infant_id{{forloop.counter}}" id="infant_id{{forloop.counter}}">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -1744,7 +1744,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>First name and middle name (if any)</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" onchange="capitalizeInput('adult_first_name{{forloop.counter}}');" class="form-control" name="adult_first_name{{forloop.counter}}" id="adult_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="adult_id{{forloop.counter}}" id="adult_id{{forloop.counter}}">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -2007,7 +2007,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>First name and middle name (if any)</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="senior_first_name{{forloop.counter}}" id="senior_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" onchange="capitalizeInput('senior_first_name{{forloop.counter}}');" class="form-control" name="senior_first_name{{forloop.counter}}" id="senior_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="senior_id{{forloop.counter}}" id="senior_id{{forloop.counter}}">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -2272,7 +2272,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>First name and middle name (if any)</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" onchange="capitalizeInput('child_first_name{{forloop.counter}}');" class="form-control" name="child_first_name{{forloop.counter}}" id="child_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="child_id{{forloop.counter}}" id="child_id{{forloop.counter}}">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -2509,7 +2509,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>First name and middle name (if any)</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" onchange="capitalizeInput('infant_first_name{{forloop.counter}}');" class="form-control" name="infant_first_name{{forloop.counter}}" id="infant_first_name{{forloop.counter}}" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="infant_id{{forloop.counter}}" id="infant_id{{forloop.counter}}">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>

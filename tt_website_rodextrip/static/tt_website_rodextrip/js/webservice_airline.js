@@ -2933,7 +2933,7 @@ function airline_get_booking(data){
                             }
                         }else{
                             price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'],
+                                'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'],
                                 'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
                                 'Repricing': price['CSC']
                             }
@@ -2982,7 +2982,7 @@ function airline_get_booking(data){
                             else
                                 $text += ' ';
                         }
-                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                         if(counter_service_charge == 0){
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
                             price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
@@ -3228,6 +3228,8 @@ function airline_issued(data){
                console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
+                   price_arr_repricing = {};
+                   pax_type_repricing = [];
                    $("#waitingTransaction").modal('hide');
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('airline_booking').innerHTML = '';

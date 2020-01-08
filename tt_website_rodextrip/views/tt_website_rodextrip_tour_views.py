@@ -116,7 +116,7 @@ def detail(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color, name, desc, background = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template('search')
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

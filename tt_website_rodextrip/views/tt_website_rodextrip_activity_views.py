@@ -85,7 +85,7 @@ def detail(request):
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
 
-        template, logo, color, name, desc, background = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template('search')
 
         try:
             request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -1262,6 +1262,7 @@ def review(request):
             'childs': child,
             'skus': skus,
             "timeslot": timeslot and timeslot or False,
+            'timeslot_pick': request.session['activity_timeslot'].split(' ~ ')[1] if len(request.session['activity_timeslot'].split(' - ')) == 2 else '',
             'price': all_price,
             'visit_date': all_price.get('date') and datetime.strptime(all_price['date'], '%Y-%m-%d').strftime('%d %b %Y') or '',
             'detail': request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])],

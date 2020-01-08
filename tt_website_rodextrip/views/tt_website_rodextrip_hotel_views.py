@@ -79,7 +79,7 @@ def detail(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc, background = get_logo_template()
+        template, logo, color, name, desc, background = get_logo_template('search')
         airline_country = response['result']['response']['airline']['country']
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -207,7 +207,10 @@ def review(request):
         spc_req = ''
         for rec in request.POST.keys():
             if 'special_request' in rec:
-                spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
+                if request.POST[rec]:
+                    spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
+                else:
+                    spc_req += 'Room ' + rec[16:] + ': - ; '
         spc_req += request.POST['late_ci'] and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
         spc_req += request.POST['late_co'] and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 
@@ -410,10 +413,15 @@ def booking(request):
         template, logo, color, name, desc, background = get_logo_template()
 
         try:
-            order_number = request.POST['order_number']
-            request.session['hotel_order_number'] = request.POST['order_number']
+            try:
+                order_number = json.loads(request.POST['result'])['result']['response']['os_res_no']
+                request.session['hotel_order_number'] = json.loads(request.POST['result'])['result']['response']['os_res_no']
+            except:
+                order_number = request.POST['order_number']
+                request.session['hotel_order_number'] = request.POST['order_number']
         except:
             order_number = request.session['hotel_order_number']
+
         values = {
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],

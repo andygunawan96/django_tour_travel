@@ -3466,6 +3466,19 @@ function check_provider(carrier_code,val){
         }else{
             document.getElementById('show_provider_airline').innerHTML = check+' Airline chosen';
         }
+        if(val == undefined && carrier_code == undefined){
+            if(check == 0){
+                document.getElementById('provider_box_All').checked = true
+                document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
+                try{
+                    document.getElementById('show_provider_airline1').innerHTML = 'All airline chosen';
+                    document.getElementById('provider_box_All_1').checked = true
+                }catch(err){console.log(err);}
+            }else{
+                document.getElementById('show_provider_airline').innerHTML = check+' Airline chosen';
+                document.getElementById('show_provider_airline1').innerHTML = check+' Airline chosen';
+            }
+        }
     }else{
         if(carrier_code == 'all'){
             for(i in airline_provider_list){

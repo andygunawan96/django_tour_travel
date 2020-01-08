@@ -44,6 +44,7 @@ def open_page(request):
             'signature': request.session['signature'],
             'social_medias': social_medias,
             'logo': logo,
+            'color': color,
             'template': template,
             'desc': desc.split('\n'),
             'name': name,

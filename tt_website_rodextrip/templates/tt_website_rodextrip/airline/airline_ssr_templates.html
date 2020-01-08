@@ -181,7 +181,7 @@
                                                 {% if key == ssr_list_pax.availability_type and ssr_list_pax.journey_code == ssr.journey_code and ssr.name == ssr_list_pax.name%}
                                                     selected {% endif %} {% endfor %}
                                             >
-                                                {{ssr.name}} - {{ssr.currency}} {{ssr.total_price}}
+                                                {{ssr.name}} - {{ssr.currency}} {{ssr.total_amount}}
                                             </option>
                                             {% endfor %}
                                         </select>
