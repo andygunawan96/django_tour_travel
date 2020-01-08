@@ -184,7 +184,7 @@
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
                     <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
                     <div style="display:flex;">
-                        <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:#f15a22;"></i>
+                        <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:{{color}};"></i>
                         <div class="classy-navbar-toggler">
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
                         </div>
@@ -219,7 +219,7 @@
 
                                 {% if username != null %}
                                 <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
-                                    <ul class="dropdown">
+                                    <ul class="dropdown" style="margin-top:10px;">
                                         <li><a href="#">Partnership</a>
                                             <ul class="dropdown">
                                                 <li><a href="/registration">Register Agent</a></li>

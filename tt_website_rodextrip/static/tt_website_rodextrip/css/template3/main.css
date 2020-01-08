@@ -2364,7 +2364,7 @@ primary-btn:disabled {
 }
 
 .header-right {
-  background-color: rgba(32, 46, 69, 0.8);
+  background-color: rgba(70, 70, 70, 0.8);
   border:1px solid #cdcdcd;
   /*background-color: rgba(255, 255, 255, 0.8);*/
 }
@@ -3154,6 +3154,15 @@ primary-btn:disabled {
                Start Blog Home  Page style
 ################
 */
+
+.single-destination:hover{
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+    z-index:10;
+    cursor:pointer;
+    transform: translateY(-1em);
+}
+
+
 .blog-banner-area {
   background: url(../img/elements/blog/blog-banner.jpg) center;
   background-size: cover;
@@ -7047,7 +7056,7 @@ display: block;
   right: 0;
   bottom: 0;
   background-color: rgba(0,0,0,0.5);
-  z-index: 2;
+  z-index: 3;
   cursor: pointer;
 }
 

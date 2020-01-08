@@ -1024,7 +1024,7 @@ function tour_filter_render(){
     text=`
         <hr/>
         <h6 class="filter_general" onclick="show_hide_general('tourPrice');">Price Range <i class="fas fa-chevron-down" id="tourPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="tourPrice_generalUp" style="float:right; display:block;"></i></h6>
-        <div class="wrapper" id="tourPrice_generalShow" style="display:inline-block;">
+        <div id="tourPrice_generalShow" style="display:inline-block;">
             <div class="range-slider">
                 <input type="text" class="js-range-slider"/>
             </div>

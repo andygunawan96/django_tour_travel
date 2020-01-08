@@ -196,7 +196,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
@@ -409,7 +409,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -492,7 +492,7 @@
                                             {% endif %}
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
@@ -632,7 +632,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -715,7 +715,7 @@
                                             {% endif %}
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
@@ -823,7 +823,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6" style="margin-top:auto;">
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
@@ -906,7 +906,7 @@
                                             {% endif %}
                                             <label>Passport Expired Date</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                                <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                 <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                             </div>
                                         </div>
@@ -1783,7 +1783,7 @@
         </div>
     </div>
 </header>
-<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7;">
+<section class="relative" style="padding:15px 0px 15px 0px; background:#f7f7f7;">
     <div class="container">
         <form id="airline_review" class="form-wrap" action="{% url 'tt_website_rodextrip:airline_review'%}" method="POST" style="padding:0; text-align:unset;">
             {% csrf_token %}
@@ -1869,7 +1869,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp" role="dialog">
                                             <div class="modal-dialog">
@@ -2081,7 +2081,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_adult{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_adult{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -2164,7 +2164,7 @@
                                         {% endif %}
                                         <label>Passport Expired Date</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
+                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off" readonly>
                                             <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         </div>
                                     </div>
@@ -2304,7 +2304,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_child{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_child{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -2387,7 +2387,7 @@
                                         {% endif %}
                                         <label>Passport Expired Date</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-passport" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="child_passport_expired_date{{forloop.counter}}" id="child_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                             <button type="button" class="primary-delete-date" onclick="delete_expired_date('child', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         </div>
                                     </div>
@@ -2494,7 +2494,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6" style="margin-top:auto;">
+                                    <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                         <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp_infant{{forloop.counter}}"><i class="fas fa-info-circle"></i></button>
                                         <div class="modal fade" id="myModalHelp_infant{{forloop.counter}}" role="dialog">
                                             <div class="modal-dialog">
@@ -2577,7 +2577,7 @@
                                         {% endif %}
                                         <label>Passport Expired Date</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control date-picker-passport" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
+                                            <input type="text" class="form-control date-picker-passport" style="background:white;" name="infant_passport_expired_date{{forloop.counter}}" id="infant_passport_expired_date{{forloop.counter}}" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                             <button type="button" class="primary-delete-date" onclick="delete_expired_date('infant', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         </div>
                                     </div>
