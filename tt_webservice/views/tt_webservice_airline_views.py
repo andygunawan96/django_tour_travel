@@ -1159,7 +1159,7 @@ def sell_ssrs(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     if request.session['airline_ssr_request'] != {}:
-        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
@@ -1199,7 +1199,7 @@ def assign_seats(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     if len(request.session['airline_seat_request']) != 0:
-        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])

@@ -45,6 +45,9 @@
 								<i class="fas fa-lock icon-login"></i>
 								<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
 							</div>
+							<div class="input-container-login">
+								<span class="fa fa-lock" style="color:{{color}};padding-top:3px;"></span><a style="cursor:pointer;" onclick="reset_password();">Forgot Password</a>
+							</div>
 						</div>
 						<div class="col-lg-3 col-md-3" style="text-align:right;">
 							<input type="hidden" id="response2" name="response2">
@@ -92,6 +95,9 @@
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
 						<input class="input100" type="password" id="password" name="password" placeholder="Password">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
+					</div>
+					<div class="validate-input" style="text-align:center;">
+						<span class="fa fa-lock" style="color:{{color}};padding:5px;"></span><a style="cursor:pointer;" onclick="reset_password();">Forgot Password</a>
 					</div>
 					<input type="hidden" id="response" name="response">
 					<div class="container-login100-form-btn m-t-32">

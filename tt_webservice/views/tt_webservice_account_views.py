@@ -67,6 +67,8 @@ def api_models(request):
             res = confirm_top_up(request)
         elif req_data['action'] == 'request_top_up_api':
             res = request_top_up(request)
+        elif req_data['action'] == 'reset_password':
+            res = reset_password(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -105,6 +107,65 @@ def signin(request):
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def auto_signin(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": ''
+    }
+
+    data = {
+        "user": user_global,
+        "password": password_global,
+        "api_key":  api_key,
+
+        "co_user": user_global,
+        "co_password": password_global,
+        # "co_user": user_default,  # request.POST['username'],
+        # "co_password": password_default, #request.POST['password'],
+        "co_uid": ""
+    }
+
+    res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("RESIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("info_logger").info(json.dumps(res))
+
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR RESIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        # pass
+        # # logging.getLogger("error logger").error('testing')
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def reset_password(request):
+    try:
+        res_signin = auto_signin(request)
+        data = {
+            'email': request.POST['email']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "reset_password",
+            "signature": res_signin['result']['response']['signature']
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("reset_password SUCCESS SIGNATURE " + res_signin['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("reset_password ERROR SIGNATURE " + res_signin['result']['response']['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_version(request):

@@ -3214,12 +3214,14 @@ function airline_pick_mc(type){
                     for(j in airline_pick_list[i].segments){
                         for(k in airline_pick_list[i].segments[j].fares){
                             if(parseInt(airline_request.child)+parseInt(airline_request.adult) <= airline_pick_list[i].segments[j].fares[k].available_count && k==airline_pick_list[i].segments[j].fare_pick){
-                                for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary)
-                                    for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
-                                        if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
-                                            currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
-                                            price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
-                                        }
+                                for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
+                                    if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT')
+                                        for(m in airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges)
+                                            if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'fare' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'tax' || airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].charge_code == 'roc'){
+                                                currency = airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].currency;
+                                                price+= airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].service_charges[m].amount;
+                                            }
+                                }
                                 break;
                             }
                         }
