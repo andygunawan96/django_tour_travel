@@ -96,7 +96,8 @@ function check_issued_offline(){
                 document.getElementById('adult_birth_date'+ (i + 1)).style['border-color'] = '#EFEFEF';
             }
             if(document.getElementById('transaction_type').value == 'airline'){
-                if(document.getElementById('sector').value == 'international'){
+//                if(document.getElementById('sector').value == 'international'){
+                if(document.getElementById('adult_passport_number'+ (i + 1)).value != ''){
                     if(document.getElementById('adult_passport_number'+ (i + 1)).value == ''){
                         error_log+= 'Please fill passport number for passenger '+i+'!\n';
                         document.getElementById('adult_passport_number'+ (i + 1)).style['border-color'] = 'red';
@@ -418,14 +419,14 @@ function set_data_issued_offline(){
             request["line_pnr"+i] = document.getElementById('pnr'+i).value;
         }
         if(document.getElementById('transaction_type').value == 'airline' || document.getElementById('transaction_type').value == 'train'){
-            if(document.getElementById('origin'+i).value == ''){
-                error_log += 'Please fill origin for line '+ (i+1) + '\n';
+            if(document.getElementById('origin'+i).value == '' && document.getElementById('origin'+i).value.split(' - ') == 4){
+                error_log += 'Please fill origin using autocomplete for line '+ (i+1) + '\n';
                 document.getElementById('origin'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('origin'+i).style['border-color'] = '#EFEFEF';
                 request["line_origin"+i] = document.getElementById('origin'+i).value;
-            }if(document.getElementById('destination'+i).value == ''){
-                error_log += 'Please fill destination for line '+ (i+1) + '\n';
+            }if(document.getElementById('destination'+i).value == '' && document.getElementById('destination'+i).value.split(' - ') == 4){
+                error_log += 'Please fill destination using autocomplete for line '+ (i+1) + '\n';
                 document.getElementById('destination'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('destination'+i).style['border-color'] = '#EFEFEF';
@@ -835,7 +836,10 @@ function commit_booking(){
                document.getElementsByName('myRadios')[1].checked = true;
 //               document.getElementById('payment_acq').hidden = true;
                close_div('payment_acq');
-               $('select').niceSelect('update');
+               $('#transaction_type').niceSelect('update');
+               $('#sector').niceSelect('update');
+               $('#social_media').niceSelect('update');
+               document.getElementById('sector_div').hidden = true;
            }else{
                 Swal.fire({
                   type: 'error',

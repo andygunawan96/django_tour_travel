@@ -945,6 +945,8 @@ function tour_issued_booking(order_number)
                var booking_num = msg.result.response.order_number;
                if (booking_num)
                {
+                   price_arr_repricing = {};
+                   pax_type_repricing = [];
                    tour_get_booking(booking_num);
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('payment_acq').hidden = true;

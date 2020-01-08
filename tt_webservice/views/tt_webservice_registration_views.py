@@ -76,9 +76,9 @@ def get_requirement_list_doc(request):
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_requirement_list_doc_agent_regis SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS get_requirement_list_doc_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_requirement_list_doc_agent_regis SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR get_requirement_list_doc_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -102,9 +102,9 @@ def get_config(request):
         login(request, 'get_config')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_config_agent_regis SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS get_config_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_config_agent_regis SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR get_config_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -128,9 +128,9 @@ def get_promotions(request):
         login(request, 'get_config')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_promotion_agent_regis SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS get_promotion_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_promotion_agent_regis SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR get_promotion_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -156,9 +156,9 @@ def register(request):
 
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS create_agent_agent_regis SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS create_agent_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR create_agent_agent_regis SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR create_agent_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 

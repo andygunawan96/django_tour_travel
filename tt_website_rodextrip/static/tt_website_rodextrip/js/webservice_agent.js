@@ -220,7 +220,7 @@ function create_new_passenger(){
            document.getElementById('passenger_nationality').style['border-color'] = 'red';
        }else{
            document.getElementById('passenger_nationality').style['border-color'] = '#EFEFEF';
-       }if(check_email(document.getElementById('passenger_email').value)==false){
+       }if(document.getElementById('passenger_email').value != '' && check_email(document.getElementById('passenger_email').value)==false){
             error_log+= 'Invalid passenger email!</br>\n';
             document.getElementById('passenger_email').style['border-color'] = 'red';
        }else{
@@ -335,29 +335,26 @@ function create_new_passenger(){
                            success: function(msg) {
                             console.log(msg);
                             if(msg.result.error_code==0){
-                                document.getElementById('passenger_first_name').value = '';
-                                document.getElementById('passenger_last_name').value = '';
-                                document.getElementById('passenger_birth_date').value = '';
-                                document.getElementById('passenger_phone').value = '';
-                                document.getElementById('passenger_email').value = '';
-                                document.getElementById('passenger_identity').value = '';
-                                $('#passenger_identity').niceSelect('update');
-                                document.getElementById('passenger_identity_number').value = '';
-                                document.getElementById('passenger_identity_expired_date').value = '';
-                                document.getElementById('passenger_identity_country_of_issued').value = '';
-                                document.getElementById('passenger_identity_country_of_issued_id').value = '';
-                                document.getElementById('files_attachment').value = '';
-                                document.getElementById('files_attachment1').value = '';
-                                document.getElementById('files_attachment2').value = '';
-                                document.getElementById('files_attachment3').value = '';
-                                document.getElementById('files_attachment4').value = '';
-                                document.getElementById('selectedFiles_attachment').innerHTML = '';
-                                document.getElementById('selectedFiles_attachment1').innerHTML = '';
-                                document.getElementById('selectedFiles_attachment2').innerHTML = '';
-                                document.getElementById('selectedFiles_attachment3').innerHTML = '';
-                                document.getElementById('selectedFiles_attachment4').innerHTML = '';
-                                document.getElementById('select2-passenger_identity_country_of_issued_id-container').innerHTML= '';
-                                document.getElementById('create_new_passenger_btn').disabled = false;
+                                try{
+                                    document.getElementById('passenger_first_name').value = '';
+                                    document.getElementById('passenger_last_name').value = '';
+                                    document.getElementById('passenger_birth_date').value = '';
+                                    document.getElementById('passenger_email').value = '';
+                                    $('#passenger_identity').niceSelect('update');
+                                    for(i=1;i<5;i++){
+                                        document.getElementById('passenger_identity_number'+i).value = '';
+                                        document.getElementById('passenger_identity_expired_date'+i).value = '';
+                                        document.getElementById('passenger_identity_country_of_issued'+i).value = '';
+                                        document.getElementById('passenger_identity_country_of_issued_id'+i).value = '';
+                                        document.getElementById('files_attachment'+i).value = '';
+                                        document.getElementById('selectedFiles_attachment'+i).innerHTML = '';
+                                    }
+                                    document.getElementById('selectedFiles_attachment').innerHTML = '';
+                                    document.getElementById('select2-passenger_identity_country_of_issued_id-container').innerHTML= '';
+                                    document.getElementById('create_new_passenger_btn').disabled = false;
+                                }catch(err){
+                                    console.log(err);
+                                }
                                 Swal.fire({
                                    type: 'Success',
                                    title: 'Created',

@@ -987,6 +987,8 @@ function train_issued(data){
                console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
+                   price_arr_repricing = {};
+                   pax_type_repricing = [];
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('train_booking').innerHTML = '';
                    document.getElementById('train_detail').innerHTML = '';

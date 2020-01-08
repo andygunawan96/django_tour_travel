@@ -1087,14 +1087,10 @@ s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 Tawk_API.onLoad = function(){
-    Tawk_API.hideWidget();
+    //Tawk_API.hideWidget();
+    Tawk_API.toggleVisibility();
 }
 })();
-setTimeout(function() {
-    try{
-        document.getElementById('tawkchat-minified-box').style.display = 'none';
-    }catch(err){}
-}, 15000);
 </script>
 <!--End of Tawk.to Script-->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->

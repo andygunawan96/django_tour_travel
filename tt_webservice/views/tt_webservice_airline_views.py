@@ -1005,7 +1005,7 @@ def get_ssr_availabilty(request):
                             currency = ''
                             for service_charge in ssr['service_charges']:
                                 currency = service_charge['currency']
-                                total = service_charge['amount']
+                                total += service_charge['amount']
                             ssr['total_price'] = total
                             ssr['currency'] = currency
         else:

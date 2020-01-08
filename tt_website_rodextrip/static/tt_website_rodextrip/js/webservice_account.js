@@ -973,11 +973,16 @@ function table_top_up_history(data){
             text+= `<td>`;
             if(data[i].state == 'request' || data[i].state == 'confirm'){
                 text+= `
-                <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />`;
+                <input type='button' class="primary-btn-custom" value='Cancel' onclick="cancel_top_up('`+data[i].name+`')" />
+                <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Pre Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
             }
             if(data[i].state == 'confirm'){
                 text+= `
                 <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Payment' onclick="confirm_top_up('`+data[i].name+`')" />`;
+            }
+            if(data[i].state == 'approved'){
+                text+= `
+                <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
             }
             text+=`</td>`;
             text+= `</tr>`;
