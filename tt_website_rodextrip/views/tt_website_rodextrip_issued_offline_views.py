@@ -34,7 +34,11 @@ def issued_offline(request):
         # train_destination = response['result']['response']['train']
 
         airline_country = response['result']['response']['airline']['country']
-
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         # get_balance(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -45,6 +49,7 @@ def issued_offline(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'adult_title': ['MR', 'MRS', 'MS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'static_path_url_server': get_url_static_path(),
             # 'agent': request.session['agent'],
             'airline_destinations': airline_destinations,
@@ -73,7 +78,11 @@ def issued_offline_history(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         template, logo, color, name, desc, background = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -83,6 +92,7 @@ def issued_offline_history(request):
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'logo': logo,

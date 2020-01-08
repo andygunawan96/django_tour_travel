@@ -294,8 +294,8 @@
                                                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                                                 <div class="form-select">
                                                                                     <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
-                                                                                        {% for country in countries %}
-                                                                                        <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
+                                                                                        {% for phone in phone_code %}
+                                                                                        <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
                                                                                         {% endfor %}
                                                                                     </select>
                                                                                 </div>
@@ -689,8 +689,8 @@
                                                                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                                                             <div class="form-select">
                                                                                                 <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
-                                                                                                    {% for country in countries %}
-                                                                                                    <option value="{{country.phone_code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.phone_code}}</option>
+                                                                                                    {% for phone in phone_code %}
+                                                                                                    <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
                                                                                                     {% endfor %}
                                                                                                 </select>
                                                                                             </div>

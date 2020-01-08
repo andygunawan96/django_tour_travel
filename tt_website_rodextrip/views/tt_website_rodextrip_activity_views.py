@@ -29,6 +29,11 @@ def search(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         template, logo, color, name, desc, background = get_logo_template('search')
 
@@ -54,6 +59,7 @@ def search(request):
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'username': request.session['user_account'],
             'query': request.session['activity_search_request']['query'],
             'parsed_country': request.session['activity_search_request']['country'],
@@ -84,6 +90,11 @@ def detail(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         template, logo, color, name, desc, background = get_logo_template('search')
 
@@ -105,6 +116,7 @@ def detail(request):
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'query': request.session['activity_search_request']['query'],
             'parsed_country': request.session['activity_search_request']['country'],
             'parsed_city': request.session['activity_search_request']['city'],
@@ -145,7 +157,11 @@ def passenger(request):
         # agent
 
         airline_country = response['result']['response']['airline']['country']
-
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         # get_balance(request)
 
         try:
@@ -375,6 +391,7 @@ def passenger(request):
             'infant_title': infant_title,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'additional_price': request.session['additional_price_input'],
             'response': request.session['activity_pick'],
             'pax_count': request.session['activity_pax_data']['pax_count'],
@@ -433,7 +450,11 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
-
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         template, logo, color, name, desc, background = get_logo_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -1245,6 +1266,7 @@ def review(request):
             'additional_price': request.POST['additional_price'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'response': request.session['activity_pick'],
             'perBooking': request.session['activity_perbooking'],
             'perPax': request.session['activity_perpax'],

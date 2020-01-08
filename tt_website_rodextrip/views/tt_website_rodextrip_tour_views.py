@@ -50,6 +50,11 @@ def search(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         template, logo, color, name, desc, background = get_logo_template('search')
 
@@ -87,6 +92,7 @@ def search(request):
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'query': request.session['tour_request']['tour_query'],
             'dest_country': request.session['tour_request']['country_id'],
             'dest_city': request.session['tour_request']['city_id'],
@@ -115,6 +121,11 @@ def detail(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         template, logo, color, name, desc, background = get_logo_template('search')
 
@@ -153,6 +164,7 @@ def detail(request):
             'response': request.session['tour_pick'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'query': request.session['tour_request']['tour_query'],
             'dest_country': request.session['tour_request']['country_id'],
             'dest_city': request.session['tour_request']['city_id'],
@@ -199,6 +211,11 @@ def passenger(request):
         child_title = infant_title
 
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         # pax
         try:
@@ -315,6 +332,7 @@ def passenger(request):
             'adult_title': adult_title,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'infant_title': infant_title,
             'child_title': child_title,
             'username': request.session['user_account'],
@@ -348,6 +366,11 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         template, logo, color, name, desc, background = get_logo_template()
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -579,6 +602,7 @@ def review(request):
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'tour_data': request.session['tour_pick'],
             'adult': request.session['tour_booking_data']['adult'],
             'child': request.session['tour_booking_data']['child'],

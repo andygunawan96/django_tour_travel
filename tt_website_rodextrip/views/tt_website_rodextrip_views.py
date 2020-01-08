@@ -29,6 +29,11 @@ def index(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         if request.POST['logout']:
             request.session.delete()
@@ -48,6 +53,7 @@ def index(request):
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
+                    'phone_code': phone_code,
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
                     'logo': logo,
@@ -64,6 +70,11 @@ def index(request):
 
                     try:
                         airline_country = response['result']['response']['airline']['country']
+                        phone_code = []
+                        for i in airline_country:
+                            if i['phone_code'] not in phone_code:
+                                phone_code.append(i['phone_code'])
+                        phone_code = sorted(phone_code)
                     except Exception as e:
                         airline_country = []
                         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -172,6 +183,7 @@ def index(request):
                         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                         'provider': provider_type,
                         'countries': airline_country,
+                        'phone_code': phone_code,
                         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                         'username': request.session['user_account'],
                         # 'co_uid': request.session['co_uid'],
@@ -208,6 +220,7 @@ def index(request):
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
+                    'phone_code': phone_code,
                     'javascript_version': javascript_version,
                     'logo': logo,
                     'static_path_url_server': get_url_static_path(),
@@ -409,6 +422,11 @@ def admin(request):
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
             airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
 
             template, logo, color, name, desc, background = get_logo_template()
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -419,6 +437,7 @@ def admin(request):
                 'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
+                'phone_code': phone_code,
                 'logo': logo,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
@@ -441,6 +460,11 @@ def reservation(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
@@ -460,6 +484,7 @@ def reservation(request):
             'airline_carriers': new_airline_carriers,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
             'static_path_url_server': get_url_static_path(),
@@ -482,6 +507,11 @@ def top_up(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
         template, logo, color, name, desc, background = get_logo_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -492,6 +522,7 @@ def top_up(request):
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
@@ -512,6 +543,11 @@ def top_up_history(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
         airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
 
         template, logo, color, name, desc, background = get_logo_template()
 
@@ -523,6 +559,7 @@ def top_up_history(request):
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
+            'phone_code': phone_code,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
