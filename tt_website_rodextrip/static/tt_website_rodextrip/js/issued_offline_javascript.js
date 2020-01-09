@@ -154,7 +154,7 @@ function add_table_of_passenger(){
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
                                     <input type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search" style="padding:5px;"/>
-                                    <button type="button" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
+                                    <button type="button" class="primary-btn" style="line-height:34px;" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
                                     <br/><br/>
                                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
 
@@ -363,7 +363,16 @@ function add_table_of_passenger(){
           }
     });
     document.getElementById('adult_passport_expired_date'+parseInt(counter_passenger+1)).value = '';
+    document.getElementById("train_"+parseInt(counter_passenger+1)+"_search").addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
 
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("passenger_btn_io_click"+event.target.id.split('_')[1]).click();
+      }
+    });
 //    document.getElementById("radio_passenger_search"+(counter_passenger+1)).onclick = "radio_button('passenger',counter_passenger);"
 
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();

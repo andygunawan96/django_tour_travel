@@ -38,18 +38,22 @@
                 </div>
             </div>
             <div class="col-lg-4">
-                <h6 style="color:black;">Payment Partner</h6>
-                <div class="row">
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="padding-bottom:15px;">
-                        <img src="/static/tt_website_rodextrip/images/bca.png" class="our-partner" title="BCA">
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="padding-bottom:15px;">
-                        <img src="/static/tt_website_rodextrip/images/mandiri.png" class="our-partner" title="MANDIRI">
-                    </div>
-                </div>
+                <!--<h6 style="color:black;">Payment Partner</h6>-->
+                <!--<div class="row">-->
+                    <!--<div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="padding-bottom:15px;">-->
+                        <!--<img src="/static/tt_website_rodextrip/images/bca.png" class="our-partner" title="BCA">-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="padding-bottom:15px;">-->
+                        <!--<img src="/static/tt_website_rodextrip/images/mandiri.png" class="our-partner" title="MANDIRI">-->
+                    <!--</div>-->
+                <!--</div>-->
                 <h6 style="color:black">Follow us:</h6>
-                <a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
-                <a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:30px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
+                {% if facebook_url != ''%}
+                <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
+                {% endif %}
+                {% if instagram_url != ''%}
+                <a href="{{instagram_url}}"><img style="height:30px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
+                {% endif %}
             </div>
 
             <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
