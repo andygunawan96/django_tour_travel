@@ -33,13 +33,18 @@
 		float: left;
 		margin-bottom:10px;
 	}
+	hr {
+	    display: block; height: 1px;
+        border: 0; border-top: 1px solid #ccc;
+        margin: 1em 0; padding: 0;
+    }
 </style>
 <title>{{name}} - Admin</title>
 
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
 {% if template == 1 %} <!-- ga bisa di hapus soal e template 2 masih di commend-->
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;background-image:url({{background}});">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;background-image:url('{{background}}');">
     <div class="container">
         <div id="overlay-search-box" onclick="off_overlay()"></div>
         <div class="banner-right" style="margin-bottom:25px;">
@@ -59,6 +64,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="banner-tab" data-toggle="tab" href="#banner" role="tab" aria-controls="banner" aria-selected="true">
                                     <span style="padding-left:5px; font-weight:bold;"> Banner </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="social_media-tab" data-toggle="tab" href="#social_media" role="tab" aria-controls="social_media" aria-selected="true">
+                                    <span style="padding-left:5px; font-weight:bold;"> Social Media </span>
                                 </a>
                             </li>
                             {% if "cache_version" in username.co_agent_frontend_security %}
@@ -286,6 +296,37 @@
                                         </div>
                                         <hr/>
                                     </div>
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        {% if template == 1 or template == 2 or template == 3%}
+                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 4 %}
+                                        <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 5 %}
+                                        <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="social_media" role="tabpanel" aria-labelledby="social_media-tab">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Facebook</h6>
+                                        <div class="form-select">
+                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Instagram</h6>
+                                        <div class="form-select">
+                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                        </div>
+                                    </div>
+                                    <!--<div class="col-lg-6">-->
+                                        <!--<h6 style="margin-bottom:10px;color:white;">Twitter</h6>-->
+                                        <!--<div class="form-select">-->
+                                            <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                        <!--</div>-->
+                                    <!--</div>-->
                                     <div class="col-lg-12" style="text-align:center;">
                                         {% if template == 1 or template == 2 or template == 3%}
                                         <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
