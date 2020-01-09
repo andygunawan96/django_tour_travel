@@ -14,7 +14,8 @@ from tools import path_util
 from django.utils import translation
 import json
 import base64
-
+from django.core.files.storage import FileSystemStorage
+import os
 from datetime import *
 
 MODEL_NAME = 'tt_website_rodextrip'
@@ -294,13 +295,13 @@ def admin(request):
             #save
             if request.POST != {}:
                 text = ''
+                fs = FileSystemStorage()
                 try:
                     if request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
-                        text += 'data:'
-                        text += request.FILES['fileToUpload'].content_type
-                        text += ';base64, '
-                        text += base64.b64encode(request.FILES['fileToUpload'].read()).decode("utf-8")
-                        text += '\n'
+                        file = request.FILES['fileToUpload']
+                        filename = fs.save(file.name, file)
+                        file_url = fs.url(filename)
+                        text += file_url+'\n'
                     else:
                         file = open(var_log_path()+"data_cache_template.txt", "r")
                         for idx, line in enumerate(file):
@@ -325,11 +326,11 @@ def admin(request):
                 text += '<br>'.join(''.join(request.POST['website_description'].split('\r')).split('\n')) + '\n'
                 try:
                     if request.FILES['fileBackgroundHome'].content_type == 'image/jpeg' or request.FILES['fileBackgroundHome'].content_type == 'image/png' or request.FILES['fileBackgroundHome'].content_type == 'image/png':
-                        text += 'data:'
-                        text += request.FILES['fileBackgroundHome'].content_type
-                        text += ';base64, '
-                        text += base64.b64encode(request.FILES['fileBackgroundHome'].read()).decode("utf-8")
-                        text += '\n'
+                        file = request.FILES['fileBackgroundHome']
+                        filename = fs.save(file.name, file)
+                        file_url = fs.url(filename)
+                        text += file_url + '\n'
+
                 except:
                     check = 0
                     try:
@@ -346,11 +347,10 @@ def admin(request):
                         text += '\n'
                 try:
                     if request.FILES['fileBackgroundLogin'].content_type == 'image/jpeg' or request.FILES['fileBackgroundLogin'].content_type == 'image/png' or request.FILES['fileBackgroundLogin'].content_type == 'image/png':
-                        text += 'data:'
-                        text += request.FILES['fileBackgroundLogin'].content_type
-                        text += ';base64, '
-                        text += base64.b64encode(request.FILES['fileBackgroundLogin'].read()).decode("utf-8")
-                        text += '\n'
+                        file = request.FILES['fileBackgroundLogin']
+                        filename = fs.save(file.name, file)
+                        file_url = fs.url(filename)
+                        text += file_url + '\n'
                 except:
                     check = 0
                     try:
@@ -368,10 +368,10 @@ def admin(request):
 
                 try:
                     if request.FILES['fileBackgroundSearch'].content_type == 'image/jpeg' or request.FILES['fileBackgroundSearch'].content_type == 'image/png' or request.FILES['fileBackgroundSearch'].content_type == 'image/png':
-                        text += 'data:'
-                        text += request.FILES['fileBackgroundSearch'].content_type
-                        text += ';base64, '
-                        text += base64.b64encode(request.FILES['fileBackgroundSearch'].read()).decode("utf-8")
+                        file = request.FILES['fileBackgroundSearch']
+                        filename = fs.save(file.name, file)
+                        file_url = fs.url(filename)
+                        text += file_url + '\n'
                 except:
                     check = 0
                     try:
@@ -391,6 +391,10 @@ def admin(request):
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
+                #delete file ga pake
+                for file in os.listdir(fs.location):
+                    if not '/media/' + file in text.split('\n'):
+                        os.remove(fs.location+'/'+file)
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
