@@ -49,7 +49,7 @@ def search(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
         try:
             origin = []
             destination = []
@@ -80,7 +80,7 @@ def search(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
@@ -91,14 +91,7 @@ def search(request):
             'static_path_url_server': get_url_static_path(),
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-
-        }
+        })
         return render(request, MODEL_NAME+'/train/train_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -109,7 +102,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -140,7 +133,7 @@ def passenger(request):
             infant.append('')
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
@@ -158,14 +151,7 @@ def passenger(request):
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-
-        }
+        })
         return render(request, MODEL_NAME+'/train/train_passenger_templates.html', values)
     else:
         return no_session_logout(request)
@@ -176,7 +162,7 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         adult = []
         infant = []
@@ -311,7 +297,7 @@ def review(request):
         time_limit = request.session['time_limit']
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'time_limit': time_limit,
@@ -323,15 +309,9 @@ def review(request):
             'javascript_version': javascript_version,
             'signature': request.session['train_signature'],
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'cookies': json.dumps(res['result']['cookies']),
 
-        }
+        })
         return render(request, MODEL_NAME+'/train/train_review_templates.html', values)
     else:
         return no_session_logout(request)
@@ -341,13 +321,13 @@ def booking(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         try:
             request.session['train_order_number'] = request.POST['order_number']
         except:
             pass
         order_number = request.session['train_order_number']
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
@@ -357,13 +337,7 @@ def booking(request):
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
     else:
         return no_session_logout(request)
@@ -371,14 +345,14 @@ def booking(request):
 def seat_map(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         try:
             request.session['train_seat_map_request'] = json.loads(request.POST['seat_map_request_input'])
             request.session['train_passenger_request'] = json.loads(request.POST['passenger_input'])
         except:
             pass
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'paxs': request.session['train_passenger_request'],
             'order_number': request.session['train_order_number'],
@@ -388,13 +362,7 @@ def seat_map(request):
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/train/train_seat_map_templates.html', values)
     else:
         return no_session_logout(request)

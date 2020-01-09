@@ -56,7 +56,7 @@ def search(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
 
         dest_month_data = [
             {'value': '00', 'string': 'All Months'},
@@ -87,7 +87,7 @@ def search(request):
         except:
             request.session['tour_request'] = request.session['tour_request']
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -103,13 +103,7 @@ def search(request):
             'signature': request.session['signature'],
             'time_limit': 600,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME + '/tour/tour_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -127,7 +121,7 @@ def detail(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -158,7 +152,7 @@ def detail(request):
             {'value': '12', 'string': 'December'},
         ]
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'response': request.session['tour_search'][int(request.POST['sequence'])],
             'response': request.session['tour_pick'],
@@ -176,13 +170,7 @@ def detail(request):
             'signature': request.session['tour_signature'],
             'time_limit': request.session['time_limit'],
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
 
         return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
     else:
@@ -195,7 +183,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -327,7 +315,7 @@ def passenger(request):
             'tour_data': request.session['tour_pick'],
         }
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'adult_title': adult_title,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -348,13 +336,7 @@ def passenger(request):
             'time_limit': request.session['time_limit'],
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/tour/tour_passenger_templates.html', values)
     else:
         return no_session_logout(request)
@@ -371,7 +353,7 @@ def review(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -597,7 +579,7 @@ def review(request):
             ],
         }
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -621,13 +603,7 @@ def review(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['tour_signature'],
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
 
         return render(request, MODEL_NAME+'/tour/tour_review_templates.html', values)
     else:
@@ -637,24 +613,19 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'logo': logo,
+
             'static_path_url_server': get_url_static_path(),
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/tour/tour_booking_templates.html', values)
     else:
         return no_session_logout(request)
