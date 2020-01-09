@@ -48,7 +48,7 @@ def search(request):
             response = json.loads(line)
         file.close()
 
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
 
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
         for i in response:
@@ -237,7 +237,7 @@ def search(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'journeys': journeys,
             'airline_request': airline_request,
@@ -253,17 +253,11 @@ def search(request):
             'signature': request.session['signature'],
             'time_limit': 600,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
-        }
+        })
         return render(request, MODEL_NAME+'/airline/airline_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -285,7 +279,7 @@ def passenger(request):
                 carrier = json.loads(line)
             file.close()
 
-            template, logo, color, name, desc, background = get_logo_template()
+            values = get_data_template()
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
@@ -355,7 +349,7 @@ def passenger(request):
             elif is_international == True:
                 break
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'ssr': ssr,
             'is_lionair': is_lionair,
@@ -379,17 +373,11 @@ def passenger(request):
             'signature': request.session['airline_signature'],
             'time_limit': request.session['time_limit'],
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
 
-        }
+        })
         return render(request, MODEL_NAME+'/airline/airline_passenger_templates.html', values)
     else:
         return no_session_logout(request)
@@ -409,7 +397,7 @@ def ssr(request):
         carrier = json.loads(file.read())
         file.close()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         try:
             passenger = []
@@ -434,7 +422,7 @@ def ssr(request):
                 })
                 airline_list = []
             passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
@@ -452,15 +440,9 @@ def ssr(request):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': int(request.POST['time_limit_input']),
-                'logo': logo,
-                'template': template,
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
                 # 'cookies': json.dumps(res['result']['cookies']),
 
-            }
+            })
         except:
             #dari getbooking
             #pax
@@ -554,7 +536,7 @@ def ssr(request):
                     'airline_list': airline_list
                 })
                 airline_list = []
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'after_sales': 1,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -570,15 +552,9 @@ def ssr(request):
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 # 'time_limit': int(request.POST['time_limit_input']),
-                'logo': logo,
-                'template': template,
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
                 # 'cookies': json.dumps(res['result']['cookies']),
 
-            }
+            })
         return render(request, MODEL_NAME+'/airline/airline_ssr_templates.html', values)
     else:
         return no_session_logout(request)
@@ -599,7 +575,7 @@ def seat_map(request):
             carrier = json.loads(line)
         file.close()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         ssr = []
 
@@ -721,7 +697,7 @@ def seat_map(request):
             additional_price = request.POST['additional_price_input'].split(',')
             for i in additional_price:
                 additional_price_input += i
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_carriers': carrier,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -738,18 +714,11 @@ def seat_map(request):
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'time_limit': int(request.POST['time_limit_input']),
-                'logo': logo,
-                'template': template,
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
                 # 'cookies': json.dumps(res['result']['cookies']),
-
-            }
+            })
         except:
             additional_price_input = 0
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_carriers': carrier,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -764,15 +733,8 @@ def seat_map(request):
                 'static_path_url_server': get_url_static_path(),
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
-                'logo': logo,
-                'template': template,
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
                 # 'cookies': json.dumps(res['result']['cookies']),
-
-            }
+            })
 
         return render(request, MODEL_NAME+'/airline/airline_seat_map_templates.html', values)
     else:
@@ -794,12 +756,12 @@ def seat_map_public(request, signature=-1):
             carrier = json.loads(line)
         file.close()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
 
         additional_price_input = '0'
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'airline_carriers': carrier,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -811,15 +773,8 @@ def seat_map_public(request, signature=-1):
             # 'airline_seat_map': request.session['airline_get_seat_availability']['result']['response'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'cookies': json.dumps(res['result']['cookies']),
-
-        }
+        })
         return render(request, MODEL_NAME+'/airline/airline_seat_map_public_templates.html', values)
     else:
         #error 404
@@ -836,7 +791,7 @@ def review(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         ssr = []
         if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'ssr':
@@ -1069,7 +1024,7 @@ def review(request):
         additional_price = request.POST['additional_price_input'].split(',')
         for i in additional_price:
             additional_price_input += i
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
@@ -1090,16 +1045,9 @@ def review(request):
             'static_path_url_server': get_url_static_path(),
             'signature': request.session['airline_signature'],
             'time_limit': int(request.POST['time_limit_input']),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
-        }
+        })
         return render(request, MODEL_NAME+'/airline/airline_review_templates.html', values)
     else:
         return no_session_logout(request)
@@ -1115,7 +1063,7 @@ def review_after_sales(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         goto = 0
         ssr = []
 
@@ -1219,7 +1167,7 @@ def review_after_sales(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
@@ -1237,16 +1185,9 @@ def review_after_sales(request):
             'static_path_url_server': get_url_static_path(),
             'signature': request.session['airline_signature'],
             # 'time_limit': int(request.POST['time_limit_input']),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
-        }
+        })
         return render(request, MODEL_NAME + '/airline/airline_review_after_sales_templates.html', values)
     else:
         return no_session_logout(request)
@@ -1261,7 +1202,7 @@ def booking(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -1270,7 +1211,7 @@ def booking(request):
             request.session['airline_order_number'] = request.POST['order_number']
         except:
             order_number = request.session['airline_order_number']
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'airline_carriers': airline_carriers,
@@ -1278,15 +1219,8 @@ def booking(request):
             'static_path_url_server': get_url_static_path(),
             # 'order_number': 'AL.19081332140',
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-
             # 'order_number': 'AL.19072446048',
-        }
+        })
         return render(request, MODEL_NAME+'/airline/airline_booking_templates.html', values)
     else:
         return no_session_logout(request)

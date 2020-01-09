@@ -24,7 +24,7 @@ def issued_offline(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
@@ -43,7 +43,7 @@ def issued_offline(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'issued_offline_data': response['result']['response']['issued_offline'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -57,17 +57,10 @@ def issued_offline(request):
             'username': request.session['user_account'],
             'signature': request.session['signature'],
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
-        }
+        })
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_templates.html', values)
     else:
         return no_session_logout(request)
@@ -83,11 +76,11 @@ def issued_offline_history(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -95,13 +88,7 @@ def issued_offline_history(request):
             'phone_code': phone_code,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_history_templates.html', values)
     else:
         return no_session_logout(request)

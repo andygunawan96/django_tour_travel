@@ -20,7 +20,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 
 def search(request):
-    template, logo, color, name, desc, background = get_logo_template('search')
+    values = get_data_template('search')
     javascript_version = get_javascript_version()
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
@@ -42,7 +42,7 @@ def search(request):
 
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-    values = {
+    values.update({
         'static_path': path_util.get_static_path(MODEL_NAME),
         'visa_request': visa_request,
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -54,20 +54,14 @@ def search(request):
         'username': request.session['user_account'],
         'static_path_url_server': get_url_static_path(),
         'javascript_version': javascript_version,
-        'logo': logo,
-        'template': template,
-        'color': color,
-        'desc': desc.split('\n'),
-        'name': name,
-        'background': background
-    }
+    })
     return render(request, MODEL_NAME+'/visa/visa_search_templates.html', values)
 
 def passenger(request):
     javascript_version = get_javascript_version()
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
-    template, logo, color, name, desc, background = get_logo_template()
+    values = get_data_template()
 
     request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -150,7 +144,7 @@ def passenger(request):
     list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-    values = {
+    values.update({
         'static_path': path_util.get_static_path(MODEL_NAME),
         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
         'countries': airline_country,
@@ -159,7 +153,6 @@ def passenger(request):
         'passengers': pax,
         'signature': request.session['visa_signature'],
         'time_limit': request.session['time_limit'],
-        'countries': airline_country,
         'adults': adult,
         'childs': child,
         'infants': infant,
@@ -172,13 +165,7 @@ def passenger(request):
         # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
         'username': request.session['user_account'],
         'javascript_version': javascript_version,
-        'logo': logo,
-        'template': template,
-        'color': color,
-        'desc': desc.split('\n'),
-        'name': name,
-        'background': background
-    }
+    })
     return render(request, MODEL_NAME+'/visa/visa_passenger_templates.html', values)
 
 def review(request):
@@ -192,7 +179,7 @@ def review(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -364,7 +351,7 @@ def review(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
@@ -378,41 +365,28 @@ def review(request):
             'time_limit': request.session['time_limit'],
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'co_uid': request.session['co_uid'],
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-
-        }
+        })
         return render(request, MODEL_NAME+'/visa/visa_review_templates.html', values)
     else:
         return no_session_logout(request)
 
 def booking(request):
     if 'user_account' in request.session._session:
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         javascript_version = get_javascript_version()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'order_number': request.POST['order_number'],
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'order_number': 'VS.19072500003',
             # 'cookies': json.dumps(res['result']['cookies']),
-        }
+        })
         return render(request, MODEL_NAME+'/visa/visa_booking_templates.html', values)
     else:
         return no_session_logout(request)

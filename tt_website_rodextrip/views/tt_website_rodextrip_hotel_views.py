@@ -23,7 +23,7 @@ def search(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -53,7 +53,7 @@ def search(request):
         except:
             print('error')
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'countries': response['result']['response']['airline']['country'],
             # 'hotel_config': response['result']['response']['hotel_config'],
@@ -64,17 +64,10 @@ def search(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
             'time_limit': 600,
             'signature': request.session['signature'],
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'cookies': json.dumps(res['result']['cookies']),
-
-        }
+        })
         return render(request, MODEL_NAME+'/hotel/hotel_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -85,7 +78,7 @@ def detail(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -102,7 +95,7 @@ def detail(request):
         except:
             pass
         data = request.session['hotel_request']
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'hotel_search': data,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -115,15 +108,9 @@ def detail(request):
             'signature': request.session['hotel_signature'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
             'time_limit': request.session['time_limit'],
             'rating': range(request.session['hotel_detail']['rating']),
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
 
         return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
     else:
@@ -159,7 +146,7 @@ def passengers(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -190,7 +177,7 @@ def passengers(request):
             'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
         })
         request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'countries': airline_country,
             'phone_code': phone_code,
@@ -209,14 +196,8 @@ def passengers(request):
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
             'time_limit': request.session['time_limit'],
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/hotel/hotel_passenger_templates.html', values)
     else:
         return no_session_logout(request)
@@ -226,7 +207,7 @@ def review(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -403,7 +384,7 @@ def review(request):
            for rec in request.session['hotel_room_pick']['rooms']],
         })
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'booker': booker,
             'adults': adult,
@@ -421,17 +402,10 @@ def review(request):
             'signature': request.session['hotel_signature'],
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
             'time_limit': request.session['time_limit'],
-            'template': template,
             'printout_rec': print_json,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'cookies': json.dumps(res['result']['cookies']),
-
-        }
+        })
         return render(request, MODEL_NAME + '/hotel/hotel_review_templates.html', values)
     else:
         return index(request)
@@ -440,7 +414,7 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         try:
             try:
@@ -452,19 +426,13 @@ def booking(request):
         except:
             order_number = request.session['hotel_order_number']
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session['user_account'],
             'order_number': order_number,
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
     else:
         return no_session_logout(request)

@@ -35,7 +35,7 @@ def search(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
 
         try:
             request.session['activity_search_request'] = {
@@ -55,7 +55,7 @@ def search(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
@@ -71,13 +71,7 @@ def search(request):
             'signature': request.session['signature'],
             'time_limit': 600,
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
 
         return render(request, MODEL_NAME+'/activity/activity_search_templates.html', values)
     else:
@@ -96,7 +90,7 @@ def detail(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        template, logo, color, name, desc, background = get_logo_template('search')
+        values = get_data_template('search')
 
         try:
             request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -110,7 +104,7 @@ def detail(request):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'response': request.session['activity_search'][request.session['activity_pick_seq']],
             'username': request.session['user_account'],
@@ -125,15 +119,9 @@ def detail(request):
             'parsed_sub_category': request.session['activity_search_request']['sub_category'],
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
-            'logo': logo,
             'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/activity/activity_detail_templates.html', values)
     else:
         return no_session_logout(request)
@@ -145,7 +133,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -385,7 +373,7 @@ def passenger(request):
             'senior_passenger_count': len(request.session['activity_pax_data']['senior']),
         })
 
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'adult_title': adult_title,
             'infant_title': infant_title,
@@ -411,15 +399,9 @@ def passenger(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
-            'logo': logo,
             'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
 
         for temp_sku in request.session['activity_details_data'][request.session['activity_type_pick']]['skus']:
             low_sku_id = temp_sku['sku_id'].lower()
@@ -455,7 +437,7 @@ def review(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -1261,7 +1243,7 @@ def review(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'additional_price': request.POST['additional_price'],
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -1292,15 +1274,9 @@ def review(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['activity_signature'],
-            'logo': logo,
             'static_path_url_server': get_url_static_path(),
             'time_limit': request.session['time_limit'],
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/activity/activity_review_templates.html', values)
     else:
         return no_session_logout(request)
@@ -1310,11 +1286,11 @@ def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'order_number': request.POST['order_number'],
             'username': request.session['user_account'],
@@ -1322,13 +1298,7 @@ def booking(request):
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
             'static_path_url_server': get_url_static_path(),
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME + '/activity/activity_booking_templates.html', values)
     else:
         return no_session_logout(request)

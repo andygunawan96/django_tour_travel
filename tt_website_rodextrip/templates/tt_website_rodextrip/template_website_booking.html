@@ -1129,6 +1129,7 @@ Licence URI: http://www.os-templates.com/template-terms
 </script>
 {% endif %}
 <!--Start of Tawk.to Script-->
+{% if tawk_code != '' %}
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 Tawk_API.visitor = {
@@ -1138,16 +1139,19 @@ Tawk_API.visitor = {
 (function(){
 var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
 s1.async=true;
-s1.src='https://embed.tawk.to/5e0abe327e39ea1242a26bca/default';
+s1.src='https://embed.tawk.to/{{tawk_code}}/default';
 s1.charset='UTF-8';
 s1.setAttribute('crossorigin','*');
 s0.parentNode.insertBefore(s1,s0);
 Tawk_API.onLoad = function(){
     //Tawk_API.hideWidget();
-    Tawk_API.toggleVisibility();
+    {% if tawk_chat == 0 %}
+        Tawk_API.toggleVisibility();
+    {% endif %}
 }
 })();
 </script>
+{% endif %}
 <!--End of Tawk.to Script-->
 <!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>-->
 <!--<script src="{{ static_path }}js/google-map.js' %}"></script>-->

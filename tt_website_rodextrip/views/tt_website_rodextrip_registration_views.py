@@ -29,13 +29,13 @@ def open_page(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         social_medias = []
         try:
             social_medias = response['result']['response']['issued_offline']['social_media_id']
         except:
             pass
-        values = {
+        values.update({
             'countries': response['result']['response']['airline']['country'],
             'static_path': path_util.get_static_path(MODEL_NAME),
             'javascript_version': javascript_version,
@@ -43,28 +43,16 @@ def open_page(request):
             'static_path_url_server': get_url_static_path(),
             'signature': request.session['signature'],
             'social_medias': social_medias,
-            'logo': logo,
-            'color': color,
-            'template': template,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
             # 'username': request.session['username'],
             # 'co_uid': request.session['co_uid'],
-        }
+        })
     except:
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
             'signature': request.session['signature'],
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
     return render(request, MODEL_NAME + '/agent_registration/registration_form_template.html', values)
 
 
@@ -75,7 +63,7 @@ def register_agent(request):
     counter = 1
     javascript_version = get_javascript_version()
 
-    template, logo, color, name, desc, background = get_logo_template()
+    values = get_data_template()
 
     #pic
     while(check):
@@ -130,19 +118,13 @@ def register_agent(request):
         },
     }
 
-    values = {
+    values.update({
         'username': request.session['user_account'],
         'static_path': path_util.get_static_path(MODEL_NAME),
         'signature': request.session['signature'],
         'static_path_url_server': get_url_static_path(),
         'javascript_version': javascript_version,
-        'logo': logo,
-        'template': template,
-        'color': color,
-        'desc': desc.split('\n'),
-        'name': name,
-        'background': background
-    }
+    })
     return render(request, MODEL_NAME + '/agent_registration/registration_finish_template.html', values)
 
 

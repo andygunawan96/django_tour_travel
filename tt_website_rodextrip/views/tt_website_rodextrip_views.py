@@ -24,7 +24,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 def index(request):
     try:
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
@@ -37,28 +37,24 @@ def index(request):
 
         if request.POST['logout']:
             request.session.delete()
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
-                'logo': logo,
-                'template': template
-            }
+            })
     except:
         try:
             if 'login' not in request.session['user_account']['co_agent_frontend_security']:
-                values = {
+                values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
-                    'logo': logo,
-                    'template': template
-                }
+                })
             elif bool(request.session._session):
                 #get_data_awal
                 try:
@@ -177,7 +173,7 @@ def index(request):
                             }
                     except:
                         pass
-                    values = {
+                    values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'cache': json.dumps(cache),
                         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -188,11 +184,6 @@ def index(request):
                         'username': request.session['user_account'],
                         # 'co_uid': request.session['co_uid'],
                         'airline_cabin_class_list': airline_cabin_class_list,
-                        'logo': logo,
-                        'template': template,
-                        'desc': desc.split('\n'),
-                        'name': name,
-                        'background': background,
                         #activity
                         'activity_sub_categories': activity_sub_categories,
                         'activity_categories': activity_categories,
@@ -204,46 +195,38 @@ def index(request):
                         'update_data': 'false',
                         'static_path_url_server': get_url_static_path(),
                         'signature': request.session['signature'],
-                        'color': color
-                    }
+                    })
                     return render(request, MODEL_NAME + '/home_templates.html', values)
+                    # return render(request, MODEL_NAME + '/testing.html', {})
                 except:
-                    values = {
+                    values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'javascript_version': javascript_version,
-                        'logo': logo,
                         'static_path_url_server': get_url_static_path(),
-                        'template': template
-                    }
+                    })
             else:
-                values = {
+                values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'javascript_version': javascript_version,
-                    'logo': logo,
                     'static_path_url_server': get_url_static_path(),
-                    'template': template
-                }
+                })
         except:
             if request.session.get('user_account'):
-                values = {
+                values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,
-                    'logo': logo,
                     'static_path_url_server': get_url_static_path(),
-                    'template': template,
                     'username': request.session.get('user_account') or '',
-                }
+                })
             else:
-                values = {
+                values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,
-                    'logo': logo,
                     'static_path_url_server': get_url_static_path(),
-                    'template': template,
-                }
+                })
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
@@ -268,7 +251,7 @@ def testing(request):
 
 def login(request):
     javascript_version = get_javascript_version()
-    template, logo, color, name, desc, background = get_logo_template('login')
+    values = get_data_template('login')
 
     try:
         if request.POST['logout'] == 'true':
@@ -278,17 +261,11 @@ def login(request):
                 pass
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'logo': logo,
-                'template': template,
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
-            }
+            })
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
     except:
@@ -303,17 +280,11 @@ def login(request):
             request.session.delete()
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'logo': logo,
-                'template': template,
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
-            }
+            })
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
 
@@ -415,6 +386,8 @@ def admin(request):
                         pass
                     if check == 0:
                         text += '\n'
+                text += request.POST['tawk_chat'] + '\n'
+                text += request.POST['tawk_code']
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -428,26 +401,20 @@ def admin(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            template, logo, color, name, desc, background = get_logo_template()
+            values = get_data_template()
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            values = {
+            values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                 'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'logo': logo,
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
-                'template': template,
                 'signature': request.session['signature'],
-                'color': color,
-                'desc': desc.split('\n'),
-                'name': name,
-                'background': background
-            }
+            })
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
         else:
             return no_session_logout(request)
@@ -471,7 +438,7 @@ def reservation(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         new_airline_carriers = {}
         for key, value in airline_carriers.items():
@@ -479,7 +446,7 @@ def reservation(request):
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'airline_carriers': new_airline_carriers,
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -490,13 +457,7 @@ def reservation(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/backend/reservation_templates.html', values)
     else:
         return no_session_logout(request)
@@ -512,11 +473,11 @@ def top_up(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
@@ -526,13 +487,7 @@ def top_up(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
     else:
         return no_session_logout(request)
@@ -549,11 +504,11 @@ def top_up_history(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        template, logo, color, name, desc, background = get_logo_template()
+        values = get_data_template()
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        values = {
+        values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             'username': request.session['user_account'],
@@ -563,13 +518,7 @@ def top_up_history(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'logo': logo,
-            'template': template,
-            'color': color,
-            'desc': desc.split('\n'),
-            'name': name,
-            'background': background
-        }
+        })
         return render(request, MODEL_NAME+'/backend/top_up_history_templates.html', values)
     else:
         return no_session_logout(request)
@@ -593,12 +542,14 @@ def get_cache_data(javascript_version):
     file.close()
     return response
 
-def get_logo_template(type='home'):
+def get_data_template(type='home'):
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     background = '/static/tt_website_rodextrip/images/bg_7.jpg'
     color = '#f15a22'
     website_name = 'Rodextrip'
+    tawk_chat = 0
+    tawk_code = ''
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
 
 We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
@@ -630,6 +581,10 @@ We build this application for our existing partner and public users who register
             elif idx == 7 and type == 'search':
                 if line != '\n':
                     background = line
+            elif idx == 8:
+                tawk_chat = int(line)
+            elif idx == 9:
+                tawk_code = line
         if color == '':
             color = '#f15a22'
         file.close()
@@ -637,7 +592,16 @@ We build this application for our existing partner and public users who register
             background = background.split('\n')[0]
     except:
         pass
-    return template, logo, color, website_name, website_description, background
+    return {
+        'logo': logo,
+        'template': template,
+        'color': color,
+        'desc': website_description.split('\n'),
+        'name': website_name,
+        'background': background,
+        'tawk_chat': tawk_chat,
+        'tawk_code': tawk_code
+    }
 
 # @api_view(['GET'])
 # def testing(request):

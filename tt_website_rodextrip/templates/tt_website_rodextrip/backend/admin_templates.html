@@ -38,1128 +38,1474 @@
 
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
-{% if template == 1 %}
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% if template == 1 %} <!-- ga bisa di hapus soal e template 2 masih di commend-->
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;background-color:gray;">
     <div class="container">
+        <div id="overlay-search-box" onclick="off_overlay()"></div>
         <div class="banner-right" style="margin-bottom:25px;">
             <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                 {% csrf_token %}
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
-                    <div class="row" style="text-align:left">
-                        <div class="col-lg-12" style="margin-bottom:15px;">
-                            <h3>Admin Setting</h3>
-                            <hr/>
-                        </div>
-                        <div class="col-lg-12">
+                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                    <h3>Admin Setting</h3>
+                </div>
+                <div class="col-lg-12" id="div-search-overlay">
+                    <div class="banner-right scrollmenu style-scrollbar">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="website-tab" data-toggle="tab" href="#website" role="tab" aria-controls="website" aria-selected="true">
+                                    <span style="padding-left:5px; font-weight:bold;"> Website Template </span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="banner-tab" data-toggle="tab" href="#banner" role="tab" aria-controls="banner" aria-selected="true">
+                                    <span style="padding-left:5px; font-weight:bold;"> Banner </span>
+                                </a>
+                            </li>
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <h6 style="margin-bottom:10px;">Update Cache</h6>
-                            <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
-                            <hr/>
+                            <li class="nav-item">
+                                <a class="nav-link" id="testing-tab" data-toggle="tab" href="#testing" role="tab" aria-controls="testing" aria-selected="true">
+                                    <span style="padding-left:5px; font-weight:bold;"> Update Cache </span>
+                                </a>
+                            </li>
                             {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Template Website</h6>
-                            {% if template == 1 or template == 2 %}
-                            <div class="form-select" id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 3 %}
-                            <div class="form-group" style="width:100%;">
-                                <div class="default-select" id="default-select" style="width:100%;">
-                                    <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
-                                        <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                        <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                        <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                        <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                        <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            {% elif template == 4 %}
-                            <div class="select-wrap">
-                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 5 %}
-                            <div id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Color</h6>
-                            <div class="form-select" id="default-select">
-                                <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Name</h6>
-                            <div class="form-select">
-                                <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Description</h6>
-                            <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Logo</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileToUpload" id="fileToUpload"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Home</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Login</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Search</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Big Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
+                            <li class="nav-item">
+                                <a class="nav-link" id="tawk-tab" data-toggle="tab" href="#tawk" role="tab" aria-controls="tawk" aria-selected="true">
+                                    <span style="padding-left:5px; font-weight:bold;"> Tawk Setting </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Big Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div class="banner-right" style="color:white;">
+                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="website" role="tabpanel" aria-labelledby="website-tab">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Template Website</h6>
+                                        {% if template == 1 or template == 2 %}
+                                        <div class="form-select" id="default-select">
+                                            <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
+                                                <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
+                                                <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
+                                                <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
+                                                <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
+                                            </select>
                                         </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_bigbanner"></div>
-
+                                        {% elif template == 3 %}
+                                        <div class="form-group" style="width:100%;">
+                                            <div class="default-select" id="default-select" style="width:100%;">
+                                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
+                                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
+                                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
+                                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
+                                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
+                                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
+                                                </select>
+                                            </div>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        {% elif template == 4 %}
+                                        <div class="select-wrap">
+                                            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                                            <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
+                                                <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
+                                                <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
+                                                <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
+                                                <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
+                                                <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
+                                            </select>
                                         </div>
+                                        {% elif template == 5 %}
+                                        <div id="default-select">
+                                            <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
+                                                <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
+                                                <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
+                                                <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
+                                                <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
+                                                <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Color</h6>
+                                        <div class="form-select" id="default-select">
+                                            <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12"><hr/></div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Website Name</h6>
+                                        <div class="form-select">
+                                            <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Website Description</h6>
+                                        <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
+                                    </div>
+                                    <div class="col-lg-12"><hr/></div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Logo</h6>
+                                        <div class="input-container-search-ticket form-select">
+                                            <input type="file" name="fileToUpload" id="fileToUpload"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Background Image Home</h6>
+                                        <div class="input-container-search-ticket form-select">
+                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Background Image Login</h6>
+                                        <div class="input-container-search-ticket form-select">
+                                            <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Background Image Search</h6>
+                                        <div class="input-container-search-ticket form-select">
+                                            <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        {% if template == 1 or template == 2 or template == 3%}
+                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 4 %}
+                                        <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 5 %}
+                                        <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>
-                            <div class="row" id="big_banner">
 
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Small Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Small Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <div class="tab-pane fade" id="banner" role="tabpanel" aria-labelledby="banner-tab">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Background Image Home</h6>
+                                        <div class="input-container-search-ticket form-select">
+                                            <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                         </div>
-                                        <div class="modal-body">
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="color:white;margin-bottom:10px;">Background Image Login</h6>
+                                        <div class="input-container-search-ticket form-select">
+                                            <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="color:white;margin-bottom:10px;">Background Image Search</h6>
+                                        <div class="input-container-search-ticket form-select">
+                                            <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12"><hr/></div>
+                                    <div class="col-lg-12">
+                                        <h6 style="color:white;margin-bottom:10px;">Big Banner</h6>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog">
 
-                                            Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Big Banner</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
 
-                                            <div id="selectedFiles_smallbanner"></div>
+                                                        Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
+
+                                                        <div id="selectedFiles_bigbanner"></div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/><br/>
+                                        <h6 style="color:white;margin-bottom:10px;">Image Big Banner</h6><br/>
+                                        <div class="row" id="big_banner">
 
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <hr/>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <h6 style="color:white;margin-bottom:10px;">Small Banner</h6>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Small Banner</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
+
+                                                        <div id="selectedFiles_smallbanner"></div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <br/><br/>
+                                        <h6>Image Small Banner</h6><br/>
+                                        <div id="small_banner">
+
+                                        </div>
+                                        <hr/>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <h6 style="color:white;margin-bottom:10px;">Promotion Banner</h6>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
+                                            <div class="modal-dialog">
+
+                                                <!-- Modal content-->
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" style="color:white;">Promotion Banner</h4>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+
+                                                        Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
+
+                                                        <div id="selectedFiles_promotionbanner"></div>
+
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/><br/>
+                                        <h6 style="color:white;margin-bottom:10px;">Image Promotion Banner</h6>
+                                        <div id="promotion">
+
+                                        </div>
+                                        <hr/>
+                                    </div>
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        {% if template == 1 or template == 2 or template == 3%}
+                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 4 %}
+                                        <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 5 %}
+                                        <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            <br/><br/>
-                            <h6>Image Small Banner</h6><br/>
-                            <div id="small_banner">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Promotion Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Promotion Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_promotionbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
+                            <div class="tab-pane fade" id="testing" role="tabpanel" aria-labelledby="testing-tab">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    {% if "cache_version" in username.co_agent_frontend_security %}
+                                    <div class="col-lg-12">
+                                        <h6 style="color:white;margin-bottom:10px;">Update Cache</h6>
+                                        <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
+                                    </div>
+                                    <hr/>
+                                    {% endif %}
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        {% if template == 1 or template == 2 or template == 3%}
+                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 4 %}
+                                        <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 5 %}
+                                        <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Promotion Banner</h6>
-                            <div id="promotion">
-
+                            <div class="tab-pane fade" id="tawk" role="tabpanel" aria-labelledby="tawk-tab">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Visible Chat</h6>
+                                        {% if template == 1 or template == 2 %}
+                                        <div class="form-select" id="default-select">
+                                            <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                                <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
+                                                <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
+                                            </select>
+                                        </div>
+                                        {% elif template == 3 %}
+                                        <div class="form-group" style="width:100%;">
+                                            <div class="default-select" id="default-select" style="width:100%;">
+                                                <select id="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
+                                                    <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
+                                                    <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        {% elif template == 4 %}
+                                        <div class="select-wrap">
+                                            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
+                                            <select id="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
+                                                <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
+                                                <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
+                                            </select>
+                                        </div>
+                                        {% elif template == 5 %}
+                                        <div id="default-select">
+                                            <select id="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
+                                                <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
+                                                <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
+                                            </select>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:white;">Code</h6>
+                                        <div class="form-select">
+                                            <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        {% if template == 1 or template == 2 or template == 3%}
+                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 4 %}
+                                        <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
+                                        {% elif template == 5 %}
+                                        <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
+                                        {% endif %}
+                                    </div>
+                                </div>
                             </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            {% if template == 1 or template == 2 or template == 3%}
-                            <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                            {% elif template == 4 %}
-                            <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                            {% elif template == 5 %}
-                            <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                            {% endif %}
                         </div>
                     </div>
                 </div>
+
+
+                <!--<div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">-->
+                    <!--<div class="row" style="text-align:left">-->
+                        <!--<div class="col-lg-12" style="margin-bottom:15px;">-->
+                            <!--<h3>Admin Setting</h3>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12">-->
+
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Template Website</h6>-->
+                            <!--{% if template == 1 or template == 2 %}-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 3 %}-->
+                            <!--<div class="form-group" style="width:100%;">-->
+                                <!--<div class="default-select" id="default-select" style="width:100%;">-->
+                                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">-->
+                                        <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                        <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                        <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                        <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                        <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<div class="select-wrap">-->
+                                <!--<span class="icon"><span class="icon-keyboard_arrow_down"></span></span>-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<div id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Color</h6>-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<input class="jscolor nice-select-default" value="{{color}}" name="color_pick">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Name</h6>-->
+                            <!--<div class="form-select">-->
+                                <!--<input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Description</h6>-->
+                            <!--<textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Logo</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileToUpload" id="fileToUpload"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Home</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Login</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Search</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Big Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Big Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_bigbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>-->
+                            <!--<div class="row" id="big_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Small Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Small Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_smallbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6>Image Small Banner</h6><br/>-->
+                            <!--<div id="small_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Promotion Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Promotion Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_promotionbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Promotion Banner</h6>-->
+                            <!--<div id="promotion">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--{% if template == 1 or template == 2 or template == 3%}-->
+                            <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
             </form>
         </div>
     </div>
 </section>
-{% elif template == 2 %}
-<section class="roberto-service-area" style="padding-top:30px; padding-bottom:40px; z-index:2;">
-    <div class="container">
-        <div class="hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">
-            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">
-                <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
-                        <div class="row" style="text-align:left">
-                            <div class="col-lg-12" style="margin-bottom:15px;">
-                                <h3>Admin Setting</h3>
-                                <hr/>
-                            </div>
-                            <div class="col-lg-12">
-                                {% if "cache_version" in username.co_agent_frontend_security %}
-                                <h6 style="margin-bottom:10px;">Update Cache</h6>
-                                <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
-                                <hr/>
-                                {% endif %}
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Template Website</h6>
-                                {% if template == 1 or template == 2 %}
-                                <div class="form-select" id="default-select">
-                                    <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                        <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                        <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                        <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                        <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                        <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                    </select>
-                                </div>
-                                {% elif template == 3 %}
-                                <div class="form-group" style="width:100%;">
-                                    <div class="default-select" id="default-select" style="width:100%;">
-                                        <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
-                                            <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                            <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                            <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                            <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                            <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                {% elif template == 4 %}
-                                <div class="select-wrap">
-                                    <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                    <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
-                                        <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                        <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                        <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                        <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                        <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                    </select>
-                                </div>
-                                {% elif template == 5 %}
-                                <div id="default-select">
-                                    <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
-                                        <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                        <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                        <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                        <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                        <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                    </select>
-                                </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Color</h6>
-                                <div class="form-select" id="default-select">
-                                    <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
-                                </div>
-                            </div>
-                            <div class="col-lg-12"><hr/></div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Website Name</h6>
-                                <div class="form-select">
-                                    <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Website Description</h6>
-                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                            </div>
-                            <div class="col-lg-12"><hr/></div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Logo</h6>
-                                <div class="input-container-search-ticket form-select">
-                                    <input type="file" name="fileToUpload" id="fileToUpload"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Background Image Home</h6>
-                                <div class="input-container-search-ticket form-select">
-                                    <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Background Image Login</h6>
-                                <div class="input-container-search-ticket form-select">
-                                    <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;">Background Image Search</h6>
-                                <div class="input-container-search-ticket form-select">
-                                    <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
-                                </div>
-                            </div>
-                            <div class="col-lg-12"><hr/></div>
-                            <div class="col-lg-12">
-                                <h6 style="margin-bottom:10px;">Big Banner</h6>
-                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
-                                    <div class="modal-dialog">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" style="color:white;">Big Banner</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                                <div id="selectedFiles_bigbanner"></div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/><br/>
-                                <h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>
-                                <div class="row" id="big_banner">
-
-                                </div>
-                                <hr/>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <h6 style="margin-bottom:10px;">Small Banner</h6>
-                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
-                                    <div class="modal-dialog">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" style="color:white;">Small Banner</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                                <div id="selectedFiles_smallbanner"></div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/><br/>
-                                <h6>Image Small Banner</h6><br/>
-                                <div id="small_banner">
-
-                                </div>
-                                <hr/>
-                            </div>
-
-                            <div class="col-lg-12">
-                                <h6 style="margin-bottom:10px;">Promotion Banner</h6>
-                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
-                                <!-- Modal -->
-                                <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
-                                    <div class="modal-dialog">
-
-                                        <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" style="color:white;">Promotion Banner</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-
-                                                Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                                <div id="selectedFiles_promotionbanner"></div>
-
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br/><br/>
-                                <h6 style="margin-bottom:10px;">Image Promotion Banner</h6>
-                                <div id="promotion">
-
-                                </div>
-                                <hr/>
-                            </div>
-
-                            <div class="col-lg-12">
-                                {% if template == 1 or template == 2 or template == 3%}
-                                <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                                {% elif template == 4 %}
-                                <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                                {% elif template == 5 %}
-                                <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-{% elif template == 3 %}
-<section class="blog-area section-gap" style="z-index:2;">
-    <div class="container">
-        <div class="banner-right" style="margin-bottom:25px;">
-            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
-                    <div class="row" style="text-align:left">
-                        <div class="col-lg-12" style="margin-bottom:15px;">
-                            <h3>Admin Setting</h3>
-                            <hr/>
-                        </div>
-                        <div class="col-lg-12">
-                            {% if "cache_version" in username.co_agent_frontend_security %}
-                            <h6 style="margin-bottom:10px;">Update Cache</h6>
-                            <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
-                            <hr/>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Template Website</h6>
-                            {% if template == 1 or template == 2 %}
-                            <div class="form-select" id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 3 %}
-                            <div class="form-group" style="width:100%;">
-                                <div class="default-select" id="default-select" style="width:100%;">
-                                    <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
-                                        <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                        <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                        <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                        <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                        <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            {% elif template == 4 %}
-                            <div class="select-wrap">
-                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 5 %}
-                            <div id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Color</h6>
-                            <div class="form-select" id="default-select">
-                                <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Name</h6>
-                            <div class="form-select">
-                                <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Description</h6>
-                            <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Logo</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileToUpload" id="fileToUpload"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Home</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Login</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Search</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Big Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Big Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_bigbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>
-                            <div class="row" id="big_banner">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Small Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Small Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_smallbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6>Image Small Banner</h6><br/>
-                            <div id="small_banner">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Promotion Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Promotion Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_promotionbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Promotion Banner</h6>
-                            <div id="promotion">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            {% if template == 1 or template == 2 or template == 3%}
-                            <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                            {% elif template == 4 %}
-                            <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                            {% elif template == 5 %}
-                            <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
-{% elif template == 4 %}
-<div style="padding: 65px 0px; background:rgba(0,0,0,0.8);"></div>
-<div style="position:relative; padding: 30px 0px; background:#f9f9ff;">
-    <div class="container">
-        <div class="banner-right" style="margin-bottom:25px;">
-            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
-                    <div class="row" style="text-align:left">
-                        <div class="col-lg-12" style="margin-bottom:15px;">
-                            <h3>Admin Setting</h3>
-                            <hr/>
-                        </div>
-                        <div class="col-lg-12">
-                            {% if "cache_version" in username.co_agent_frontend_security %}
-                            <h6 style="margin-bottom:10px;">Update Cache</h6>
-                            <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
-                            <hr/>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Template Website</h6>
-                            {% if template == 1 or template == 2 %}
-                            <div class="form-select" id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 3 %}
-                            <div class="form-group" style="width:100%;">
-                                <div class="default-select" id="default-select" style="width:100%;">
-                                    <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
-                                        <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                        <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                        <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                        <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                        <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            {% elif template == 4 %}
-                            <div class="select-wrap">
-                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 5 %}
-                            <div id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Color</h6>
-                            <div class="form-select" id="default-select">
-                                <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Name</h6>
-                            <div class="form-select">
-                                <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Description</h6>
-                            <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Logo</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileToUpload" id="fileToUpload"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Home</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Login</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Big Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Big Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_bigbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>
-                            <div class="row" id="big_banner">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Small Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Small Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_smallbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6>Image Small Banner</h6><br/>
-                            <div id="small_banner">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Promotion Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Promotion Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_promotionbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Promotion Banner</h6>
-                            <div id="promotion">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            {% if template == 1 or template == 2 or template == 3%}
-                            <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                            {% elif template == 4 %}
-                            <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                            {% elif template == 5 %}
-                            <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-{% elif template == 5 %}
-<section style="padding-top:150px; padding-bottom:50px;">
-    <div class="container">
-        <div class="banner-right" style="margin-bottom:25px;">
-            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
-                    <div class="row" style="text-align:left">
-                        <div class="col-lg-12" style="margin-bottom:15px;">
-                            <h3>Admin Setting</h3>
-                            <hr/>
-                        </div>
-                        <div class="col-lg-12">
-                            {% if "cache_version" in username.co_agent_frontend_security %}
-                            <h6 style="margin-bottom:10px;">Update Cache</h6>
-                            <button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>
-                            <hr/>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Template Website</h6>
-                            {% if template == 1 or template == 2 %}
-                            <div class="form-select" id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 3 %}
-                            <div class="form-group" style="width:100%;">
-                                <div class="default-select" id="default-select" style="width:100%;">
-                                    <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
-                                        <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                        <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                        <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                        <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                        <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                    </select>
-                                </div>
-                            </div>
-                            {% elif template == 4 %}
-                            <div class="select-wrap">
-                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% elif template == 5 %}
-                            <div id="default-select">
-                                <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
-                                    <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
-                                    <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
-                                    <option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>
-                                    <option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>
-                                    <option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>
-                                </select>
-                            </div>
-                            {% endif %}
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Color</h6>
-                            <div class="form-select" id="default-select">
-                                <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Name</h6>
-                            <div class="form-select">
-                                <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Website Description</h6>
-                            <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Logo</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileToUpload" id="fileToUpload"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Home</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <h6 style="margin-bottom:10px;">Background Image Login</h6>
-                            <div class="input-container-search-ticket form-select">
-                                <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
-                            </div>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Big Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Big Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_bigbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>
-                            <div class="row" id="big_banner">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Small Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Small Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_smallbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6>Image Small Banner</h6><br/>
-                            <div id="small_banner">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            <h6 style="margin-bottom:10px;">Promotion Banner</h6>
-                            <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
-                            <!-- Modal -->
-                            <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;">Promotion Banner</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>
-
-                                            <div id="selectedFiles_promotionbanner"></div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <br/><br/>
-                            <h6 style="margin-bottom:10px;">Image Promotion Banner</h6>
-                            <div id="promotion">
-
-                            </div>
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-12">
-                            {% if template == 1 or template == 2 or template == 3%}
-                            <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                            {% elif template == 4 %}
-                            <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                            {% elif template == 5 %}
-                            <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</section>
-{% endif %}
+<!--{% elif template == 2 %}-->
+<!--<section class="roberto-service-area" style="padding-top:30px; padding-bottom:40px; z-index:2;">-->
+    <!--<div class="container">-->
+        <!--<div class="hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">-->
+            <!--<div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">-->
+                <!--<form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">-->
+                    <!--{% csrf_token %}-->
+                    <!--<div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">-->
+                        <!--<div class="row" style="text-align:left">-->
+                            <!--<div class="col-lg-12" style="margin-bottom:15px;">-->
+                                <!--<h3>Admin Setting</h3>-->
+                                <!--<hr/>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12">-->
+                                <!--{% if "cache_version" in username.co_agent_frontend_security %}-->
+                                <!--<h6 style="margin-bottom:10px;">Update Cache</h6>-->
+                                <!--<button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>-->
+                                <!--<hr/>-->
+                                <!--{% endif %}-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Template Website</h6>-->
+                                <!--{% if template == 1 or template == 2 %}-->
+                                <!--<div class="form-select" id="default-select">-->
+                                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                        <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                        <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                        <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                        <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                        <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                                <!--{% elif template == 3 %}-->
+                                <!--<div class="form-group" style="width:100%;">-->
+                                    <!--<div class="default-select" id="default-select" style="width:100%;">-->
+                                        <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">-->
+                                            <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                            <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                            <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                            <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                            <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--{% elif template == 4 %}-->
+                                <!--<div class="select-wrap">-->
+                                    <!--<span class="icon"><span class="icon-keyboard_arrow_down"></span></span>-->
+                                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">-->
+                                        <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                        <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                        <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                        <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                        <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                                <!--{% elif template == 5 %}-->
+                                <!--<div id="default-select">-->
+                                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">-->
+                                        <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                        <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                        <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                        <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                        <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                                <!--{% endif %}-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Color</h6>-->
+                                <!--<div class="form-select" id="default-select">-->
+                                    <!--<input class="jscolor nice-select-default" value="{{color}}" name="color_pick">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12"><hr/></div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Website Name</h6>-->
+                                <!--<div class="form-select">-->
+                                    <!--<input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Website Description</h6>-->
+                                <!--<textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12"><hr/></div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Logo</h6>-->
+                                <!--<div class="input-container-search-ticket form-select">-->
+                                    <!--<input type="file" name="fileToUpload" id="fileToUpload"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Background Image Home</h6>-->
+                                <!--<div class="input-container-search-ticket form-select">-->
+                                    <!--<input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Background Image Login</h6>-->
+                                <!--<div class="input-container-search-ticket form-select">-->
+                                    <!--<input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;">Background Image Search</h6>-->
+                                <!--<div class="input-container-search-ticket form-select">-->
+                                    <!--<input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12"><hr/></div>-->
+                            <!--<div class="col-lg-12">-->
+                                <!--<h6 style="margin-bottom:10px;">Big Banner</h6>-->
+                                <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>-->
+                                <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                                <!--<div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">-->
+                                    <!--<div class="modal-dialog">-->
+
+                                        <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                        <!--<div class="modal-content">-->
+                                            <!--<div class="modal-header">-->
+                                                <!--<h4 class="modal-title" style="color:white;">Big Banner</h4>-->
+                                                <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                            <!--</div>-->
+                                            <!--<div class="modal-body">-->
+
+                                                <!--Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>-->
+
+                                                <!--<div id="selectedFiles_bigbanner"></div>-->
+
+                                            <!--</div>-->
+                                            <!--<div class="modal-footer">-->
+                                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<br/><br/>-->
+                                <!--<h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>-->
+                                <!--<div class="row" id="big_banner">-->
+
+                                <!--</div>-->
+                                <!--<hr/>-->
+                            <!--</div>-->
+
+                            <!--<div class="col-lg-12">-->
+                                <!--<h6 style="margin-bottom:10px;">Small Banner</h6>-->
+                                <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>-->
+                                <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                                <!--<div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">-->
+                                    <!--<div class="modal-dialog">-->
+
+                                        <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                        <!--<div class="modal-content">-->
+                                            <!--<div class="modal-header">-->
+                                                <!--<h4 class="modal-title" style="color:white;">Small Banner</h4>-->
+                                                <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                            <!--</div>-->
+                                            <!--<div class="modal-body">-->
+
+                                                <!--Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>-->
+
+                                                <!--<div id="selectedFiles_smallbanner"></div>-->
+
+                                            <!--</div>-->
+                                            <!--<div class="modal-footer">-->
+                                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<br/><br/>-->
+                                <!--<h6>Image Small Banner</h6><br/>-->
+                                <!--<div id="small_banner">-->
+
+                                <!--</div>-->
+                                <!--<hr/>-->
+                            <!--</div>-->
+
+                            <!--<div class="col-lg-12">-->
+                                <!--<h6 style="margin-bottom:10px;">Promotion Banner</h6>-->
+                                <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>-->
+                                <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                                <!--<div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">-->
+                                    <!--<div class="modal-dialog">-->
+
+                                        <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                        <!--<div class="modal-content">-->
+                                            <!--<div class="modal-header">-->
+                                                <!--<h4 class="modal-title" style="color:white;">Promotion Banner</h4>-->
+                                                <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                            <!--</div>-->
+                                            <!--<div class="modal-body">-->
+
+                                                <!--Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>-->
+
+                                                <!--<div id="selectedFiles_promotionbanner"></div>-->
+
+                                            <!--</div>-->
+                                            <!--<div class="modal-footer">-->
+                                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                            <!--</div>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<br/><br/>-->
+                                <!--<h6 style="margin-bottom:10px;">Image Promotion Banner</h6>-->
+                                <!--<div id="promotion">-->
+
+                                <!--</div>-->
+                                <!--<hr/>-->
+                            <!--</div>-->
+
+                            <!--<div class="col-lg-12">-->
+                                <!--{% if template == 1 or template == 2 or template == 3%}-->
+                                <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                                <!--{% elif template == 4 %}-->
+                                <!--<button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>-->
+                                <!--{% elif template == 5 %}-->
+                                <!--<button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>-->
+                                <!--{% endif %}-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</form>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</section>-->
+<!--{% elif template == 3 %}-->
+<!--<section class="blog-area section-gap" style="z-index:2;">-->
+    <!--<div class="container">-->
+        <!--<div class="banner-right" style="margin-bottom:25px;">-->
+            <!--<form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">-->
+                <!--{% csrf_token %}-->
+                <!--<div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">-->
+                    <!--<div class="row" style="text-align:left">-->
+                        <!--<div class="col-lg-12" style="margin-bottom:15px;">-->
+                            <!--<h3>Admin Setting</h3>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12">-->
+                            <!--{% if "cache_version" in username.co_agent_frontend_security %}-->
+                            <!--<h6 style="margin-bottom:10px;">Update Cache</h6>-->
+                            <!--<button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>-->
+                            <!--<hr/>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Template Website</h6>-->
+                            <!--{% if template == 1 or template == 2 %}-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 3 %}-->
+                            <!--<div class="form-group" style="width:100%;">-->
+                                <!--<div class="default-select" id="default-select" style="width:100%;">-->
+                                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">-->
+                                        <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                        <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                        <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                        <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                        <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<div class="select-wrap">-->
+                                <!--<span class="icon"><span class="icon-keyboard_arrow_down"></span></span>-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<div id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Color</h6>-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<input class="jscolor nice-select-default" value="{{color}}" name="color_pick">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Name</h6>-->
+                            <!--<div class="form-select">-->
+                                <!--<input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Description</h6>-->
+                            <!--<textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Logo</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileToUpload" id="fileToUpload"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Home</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Login</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Search</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Big Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Big Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_bigbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>-->
+                            <!--<div class="row" id="big_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Small Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Small Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_smallbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6>Image Small Banner</h6><br/>-->
+                            <!--<div id="small_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Promotion Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Promotion Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_promotionbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Promotion Banner</h6>-->
+                            <!--<div id="promotion">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--{% if template == 1 or template == 2 or template == 3%}-->
+                            <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</section>-->
+<!--{% elif template == 4 %}-->
+<!--<div style="padding: 65px 0px; background:rgba(0,0,0,0.8);"></div>-->
+<!--<div style="position:relative; padding: 30px 0px; background:#f9f9ff;">-->
+    <!--<div class="container">-->
+        <!--<div class="banner-right" style="margin-bottom:25px;">-->
+            <!--<form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">-->
+                <!--{% csrf_token %}-->
+                <!--<div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">-->
+                    <!--<div class="row" style="text-align:left">-->
+                        <!--<div class="col-lg-12" style="margin-bottom:15px;">-->
+                            <!--<h3>Admin Setting</h3>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12">-->
+                            <!--{% if "cache_version" in username.co_agent_frontend_security %}-->
+                            <!--<h6 style="margin-bottom:10px;">Update Cache</h6>-->
+                            <!--<button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>-->
+                            <!--<hr/>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Template Website</h6>-->
+                            <!--{% if template == 1 or template == 2 %}-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 3 %}-->
+                            <!--<div class="form-group" style="width:100%;">-->
+                                <!--<div class="default-select" id="default-select" style="width:100%;">-->
+                                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">-->
+                                        <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                        <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                        <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                        <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                        <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<div class="select-wrap">-->
+                                <!--<span class="icon"><span class="icon-keyboard_arrow_down"></span></span>-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<div id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Color</h6>-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<input class="jscolor nice-select-default" value="{{color}}" name="color_pick">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Name</h6>-->
+                            <!--<div class="form-select">-->
+                                <!--<input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Description</h6>-->
+                            <!--<textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Logo</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileToUpload" id="fileToUpload"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Home</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Login</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Big Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Big Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_bigbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>-->
+                            <!--<div class="row" id="big_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Small Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Small Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_smallbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6>Image Small Banner</h6><br/>-->
+                            <!--<div id="small_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Promotion Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Promotion Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_promotionbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Promotion Banner</h6>-->
+                            <!--<div id="promotion">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--{% if template == 1 or template == 2 or template == 3%}-->
+                            <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--{% elif template == 5 %}-->
+<!--<section style="padding-top:150px; padding-bottom:50px;">-->
+    <!--<div class="container">-->
+        <!--<div class="banner-right" style="margin-bottom:25px;">-->
+            <!--<form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">-->
+                <!--{% csrf_token %}-->
+                <!--<div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">-->
+                    <!--<div class="row" style="text-align:left">-->
+                        <!--<div class="col-lg-12" style="margin-bottom:15px;">-->
+                            <!--<h3>Admin Setting</h3>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12">-->
+                            <!--{% if "cache_version" in username.co_agent_frontend_security %}-->
+                            <!--<h6 style="margin-bottom:10px;">Update Cache</h6>-->
+                            <!--<button type="button" class="primary-btn" id="update_cache_version" onclick="update_cache_version_func();">Update Cache</button>-->
+                            <!--<hr/>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Template Website</h6>-->
+                            <!--{% if template == 1 or template == 2 %}-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 3 %}-->
+                            <!--<div class="form-group" style="width:100%;">-->
+                                <!--<div class="default-select" id="default-select" style="width:100%;">-->
+                                    <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">-->
+                                        <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                        <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                        <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                        <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                        <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<div class="select-wrap">-->
+                                <!--<span class="icon"><span class="icon-keyboard_arrow_down"></span></span>-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<div id="default-select">-->
+                                <!--<select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">-->
+                                    <!--<option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>-->
+                                    <!--<option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>-->
+                                    <!--<option value="3" {% if template == 3 %} selected {% endif%}>Template 3</option>-->
+                                    <!--<option value="4" {% if template == 4 %} selected {% endif%}>Template 4</option>-->
+                                    <!--<option value="5" {% if template == 5 %} selected {% endif%}>Template 5</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Color</h6>-->
+                            <!--<div class="form-select" id="default-select">-->
+                                <!--<input class="jscolor nice-select-default" value="{{color}}" name="color_pick">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Name</h6>-->
+                            <!--<div class="form-select">-->
+                                <!--<input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Website Description</h6>-->
+                            <!--<textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Logo</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileToUpload" id="fileToUpload"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Home</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-6">-->
+                            <!--<h6 style="margin-bottom:10px;">Background Image Login</h6>-->
+                            <!--<div class="input-container-search-ticket form-select">-->
+                                <!--<input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="col-lg-12"><hr/></div>-->
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Big Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Big Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_bigbanner" name="files_bigbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_bigbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Big Banner</h6><br/>-->
+                            <!--<div class="row" id="big_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Small Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Small Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_smallbanner" name="files_smallbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_smallbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6>Image Small Banner</h6><br/>-->
+                            <!--<div id="small_banner">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--<h6 style="margin-bottom:10px;">Promotion Banner</h6>-->
+                            <!--<button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>-->
+                            <!--&lt;!&ndash; Modal &ndash;&gt;-->
+                            <!--<div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">-->
+                                <!--<div class="modal-dialog">-->
+
+                                    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+                                    <!--<div class="modal-content">-->
+                                        <!--<div class="modal-header">-->
+                                            <!--<h4 class="modal-title" style="color:white;">Promotion Banner</h4>-->
+                                            <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                                        <!--</div>-->
+                                        <!--<div class="modal-body">-->
+
+                                            <!--Files: <input type="file" id="files_promotionbanner" name="files_promotionbanner" multiple="" accept="image/*"><br>-->
+
+                                            <!--<div id="selectedFiles_promotionbanner"></div>-->
+
+                                        <!--</div>-->
+                                        <!--<div class="modal-footer">-->
+                                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                        <!--</div>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<br/><br/>-->
+                            <!--<h6 style="margin-bottom:10px;">Image Promotion Banner</h6>-->
+                            <!--<div id="promotion">-->
+
+                            <!--</div>-->
+                            <!--<hr/>-->
+                        <!--</div>-->
+
+                        <!--<div class="col-lg-12">-->
+                            <!--{% if template == 1 or template == 2 or template == 3%}-->
+                            <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 4 %}-->
+                            <!--<button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>-->
+                            <!--{% elif template == 5 %}-->
+                            <!--<button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>-->
+                            <!--{% endif %}-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</section>-->
+<!--{% endif %}-->
 
 
 {% include 'tt_website_rodextrip/footer.html' %}
