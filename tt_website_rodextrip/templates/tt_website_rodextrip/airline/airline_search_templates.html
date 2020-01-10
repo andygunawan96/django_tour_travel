@@ -89,7 +89,7 @@
 {% endif %}
 
 {%if template == 1%}
-<section class="destinations-area change_search_area" style="padding:7px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area change_search_area" style="padding:7px 0px 7px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:999;">
     <div class="container" id="airline_search_params">
         <div class="row">
             <div class="{%if airline_request.direction  == 'MC'%} col-lg-8 col-md-8 {% else %} col-lg-8 col-md-8 {% endif %}" style="padding-top:5px; padding-bottom:5px;">
@@ -1247,10 +1247,10 @@
 <!--    <span style="color:white; font-size:14px;"><i class="fas fa-shopping-cart"></i> Order <span class="badge-notif2 animated bounceIn" id="badge-flight-notif">0</span></span>-->
 <!--</button>-->
 
-<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; {%if template == 1%} z-index:999; {%else%} z-index:99; {%endif%}" data-toggle="modal" data-target="#myModalSort">
     <span style="color:white; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
 </button>
-<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
+<button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; {%if template == 1%} z-index:999; {%else%} z-index:99; {%endif%}" data-toggle="modal" data-target="#myModalFilter">
     <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
 </button>
 
@@ -1282,7 +1282,7 @@
                 <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; display:none; z-index: 2;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>
+                            <span title="{{username.co_user_login}}" style="font-size:14px;font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px; display:inline-block; display:-webkit-inline-block;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>
                             <hr/>
                             <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span><br/>
                             <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>

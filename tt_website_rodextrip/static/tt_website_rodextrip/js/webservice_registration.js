@@ -189,7 +189,11 @@ function get_promotions(){
                 text+=`<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].name+` - `+msg.result.response[i].description+`</option>`;
             }
             document.getElementById('promotion').innerHTML = text;
-            $('#promotion').niceSelect();
+            if(template == 1 || template == 3){
+                $('#promotion').niceSelect();
+            }else if(template == 2){
+                $('#promotion').niceSelect("update");
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -218,7 +222,7 @@ function change_promotion(){
             }
         }
     }
-    document.getElementById('promotion_desc').innerHTML =text
+    document.getElementById('promotion_desc').innerHTML = text;
 }
 
 function agent_register_get_requirement_list_doc(){

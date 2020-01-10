@@ -1278,7 +1278,21 @@ function get_price_itinerary_request(){
                                         text+=`
                                         <div class="col-lg-12" id="rules`+rules+`" style="padding-bottom:15px; padding-top:15px;">
                                             <span class="carrier_code_template"> Term and Condition </span><br/>
-                                            <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span><img src="/static/tt_website_rodextrip/img/loading-screen.gif" style="height:20px; width:20px;"/>
+                                            <span style="font-size:16px; font-weight:bold;">PLEASE WAIT ... </span>
+                                            <div class="sk-circle">
+                                                <div class="sk-circle1 sk-child"></div>
+                                                <div class="sk-circle2 sk-child"></div>
+                                                <div class="sk-circle3 sk-child"></div>
+                                                <div class="sk-circle4 sk-child"></div>
+                                                <div class="sk-circle5 sk-child"></div>
+                                                <div class="sk-circle6 sk-child"></div>
+                                                <div class="sk-circle7 sk-child"></div>
+                                                <div class="sk-circle8 sk-child"></div>
+                                                <div class="sk-circle9 sk-child"></div>
+                                                <div class="sk-circle10 sk-child"></div>
+                                                <div class="sk-circle11 sk-child"></div>
+                                                <div class="sk-circle12 sk-child"></div>
+                                            </div>
                                         </div>`;
                                 rules++;
                                 //price
