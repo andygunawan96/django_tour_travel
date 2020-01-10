@@ -1011,6 +1011,45 @@ function airline_filter_render(){
     var node = document.createElement("div");
     text = '';
     text+= `<h4>Filter</h4>
+    <h6 class="filter_general" onclick="show_hide_general('airlineAirline');" id="filter_airline_span"></h6>
+    <div id="airlineAirline_generalShow" style="display:inline-block;">
+    </div>`;
+    text += `
+        <hr/>
+        <h6 class="filter_general" onclick="show_hide_general('airlineTransit');">Transit <i class="fas fa-chevron-down" id="airlineTransit_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineTransit_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="airlineTransit_generalShow" style="display:inline-block;">`;
+    for(i in transit_list){
+        text+=`
+        <label class="check_box_custom">
+            <span class="span-search-ticket" style="color:black;">`+transit_list[i].value+`</span>
+            <input type="checkbox" id="checkbox_transit`+i+`" onclick="change_filter('transit',`+i+`)"/>
+            <span class="check_box_span_custom"></span>
+        </label><br/>`;
+    }
+    text+=`</div>`;
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+    node = document.createElement("div");
+
+    text = `
+            <hr/>
+            <h6 class="filter_general" onclick="show_hide_general('airlineDuration');">Transit Duration <i class="fas fa-chevron-down" id="airlineDuration_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineDuration_generalUp" style="float:right; display:block;"></i></h6>
+    <div id="airlineDuration_generalShow" style="display:inline-block;">`;
+    for(i in transit_duration_list){
+        text+=`
+        <label class="check_box_custom">
+            <span class="span-search-ticket" style="color:black;">`+transit_duration_list[i].value+`</span>
+            <input type="checkbox" id="checkbox_transit_duration`+i+`" onclick="change_filter('transit_duration',`+i+`)"/>
+            <span class="check_box_span_custom"></span>
+        </label><br/>`;
+    }
+    text+=`</div>`;
+    node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("filter").appendChild(node);
+
+    text=`
     <hr/>
     <h6 class="filter_general" onclick="show_hide_general('airlineDeparture');">Departure Time <i class="fas fa-chevron-down" id="airlineDeparture_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineDeparture_generalUp" style="float:right; display:block;"></i></h6>
     <div id="airlineDeparture_generalShow" style="display:inline-block;">`;
@@ -1057,10 +1096,6 @@ function airline_filter_render(){
             </label><br/>`;
     }
     text+=`</div>`;
-    text+=`
-            <h6 class="filter_general" onclick="show_hide_general('airlineAirline');" id="filter_airline_span"></h6>
-        <div id="airlineAirline_generalShow" style="display:inline-block;">
-        </div>`;
 //        <div id="airline_list">
 //
 //        </div>`;
@@ -1069,41 +1104,6 @@ function airline_filter_render(){
     node.innerHTML = text;
     document.getElementById("filter").appendChild(node);
     node = document.createElement("div");
-
-    text = `
-            <hr/>
-            <h6 class="filter_general" onclick="show_hide_general('airlineTransit');">Transit <i class="fas fa-chevron-down" id="airlineTransit_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineTransit_generalUp" style="float:right; display:block;"></i></h6>
-    <div id="airlineTransit_generalShow" style="display:inline-block;">`;
-    for(i in transit_list){
-        text+=`
-        <label class="check_box_custom">
-            <span class="span-search-ticket" style="color:black;">`+transit_list[i].value+`</span>
-            <input type="checkbox" id="checkbox_transit`+i+`" onclick="change_filter('transit',`+i+`)"/>
-            <span class="check_box_span_custom"></span>
-        </label><br/>`;
-    }
-    text+=`</div>`;
-    node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("filter").appendChild(node);
-    node = document.createElement("div");
-
-    text = `
-            <hr/>
-            <h6 class="filter_general" onclick="show_hide_general('airlineDuration');">Transit Duration <i class="fas fa-chevron-down" id="airlineDuration_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="airlineDuration_generalUp" style="float:right; display:block;"></i></h6>
-    <div id="airlineDuration_generalShow" style="display:inline-block;">`;
-    for(i in transit_duration_list){
-        text+=`
-        <label class="check_box_custom">
-            <span class="span-search-ticket" style="color:black;">`+transit_duration_list[i].value+`</span>
-            <input type="checkbox" id="checkbox_transit_duration`+i+`" onclick="change_filter('transit_duration',`+i+`)"/>
-            <span class="check_box_span_custom"></span>
-        </label><br/>`;
-    }
-    text+=`</div>`;
-    node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("filter").appendChild(node);
 
     text='';
     text+=`<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
