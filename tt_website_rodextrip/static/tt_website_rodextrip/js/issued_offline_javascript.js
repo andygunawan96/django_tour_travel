@@ -87,14 +87,7 @@ function change_transaction_type(type){
         document.getElementById('show_line').hidden = false;
         $('#transaction_type').niceSelect();
         text = '';
-        if(document.getElementById('transaction_type').value == 'airline')
-            text+=`<h4>Airline Line(s)</h4><hr/>`;
-        else if(document.getElementById('transaction_type').value == 'train')
-            text+=`<h4>Train Line(s)</h4><hr/>`;
-        else if(document.getElementById('transaction_type').value == 'hotel')
-            text+=`<h4>Hotel Line(s)</h4><hr/>`;
-        else if(document.getElementById('transaction_type').value == 'activity')
-            text+=`<h4>Activity/Theme Park Line(s)</h4><hr/>`;
+        text += `<h4>`+document.getElementById('transaction_type').value.charAt(0).toUpperCase() + document.getElementById('transaction_type').value.slice(1).toLowerCase()+` Line(s)</h4><hr/>`;
         text+=`
         <button class="primary-btn-ticket" type="button" onclick="add_table_of_line('`+document.getElementById('transaction_type').value+`');"><i class="fas fa-plus"></i> Add</button>
         <button class="primary-btn-ticket" type="button" onclick="delete_table_of_line()"><i class="fas fa-trash-alt"></i> Delete</button>
