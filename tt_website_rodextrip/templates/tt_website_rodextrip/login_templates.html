@@ -46,7 +46,7 @@
 								<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
 							</div>
 							<div class="input-container-login">
-								<span class="fa fa-lock" style="color:{{color}};padding-top:3px;"></span><a style="cursor:pointer;" onclick="reset_password();">Forgot Password</a>
+								<span style="color:{{color}};padding-top:15px;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forgot Password</a></span>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-3" style="text-align:right;">
@@ -96,15 +96,15 @@
 						<input class="input100" type="password" id="password" name="password" placeholder="Password">
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
-					<div class="validate-input" style="text-align:center;">
-						<span class="fa fa-lock" style="color:{{color}};padding:5px;"></span><a style="cursor:pointer;" onclick="reset_password();">Forgot Password</a>
-					</div>
 					<input type="hidden" id="response" name="response">
 					<div class="container-login100-form-btn m-t-32">
 						<button id="login-form-home" class="button-login login100-form-btn ld-ext-right">
 							Login
 							<div class="ld ld-ring ld-cycle"></div>
 						</button>
+					</div>
+					<div class="validate-input" style="text-align:center; padding-top:15px;">
+						<span style="color:{{color}};padding-top:15px;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forgot Password</a></span>
 					</div>
 				</form>
 			</div>

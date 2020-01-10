@@ -157,7 +157,7 @@ Licence URI: http://www.os-templates.com/template-terms
     </style>
     <style>
         ::selection {
-          background-color: {{color}};
+          background-color: {{color}} !important;
           color: #fff;
         }
         .check_box_custom input:checked ~ .check_box_span_custom {
@@ -765,6 +765,17 @@ Licence URI: http://www.os-templates.com/template-terms
 
 
         {% if template == 1%}
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        .guide_h1:hover{
+            color: {{color}};
+        }
         a {
             color: {{color}};
         }
@@ -888,7 +899,7 @@ Licence URI: http://www.os-templates.com/template-terms
             color:{{color}};
         }
         ul.tabs li.current {
-            border-top: 5px solid {{color}};
+            border-bottom: 5px solid {{color}};
             color: {{color}};
         }
         ul.tabs li:hover {
@@ -919,14 +930,14 @@ Licence URI: http://www.os-templates.com/template-terms
             background: {{color}};
         }
         ul.create_tabs li.current{
-            border-top: 5px solid {{color}};
+            border-bottom: 5px solid {{color}};
             color: {{color}};
         }
         ul.create_tabs li:hover{
             color: {{color}};
         }
         ul.edit_tabs li.current{
-            border-top: 5px solid {{color}};
+            border-bottom: 5px solid {{color}};
             color: {{color}};
         }
         ul.edit_tabs li:hover{
@@ -956,7 +967,31 @@ Licence URI: http://www.os-templates.com/template-terms
         .horizontal-arrow:hover{
             color: {{color}} !important;
         }
+        .single-footer-widget .footer-nav li a:focus, .single-footer-widget .footer-nav li a:hover{
+            color: {{color}};
+        }
         {% elif template == 3 %}
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+           color: {{color}};
+        }
+
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+           color: {{color}};
+        }
+
+        .single-footer-widget ul li a:hover {
+            color: {{color}};
+            text-decoration: unset;
+        }
+
         a:focus, a:hover{
             color: {{color}};
         }

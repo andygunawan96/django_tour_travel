@@ -310,7 +310,6 @@ function train_create_booking(val){
 function train_get_booking(data){
     price_arr_repricing = {};
     getToken();
-    $("#waitingTransaction").modal('hide');
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -686,6 +685,7 @@ function train_get_booking(data){
                 </div>
             </div>`;
             document.getElementById('train_booking').innerHTML = text;
+            $("#waitingTransaction").modal('hide');
             //$(".issued_booking_btn").show();
 
             //detail
@@ -900,6 +900,7 @@ function train_get_booking(data){
               html: '<span style="color: #ff9900;">Error train booking </span>' + msg.result.error_msg,
             })
             document.getElementById('show_loading_booking_train').hidden = true;
+            $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -909,6 +910,7 @@ function train_get_booking(data){
               html: '<span style="color: red;">Error train booking </span>' + errorThrown,
             })
             document.getElementById('show_loading_booking_train').hidden = true;
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1123,7 +1125,6 @@ function train_cancel_booking(){
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
                document.getElementById('voucher_discount').style.display = 'none';
-
                train_get_booking(order_number);
 
             }else{
@@ -1144,6 +1145,7 @@ function train_cancel_booking(){
                 document.getElementById("overlay-div-box").style.display = "none";
                 document.getElementById('voucher_discount').style.display = 'none';
                 train_get_booking(order_number);
+                $("#waitingTransaction").modal('hide');
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {

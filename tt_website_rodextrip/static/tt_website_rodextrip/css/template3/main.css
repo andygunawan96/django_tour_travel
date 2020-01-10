@@ -2753,8 +2753,9 @@ primary-btn:disabled {
 }
 
 .footer-area {
-  padding-top: 100px;
-  background-color: #04091e;
+  padding-top: 50px;
+  border-top: 2px solid #cdcdcd;
+  background-color: white;
 }
 
 .footer-area h6 {
@@ -2815,7 +2816,7 @@ primary-btn:disabled {
 }
 
 .single-footer-widget ul li a {
-  color: #777777;
+  color: #000;
 }
 
 .single-footer-widget .bb-btn {
@@ -2859,8 +2860,8 @@ primary-btn:disabled {
 }
 
 .single-footer-widget ::selection {
-  background-color: #191919 !important;
-  color: #777777;
+  background-color: #191919;
+  color: #fff;
 }
 
 .single-footer-widget ::-webkit-input-placeholder {
@@ -3549,7 +3550,7 @@ li.create_tab-link label{
 
 ul.create_tabs li.current{
     /*background: rgba(0,0,0,0.5);*/
-    border-top: 5px solid #f15a22;
+    border-bottom: 5px solid #f15a22;
     color: #f15a22;
 }
 
@@ -3594,7 +3595,7 @@ li.edit_tab-link label{
 
 ul.edit_tabs li.current{
     /*background: rgba(0,0,0,0.5);*/
-    border-top: 5px solid #f15a22;
+    border-bottom: 5px solid #f15a22;
     color: #f15a22;
 }
 
