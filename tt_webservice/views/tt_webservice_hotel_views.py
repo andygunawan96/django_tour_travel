@@ -190,8 +190,14 @@ def search(request):
             'child_ages': child_age,
         }
         try:
-            if data == request.session['hotel_request_data']:
+            request.session['hotel_request_data']['hotel_id'] = ''
+            try:
+                del request.session['hotel_request_data']['pax_country']
+            except:
+                pass
+            if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0:
                 data = {}
+                request.session['hotel_signature'] = request.session['hotel_error']['signature']
             else:
                 request.session['hotel_request_data'] = data
         except:
@@ -212,6 +218,11 @@ def search(request):
     try:
         counter = 0
         sequence = 0
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['hotel_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
         if res['result']['error_code'] == 0:
             hotel_data = []
             for hotel in res['result']['response']['city_ids']:
@@ -276,6 +287,11 @@ def detail(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['hotel_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -303,6 +319,11 @@ def get_cancellation_policy(request):
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
         request.session['hotel_cancellation_policy'] = res
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['hotel_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -346,6 +367,11 @@ def get_facility_img(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['hotel_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_facility_img_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -371,6 +397,11 @@ def provision(request):
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
         request.session['hotel_provision'] = res
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['hotel_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -468,6 +499,11 @@ def create_booking(request):
 
     try:
         request.session['hotel_booking'] = res['result']['response']
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['hotel_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
