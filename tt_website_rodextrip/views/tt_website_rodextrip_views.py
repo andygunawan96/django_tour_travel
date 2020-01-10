@@ -393,9 +393,15 @@ def admin(request):
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
+                temp = text.split('\n')
+                for idx, rec in enumerate(temp):
+                    try:
+                        temp[idx] = rec.split('/')[len(rec.split('/'))-1]
+                    except:
+                        pass
                 #delete file ga pake
                 for file in os.listdir(fs.location):
-                    if not '/media/' + file in text.split('\n'):
+                    if not file in temp:
                         os.remove(fs.location+'/'+file)
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
