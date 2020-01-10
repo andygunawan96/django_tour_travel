@@ -1295,6 +1295,9 @@ function update_service_charge(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
+
+                price_arr_repricing = {};
+                pax_type_repricing = [];
                 activity_get_booking(act_order_number);
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){

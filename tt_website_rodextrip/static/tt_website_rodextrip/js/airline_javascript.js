@@ -2631,9 +2631,10 @@ function sort(){
                                 <div class="col-lg-8 col-md-8 col-sm-8">
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:right;">
-                                            <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="font-size:15px;font-weight: bold; color:`+color+`; padding:10px;">`;
+                                            <span id="fare`+i+`" class="basic_fare_field copy_price price_template" style="font-size:15px;font-weight: bold; color:`+color+`; padding:10px 0px;"></span>`;
+                                            if(provider_list_data[airline[i].provider] != '')
+                                                text += `<br/><span>`+provider_list_data[airline[i].provider]+`</span><br/>`;
 
-                                            text+=`</span>`;
     //                                        if(choose_airline != null && choose_airline == airline[i].sequence && airline_request.direction != 'MC')
     //                                            text+=`<input type='button' style="margin:10px;" id="departjourney`+i+`" class="primary-btn-custom-un choose_selection_ticket_airlines_depart" value="Chosen" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
     //                                        else
@@ -3209,7 +3210,7 @@ function airline_pick_mc(type){
                 </div>
 
                 <div class="col-lg-8" style="text-align:right;">
-                    <span id="fare_detail_pick`+airline[i].sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px;">`;
+                    <span id="fare_detail_pick`+airline[i].sequence+`" class="basic_fare_field price_template" style="font-size:16px;font-weight: bold; color:`+color+`; padding:10px 0px;">`;
                     price = 0;
                     for(j in airline_pick_list[i].segments){
                         for(k in airline_pick_list[i].segments[j].fares){
@@ -3226,7 +3227,9 @@ function airline_pick_mc(type){
                             }
                         }
                     }
-                    text+= currency+' '+getrupiah(price)+`</span>`;
+                    text+= currency+' '+getrupiah(price) + '</span>';
+                    if(provider_list_data[airline_pick_list[i].provider] != '')
+                        text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider]+`</span><br/>`;
                     if(type == 'all'){
                         text+=`
                         <input type='button' id="deletejourney_pick`+airline_pick_list[i].sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>

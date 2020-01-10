@@ -119,12 +119,11 @@ function update_table(type){
             }
             try{
                 price += pax_count * visa[i].sale_price.total_price;
-                commission += pax_count * (visa.list_of_visa[i].commission[0].amount * -1);
+                commission += pax_count * (visa[i].commission[0].amount * -1);
             }catch(err){
 
             }
         }
-
         text+=`</table>`;
 
         for(i in count_price_detail){
