@@ -400,9 +400,9 @@ def admin(request):
                     except:
                         pass
                 #delete file ga pake
-                for file in os.listdir(fs.location):
-                    if not file in temp:
-                        os.remove(fs.location+'/'+file)
+                # for file in os.listdir(fs.location):
+                #     if not file in temp:
+                #         os.remove(fs.location+'/'+file)
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
