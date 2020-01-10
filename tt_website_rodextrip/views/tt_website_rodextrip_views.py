@@ -387,7 +387,9 @@ def admin(request):
                     if check == 0:
                         text += '\n'
                 text += request.POST['tawk_chat'] + '\n'
-                text += request.POST['tawk_code']
+                text += request.POST['tawk_code'] + '\n'
+                text += request.POST['facebook'] + '\n'
+                text += request.POST['instagram']
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -554,6 +556,8 @@ def get_data_template(type='home'):
     website_name = 'Rodextrip'
     tawk_chat = 0
     tawk_code = ''
+    facebook = ''
+    instagram = ''
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
 
 We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
@@ -564,13 +568,16 @@ We build this application for our existing partner and public users who register
                 if line == '\n':
                     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
                 else:
-                    logo = line
+                    logo = line.split('\n')[0]
             elif idx == 1:
-                template = int(line)
+                if line != '\n':
+                    template = int(line)
             elif idx == 2:
-                color = line
+                if line != '\n':
+                    color = line.split('\n')[0]
             elif idx == 3:
-                website_name = line
+                if line != '\n':
+                    website_name = line.split('\n')[0]
             elif idx == 4:
                 if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
                     website_description = '\n'.join(line.split('<br>')[:-1])
@@ -578,17 +585,25 @@ We build this application for our existing partner and public users who register
                     website_description = '\n'.join(line.split('<br>'))
             elif idx == 5 and type == 'home':
                 if line != '\n':
-                    background = line
+                    background = line.split('\n')[0]
             elif idx == 6 and type == 'login':
                 if line != '\n':
-                    background = line
+                    background = line.split('\n')[0]
             elif idx == 7 and type == 'search':
                 if line != '\n':
-                    background = line
+                    background = line.split('\n')[0]
             elif idx == 8:
-                tawk_chat = int(line)
+                if line != '\n':
+                    tawk_chat = int(line)
             elif idx == 9:
-                tawk_code = line
+                if line != '\n':
+                    tawk_code = line.split('\n')[0]
+            elif idx == 10:
+                if line != '\n':
+                    facebook = line.split('\n')[0]
+            elif idx == 11:
+                if line != '\n':
+                    instagram = line.split('\n')[0]
         if color == '':
             color = '#f15a22'
         file.close()
@@ -604,7 +619,9 @@ We build this application for our existing partner and public users who register
         'name': website_name,
         'background': background,
         'tawk_chat': tawk_chat,
-        'tawk_code': tawk_code
+        'tawk_code': tawk_code,
+        'facebook_url': facebook,
+        'instagram_url': instagram
     }
 
 # @api_view(['GET'])
