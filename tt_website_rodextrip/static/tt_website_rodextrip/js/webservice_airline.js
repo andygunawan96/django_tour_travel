@@ -530,9 +530,12 @@ function send_search_to_api(val){
                 <div class="alert alert-warning" style="border:1px solid #cdcdcd;" role="alert">
                     <span style="font-weight:bold;"> Oops... Something went wrong, search other airline</span>
                 </div>
+                <img src="/static/tt_website_rodextrip/images/no pic/no-flight.jpeg" style="width:50%;"/>
+
             `;
             var node = document.createElement("div");
             node.innerHTML = text;
+            node.style = 'text-align:center';
             document.getElementById("airlines_error").appendChild(node);
             node = document.createElement("div");
         }

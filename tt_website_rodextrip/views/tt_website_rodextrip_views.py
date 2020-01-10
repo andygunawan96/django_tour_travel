@@ -300,8 +300,7 @@ def admin(request):
                     if request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
                         file = request.FILES['fileToUpload']
                         filename = fs.save(file.name, file)
-                        file_url = fs.url(filename)
-                        text += file_url+'\n'
+                        text += fs.base_url + filename + '\n'
                     else:
                         file = open(var_log_path()+"data_cache_template.txt", "r")
                         for idx, line in enumerate(file):
@@ -328,8 +327,7 @@ def admin(request):
                     if request.FILES['fileBackgroundHome'].content_type == 'image/jpeg' or request.FILES['fileBackgroundHome'].content_type == 'image/png' or request.FILES['fileBackgroundHome'].content_type == 'image/png':
                         file = request.FILES['fileBackgroundHome']
                         filename = fs.save(file.name, file)
-                        file_url = fs.url(filename)
-                        text += file_url + '\n'
+                        text += fs.base_url + filename + '\n'
 
                 except:
                     check = 0
@@ -349,8 +347,7 @@ def admin(request):
                     if request.FILES['fileBackgroundLogin'].content_type == 'image/jpeg' or request.FILES['fileBackgroundLogin'].content_type == 'image/png' or request.FILES['fileBackgroundLogin'].content_type == 'image/png':
                         file = request.FILES['fileBackgroundLogin']
                         filename = fs.save(file.name, file)
-                        file_url = fs.url(filename)
-                        text += file_url + '\n'
+                        text += fs.base_url + filename + '\n'
                 except:
                     check = 0
                     try:
@@ -370,8 +367,7 @@ def admin(request):
                     if request.FILES['fileBackgroundSearch'].content_type == 'image/jpeg' or request.FILES['fileBackgroundSearch'].content_type == 'image/png' or request.FILES['fileBackgroundSearch'].content_type == 'image/png':
                         file = request.FILES['fileBackgroundSearch']
                         filename = fs.save(file.name, file)
-                        file_url = fs.url(filename)
-                        text += file_url + '\n'
+                        text += fs.base_url + filename + '\n'
                 except:
                     check = 0
                     try:
@@ -400,9 +396,9 @@ def admin(request):
                     except:
                         pass
                 #delete file ga pake
-                # for file in os.listdir(fs.location):
-                #     if not file in temp:
-                #         os.remove(fs.location+'/'+file)
+                for file in os.listdir(fs.location):
+                    if not file in temp:
+                        os.remove(fs.location+'/'+file)
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
