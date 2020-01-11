@@ -298,6 +298,7 @@ def passenger(request):
                     'star': chosen_room['star'],
                     'id': chosen_room['id'],
                     'notes': request.POST.get(note) and request.POST[note] or '',
+                    'room_seq': 'Room ' + str(idx + 1),
                 })
                 render_pax_per_room.append(room)
             request.session['tour_room_mapping'].update({

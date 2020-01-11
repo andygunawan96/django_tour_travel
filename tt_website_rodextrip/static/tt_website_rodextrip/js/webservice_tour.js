@@ -749,7 +749,8 @@ function update_passengers_tour(){
         var temp_room_seq = document.getElementById("room_select_pax"+String(i+1)).value;
         var temp_pax_id = document.getElementById("temp_pax_id"+String(i+1)).value;
         temp_dict = {
-            'room_id': document.getElementById("room_id_"+String(temp_room_seq)).value
+            'room_id': document.getElementById("room_id_"+String(temp_room_seq)).value,
+            'room_seq': 'Room ' + String(temp_room_seq)
         }
         room_choice_dict[temp_pax_id] = temp_dict;
     }
