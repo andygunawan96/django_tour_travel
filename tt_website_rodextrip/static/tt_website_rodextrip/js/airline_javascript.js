@@ -2395,7 +2395,7 @@ function sort(){
                         document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+airline[i].total_price;
                }
            }
-           else if(airline[i].origin == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'return'){
+           else if(airline[i].origin == airline_request.destination[0].split(' - ')[0] && airline_departure == 'return'){
                ticket_count++;
                if(ticket_count >= first && ticket_count < last){
                    contain++;
@@ -4215,11 +4215,11 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('adult_last_name'+i).value != ''){
-           if(check_word(document.getElementById('adult_last_name'+i).value) == false){
-               error_log+= 'Please use alpha characters last name of adult passenger '+i+'!</br>\n';
-               document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-           }
+       }
+       //check lastname
+       if(check_name_airline(document.getElementById('adult_first_name'+i).value + ' ' + document.getElementById('adult_last_name'+i).value) == false){
+           error_log+= 'Please input more than 1 character in last name adult passenger '+i+'!</br>\n';
+           document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
@@ -4288,11 +4288,11 @@ function check_passenger(adult, child, infant){
            }
        }else{
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('child_last_name'+i).value != ''){
-           if(check_word(document.getElementById('child_last_name'+i).value) == false){
-               error_log+= 'Please use alpha characters last name of child passenger '+i+'!</br>\n';
-               document.getElementById('child_last_name'+i).style['border-color'] = 'red';
-           }
+       }
+       //check lastname
+       if(check_name_airline(document.getElementById('child_first_name'+i).value + ' ' + document.getElementById('child_last_name'+i).value) == false){
+           error_log+= 'Please input more than 1 character in last name child passenger '+i+'!</br>\n';
+           document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
        }
@@ -4349,11 +4349,11 @@ function check_passenger(adult, child, infant){
            }
        }else{
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
-       }if(document.getElementById('infant_last_name'+i).value != ''){
-           if(check_word(document.getElementById('infant_last_name'+i).value) == false){
-               error_log+= 'Please use alpha characters last name of infant passenger '+i+'!</br>\n';
-               document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
-           }
+       }
+       //check lastname
+       if(check_name_airline(document.getElementById('infant_first_name'+i).value + ' ' + document.getElementById('infant_last_name'+i).value) == false){
+           error_log+= 'Please input more than 1 character in last name infant passenger '+i+'!</br>\n';
+           document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';
        }

@@ -1903,6 +1903,15 @@ function check_word(value){
     }
 }
 
+function check_name_airline(value){
+    var word = value.split(' ');
+    console.log(word)
+    if(word[word.length-1].length != 1)
+        return true;
+    else
+        return false;
+}
+
 function check_name(title,first,last, length){
     var val = title+first+' '+last;
     if(val.length < length){
