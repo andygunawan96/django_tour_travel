@@ -322,7 +322,7 @@
     </div>
 </footer>
 <button onclick="topFunction()" id="myBtnBTP" title="Go to top">
-    <span style="color:white; font-size:20px;"><i class="fas fa-chevron-up"></i></span>
+    <span style="color:{{text_color}}; font-size:20px;"><i class="fas fa-chevron-up"></i></span>
 </button>
 {% elif template == 4%}
 <footer class="site-footer">
@@ -387,7 +387,7 @@
         <div class="row">
             <div class="col-lg-8">
                 <div class="single-footer-widget">
-                    <h4 style="color:white;">About {{name}}</h4>
+                    <h4 style="color:{{text_color}};">About {{name}}</h4>
                     <p>
                         {% for description in desc%}
                         {{description}}
@@ -434,7 +434,7 @@
             <!--            </div>-->
             <div class="col-lg-4">
                 <div class="single-footer-widget">
-                    <h4 style="color:white;">Follow Us</h4>
+                    <h4 style="color:{{text_color}};">Follow Us</h4>
                     <div class="footer-social d-flex align-items-center">
                         <a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:24px; width:auto;" src="{{static_path}}img/facebook.png"/></a>
                         <a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:24px; width:auto;" src="{{static_path}}img/instagram.png"/></a>

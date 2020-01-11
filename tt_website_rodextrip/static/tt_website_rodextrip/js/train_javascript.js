@@ -707,10 +707,10 @@ function train_get_detail(){
     train_detail_text += `<hr/>
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="color:white;font-size:13px;font-weight:bold;"><b>Total</b></span><br>
+                <span style="color:`+text_color+`;font-size:13px;font-weight:bold;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:white;font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+                <span style="color:`+text_color+`;font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
             </div>
 
             <div class="col-lg-12" style="padding-bottom:10px;">
@@ -892,10 +892,10 @@ function train_detail(){
     <hr/>
     <div class="row" style="margin-bottom:5px;">
         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-            <span style="color:white;font-size:13px;"><b>Total</b></span><br>
+            <span style="color:`+text_color+`;font-size:13px;"><b>Total</b></span><br>
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-            <span style="color:white;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+            <span style="color:`+text_color+`;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
         </div>
     </div>
 
@@ -1603,7 +1603,7 @@ function train_ticket_pick(){
 
         response+=`
         <div style="background-color:`+color+`; padding:10px;">
-            <h6 style="color:white;">`;
+            <h6 style="color:`+text_color+`;">`;
         if(journeys[i].sequence == 0)
             response += 'Departure';
         else
@@ -1757,11 +1757,11 @@ function print_seat_map(){
                                 for(n in pax[m].seat_pick){
                                     if(seat_map_pick-1 == n && pax[m].seat_pick[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat_pick[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat_pick[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
                                         if(pax_click-1 == m){
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:`+color+`; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:white; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                             check = 1;
                                             break;
                                         }else{
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#ff8971; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#ff8971; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                             check = 1;
                                             break;
                                         }
@@ -1775,7 +1775,7 @@ function print_seat_map(){
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 1){
                                   text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#CACACA; margin:5px;" onclick="change_seat('`+seat_map_response[i][j].cabin_name+`','`+seat_map_response[i][j].seat_rows[k].row_number+`', '`+seat_map_response[i][j].seat_rows[k].seats[l].column+`',`+seat_map_response[i][j].seat_rows[k].seats[l].seat_code+`)" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                 }else if(seat_map_response[i][j].seat_rows[k].seats[l].availability == 0){
-                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:white; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                  text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:#656565; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                 }
                             }
 

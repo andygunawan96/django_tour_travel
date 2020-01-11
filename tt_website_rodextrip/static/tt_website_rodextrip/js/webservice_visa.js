@@ -151,7 +151,7 @@ function search_visa(){
                                             }else if(template == 2){
                                                 text+=`
                                                 <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                                                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+                                                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
                                             }
                                             text+=`
                                                 <div class="form-wrap" style="padding:0px;">
@@ -887,7 +887,7 @@ function visa_get_data(data){
                                     <div class="col-lg-4">`;
                                     if(visa.journey.state == 'booked' || visa.journey.state == 'issued')
                                     text+=`
-                                        <a class="print-booking-train ld-ext-right" style="color:white;">
+                                        <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
                                             <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Visa Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_cust','visa');" />
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </a>`;
@@ -895,7 +895,7 @@ function visa_get_data(data){
                                     <div class="col-lg-4">`;
                                     if(visa.journey.state == 'booked')
                                     text+=`
-                                        <a class="print-booking-train ld-ext-right" style="color:white;">
+                                        <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
                                             <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','visa');" />
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </a>`;
@@ -904,7 +904,7 @@ function visa_get_data(data){
                                     <div class="col-lg-4">`;
                                     if(visa.journey.state == 'issued')
                                         text+=`
-                                        <a class="issued-booking-train ld-ext-right" style="color:white;">
+                                        <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                             <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </a>
@@ -914,7 +914,7 @@ function visa_get_data(data){
                                               <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white">Invoice</h4>
+                                                        <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">

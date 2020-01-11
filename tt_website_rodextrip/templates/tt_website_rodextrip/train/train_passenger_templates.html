@@ -95,7 +95,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Booker List <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -151,7 +151,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -280,11 +280,11 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -308,7 +308,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title" style="color:{{text_color}};">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
@@ -364,7 +364,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -448,7 +448,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label id="adult_passport_number_required{{forloop.counter}}" style="color:white">*</label>
+                                            <label id="adult_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
                                             <label>ID Expired Date</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="ID Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
@@ -457,7 +457,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:white">*</label>
+                                            <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
                                             <label>Country of Issued</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
@@ -519,11 +519,11 @@
                                 <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                            <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                            <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                         </div>
                                     </div>
                                 </div>
@@ -541,7 +541,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
@@ -596,7 +596,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -682,7 +682,7 @@
                                 <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                        <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
@@ -780,7 +780,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title" style="color:{{text_color}};">Booker List <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
@@ -834,7 +834,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -961,11 +961,11 @@
                                     <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
+                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -989,7 +989,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                                <h4 class="modal-title" style="color:{{text_color}};">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                                 <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
@@ -1043,7 +1043,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -1123,7 +1123,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label id="adult_passport_number_required{{forloop.counter}}" style="color:white">*</label>
+                                                <label id="adult_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
                                                 <label>ID Expired Date</label>
                                                 <div class="input-container-search-ticket">
                                                     <input type="text" style="background-color:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="ID Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
@@ -1131,7 +1131,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                                <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:white">*</label>
+                                                <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
                                                 <label>Country of Issued</label>
                                                 <div class="form-select">
                                                     <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
@@ -1188,11 +1188,11 @@
                                     <div class="passenger_div" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
+                                                <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                                <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                                <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                                <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                             </div>
                                         </div>
                                     </div>
@@ -1210,7 +1210,7 @@
                                                     <!-- Modal content-->
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                            <h4 class="modal-title" style="color:{{text_color}};">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                             <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
@@ -1263,7 +1263,7 @@
                                                         <!-- Modal content-->
                                                         <div class="modal-content">
                                                             <div class="modal-header">
-                                                                <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                             </div>
                                                             <div class="modal-body">
@@ -1346,7 +1346,7 @@
                                     <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                            <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
@@ -1443,7 +1443,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:white;">Booker List <i class="fas fa-address-card"></i></h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">Booker List <i class="fas fa-address-card"></i></h4>
                                                     <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('booker','');">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -1499,7 +1499,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -1630,11 +1630,11 @@
                             <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="color:white; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
+                                        <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Adult - {{forloop.counter}}</span>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:white; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; {% if forloop.counter == 1 %} display:none; {% endif %}" id="adult_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -1658,7 +1658,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Adult - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body" style="text-align:left;">
@@ -1714,7 +1714,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -1798,7 +1798,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label id="adult_passport_number_required{{forloop.counter}}" style="color:white">*</label>
+                                        <label id="adult_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
                                         <label>ID Expired Date</label>
                                         <div class="form-group">
                                             <input type="text" style="background-color:white;" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="ID Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
@@ -1806,7 +1806,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:white">*</label>
+                                        <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
                                         <label>Country of Issued</label>
                                         <div class="form-group">
                                             <div class="default-select">
@@ -1867,11 +1867,11 @@
                             <div style="background-color:#f15a22; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;" onclick="show_paxs_airline('infant', '{{forloop.counter}}');">
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                        <span style="color:white; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
+                                        <span style="color:{{text_color}}; text-align:center; font-size:15px;">Passenger Infant - {{forloop.counter}}</span>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                        <span style="color:white; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
-                                        <span style="color:white; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
+                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px; display:none;" id="infant_down_paxs{{forloop.counter}}"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="color:{{text_color}}; text-align:right; margin-right:5px;" id="infant_up_paxs{{forloop.counter}}"><i class="fas fa-plus" style="font-size:14px;"></i></span>
                                     </div>
                                 </div>
                             </div>
@@ -1889,7 +1889,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:white;">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">Infant - {{forloop.counter}} <i class="fas fa-address-card"></i></h4>
                                                     <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                 </div>
                                                 <div class="modal-body" style="text-align:left;">
@@ -1944,7 +1944,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -2029,7 +2029,7 @@
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" style="color:white;"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
+                                    <h4 class="modal-title" style="color:{{text_color}};"><i class="fas fa-search-minus"></i> Oops! Please check your details </i></h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">

@@ -484,7 +484,7 @@ function add_multi_city(type){
                                         <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                     </div>
                                     <div class="image-change-route-horizontal">
-                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                     </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -559,7 +559,7 @@ function add_multi_city(type){
                                     <h4><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                 </div>
                                 <div class="image-change-route-horizontal">
-                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:white;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                    <h4><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5; color:`+text_color+`;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -1911,7 +1911,7 @@ function sort(){
         var last = (sort_key+1) * 10;
         if(sort_key == 0)
             text += `<div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:white;">Flight `+counter_search+`</h6>
+                    <h6 style="color:`+text_color+`;">Flight `+counter_search+`</h6>
                 </div>`;
         for(i in airline){
            if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
@@ -2992,23 +2992,23 @@ function airline_pick_mc(type){
             if(airline_pick_list[i].is_combo_price == true){
                 text+=`
                 <div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:white;">Departure-Return Flight</h6>
+                    <h6 style="color:`+text_color+`;">Departure-Return Flight</h6>
                 </div>`;
             }else if(airline_pick_list[i].airline_pick_sequence == 1){
                 text+=`
                 <div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:white;">Departure Flight</h6>
+                    <h6 style="color:`+text_color+`;">Departure Flight</h6>
                 </div>`;
             }else if(airline_pick_list[i].airline_pick_sequence == 2){
                 text+=`
                 <div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:white;">Return Flight</h6>
+                    <h6 style="color:`+text_color+`;">Return Flight</h6>
                 </div>`;
             }
         }else{
             text+=`
             <div style="background-color:`+color+`; padding:10px;">
-                <h6 style="color:white;">Flight - `+(airline_pick_list[i].airline_pick_sequence)+`</h6>
+                <h6 style="color:`+text_color+`;">Flight - `+(airline_pick_list[i].airline_pick_sequence)+`</h6>
             </div>`;
         }
         text+=`

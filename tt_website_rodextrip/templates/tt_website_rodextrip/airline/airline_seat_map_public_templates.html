@@ -202,7 +202,7 @@ img {vertical-align: middle;}
                                                     {% for seat in seat_row.seats%}
 
                                                     {% if seat.availability == 0 %}
-                                                    <input class="button-seat-map" type="button" style="width:{{percent}}%;background-color:#656565; color:white; margin:3px;" onclick="alert('Already booked');" value="{{seat_row.row_number}}{{seat.column}}"/>
+                                                    <input class="button-seat-map" type="button" style="width:{{percent}}%;background-color:#656565; color:{{text_color}}; margin:3px;" onclick="alert('Already booked');" value="{{seat_row.row_number}}{{seat.column}}"/>
                                                     {% elif seat.availability == 1%}
                                                     <input class="button-seat-map" type="button" style="width:{{percent}}%;background-color:#CACACA; margin:3px;" onclick="change_seat('','')" value="{{seat_row.row_number}}{{seat.column}}"/>
                                                     {% elif seat.availability == -1%}

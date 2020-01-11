@@ -943,7 +943,7 @@ $(document).ready(function(){
                 if(template == 1 || template == 3){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>`;
                 }else if(template == 2){
-                    text+=`<span style="color:white;"><i class="fas fa-calendar-alt"></i> Departure</span>`;
+                    text+=`<span style="color:`+text_color+`;"><i class="fas fa-calendar-alt"></i> Departure</span>`;
                 }
                 text+=`
                 <div class="input-container-search-ticket">
@@ -1025,7 +1025,7 @@ $(document).ready(function(){
                 if(template == 1 || template == 3){
                     text+=`<span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
                 }else if(template == 2){
-                    text+=`<span style="color:white;"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
+                    text+=`<span style="color:`+text_color+`;"><i class="fas fa-calendar-alt"></i> Departure - Return</span>`;
                 }
 
                 text+=`
@@ -2326,7 +2326,7 @@ function please_wait_transaction(){
             </div>
         </div>
         <div style="text-align:center">
-            <span style="font-size:20px; font-weight:bold; color:white;">Please wait, while your transaction is being processed ...</span>
+            <span style="font-size:20px; font-weight:bold; color:`+text_color+`;">Please wait, while your transaction is being processed ...</span>
         </div>
     </div>`;
     document.getElementById("viewWaitingTransaction").innerHTML = text_waiting;

@@ -80,7 +80,7 @@
                 {% if username != null %}
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
                 <div class="col-lg-12">
-                    <h5 style="color:white; padding-bottom:20px;">
+                    <h5 style="color:{{text_color}}; padding-bottom:20px;">
                         Hello, {{username.co_user_name}}!
                         Grow your business with <span class="lamp">{{name}}</span>
                     </h5>
@@ -93,8 +93,8 @@
                 {% else %}
                 <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
                     <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
-                        <h3 style="color:white;">Already a <span class="lamp">{{name}}</span> member?</h3>
-                        <h4 style="color:white; padding-top:5px;">Sign in to make booking easier!</h4>
+                        <h3 style="color:{{text_color}};">Already a <span class="lamp">{{name}}</span> member?</h3>
+                        <h4 style="color:{{text_color}}; padding-top:5px;">Sign in to make booking easier!</h4>
                         <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
                             Sign in <i class="fas fa-sign-in-alt"></i>
                         </button>
@@ -183,17 +183,17 @@
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_airline_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">One Way</span>
+                                                <span style="font-size:13px; color:{{text_color}};">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">Round-trip</span>
+                                                <span style="font-size:13px; color:{{text_color}};">Round-trip</span>
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">Multi-City</span>
+                                                <span style="font-size:13px; color:{{text_color}};">Multi-City</span>
                                                 <input type="radio" name="radio_airline_type" value="multicity">
                                                 <span class="checkmark-radio"></span>
                                             </label>
@@ -201,7 +201,7 @@
                                         <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                                 <label class="check_box_custom" style="margin-bottom:0px;">
-                                                    <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                                    <span style="font-size:13px; color:{{text_color}};">Is Combo Price</span>
                                                     <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
@@ -227,7 +227,7 @@
                                                             <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                         </div>
                                                         <div class="image-change-route-horizontal">
-                                                            <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                            <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5; padding-right:0px;">
                                                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -364,7 +364,7 @@
                                 <!--<center>-->
                                 <!--<div style="padding:15px;">-->
                                 <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                                <!--<h1 style="color:white !important;">Train under construction</h1>-->
+                                <!--<h1 style="color:{{text_color}} !important;">Train under construction</h1>-->
                                 <!--</div>-->
                                 <!--</center>-->
 
@@ -373,12 +373,12 @@
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">One Way</span>
+                                                <span style="font-size:13px; color:{{text_color}};">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_train_type" value="oneway">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">Round-trip</span>
+                                                <span style="font-size:13px; color:{{text_color}};">Round-trip</span>
                                                 <input type="radio" name="radio_train_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
@@ -395,7 +395,7 @@
                                                     <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                 </div>
                                                 <div class="image-change-route-horizontal2">
-                                                    <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                 </div>
 
                                                 <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
@@ -823,7 +823,7 @@
                                 <!--<center>-->
                                     <!--<div style="padding:15px;">-->
                                         <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                                        <!--<h1 style="color:white !important;">Group booking under construction</h1>-->
+                                        <!--<h1 style="color:{{text_color}} !important;">Group booking under construction</h1>-->
                                     <!--</div>-->
                                 <!--</center>-->
                             <!--</div>-->
@@ -831,7 +831,7 @@
                                 <!--<center>-->
                                     <!--<div style="padding:15px;">-->
                                         <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
-                                        <!--<h1 style="color:white !important;">Passport under construction</h1>-->
+                                        <!--<h1 style="color:{{text_color}} !important;">Passport under construction</h1>-->
                                     <!--</div>-->
                                 <!--</center>-->
                             <!--</div>-->
@@ -1300,7 +1300,7 @@
         <div class="hotel-search-form-area" style="position:relative;">
             <div class="container-fluid">
                 {% if username != null %}
-                <h3 style="color:white; padding-bottom:20px;">
+                <h3 style="color:{{text_color}}; padding-bottom:20px;">
                     Hello, {{username.co_user_name}}!
                     Grow your business with <span class="lamp">{{name}}</span>
                 </h3>
@@ -1341,17 +1341,17 @@
                                 <div class="row justify-content-between align-items-end">
                                     <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                                            <span style="font-size:13px; color:white;">One Way</span>
+                                            <span style="font-size:13px; color:{{text_color}};">One Way</span>
                                             <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
                                             <span class="checkmark-radio"></span>
                                         </label>
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                                            <span style="font-size:13px; color:white;">Round-trip</span>
+                                            <span style="font-size:13px; color:{{text_color}};">Round-trip</span>
                                             <input type="radio" name="radio_airline_type" value="roundtrip">
                                             <span class="checkmark-radio"></span>
                                         </label>
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                                            <span style="font-size:13px; color:white;">Multi-City</span>
+                                            <span style="font-size:13px; color:{{text_color}};">Multi-City</span>
                                             <input type="radio" name="radio_airline_type" value="multicity">
                                             <span class="checkmark-radio"></span>
                                         </label>
@@ -1359,7 +1359,7 @@
                                     <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                         <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                             <label class="check_box_custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                                <span style="font-size:13px; color:{{text_color}};">Is Combo Price</span>
                                                 <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -1383,7 +1383,7 @@
                                                         <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                     </div>
                                                     <div class="image-change-route-horizontal">
-                                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:white;" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
+                                                        <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
                                                         <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
@@ -1536,7 +1536,7 @@
                                                 <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                             </div>
                                             <div class="image-change-route-horizontal2">
-                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:white;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}};" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                             </div>
 
                                             <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5;">
@@ -2196,7 +2196,7 @@
     <!--</div>-->
     <!--</div>-->
     <!--<div class="col-xs-12 col-md-5 text-right" style="padding-bottom:100px;">-->
-    <!--<h5 style="color:white;">Easy to use and easy to access with application RODEXTRIP!</h5>-->
+    <!--<h5 style="color:{{text_color}};">Easy to use and easy to access with application RODEXTRIP!</h5>-->
     <!--<br/>-->
     <!--<a href="https://play.google.com/store/apps/details?id=com.skytors"><img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Android" /></a>-->
     <!--<a href="https://apps.apple.com/id/app/skytors/id1449434282?l=id"><img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Apple" /></a>-->
@@ -2283,23 +2283,23 @@
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
                             {% if "airline" in provider %}
                             <div id="tab-airline" class="tab-content current">
-                                <h4 class="pb-30" style="color:white;">Book Your Airline!</h4>
+                                <h4 class="pb-30" style="color:{{text_color}};">Book Your Airline!</h4>
                                 <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_airline_search" style="text-align:left;margin-bottom:10px;">
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">One Way</span>
+                                                <span style="font-size:13px; color:{{text_color}};">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_airline_type" value="oneway">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">Round-trip</span>
+                                                <span style="font-size:13px; color:{{text_color}};">Round-trip</span>
                                                 <input type="radio" name="radio_airline_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">Multi-City</span>
+                                                <span style="font-size:13px; color:{{text_color}};">Multi-City</span>
                                                 <input type="radio" name="radio_airline_type" value="multicity">
                                                 <span class="checkmark-radio"></span>
                                             </label>
@@ -2307,7 +2307,7 @@
                                         <div class="col-lg-12" style="text-align:left;margin-bottom:10px;">
                                             <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                                 <label class="check_box_custom" style="margin-bottom:0px;">
-                                                    <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                                    <span style="font-size:13px; color:{{text_color}};">Is Combo Price</span>
                                                     <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
@@ -2460,18 +2460,18 @@
                             {% endif %}
                             {% if "train" in provider %}
                             <div id="tab-train" class="tab-content">
-                                <h4 class="pb-30" style="color:white;">Book Your Train!</h4>
+                                <h4 class="pb-30" style="color:{{text_color}};">Book Your Train!</h4>
                                 <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_train_search" style="margin-bottom:10px;">
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">One Way</span>
+                                                <span style="font-size:13px; color:{{text_color}};">One Way</span>
                                                 <input type="radio" checked="checked" name="radio_train_type" value="oneway">
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
-                                                <span style="font-size:13px; color:white;">Round-trip</span>
+                                                <span style="font-size:13px; color:{{text_color}};">Round-trip</span>
                                                 <input type="radio" name="radio_train_type" value="roundtrip">
                                                 <span class="checkmark-radio"></span>
                                             </label>
@@ -2563,7 +2563,7 @@
                             {% endif %}
                             {% if "hotel" in provider %}
                             <div id="tab-hotel" class="tab-content">
-                                <h4 class="pb-30" style="color:white;">Book Your Hotel!</h4>
+                                <h4 class="pb-30" style="color:{{text_color}};">Book Your Hotel!</h4>
                                 <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" id="hotel_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
@@ -2689,7 +2689,7 @@
                             {% endif %}
                             {% if "activity" in provider %}
                             <div id="tab-activity" class="tab-content">
-                                <h4 class="pb-30" style="color:white;">Book Your Activity!</h4>
+                                <h4 class="pb-30" style="color:{{text_color}};">Book Your Activity!</h4>
                                 <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
                                     {% csrf_token %}
                                     <div class="row">
@@ -2777,7 +2777,7 @@
                             {% endif %}
                             {% if "tour" in provider %}
                             <div id="tab-tour" class="tab-content">
-                                <h4 class="pb-30" style="color:white;">Book Your Tour!</h4>
+                                <h4 class="pb-30" style="color:{{text_color}};">Book Your Tour!</h4>
                                 <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" method="post">
                                     {% csrf_token %}
                                     <div class="row">
@@ -2871,7 +2871,7 @@
                             {% endif %}
                             {% if "visa" in provider %}
                             <div id="tab-visa" class="tab-content">
-                                <h4 class="pb-30" style="color:white;">Book Your Visa!</h4>
+                                <h4 class="pb-30" style="color:{{text_color}};">Book Your Visa!</h4>
                                 <form action="{% url 'tt_website_rodextrip:visa_search'%}" method="post">
                                     {% csrf_token %}
                                     <div class="row">
@@ -3166,19 +3166,19 @@
             <div class="row align-items-center justify-content-center" style="padding-top:100px;">
                 {% if username != null %}
                 <div class="col-xl-12" style="text-align:center;">
-                    <h3 style="color:white;">
+                    <h3 style="color:{{text_color}};">
                         Hello, {{username.agent_name}} !
                     </h3>
-                    <h4 style="padding-top:5px; padding-bottom:15px; color:white;">
+                    <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
                         Enjoy your trip with RODEXTRIP
                     </h4>
                 </div>
                 {% else %}
                 <div class="col-xl-12" style="text-align:center;">
-                    <h3 style="color:white;">
+                    <h3 style="color:{{text_color}};">
                         Hello, Guest !
                     </h3>
-                    <h4 style="padding-top:5px; padding-bottom:15px; color:white;">
+                    <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
                         Enjoy your trip with RODEXTRIP
                     </h4>
                 </div>
@@ -3250,7 +3250,7 @@
                                         <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                                 <label class="check_box_custom">
-                                                    <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                                    <span style="font-size:13px; color:{{text_color}};">Is Combo Price</span>
                                                     <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                     <span class="check_box_span_custom"></span>
                                                 </label>
@@ -4126,7 +4126,7 @@
                                         <div class="col-lg-12" style="padding:0px; text-align:left;margin-bottom:10px;">
                                             <div class="checkbox" style="display:none;" id="checkbox_combo_price">
                                                 <label class="check_box_custom">
-                                                    <span style="font-size:13px; color:white;">Is Combo Price</span>
+                                                    <span style="font-size:13px; color:{{text_color}};">Is Combo Price</span>
                                                     <input type="checkbox" value="" id="is_combo_price" name="is_combo_price" disabled>
                                                     <span class="check_box_span_custom"></span>
                                                 </label>

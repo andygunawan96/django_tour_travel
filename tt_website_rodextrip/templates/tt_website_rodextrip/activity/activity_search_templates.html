@@ -35,10 +35,10 @@
 {% endif %}
 
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
-    <span style="color:white; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
 </button>
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
-    <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
 </button>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
@@ -211,18 +211,18 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
                         <form action="{% url 'tt_website_rodextrip:activity_search'%}" id="activity_search_form" method="post">
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                    <span style="color:white;"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-umbrella-beach"></i> Activity</span>
                                     <div class="form-group">
                                         <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
-                                    <span style="color:white;">&nbsp;</span>
+                                    <span style="color:{{text_color}};">&nbsp;</span>
                                     <div class="input-container-search-ticket">
                                         <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
                                         <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
@@ -233,7 +233,7 @@
                                 <div class="col-lg-6">
                                     <div class="row">
                                         <div class="col-lg-12">
-                                            <span style="color:white;"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                                            <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -259,7 +259,7 @@
                                 <div class="col-lg-6">
                                     <div class="row">
                                         <div class="col-lg-12 search_type">
-                                            <span style="color:white;"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                            <span style="color:{{text_color}};"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -335,7 +335,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> Filter</i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};"> Filter</i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -355,7 +355,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> Sort </i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};"> Sort </i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">

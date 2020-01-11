@@ -74,7 +74,7 @@
                                 <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Logout</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
                                     </a>
                                 </li>
                             </ul>
@@ -100,7 +100,7 @@
                                 <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Logout</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
                                     </a>
                                 </li>
                             </ul>
@@ -233,7 +233,7 @@
                                         <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                         <li style="z-index:5;">
                                             <a>
-                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Sign Out</button>
+                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Sign Out</button>
                                             </a>
                                         </li>
                                     </ul>
@@ -255,7 +255,7 @@
                                         <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
                                         <li style="z-index:5;">
                                             <a>
-                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:white;">Sign Out</button>
+                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Sign Out</button>
                                             </a>
                                         </li>
                                     </ul>
@@ -331,13 +331,13 @@
                         </li>
                         {% endif %}
                         {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                        <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
+                        <li class="credit_mobile" style="color:{{text_color}};"><a id="credit_limit"></a></li>
                         {% else %}
-                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
+                        <li class="balance_mobile" style="color:{{text_color}};"><a id="balance"></a></li>
                         {% endif %}
 
                         {% if username != null %}
-                        <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
+                        <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:{{text_color}}; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul>
                                 <li class="menu-has-children"><a href="#">Partnership</a>
                                     <ul style="width:100%;">
@@ -353,7 +353,7 @@
                                 <li>
                                     <center>
                                         <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
+                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
                                         </a>
                                     </center>
                                 </li>
@@ -375,7 +375,7 @@
                                 <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
                                     </a>
                                 </li>
                             </ul>
@@ -399,7 +399,7 @@
                 </nav>
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">
                     <ul class="nav-menu" style="display:inline;">
-                        <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer; color:{{color}};" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" id="red_notification" style="font-size:16px; color:white; padding-top:5px;"></i></li>
+                        <li title="Click to show your notification" class="menu-has-children" style="font-size:13px; padding-top:5px; padding-right:5px; cursor:pointer; color:{{color}};" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" id="red_notification" style="font-size:16px; color:{{text_color}}; padding-top:5px;"></i></li>
                     </ul>
                 </nav>
             </div>
@@ -494,7 +494,7 @@
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
                                     </a>
                                 </li>
                             </ul>
@@ -507,7 +507,7 @@
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
                                     </a>
                                 </li>
                             </ul>
@@ -616,7 +616,7 @@
                                 <li><a href="#">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
                                     </a>
                                 </li>
                             </ul>
@@ -629,7 +629,7 @@
                                 <li><a href="">Edit Agent Profile</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:white;">Sign Out</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
                                     </a>
                                 </li>
                             </ul>
@@ -651,7 +651,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:white;"> Notification <i class="fas fa-bell"></i></i></h4>
+                <h4 class="modal-title" style="color:{{text_color}};"> Notification <i class="fas fa-bell"></i></i></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">

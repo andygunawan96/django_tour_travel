@@ -1000,7 +1000,7 @@ function hotel_filter_render(){
     }else if(template == 2){
         text+=`
         <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
     }
     text+=`
         <div class="form-wrap" style="padding:0px; text-align:left;">
@@ -1084,7 +1084,7 @@ function hotel_filter_render(){
         </button>`;
     }
     text += `<button class="myticket_static" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
-                <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+                <span style="color:`+text_color+`; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
             </button>`
     var node = document.createElement("div");
     node.className = 'sorting-box';
@@ -1101,7 +1101,7 @@ function hotel_filter_render(){
             }else if(template == 2){
                 text+=`
                 <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
             }
             text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">

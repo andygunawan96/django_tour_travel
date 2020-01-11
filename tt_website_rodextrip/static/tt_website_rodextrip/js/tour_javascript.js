@@ -985,7 +985,7 @@ function tour_filter_render(){
             }else if(template == 2){
                 text+=`
                 <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
             }
             text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">
@@ -1070,7 +1070,7 @@ function tour_filter_render(){
             }else if(template == 2){
                 text+=`
                 <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
             }
             text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">
@@ -1455,7 +1455,7 @@ function sort(tour_dat, exist_check){
                             <div class="single-recent-blog-post item" style="cursor:not-allowed;" onclick="">
                                 <div class="single-destination relative">
                                     <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                        <h5 style="color:white;">SOLD OUT</h5>
+                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                     </div>
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
@@ -1513,7 +1513,7 @@ function sort(tour_dat, exist_check){
                             <div class="single-post-area mb-30" onclick="" style="cursor:not-allowed;">
                                 <div class="single-destination relative">
                                     <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                        <h5 style="color:white;">SOLD OUT</h5>
+                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                     </div>
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
