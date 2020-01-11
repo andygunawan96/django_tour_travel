@@ -374,6 +374,7 @@ function hotel_detail_request(id){
             'signature': '',
        },
        success: function(msg) {
+        //TODO: Check Error Code 4003
         $('#loading-detail-hotel').hide();
         console.log(msg);
         //show package
