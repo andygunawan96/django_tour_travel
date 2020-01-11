@@ -1005,6 +1005,7 @@ function get_price_itinerary(val){
     }else if(airline_request.direction == 'RT' && journey.length == 0){
         airline_pick_mc('change');
         journey.push({'segments':segment, 'provider': provider});
+        send_search_to_api(counter_search);
         document.getElementById("airlines_ticket").innerHTML = '';
         data_show = [];
         airline_departure = 'return';
@@ -1014,7 +1015,6 @@ function get_price_itinerary(val){
     }
     else if(airline_request.direction == 'RT' && journey.length == 1){
         journey.push({'segments':segment, 'provider': provider});
-
     }
     else if(airline_request.direction == 'MC' && airline_data_filter[val].is_combo_price == true)
         journey.push({'segments':segment, 'provider': provider});
