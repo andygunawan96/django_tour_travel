@@ -146,9 +146,14 @@ function add_table_of_passenger(){
                             </div>
                             <div id="passenger_content">
                                 <div id="passenger_search`+parseInt(counter_passenger+1)+`">
-                                    <input type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search" style="padding:5px;"/>
-                                    <button type="button" class="primary-btn" style="line-height:34px;" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
-                                    <br/><br/>
+                                    <div class="row">
+                                        <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                            <input class="form-control" type="text" id="train_`+(counter_passenger+1)+`_search" placeholder="Search"/>
+                                        </div>
+                                        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                            <button type="button" class="primary-btn" id="passenger_btn_io_click`+(counter_passenger+1)+`" onclick="get_customer_list('','`+(counter_passenger+1)+`','issued_offline')">Search</button>
+                                        </div>
+                                    </div>
                                     <span><i class="fas fa-exclamation-triangle" style="font-size:18px; color:#ffcc00;"></i> Using this means you can't change title, first name, and last name</span>
 
                                     <div id="search_result_`+(counter_passenger+1)+`">

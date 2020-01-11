@@ -1452,26 +1452,26 @@ function sort(tour_dat, exist_check){
                         if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
                         {
                             text+=`
-                            <div class="single-recent-blog-post item" style="cursor:not-allowed;" onclick="">
+                            <div class="single-recent-blog-post disabled-post item" style="cursor:not-allowed;" onclick="">
                                 <div class="single-destination relative">
-                                    <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                    <div style="background:red; position:absolute; right:0px; padding:20px; z-index:1;">
                                         <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                     </div>
                                     <div class="thumb relative">
-                                        <div class="overlay overlay-bg"></div>
+                                        <div class="overlay overlay-bg-disabled"></div>
                                         <img class="img-fluid" src="`+img_src+`" alt="">
                                     </div>
-                                    <div class="card card-effect-promotion">
+                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                         <div class="card-body">
                                             <div class="row details">
                                                 <div class="col-lg-12" style="text-align:left;">
-                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
-                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">
-                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
-                                                    <a href="#" class="btn btn-primary disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
+                                                    <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`  </span>
+                                                    <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
                                                 </div>
                                             </div>
                                         </div>

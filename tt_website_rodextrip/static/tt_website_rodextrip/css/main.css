@@ -3378,6 +3378,15 @@ body.mobile-nav-active #mobile-nav-toggle {
   opacity: 0;
 }
 
+.single-destination .overlay-bg-disabled {
+  background: rgba(150, 150, 150, 1) !important;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  opacity: 0.5;
+}
+
 .single-destination .thumb {
   position: relative;
 }
@@ -3711,6 +3720,11 @@ body.mobile-nav-active #mobile-nav-toggle {
     z-index:10;
     cursor:pointer;
     transform: translateY(-1em);
+}
+
+.single-recent-blog-post.disabled-post{
+    transform: unset !important;
+    box-shadow: unset !important;
 }
 
 .recent-blog-area .single-recent-blog-post .thumb {

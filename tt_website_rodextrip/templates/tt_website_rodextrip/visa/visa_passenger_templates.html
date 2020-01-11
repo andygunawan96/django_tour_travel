@@ -40,7 +40,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;" alt="" title="" /></a>
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
@@ -102,9 +102,11 @@
                                                     </div>
                                                     <div class="modal-body">
                                                         <div class="row">
-                                                            <div class="col-lg-12">
-                                                                <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
-                                                                <button type="button" id="booker_search" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','visa');">Search <i class="fas fa-search"></i></button>
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_booker_search" placeholder="Search"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','visa');">Search <i class="fas fa-search"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="row">
@@ -316,8 +318,14 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('adult','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                            </div>
+                                                        </div>
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -515,8 +523,14 @@
                                                         <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('child','{{forloop.counter}}');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                        <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                        <div class="row">
+                                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="Search"/>
+                                                            </div>
+                                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                            </div>
+                                                        </div>
                                                         <div class="row">
                                                             <div class="col-lg-12">
                                                                 <br/>
@@ -886,7 +900,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;" alt="" title="" /></a>
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
 
@@ -1518,8 +1532,14 @@
                                                             <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('infant','{{forloop.counter}}');">&times;</button>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                            <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'visa')">Search</button>
+                                                            <div class="row">
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search"/>
+                                                                </div>
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'visa')">Search</button>
+                                                                </div>
+                                                            </div>
                                                             <div class="row loading-pax-train" style="display:none;">
                                                                 <div class="col-lg-12">
                                                                     <br/>
