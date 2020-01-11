@@ -83,7 +83,7 @@ function change_transaction_type(type){
     else
         document.getElementById('sector_div').hidden = true;
     document.getElementById('show_line').innerHTML = '';
-    if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train' || document.getElementById('transaction_type').value  == 'hotel' || document.getElementById('transaction_type').value  == 'activity'){
+//    if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train' || document.getElementById('transaction_type').value  == 'hotel' || document.getElementById('transaction_type').value  == 'activity'){
         document.getElementById('show_line').hidden = false;
         $('#transaction_type').niceSelect();
         text = '';
@@ -96,10 +96,10 @@ function change_transaction_type(type){
         </div>`;
         document.getElementById('show_line').innerHTML = text;
         //$('select').niceSelect();
-    }else{
-        document.getElementById('show_line').hidden = true;
-        document.getElementById('show_line').innerHTML = '';
-    }
+//    }else{
+//        document.getElementById('show_line').hidden = true;
+//        document.getElementById('show_line').innerHTML = '';
+//    }
 }
 
 function add_table_of_passenger(){
@@ -715,6 +715,27 @@ function add_table_of_line(type){
         });
         document.getElementById('activity_datetime'+counter_line).value = '';
         $('.js-example-basic-single').select2();
+    }else{
+        text += `
+            <div class="row">
+                <div class="col-lg-12">
+                    <span style="font-size:14px; font-weight:bold;">No. `+parseInt(counter_line+1)+`</span>
+                </div>
+                <div class="col-lg-12 col-md-12">
+                    <span>PNR</span><br/>
+                    <div class="input-container-search-ticket">
+                        <input type="text" id="pnr`+counter_line+`" name="pnr`+counter_line+`" class="form-control"/>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12" style="text-align:left;">
+                    <span>Description</span><br/>
+                    <textarea id="other_description`+counter_line+`" name="description" rows="6" cols="80" style="resize:none; width:100%; margin-bottom:15px;" class="form-control" placeholder="Leave any notes here"></textarea>
+                </div>
+
+        </div><hr/>`;
+        node.innerHTML = text;
+        node.className = "col-lg-12";
+        document.getElementById("table_of_line").appendChild(node);
     }
 
 

@@ -476,7 +476,7 @@ def cancel(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "cancel",
+            "action": "cancel_booking",
             "signature": request.POST['signature'],
         }
     except Exception as e:

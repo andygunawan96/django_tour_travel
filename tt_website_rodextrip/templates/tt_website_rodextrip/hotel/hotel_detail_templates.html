@@ -212,20 +212,20 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
                         <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
                             {% csrf_token %}
                             <div class="row">
                                 <input type="hidden" id="response" name="response">
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
                                     <div class="input-container-search-ticket">
                                         <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
                                     <div class="input-container-search-ticket">
                                         <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
                                         <datalist id="hotel_country_nationality"/>
@@ -233,7 +233,7 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> Check-in</span>
                                     <div class="input-container-search-ticket">
                                         <input style="background:white;" class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                         <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
@@ -243,7 +243,7 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-users"></i> Guest</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-users"></i> Guest</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                         <ul class="dropdown-menu" role="menu" style="z-index:5;">
@@ -320,7 +320,7 @@
 
                                 <div class="col-lg-12">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="font-size:13px; color:white;">Business Trip</span>
+                                        <span class="span-search-ticket" style="font-size:13px; color:{{text_color}};">Business Trip</span>
                                         <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
@@ -375,7 +375,7 @@
                     <button class="content-hotel primary-btn-sticky-hotel" type="button" id="select-room-hotel">Select Room</button>
 
                     <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();">
-                        <span style="color:white; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+                        <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
                     </button>
                 </div>
             </div>
@@ -481,7 +481,7 @@
                                             <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
                                                 <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="width:100%; height:75px;">
                                             </div>
-                                            <span class="text-block-img" style="cursor:pointer; color:white; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{response.images|length}})</span>
+                                            <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{response.images|length}})</span>
                                         </div>
                                         {% endif %}
                                         {% endfor %}
@@ -649,7 +649,7 @@
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" style="color:white;"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
+                                    <h4 class="modal-title" style="color:{{text_color}};"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
@@ -829,12 +829,12 @@
 <!--    <ul class="nav nav-tabs" id="myTab" role="tablist">-->
 <!--        <li class="nav-item">-->
 <!--            <a class="nav-link active" id="facilities-tab" data-toggle="tab" href="#facilities" role="tab" aria-controls="facilities" aria-selected="true">-->
-<!--                <span style="color:white;"> Facilities </span>-->
+<!--                <span style="color:{{text_color}};"> Facilities </span>-->
 <!--            </a>-->
 <!--        </li>-->
 <!--        <li class="nav-item">-->
 <!--            <a class="nav-link" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="false">-->
-<!--                <span style="color:white;"> Description </span>-->
+<!--                <span style="color:{{text_color}};"> Description </span>-->
 <!--            </a>-->
 <!--        </li>-->
 <!--    </ul>-->

@@ -1646,7 +1646,7 @@ function activity_get_booking(data){
 //                                Print Invoice
 //                             </button>`;
                     text+=`
-                    <a class="issued-booking-train ld-ext-right" style="color:white;">
+                    <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                         <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                         <div class="ld ld-ring ld-cycle"></div>
                     </a>`;
@@ -1658,7 +1658,7 @@ function activity_get_booking(data){
                               <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" style="color:white">Invoice</h4>
+                                        <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
@@ -1707,7 +1707,7 @@ function activity_get_booking(data){
 //                                Print Invoice
 //                             </button>`;
                     text+=`
-                    <a class="issued-booking-train ld-ext-right" style="color:white;">
+                    <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                         <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                         <div class="ld ld-ring ld-cycle"></div>
                     </a>`;
@@ -1719,7 +1719,7 @@ function activity_get_booking(data){
                               <!-- Modal content-->
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title" style="color:white">Invoice</h4>
+                                        <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">

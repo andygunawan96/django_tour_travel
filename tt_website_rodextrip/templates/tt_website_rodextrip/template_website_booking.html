@@ -156,6 +156,14 @@ Licence URI: http://www.os-templates.com/template-terms
         }
     </style>
     <style>
+        .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
+            background-color: {{tab_color}} !important;
+        }
+        .banner-right .tab-content {
+            background: {{tab_color}} !important;
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
+        }
         ::selection {
           background-color: {{color}} !important;
           color: #fff;
@@ -1045,6 +1053,7 @@ Licence URI: http://www.os-templates.com/template-terms
 </head>
 <script>
     color = `{{color}}`;
+    text_color = `{{text_color}}`;
 </script>
 <body>
 {% block content %}

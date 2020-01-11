@@ -67,10 +67,10 @@
 <title id="title_search">{{name}} Hotel - {{hotel_search.destination}}</title>
 
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
-    <span style="color:white; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
 </button>
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
-    <span style="color:white; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
 </button>
 
 <div id="overlay-search-box" onclick="off_overlay()"></div>
@@ -245,20 +245,20 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
                         <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
                             {% csrf_token %}
                             <div class="row">
                                 <input type="hidden" id="response" name="response">
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
                                     <div class="input-container-search-ticket">
                                         <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
                                     <div class="input-container-search-ticket">
                                         <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
                                         <datalist id="hotel_country_nationality"/>
@@ -266,7 +266,7 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> Check-in</span>
                                     <div class="input-container-search-ticket">
                                         <input style="background:white;" class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                         <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
@@ -276,7 +276,7 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:white;"><i class="fas fa-users"></i> Guest</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-users"></i> Guest</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                         <ul class="dropdown-menu" role="menu" style="z-index:5;">
@@ -353,7 +353,7 @@
 
                                 <div class="col-lg-12" style="margin-top:5px;float:left;">
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px; color:white;">Business Trip</span>
+                                        <span style="font-size:13px; color:{{text_color}};">Business Trip</span>
                                         <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
@@ -382,7 +382,7 @@
                 <div class="row">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left:2px;">
                         <button class="primary-btn-custom" style="width:100%;" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
-                            <span style="color:white; font-size:12px;"> List Copy </span>
+                            <span style="color:{{text_color}}; font-size:12px;"> List Copy </span>
                             <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>
                         </button>
                     </div>
@@ -412,7 +412,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> Filter</i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};"> Filter</i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -433,7 +433,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> Sort </i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};"> Sort </i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -517,7 +517,7 @@
                         <!-- Modal content-->
                         <div class="modal-content" style="background-color:transparent; border:unset;">
                             <div class="modal-header" style="background-color:transparent; border-bottom:unset;">
-                                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                                <button type="button" class="close" data-dismiss="modal" style="color:{{text_color}};">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <div class="col-lg-12" id="viewImageHotelBottom">
@@ -536,7 +536,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">

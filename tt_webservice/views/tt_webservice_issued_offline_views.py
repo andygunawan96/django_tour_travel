@@ -172,6 +172,11 @@ def set_data_issued_offline(request):
                     "description": request.POST['line_activity_description' + str(i)],
                     "pnr": request.POST['line_pnr' + str(i)],
                 })
+            else:
+                line.append({
+                    "pnr": request.POST['line_pnr' + str(i)],
+                    "description": request.POST['line_other_description' + str(i)],
+                })
         temp_date = request.POST['expired_date'].split(' ')
         if temp_date[4] == 'PM':
             temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))

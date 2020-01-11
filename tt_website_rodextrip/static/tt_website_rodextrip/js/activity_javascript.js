@@ -1746,7 +1746,7 @@ function activity_filter_render(){
     }else if(template == 2){
         text+=`
         <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
     }
     text+=`
         <div class="form-wrap" style="padding:0px; text-align:left;">
@@ -1807,7 +1807,7 @@ function activity_filter_render(){
             }else if(template == 2){
                 text+=`
                 <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:white;">`;
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
             }
             text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">

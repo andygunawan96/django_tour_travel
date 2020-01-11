@@ -385,7 +385,13 @@ def admin(request):
                 text += request.POST['tawk_chat'] + '\n'
                 text += request.POST['tawk_code'] + '\n'
                 text += request.POST['facebook'] + '\n'
-                text += request.POST['instagram']
+                text += request.POST['instagram'] + '\n'
+                text += "#" + request.POST['text_pick'] + '\n'
+                if request.POST['bg_tab_pick'] == '':
+                    text += 'none'
+                else:
+                    text += "#" + request.POST['bg_tab_pick']
+
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -560,6 +566,8 @@ def get_data_template(type='home'):
     tawk_code = ''
     facebook = ''
     instagram = ''
+    tab_color = '#333333'
+    text_color = '#FFFFFF'
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
 
 We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
@@ -606,6 +614,15 @@ We build this application for our existing partner and public users who register
             elif idx == 11:
                 if line != '\n':
                     instagram = line.split('\n')[0]
+            elif idx == 12:
+                if line != '\n':
+                    text_color = line.split('\n')[0]
+            elif idx == 13:
+                if line != '\n':
+                    if line.split('\n')[0] == 'none':
+                        tab_color = 'transparent'
+                    else:
+                        tab_color = line.split('\n')[0]
         if color == '':
             color = '#f15a22'
         file.close()
@@ -623,7 +640,9 @@ We build this application for our existing partner and public users who register
         'tawk_chat': tawk_chat,
         'tawk_code': tawk_code,
         'facebook_url': facebook,
-        'instagram_url': instagram
+        'instagram_url': instagram,
+        'text_color': text_color,
+        'tab_color': tab_color
     }
 
 # @api_view(['GET'])

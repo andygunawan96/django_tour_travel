@@ -32,7 +32,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-4 col-md-4">
-				<a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;" alt="" title="" /></a>
+				<a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:63px;" alt="" title="" /></a>
 			</div>
 			<div class="col-lg-8 col-md-8" id="login-form-pc">
 				<form id="myForm2" class="login100-form validate-form" action="{% url 'tt_website_rodextrip:index'%}" method="POST">
@@ -46,7 +46,7 @@
 								<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
 							</div>
 							<div class="input-container-login">
-								<span style="color:{{color}};padding-top:15px;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forgot Password</a></span>
+								<span style="color:{{color}};"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forgot Password</a></span>
 							</div>
 						</div>
 						<div class="col-lg-3 col-md-3" style="text-align:right;">
@@ -72,7 +72,7 @@
 			</span>
 
 			<div style="text-align:center; position:absolute; bottom:15px; left:0px; right:0px; ">
-				<span style="color:white; font-weight:700;">Follow us</span>
+				<span style="color:{{text_color}}; font-weight:700;">Follow us</span>
 				<br/>
 				<a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
 				<a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
@@ -109,7 +109,7 @@
 				</form>
 			</div>
 			<div style="text-align:center; margin-top:30px;">
-				<span style="color:white; font-weight:700;">Follow us</span>
+				<span style="color:{{text_color}}; font-weight:700;">Follow us</span>
 				<br/>
 				<a href="https://www.instagram.com/rodextravel/?hl=id"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
 				<a href="https://www.facebook.com/Rodex-Tours-and-Travel-115644478511842/"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>

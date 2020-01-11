@@ -26,7 +26,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title" style="color:white;">Passenger <i class="fas fa-address-card"></i></h4>
+                <h4 class="modal-title" style="color:{{text_color}};">Passenger <i class="fas fa-address-card"></i></h4>
                 <button type="button" class="close" data-dismiss="modal" onclick="clear_search_pax('passenger','');">&times;</button>
             </div>
             <div class="modal-body">
@@ -120,7 +120,7 @@
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                 <button type="button" class="close" onclick="modal_help_pax_hide();">&times;</button>
                                             </div>
                                             <div class="modal-body">
@@ -189,7 +189,7 @@
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" style="color:white;">Avatar Photo</h4>
+                                                <h4 class="modal-title" style="color:{{text_color}};">Avatar Photo</h4>
                                                 <button type="button" class="close" onclick="close_upload_attachment('','');">&times;</button>
                                             </div>
                                             <div class="modal-body">
@@ -206,7 +206,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <label style="color:white">*</label>
+                                <label style="color:{{text_color}}">*</label>
                                 <label>Contact Email Address</label>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" name="passenger_email" id="passenger_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -224,7 +224,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="banner-right" style="background:rgba(100,100,100,1);">
+                                <div class="banner-right" style="background:{{tab_color}}">
                                     <div class="tab-content" id="myTabContent">
                                         <div id="passport-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
                                             <div class="col-lg-12">
@@ -234,20 +234,20 @@
                                                     <!--                                                        <label>PASSPORT</label>-->
                                                     <!--                                                    </div>-->
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued1_id" style="width:100%;" id="passenger_identity_country_of_issued1_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued1')" class="nice-select-default">
@@ -262,7 +262,7 @@
                                                         <input type="hidden" name="passenger_identity_country_of_issued1" id="passenger_identity_country_of_issued1" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
@@ -271,7 +271,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -298,20 +298,20 @@
                                                     <!--                                                        <label>KTP</label>-->
                                                     <!--                                                    </div>-->
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued2')" class="nice-select-default">
@@ -326,7 +326,7 @@
                                                         <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_identity_country_of_issued2" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
@@ -335,7 +335,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -362,20 +362,20 @@
                                                     <!--                                                        <label>SIM</label>-->
                                                     <!--                                                    </div>-->
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued3')" class="nice-select-default">
@@ -390,7 +390,7 @@
                                                         <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_identity_country_of_issued3" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment3">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
@@ -399,7 +399,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -426,20 +426,20 @@
                                                     <!--                                                        <label>Other</label>-->
                                                     <!--                                                    </div>-->
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued4_id" style="width:100%;" id="passenger_identity_country_of_issued4_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued4')" class="nice-select-default">
@@ -454,7 +454,7 @@
                                                         <input type="hidden" name="passenger_identity_country_of_issued4" id="passenger_identity_country_of_issued4" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment4">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
@@ -463,7 +463,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -520,7 +520,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Help <i class="fas fa-address-card"></i></h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
                                                         <button type="button" class="close" onclick="modal_help_pax_hide();">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -587,7 +587,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Avatar Photo</h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Avatar Photo</h4>
                                                         <button type="button" class="close" onclick="close_upload_attachment('','');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -604,7 +604,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:white">*</label>
+                                        <label style="color:{{text_color}}">*</label>
                                         <label>Contact Email Address</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="passenger_email" id="passenger_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -631,20 +631,20 @@
                                                         <!--                                                        <label>PASSPORT</label>-->
                                                         <!--                                                    </div>-->
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_identity_number1" id="passenger_identity_number1" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date1" id="passenger_identity_expired_date1" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued1_id" style="width:100%;" id="passenger_identity_country_of_issued1_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued1')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -657,7 +657,7 @@
                                                             <input type="hidden" name="passenger_identity_country_of_issued1" id="passenger_identity_country_of_issued1" />
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment1">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment1" role="dialog" data-keyboard="false">
@@ -666,7 +666,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(1,'');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -693,20 +693,20 @@
                                                         <!--                                                        <label>KTP</label>-->
                                                         <!--                                                    </div>-->
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_identity_number2" id="passenger_identity_number2" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date2" id="passenger_identity_expired_date2" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued2')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -719,7 +719,7 @@
                                                             <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_identity_country_of_issued2" />
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment2">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment2" data-keyboard="false">
@@ -728,7 +728,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(2,'');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -755,20 +755,20 @@
                                                         <!--                                                        <label>SIM</label>-->
                                                         <!--                                                    </div>-->
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_identity_number3" id="passenger_identity_number3" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date3" id="passenger_identity_expired_date3" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued3')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -781,7 +781,7 @@
                                                             <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_identity_country_of_issued3" />
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment3">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment3" data-keyboard="false">
@@ -790,7 +790,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(3,'');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -817,20 +817,20 @@
                                                         <!--                                                        <label>Other</label>-->
                                                         <!--                                                    </div>-->
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_identity_number4" id="passenger_identity_number4" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_identity_expired_date4" id="passenger_identity_expired_date4" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued4_id" style="width:100%;" id="passenger_identity_country_of_issued4_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_identity_country_of_issued4')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -843,7 +843,7 @@
                                                             <input type="hidden" name="passenger_identity_country_of_issued4" id="passenger_identity_country_of_issued4" />
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment4">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment4" data-keyboard="false">
@@ -852,7 +852,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(4,'');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -967,7 +967,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
-                                <label style="color:white">*</label>
+                                <label style="color:{{text_color}}">*</label>
                                 <label>Contact Email Address</label>
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" name="passenger_edit_email" id="passenger_edit_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -986,7 +986,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="banner-right" style="background:rgba(100,100,100,1);">
+                                <div class="banner-right" style="background:{{tab_color}}">
                                     <div class="tab-content" id="myTabContent_edit">
                                         <div id="passport-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
                                             <div class="col-lg-12">
@@ -996,20 +996,20 @@
                                                     <!--                                                        <label>PASSPORT</label>-->
                                                     <!--                                                    </div>-->
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued1_id" style="width:100%;" id="passenger_edit_identity_country_of_issued1_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued1')" class="nice-select-default">
@@ -1024,7 +1024,7 @@
                                                         <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit1">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment_edit1" role="dialog" data-keyboard="false">
@@ -1033,7 +1033,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(1,'edit');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -1057,20 +1057,20 @@
                                             <div class="col-sm-12">
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
@@ -1085,7 +1085,7 @@
                                                         <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit2">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment_edit2" data-keyboard="false">
@@ -1094,7 +1094,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(2,'edit');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -1118,20 +1118,20 @@
                                             <div class="col-lg-12">
                                                 <div class="row">
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
@@ -1146,7 +1146,7 @@
                                                         <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                     </div>
                                                     <div class="col-sm-5">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit3">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment_edit3" data-keyboard="false">
@@ -1155,7 +1155,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(3,'edit');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -1179,20 +1179,20 @@
                                             <div class="col-lg-12">
                                                 <div class="row">
                                                     <div class="col-lg-6">
-                                                        <span style="color:white;">Identity Number</span><br/>
+                                                        <span style="color:{{text_color}};">Identity Number</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Expired Date</span><br/>
+                                                        <span style="color:{{text_color}};">Expired Date</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <input type="text" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                             <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                         </div>
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Country of Issued</span><br/>
+                                                        <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                         <div class="input-container-search-ticket">
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued4_id" style="width:100%;" id="passenger_edit_identity_country_of_issued4_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued4')" class="nice-select-default">
@@ -1207,7 +1207,7 @@
                                                         <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                     </div>
                                                     <div class="col-sm-6">
-                                                        <span style="color:white;">Attachment</span><br/>
+                                                        <span style="color:{{text_color}};">Attachment</span><br/>
                                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit4">Upload Image</button>
                                                         <!-- Modal -->
                                                         <div class="modal fade" id="myModal_attachment_edit4" data-keyboard="false">
@@ -1216,7 +1216,7 @@
                                                                 <!-- Modal content-->
                                                                 <div class="modal-content">
                                                                     <div class="modal-header">
-                                                                        <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                         <button type="button" class="close" onclick="close_upload_attachment(4,'edit');">&times;</button>
                                                                     </div>
                                                                     <div class="modal-body">
@@ -1311,7 +1311,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:white;">Avatar Photo</h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">Avatar Photo</h4>
                                                         <button type="button" class="close" onclick="close_upload_attachment('','edit');">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -1329,7 +1329,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:white">*</label>
+                                        <label style="color:{{text_color}}">*</label>
                                         <label>Contact Email Address</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="passenger_edit_email" id="passenger_edit_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
@@ -1356,20 +1356,20 @@
                                                         <!--                                                        <label>PASSPORT</label>-->
                                                         <!--                                                    </div>-->
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_edit_identity_number1" id="passenger_edit_identity_number1" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date1" id="passenger_edit_identity_expired_date1" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '1')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued1_id" style="width:100%;" id="passenger_edit_identity_country_of_issued1_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued1')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -1382,7 +1382,7 @@
                                                             <input type="hidden" name="passenger_edit_identity_country_of_issued1" id="passenger_edit_identity_country_of_issued1" />
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit1">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment_edit1" role="dialog" data-keyboard="false">
@@ -1391,7 +1391,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(1,'edit');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -1415,20 +1415,20 @@
                                                 <div class="col-sm-12">
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_edit_identity_number2" id="passenger_edit_identity_number2" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date2" id="passenger_edit_identity_expired_date2" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '2')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued2_id" style="width:100%;" id="passenger_edit_identity_country_of_issued2_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued2')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -1441,7 +1441,7 @@
                                                             <input type="hidden" name="passenger_identity_country_of_issued2" id="passenger_edit_identity_country_of_issued2" />
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit2">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment_edit2" data-keyboard="false">
@@ -1450,7 +1450,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(2,'edit');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -1474,20 +1474,20 @@
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_edit_identity_number3" id="passenger_edit_identity_number3" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date3" id="passenger_edit_identity_expired_date3" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '3')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_identity_country_of_issued3_id" style="width:100%;" id="passenger_edit_identity_country_of_issued3_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued3')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -1500,7 +1500,7 @@
                                                             <input type="hidden" name="passenger_identity_country_of_issued3" id="passenger_edit_identity_country_of_issued3" />
                                                         </div>
                                                         <div class="col-sm-5">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit3">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment_edit3" data-keyboard="false">
@@ -1509,7 +1509,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(3,'edit');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
@@ -1533,20 +1533,20 @@
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <div class="col-lg-6">
-                                                            <span style="color:white;">Identity Number</span><br/>
+                                                            <span style="color:{{text_color}};">Identity Number</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" class="form-control" name="passenger_edit_identity_number4" id="passenger_edit_identity_number4" placeholder="Identity Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Expired Date</span><br/>
+                                                            <span style="color:{{text_color}};">Expired Date</span><br/>
                                                             <div class="input-container-search-ticket">
                                                                 <input type="text" style="background:white;" class="form-control date-picker-passport" name="passenger_edit_identity_expired_date4" id="passenger_edit_identity_expired_date4" placeholder="Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" readonly>
                                                                 <button type="button" class="primary-delete-date" onclick="delete_identity_expired_date('passenger_edit', '4')"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Country of Issued</span><br/>
+                                                            <span style="color:{{text_color}};">Country of Issued</span><br/>
                                                             <div class="form-select">
                                                                 <select class="form-control js-example-basic-single" name="passenger_edit_identity_country_of_issued4_id" style="width:100%;" id="passenger_edit_identity_country_of_issued4_id" placeholder="Country Of Issued" onchange="auto_complete('passenger_edit_identity_country_of_issued4')" class="nice-select-default">
                                                                     <option value="">Country Of Issued</option>
@@ -1559,7 +1559,7 @@
                                                             <input type="hidden" name="passenger_edit_identity_country_of_issued4" id="passenger_edit_identity_country_of_issued4" />
                                                         </div>
                                                         <div class="col-sm-6">
-                                                            <span style="color:white;">Attachment</span><br/>
+                                                            <span style="color:{{text_color}};">Attachment</span><br/>
                                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_attachment_edit4">Upload Image</button>
                                                             <!-- Modal -->
                                                             <div class="modal fade" id="myModal_attachment_edit4" data-keyboard="false">
@@ -1568,7 +1568,7 @@
                                                                     <!-- Modal content-->
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
-                                                                            <h4 class="modal-title" style="color:white;">Identity Attachment</h4>
+                                                                            <h4 class="modal-title" style="color:{{text_color}};">Identity Attachment</h4>
                                                                             <button type="button" class="close" onclick="close_upload_attachment(4,'edit');">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">

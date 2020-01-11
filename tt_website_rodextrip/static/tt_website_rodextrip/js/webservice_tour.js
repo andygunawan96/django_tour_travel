@@ -210,7 +210,7 @@ function tour_search(){
                                     <div class="single-recent-blog-post item" style="cursor:not-allowed;" onclick="">
                                         <div class="single-destination relative">
                                             <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                <h5 style="color:white;">SOLD OUT</h5>
+                                                <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
@@ -269,7 +269,7 @@ function tour_search(){
                                     <div class="single-post-area mb-30" onclick="" style="cursor:not-allowed;">
                                         <div class="single-destination relative">
                                             <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                                <h5 style="color:white;">SOLD OUT</h5>
+                                                <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
@@ -1300,7 +1300,7 @@ function tour_get_booking(order_number)
 //                                Print Invoice
 //                             </button>`;
                     text+=`
-                        <a class="issued-booking-train ld-ext-right" style="color:white;">
+                        <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                             <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                             <div class="ld ld-ring ld-cycle"></div>
                         </a>`;
@@ -1312,7 +1312,7 @@ function tour_get_booking(order_number)
                                   <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white">Invoice</h4>
+                                            <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">

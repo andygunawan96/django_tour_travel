@@ -157,7 +157,7 @@ function get_banner(type,page){
                                         </div>
                                         <div class="owl-carousel-suggest owl-theme">`;
                                         //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                        //    <h5 style="color:white;">SOLD OUT BRO</h5>
+                                        //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
                                         //</div>
                                         for(i in msg.result.response){
                                             text+=`

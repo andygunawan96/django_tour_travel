@@ -576,13 +576,13 @@ function train_get_booking(data){
                             text+=`
                             <form method="post" id="seat_map_request" action='/train/seat_map'>
 
-                                <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-train ld-ext-right" style="width:100%;color:white;" value="Seat Map" onclick="set_seat_map();"/>
+                                <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-train ld-ext-right" style="width:100%;color:`+text_color+`;" value="Seat Map" onclick="set_seat_map();"/>
                                 <input id='passenger_input' name="passenger_input" type="hidden"/>
                                 <input id='seat_map_request_input' name="seat_map_request_input" type="hidden"/>
                             </form>`;
                         }else if(msg.result.response.state == 'issued'){
                             text+=`
-                            <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
+                            <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
                                 <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','train');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
@@ -594,14 +594,14 @@ function train_get_booking(data){
                     if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
-                            <a class="print-booking-train ld-ext-right" style="color:white;">
+                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
                                 <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','train');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else if(msg.result.response.state == 'issued'){
                             text+=`
-                            <a class="print-booking-train ld-ext-right" style="color:white;">
+                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
                                 <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','train');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
@@ -613,7 +613,7 @@ function train_get_booking(data){
                     if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
-                            <a class="issued-booking-train ld-ext-right" id="print_invoice" style="color:white;" hidden>
+                            <a class="issued-booking-train ld-ext-right" id="print_invoice" style="color:`+text_color+`;" hidden>
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
@@ -621,12 +621,12 @@ function train_get_booking(data){
                         }
                         else if(msg.result.response.state == 'issued'){
 //                            text+=`
-//                            <a class="issued-booking-train ld-ext-right" style="color:white;">
+//                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
 //                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Print Invoice" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.train/`+msg.result.response.order_number+`/4','_blank');"/>
 //                                <div class="ld ld-ring ld-cycle"></div>
 //                            </a>`;
                             text+=`
-                            <a class="issued-booking-train ld-ext-right" style="color:white;">
+                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
@@ -638,7 +638,7 @@ function train_get_booking(data){
                                       <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" style="color:white">Invoice</h4>
+                                                <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">

@@ -330,6 +330,8 @@ function check_issued_offline(){
                     document.getElementById('activity_description'+i).style['border-color'] = '#EFEFEF';
                     request["line_activity_description"+i] = document.getElementById('activity_description'+i).value;
                 }
+            }else{
+                request["line_other_description"+i] = document.getElementById('other_description'+i).value;
             }
         }
     }

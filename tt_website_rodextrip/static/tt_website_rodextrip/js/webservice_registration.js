@@ -455,7 +455,7 @@ function add_table_of_passenger(){
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" style="color:white">Person In Charge `+(counter_passenger+1)+`</h4>
+                            <h4 class="modal-title" style="color:`+text_color+`">Person In Charge `+(counter_passenger+1)+`</h4>
                             <button type="button" class="close" data-dismiss="modal" onclick="update_contact('pic',`+parseInt(counter_passenger+1)+`);">&times;</button>
                         </div>
                         <div class="modal-body">

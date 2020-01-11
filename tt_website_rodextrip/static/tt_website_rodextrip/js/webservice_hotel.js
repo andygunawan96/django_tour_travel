@@ -825,7 +825,7 @@ function hotel_get_booking(data){
                    document.getElementById('hotel_passenger').innerHTML = text;
                     if(msg.result.response.status == 'issued'){
                     text=`<div class="col-sm-4">
-                                <!--<a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:white;">
+                                <!--<a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.booking_name+`', 'ticket','hotel');"/>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </a>-->
@@ -834,7 +834,7 @@ function hotel_get_booking(data){
                         <div class="col-sm-4">
                         </div>
                         <div class="col-sm-4">
-                            <a class="issued-booking-train ld-ext-right" style="color:white;">
+                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
@@ -846,7 +846,7 @@ function hotel_get_booking(data){
                                   <!-- Modal content-->
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" style="color:white">Invoice</h4>
+                                            <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                         </div>
                                         <div class="modal-body">
