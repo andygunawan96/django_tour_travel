@@ -221,8 +221,8 @@ def review(request):
                     spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
                 else:
                     spc_req += 'Room ' + rec[16:] + ': - ; '
-        spc_req += request.POST['late_ci'] and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
-        spc_req += request.POST['late_co'] and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
+        spc_req += request.POST.get('late_ci') and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
+        spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 
         request.session['hotel_request'].update({'special_request': spc_req})
         request.session['time_limit'] = int(request.POST['time_limit_input'])
@@ -416,7 +416,12 @@ def booking(request):
         javascript_version = get_javascript_version()
         values = get_data_template()
 
-        try:
+        error_msg = ''
+        post_result = json.loads(request.POST.get('result'))['result']
+        if post_result['error_code'] != 0:
+            order_number = ''
+            error_msg = post_result['error_msg']
+        else:
             try:
                 order_number = json.loads(request.POST['result'])['result']['response']['os_res_no']
                 request.session['hotel_order_number'] = json.loads(request.POST['result'])['result']['response']['os_res_no']
