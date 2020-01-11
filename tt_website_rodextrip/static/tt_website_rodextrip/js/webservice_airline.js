@@ -1528,7 +1528,7 @@ function get_price_itinerary_request(){
                 //$("#badge-flight-notif").removeClass("infinite");
                 //$("#badge-flight-notif2").removeClass("infinite");
                 //$('#button_chart_airline').hide();
-                text = `<span style="font-weight: bold; font-size:14px; ">No Price Itinerary</span>`;
+                text = `<span style="font-weight: bold; font-size:14px; padding:15px;">No Price Itinerary</span>`;
                 document.getElementById('airline_detail').innerHTML = text;
                 $('#loading-search-flight').hide();
                 $('#choose-ticket-flight').hide();
@@ -1541,7 +1541,7 @@ function get_price_itinerary_request(){
            //$("#badge-flight-notif").removeClass("infinite");
            //$("#badge-flight-notif2").removeClass("infinite");
            //$('#button_chart_airline').hide();
-           text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
+           text = `<span style="font-weight: bold; font-size:14px; padding:15px;">No Price Itinerary</span>`;
            document.getElementById('airline_detail').innerHTML = text;
            $('#loading-search-flight').hide();
            $('#choose-ticket-flight').hide();
