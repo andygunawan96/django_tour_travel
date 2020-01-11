@@ -44,6 +44,12 @@ $(document).ready(function(){
         $('.loader-rodextrip').fadeOut();
     }, 1000);
 
+    $("#voucher_discount").bind("keypress", function(e) {
+        if (e.keyCode == 13) {
+            return false;
+        }
+    });
+
     $(window).click(function(e) {
         if ($(".ld-over-full-inverse").hasClass("running")) {
             $(".ld-over-full-inverse").removeClass("running");
@@ -2319,7 +2325,7 @@ function close_div(id_string){
 function please_wait_transaction(){
     text_waiting = '';
     text_waiting += `
-    <div style="text-align:center;" id="waitFlightSearch">
+    <div style="text-align:center;" id="waitFlightSearch" style="display:block;">
         <div class="center-div-t">
             <div>
                 <img src="/static/tt_website_rodextrip/img/loading-screen.gif" style="height:30px; width:30px;"/>
@@ -2330,7 +2336,11 @@ function please_wait_transaction(){
         </div>
     </div>`;
     document.getElementById("viewWaitingTransaction").innerHTML = text_waiting;
+    $('#waitingTransaction').modal({
+        backdrop: 'static'
+    });
     $("#waitingTransaction").modal('show');
+
 }
 
 function pagination_numb(numb){

@@ -207,26 +207,26 @@ function tour_search(){
                                 if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
                                 {
                                     text+=`
-                                    <div class="single-recent-blog-post item" style="cursor:not-allowed;" onclick="">
+                                    <div class="single-recent-blog-post disabled-post item" style="cursor:not-allowed;" onclick="" disabled>
                                         <div class="single-destination relative">
-                                            <div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                            <div style="background:red; position:absolute; right:0px; padding:20px; z-index:1;">
                                                 <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <div class="overlay overlay-bg"></div>
+                                                <div class="overlay overlay-bg-disabled"></div>
                                                 <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
-                                            <div class="card card-effect-promotion">
+                                            <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                                 <div class="card-body">
                                                     <div class="row details">
                                                         <div class="col-lg-12" style="text-align:left;">
-                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
-                                                            <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
-                                                            <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                            <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                            <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:right;">
-                                                            <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <a href="#" class="btn btn-primary disabled" onclick="" style="background-color:#cdcdcd; border-color:#cdcdcd;">BOOK</a>
+                                                            <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
+                                                            <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -519,7 +519,7 @@ function tour_get_details(package_id){
                                     if (tour_data.itinerary_ids[it_idx].items[it_item].image){
                                         itinerary_text += `
                                         <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</span>
-                                        <img id="image_itinerary`+it_idx+``+it_item+`" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: 150px; height: 150px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+                                        <img id="image_itinerary`+it_idx+``+it_item+`" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: 200px; height: 200px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
                                     }
 
                                     itinerary_text += `</div>`;
@@ -908,6 +908,7 @@ function tour_pre_issued_booking(order_number)
         $('.next-loading-issued').addClass("running");
         $('.next-loading-issued').prop('disabled', true);
         tour_issued_booking(order_number);
+        document.getElementById('voucher_discount').innerHTML = '';
       }
     })
 }
@@ -1093,6 +1094,7 @@ function tour_get_booking(order_number)
                 document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                 document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                 document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                document.getElementById('voucher_discount').innerHTML = '';
             }
             else if(cur_state == 'cancel'){
                 conv_status = 'Cancelled';
@@ -1103,6 +1105,7 @@ function tour_get_booking(order_number)
                 document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
                 document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                document.getElementById('voucher_discount').innerHTML = '';
             }
             else if(cur_state == 'cancel2'){
                 conv_status = 'Expired';
@@ -1113,6 +1116,7 @@ function tour_get_booking(order_number)
                 document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                 document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                document.getElementById('voucher_discount').innerHTML = '';
             }
             else if(cur_state == 'fail_issued'){
                 conv_status = 'Fail Issued';
@@ -1124,6 +1128,7 @@ function tour_get_booking(order_number)
                 document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
                 document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
                 document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+                document.getElementById('voucher_discount').innerHTML = '';
             }
             else{
                 conv_status = 'Pending';

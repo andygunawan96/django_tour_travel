@@ -824,6 +824,10 @@ function hotel_get_booking(data){
                    text+=`</table>`;
                    document.getElementById('hotel_passenger').innerHTML = text;
                     if(msg.result.response.status == 'issued'){
+                    document.getElementById('issued-breadcrumb').classList.add("br-active");
+                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+
                     text=`<div class="col-sm-4">
                                 <!--<a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
                                     <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.booking_name+`', 'ticket','hotel');"/>
