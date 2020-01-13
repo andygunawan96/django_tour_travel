@@ -2032,16 +2032,20 @@ function capitalizeInput(id){
     $.fn.capitalize = function () {
         $.each(this, function () {
             var split = this.value.split(' ');
+            var temp_split = [];
             for (var i = 0, len = split.length; i < len; i++) {
-                split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toLowerCase();
+                if(split[i] != ''){
+                    split[i] = split[i].charAt(0).toUpperCase() + split[i].slice(1).toLowerCase();
+                    temp_split.push(split[i]);
+                }
             }
-            this.value = split.join(' ');
+            this.value = temp_split.join(' ');
         });
         return this;
     };
 
 
-    $('#'+id).on('keyup', function () {
+    $('#'+id).on('change', function () {
         $(this).capitalize();
     }).capitalize();
 
@@ -2340,7 +2344,6 @@ function please_wait_transaction(){
         backdrop: 'static'
     });
     $("#waitingTransaction").modal('show');
-
 }
 
 function pagination_numb(numb){
