@@ -428,8 +428,6 @@ def booking(request):
             except:
                 order_number = request.POST['order_number']
                 request.session['hotel_order_number'] = request.POST['order_number']
-        except:
-            order_number = request.session['hotel_order_number']
 
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
