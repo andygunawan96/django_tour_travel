@@ -8,4 +8,5 @@ config/settings.py
 get_airline_active_carriers.txt
 get_list_provider.txt
 /static/
+/media/
 
