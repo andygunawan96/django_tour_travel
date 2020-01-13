@@ -284,6 +284,7 @@ def sell_tour(request):
         final_room_list.append({
             'room_id': room['id'],
             'notes': room['notes'],
+            'room_seq': room['room_seq'],
         })
 
     data = {
@@ -459,6 +460,7 @@ def update_passengers(request):
             if int(key) == int(rec['temp_pax_id']):
                 rec.update({
                     'tour_room_id': val['room_id'],
+                    'tour_room_seq': val['room_seq'],
                 })
 
     for rec in passenger:
