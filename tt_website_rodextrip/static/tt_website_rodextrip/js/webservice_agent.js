@@ -1903,13 +1903,36 @@ function check_word(value){
     }
 }
 
-function check_name_airline(value){
-    var word = value.split(' ');
-    console.log(word)
-    if(word[word.length-1].length != 1)
-        return true;
-    else
-        return false;
+function check_name_airline(first_name, last_name){
+    if(check_word(last_name) == true){
+        log = '';
+        console.log();
+        //last name alpha characters
+        if(first_name.split(' ').length != 1 && last_name == '')
+            log = 'fill last name of';
+        else if(last_name.length == 1)
+            log = 'fill last name more than 1 character of';
+        else if(last_name.split(' ').length > 1)
+            log = 'last name contain 1 word only of';
+        else if(first_name.split(' ').length > 1){
+            check_first_name = false;
+            for(counter in first_name.split(' ')){
+                if(first_name.split(' ')[counter].length > 1){
+                    check_first_name = true;
+                }
+            }
+            if(check_first_name == false)
+                log = "first name can't contain 1 character in 1 word of";
+        }else{
+            check_first_name = false;
+            if(first_name.length == 1)
+                log = "first name can't 1 character in word of";
+        }
+        return log;
+
+    }else{
+        return 'use alpha characters last name of';
+    }
 }
 
 function check_name(title,first,last, length){

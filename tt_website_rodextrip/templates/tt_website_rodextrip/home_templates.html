@@ -115,7 +115,7 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="airline-tab" data-toggle="tab" href="#airline" role="tab" aria-controls="airline" aria-selected="true">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> AIRLINE </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> AIRLINE </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -123,7 +123,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="tour-tab" data-toggle="tab" href="#tour" role="tab" aria-controls="tour" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> TOUR </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> TOUR </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -131,7 +131,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab" aria-controls="hotel" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> HOTEL </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> HOTEL </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -139,7 +139,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> ACTIVITY </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> ACTIVITY </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -147,7 +147,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> TRAIN </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> TRAIN </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -155,7 +155,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
-                                    <span style="padding-left:5px; font-weight:bold;"> VISA </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> VISA </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -777,7 +777,7 @@
                             {% endif %}
                             {% if "visa" in provider %}
                             <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="visa-tab">
-                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" method="post">
+                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
@@ -1314,22 +1314,22 @@
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                         <ul class="tabs">
                             {% if "airline" in provider %}
-                            <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></i><label>AIRLINE</label></li>
+                            <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></i><label class="btn-txt-color">AIRLINE</label></li>
                             {% endif %}
                             {% if "tour" in provider %}
-                            <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label>TOUR</label></li>
+                            <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label class="btn-txt-color">TOUR</label></li>
                             {% endif %}
                             {% if "hotel" in provider %}
-                            <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/></i><label>HOTEL</label></li>
+                            <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
                             {% endif %}
                             {% if "activity" in provider %}
-                            <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></i><label>ACTIVITY</label></li>
+                            <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></i><label class="btn-txt-color">ACTIVITY</label></li>
                             {% endif %}
                             {% if "train" in provider %}
-                            <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label>TRAIN</label></li>
+                            <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label class="btn-txt-color">TRAIN</label></li>
                             {% endif %}
                             {% if "visa" in provider %}
-                            <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/></i><label>VISA</label></li>
+                            <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon3"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/></i><label class="btn-txt-color">VISA</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -1914,7 +1914,7 @@
                         {% endif %}
                         {% if "visa" in provider %}
                         <div id="tab-visa" class="tab-content">
-                            <form action="{% url 'tt_website_rodextrip:visa_search'%}" method="post">
+                            <form action="{% url 'tt_website_rodextrip:visa_search'%}" id="visa_searchForm" method="post">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4">
@@ -2254,28 +2254,28 @@
                                 <input type="hidden" id="end"/>
                                 <ul class="tabs">
                                     {% if "airline" in provider %}
-                                    <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></i><label>AIRLINE</label></li>
+                                    <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></i><label class="btn-txt-color">AIRLINE</label></li>
                                     {% endif %}
                                     {% if "tour" in provider %}
-                                    <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label>TOUR</label></li>
+                                    <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label class="btn-txt-color">TOUR</label></li>
                                     {% endif %}
                                     {% if "hotel" in provider %}
-                                    <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/></i><label>HOTEL</label></li>
+                                    <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
                                     {% endif %}
                                     {% if "activity" in provider %}
-                                    <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></i><label>ACTIVITY</label></li>
+                                    <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></i><label class="btn-txt-color">ACTIVITY</label></li>
                                     {% endif %}
                                     {% if "train" in provider %}
-                                    <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label>TRAIN</label></li>
+                                    <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label class="btn-txt-color">TRAIN</label></li>
                                     {% endif %}
                                     {% if "visa" in provider %}
-                                    <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/></i><label>VISA</label></li>
+                                    <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/></i><label class="btn-txt-color">VISA</label></li>
                                     {% endif %}
                                     {% if "passport" in provider %}
-                                    <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label>PASSPORT</label></li>
+                                    <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">PASSPORT</label></li>
                                     {% endif %}
                                     {% if "group" in provider %}
-                                    <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i><label>GROUP BOOKING</label></li>
+                                    <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i><label class="btn-txt-color">GROUP BOOKING</label></li>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -2872,7 +2872,7 @@
                             {% if "visa" in provider %}
                             <div id="tab-visa" class="tab-content">
                                 <h4 class="pb-30" style="color:{{text_color}};">Book Your Visa!</h4>
-                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" method="post">
+                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" id="visa_searchForm" method="post">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -3200,25 +3200,25 @@
                                 <input type="hidden" id="end"/>
                                 <ul class="tabs">
                                     {% if "airline" in provider %}
-                                    <li class="tab-link current" data-tab="tab-airline"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/> <label>AIRLINE</label></li>
+                                    <li class="tab-link current" data-tab="tab-airline"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/> <label class="btn-txt-color">AIRLINE</label></li>
                                     {% endif %}
                                     {% if "train" in provider %}
-                                    <li class="tab-link" data-tab="tab-train"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/> <label>TRAIN</label></li>
+                                    <li class="tab-link" data-tab="tab-train"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/> <label class="btn-txt-color">TRAIN</label></li>
                                     {% endif %}
                                     {% if "hotel" in provider %}
-                                    <li class="tab-link" data-tab="tab-hotel"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/> <label>HOTEL</label></li>
+                                    <li class="tab-link" data-tab="tab-hotel"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/> <label class="btn-txt-color">HOTEL</label></li>
                                     {% endif %}
                                     {% if "activity" in provider %}
-                                    <li class="tab-link" data-tab="tab-activity"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/> <label>ACTIVITY</label></li>
+                                    <li class="tab-link" data-tab="tab-activity"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/> <label class="btn-txt-color">ACTIVITY</label></li>
                                     {% endif %}
                                     {% if "tour" in provider %}
-                                    <li class="tab-link" data-tab="tab-tour"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/> <label>TOUR</label></li>
+                                    <li class="tab-link" data-tab="tab-tour"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/> <label class="btn-txt-color">TOUR</label></li>
                                     {% endif %}
                                     {% if "visa" in provider %}
-                                    <li class="tab-link" data-tab="tab-visa"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/> <label>VISA</label></li>
+                                    <li class="tab-link" data-tab="tab-visa"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/> <label class="btn-txt-color">VISA</label></li>
                                     {% endif %}
                                     {% if "group" in provider %}
-                                    <li class="tab-link" data-tab="tab-group-booking"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/> <label>GROUP BOOKING</label></li>
+                                    <li class="tab-link" data-tab="tab-group-booking"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/> <label class="btn-txt-color">GROUP BOOKING</label></li>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -3776,7 +3776,7 @@
                             {% endif %}
                             {% if "visa" in provider %}
                             <div class="form-search-wrap tab-content" id="tab-visa" data-aos="fade-up" data-aos-delay="200">
-                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" method="post">
+                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" method="post" id="visa_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -4075,25 +4075,25 @@
                                 <input type="hidden" id="end"/>
                                 <ul class="tabs">
                                     {% if "airline" in provider %}
-                                    <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></i><label style="font-weight:bold; padding:0px;">AIRLINE</label></li>
+                                    <li class="tab-link current" data-tab="tab-airline"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/plane.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">AIRLINE</label></li>
                                     {% endif %}
                                     {% if "train" in provider %}
-                                    <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label style="font-weight:bold; padding:0px;">TRAIN</label></li>
+                                    <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/train.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">TRAIN</label></li>
                                     {% endif %}
                                     {% if "hotel" in provider %}
-                                    <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/></i><label style="font-weight:bold; padding:0px;">HOTEL</label></li>
+                                    <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/hotel.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">HOTEL</label></li>
                                     {% endif %}
                                     {% if "activity" in provider %}
-                                    <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></i><label style="font-weight:bold; padding:0px;">ACTIVITY</label></li>
+                                    <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/ferris-wheel.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">ACTIVITY</label></li>
                                     {% endif %}
                                     {% if "tour" in provider %}
-                                    <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label style="font-weight:bold; padding:0px;">TOUR</label></li>
+                                    <li class="tab-link" data-tab="tab-tour"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/tour.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">TOUR</label></li>
                                     {% endif %}
                                     {% if "visa" in provider %}
-                                    <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/></i><label style="font-weight:bold; padding:0px;">VISA</label></li>
+                                    <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/visa.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">VISA</label></li>
                                     {% endif %}
                                     {% if "group" in provider %}
-                                    <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i><label style="font-weight:bold; padding:0px;">GROUP BOOKING</label></li>
+                                    <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">GROUP BOOKING</label></li>
                                     {% endif %}
                                 </ul>
                             </div>
@@ -4694,7 +4694,7 @@
                             {% if "visa" in provider %}
                             <div id="tab-visa" class="tab-content">
                                 <h4 class="pb-30">Book Your Visa!</h4>
-                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" method="post">
+                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" id="visa_searchForm" method="post">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4">
@@ -5050,6 +5050,10 @@
     }catch(err){
 
     }
+    $(window).on('load', function() {
+        document.getElementsByName('radio_airline_type')[0].checked = true;
+        document.getElementsByName('radio_train_type')[0].checked = true;
+    })
 
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();

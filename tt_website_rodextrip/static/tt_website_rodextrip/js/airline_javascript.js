@@ -1911,10 +1911,10 @@ function sort(){
         var last = (sort_key+1) * 10;
         if(sort_key == 0)
             text += `<div style="background-color:`+color+`; padding:10px;">
-                    <h6 style="color:`+text_color+`;">Flight `+counter_search+`</h6>
+                    <h6 style="color:`+text_color+`;">Choose Flight `+counter_search+`</h6>
                 </div>`;
         for(i in airline){
-           if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
+           if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline[i].destination == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
                ticket_count++;
                if(ticket_count >= first && ticket_count < last){
                    contain++;
@@ -2395,7 +2395,7 @@ function sort(){
                         document.getElementById('fare'+i).innerHTML = airline[i].currency+' '+airline[i].total_price;
                }
            }
-           else if(airline[i].origin == airline_request.destination[0].split(' - ')[0] && airline_departure == 'return'){
+           else if(airline[i].origin == airline_request.destination[0].split(' - ')[0] && airline[i].destination == airline_request.origin[0].split(' - ')[0] && airline_departure == 'return'){
                ticket_count++;
                if(ticket_count >= first && ticket_count < last){
                    contain++;
@@ -4217,8 +4217,8 @@ function check_passenger(adult, child, infant){
            document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('adult_first_name'+i).value + ' ' + document.getElementById('adult_last_name'+i).value) == false){
-           error_log+= 'Please input more than 1 character in last name adult passenger '+i+'!</br>\n';
+       if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
+           error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
            document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
@@ -4290,8 +4290,8 @@ function check_passenger(adult, child, infant){
            document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('child_first_name'+i).value + ' ' + document.getElementById('child_last_name'+i).value) == false){
-           error_log+= 'Please input more than 1 character in last name child passenger '+i+'!</br>\n';
+       if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
+           error_log+= 'Please '+check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value)+' child passenger '+i+'!</br>\n';
            document.getElementById('child_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
@@ -4351,8 +4351,8 @@ function check_passenger(adult, child, infant){
            document.getElementById('infant_first_name'+i).style['border-color'] = '#EFEFEF';
        }
        //check lastname
-       if(check_name_airline(document.getElementById('infant_first_name'+i).value + ' ' + document.getElementById('infant_last_name'+i).value) == false){
-           error_log+= 'Please input more than 1 character in last name infant passenger '+i+'!</br>\n';
+       if(check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value) != ''){
+           error_log+= 'Please '+check_name_airline(document.getElementById('infant_first_name'+i).value, document.getElementById('infant_last_name'+i).value)+' infant passenger '+i+'!</br>\n';
            document.getElementById('infant_last_name'+i).style['border-color'] = 'red';
        }else{
            document.getElementById('infant_last_name'+i).style['border-color'] = '#EFEFEF';

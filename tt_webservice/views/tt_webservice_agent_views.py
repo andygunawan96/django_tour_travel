@@ -45,8 +45,6 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = signin(request)
-        elif req_data['action'] == 'url':
-            res = get_url()
         elif req_data['action'] == 'static_path_url_server':
             res = get_url_static_path()
         elif req_data['action'] == 'get_agent_booker':
@@ -513,9 +511,6 @@ def update_cache(request):
             }
         }
     return res
-
-def get_url():
-    return url_web
 
 def get_url_static_path():
     return static_path_url
