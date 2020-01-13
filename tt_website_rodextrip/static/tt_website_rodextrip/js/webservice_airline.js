@@ -1523,12 +1523,12 @@ function get_price_itinerary_request(){
                 })
             }
             else{
-                document.getElementById("badge-flight-notif").innerHTML = "0";
-                document.getElementById("badge-flight-notif2").innerHTML = "0";
-                $("#badge-flight-notif").removeClass("infinite");
-                $("#badge-flight-notif2").removeClass("infinite");
-                $('#button_chart_airline').hide();
-                text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
+                //document.getElementById("badge-flight-notif").innerHTML = "0";
+                //document.getElementById("badge-flight-notif2").innerHTML = "0";
+                //$("#badge-flight-notif").removeClass("infinite");
+                //$("#badge-flight-notif2").removeClass("infinite");
+                //$('#button_chart_airline').hide();
+                text = `<span style="font-weight: bold; font-size:14px; padding:15px;">No Price Itinerary</span>`;
                 document.getElementById('airline_detail').innerHTML = text;
                 $('#loading-search-flight').hide();
                 $('#choose-ticket-flight').hide();
@@ -1536,12 +1536,12 @@ function get_price_itinerary_request(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           document.getElementById("badge-flight-notif").innerHTML = "0";
-           document.getElementById("badge-flight-notif2").innerHTML = "0";
-           $("#badge-flight-notif").removeClass("infinite");
-           $("#badge-flight-notif2").removeClass("infinite");
-           $('#button_chart_airline').hide();
-           text = `<span style="font-weight: bold; font-size:14px;">No Price Itinerary</span>`;
+           //document.getElementById("badge-flight-notif").innerHTML = "0";
+           //document.getElementById("badge-flight-notif2").innerHTML = "0";
+           //$("#badge-flight-notif").removeClass("infinite");
+           //$("#badge-flight-notif2").removeClass("infinite");
+           //$('#button_chart_airline').hide();
+           text = `<span style="font-weight: bold; font-size:14px; padding:15px;">No Price Itinerary</span>`;
            document.getElementById('airline_detail').innerHTML = text;
            $('#loading-search-flight').hide();
            $('#choose-ticket-flight').hide();
