@@ -923,11 +923,13 @@ function pick_passenger(type, sequence, product){
                 $('#adult_title'+passenger_number).niceSelect('update');
             }
 
-            console.log(document.getElementById('adult_title'+passenger_number).options);
             document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
             document.getElementById('adult_first_name'+passenger_number).readOnly = true;
             document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
             document.getElementById('adult_last_name'+passenger_number).readOnly = true;
+            capitalizeInput('adult_first_name'+passenger_number);
+            capitalizeInput('adult_last_name'+passenger_number);
+
             document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
             if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                 document.getElementById('select2-adult_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
@@ -995,6 +997,8 @@ function pick_passenger(type, sequence, product){
             document.getElementById('booker_first_name').readOnly = true;
             document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
             document.getElementById('booker_last_name').readOnly = true;
+            capitalizeInput('booker_first_name');
+            capitalizeInput('booker_last_name');
             if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                 document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_name;
                 document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
@@ -1077,6 +1081,8 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('adult_last_name'+passenger_number).readOnly = true;
                 document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
+                capitalizeInput('adult_first_name'+passenger_number);
+                capitalizeInput('adult_last_name'+passenger_number);
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-adult_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
                     document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
@@ -1219,6 +1225,8 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('child_first_name'+passenger_number).readOnly = true;
                 document.getElementById('child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('child_last_name'+passenger_number).readOnly = true;
+                capitalizeInput('child_first_name'+passenger_number);
+                capitalizeInput('child_last_name'+passenger_number);
                 document.getElementById('child_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-child_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
@@ -1297,6 +1305,8 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('infant_first_name'+passenger_number).readOnly = true;
                 document.getElementById('infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('infant_last_name'+passenger_number).readOnly = true;
+                capitalizeInput('infant_first_name'+passenger_number);
+                capitalizeInput('infant_last_name'+passenger_number);
                 document.getElementById('infant_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-infant_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
@@ -1375,6 +1385,8 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('senior_first_name'+passenger_number).readOnly = true;
                 document.getElementById('senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('senior_last_name'+passenger_number).readOnly = true;
+                capitalizeInput('senior_first_name'+passenger_number);
+                capitalizeInput('senior_last_name'+passenger_number);
                 document.getElementById('senior_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-senior_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
@@ -1913,7 +1925,7 @@ function check_name_airline(first_name, last_name){
         else if(last_name.length == 1)
             log = 'fill last name more than 1 character of';
         else if(last_name.split(' ').length > 1)
-            log = 'last name contain 1 word only of';
+            log = 'last name may only contain 1 word of';
         else if(first_name.split(' ').length > 1){
             check_first_name = false;
             for(counter in first_name.split(' ')){
