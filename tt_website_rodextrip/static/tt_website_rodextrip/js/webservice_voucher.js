@@ -1,3 +1,5 @@
+discount_voucher = {};
+voucher_code = '';
 function get_voucher(){
     $.ajax({
        type: "POST",
@@ -337,6 +339,7 @@ function check_voucher(){
                         }catch(err){}
                     }
                 }else{
+                    discount_voucher = {};
                     document.getElementById('voucher_discount').innerHTML = `
                     <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                         <div class="alert alert-danger" role="alert">
