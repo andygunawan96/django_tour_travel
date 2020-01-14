@@ -1113,6 +1113,36 @@ function update_options_activity(){
     });
 }
 
+function force_issued_activity(val){
+    //tambah swal
+    if(val == 0)
+    {
+        var temp_title = 'Are you sure you want to Hold Booking?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Force Issued this booking?';
+    }
+    Swal.fire({
+      title: temp_title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        please_wait_transaction();
+        $('.next-loading-booking').addClass("running");
+        $('.next-loading-booking').prop('disabled', true);
+        $('.next-loading-issued').prop('disabled', true);
+        $('.issued_booking_btn').prop('disabled', true);
+        activity_commit_booking(val);
+      }
+    })
+
+}
+
 function activity_commit_booking(val){
     data = {
         'value': val,
@@ -1135,8 +1165,14 @@ function activity_commit_booking(val){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-            document.getElementById('activity_booking').submit();
+            if(val == 0){
+                document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                document.getElementById('activity_booking').submit();
+            }else{
+                document.getElementById('order_number').value = msg.result.response.order_number;
+                document.getElementById('issued').action = '/activity/booking';
+                document.getElementById('issued').submit();
+            }
         }else{
             Swal.fire({
               type: 'error',

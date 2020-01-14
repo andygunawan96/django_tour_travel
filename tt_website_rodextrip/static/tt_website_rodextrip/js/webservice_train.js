@@ -216,34 +216,8 @@ function datasearch2(train){
     filtering('filter');
 }
 
-function hold_booking(){
-    Swal.fire({
-      title: title,
-      type: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.value) {
-        if (val==0){
-            $('.loader-rodextrip').fadeIn();
-            $('.next-loading-booking').addClass("running");
-            $('.next-loading-booking').prop('disabled', true);
-            $('.next-loading-issued').prop('disabled', true);
-        }
-        else{
-            $('.loader-rodextrip').fadeIn();
-            $('.next-loading-booking').prop('disabled', true);
-            $('.next-loading-issued').addClass("running");
-            $('.next-loading-issued').prop('disabled', true);
-        }
-        train_commit_booking();
-      }
-    });
-}
 
-function train_create_booking(val){
+function train_pre_create_booking(val){
     Swal.fire({
       title: 'Are you sure want to Hold Booking?',
       type: 'warning',
@@ -256,55 +230,106 @@ function train_create_booking(val){
         $('.hold-seat-booking-train').addClass("running");
         $('.hold-seat-booking-train').attr("disabled", true);
         please_wait_transaction();
-        data = {
-            'value': val,
-            'signature': signature
+        if(val == 0)
+            train_create_booking(val)
+        else{
+            document.getElementById("passengers").value = JSON.stringify(passengers);
+            document.getElementById("signature").value = signature;
+            document.getElementById("provider").value = 'train';
+            document.getElementById("type").value = 'train_review';
+            document.getElementById("voucher_code").value = voucher_code;
+            document.getElementById("discount").value = JSON.stringify(discount_voucher);
+            document.getElementById("session_time_input").value = time_limit;
+            document.getElementById('train_issued').submit();
         }
-        try{
-            data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
-            data['member'] = payment_acq2[payment_method][selected].method;
-        }catch(err){
-        }
-        $.ajax({
-           type: "POST",
-           url: "/webservice/train",
-           headers:{
-                'action': 'commit_booking',
-           },
-           data: data,
-           success: function(msg) {
-           console.log(msg);
-            if(msg.result.error_code == 0){
-                //send order number
+      }
+    })
+}
+
+function force_issued_train(val){
+    //tambah swal
+    if(value == 0)
+    {
+        var temp_title = 'Are you sure you want to Hold Booking?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Force Issued this booking?';
+    }
+    Swal.fire({
+      title: temp_title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        please_wait_transaction();
+        $('.next-loading-booking').addClass("running");
+        $('.next-loading-booking').prop('disabled', true);
+        $('.next-loading-issued').prop('disabled', true);
+        $('.issued_booking_btn').prop('disabled', true);
+        train_create_booking(val);
+      }
+    })
+
+}
+
+function train_create_booking(val){
+    data = {
+        'value': val,
+        'signature': signature
+    }
+    try{
+        data['seq_id'] = payment_acq2[payment_method][selected].seq_id;
+        data['member'] = payment_acq2[payment_method][selected].method;
+    }catch(err){
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'commit_booking',
+       },
+       data: data,
+       success: function(msg) {
+       console.log(msg);
+        if(msg.result.error_code == 0){
+            //send order number
+            if(val == 0){
                 $('.hold-seat-booking-train').removeClass("running");
                 $('.hold-seat-booking-train').attr("disabled", false);
                 document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
                 document.getElementById('train_booking').submit();
-    //            gotoForm();
             }else{
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error train create booking </span>' + msg.result.error_msg,
-                })
-                $('.hold-seat-booking-train').removeClass("running");
-                $('.hold-seat-booking-train').attr("disabled", false);
-                $("#waitingTransaction").modal('hide');
+                document.getElementById('order_number').value = msg.result.response.order_number;
+                document.getElementById('issued').action = '/train/booking';
+                document.getElementById('issued').submit();
             }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error train create booking </span>' + errorThrown,
-               })
-               $('.hold-seat-booking-train').removeClass("running");
-               $('.hold-seat-booking-train').attr("disabled", false);
-               $("#waitingTransaction").modal('hide');
-           },timeout: 300000
-        });
-      }
-    })
+//            gotoForm();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error train create booking </span>' + msg.result.error_msg,
+            })
+            $('.hold-seat-booking-train').removeClass("running");
+            $('.hold-seat-booking-train').attr("disabled", false);
+            $("#waitingTransaction").modal('hide');
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error train create booking </span>' + errorThrown,
+           })
+           $('.hold-seat-booking-train').removeClass("running");
+           $('.hold-seat-booking-train').attr("disabled", false);
+           $("#waitingTransaction").modal('hide');
+       },timeout: 300000
+    });
 }
 
 function train_get_booking(data){

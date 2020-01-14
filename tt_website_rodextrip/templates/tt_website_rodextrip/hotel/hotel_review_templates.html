@@ -25,6 +25,11 @@
     adult = adult.replace(/False/g, 'false');
     adult = adult.replace(/&#39;/g, '"');
     adult = JSON.parse(adult);
+    booker = `{{booker}}`;
+    booker = booker.replace(/True/g, 'true');
+    booker = booker.replace(/False/g, 'false');
+    booker = booker.replace(/&#39;/g, '"');
+    booker = JSON.parse(booker);
     console.log(adult);
     child = `{{childs}}`;
     child = child.replace(/True/g, 'true');
@@ -239,7 +244,7 @@
                         <div class="col-lg-12">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="focus_box('payment_acq');">
+                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="hotel_issued_alert();">
                                 Issued Booking
                             </button>
                             {% endif %}
@@ -263,6 +268,16 @@
                 <!--</div>-->
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+        </form>
+        <form method="POST" id="hotel_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+            {% csrf_token %}
+            <input type="hidden" id="passengers" name="passengers"/>
+            <input type="hidden" id="signature" name="signature"/>
+            <input type="hidden" id="provider" name="provider"/>
+            <input type="hidden" id="discount" name="discount"/>
+            <input type="hidden" id="voucher_code" name="voucher_code"/>
+            <input type="hidden" id="type" name="type"/>
+            <input type="hidden" id="session_time_input" name="session_time_input"/>
         </form>
     </div>
 </section>

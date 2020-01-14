@@ -1,0 +1,100 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_tour.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
+<script>
+    signature = `{{signature}}`;
+    static_path_url_server = '{{static_path_url_server}}';
+    passengers = `{{passengers}}`;
+    passengers = passengers.replace(/&#39;/g, '"');
+    passengers = passengers.replace(/True/g, true);
+    passengers = passengers.replace(/False/g, false);
+    passengers = JSON.parse(passengers);
+    voucher_code = '{{voucher_code}}';
+    discount_voucher = JSON.parse(`{{discount_voucher}}`);
+    time_limit = {{time_limit}};
+    session_time_limit();
+</script>
+
+<title>{{name}} - Payment {{provider}}</title>
+
+{% if username != null %}
+{% include 'tt_website_rodextrip/logout.html' %}
+{% endif %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                            <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                        </div>
+                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                        </div>
+                        {% include 'tt_website_rodextrip/balance_credit.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+    <div class="container">
+        <div class="col-lg-12" id="show_loading_booking_airline">
+            <div class="center-div">
+                <div>
+                    <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                </div>
+            </div>
+            <div style="text-align:center">
+                <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
+            </div>
+        </div>
+        <div style="background-color:white; padding:10px; margin-top:25px; position:relative;" id="payment_acq">
+
+        </div>
+        <form method="POST" id="issued" action="">
+            {% csrf_token %}
+            <input type="hidden" id="order_number" name="order_number"/>
+        </form>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+<script>
+    get_payment_acq('Issued',passengers.booker.booker_seq_id, '', 'billing',signature,'{{type}}');
+    $( document ).ready(function() {
+        breadcrumb_create("{{provider}}", 4, 0);
+    });
+</script>
+{% endblock %}
