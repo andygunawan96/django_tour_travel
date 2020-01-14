@@ -531,7 +531,7 @@ def get_customer_list(request):
                 lower = 12
             elif request.POST['passenger_type'] == 'child':
                 upper = 11
-                lower = 3
+                lower = 2
             elif request.POST['passenger_type'] == 'infant':
                 upper = 2
                 lower = 0
