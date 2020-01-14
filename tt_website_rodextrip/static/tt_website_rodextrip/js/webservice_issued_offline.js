@@ -788,7 +788,7 @@ function update_passenger(){
 }
 
 function commit_booking(){
-
+    document.getElementById('submit_top_up').disabled = true;
     data = {
         'seq_id':payment_acq2[payment_method][selected].seq_id,
         'member':payment_acq2[payment_method][selected].method,

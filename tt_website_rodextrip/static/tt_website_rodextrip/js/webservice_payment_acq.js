@@ -27,7 +27,11 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
-            text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>
+            if(type == 'top_up')
+                text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
+            else
+                text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
+            text+=`
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>`;
             if(template == 1){
                 text+=`<div class="input-container-search-ticket btn-group">`;
@@ -802,7 +806,8 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].price_component.unique_amount)+`</span>
                 </div>`;
-            try{
+        try{
+            if(Object.keys(discount_voucher).length != 0){
                 payment_total = 0;
                 text += `
                     <div class='col-sm-6' style='text-align:left;'>
@@ -812,11 +817,14 @@ function set_price(val, type, product_type){
                         <span>`+discount_voucher['currency']+` `+getrupiah(discount_voucher['discount'])+`</span>
                     </div>`;
                 payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount) - discount_voucher['discount'];
-            }catch(err){
-                try{
-                    payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
-                }catch(err){}
+            }else{
+                payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
             }
+        }catch(err){
+            try{
+                payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
+            }catch(err){}
+        }
     //    grand total
             text += `
                 <div class='col-sm-6' style='text-align:left;'>

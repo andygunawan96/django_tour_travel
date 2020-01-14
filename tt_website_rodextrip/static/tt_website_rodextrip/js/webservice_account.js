@@ -694,6 +694,7 @@ function submit_top_up(){
 }
 
 function commit_top_up(){
+    document.getElementById('submit_top_up').disabled = true;
     getToken();
     $.ajax({
        type: "POST",
