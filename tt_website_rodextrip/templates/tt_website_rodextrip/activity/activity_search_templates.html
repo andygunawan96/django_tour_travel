@@ -11,7 +11,9 @@
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
-    static_path_url_server = '{{static_path_url_server}}'
+    static_path_url_server = '{{static_path_url_server}}';
+    activity_request = `{{activity_request}}`;
+    activity_request = JSON.parse(activity_request.replace(/&#39;/g, '"'));
     offset = 600;
     get_new = true;
     name = '';

@@ -151,8 +151,8 @@ function tour_search(){
             'action': 'search',
        },
        data: {
-           'offset': offset,
-           'signature': signature
+           'signature': signature,
+           'search_request': JSON.stringify(tour_request)
        },
        success: function(msg) {
         console.log(msg);

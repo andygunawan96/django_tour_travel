@@ -61,6 +61,7 @@ def search(request):
             'countries': airline_country,
             'phone_code': phone_code,
             'username': request.session['user_account'],
+            'activity_request': request.session['activity_search_request'],
             'query': request.session['activity_search_request']['query'],
             'parsed_country': request.session['activity_search_request']['country'],
             'parsed_city': request.session['activity_search_request']['city'],

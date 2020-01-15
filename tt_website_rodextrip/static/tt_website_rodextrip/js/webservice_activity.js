@@ -280,6 +280,7 @@ function activity_search(){
             'action': 'search',
        },
        data: {
+          'search_request': JSON.stringify(activity_request),
           'sort': 'price_asc',
           'limit': 20,
           'offset': offset,

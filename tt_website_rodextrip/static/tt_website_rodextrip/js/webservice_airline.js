@@ -603,7 +603,8 @@ function airline_search(provider,carrier_codes){
            'provider': provider,
            'carrier_codes': JSON.stringify(carrier_codes),
            'counter_search': counter_search,
-           'signature': signature
+           'signature': signature,
+           'search_request': JSON.stringify(airline_request)
        },
        success: function(msg) {
        console.log(msg);

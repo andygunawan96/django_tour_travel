@@ -120,6 +120,7 @@ def search(request):
         for line in file:
             response = json.loads(line)
         file.close()
+        request.session['train_request'] = json.loads(request.POST['search_request'])
         for country in response:
             train_destinations.append({
                 'code': country['code'],

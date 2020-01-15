@@ -93,6 +93,7 @@ def search(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'phone_code': phone_code,
+            'tour_request': request.session['tour_request'],
             'query': request.session['tour_request']['tour_query'],
             'dest_country': request.session['tour_request']['country_id'],
             'dest_city': request.session['tour_request']['city_id'],
