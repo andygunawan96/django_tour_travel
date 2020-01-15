@@ -158,11 +158,12 @@ Licence URI: http://www.os-templates.com/template-terms
     <style>
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             background-color: {{tab_color}} !important;
-            opacity:0.9;
+        }
+        .btn-txt-color{
+            color:{{color}};
         }
         .banner-right .tab-content {
             background: {{tab_color}} !important;
-            opacity:0.9;
             border-bottom-left-radius: 7px;
             border-bottom-right-radius: 7px;
         }
@@ -1175,7 +1176,7 @@ Licence URI: http://www.os-templates.com/template-terms
 </script>
 {% endif %}
 <!--Start of Tawk.to Script-->
-{% if tawk_code != '' %}
+{% if tawk_code != '' and username == '' %}
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 Tawk_API.visitor = {

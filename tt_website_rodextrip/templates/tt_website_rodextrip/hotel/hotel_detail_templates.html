@@ -23,9 +23,6 @@
             'autoclose': true
         });
     });
-    {% if response.location.city_id %}
-        city_id = {{response.location.city_id}};
-    {% endif %}
     time_limit = {{time_limit}};
     session_time_limit();
     facilities = `{{response.facilities}}`;

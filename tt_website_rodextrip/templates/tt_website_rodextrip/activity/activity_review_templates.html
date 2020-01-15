@@ -38,6 +38,14 @@
     passenger = `{{pax_count}}`;
     passenger = passenger.replace(/&#39;/g,'"');
     passenger = JSON.parse(passenger);
+
+    booker = `{{booker}}`;
+    booker = booker.replace(/&#39;/g,'"');
+    booker = booker.replace(/True/g,'true');
+    booker = booker.replace(/False/g,'false');
+    booker = booker.replace(/None/g,'""');
+    booker = JSON.parse(booker);
+
     all_pax = `{{all_pax}}`;
     all_pax = all_pax.replace(/&#39;/g,'"');
     all_pax = all_pax.replace(/True/g,'true');
@@ -293,7 +301,7 @@
                         </div>
                         <div class="col-lg-4" style="margin-bottom:10px;">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                            <button class="primary-btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button class="primary-btn" type="button" style="width:100%;" onclick="activity_pre_create_booking(1);">
                                 Issued Booking
                             </button>
                             {% endif %}
@@ -330,6 +338,16 @@
                 </div>
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+        </form>
+        <form method="POST" id="activity_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+            {% csrf_token %}
+            <input type="hidden" id="passengers" name="passengers"/>
+            <input type="hidden" id="signature" name="signature"/>
+            <input type="hidden" id="provider" name="provider"/>
+            <input type="hidden" id="discount" name="discount"/>
+            <input type="hidden" id="voucher_code" name="voucher_code"/>
+            <input type="hidden" id="type" name="type"/>
+            <input type="hidden" id="session_time_input" name="session_time_input"/>
         </form>
     </div>
 </div>

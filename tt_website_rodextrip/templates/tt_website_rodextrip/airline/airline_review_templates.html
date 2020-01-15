@@ -6,6 +6,7 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
@@ -365,7 +366,7 @@
                         </div>
                         <div class="col-lg-4" style="margin-top:10px;">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                            <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="airline_hold_booking(1);">
                                  Issued Booking
                             </button>
                             {% endif %}
@@ -414,7 +415,7 @@
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
                         {% include 'tt_website_rodextrip/voucher_code.html'  %}
                         <div class="col-lg-12" style="padding-bottom:15px;">
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="airline_hold_booking(1);">
                                  Issued Booking
                             </button>
                         </div>
@@ -431,6 +432,16 @@
                 </div>
             </div>
         </form>
+        <form method="POST" id="airline_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+            {% csrf_token %}
+            <input type="hidden" id="passengers" name="passengers"/>
+            <input type="hidden" id="signature" name="signature"/>
+            <input type="hidden" id="provider" name="provider"/>
+            <input type="hidden" id="discount" name="discount"/>
+            <input type="hidden" id="voucher_code" name="voucher_code"/>
+            <input type="hidden" id="type" name="type"/>
+            <input type="hidden" id="session_time_input" name="session_time_input"/>
+        </form>
     </div>
 </section>
 
@@ -438,8 +449,6 @@
 <script>
     airline_detail('');
     get_airline_review();
-    get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'airline_review');
-
     $( document ).ready(function() {
         breadcrumb_create("airline", 4, 0);
         $("#airline_booking").bind("keypress", function(e) {

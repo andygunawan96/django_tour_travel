@@ -650,7 +650,7 @@ function gotoForm(){
 
 function hotel_issued_alert(){
     Swal.fire({
-      title: 'Are you sure?',
+      title: 'Are you sure you want to Force Issued this booking?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -662,6 +662,34 @@ function hotel_issued_alert(){
         $('.next-loading-issued').addClass("running");
         $('.next-loading-issued').prop('disabled', true);
         $('.loader-rodextrip').fadeIn();
+//        hotel_issued_booking();
+        document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+        document.getElementById("signature").value = signature;
+        document.getElementById("provider").value = 'hotel';
+        document.getElementById("type").value = 'hotel_review';
+        document.getElementById("voucher_code").value = voucher_code;
+        document.getElementById("discount").value = JSON.stringify(discount_voucher);
+        document.getElementById("session_time_input").value = time_limit;
+        document.getElementById('hotel_issued').submit();
+      }
+    })
+}
+
+function force_issued_hotel(){
+    Swal.fire({
+      title: 'Are you sure you want to Force Issued this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        please_wait_transaction();
+        $('.next-loading-booking').addClass("running");
+        $('.next-loading-booking').prop('disabled', true);
+        $('.next-loading-issued').prop('disabled', true);
+        $('.issued_booking_btn').prop('disabled', true);
         hotel_issued_booking();
       }
     })
@@ -684,13 +712,25 @@ function hotel_issued_booking(){
        success: function(msg) {
             console.log('Result');
             console.log(msg);
-            var form = document.getElementById('hotel_booking');
-            var input = document.createElement('input');//prepare a new input DOM element
-            input.setAttribute('name', 'result');//set the param name
-            input.setAttribute('value', JSON.stringify(msg) );//set the value
-            input.setAttribute('type', 'hidden')//set the type
-            form.appendChild(input);
-            form.submit();
+            if(msg.result.error_code == 0){
+                document.getElementById('order_number').value = msg.result.response.os_res_no;
+                document.getElementById('issued').action = '/hotel/booking';
+                document.getElementById('issued').submit();
+//                var form = document.getElementById('hotel_booking');
+//                var input = document.createElement('input');//prepare a new input DOM element
+//                input.setAttribute('name', 'result');//set the param name
+//                input.setAttribute('value', JSON.stringify(msg) );//set the value
+//                input.setAttribute('type', 'hidden')//set the type
+//                form.appendChild(input);
+//                form.submit();
+            }else{
+                //swal
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error issued hotel </span>' + errorThrown,
+                })
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
