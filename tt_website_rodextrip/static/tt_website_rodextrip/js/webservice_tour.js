@@ -662,7 +662,7 @@ function tour_get_details(package_id){
 }
 
 
-function update_sell_tour(){
+function update_sell_tour(val){
     getToken();
     $.ajax({
        type: "POST",
@@ -676,7 +676,7 @@ function update_sell_tour(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            update_contact_tour();
+            update_contact_tour(val);
         }else{
             Swal.fire({
               type: 'error',
@@ -702,7 +702,7 @@ function update_sell_tour(){
     });
 }
 
-function update_contact_tour(){
+function update_contact_tour(val){
     getToken();
     $.ajax({
        type: "POST",
@@ -716,7 +716,7 @@ function update_contact_tour(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            update_passengers_tour();
+            update_passengers_tour(val);
         }else{
             Swal.fire({
               type: 'error',
@@ -742,7 +742,7 @@ function update_contact_tour(){
     });
 }
 
-function update_passengers_tour(){
+function update_passengers_tour(val){
     room_choice_dict = {};
     for (var i=0; i < total_pax_amount; i++)
     {
@@ -768,7 +768,22 @@ function update_passengers_tour(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            commit_booking_tour();
+            if(val == 0)
+                commit_booking_tour(val);
+            else if(val == 1){
+                document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+                document.getElementById("signature").value = signature;
+                document.getElementById("provider").value = 'tour';
+                document.getElementById("type").value = 'tour';
+                document.getElementById("voucher_code").value = voucher_code;
+                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                document.getElementById("session_time_input").value = time_limit;
+                document.getElementById("payment").value = JSON.stringify(payment);
+                document.getElementById('tour_issued').submit();
+
+            }
+
+
         }else{
             Swal.fire({
               type: 'error',
@@ -794,10 +809,9 @@ function update_passengers_tour(){
     });
 }
 
-function commit_booking_tour()
+function commit_booking_tour(val)
 {
-    force_issued_val = document.getElementById('force_issued_opt').value;
-    if(force_issued_val == 1)
+    if(val == 1)
     {
         payment_method_choice = '';
         var radios = document.getElementsByName('payment_opt');
@@ -811,7 +825,7 @@ function commit_booking_tour()
         }
     }
     data = {
-        'value': force_issued_val,
+        'value': val,
         'signature': signature
     }
     try{
@@ -831,15 +845,18 @@ function commit_booking_tour()
        data: data,
        success: function(msg) {
            console.log(msg);
-           var booking_num = msg.result.response.order_number;
-           if (booking_num)
-           {
-               document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
-               document.getElementById('tour_booking').submit();
-           }
-           else
-           {
-                Swal.fire({
+           if(msg.result.error_code == 0){
+               var booking_num = msg.result.response.order_number;
+               if(val == 1){
+                    document.getElementById('order_number').value = msg.result.response.order_number;
+                    document.getElementById('issued').action = '/tour/booking';
+                    document.getElementById('issued').submit();
+               }else{
+                    document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+                    document.getElementById('tour_booking').submit();
+               }
+           }else{
+               Swal.fire({
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error tour commit booking </span>' + msg.result.error_msg,
@@ -878,10 +895,10 @@ function get_payment_rules(id)
        success: function(msg) {
            console.log(msg);
            payment = msg.result.response.payment_rules;
-           if (payment)
-           {
-               print_payment_rules(payment);
-           }
+//           if (payment)
+//           {
+//               print_payment_rules(payment);
+//           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

@@ -4113,6 +4113,13 @@ function check_passenger(adult, child, infant){
     //booker
     error_log = '';
     //check booker jika teropong
+    length_name = 100;
+    for(j in airline_pick){
+       for(k in airline_pick[j].carrier_code_list){
+           if(length_name > airline_carriers[airline_pick[j].carrier_code_list[k]].adult_length_name)
+               length_name = airline_carriers[airline_pick[j].carrier_code_list[k]].adult_length_name;
+       }
+    }
     try{
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence != 'booker'){
@@ -4137,7 +4144,7 @@ function check_passenger(adult, child, infant){
     if(check_name(document.getElementById('booker_title').value,
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
-                    25) == false){
+                    length_name) == false){
         error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
@@ -4163,21 +4170,6 @@ function check_passenger(adult, child, infant){
         document.getElementById('booker_email').style['border-color'] = 'red';
     }else{
         document.getElementById('booker_email').style['border-color'] = '#EFEFEF';
-    }
-    length_name = 100;
-    for(j in airline_pick){
-       for(k in airline_pick[j].carrier_code_list){
-           if(airline_pick[j].carrier_code_list[k] == 'JT' || airline_pick[j].carrier_code_list[k] == 'ID' || airline_pick[j].carrier_code_list[k] == 'IW'){
-               if(length_name>24)
-                   length_name = 24;
-           }else if(airline_pick[j].carrier_code_list[k] == 'GA' && airline_pick[j].provider == 'sabre'){
-               if(length_name>31)
-                   length_name = 31;
-           }else{
-               if(length_name>28)
-                   length_name = 28;
-           }
-       }
     }
 
     var radios = document.getElementsByName('myRadios');
@@ -4268,6 +4260,14 @@ function check_passenger(adult, child, infant){
        }
    }
    //child
+   length_name = 100;
+    for(j in airline_pick){
+       for(k in airline_pick[j].carrier_code_list){
+           if(length_name > airline_carriers[airline_pick[j].carrier_code_list[k]].child_length_name)
+               length_name = airline_carriers[airline_pick[j].carrier_code_list[k]].child_length_name;
+       }
+    }
+
    for(i=1;i<=child;i++){
        if(check_name(document.getElementById('child_title'+i).value,
        document.getElementById('child_first_name'+i).value,
@@ -4329,6 +4329,14 @@ function check_passenger(adult, child, infant){
    }
 
    //infant
+   length_name = 100;
+    for(j in airline_pick){
+       for(k in airline_pick[j].carrier_code_list){
+           if(length_name > airline_carriers[airline_pick[j].carrier_code_list[k]].infant_length_name)
+               length_name = airline_carriers[airline_pick[j].carrier_code_list[k]].infant_length_name;
+       }
+    }
+
    for(i=1;i<=infant;i++){
        if(check_name(document.getElementById('infant_title'+i).value,
        document.getElementById('infant_first_name'+i).value,

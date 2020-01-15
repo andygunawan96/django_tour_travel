@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_tour.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_train.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
 <script>
@@ -24,6 +25,13 @@
     discount_voucher = JSON.parse(`{{discount_voucher}}`);
     time_limit = {{time_limit}};
     session_time_limit();
+    type_payment = `{{payment}}`;
+    type_payment  = type_payment.replace(/&#39;/g, '"');
+    type_payment  = type_payment.replace(/&quot;/g, '"');
+    type_payment  = type_payment.replace(/True/g, true);
+    type_payment  = type_payment.replace(/False/g, false);
+    type_payment  = JSON.parse(type_payment);
+    console.log(type_payment);
 </script>
 
 <title>{{name}} - Payment {{provider}}</title>
@@ -83,6 +91,45 @@
         </div>
         <div style="background-color:white; padding:10px; margin-top:25px; position:relative;" id="payment_acq">
 
+        </div>
+        <div id="issuedModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4>Payment Option</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="radio-button-custom">
+                            <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>)
+                            <span class="checkmark-radio"></span>
+                        </label>
+                        <br/>
+                        <label class="radio-button-custom">
+                            <input type="radio" name="payment_opt" value="installment"/> Installment
+                            <span class="checkmark-radio"></span>
+                        </label>
+                        <!--<input type="hidden" name="installment_count" t-att-value="len(payment_rules)"/>-->
+                        <table class="table table-bordered" style="font-size:12px;">
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
+                            </tr>
+                            </thead>
+                            <tbody id="tour_payment_rules">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="force_issued_tour(1);" style="width:100%;">
+                            Confirm <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
         <form method="POST" id="issued" action="">
             {% csrf_token %}
