@@ -92,3 +92,25 @@ def issued_offline_history(request):
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_history_templates.html', values)
     else:
         return no_session_logout(request)
+
+def booking(request):
+    if 'user_account' in request.session._session:
+        javascript_version = get_javascript_version()
+        values = get_data_template()
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        try:
+            order_number = request.POST['order_number']
+            request.session['issued_offline_order_number'] = request.POST['order_number']
+        except:
+            order_number = request.session['issued_offline_order_number']
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'],
+            'order_number': order_number,
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+        })
+        return render(request, MODEL_NAME+'/issued_offline/issued_offline_booking_templates.html', values)
+    else:
+        return no_session_logout(request)

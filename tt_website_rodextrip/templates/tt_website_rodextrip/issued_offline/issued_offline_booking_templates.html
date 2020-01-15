@@ -1,0 +1,342 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/issued_offline_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_issued_offline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}';
+    order_number = '{{order_number}}';
+    signature = `{{signature}}`;
+</script>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+<title>{{name}} Airline - Booking</title>
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%if template == 1%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 2 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+    <div class="main-header-area">
+        <div class="classy-nav-container breakpoint-off">
+            <div class="container">
+                <nav class="classy-navbar justify-content-between" id="robertoNav">
+                    <div class="row">
+                        <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                            <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;" alt="" title="" /></a>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                        </div>
+                        {% include 'tt_website_rodextrip/balance_credit.html' %}
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 3 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_rodextrip:airline_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 4 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_rodextrip:airline_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 5 %}
+<header>
+    <div class="container" style="padding-top:15px; padding-bottom:15px;">
+        <div class="row align-items-center justify-content-between d-flex mobile-menu">
+            <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+                <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Home</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book" onclick="location.href='{% url 'tt_website_rodextrip:airline_search'%}';">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Search</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Passenger</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-book">
+                    <span class="breadcrumb-rdx-icon br-icon-book"><i class="fas fa-check"></i></span>
+                    <span style="padding-left:5px;">Booking</span>
+                    <span class="br-fa"><i class="fas fa-arrow-right"></i></span>
+                </div>
+                <div class="breadcrumbs-rdx br-active" id="issued-breadcrumb">
+                    <span class="breadcrumb-rdx-icon br-icon-active" id="issued-breadcrumb-icon">5</span>
+                    <span id="issued-breadcrumb-span" style="padding-left:5px;">Issued</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
+
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
+{%if template == 1%}
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+{% elif template == 2 %}
+<section style="padding:25px 0px 45px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 3 %}
+<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 4 %}
+<section class="banner-area relative" style="padding:15px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% elif template == 5 %}
+<section style="padding:30px 0px 15px 0px; background:#f7f7f7; border-bottom:2px solid #cdcdcd;">
+{% endif %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12" style="margin-top:20px; display:none;" id="success-issued">
+                <div class="alert alert-success">
+                    <h4>Your Booking has been Issued</h4>
+                </div>
+            </div>
+        </div>
+        <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
+        <form method="POST" id="airline_form" action="{% url 'tt_website_rodextrip:airline_booking'%}">
+            {% csrf_token %}
+            <div class="row" style="padding-top:20px;">
+                <div class="col-lg-12">
+                    <div id="show_title_airline" hidden>
+                        <h3>Please Review Your Booking</h3>
+                        <h4>Prices may changes at any time</h4>
+                        <br/>
+                    </div>
+
+                    <div class="col-lg-12" id="show_loading_booking_airline">
+                        <div class="center-div">
+                            <div>
+                                <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                            </div>
+                        </div>
+                        <div style="text-align:center">
+                            <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
+                        <h5>Oops! Something went wrong, please try again or check your connection internet.</h5>
+                    </div>
+                </div>
+                <div class="col-lg-8" style="padding-bottom:20px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="airline_booking">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="padding-bottom:20px;">
+                    <div id="airline_detail">
+
+                    </div>
+                    {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                    <div id="voucher_div" style="display:none;">
+                    {% include 'tt_website_rodextrip/voucher_code.html'  %} <br/>
+                    </div>
+                    <button class="primary-btn issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                         Issued Booking
+                    </button>
+                    {% endif %}
+
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
+
+                    </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="ssr_request_after_sales" hidden>
+                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
+                    </div>
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="reissued" hidden>
+                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="reissued_btn();" value="Reissued">
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalRepricing" role="dialog">
+                    <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="border-radius: 0;">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="row" id="pricing" style="padding:15px;">
+                                            <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <hr/>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:10px;" id="table_of_equation">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                        <hr/>
+                                                        <center>
+                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('airline');" value="Calculate">
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row" style="padding:15px;">
+                                            <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                                                <h4>Result Pricing</h4>
+                                                <hr/>
+                                                <div class="row" id="repricing_div">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+{% include 'tt_website_rodextrip/footer.html' %}
+<script>
+    try{
+    document.getElementById('voucher_div').style.display = 'none';
+    }catch(err){}
+    get_booking_offline('{{order_number}}');
+    //testing_bca();
+
+    $( document ).ready(function() {
+        breadcrumb_create("airline", 5, 1);
+        $("#airline_form").bind("keypress", function(e) {
+            if (e.keyCode == 13 && e.target.id != 'bill_address') {
+                return false;
+            }
+        });
+    });
+</script>
+
+{% endblock %}
