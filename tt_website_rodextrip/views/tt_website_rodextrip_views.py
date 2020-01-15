@@ -18,6 +18,7 @@ from django.core.files.storage import FileSystemStorage
 import os
 from tools.parser import *
 from datetime import *
+import copy
 
 MODEL_NAME = 'tt_website_rodextrip'
 # _dest_env = TtDestinations()
@@ -430,6 +431,7 @@ def admin(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
+                'bg_tab_color': copy.deepcopy(values['tab_color'])[:7],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                 'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
