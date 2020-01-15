@@ -529,7 +529,10 @@ def payment(request):
         voucher_code = request.POST['voucher_code']
         type = request.POST['type'] #tipe airline_review
         values = get_data_template()
-
+        try:
+            payment = request.POST['payment']
+        except:
+            payment = {}
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         values.update({
@@ -539,6 +542,7 @@ def payment(request):
             'passengers': passengers,
             'provider': provider,
             'type': type,
+            'payment': payment,
             'time_limit': request.POST['session_time_input'],
             'discount_voucher': discount_voucher,
             'voucher_code': voucher_code,

@@ -891,6 +891,35 @@ function tour_check_rooms()
     return all_clear;
 }
 
+function force_issued_tour(val){
+    //tambah swal
+    if(val == 0)
+    {
+        var temp_title = 'Are you sure you want to Hold Booking?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Force Issued this booking?';
+    }
+    Swal.fire({
+      title: temp_title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        please_wait_transaction();
+        $('.next-loading-booking').addClass("running");
+        $('.next-loading-booking').prop('disabled', true);
+        $('.next-loading-issued').prop('disabled', true);
+        $('.issued_booking_btn').prop('disabled', true);
+        commit_booking_tour(val);
+      }
+    })
+}
+
 function tour_hold_booking(val){
     var check_rooms = tour_check_rooms();
     book_setup_txt = ``;
@@ -926,7 +955,7 @@ function tour_hold_booking(val){
                 $('.next-loading-issued').prop('disabled', true);
             }
             document.getElementById('commit_booking_setup').innerHTML = book_setup_txt;
-            update_sell_tour();
+            update_sell_tour(val);
           }
         })
     }

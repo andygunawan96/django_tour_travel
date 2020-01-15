@@ -26,6 +26,13 @@
     room_amount = {{room_amount}};
     total_pax_amount = {{total_pax_all}};
 
+    booker = `{{booker}}`;
+    booker = booker.replace(/&#39;/g,'"');
+    booker = booker.replace(/True/g,'true');
+    booker = booker.replace(/False/g,'false');
+    booker = booker.replace(/None/g,'""');
+    booker = JSON.parse(booker);
+
     time_limit = {{time_limit}};
     session_time_limit();
 </script>
@@ -306,7 +313,7 @@
                         </div>
                         <div class="col-lg-4">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                            <button id="final_issued_btn" class="for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button id="final_issued_btn" class="for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="tour_hold_booking(1);">
                                 Issued Booking
                             </button>
                             {% endif %}
@@ -399,55 +406,26 @@
                         </div>
                         <div class="col-lg-4" style="margin-bottom:10px;">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                            <button class="for-show-mobile primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="focus_box('payment_acq');">
+                            <button class="for-show-mobile primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="tour_hold_booking(1);">
                                 Issued Booking
                             </button>
                             {% endif %}
                         </div>
                     </div>
                 </div>
-
-                <div id="issuedModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4>Payment Option</h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <label class="radio-button-custom">
-                                    <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>)
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                                <br/>
-                                <label class="radio-button-custom">
-                                    <input type="radio" name="payment_opt" value="installment"/> Installment
-                                    <span class="checkmark-radio"></span>
-                                </label>
-                                <!--<input type="hidden" name="installment_count" t-att-value="len(payment_rules)"/>-->
-                                <table class="table table-bordered" style="font-size:12px;">
-                                    <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>Amount</th>
-                                        <th>Due Date</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="tour_payment_rules">
-
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="tour_hold_booking(1);" style="width:100%;">
-                                    Confirm <div class="ld ld-ring ld-cycle"></div>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
+        </form>
+        <form method="POST" id="tour_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+            {% csrf_token %}
+            <input type="hidden" id="passengers" name="passengers"/>
+            <input type="hidden" id="signature" name="signature"/>
+            <input type="hidden" id="provider" name="provider"/>
+            <input type="hidden" id="discount" name="discount"/>
+            <input type="hidden" id="voucher_code" name="voucher_code"/>
+            <input type="hidden" id="type" name="type"/>
+            <input type="hidden" id="payment" name="payment"/>
+            <input type="hidden" id="session_time_input" name="session_time_input"/>
         </form>
     </div>
 </div>
@@ -458,7 +436,7 @@
         breadcrumb_create("tour", 5, 0);
         get_price_itinerary_cache('review');
         get_payment_rules('{{tour_data.id}}');
-        get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
+        //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
     });
 </script>
 {% endblock %}
