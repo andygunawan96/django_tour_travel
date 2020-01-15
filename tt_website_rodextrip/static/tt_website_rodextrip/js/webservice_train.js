@@ -1093,7 +1093,7 @@ function train_get_seat_map(){
         console.log(msg);
         if(msg.result.error_code==0){
             seat_map_response = msg.result.response;
-            print_seat_map();
+            print_seat_map(0);
         }else{
             Swal.fire({
               type: 'error',
