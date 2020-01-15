@@ -1731,7 +1731,7 @@ html .ui-button.ui-state-disabled:active {
     color: #1cc3b2; }
 
 .banner-area-rodex{
-    height:45vh;
+    height:40vh;
 }
 
 .hotel-search-form-area {
@@ -2649,6 +2649,7 @@ ul.edit_tabs li.current .image-rounded-icon{
   position: relative;
   padding-left: 25px;
   padding-right: 15px;
+  margin-top:10px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -2744,9 +2745,14 @@ ul.edit_tabs li.current .image-rounded-icon{
   background-color: lightgray;
 }
 
+.check_box_custom input:disabled ~ .check_box_span_custom {
+  background-color: #9A9A9A;
+  cursor:not-allowed;
+}
+
 /* On mouse-over, add a grey background color */
 .check_box_custom:hover input ~ .check_box_span_custom {
-  background-color: #9A9A9A !important;
+  background-color: #9A9A9A;
 }
 
 /* When the checkbox is checked, add a blue background */
@@ -6387,3 +6393,24 @@ display: block;
     }
 }
 
+.single-post-area .overlay-bg-disabled {
+  background: rgba(150, 150, 150, 1) !important;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  opacity: 0.5;
+}
+
+.single-post-area.disabled-post{
+    transform: unset !important;
+    box-shadow: unset !important;
+}
+
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}

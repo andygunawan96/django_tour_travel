@@ -603,32 +603,51 @@ function add_table_of_doc(val){
     var node = document.createElement("tr");
     text += `
         <td>`+(parseInt(counter_regis_doc)+1)+`</td>
-        <td>
-            <div class="input-container-search-ticket btn-group">
+        <td>`;
+            if(template == 1){
+                text+=`
+                <div class="input-container-search-ticket btn-group">
+                    <div class="form-select">
+                    <select name="type_regis_doc`+(parseInt(counter_regis_doc)+1)+`">`;
+            }
+            else if(template == 2){
+                text+=`
                 <div class="form-select">
                     <select name="type_regis_doc`+(parseInt(counter_regis_doc)+1)+`">`;
-                    if(val == 'KTP')
-                    text+=`<option value="ktp">KTP</option>`;
-                    else
-                    text+=`<option disabled value="ktp">KTP</option>`;
-                    if(val == 'NPWP')
-                    text+=`<option value="npwp">NPWP</option>`;
-                    else
-                    text+=`<option disabled value="npwp">NPWP</option>`;
-                    if(val == 'SIUP')
-                    text+=`<option value="siup">SIUP</option>`;
-                    else
-                    text+=`<option disabled value="siup">SIUP</option>`;
-                    text+=`</select>
-                </div>
-            </div>
+            }
+                if(val == 'KTP')
+                text+=`<option value="ktp">KTP</option>`;
+                else
+                text+=`<option disabled value="ktp">KTP</option>`;
+                if(val == 'NPWP')
+                text+=`<option value="npwp">NPWP</option>`;
+                else
+                text+=`<option disabled value="npwp">NPWP</option>`;
+                if(val == 'SIUP')
+                text+=`<option value="siup">SIUP</option>`;
+                else
+                text+=`<option disabled value="siup">SIUP</option>`;
+                text+=`</select>`;
+            if(template == 1){
+                text+=`
+                    </div>
+                </div>`;
+            }else if(template == 2){
+                text+=`</div>`;
+            }
+            text+=`
         </td>
-        <td>
-            <div class="input-container-search-ticket">
-                <input type="file" class="form-control o_website_form_input" id="resume`+(parseInt(counter_regis_doc)+1)+`" name="Resume`+(parseInt(counter_regis_doc)+1)+`"/>
-            </div>
-        </td>
-        `;
+        <td>`;
+            if(template == 1){
+                text+=`
+                <div class="input-container-search-ticket">
+                    <input type="file" class="form-control o_website_form_input" id="resume`+(parseInt(counter_regis_doc)+1)+`" name="Resume`+(parseInt(counter_regis_doc)+1)+`"/>
+                </div>`;
+            }else if(template == 2){
+                text+=`<input type="file" class="o_website_form_input" id="resume`+(parseInt(counter_regis_doc)+1)+`" name="Resume`+(parseInt(counter_regis_doc)+1)+`"/>`;
+            }
+        text+=`
+        </td>`;
 
     node.innerHTML = text;
     node.setAttribute('id', 'table_of_doc'+counter_regis_doc);

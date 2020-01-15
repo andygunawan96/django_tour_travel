@@ -56,7 +56,7 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
         </div>`;
 
             text+=`
-            <div id="payment_description" style="text-align:left"></div>`;
+            <div id="payment_description" style="text-align:left;"></div>`;
             text+=`
                 </div>`;
             document.getElementById('payment_acq').innerHTML = text;

@@ -967,8 +967,8 @@
     user-select: none; }
 
   .owl-carousel-tour-img .owl-nav button.owl-prev {
-    background: none;
     color: inherit;
+    opacity: 0.8;
     border: none;
     padding: 0 !important;
     font: inherit; }
@@ -989,8 +989,8 @@
     user-select: none; }
 
   .owl-carousel-tour-img .owl-nav button.owl-next {
-    background: none;
     color: inherit;
+    opacity: 0.8;
     border: none;
     padding: 0 !important;
     font: inherit; }
@@ -1412,7 +1412,7 @@
     left: -20px;
     display: flex;
     background-color:white;
-    top: 40%;
+    top: 25%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;
@@ -1434,7 +1434,7 @@
     right: -20px;
     display: flex;
     background-color:white;
-    top: 40%;
+    top: 25%;
     border:1px solid #000;
     border-radius: 50%;
     cursor: pointer;

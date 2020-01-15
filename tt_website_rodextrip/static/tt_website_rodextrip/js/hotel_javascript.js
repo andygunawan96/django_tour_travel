@@ -1962,7 +1962,7 @@ function go_to_owl_carousel_bottom(counter, co_i){
     var idx_img_bot = 1;
     console.log(temp_response.hotel_ids[co_i]);
     text_img +=`
-    <div class="owl-carousel-hotel-img-modal owl-theme">`;
+    <div class="owl-carousel-hotel-img-modal owl-theme" style="text-align:center;">`;
     if(temp_response.hotel_ids[co_i].images.length != 0){
         for(idx_img_bot; idx_img_bot < temp_response.hotel_ids[co_i].images.length; idx_img_bot++){
             if(idx_img_bot < 5){
