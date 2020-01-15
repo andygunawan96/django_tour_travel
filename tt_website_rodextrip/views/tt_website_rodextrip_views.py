@@ -16,7 +16,9 @@ import json
 import base64
 from django.core.files.storage import FileSystemStorage
 import os
+from tools.parser import *
 from datetime import *
+import copy
 
 MODEL_NAME = 'tt_website_rodextrip'
 # _dest_env = TtDestinations()
@@ -132,6 +134,8 @@ def index(request):
                                 'destination': request.session['airline_request']['destination'][0],
                                 'departure': request.session['airline_request']['departure'][0],
                             }
+                        if cache['airline']['departure'] == 'Invalid date':
+                            cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                     except:
                         pass
 
@@ -141,6 +145,8 @@ def index(request):
                                 'destination': request.session['train_request']['destination'][0],
                                 'departure': request.session['train_request']['departure'][0],
                             }
+                        if cache['train']['departure'] == 'Invalid date':
+                            cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                     except:
                         pass
 
@@ -149,6 +155,9 @@ def index(request):
                                 'checkin': request.session['hotel_request']['checkin_date'],
                                 'checkout': request.session['hotel_request']['checkout_date']
                             }
+                        if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date':
+                            cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=1))[:10])
+                            cache['hotel']['checkout'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=2))[:10])
                     except:
                         pass
 
@@ -172,6 +181,8 @@ def index(request):
                                 'departure_date': request.session['visa_request']['departure_date'],
                                 'consulate': request.session['visa_request']['consulate']
                             }
+                        if cache['visa']['departure_date'] == 'Invalid date':
+                            cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                     except:
                         pass
                     values.update({
@@ -420,6 +431,7 @@ def admin(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
+                'bg_tab_color': copy.deepcopy(values['tab_color'])[:7],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                 'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],

@@ -12,6 +12,8 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = '{{signature}}';
+    tour_request = `{{tour_request}}`;
+    tour_request = JSON.parse(tour_request.replace(/&#39;/g, '"'));
     dest_country = {{dest_country}};
     dest_city = {{dest_city}};
     filter = {

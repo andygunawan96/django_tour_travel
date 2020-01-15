@@ -128,6 +128,7 @@ def get_data(request):
 
 def search(request):
     try:
+        request.session['tour_request'] = json.loads(request.POST['search_request'])
         data = {
             'country_id': request.session['tour_request']['country_id'],
             'city_id': request.session['tour_request']['city_id'],

@@ -564,6 +564,7 @@ def search2(request):
 
         # origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
         # destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
+        request.session['airline_request'] = json.loads(request.POST['search_request'])
         direction = 'MC'
         journey_list = []
         if request.session['airline_request']['is_combo_price'] == 'false':

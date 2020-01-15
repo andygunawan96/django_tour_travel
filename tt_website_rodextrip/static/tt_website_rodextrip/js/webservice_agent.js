@@ -2618,7 +2618,7 @@ function get_passenger_cache(){
                             }
                             console.log(check);
                             if(check == 0)
-                                response+=`<td><button type="button" class="primary-btn-custom" onclick="pick_passenger_cache(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
+                                response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
                             else
                                 response+=`<td><button type="button" class="primary-btn-custom" disabled>`+passenger_sequence+`</button></td>`;
                         }else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
@@ -2652,7 +2652,7 @@ function get_passenger_cache(){
                             }
                             console.log(check);
                             if(check == 0)
-                                response+=`<td><button type="button" class="primary-btn-custom" onclick="pick_passenger_cache(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
+                                response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
                             else
                                 response+=`<td><button type="button" class="primary-btn-custom" disabled>`+passenger_sequence+`</button></td>`;
                         }
@@ -2966,6 +2966,42 @@ function get_countries(){
     });
 }
 
+function update_customer_cache_list(val){
+    console.log(document.getElementById('selection_type'+val).value);
+    $.ajax({
+       type: "POST",
+       url: "/webservice/agent",
+       headers:{
+            'action': 'update_customer_list',
+       },
+       data: {
+            'cust_code': passenger_data_cache[val].seq_id,
+            'passenger_type': document.getElementById('selection_type'+val).value.replace(/[^a-zA-Z]+/g, ''),
+            'signature': signature
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code==0){
+            passenger_data_cache = msg.result.response;
+            pick_passenger_cache(val);
+            $('.loading-booker-train').hide();
+        }else{
+            pick_passenger_cache(val);
+            $('.loading-booker-train').hide();
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error customer list </span>' + errorThrown,
+            })
+
+          $('.loading-booker-train').hide();
+       },timeout: 60000
+    });
+}
+
 function pick_passenger_cache(val){
     var passenger_pick = document.getElementById('selection_type'+val).value.replace(/[^a-zA-Z ]/g,"");
     var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
@@ -3046,7 +3082,7 @@ function pick_passenger_cache(val){
                 document.getElementById('move_btn_'+val).disabled = true;
             }
         }
-//        $('#myModal').modal('hide');
+        $('#myModalPlugin').modal('hide');
     }else{
         Swal.fire({
           type: 'error',

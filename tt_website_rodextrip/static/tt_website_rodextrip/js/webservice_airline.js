@@ -603,7 +603,8 @@ function airline_search(provider,carrier_codes){
            'provider': provider,
            'carrier_codes': JSON.stringify(carrier_codes),
            'counter_search': counter_search,
-           'signature': signature
+           'signature': signature,
+           'search_request': JSON.stringify(airline_request)
        },
        success: function(msg) {
        console.log(msg);
@@ -1216,10 +1217,12 @@ function get_price_itinerary_request(){
                         <div class="col-lg-3">`;
                         //logo
                         for(k in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments){ //print gambar airline
+                            if(k != 0)
+                                text +=`<br/>`;
                             try{
                                 text+=`
                                 <span style="font-weight: 500; font-size:12px;">`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name+` `+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number+`</span><br/>
-                                <img data-toggle="tooltip" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                                <img data-toggle="tooltip" title="`+airline_carriers[0][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code].name+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_code+`.png"><span> </span>`;
                             }catch(err){
                                 text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].carrier_number+`.png"><span> </span>`;
                             }

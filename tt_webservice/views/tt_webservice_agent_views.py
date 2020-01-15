@@ -57,6 +57,8 @@ def api_models(request):
             res = create_customer(request)
         elif req_data['action'] == 'update_customer':
             res = update_customer(request)
+        elif req_data['action'] == 'update_customer_list':
+            res = update_customer_list(request)
         elif req_data['action'] == 'add_passenger_cache':
             res = add_passenger_cache(request)
         elif req_data['action'] == 'del_passenger_cache':
@@ -632,6 +634,105 @@ def get_customer_list(request):
                     counter += 1
                 except:
                     pass
+            logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_customer_list(request):
+    try:
+        upper = 200
+        lower = 0
+        #define per product DEFAULT 0 - 200 / AMBIL SEMUA PASSENGER
+        #check jos
+        passenger = 'psg'
+        data = {
+            'name': '',
+            'upper': upper,
+            'lower': lower,
+            'type': passenger,
+            'email': '',
+            'cust_code': request.POST['cust_code']
+        }
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_customer_list",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            counter = 0
+            for pax in res['result']['response']:
+                try:
+                    if pax['gender'] == 'female' and pax['marital_status'] == 'married':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                            title = 'MRS'
+                        else:
+                            title = 'MISS'
+                    elif pax['gender'] == 'female':
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                            title = 'MS'
+                        else:
+                            title = 'MISS'
+                    else:
+                        if request.POST['passenger_type'] == 'adult' or request.POST['passenger_type'] == 'senior' or request.POST['passenger_type'] == 'booker' or request.POST['passenger_type'] == 'passenger':
+                            title = 'MR'
+                        else:
+                            title = 'MSTR'
+                    pax.update({
+                        'sequence': counter,
+                        'title': title
+                    })
+                    if pax['birth_date'] != '':
+                        pax.update({
+                            'birth_date': '%s %s %s' % (
+                                pax['birth_date'].split('-')[2], month[pax['birth_date'].split('-')[1]],
+                                pax['birth_date'].split('-')[0]),
+                        })
+                    if pax['identities'].get('passport'):
+                        pax['identities']['passport'].update({
+                            'identity_expdate': '%s %s %s' % (
+                                pax['identities']['passport']['identity_expdate'].split('-')[2], month[pax['identities']['passport']['identity_expdate'].split('-')[1]],
+                                pax['identities']['passport']['identity_expdate'].split('-')[0]),
+                        })
+                    if pax['identities'].get('ktp'):
+                        if pax['identities']['ktp']['identity_expdate'] != '':
+                            pax['identities']['ktp'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[2], month[pax['identities']['ktp']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['ktp']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('sim'):
+                        if pax['identities']['sim']['identity_expdate'] != '':
+                            pax['identities']['sim'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['sim']['identity_expdate'].split('-')[2], month[pax['identities']['sim']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['sim']['identity_expdate'].split('-')[0]),
+                            })
+                    if pax['identities'].get('other'):
+                        if pax['identities']['other']['identity_expdate'] != '':
+                            pax['identities']['other'].update({
+                                'identity_expdate': '%s %s %s' % (
+                                    pax['identities']['other']['identity_expdate'].split('-')[2], month[pax['identities']['other']['identity_expdate'].split('-')[1]],
+                                    pax['identities']['other']['identity_expdate'].split('-')[0]),
+                            })
+                    counter += 1
+                except:
+                    pass
+            #ganti cache
+            for pax in request.POST['cache_passengers']:
+                if pax['seq_id'] == request.POST['cust_code']:
+                    pax = res['result']['response'][0]
+                    break
+            res['result']['response'] = request.POST['cache_passengers']
             logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

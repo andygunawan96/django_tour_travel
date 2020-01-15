@@ -119,7 +119,8 @@ function train_search(signature){
             'action': 'search',
        },
        data: {
-            'signature': signature
+            'signature': signature,
+            'search_request': JSON.stringify(train_request)
        },
        success: function(msg) {
            console.log(msg);
