@@ -3536,6 +3536,10 @@ body.mobile-nav-active #mobile-nav-toggle {
     background-size: auto;
 }
 
+.testimonial-area .overlay-bg {
+  background: rgba(4, 9, 30, 0.4);
+}
+
 .apps-area {
     background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/bg_8.jpg");
     background-attachment: fixed;

@@ -114,7 +114,7 @@
             </div>
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                     <span id="change_search_text">Change Search</span>
                 </button>
             </div>
@@ -203,7 +203,7 @@
                         </div>
                         <br/>
                         <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                             Search
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
@@ -242,7 +242,7 @@
             </div>
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
-                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                     <span id="change_search_text">Change Search</span>
                 </button>
             </div>
@@ -331,7 +331,7 @@
                             <br/>
                             <center>
                                 <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                     Search
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -448,6 +448,7 @@
                     </div>
                     <div class="row" style="padding:15px;">
                         <div class="col-lg-12" style="background-color:white; border:1px solid #cdcdcd; margin-top:5px; padding:0;">
+                            {%if template == 1%}
                             <ul class="nav nav-tabs-activity" style="text-align:center; margin-bottom:15px;">
                                 <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
                                     <a class="tab-menu-activity active" data-toggle="tab" href="#detail"><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></a>
@@ -522,6 +523,79 @@
                                     {% endif %}
                                 </div>
                             </div>
+                            {% elif template == 2 or template == 3%}
+                            <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
+                                <ul class="tabs">
+                                    <li class="tab-link current" data-tab="detail"><label><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Details</span></label></li>
+                                    <li class="tab-link" data-tab="rules"><label><i class="fa fa-exclamation-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Rules</span></label></li>
+                                    <li class="tab-link" data-tab="vouchers"><label><i class="fa fa-ticket-alt" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Vouchers</span></label></li>
+                                    {% if response.itinerary != ''%}
+                                    <li class="tab-link" data-tab="price_itinerary"><label><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> Price Itinerary</span></label></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div id="detail" class="tab-content current" style="border-top:2px solid #cdcdcd;">
+                                        {% if response.description != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Description</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.description | safe}}</p>
+                                        {% endif %}
+                                        {% if response.highlights != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Highlights</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.highlights | safe}}</p>
+                                        {% endif %}
+                                        {% if response.additionalInfo != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Additional Info</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.additionalInfo | safe}}</p>
+                                        {% endif %}
+                                        {% if response.priceIncludes != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Price Includes</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.priceIncludes}}</p>
+                                        {% endif %}
+                                        {% if response.priceExcludes != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Price Excludes</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.priceExcludes}}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div id="rules" class="tab-content" style="border-top:2px solid #cdcdcd;">
+                                        {% if response.warnings != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Warnings</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.warnings | safe}}</p>
+                                        {% endif %}
+                                        {% if response.safety != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Safety</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.safety | safe}}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div id="vouchers" class="tab-content" style="border-top:2px solid #cdcdcd;">
+                                        {% if response.voucher_validity != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Validity</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.voucher_validity}}</p>
+                                        {% endif %}
+                                        {% if response.voucherUse != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Use</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.voucherUse}}</p>
+                                        {% endif %}
+                                        {% if response.voucherRedemptionAddress != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Address</h4>
+                                        <p style="padding:0 15px; text-align:justify;">{{response.voucherRedemptionAddress}}</p>
+                                        {% endif %}
+                                        {% if response.voucherRequiresPrinting != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Voucher Print</h4>
+                                        <p style="padding:0 15px;text-align:justify">{{response.voucherRequiresPrinting}}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div id="price_itinerary" class="tab-content" style="border-top:2px solid #cdcdcd;">
+                                        {% if response.itinerary != '' %}
+                                        <h4 style="padding:0 15px; margin-bottom:10px;">Itinerary</h4>
+                                        <p style="padding:0 15px; text-align:justify">{{response.itinerary}}</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {%endif%}
                         </div>
                     </div>
                     <div class="row" id="div-product-activity" style="padding:15px;">

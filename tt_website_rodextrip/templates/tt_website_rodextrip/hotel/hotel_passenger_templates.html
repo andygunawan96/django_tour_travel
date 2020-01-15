@@ -927,9 +927,11 @@
                                                         </div>
                                                         <div class="modal-body">
                                                             <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <input type="text" id="train_booker_search" placeholder="Search" style="padding:5px;"/>
-                                                                    <button type="button" id="booker_search" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('booker','0','hotel');">Search <i class="fas fa-search"></i></button>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <input class="form-control" type="text" id="train_booker_search" placeholder="Search"/>
+                                                                </div>
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <button type="button" id="booker_search" class="primary-btn" onclick="get_customer_list('booker','0','hotel');">Search <i class="fas fa-search"></i></button>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -1136,9 +1138,11 @@
                                                             </div>
                                                             <div class="modal-body" style="text-align:left;">
                                                                 <div class="row">
-                                                                    <div class="col-lg-12">
-                                                                        <input type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                        <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">Search</button>
+                                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                        <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>
+                                                                    </div>
+                                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                        <button type="button" id="search_adult_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'hotel')">Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -1312,9 +1316,11 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row">
-                                                                <div class="col-lg-12">
-                                                                    <input type="text" id="train_child{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                    <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" style="line-height:35px;" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">Search</button>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="Search"/>
+                                                                </div>
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <button type="button" id="search_child_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'hotel')">Search</button>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -1459,9 +1465,11 @@
                                                         </div>
                                                         <div class="modal-body" style="text-align:left;">
                                                             <div class="row" >
-                                                                <div class="col-lg-12">
-                                                                    <input type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search" style="padding:5px;"/>
-                                                                    <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" style="line-height:34px;" onclick="get_customer_list('infant',{{forloop.counter}}, 'hotel')">Search</button>
+                                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                                    <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search"/>
+                                                                </div>
+                                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                                    <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'hotel')">Search</button>
                                                                 </div>
                                                             </div>
                                                             <div class="row">
@@ -1584,12 +1592,12 @@
                                 <hr/>
                                 {% for room in rooms %}
                                 <h6>Room {{room}}:</h6>
-                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
+                                <textarea rows="2" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
                                 {% endfor %}
                                 <h6>Early/Late CheckIn:</h6>
-                                <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
+                                <textarea rows="1" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
                                 <h6>Late CheckOut:</h6>
-                                <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
+                                <textarea rows="1" cols="50" class="form-control" style="{%if template == 2%} height:70px; line-height:22px;{% endif %} font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
                             </div><br/>
                             <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
 

@@ -546,15 +546,15 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
-                            text += '<li>Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>';
+                            text += '<li style="list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>';
                             //$text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
                         } else {
-                            text += '<li>No Cancellation after: ' + result.policies[i].date;
+                            text += '<li style="list-style: unset;">No Cancellation after: ' + result.policies[i].date;
                             //$text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
                         }
                     }
                 } else {
-                    text += '<li>No Cancellation Policy Provided</li>';
+                    text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
                     //$text2 += 'No Cancellation Policy Provided \n';
                 }
                 text += '</ul>';
@@ -569,15 +569,15 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
-                            text += '<li style="color:'+color+';">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                            text += '<li style="color:'+color+'; list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
                             $text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n'
                         } else {
-                            text += '<li style="color:'+color+';">No Cancellation after: ' + result.policies[i].date;
+                            text += '<li style="color:'+color+'; list-style: unset;">No Cancellation after: ' + result.policies[i].date;
                             //$text2 += 'No Cancellation after: ' + result.policies[i].date+ '\n';
                         }
                     }
                 } else {
-                    text += '<li style="color:'+color+';">No Cancellation Policy Provided</li>';
+                    text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
                     //$text2 += 'No Cancellation Policy Provided \n';
                 };
                 text += '</ul>';
@@ -588,13 +588,13 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
-                            text += '<li style="color:'+color+';">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                            text += '<li style="color:'+color+'; list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
                         } else {
-                            text += '<li style="color:'+color+';">No Cancellation after: ' + result.policies[i].date;
+                            text += '<li style="color:'+color+'; list-style: unset;">No Cancellation after: ' + result.policies[i].date;
                         }
                     }
                 } else {
-                    text += '<li style="color:'+color+';">No Cancellation Policy Provided</li>';
+                    text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
                 };
                 text += '</ul>';
                 document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
@@ -603,11 +603,11 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            if (view_type == '1'){
                 var text = '<h4>Cancellation Policy</h4>';
-                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li>No Cancellation Policy Provided</li></ul>';
+                text += '<ul style="list-style-type: circle; margin: 0 15px;"><li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
                 document.getElementById('cancellation_policy').innerHTML = text;
            } else {
                 var text = '<ul style="list-style-type: circle; margin: 0 15px;">';
-                text += '<li>No Cancellation Policy Provided</li></ul>';
+                text += '<li style="list-style: unset;">No Cancellation Policy Provided</li></ul>';
                 document.getElementById('js_cancellation_button'+provider).parentNode.innerHTML = text;
            }
             Swal.fire({

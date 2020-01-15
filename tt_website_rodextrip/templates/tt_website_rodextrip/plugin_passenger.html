@@ -62,14 +62,16 @@
                         </div>
                     </div>
                     {%elif template == 2%}
-                    <div class="banner-right">
-                        <div class="form-wrap" style="padding:unset; text-align:unset;">
-                            <div class="row">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                    <input class="form-control" type="text" id="train_passenger_search" placeholder="Search"/>
-                                </div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                    <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">Search</button>
+                    <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
+                        <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">
+                            <div class="form-wrap" style="padding:unset; text-align:unset;">
+                                <div class="row">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                        <input class="form-control" type="text" id="train_passenger_search" placeholder="Search"/>
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                        <button type="button" class="primary-btn" id="passenger_btn_click" onclick="get_customer_list('passenger','','cache')">Search</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -623,7 +625,7 @@
                                         </div>
 
                                         <div style="border:1px solid #cdcdcd;">
-                                            <div id="passport-tab" class="create_tab-content current" style="padding:0px 0px 10px 0px;">
+                                            <div id="passport-tab" class="create_tab-content current" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <!--                                                    <div class="col-sm-3">-->
@@ -685,7 +687,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="ktp-tab" class="create_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div id="ktp-tab" class="create_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <!--                                                    <div class="col-sm-3">-->
@@ -747,7 +749,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="sim-tab" class="create_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div id="sim-tab" class="create_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <!--                                                    <div class="col-sm-3">-->
@@ -809,7 +811,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="other-tab" class="create_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div id="other-tab" class="create_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <!--                                                    <div class="col-sm-3">-->
@@ -988,7 +990,7 @@
 
                                 <div class="banner-right" style="background:{{tab_color}}">
                                     <div class="tab-content" id="myTabContent_edit">
-                                        <div id="passport-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
+                                        <div id="passport-tab_edit" class="edit_tab-content current" style="padding:20px 0px 15px 0px;">
                                             <div class="col-lg-12">
                                                 <div class="row">
                                                     <!--                                                    <div class="col-sm-3">-->
@@ -1348,7 +1350,7 @@
                                             </ul>
                                         </div>
                                         <div style="border:1px solid #cdcdcd;">
-                                            <div id="passport-tab_edit" class="edit_tab-content current" style="padding:0px 0px 10px 0px;">
+                                            <div id="passport-tab_edit" class="edit_tab-content current" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <!--                                                    <div class="col-sm-3">-->
@@ -1411,7 +1413,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="ktp-tab_edit" class="edit_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div id="ktp-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-sm-12">
                                                     <div class="row">
                                                         <div class="col-sm-6">
@@ -1470,7 +1472,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="sim-tab_edit" class="edit_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div id="sim-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <div class="col-sm-6">
@@ -1529,7 +1531,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div id="other-tab_edit" class="edit_tab-content" style="padding:0px 0px 10px 0px;">
+                                            <div id="other-tab_edit" class="edit_tab-content" style="padding:15px 0px 15px 0px;">
                                                 <div class="col-lg-12">
                                                     <div class="row">
                                                         <div class="col-lg-6">

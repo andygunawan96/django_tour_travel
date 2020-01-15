@@ -70,10 +70,11 @@
 
 {%if template == 1%}
 {% if username != null %}
-<section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
+<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
 {% else %}
 <section class="testimonial-area section-gap" data-aos="fade-up" style="padding-top:100px; padding-bottom:150px; z-index:1; position:relative;">
 {% endif %}
+    <div class="overlay overlay-bg"></div>
     <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
@@ -352,7 +353,7 @@
                                     </div>
                                     <br/>
                                     <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -467,7 +468,7 @@
                                     <input type="hidden" id="train_response" name="response"/>
 
                                     <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -588,7 +589,7 @@
                                     <br/>
 
                                     <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -675,7 +676,7 @@
                                     <br/>
 
                                     <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -768,7 +769,7 @@
                                     <br/>
 
                                     <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -812,7 +813,7 @@
                                     <br/>
 
                                     <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -1333,7 +1334,7 @@
                             {% endif %}
                         </ul>
                     </div>
-                    <div style="border:2px solid #cdcdcd; background:rgba(100,100,100,0.8);">
+                    <div class="tab_body" style="border:2px solid #cdcdcd;">
                         {% if "airline" in provider %}
                         <div id="tab-airline" class="tab-content current">
                             <form action="{% url 'tt_website_rodextrip:airline_search'%}" method="POST" id="airline_searchForm">
@@ -1498,7 +1499,7 @@
                                 <center>
                                     <input type="submit" hidden/>
                                     <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -1513,12 +1514,12 @@
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_train_search" style="margin-bottom:10px;">
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                                            <span style="font-size:13px; font-weight:700;">One Way</span>
+                                            <span style="font-size:13px; font-weight:700; color:{{text_color}}">One Way</span>
                                             <input type="radio" checked="checked" name="radio_train_type" value="oneway">
                                             <span class="checkmark-radio"></span>
                                         </label>
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                                            <span style="font-size:13px; font-weight:700;">Round-trip</span>
+                                            <span style="font-size:13px; font-weight:700; color:{{text_color}}">Round-trip</span>
                                             <input type="radio" name="radio_train_type" value="roundtrip">
                                             <span class="checkmark-radio"></span>
                                         </label>
@@ -1605,7 +1606,7 @@
 
                                 <center>
                                     <button class="primary-btn" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                     </button>
                                 </center>
@@ -1721,7 +1722,7 @@
                                 </div>
                                 <center>
                                     <button class="primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                     </button>
                                 </center>
@@ -1742,8 +1743,8 @@
                                     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                                         <span class="span-search-ticket">&nbsp;</span>
                                         <div class="input-container-search-ticket">
-                                            <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                            <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                            <button type="button" class="form-control activity_btn_advance" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="display:block;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                            <button type="button" class="form-control activity_btn_advance" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
                                         </div>
                                     </div>
                                 </div>
@@ -1810,7 +1811,7 @@
                                 <br/>
                                 <center>
                                     <button class="primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -1904,7 +1905,7 @@
                                 <br/>
                                 <center>
                                     <button class="primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -1944,7 +1945,7 @@
                                 </div>
                                 <center>
                                     <button class="primary-btn ld-ext-right" type="submit" value="Submit">
-                                        <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                         Search
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -2449,7 +2450,7 @@
                                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
                                         <div class="col-lg-12" style="text-align:center; padding-top:15px;">
                                         <button class="button-search primary-btn ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">
-                                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             Search
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
@@ -2550,7 +2551,7 @@
                                         <div class="col-lg-12" style="margin-top:15px;">
                                             <center>
                                                 <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                     <div class="ld ld-ring ld-cycle"></div>
                                                 </button>
@@ -2677,7 +2678,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                     <div class="ld ld-ring ld-cycle"></div>
                                                 </button>
@@ -2765,7 +2766,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                     <div class="ld ld-ring ld-cycle"></div>
                                                 </button>
@@ -2861,7 +2862,7 @@
 
                                     <center>
                                         <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
-                                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             Search
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </button>
@@ -2904,7 +2905,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                     <div class="ld ld-ring ld-cycle"></div>
                                                 </button>
@@ -3389,7 +3390,7 @@
                                         <div class="col-xl-12">
                                             <center>
                                                 <button class="button-search btn btn-primary rounded ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                     <div class="ld ld-ring ld-cycle"></div>
                                                 </button>
@@ -3483,7 +3484,7 @@
                                             <input type="hidden" id="train_response" name="response"/>
                                             <center>
                                                 <button class="btn btn-primary rounded" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                 </button>
                                             </center>
@@ -3598,7 +3599,7 @@
                                     </div>
                                     <center>
                                         <button class="btn btn-primary rounded" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
-                                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             Search
                                         </button>
                                     </center>
@@ -3692,7 +3693,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="btn btn-primary rounded" type="submit" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                 </button>
                                             </center>
@@ -3765,7 +3766,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="btn btn-primary rounded" type="submit" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                 </button>
                                             </center>
@@ -3800,7 +3801,7 @@
                                     </div>
                                     <center>
                                         <button class="btn btn-primary rounded" type="submit" value="Submit">
-                                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             Search
                                         </button>
                                     </center>
@@ -4274,7 +4275,7 @@
                                         <input type="hidden" class="col-lg-12" id="counter" name="counter"/>
                                         <div class="col-lg-12 d-flex justify-content-end">
                                             <button class="button-search primary-btn ld-ext-right" type="button" onclick="airline_goto_search();" value="Submit">
-                                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 Search
                                                 <div class="ld ld-ring ld-cycle"></div>
                                             </button>
@@ -4379,7 +4380,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="btn btn-default btn-lg text-center" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                 </button>
                                             </center>
@@ -4506,7 +4507,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="btn btn-default btn-lg text-center" id="btn-search-hotel" onclick="hotel_search();" type="submit" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                 </button>
                                             </center>
@@ -4607,7 +4608,7 @@
                                     <div class="col-lg-12">
                                         <center>
                                             <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
-                                                <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                 Search
                                             </button>
                                         </center>
@@ -4684,7 +4685,7 @@
                                     </div>
                                     <center>
                                         <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
-                                            <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             Search
                                         </button>
                                     </center>
@@ -4726,7 +4727,7 @@
                                         <div class="col-lg-12">
                                             <center>
                                                 <button class="btn btn-default btn-lg text-center" type="submit" value="Submit">
-                                                    <img src="{{static_path}}img/icon/search-icon.png" style="width:25px; height:25px;"/>
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                                     Search
                                                 </button>
                                             </center>
