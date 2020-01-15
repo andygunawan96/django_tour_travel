@@ -470,7 +470,15 @@ function update_contact(){
        success: function(msg) {
            console.log(msg);
             if(msg.result.error_code == 0){
-                commit_booking();
+//                commit_booking();
+                document.getElementById("passengers").value = JSON.stringify(passenger);
+                document.getElementById("signature").value = signature;
+                document.getElementById("provider").value = 'visa';
+                document.getElementById("type").value = 'visa';
+                document.getElementById("voucher_code").value = voucher_code;
+                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                document.getElementById("session_time_input").value = time_limit;
+                document.getElementById('visa_issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
                 close_div('payment_acq');
@@ -487,7 +495,38 @@ function update_contact(){
     });
 }
 
-function commit_booking(){
+function force_issued_visa(val){
+    //tambah swal
+    if(val == 1)
+    {
+        var temp_title = 'Are you sure you want to Hold Booking?';
+    }
+    else
+    {
+        var temp_title = 'Are you sure you want to Force Issued this booking?';
+    }
+    Swal.fire({
+      title: temp_title,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        please_wait_transaction();
+        $('.next-loading-booking').addClass("running");
+        $('.next-loading-booking').prop('disabled', true);
+        $('.next-loading-issued').prop('disabled', true);
+        $('.issued_booking_btn').prop('disabled', true);
+        visa_commit_booking();
+      }
+    })
+
+}
+
+function visa_commit_booking(){
+    //tambah swal
     data = {
         'force_issued': 'false',
         'signature': signature,
@@ -510,8 +549,11 @@ function commit_booking(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
+//                document.getElementById('order_number').value = msg.result.response.journey.name;
+//                document.getElementById('visa_booking').submit();
                 document.getElementById('order_number').value = msg.result.response.journey.name;
-                document.getElementById('visa_booking').submit();
+                document.getElementById('issued').action = '/visa/booking';
+                document.getElementById('issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
                 close_div('payment_acq');

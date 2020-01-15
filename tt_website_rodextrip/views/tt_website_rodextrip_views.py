@@ -390,7 +390,7 @@ def admin(request):
                 if request.POST['bg_tab_pick'] == '':
                     text += 'none'
                 else:
-                    text += "#" + request.POST['bg_tab_pick']
+                    text += "#" + request.POST['bg_tab_pick'] + 'E6'
 
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
@@ -498,11 +498,44 @@ def top_up(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'phone_code': phone_code,
+            'username': request.session['user_account'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
         })
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
+    else:
+        return no_session_logout(request)
+
+def payment(request):
+    if 'user_account' in request.session._session:
+        javascript_version = get_javascript_version()
+        signature = request.POST['signature']
+        passengers = json.loads(request.POST['passengers'])
+        provider = request.POST['provider']
+        discount_voucher = json.loads(request.POST['discount'])
+        voucher_code = request.POST['voucher_code']
+        type = request.POST['type'] #tipe airline_review
+        values = get_data_template()
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+            'signature': signature,
+            'passengers': passengers,
+            'provider': provider,
+            'type': type,
+            'time_limit': request.POST['session_time_input'],
+            'discount_voucher': discount_voucher,
+            'voucher_code': voucher_code,
+            'username': request.session['user_account'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+        })
+        return render(request, MODEL_NAME+'/payment_force_issued.html', values)
     else:
         return no_session_logout(request)
 

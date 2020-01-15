@@ -1242,6 +1242,8 @@ function check_passenger(adult, infant){
 
 function plusSlides(n, no) {
   showSlides(slideIndex[no] += n, no);
+  document.getElementById('seat_map_wagon_pick').value = slideIndex[0] - 1;
+  $('#seat_map_wagon_pick').niceSelect('update');
 }
 
 function showSlides(n, no) {
@@ -1704,7 +1706,7 @@ function change_seat_map_from_selection(no){
     showSlides(selectedValue, 0);
 }
 
-function print_seat_map(){
+function print_seat_map(val){
     var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
     if(seat_map_response.length != 0){
         for(i in seat_map_response){
@@ -1793,15 +1795,19 @@ function print_seat_map(){
                     `;
 
             document.getElementById('train_seat_map').innerHTML += text;
-            slideIndex[0] = 1;
-            showSlides(1, 0);
+            if(val == 0)
+                showSlides(1, 0);
+            else{
+                document.getElementById('seat_map_wagon_pick').value = slideIndex[0] - 1;
+                $('#seat_map_wagon_pick').niceSelect('update');
+                showSlides(slideIndex[0], 0);
+            }
             loadingTrain();
             break;
         }
     }
     wagon_pick = 0;
 }
-
 
 function checkboxCopy(){
     var count_copy = $(".copy_result:checked").length;
