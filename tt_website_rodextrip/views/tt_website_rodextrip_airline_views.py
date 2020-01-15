@@ -1195,8 +1195,6 @@ def review_after_sales(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        if 'airline_create_passengers' in request.session._session:
-            del request.session['airline_create_passengers']
         file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)

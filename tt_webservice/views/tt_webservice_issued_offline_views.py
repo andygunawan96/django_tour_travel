@@ -57,8 +57,8 @@ def api_models(request):
             res = update_passenger(request)
         elif req_data['action'] == 'commit_booking':
             res = commit_booking(request)
-        elif req_data['action'] == 'get_history_issued_offline':
-            res = commit_booking(request)
+        elif req_data['action'] == 'get_booking':
+            res = get_booking(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -452,25 +452,57 @@ def commit_booking(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-#DEPRECATED
-def get_history_issued_offline(request):
-    data = {
-        "co_uid": int(request.session['co_uid']),
-        "offset": int(request.POST['offset']),
-        "limit": 80
-    }
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_history_issued_offline",
-        "signature": request.session['train_signature'],
-    }
-    res = util.send_request(url=url + "agent/issued_offline", data=data, cookies=request.session['agent_cookie'], headers=headers, method='POST')
+def get_booking(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        signature = signin(request)
+        data = {
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_booking",
+            "signature": signature['result']['response']['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_history_issued_offline SIGNATURE " + request.POST['signature'])
+
+            request.session['airline_get_booking_response'] = res
+            logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + signature['result']['response']['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_history_issued_offline SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + signature['result']['response']['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def update_service_charge(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': json.loads(request.POST['order_number']),
+            'passengers': json.loads(request.POST['passengers'])
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "pricing_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR update_service_charge_airline ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

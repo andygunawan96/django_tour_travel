@@ -2645,7 +2645,7 @@ function airline_get_booking(data){
                         <th>Status</th>
                     </tr>`;
                     for(i in msg.result.response.provider_bookings){
-                        if(check_provider_booking != 0 && msg.result.response.provider_bookings[i].state == 'booked'){
+                        if(check_provider_booking == 0 && msg.result.response.provider_bookings[i].state == 'booked'){
                             get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                             $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
                             $(".issued_booking_btn").show();

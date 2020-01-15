@@ -623,6 +623,13 @@ def get_payment_rules(request):
     }
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            for payment in res['result']['response']['payment_rules']:
+                payment['due_date'] = convert_string_to_date_to_string_front_end(payment['due_date'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
     return res
 
 

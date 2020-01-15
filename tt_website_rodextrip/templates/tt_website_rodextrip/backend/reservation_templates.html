@@ -424,6 +424,8 @@
             document.getElementById('gotobooking'+key).action = '/visa/booking';
         }else if(data_search[key].provider_type == 'tour'){
             document.getElementById('gotobooking'+key).action = '/tour/booking';
+        }else if(data_search[key].provider_type == 'offline'){
+            document.getElementById('gotobooking'+key).action = '/issued_offline/booking';
         }
         document.getElementById('gotobooking'+key).submit();
 

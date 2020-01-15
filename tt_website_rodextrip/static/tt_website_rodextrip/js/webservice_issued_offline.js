@@ -861,24 +861,23 @@ function commit_booking(){
     });
 }
 
-function get_history_issued_offline(){
+function get_booking_offline(data){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
        headers:{
-            'action': 'get_history_issued_offline',
+            'action': 'get_booking',
        },
        data: {
-            'offset': agent_offside
+            'order_number': data,
        },
        success: function(msg) {
-            if(msg.result.response.issued_offline.length == 80){
-                agent_offside++;
-                table_issued_offline_history(msg.result.response.issued_offline);
-                load_more = true;
+            console.log(msg);
+            if(msg.result.error_code == 0){
+
             }else{
-                table_issued_offline_history(msg.result.response.issued_offline);
+
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
