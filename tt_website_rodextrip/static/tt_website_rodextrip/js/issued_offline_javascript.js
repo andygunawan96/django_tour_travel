@@ -937,3 +937,44 @@ function share_data(){
     document.body.removeChild(el);
     $text_share = window.encodeURIComponent($text);
 }
+
+function show_commission(){
+    var sc = document.getElementById("show_commission");
+    var scs = document.getElementById("show_commission_button");
+    if (sc.style.display === "none"){
+        sc.style.display = "block";
+        scs.value = "Hide Commission";
+    }
+    else{
+        sc.style.display = "none";
+        scs.value = "Show Commission";
+    }
+}
+
+function copy_data(){
+    //
+    document.getElementById('data_copy').innerHTML = $text;
+    document.getElementById('data_copy').hidden = false;
+    var el = document.getElementById('data_copy');
+    el.select();
+    document.execCommand('copy');
+    document.getElementById('data_copy').hidden = true;
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+//    const el = document.createElement('textarea');
+//    el.innerHTML = $text;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
+}
