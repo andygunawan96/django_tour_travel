@@ -1335,7 +1335,7 @@ function update_service_charge(){
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/airline",
+       url: "/webservice/hotel",
        headers:{
             'action': 'update_service_charge',
        },

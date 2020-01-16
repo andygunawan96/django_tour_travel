@@ -246,10 +246,6 @@
                          Issued Booking
                     </button>
                     {% endif %}
-
-                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
-
-                    </div>
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;margin-top:10px;" id="ssr_request_after_sales" hidden>
                         <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
                         <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat"> <!--KALO UDA FIX DI HAPUS BIAR TIDAK BISA INSPECT ELEMENT-->
@@ -326,7 +322,7 @@
     try{
     document.getElementById('voucher_div').style.display = 'none';
     }catch(err){}
-    get_booking_offline('{{order_number}}');
+    issued_offline_signin('{{order_number}}');
     //testing_bca();
 
     $( document ).ready(function() {

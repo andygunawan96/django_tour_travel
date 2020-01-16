@@ -3449,6 +3449,28 @@ function airline_check_search(){
         alert(error_log);
 }
 
+function first_value_provider(){
+    //buat MC
+    if(document.getElementById('provider_box_All').checked == true){
+        try{
+            document.getElementById('show_provider_airline').innerHTML = 'All airline chosen';
+            document.getElementById('provider_box_All_1').checked = true
+        }catch(err){}
+    }else{
+        check = 0;
+        for(i in airline_provider_list){
+            try{
+                if(document.getElementById('provider_box_'+i).checked == true){
+                    console.log('provider_box_'+i+'_1');
+                    check++;
+                    document.getElementById('provider_box_'+i+'_1').checked = true
+                }
+            }catch(err){console.log(err)}
+        }
+        document.getElementById('show_provider_airline1').innerHTML = check+' Airline chosen';
+    }
+}
+
 function check_provider(carrier_code,val){
     if(val == undefined){
         if(carrier_code == 'all'){
@@ -3462,7 +3484,8 @@ function check_provider(carrier_code,val){
         check = 0;
         for(i in airline_provider_list){
             if(document.getElementById('provider_box_'+i).checked == true){
-                check++;
+                if(i != 'All')
+                    check++;
             }
         }
         if(check == 0){

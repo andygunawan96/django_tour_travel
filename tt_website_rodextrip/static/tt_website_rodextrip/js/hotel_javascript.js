@@ -832,10 +832,14 @@ function sort(response, check_filter){
                                         var total_night = document.getElementById("total_night_search").textContent;
                                         text+=`
                                         <span class="carrier_code_template">( for `+total_room+` room, `+total_night+` night )</span>`;
-                                        if(best_price[0] != undefined)
-                                            text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>`;
-                                        else
+                                        try{
+                                            if(best_price[0] != undefined)
+                                                text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('hotel',`+i+`)">Select</button>`;
+                                            else
+                                                text+=`<button type="button" class="primary-btn-custom" style="width:100%; background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
+                                        }catch(err){
                                             text+=`<button type="button" class="primary-btn-custom" style="width:100%; background-color:#cdcdcd;" onclick="goto_detail('hotel',`+i+`)">No Available Price</button>`;
+                                        }
                                         text+=`
                                     </div>
                                 </div>

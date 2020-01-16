@@ -109,7 +109,7 @@ def detail(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
             'time_limit': request.session['time_limit'],
-            'rating': range(request.session['hotel_detail']['rating']),
+            'rating': range(int(request.session['hotel_detail']['rating'])),
         })
 
         return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
