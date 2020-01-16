@@ -134,7 +134,7 @@ def search(request):
             'city_id': request.session['tour_request']['city_id'],
             'month': request.session['tour_request']['month'],
             'year': request.session['tour_request']['year'],
-            'tour_query': request.session['tour_request']['tour_query'],
+            'tour_query': request.session['tour_request']['tour_query'].replace('&amp;', '&'),
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
