@@ -785,6 +785,7 @@ function check_passenger(adult, senior, child, infant){
                 if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
                    document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
                    document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+                   if(document.getElementById(passenger_check.type+passenger_check.number).value == passenger_data_pick[i].seq_id)
                    error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
            }else if(passenger_data_pick[i].sequence == 'booker'){
                 if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||

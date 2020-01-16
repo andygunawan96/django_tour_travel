@@ -868,7 +868,6 @@ function commit_booking(){
 }
 
 function get_booking_offline(data){
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -1029,7 +1028,7 @@ function get_booking_offline(data){
                                     $text += msg.result.response.lines[i].return_date.split('  ')[0]+' ';
                                     $text += msg.result.response.lines[i].return_date.split('  ')[1]+'\n';
                                 }
-                                $text += msg.result.response.lines[i].origin +' - '+msg.result.response.lines[i].destination_name +'\n\n';
+                                $text += msg.result.response.lines[i].origin +' - '+msg.result.response.lines[i].destination +'\n\n';
 
                                 text+= `
                                 <div class="row">
@@ -1107,36 +1106,23 @@ function get_booking_offline(data){
 
                 <div class="row" style="margin-top:20px;">
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
-                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state == 'booked'){
-                                text+=`
-                                <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;" hidden>
-                                    <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                            }else if (msg.result.response.state == 'issued'){
-                                text+=`
-                                <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','airline');"/>
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                            }
+                        console.log(msg.result.response.state_offline);
+                        if (msg.result.response.state_offline == 'sent'){
+                            text+=`
+                            <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Validate" onclick="validate('`+msg.result.response.order_number+`')"/>
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </a>`;
                         }
+
                         text+=`
                     </div>
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state  == 'booked'){
+                            if (msg.result.response.state == 'issued'){
                                 text+=`
                                 <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');" />
-                                    <div class="ld ld-ring ld-cycle"></div>
-                                </a>`;
-                            }
-                            else if (msg.result.response.state == 'issued'){
-                                text+=`
-                                <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
+                                    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </a>`;
                             }
@@ -1294,7 +1280,6 @@ function get_booking_offline(data){
                                 </div>`;
                             }
                             text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                            console.log(text_repricing);
                             document.getElementById('repricing_div').innerHTML = text_repricing;
                             //repricing
                             if(counter_service_charge == 0){
@@ -1304,7 +1289,7 @@ function get_booking_offline(data){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
                                 price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
                             }
-                            commission += parseInt(price.RAC);
+
                         }
                         total_price_provider.push({
                             'pnr': msg.result.response.provider_bookings[i].pnr,
@@ -1366,7 +1351,7 @@ function get_booking_offline(data){
                     <div class="row" id="show_commission" style="display:none;">
                         <div class="col-lg-12 col-xs-12" style="text-align:center;">
                             <div class="alert alert-success">
-                                <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                                <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(msg.result.response.commission)*-1)+`</span><br>
                             </div>
                         </div>
                     </div>`;
@@ -1382,7 +1367,6 @@ function get_booking_offline(data){
                     </div>
                 </div>`;
                 }catch(err){}
-                console.log(text_detail);
                 document.getElementById('offline_detail').innerHTML = text_detail;
                 $("#show_loading_booking_airline").hide();
 
@@ -1486,7 +1470,49 @@ function get_booking_offline(data){
                         </h5>
                         `+msg.result.error_msg+`
                     </div>`;
-                document.getElementById('airline_booking').innerHTML = text;
+                document.getElementById('offline_booking').innerHTML = text;
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline booking </span>' + msg.result.error_msg,
+                })
+                $('#show_loading_booking_airline').hide();
+                $('.loader-rodextrip').fadeOut();
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error history issued offline </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
+function validate(data){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/issued_offline",
+       headers:{
+            'action': 'validate',
+       },
+       data: {
+            'order_number': data,
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                get_booking_offline(data);
+            }else{
+                text += `<div class="alert alert-danger">
+                        <h5>
+                            `+msg.result.error_code+`
+                        </h5>
+                        `+msg.result.error_msg+`
+                    </div>`;
+                document.getElementById('offline_booking').innerHTML = text;
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
