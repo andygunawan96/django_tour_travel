@@ -204,7 +204,7 @@ function get_carrier_code_list(type, val){
                                     text+=`
                                         <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
                                     else{
-                                        if(document.getElementById('provider_box_'+msg[i].code).checked == false)
+                                        if(document.getElementById('provider_box_'+i).checked == false)
                                             text+=`
                                                 <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
                                         else
@@ -290,6 +290,7 @@ function get_carrier_code_list(type, val){
                }
            else
                document.getElementById('provider_flight_content'+val).innerHTML = text;
+           first_value_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -2644,12 +2645,14 @@ function airline_get_booking(data){
                         <th>Hold Date</th>
                         <th>Status</th>
                     </tr>`;
+                    printed_hold_date = false;
                     for(i in msg.result.response.provider_bookings){
-                        if(check_provider_booking == 0 && msg.result.response.provider_bookings[i].state == 'booked'){
+                        if(msg.result.response.provider_bookings[i].state == 'booked' && printed_hold_date == false){
                             get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                             $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
                             $(".issued_booking_btn").show();
                             check_provider_booking++;
+                            printed_hold_date = true;
                         }
                         //datetime utc to local
                         if(msg.result.response.provider_bookings[i].error_msg.length != 0)

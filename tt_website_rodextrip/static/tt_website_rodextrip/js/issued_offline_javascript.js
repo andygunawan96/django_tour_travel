@@ -927,3 +927,13 @@ function set_data(val,type){
     else if(type == 'destination')
         document.getElementById('destination'+val).value = document.getElementById('select2-destination_data'+val+'-container').title;
 }
+
+function share_data(){
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share = window.encodeURIComponent($text);
+}

@@ -1036,7 +1036,7 @@ function check_passenger(adult, infant){
                     document.getElementById('booker_first_name').value,
                     document.getElementById('booker_last_name').value,
                     50) == false){
-        error_log+= 'Total of Booker name maximum 25 characters!</br>\n';
+        error_log+= 'Total of Booker name maximum 50 characters!</br>\n';
         document.getElementById('booker_first_name').style['border-color'] = 'red';
         document.getElementById('booker_last_name').style['border-color'] = 'red';
     }else{

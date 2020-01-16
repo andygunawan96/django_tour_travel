@@ -59,6 +59,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -87,6 +89,8 @@ def signin(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['issued_offline_signature'] = res['result']['response']['signature']
+        request.session['signature'] = res['result']['response']['signature']
+
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -190,6 +194,7 @@ def set_data_issued_offline(request):
             "social_media_id": request.POST['social_media'],
             "expired_date": exp_date[0]+' '+exp_date[1],
             "line_ids": line,
+            "quick_validate": request.POST['quick_validate'],
             "provider": "rodextrip_issued_offline"
         }
 
@@ -455,7 +460,6 @@ def commit_booking(request):
 def get_booking(request):
     # nanti ganti ke get_ssr_availability
     try:
-        signature = signin(request)
         data = {
             # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number']
@@ -464,7 +468,7 @@ def get_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_booking",
-            "signature": signature['result']['response']['signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -472,11 +476,16 @@ def get_booking(request):
     res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-
-            request.session['airline_get_booking_response'] = res
-            logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + signature['result']['response']['signature'])
+            for line in res['result']['response']['lines']:
+                if line['departure_date']:
+                    line.update({
+                        'departure_date': convert_string_to_date_to_string_front_end_with_time(line['departure_date'] + ':00'),
+                        'return_date': convert_string_to_date_to_string_front_end_with_time(line['return_date'] + ':00'),
+                    })
+            request.session['offline_get_booking_response'] = res
+            logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + signature['result']['response']['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -485,7 +494,7 @@ def update_service_charge(request):
     # nanti ganti ke get_ssr_availability
     try:
         data = {
-            'order_number': json.loads(request.POST['order_number']),
+            'order_number': request.POST['order_number'],
             'passengers': json.loads(request.POST['passengers'])
         }
         headers = {
@@ -497,7 +506,7 @@ def update_service_charge(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS update_service_charge ISSUED OFFLINE SIGNATURE " + request.POST['signature'])

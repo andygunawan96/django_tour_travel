@@ -336,6 +336,7 @@ function check_issued_offline(){
         }
     }
 //    if(document.getElementById('contact_id').value == ''){}
+    request['quick_validate'] = document.getElementById('quick_validate').checked;
     if(document.getElementById('transaction_type').value == ''){
         error_log += 'Please fill transaction type\n';
         document.getElementById('transaction_type').style['border-color'] = 'red';
@@ -384,7 +385,7 @@ function check_issued_offline(){
     }
 
 }
-function issued_offline_signin(){
+function issued_offline_signin(data){
     getToken();
     $.ajax({
        type: "POST",
@@ -396,8 +397,13 @@ function issued_offline_signin(){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
-                document.getElementById('payment_acq').hidden = false;
-                set_data_issued_offline();
+                try{
+                    document.getElementById('payment_acq').hidden = false;
+                }catch(err){}
+                if(data == undefined)
+                    set_data_issued_offline();
+                else
+                    get_booking_offline(data);
             }
 
        },
@@ -871,10 +877,12 @@ function get_booking_offline(data){
        },
        data: {
             'order_number': data,
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
+                offline_get_detail = msg;
                 var text = '';
                 $text = '';
                 if(msg.result.response.state == 'cancel'){
@@ -1187,7 +1195,7 @@ function get_booking_offline(data){
                                                     <div style="text-align:right;">
                                                         <span>Don't want to edit? just submit</span>
                                                         <br/>
-                                                        <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline');"/>
+                                                        <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','offline');"/>
                                                     </div>
                                                 </div>
                                                 <div class="modal-footer">
@@ -1249,16 +1257,16 @@ function get_booking_offline(data){
                                     check = 1;
                             }
                             if(check == 0){
-                                pax_type_repricing.push([msg.result.response.passengers[j].name, msg.result.response.passengers[j].name]);
-                                price_arr_repricing[msg.result.response.passengers[j].name] = {
+                                pax_type_repricing.push([msg.result.response.passengers[j].first_name +msg.result.response.passengers[j].last_name, msg.result.response.passengers[j].first_name +msg.result.response.passengers[j].last_name]);
+                                price_arr_repricing[msg.result.response.passengers[j].first_name +msg.result.response.passengers[j].last_name] = {
                                     'Fare': price['FARE'] + price['SSR'] + price['DISC'],
                                     'Tax': price['TAX'] + price['ROC'],
                                     'Repricing': price['CSC']
                                 }
                             }else{
-                                price_arr_repricing[msg.result.response.passengers[j].name] = {
-                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'],
-                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                                price_arr_repricing[msg.result.response.passengers[j].first_name +msg.result.response.passengers[j].last_name] = {
+                                    'Fare': price_arr_repricing[msg.result.response.passengers[j].first_name +msg.result.response.passengers[j].last_name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'],
+                                    'Tax': price_arr_repricing[msg.result.response.passengers[j].first_name +msg.result.response.passengers[j].last_name]['Tax'] + price['TAX'] + price['ROC'],
                                     'Repricing': price['CSC']
                                 }
                             }
@@ -1307,8 +1315,8 @@ function get_booking_offline(data){
                     }catch(err){}
                 }
                 try{
-                    airline_get_detail.result.response.total_price = total_price+msg.result.response.amount;
-                    $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price+msg.result.response.amount);
+                    offline_get_detail.result.response.total_price = total_price+msg.result.response.total;
+                    $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price+msg.result.response.total);
                     if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
                         $text += '\n\nPrices and availability may change at any time';
                     }
@@ -1323,7 +1331,7 @@ function get_booking_offline(data){
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px; font-weight: bold;">`;
                             try{
-                                text_detail+= price.currency+` `+getrupiah(total_price);
+                                text_detail+= price.currency+` `+getrupiah(total_price+msg.result.response.total);
                             }catch(err){
 
                             }
@@ -1496,4 +1504,67 @@ function get_booking_offline(data){
             })
        },timeout: 60000
     });
+}
+
+function update_service_charge(){
+    document.getElementById('offline_booking').innerHTML = '';
+    upsell = []
+    currency = 'IDR';
+    console.log('asdads');
+    for(i in offline_get_detail.result.response.passengers){
+        list_price = []
+        for(j in list){
+            if(offline_get_detail.result.response.passengers[i].first_name+offline_get_detail.result.response.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
+                list_price.push({
+                    'amount': list[j],
+                    'currency_code': currency
+                });
+            }
+
+        }
+        upsell.push({
+            'sequence': i,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+    }
+    console.log(upsell);
+    $.ajax({
+       type: "POST",
+       url: "/webservice/issued_offline",
+       headers:{
+            'action': 'update_service_charge',
+       },
+       data: {
+           'order_number': offline_get_detail.result.response.order_number,
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                get_booking_offline(offline_get_detail.result.response.order_number);
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error issued_offline service charge </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+            })
+            $('.loader-rodextrip').fadeOut();
+       },timeout: 60000
+    });
+
 }
