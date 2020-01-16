@@ -136,7 +136,7 @@ def search(request):
     try:
         request.session['activity_search_request'] = json.loads(request.POST['search_request'])
         data = {
-            'query': request.session['activity_search_request']['query'],
+            'query': request.session['activity_search_request']['query'].replace('&amp;', '&'),
             'country': request.session['activity_search_request']['country'],
             'city': request.session['activity_search_request']['city'],
             'sort': request.POST['sort'],
