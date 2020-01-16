@@ -19,7 +19,7 @@
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
-<title>{{name}} Airline - Booking</title>
+<title>{{name}} Offline - Booking</title>
 <div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
     <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <!-- Modal content-->
@@ -228,14 +228,14 @@
                 <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="airline_booking">
+                            <div id="offline_booking">
 
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4" style="padding-bottom:20px;">
-                    <div id="airline_detail">
+                    <div id="offline_detail">
 
                     </div>
                     {% if 'issued_reservation' in username.co_agent_frontend_security %}
