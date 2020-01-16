@@ -583,7 +583,7 @@ def issued_booking(request):
             'order_number': request.POST['order_number'],
             'payment_method': request.POST['payment_method'],
             'member': member,
-            'seq_id': request.POST['seq_id'],
+            'acquirer_seq_id': request.POST['seq_id'],
             'voucher_code': request.POST['voucher_code']
         }
         if request.POST['voucher_code'] != '':
