@@ -462,13 +462,13 @@ function add_table_of_passenger(){
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="person_name">First Name<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type="text" class="form-control o_website_form_input" id="first_name`+parseInt(counter_passenger+1)+`" name="first_name`+parseInt(counter_passenger+1)+`" required="1" placeholder="Ex: John"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="comp_name">Last Name<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type="text" class="form-control o_website_form_input" id="last_name`+parseInt(counter_passenger+1)+`" name="last_name`+parseInt(counter_passenger+1)+`" required="1" placeholder="Ex: Smith"/>
                                     </div>
                                 </div>
@@ -476,13 +476,13 @@ function add_table_of_passenger(){
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="birth_date">Birth Date<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type='text' class="form-control o_website_form_input date-picker-birth" id="birth_date`+parseInt(counter_passenger+1)+`" name="birth_date`+parseInt(counter_passenger+1)+`" required="1" autocomplete="off"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="email">Email<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type="email" class="form-control o_website_form_input" id="email`+parseInt(counter_passenger+1)+`" name="email`+parseInt(counter_passenger+1)+`" required="1"/>
                                     </div>
                                 </div>
@@ -490,13 +490,13 @@ function add_table_of_passenger(){
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="mobile">Mobile<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type="text" class="form-control o_website_form_input" id="mobile`+parseInt(counter_passenger+1)+`" name="mobile`+parseInt(counter_passenger+1)+`" required="1"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="phone">Phone</span>
-                                    <div class="input-container-search-ticket">
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type="text" class="form-control o_website_form_input" id="phone`+parseInt(counter_passenger+1)+`" name="phone`+parseInt(counter_passenger+1)+`"/>
                                     </div>
                                 </div>
@@ -504,12 +504,11 @@ function add_table_of_passenger(){
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                                     <span class="control-label" for="job_position">Job Position<span class="required-txt">* </span></span>
-                                    <div class="input-container-search-ticket">
+                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                         <input type="text" class="form-control o_website_form_input" id="job_position`+parseInt(counter_passenger+1)+`" name="job_position`+parseInt(counter_passenger+1)+`" placeholder="e.g Sales Manager" required="1"/>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-default" data-dismiss="modal" onclick="update_contact('pic',`+parseInt(counter_passenger+1)+`);">Close</button>

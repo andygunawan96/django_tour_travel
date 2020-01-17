@@ -40,8 +40,12 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             }else{
                 text+=`<div>`;
             }
+        if(template == 1 || template == 2){
+            text+=`<div class="form-select" id="default-select">`;
+        }else if(template == 3){
+            text+=`<div class="default-select" style="margin-bottom:15px;">`;
+        }
         text+=`
-        <div class="form-select" id="default-select">
             <select class="payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
             for(i in payment_acq2){
                 print = '';

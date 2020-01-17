@@ -2383,6 +2383,7 @@ primary-btn:disabled {
 .header-right .form-control {
   font-size: 13px;
   padding: 0.575rem 0.75rem;
+  margin-bottom:15px;
 }
 
 .header-right .input-group-text {
@@ -3814,7 +3815,7 @@ ul.tabs li.current .image-rounded-icon{
   display: -ms-flexbox; /* IE10 */
   display: flex;
   width: 100%;
-  margin-bottom:5px;
+  margin-bottom:15px;
 }
 
 .icon-search-ticket {

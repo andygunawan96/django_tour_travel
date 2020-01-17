@@ -165,7 +165,7 @@ function add_table_of_passenger(){
                                         <div style="background-color:`+color+`; padding:5px; cursor: pointer; box-shadow: 0px 5px #888888;">
                                             <div class="row">
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                                    <span class="passenger_div">Passenger - `+parseInt(counter_passenger+1)+`</span>
+                                                    <span style="font-size:16px;">Passenger - `+parseInt(counter_passenger+1)+`</span>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
 
@@ -190,6 +190,10 @@ function add_table_of_passenger(){
                                                     <label>Title</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
+                                                    }else if(template == 2){
+                                                        text+=`<div>`;
+                                                    }else if(template == 3){
+                                                        text+=`<div class="default-select">`;
                                                     }
                                                     text+=`
                                                         <div class="form-select-2">
@@ -198,17 +202,14 @@ function add_table_of_passenger(){
                                                                     text+= `<option>`+titles[i]+`</option>`;
                                                                 }
                                                             text+=`</select>
-                                                        </div>`;
-                                                    if(template == 1){
-                                                        text+=`</div>`;
-                                                    }
-                                                text+=`
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="float:left;"></div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <br/>
                                                     <label>First name and middle name (if any)</label>
-                                                    <div class="input-container-search-ticket">
+                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control" name="adult_first_name`+parseInt(counter_passenger+1)+`" id="adult_first_name`+parseInt(counter_passenger+1)+`" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                         <input type="hidden" class="form-control" name="adult_id`+parseInt(counter_passenger+1)+`" id="adult_id`+parseInt(counter_passenger+1)+`">
                                                     </div>
@@ -217,7 +218,7 @@ function add_table_of_passenger(){
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <br/>
                                                     <label>Last name</label>
-                                                    <div class="input-container-search-ticket">
+                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control" name="adult_last_name`+parseInt(counter_passenger+1)+`" id="adult_last_name`+parseInt(counter_passenger+1)+`" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                     </div>
                                                     <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
@@ -247,20 +248,20 @@ function add_table_of_passenger(){
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label>Birth Date</label>
-                                                    <div class="input-container-search-ticket">
+                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control date-picker-birth" name="adult_birth_date`+parseInt(counter_passenger+1)+`" id="adult_birth_date`+parseInt(counter_passenger+1)+`" onchange="check_years_old(`+parseInt(counter_passenger+1)+`)" placeholder="Birth Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off">
                                                         <input type="hidden" class="form-control" name="adult_years_old`+parseInt(counter_passenger+1)+`" id="adult_years_old`+parseInt(counter_passenger+1)+`">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label>Passport Number</label>
-                                                    <div class="input-container-search-ticket">
+                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control" name="adult_passport_number`+parseInt(counter_passenger+1)+`" id="adult_passport_number`+parseInt(counter_passenger+1)+`" placeholder="Passport Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Number '">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <label>Passport Expired Date</label>
-                                                    <div class="input-container-search-ticket">
+                                                    <div class="input-container-search-ticket" style="margin-bottom:5px;">
                                                         <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" id="adult_passport_expired_date`+parseInt(counter_passenger+1)+`" placeholder="Passport Expired Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Passport Expired Date '" autocomplete="off">
                                                         <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     </div>
@@ -270,19 +271,41 @@ function add_table_of_passenger(){
                                                     <label>Country of Issued</label>`;
                                                     if(template == 1){
                                                         text+=`<div class="input-container-search-ticket">`;
-                                                    }
-                                                    text+=`
-                                                        <div class="form-select">
+                                                        text+=`
+                                                            <div class="form-select">
+                                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                                    <option value="">Select Country Of Issued</option>`;
+                                                                    for(i in countries){
+                                                                       text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                    }
+                                                                text+=`</select>
+                                                            </div>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                        text+=`</div>`;
+                                                    }else if(template == 2){
+                                                        text+=`<div class="input-container-search-ticket">`;
+                                                        text+=`
                                                             <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
                                                                 <option value="">Select Country Of Issued</option>`;
                                                                 for(i in countries){
                                                                    text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
                                                                 }
                                                             text+=`</select>
-                                                        </div>
-                                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
-                                                        <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
-                                                    if(template == 1){
+                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                        text+=`</div>`;
+                                                    }else if(template == 3){
+                                                        text+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
+                                                        text+=`
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                                <option value="">Select Country Of Issued</option>`;
+                                                                for(i in countries){
+                                                                   text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                }
+                                                            text+=`</select>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
                                                         text+=`</div>`;
                                                     }
                                                 text+=`
@@ -476,14 +499,18 @@ function add_table_of_line(type){
                     if(template == 1){
                         text+=`<div class="input-container-search-ticket btn-group">`;
                     }
+                    if(template == 1 || template == 2){
+                        text+=`<div class="form-select" id="default-select">`;
+                    }else if(template == 3){
+                        text+=`<div class="default-select" id="default-select">`;
+                    }
                     text+=`
-                        <div class="form-select" id="default-select">
-                            <select id='class`+counter_line+`' name='class`+counter_line+`' style="height:42px;">`;
-                            for(i in class_of_service)
-                                text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
-                        text+=`
-                            </select>
-                        </div>`;
+                        <select id='class`+counter_line+`' name='class`+counter_line+`' style="height:42px;">`;
+                        for(i in class_of_service)
+                            text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
+                    text+=`
+                        </select>
+                    </div>`;
                     if(template == 1){
                         text+=`</div>`;
                     }

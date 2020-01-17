@@ -3202,14 +3202,6 @@ body.mobile-nav-active #mobile-nav-toggle {
   color: #fff;
 }
 
-.overlay {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-
 .section-title {
   text-align: center;
   display: block;
@@ -3461,6 +3453,11 @@ body.mobile-nav-active #mobile-nav-toggle {
   padding: 30px;
 }
 
+.price-area .overlay-bg {
+  background: rgba(4, 9, 30, 0.5);
+}
+
+
 .price-area .single-price h4 {
   text-align: center;
   border-bottom: 1px solid #f8b600;
@@ -3530,14 +3527,15 @@ body.mobile-nav-active #mobile-nav-toggle {
 /*--------- start testimonial area  -------------*/
 .testimonial-area {
     background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("../images/new-year1.jpg");
-    height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: auto;
+    background-attachment: fixed;
+    min-height: 500px;
 }
 
 .testimonial-area .overlay-bg {
-  background: rgba(4, 9, 30, 0.4);
+  background: rgba(4, 9, 30, 0.3);
 }
 
 .apps-area {

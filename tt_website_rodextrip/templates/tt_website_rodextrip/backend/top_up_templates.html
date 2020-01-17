@@ -239,12 +239,11 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px;background: #f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">
-                <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset;">
-                    <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
+            <div class="header-right" style="bottom:0px; padding-left:15px; padding-right:15px; background:unset; border:unset;">
+                <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
@@ -335,7 +334,6 @@
                             <!--</div>-->
                         </div>
                     </form>
-                </div>
             </div>
         </div>
     </div>

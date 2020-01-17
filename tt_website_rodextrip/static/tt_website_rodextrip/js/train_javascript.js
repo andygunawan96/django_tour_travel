@@ -707,10 +707,10 @@ function train_get_detail(){
     train_detail_text += `<hr/>
         <div class="row" style="margin-bottom:5px;">
             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                <span style="color:`+text_color+`;font-size:13px;font-weight:bold;"><b>Total</b></span><br>
+                <span style="font-size:13px;font-weight:bold;"><b>Total</b></span><br>
             </div>
             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                <span style="color:`+text_color+`;font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+                <span style="font-size:13px;font-weight:bold;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
             </div>
 
             <div class="col-lg-12" style="padding-bottom:10px;">
@@ -892,10 +892,10 @@ function train_detail(){
     <hr/>
     <div class="row" style="margin-bottom:5px;">
         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-            <span style="color:`+text_color+`;font-size:13px;"><b>Total</b></span><br>
+            <span style="font-size:13px;"><b>Total</b></span><br>
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-            <span style="color:`+text_color+`;font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
+            <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
         </div>
     </div>
 
@@ -1708,21 +1708,30 @@ function change_seat_map_from_selection(no){
 }
 
 function print_seat_map(val){
-    var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
+    if(template == 1){
+        var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
+    }else if(template == 2){
+        var text = '<div class="input-container-search-ticket"><select class="form-control" style="font-size:13px;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
+    }
     if(seat_map_response.length != 0){
         for(i in seat_map_response){
             if(parseInt(parseInt(i)+1) == seat_map_pick){
                 for(j in seat_map_response[i]){
                     text += `<option value="`+j+`">`+seat_map_response[i][j].cabin_name+`</option>`;
                 }
-                text += '</select>'
+                text += '</select>';
                 break;
             }
         }
         document.getElementById('train_seat_map').innerHTML = text;
     }
-    text+=`</div></div>`;
-    $('#seat_map_wagon_pick').niceSelect();
+    if(template == 1){
+        text+=`</div></div>`;
+        $('#seat_map_wagon_pick').niceSelect();
+    }else if(template == 2){
+        text+=`</div>`;
+    }
+
 
     text ='<div class="slideshow-container" style="margin-top:20px;">';
     for(i in seat_map_response){
@@ -1760,7 +1769,7 @@ function print_seat_map(val){
                                 for(n in pax[m].seat_pick){
                                     if(seat_map_pick-1 == n && pax[m].seat_pick[n].wagon == seat_map_response[i][j].cabin_name && pax[m].seat_pick[n].seat == seat_map_response[i][j].seat_rows[k].row_number && pax[m].seat_pick[n].column == seat_map_response[i][j].seat_rows[k].seats[l].column){
                                         if(pax_click-1 == m){
-                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:white; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
+                                            text+=`<input class="button-seat-map" type="button" style="width:`+percent+`%;background-color:`+color+`; color:`+text_color+`; margin:5px;" onclick="alert('Already booked');" value="`+seat_map_response[i][j].seat_rows[k].row_number+seat_map_response[i][j].seat_rows[k].seats[l].column+`"/>`;
                                             check = 1;
                                             break;
                                         }else{

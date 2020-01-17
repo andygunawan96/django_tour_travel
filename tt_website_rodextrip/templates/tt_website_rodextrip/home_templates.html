@@ -2243,7 +2243,7 @@
                     <div class="row fullscreen d-flex" style="margin-top:60px; margin-bottom:60px; padding:15px;">
                         {% if username != null %}
                         {% if "ticketing" in username.co_agent_frontend_security %}
-                        <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: rgba(32, 46, 69, 0.8); border:1px solid #cdcdcd;">
+                        <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
                             <h4 class="text-white">
                                 Hello, {{username.co_user_name}}!<br/>
                                 Grow your business with <span class="lamp">RODEXTRIP</span>
@@ -2351,7 +2351,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
-                                                    <div class="form-group btn-group" style="width:100%;">
+                                                    <div class="form-group" style="width:100%;">
                                                         <button id="show_total_pax_flight" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align:left; cursor:pointer;">
                                                             1 Adult, 0 Child, 0 Infant
                                                         </button>
@@ -2422,7 +2422,7 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                                     <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
-                                                    <div class="form-group btn-group" style="width:100%;">
+                                                    <div class="form-group" style="width:100%;">
                                                         <button id="show_provider_airline" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="text-align:left; cursor:pointer;">Choose Airline</button>
                                                         <!--                                                <input id="provider_flight_btn" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"/>-->
                                                         <ul id="provider_flight_content" class="dropdown-menu" style="padding:10px; z-index:5;">
@@ -5002,13 +5002,28 @@
 
     //testing getbooker
     try{
-        if(template == 1 || template == 2 || template == 3){
+        if(template == 1 || template == 2){
             document.getElementById("airline_date_search").innerHTML = '';
             text='';
             var node = document.createElement("div");
             text+=`
             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
             <div class="input-container-search-ticket">
+                <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+            </div>
+            <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+
+            node.innerHTML = text;
+            document.getElementById("airline_date_search").appendChild(node);
+            node = document.createElement("div");
+        }
+        else if(template == 3){
+            document.getElementById("airline_date_search").innerHTML = '';
+            text='';
+            var node = document.createElement("div");
+            text+=`
+            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+            <div class="form-group">
                 <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
             </div>
             <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;

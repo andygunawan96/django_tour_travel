@@ -612,6 +612,8 @@ function get_customer_list(passenger, number, product){
                                                 response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
                                             }else if(template == 2){
                                                 response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
+                                            }else if(template == 3){
+                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><div class="default-select">`;
                                             }
                                             response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
                                             for(j in msg.result.response[i].phones){
@@ -621,6 +623,8 @@ function get_customer_list(passenger, number, product){
                                                 response+=`</select></div>`;
                                             }else if(template == 2){
                                                 response+=`</select></div></div></div>`;
+                                            }else if(template == 3){
+                                                response+=`</select></div></div></div></div>`;
                                             }
                                         }else{
                                             response+=`<br/>`;
@@ -779,6 +783,8 @@ function get_customer_list(passenger, number, product){
                                                 response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
                                             }else if(template == 2){
                                                 response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
+                                            }else if(template == 3){
+                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><div class="default-select">`;
                                             }
                                             response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
                                             for(j in msg.result.response[i].phones){
@@ -788,6 +794,8 @@ function get_customer_list(passenger, number, product){
                                                 response+=`</select></div>`;
                                             }else if(template == 2){
                                                 response+=`</select></div></div></div>`;
+                                            }else if(template == 3){
+                                                response+=`</select></div></div></div></div>`;
                                             }
                                         }else{
                                             response+=`<br/>`;
@@ -2536,6 +2544,8 @@ function get_passenger_cache(){
                                         response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
                                     }else if(template == 2){
                                         response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
+                                    }else if(template == 3){
+                                        response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i><div class="default-select">`;
                                     }
                                     response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
                                     for(j in msg.result.response[i].phones){
@@ -2545,6 +2555,8 @@ function get_passenger_cache(){
                                         response+=`</select></div>`;
                                     }else if(template == 2){
                                         response+=`</select></div></div></div>`;
+                                    }else if(template == 3){
+                                        response+=`</select></div></div></div></div>`;
                                     }
                                 }else{
                                     response+=`<br/>`;
