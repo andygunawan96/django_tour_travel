@@ -580,7 +580,7 @@
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Tab Background Color</h6>
                                     <div class="input-container-search-ticket form-select">
-                                        <input class="jscolor nice-select-default form-control" value="{{tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
+                                        <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
                                         <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
                                         <button type="button" class="primary-delete-date" onclick="no_fill();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
                                     </div>
@@ -1030,9 +1030,8 @@
 {% elif template == 3 %}
 <section style="padding-top:30px; padding-bottom:40px;background-image:url('{{background}}');">
     <div class="container">
-        <div class="hotel-search-form-area" style="bottom:0px; padding:15px;">
-            <div class="hotel-search-form" style="background:{{tab_color}};padding:unset; box-shadow:unset;">
-                <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
+        <div class="header-right">
+            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
                         <h3 style="color:white; padding:15px;">Admin Setting</h3>
@@ -1055,7 +1054,7 @@
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
-                                    <div class="form-select" id="default-select">
+                                    <div class="default-select" id="default-select">
                                         <select id="template" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="1" {% if template == 1 %} selected {% endif%}>Template 1</option>
                                             <option value="2" {% if template == 2 %} selected {% endif%}>Template 2</option>
@@ -1068,7 +1067,7 @@
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Tab Background Color</h6>
                                     <div class="input-container-search-ticket form-select">
-                                        <input class="jscolor nice-select-default" value="{{tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
+                                        <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
                                         <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
                                         <button type="button" class="primary-delete-date" onclick="no_fill();"><i class="fas fa-tint-slash" style="color:{{color}};"></i></button>
                                     </div>
@@ -1076,13 +1075,13 @@
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Button Color</h6>
                                     <div class="form-select">
-                                        <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
+                                        <input class="jscolor nice-select-default form-control" value="{{color}}" name="color_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Text Color</h6>
                                     <div class="form-select">
-                                        <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick">
+                                        <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
@@ -1232,13 +1231,7 @@
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    {% if template == 1 or template == 2 or template == 3%}
                                     <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 4 %}
-                                    <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 5 %}
-                                    <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -1263,13 +1256,8 @@
                                 <!--</div>-->
                                 <!--</div>-->
                                 <div class="col-lg-12" style="text-align:center;">
-                                    {% if template == 1 or template == 2 or template == 3%}
+                                    <hr/>
                                     <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 4 %}
-                                    <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 5 %}
-                                    <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -1283,13 +1271,7 @@
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
-                                    {% if template == 1 or template == 2 or template == 3%}
                                     <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 4 %}
-                                    <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 5 %}
-                                    <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -1297,38 +1279,12 @@
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
-                                    {% if template == 1 or template == 2 %}
-                                    <div class="form-select" id="default-select">
+                                    <div class="default-select">
                                         <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
                                             <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
                                         </select>
                                     </div>
-                                    {% elif template == 3 %}
-                                    <div class="form-group" style="width:100%;">
-                                        <div class="default-select" id="default-select" style="width:100%;">
-                                            <select id="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;">
-                                                <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
-                                                <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    {% elif template == 4 %}
-                                    <div class="select-wrap">
-                                        <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                        <select id="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="form-control rounded">
-                                            <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
-                                            <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
-                                        </select>
-                                    </div>
-                                    {% elif template == 5 %}
-                                    <div id="default-select">
-                                        <select id="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" style="width:100%;" class="app-select form-control">
-                                            <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
-                                            <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
-                                        </select>
-                                    </div>
-                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>
@@ -1337,13 +1293,8 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    {% if template == 1 or template == 2 or template == 3%}
+                                    <hr/>
                                     <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 4 %}
-                                    <button type="button" class="btn btn-primary rounded" onclick="update_banner();">Save Change</button>
-                                    {% elif template == 5 %}
-                                    <button type="button" class="btn btn-primary" onclick="update_banner();">Save Change</button>
-                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -1561,7 +1512,6 @@
                     <!--</div>-->
                     <!--</div>-->
                 </form>
-            </div>
         </div>
     </div>
 </section>

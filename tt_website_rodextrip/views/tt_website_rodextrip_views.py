@@ -401,7 +401,7 @@ def admin(request):
                 if request.POST['bg_tab_pick'] == '':
                     text += 'none'
                 else:
-                    text += "#" + request.POST['bg_tab_pick'] + 'E6'
+                    text += "#" + request.POST['bg_tab_pick'] + 'B3'
 
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)

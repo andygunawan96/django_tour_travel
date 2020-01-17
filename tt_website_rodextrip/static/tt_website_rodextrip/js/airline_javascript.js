@@ -606,7 +606,7 @@ function add_multi_city(type){
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-from">
                                 <span class="span-search-ticket"><i class="fas fa-plane-departure"></i> From</span>
-                                    <div class="input-container-search-ticket">`;
+                                    <div class="form-group">`;
                                         if(type == 'search'){
                                             if(airline_request.destination[counter_airline_search - 1] != null)
                                                 text+=`
@@ -632,7 +632,7 @@ function add_multi_city(type){
                             <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt"></i></a></h4>
                             <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
-                            <div class="input-container-search-ticket">`;
+                            <div class="form-group">`;
                                 if(type == 'search'){
                                     if(airline_request.destination[counter_airline_search - 1] != null)
                                         text+=`
@@ -659,7 +659,7 @@ function add_multi_city(type){
                 </div>
                 <div class="col-lg-4">
                     <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                    <div class="input-container-search-ticket">
+                    <div class="form-group">
                         <input type="text" class="form-control" name="airline_departure`+counter_airline_search+`" id="airline_departure`+counter_airline_search+`" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                     </div>
                 </div>

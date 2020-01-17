@@ -149,7 +149,7 @@ iframe {
 
 .container-login100 {
   width: 100%;  
-  min-height: 92.5vh;
+  min-height: 90vh;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -515,7 +515,7 @@ iframe {
 
 @media (max-width: 767px) {
     #header-login{
-        display:none;
+        display:none !important;
     }
 
     .container-login100{
@@ -897,4 +897,14 @@ a.author{
   100% {
     opacity: 1;
   }
+}
+
+#overlay-login100 {
+  position: fixed; /* Sit on top of the page content */
+  display: block; /* Hidden by default */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 100%; /* Full height (cover the whole page) */
+  background-color: rgba(0,0,0,0.5); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+  cursor: pointer; /* Add a pointer on hover */
 }

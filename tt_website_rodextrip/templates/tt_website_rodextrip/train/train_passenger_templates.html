@@ -1143,15 +1143,15 @@
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
                                                 <label>Country of Issued</label>
-                                                <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                <div class="input-container-search-ticket">
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')">
                                                         <option value="">Country Of Issued</option>
                                                         {% for country in countries %}
                                                         <option value="{{country.name}}">{{country.name}}</option>
                                                         {% endfor %}
                                                     </select>
+                                                    <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 </div>
-                                                <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                 <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
@@ -1824,17 +1824,15 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
                                         <label>Country of Issued</label>
-                                        <div class="form-group">
-                                            <div class="default-select">
-                                                <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                    <option value="">Country Of Issued</option>
-                                                    {% for country in countries %}
-                                                    <option value="{{country.name}}">{{country.name}}</option>
-                                                    {% endfor %}
-                                                </select>
-                                            </div>
+                                        <div class="input-container-search-ticket">
+                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                <option value="">Country Of Issued</option>
+                                                {% for country in countries %}
+                                                <option value="{{country.name}}">{{country.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         </div>
-                                        <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                         <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>

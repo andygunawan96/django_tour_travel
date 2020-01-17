@@ -32,20 +32,15 @@ Licence URI: http://www.os-templates.com/template-terms
         .price-area {
           background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
           min-height: 300px;
-          background-position: center center !important;
-          background-size: cover !important;
+          background-attachment: fixed !important;
+          background-position: center !important;
+          background-size: auto !important;
           background-repeat: no-repeat !important;
         }
         {%elif template == 2%}
         .bg-img{
             background-image: url("{{background}}") !important;
             min-height:250px;
-        }
-        {%elif template == 3%}
-        .banner-area{
-            background: url("{{background}}")!important;
-            padding:20px 0px 20px 0px;
-            min-height:300px;
         }
         {% endif %}
     </style>
@@ -158,9 +153,6 @@ Licence URI: http://www.os-templates.com/template-terms
     <style>
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             background-color: {{tab_color}} !important;
-        }
-        .btn-txt-color{
-            color:{{color}};
         }
         .banner-right .tab-content {
             background: {{tab_color}} !important;
@@ -779,6 +771,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         {% if template == 1%}
+        .btn-txt-color{
+            color:{{color}};
+        }
         ul.create_tabs li.current{
             border-bottom: 5px solid {{color}};
             color: {{color}};
@@ -909,22 +904,31 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}} !important;
         }
         {% elif template == 2%}
+        ul.tabs{
+            padding:5px 10px 0px 10px;
+            background:{{tab_color}};
+            border:1px solid #cdcdcd;
+        }
+        .btn-txt-color{
+            color:{{text_color}};
+        }
         a:hover{
             color:{{color}};
         }
         .tab_body{
             border:2px solid #cdcdcd;
-            background:{{tab_color}}E6;
+            background:{{tab_color}};
         }
         .image-rounded-icon3{
             background: {{color}};
         }
         ul.tabs li.current {
-            border-bottom: 5px solid {{color}};
+            border-bottom: 5px solid {{color}} !important;
             color: {{color}};
         }
         ul.tabs li:hover {
             color: {{color}};
+            border-bottom: 5px solid {{text_color}};
         }
         .nice-select .option.selected{
             color: {{color}};
@@ -994,6 +998,19 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
         {% elif template == 3 %}
+        .header-right{
+            background-color: {{tab_color}};
+        }
+        ul.tabs li.current .btn-txt-color{
+            color:{{color}} !important;
+            font-weight: 900;
+        }
+        .image-rounded-icon{
+            background: {{color}};
+        }
+        .btn-txt-color{
+            color: {{text_color}};
+        }
         ul.create_tabs li.current{
             border-bottom: 5px solid {{color}};
             color: {{color}};
