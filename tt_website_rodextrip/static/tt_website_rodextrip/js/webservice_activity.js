@@ -1256,8 +1256,12 @@ function activity_issued_booking(order_number)
                   title: 'Oops!',
                   html: '<span style="color: red;">Error activity issued booking </span>' + msg.result.error_msg,
                 })
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                activity_get_booking(booking_num);
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
+                document.getElementById("overlay-div-box").style.display = "none";
                 $("#waitingTransaction").modal('hide');
            }
        },
@@ -1267,6 +1271,12 @@ function activity_issued_booking(order_number)
               title: 'Oops!',
               html: '<span style="color: red;">Error activity issued booking </span>' + errorThrown,
             })
+            price_arr_repricing = {};
+            pax_type_repricing = [];
+            activity_get_booking(booking_num);
+            document.getElementById('payment_acq').innerHTML = '';
+            document.getElementById('payment_acq').hidden = true;
+            document.getElementById("overlay-div-box").style.display = "none";
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
             $("#waitingTransaction").modal('hide');
@@ -1295,29 +1305,56 @@ function copy_data(){
     })
 }
 
-function update_service_charge(){
-    upsell = []
-    for(i in act_get_booking.result.response.passengers){
-        for(j in act_get_booking.result.response.passengers[i].sale_service_charges){
-            currency = act_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
-        }
-        list_price = []
-        for(j in list){
-            if(act_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
-                list_price.push({
-                    'amount': list[j],
-                    'currency_code': currency
-                });
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        upsell = []
+        for(i in act_get_booking.result.response.passengers){
+            for(j in act_get_booking.result.response.passengers[i].sale_service_charges){
+                currency = act_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
             }
+            list_price = []
+            for(j in list){
+                if(act_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                }
 
+            }
+            console.log(act_get_booking.result.response.passengers[i]);
+            upsell.push({
+                'sequence': act_get_booking.result.response.passengers[i].sequence,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
         }
-        console.log(act_get_booking.result.response.passengers[i]);
-        upsell.push({
-            'sequence': act_get_booking.result.response.passengers[i].sequence,
-            'pricing': JSON.parse(JSON.stringify(list_price))
-        });
+        repricing_order_number = act_order_number;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = -1;
+        currency = 'IDR';
+        for(i in all_pax){
+            list_price = [];
+            for(j in list){
+                if(all_pax[i].first_name+all_pax[i].last_name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                    upsell_price += list[j];
+                }
+            }
+            counter_pax++;
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
+
     }
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1325,17 +1362,23 @@ function update_service_charge(){
             'action': 'update_service_charge',
        },
        data: {
-           'order_number': JSON.stringify(act_order_number),
+           'order_number': JSON.stringify(repricing_order_number),
            'passengers': JSON.stringify(upsell),
            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
+                if(type == 'booking'){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    activity_get_booking(act_order_number);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    activity_table_detail2('review');
+                }
 
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                activity_get_booking(act_order_number);
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
@@ -1947,9 +1990,11 @@ function activity_get_booking(data){
                   <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                        <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                   </div>
-             </div>
-             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
-             <div class="row">
+             </div>`;
+             if(msg.result.response.state != 'issued')
+             price_text+=`
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+             price_text+=`<div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
                     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;

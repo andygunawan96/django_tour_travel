@@ -59,6 +59,8 @@ def api_models(request):
             res = commit_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
+        elif req_data['action'] == 'validate':
+            res = validate(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
         else:
@@ -172,7 +174,7 @@ def set_data_issued_offline(request):
                     "name": request.POST['line_activity_name' + str(i)],
                     "package": request.POST['line_activity_package' + str(i)],
                     "qty": request.POST['line_activity_qty' + str(i)],
-                    "visit_date": departure[0]+' '+departure[1],
+                    "visit_date": departure[0],
                     "description": request.POST['line_activity_description' + str(i)],
                     "pnr": request.POST['line_pnr' + str(i)],
                 })
@@ -477,12 +479,52 @@ def get_booking(request):
     try:
         if res['result']['error_code'] == 0:
             for line in res['result']['response']['lines']:
-                if line['departure_date']:
-                    line.update({
-                        'departure_date': convert_string_to_date_to_string_front_end_with_time(line['departure_date'] + ':00'),
-                        'return_date': convert_string_to_date_to_string_front_end_with_time(line['return_date'] + ':00'),
-                    })
+                if res['result']['response']['offline_provider_type'] == 'airline' or res['result']['response']['offline_provider_type'] == 'train':
+                    if line['departure_date']:
+                        line.update({
+                            'departure_date': convert_string_to_date_to_string_front_end_with_time(line['departure_date'] + ':00'),
+                            'return_date': convert_string_to_date_to_string_front_end_with_time(line['return_date'] + ':00'),
+                        })
+                elif res['result']['response']['offline_provider_type'] == 'activity':
+                    if line['visit_date']:
+                        line.update({
+                            'visit_date': convert_string_to_date_to_string_front_end(line['visit_date'].split(' ')[0]),
+                        })
+                elif res['result']['response']['offline_provider_type'] == 'hotel':
+                    if line['check_in']:
+                        line.update({
+                            'check_in': convert_string_to_date_to_string_front_end(line['check_in']),
+                        })
+                    if line['check_out']:
+                        line.update({
+                            'check_out': convert_string_to_date_to_string_front_end(line['check_out']),
+                        })
             request.session['offline_get_booking_response'] = res
+            logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def validate(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "validate",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

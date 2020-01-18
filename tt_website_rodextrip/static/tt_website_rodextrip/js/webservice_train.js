@@ -854,7 +854,8 @@ function train_get_booking(data){
                         text_detail+= `</span>
                     </div>
                 </div>`;
-                text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                if(msg.result.response.state != 'issued')
+                    text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                 text_detail+=`<div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
@@ -1028,7 +1029,7 @@ function train_issued(data){
                    document.getElementById("overlay-div-box").style.display = "none";
                    document.getElementById('voucher_discount').style.display = 'none';
                    $("#waitingTransaction").modal('hide');
-                   train_get_booking(msg.result.response.order_number);
+                   train_get_booking(data);
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
@@ -1056,11 +1057,21 @@ function train_issued(data){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error train issued </span>' + msg.result.error_msg,
                     })
-
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_train').hidden = true;
+                    document.getElementById('train_booking').innerHTML = '';
+                    document.getElementById('train_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_train').style.display = 'block';
+                    document.getElementById('show_loading_booking_train').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    document.getElementById('voucher_discount').style.display = 'none';
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     $("#waitingTransaction").modal('hide');
-                    document.getElementById("overlay-div-box").style.display = "none";
+                    train_get_booking(data);
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1069,10 +1080,21 @@ function train_issued(data){
                   title: 'Oops!',
                   html: '<span style="color: red;">Error train issued </span>' + errorThrown,
                 })
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_train').hidden = true;
+                document.getElementById('train_booking').innerHTML = '';
+                document.getElementById('train_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_train').style.display = 'block';
+                document.getElementById('show_loading_booking_train').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                document.getElementById('voucher_discount').style.display = 'none';
                $('.hold-seat-booking-train').prop('disabled', false);
                $('.hold-seat-booking-train').removeClass("running");
                $("#waitingTransaction").modal('hide');
                document.getElementById("overlay-div-box").style.display = "none";
+               train_get_booking(data);
            },timeout: 300000
         });
       }
@@ -1251,28 +1273,59 @@ function gotoForm(){
     document.getElementById('train_searchForm').submit();
 }
 
-function update_service_charge(){
-    upsell = []
-    for(i in train_get_detail.result.response.passengers){
-        for(j in train_get_detail.result.response.passengers[i].sale_service_charges){
-            currency = train_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
-        }
-        list_price = []
-        for(j in list){
-            if(train_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
-                list_price.push({
-                    'amount': list[j],
-                    'currency_code': currency
-                });
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        upsell = []
+        for(i in train_get_detail.result.response.passengers){
+            for(j in train_get_detail.result.response.passengers[i].sale_service_charges){
+                currency = train_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
             }
+            list_price = []
+            for(j in list){
+                if(train_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                }
 
+            }
+            upsell.push({
+                'sequence': train_get_detail.result.response.passengers[i].sequence,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
         }
-        upsell.push({
-            'sequence': train_get_detail.result.response.passengers[i].sequence,
-            'pricing': JSON.parse(JSON.stringify(list_price))
-        });
+        repricing_order_number = order_number;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = -1;
+        currency = price['currency'];
+        for(i in passengers){
+            list_price = []
+            if(i != 'booker' && i != 'contact'){
+                for(j in list){
+                    for(k in passengers[i]){
+                        if(passengers[i][k].first_name+passengers[i][k].last_name == document.getElementById('selection_pax'+j).value){
+                            list_price.push({
+                                'amount': list[j],
+                                'currency_code': currency
+                            });
+                            upsell_price += list[j];
+                        }
+                    }
+                }
+                counter_pax++;
+            }
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
     }
-    getToken();
+
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1280,16 +1333,23 @@ function update_service_charge(){
             'action': 'update_service_charge',
        },
        data: {
-           'order_number': JSON.stringify(order_number),
+           'order_number': JSON.stringify(repricing_order_number),
            'passengers': JSON.stringify(upsell),
            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                train_get_booking(order_number);
+                if(type == 'booking'){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    train_get_booking(order_number);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    train_detail();
+                }
+
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();

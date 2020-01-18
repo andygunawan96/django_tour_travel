@@ -135,6 +135,7 @@ function search_visa(){
                                     <table style="width:100%" id="list-of-passenger">
                                         <tr>
                                             <th style="width:15%;">Pax Type</th>
+                                            <th style="width:10%;">Name</th>
                                             <th style="width:15%;">Visa Type</th>
                                             <th style="width:15%;">Entry Type</th>
                                             <th style="width:30%;">Regular Type</th>
@@ -142,6 +143,7 @@ function search_visa(){
                                         </tr>
                                         <tr>
                                             <td>`+msg.result.response.list_of_visa[i].pax_type[1]+`</td>
+                                            <td>`+msg.result.response.list_of_visa[i].name+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].visa_type[1]+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].entry_type[1]+`</td>
                                             <td>`+msg.result.response.list_of_visa[i].type.process_type[1]+` `+msg.result.response.list_of_visa[i].type.duration+` Day(s)</td>
@@ -1018,29 +1020,59 @@ function visa_get_data(data){
     });
 }
 
-function update_service_charge(){
-    upsell = []
-    for(i in visa.passengers){
-        for(j in visa.passengers[i].sale_service_charges){
-            currency = visa.passengers[i].sale_service_charges[j].TOTAL.currency;
-        }
-        list_price = []
-        console.log(list);
-        for(j in list){
-            if(visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
-                list_price.push({
-                    'amount': list[j],
-                    'currency_code': currency
-                });
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        upsell = []
+        for(i in visa.passengers){
+            for(j in visa.passengers[i].sale_service_charges){
+                currency = visa.passengers[i].sale_service_charges[j].TOTAL.currency;
             }
+            list_price = []
+            console.log(list);
+            for(j in list){
+                if(visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                }
 
+            }
+            upsell.push({
+                'sequence': visa.passengers[i].sequence,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
         }
-        upsell.push({
-            'sequence': visa.passengers[i].sequence,
-            'pricing': JSON.parse(JSON.stringify(list_price))
-        });
+        repricing_order_number = visa.journey.name;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = -1;
+        currency = visa.list_of_visa[0].sale_price.currency;
+        for(i in passenger){
+            list_price = []
+            if(i != 'booker' && i != 'contact'){
+                for(j in list){
+                    for(k in passenger[i]){
+                        if(passenger[i][k].first_name+passenger[i][k].last_name == document.getElementById('selection_pax'+j).value){
+                            list_price.push({
+                                'amount': list[j],
+                                'currency_code': currency
+                            });
+                            upsell_price += list[j];
+                        }
+                    }
+                }
+                counter_pax++;
+            }
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
     }
-    console.log(upsell);
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -1048,16 +1080,25 @@ function update_service_charge(){
             'action': 'update_service_charge',
        },
        data: {
-           'order_number': visa.journey.name,
+           'order_number': repricing_order_number,
            'passengers': JSON.stringify(upsell),
            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                visa_get_data(order_number);
+                try{
+                    if(type == 'booking'){
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        visa_get_data(order_number);
+                    }else{
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        update_table('review');
+                    }
+                }catch(err){}
+
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();

@@ -407,17 +407,24 @@ function add_table_of_passenger(){
 
 function delete_table_of_passenger(){
     if(counter_passenger != 0){
-        counter_passenger--;
-        var element = document.getElementById('table_passenger'+counter_passenger);
-        element.parentNode.removeChild(element);
+        try{
+            counter_passenger--;
+            var element = document.getElementById('table_passenger'+counter_passenger);
+            element.parentNode.removeChild(element);
+        }catch(err){}
     }
 }
 
 function add_table_of_line(type){
-    get_airline_config('home');
+
     text= '';
     var node = document.createElement("div");
     if(type == 'airline' || type == 'train'){
+        if(type == 'airline'){
+            get_airline_config('home');
+        }else{
+            get_train_config();
+        }
         text += `
         <div class="col-lg-12">
             <div class="row">
@@ -536,10 +543,17 @@ function add_table_of_line(type){
             cache: false,
             delay:0,
             source: function(term, suggest){
-                if(term.split(' - ').length == 4)
+                if(type == 'airline'){
+                    if(term.split(' - ').length == 4)
+                            term = ''
+                    if(term.length > 1)
+                        suggest(airline_search_autocomplete(term));
+                }else if(type == 'train'){
+                    if(term.split(' - ').length == 4)
                         term = ''
-                if(term.length > 1)
-                    suggest(airline_search_autocomplete(term));
+                    if(term.length > 1)
+                        suggest(train_search_autocomplete(term));
+                }
             },
             onSelect: function(e, term, item){
                 $("#origin_id_flight").trigger("blur");
@@ -552,10 +566,17 @@ function add_table_of_line(type){
             cache: false,
             delay:0,
             source: function(term, suggest){
-                if(term.split(' - ').length == 4)
-                    term = ''
-                if(term.length > 1)
-                    suggest(airline_search_autocomplete(term));
+                if(type == 'airline'){
+                    if(term.split(' - ').length == 4)
+                        term = ''
+                    if(term.length > 1)
+                        suggest(airline_search_autocomplete(term));
+                }else if(type == 'train'){
+                    if(term.split(' - ').length == 4)
+                        term = ''
+                    if(term.length > 1)
+                        suggest(train_search_autocomplete(term));
+                }
             },
             onSelect: function(e, term, item){
                 $("#destination_id_flight").trigger("blur");
@@ -685,7 +706,6 @@ function add_table_of_line(type){
           });
           document.getElementById('hotel_check_in'+counter_line).value = '';
           document.getElementById('hotel_check_out'+counter_line).value = '';
-          $('.js-example-basic-single').select2();
 
     }else if(type == 'activity'){
         text += `
@@ -746,7 +766,6 @@ function add_table_of_line(type){
               }
         });
         document.getElementById('activity_datetime'+counter_line).value = '';
-        $('.js-example-basic-single').select2();
     }else{
         text += `
             <div class="row">
@@ -776,9 +795,11 @@ function add_table_of_line(type){
 
 function delete_table_of_line(){
     if(counter_line != 0){
-        counter_line--;
-        var element = document.getElementById('table_line'+counter_line);
-        element.parentNode.removeChild(element);
+        try{
+            counter_line--;
+            var element = document.getElementById('table_line'+counter_line);
+            element.parentNode.removeChild(element);
+        }catch(err){}
     }
 }
 

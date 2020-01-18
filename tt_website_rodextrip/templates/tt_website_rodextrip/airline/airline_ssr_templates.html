@@ -26,6 +26,7 @@
     passengers = passengers.replace(/False/g, 'false');
     passengers = passengers.replace(/True/g, 'true');
     passengers = JSON.parse(passengers);
+    upsell_price = {{upsell}};
     ssr_keys = [];
     {% for ssr_availability_provider in airline_ssrs.ssr_availability_provider %}
         {% with forloop.counter as counter_provider%}

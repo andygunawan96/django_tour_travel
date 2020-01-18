@@ -993,6 +993,19 @@ function tour_issued_booking(order_number)
                   title: 'Oops!',
                   html: '<span style="color: red;">Error tour issued booking </span>' + msg.result.error_msg,
                 })
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('payment_acq').hidden = true;
+                $("#issuedModal").modal('hide');
+                $("#waitingTransaction").modal('hide');
+                document.getElementById("overlay-div-box").style.display = "none";
+                document.getElementById('tour_final_info').innerHTML = text;
+                document.getElementById('product_title').innerHTML = '';
+                document.getElementById('product_type_title').innerHTML = '';
+                document.getElementById('tour_detail_table').innerHTML = '';
+                tour_get_booking(booking_num);
+                $("#issuedModal").modal('hide');
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $("#waitingTransaction").modal('hide');
@@ -1004,6 +1017,18 @@ function tour_issued_booking(order_number)
               title: 'Oops!',
               html: '<span style="color: red;">Error tour issued booking </span>' + errorThrown,
             })
+            price_arr_repricing = {};
+            pax_type_repricing = [];
+            document.getElementById('payment_acq').innerHTML = '';
+            document.getElementById('payment_acq').hidden = true;
+            $("#issuedModal").modal('hide');
+            $("#waitingTransaction").modal('hide');
+            document.getElementById("overlay-div-box").style.display = "none";
+            document.getElementById('tour_final_info').innerHTML = text;
+            document.getElementById('product_title').innerHTML = '';
+            document.getElementById('product_type_title').innerHTML = '';
+            document.getElementById('tour_detail_table').innerHTML = '';
+            tour_get_booking(booking_num);
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
             $("#waitingTransaction").modal('hide');
@@ -1011,29 +1036,54 @@ function tour_issued_booking(order_number)
     });
 }
 
-function update_service_charge(){
-    upsell = []
-    for(i in tr_get_booking.result.response.passengers){
-        for(j in tr_get_booking.result.response.passengers[i].sale_service_charges){
-            currency = tr_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
-        }
-        list_price = []
-        for(j in list){
-            if(tr_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
-                list_price.push({
-                    'amount': list[j],
-                    'currency_code': currency
-                });
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        upsell = []
+        for(i in tr_get_booking.result.response.passengers){
+            for(j in tr_get_booking.result.response.passengers[i].sale_service_charges){
+                currency = tr_get_booking.result.response.passengers[i].sale_service_charges[j].FARE.currency;
             }
+            list_price = []
+            for(j in list){
+                if(tr_get_booking.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                }
 
+            }
+            upsell.push({
+                'sequence': tr_get_booking.result.response.passengers[i].sequence,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
         }
-        console.log(tr_get_booking.result.response.passengers[i]);
-        upsell.push({
-            'sequence': tr_get_booking.result.response.passengers[i].sequence,
-            'pricing': JSON.parse(JSON.stringify(list_price))
-        });
+        repricing_order_number = tour_order_number;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = -1;
+        currency = 'IDR';
+        for(i in all_pax){
+            list_price = [];
+            for(j in list){
+                if(all_pax[i].first_name+all_pax[i].last_name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                    upsell_price += list[j];
+                }
+            }
+            counter_pax++;
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
     }
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1041,16 +1091,23 @@ function update_service_charge(){
             'action': 'update_service_charge',
        },
        data: {
-           'order_number': JSON.stringify(tour_order_number),
+           'order_number': JSON.stringify(repricing_order_number),
            'passengers': JSON.stringify(upsell),
            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                tour_get_booking(tour_order_number);
+                if(type == 'booking'){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    tour_get_booking(tour_order_number);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    get_price_itinerary_cache('review');
+                }
+
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
@@ -1514,9 +1571,11 @@ function tour_get_booking(order_number)
                   <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
                        <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                   </div>
-             </div>
-             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>
-             <div class="row">
+             </div>`;
+             if(msg.result.response.state != 'issued')
+             price_text+=`
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+             price_text+=`<div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
                     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
@@ -1614,6 +1673,51 @@ function get_price_itinerary(request,type) {
 }
 
 function table_price_update(msg,type){
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        tax = 0;
+        fare = 0;
+        total_price = 0;
+        total_price_provider = [];
+        price_provider = 0;
+        commission = 0;
+        service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+        type_amount_repricing = ['Repricing'];
+        for(i in all_pax){
+            pax_type_repricing.push([all_pax[i].first_name +all_pax[i].last_name, all_pax[i].first_name +all_pax[i].last_name]);
+            price_arr_repricing[all_pax[i].first_name +all_pax[i].last_name] = {
+                'Fare': 0,
+                'Tax': 0,
+                'Repricing': 0
+            }
+        }
+        //repricing
+        text_repricing = `
+        <div class="col-lg-12">
+            <div style="padding:5px;" class="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-3">Price</div>
+                <div class="col-lg-3">Repricing</div>
+                <div class="col-lg-3">Total</div>
+            </div>
+        </div>`;
+        for(k in price_arr_repricing){
+           text_repricing += `
+           <div class="col-lg-12">
+                <div style="padding:5px;" class="row" id="adult">
+                    <div class="col-lg-3" id="`+i+`_`+k+`">`+k+`</div>
+                    <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                    if(price_arr_repricing[k].Repricing == 0)
+                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                    else
+                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                    text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                </div>
+            </div>`;
+        }
+        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+        document.getElementById('repricing_div').innerHTML = text_repricing;
+        //repricing
+    }
     grand_total = 0;
     var grand_commission = 0;
     $test = '';
@@ -1752,12 +1856,31 @@ function table_price_update(msg,type){
             temp_copy2 += '(No Charge)\n';
         }
     }
-
+    try{
+        grand_total += upsell_price;
+    }catch(err){}
     price_txt = price_txt_adt + price_txt_chd + price_txt_inf + price_txt2;
     $test += temp_copy_adt + temp_copy_chd + temp_copy_inf + temp_copy2;
     $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
     '\nPrices and availability may change at any time';
-    price_txt += `<hr style="padding:0px;">
+    price_txt += `<hr style="padding:0px;">`;
+    price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+
+    try{
+        console.log(upsell_price);
+        if(upsell_price != 0){
+            price_txt+=`<div class="row" style="padding-bottom:15px;">`
+            price_txt+=`
+            <div class="col-lg-7" style="text-align:left;">
+                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+            </div>
+            <div class="col-lg-5" style="text-align:right;">`;
+            price_txt+=`
+                <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
+            price_txt+=`</div></div>`;
+        }
+    }catch(err){}
+    price_txt += `
                    <div class="row">
                         <div class="col-xs-8"><span style="font-weight:bold">Grand Total</span></div>
                         <div class="col-xs-4" style="text-align: right;"><span style="font-weight:bold">IDR `+getrupiah(grand_total)+`</span></div>

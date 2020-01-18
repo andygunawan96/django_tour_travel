@@ -1266,6 +1266,7 @@ def review(request):
             'seniors': senior,
             'childs': child,
             'skus': skus,
+            'upsell': request.session.get('activity_upsell_'+request.session['activity_signature']) and request.session.get('activity_upsell_'+request.session['activity_signature']) or 0,
             "timeslot": timeslot and timeslot or False,
             'timeslot_pick': request.session['activity_timeslot'].split(' ~ ')[1] if len(request.session['activity_timeslot'].split(' - ')) == 2 else '',
             'price': all_price,
