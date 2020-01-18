@@ -3869,20 +3869,92 @@ function airline_detail(type){
                 <span style="font-size:13px; font-weight:500;" id="additional_price">`+additional_price+`</span><br/>`;
             text+=`
                 <input type="hidden" name="additional_price" id="additional_price_hidden"/>
-            </div>
+            </div>`;
+            try{
+                if(upsell_price != 0){
+                    text+=`<div class="col-lg-7" style="text-align:left;">
+                        <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                    </div>
+                    <div class="col-lg-5" style="text-align:right;">`;
+                    if(airline_price[0].ADT.currency == 'IDR')
+                    text+=`
+                        <span style="font-size:13px; font-weight:500;">`+airline_price[0].ADT.currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+                    else
+                    text+=`
+                        <span style="font-size:13px; font-weight:500;">`+airline_price[0].ADT.currency+` `+upsell_price+`</span><br/>`;
+                    text+=`</div>`;
+                }
+            }catch(err){}
+            text+=`
             <div class="col-lg-7" style="text-align:left;">
                 <span style="font-size:14px; font-weight:bold;"><b>Total</b></span><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
+            try{
+                grand_total_price = total_price;
+                grand_total_price += parseFloat(additional_price)
+                grand_total_price += upsell_price;
+            }catch(err){}
             if(airline_price[0].ADT.currency == 'IDR')
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+getrupiah(total_price+parseFloat(additional_price))+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+getrupiah(grand_total_price)+`</b></span><br/>`;
             else
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(total_price+parseFloat(additional_price))+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b> `+airline_price[i].ADT.currency+` `+parseFloat(grand_total_price)+`</b></span><br/>`;
             text+=`
             </div>
-        </div>
+        </div>`;
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+            tax = 0;
+            fare = 0;
+            total_price = 0;
+            total_price_provider = [];
+            price_provider = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+            type_amount_repricing = ['Repricing'];
+            for(i in passengers){
+                if(i != 'booker'){
+                    for(j in passengers[i]){
+                        pax_type_repricing.push([passengers[i][j].first_name +passengers[i][j].last_name, passengers[i][j].first_name +passengers[i][j].last_name]);
+                        price_arr_repricing[passengers[i][j].first_name +passengers[i][j].last_name] = {
+                            'Fare': 0,
+                            'Tax': 0,
+                            'Repricing': 0
+                        }
+                    }
+                }
+            }
+            //repricing
+            text_repricing = `
+            <div class="col-lg-12">
+                <div style="padding:5px;" class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3">Price</div>
+                    <div class="col-lg-3">Repricing</div>
+                    <div class="col-lg-3">Total</div>
+                </div>
+            </div>`;
+            for(k in price_arr_repricing){
+               text_repricing += `
+               <div class="col-lg-12">
+                    <div style="padding:5px;" class="row" id="adult">
+                        <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                        <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                        if(price_arr_repricing[k].Repricing == 0)
+                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                        else
+                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                        text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                    </div>
+                </div>`;
+            }
+            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+            document.getElementById('repricing_div').innerHTML = text_repricing;
+            //repricing
+        }
+        text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+        text+=`
         <div class="row">
             <div class="col-lg-12" style="padding-bottom:10px;">
                 <hr/>
@@ -3912,7 +3984,8 @@ function airline_detail(type){
                 }catch(err){
 
                 }
-                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(total_price) + '\nPrices and availability may change at any time';
+                $text += 'Grand Total: '+airline_price[0].ADT.currency+' '+ getrupiah(grand_total_price) + '\nPrices and availability may change at any time';
+
                 share_data();
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
@@ -4150,11 +4223,12 @@ function check_passenger(adult, child, infant){
                     'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
                     'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
                 }
-                if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
-                   document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
-                   document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
-                   if(document.getElementById(passenger_check.type+passenger_check.number).value == passenger_data_pick[i].seq_id)
-                   error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+                if(document.getElementById(passenger_check.type+passenger_check.number).value == passenger_data_pick[i].seq_id){
+                    if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+                       document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+                       document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+                        error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+                }
            }else if(passenger_data_pick[i].sequence == 'booker'){
                 if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
                     document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||

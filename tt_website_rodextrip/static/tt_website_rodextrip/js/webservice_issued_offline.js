@@ -1002,7 +1002,7 @@ function get_booking_offline(data){
                         <div class="row">
                             <div class="col-lg-12">
                                 <div style="padding:10px; background-color:white;">
-                                <h5> Flight Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
+                                <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
                                 <hr/>`;
                             check = 0;
                             flight_counter = 1;
@@ -1012,8 +1012,8 @@ function get_booking_offline(data){
                                     text+=`<hr/>`;
                                 }
                                 text+=`<h5>PNR: `+msg.result.response.lines[i].pnr+`</h5>`;
-                                text+=`<h6>Flight `+flight_counter+`</h6>`;
-                                $text += 'Flight '+ flight_counter+'\n';
+                                text+=`<h6>Reservation `+flight_counter+`</h6>`;
+                                $text += 'Reservation '+ flight_counter+'\n';
                                 flight_counter++;
                                 $text += msg.result.response.lines[i].carrier;
 
@@ -1033,7 +1033,10 @@ function get_booking_offline(data){
                                 text+= `
                                 <div class="row">
                                     <div class="col-lg-4">`;
-                                    text += `<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.lines[i].carrier_code+`.png"/>`;
+                                    if(msg.result.response.offline_provider_type == 'airline')
+                                        text += `<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.lines[i].carrier_code+`.png"/>`;
+                                    else if(msg.result.response.offline_provider_type == 'train')
+                                        text += `<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>`;
 
                                     text+=`<h5>`+msg.result.response.lines[i].carrier+' '+msg.result.response.lines[i].carrier_number+`</h5>
                                         <span>Class : `+msg.result.response.lines[i].class+` ( Class of service `+msg.result.response.lines[i].subclass+` )</span><br/>
@@ -1044,8 +1047,14 @@ function get_booking_offline(data){
                                                 <table style="width:100%">
                                                     <tr>
                                                         <td><h5>`+msg.result.response.lines[i].departure_date.split('  ')[1]+`</h5></td>
-                                                        <td style="padding-left:15px;">
-                                                            <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                                        <td style="padding-left:15px;">`;
+                                                        if(msg.result.response.offline_provider_type == 'airline')
+                                                        text+=`
+                                                            <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>`;
+                                                        else if(msg.result.response.offline_provider_type == 'train')
+                                                        text+=`
+                                                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>`;
+                                                        text+=`
                                                         </td>
                                                         <td style="height:30px;padding:0 15px;width:100%">
                                                             <div style="display:inline-block;position:relative;width:100%">
@@ -1074,7 +1083,142 @@ function get_booking_offline(data){
                                         </div>
                                     </div>
                                 </div>`;
+                            }
+                            text+=`
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                }else if(msg.result.response.offline_provider_type == 'activity'){
+                    text+=`<div style="background-color:white; border:1px solid #cdcdcd;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div style="padding:10px; background-color:white;">
+                                <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
+                                <hr/>`;
+                            check = 0;
+                            flight_counter = 1;
+                            for(i in msg.result.response.lines){
+                                $text += 'Booking Code: ' + msg.result.response.lines[i].pnr+'\n';
+                                if(i != 0){
+                                    text+=`<hr/>`;
+                                }
+                                text+=`<h5>PNR: `+msg.result.response.lines[i].pnr+`</h5>`;
+                                text+=`<h6>Reservation `+flight_counter+`</h6>`;
+                                $text += 'Reservation '+ flight_counter+'\n';
+                                flight_counter++;
+                                $text += msg.result.response.lines[i].activity_name;
+                                if(msg.result.response.lines[i].activity_package)
+                                    $text += ` `+msg.result.response.lines[i].activity_package;
+                                $text += '\n';
+                                $text += msg.result.response.lines[i].visit_date.split('  ')[0]+' ';
 
+                                text+= `
+                                <div class="row">
+                                    <div class="col-lg-6">`;
+                                    text+=`<h5>`+msg.result.response.lines[i].activity_name+' '+msg.result.response.lines[i].activity_package+`</h5>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-xs-6">
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td><h5>`+msg.result.response.lines[i].visit_date+`</h5></td>
+                                                        <td style="padding-left:15px;">
+                                                    </tr>
+                                                </table>
+                                            </div>
+
+                                            <div class="col-lg-6 col-xs-6" style="padding:0;">
+                                                <table style="width:100%; margin-bottom:6px;">
+
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                                if(msg.result.response.lines[i].description != '')
+                                    text+=`<span>`+msg.result.response.lines[i].description+`</span>`;
+                            }
+                            text+=`
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                }else if(msg.result.response.offline_provider_type == 'hotel'){
+                    text+=`<div style="background-color:white; border:1px solid #cdcdcd;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div style="padding:10px; background-color:white;">
+                                <h5> Reservation Detail </h5>
+                                <hr/>`;
+                            check = 0;
+                            flight_counter = 1;
+                            for(i in msg.result.response.lines){
+                                $text += 'Booking Code: ' + msg.result.response.lines[i].pnr+'\n';
+                                if(i != 0){
+                                    text+=`<hr/>`;
+                                }
+                                text+=`<h5>PNR: `+msg.result.response.lines[i].pnr+`</h5>`;
+                                text+=`<h6>Reservation `+flight_counter+`</h6>`;
+                                $text += 'Reservation '+ flight_counter+'\n';
+                                flight_counter++;
+                                $text += msg.result.response.lines[i].hotel_name;
+
+                                $text += ' ' + msg.result.response.lines[i].room + '\n';
+
+                                $text += 'Check in: '+msg.result.response.lines[i].check_in+'\n';
+                                $text += 'Check out: '+msg.result.response.lines[i].check_out+'\n';
+
+                                $text += msg.result.response.lines[i].description +'\n\n';
+
+                                text+= `
+                                <div class="row">
+                                    <div class="col-lg-6">`;
+                                    text+=`<h5>`+msg.result.response.lines[i].hotel_name+' '+msg.result.response.lines[i].room+`</h5>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-xs-12">
+                                                <table style="width:100%">
+                                                    <tr>
+                                                        <td><h5>Check in</h5></td>
+                                                        <td><h5>Check out</h5></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>`+msg.result.response.lines[i].check_in+`</td>
+                                                        <td>`+msg.result.response.lines[i].check_out+`</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>`;
+                                if(msg.result.response.lines[i].description != '')
+                                    text+=`<span>`+msg.result.response.lines[i].description+`</span>`;
+                            }
+                            text+=`
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                }else{
+                    text+=`<div style="background-color:white; border:1px solid #cdcdcd;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div style="padding:10px; background-color:white;">
+                                <h5> Reservation Detail </h5>
+                                <hr/>`;
+                            check = 0;
+                            flight_counter = 1;
+                            for(i in msg.result.response.lines){
+                                $text += 'Booking Code: ' + msg.result.response.lines[i].pnr+'\n';
+                                if(i != 0){
+                                    text+=`<hr/>`;
+                                }
+                                text+=`<h5>PNR: `+msg.result.response.lines[i].pnr+`</h5>`;
+                                if(msg.result.response.lines[i].description != '')
+                                    text+=`<span>`+msg.result.response.lines[i].description+`</span>`;
                             }
                             text+=`
                                 </div>
@@ -1299,16 +1443,38 @@ function get_booking_offline(data){
                         counter_service_charge++;
                     }catch(err){}
                 }
+                text_detail += `
+                    <div>
+                        <hr/>
+                    </div>`;
                 try{
-                    offline_get_detail.result.response.total_price = total_price+msg.result.response.total;
-                    $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price+msg.result.response.total);
+                    grand_total_price = total_price+msg.result.response.total;
+                    other_price = 0
+                    for(i in msg.result.response.passengers){
+                        other_price += msg.result.response.passengers[i]['channel_service_charges']['amount'];
+                    }
+                    try{
+                        if(other_price != 0){
+                            text_detail+=`<div class="row"><div class="col-lg-7" style="text-align:left;">
+                                <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                            </div>
+                            <div class="col-lg-5" style="text-align:right;">`;
+                            text_detail+=`
+                                <span style="font-size:13px; font-weight:500;">`+price.currency+` `+other_price+`</span><br/>`;
+                            text_detail+=`</div></div>`;
+                            grand_total_price += other_price;
+                        }
+                    }catch(err){}
+                }catch(err){
+
+                }
+                try{
+                    offline_get_detail.result.response.total_price = grand_total_price;
+                    $text += 'Grand Total: '+price.currency+' '+ getrupiah(grand_total_price);
                     if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
                         $text += '\n\nPrices and availability may change at any time';
                     }
                     text_detail+=`
-                    <div>
-                        <hr/>
-                    </div>
                     <div class="row" style="margin-bottom:10px;">
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
                             <span style="font-size:13px; font-weight: bold;">Grand Total</span>
@@ -1316,14 +1482,15 @@ function get_booking_offline(data){
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px; font-weight: bold;">`;
                             try{
-                                text_detail+= price.currency+` `+getrupiah(total_price+msg.result.response.total);
+                                text_detail+= price.currency+` `+getrupiah(grand_total_price);
                             }catch(err){
 
                             }
                             text_detail+= `</span>
                         </div>
                     </div>`;
-                    text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    if(msg.result.response.state != 'issued')
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <hr/>
@@ -1474,7 +1641,7 @@ function get_booking_offline(data){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline booking </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error issued offline get booking </span>' + msg.result.error_msg,
                 })
                 $('#show_loading_booking_airline').hide();
                 $('.loader-rodextrip').fadeOut();
@@ -1484,7 +1651,7 @@ function get_booking_offline(data){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error history issued offline </span>' + errorThrown,
+              html: '<span style="color: red;">Error issued offline get booking </span>' + errorThrown,
             })
        },timeout: 60000
     });
@@ -1536,7 +1703,6 @@ function update_service_charge(){
     document.getElementById('offline_booking').innerHTML = '';
     upsell = []
     currency = 'IDR';
-    console.log('asdads');
     for(i in offline_get_detail.result.response.passengers){
         list_price = []
         for(j in list){
@@ -1549,7 +1715,7 @@ function update_service_charge(){
 
         }
         upsell.push({
-            'sequence': i,
+            'sequence': offline_get_detail.result.response.passengers[i].sequence,
             'pricing': JSON.parse(JSON.stringify(list_price))
         });
     }

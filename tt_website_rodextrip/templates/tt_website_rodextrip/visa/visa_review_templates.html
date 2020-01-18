@@ -10,7 +10,7 @@
 <script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<!--<script src="{{ static_path }}js/pricing_javascript.js"></script>-->
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 
 <script>
@@ -23,6 +23,7 @@
     visa_request = `{{visa_request}}`;
     signature = `{{signature}}`;
     visa_request = JSON.parse(visa_request.replace(/&#39;/g, '"'));
+    upsell_price = {{upsell}};
     adult = passenger.adult;
     infant = passenger.infant;
     elder = passenger.elder;
@@ -379,6 +380,64 @@
                     {% endif %}
                     <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
 
+                    </div>
+                </div>
+                <div class="modal fade" id="myModalRepricing" role="dialog">
+                    <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="border-radius: 0;">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="row" id="pricing" style="padding:15px;">
+                                            <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <hr/>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:10px;" id="table_of_equation">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                        <hr/>
+                                                        <center>
+                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('airline_review');" value="Calculate">
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row" style="padding:15px;">
+                                            <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                                                <h4>Result Pricing</h4>
+                                                <hr/>
+                                                <div class="row" id="repricing_div">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!--<div class="col-lg-8">-->

@@ -358,6 +358,55 @@ function update_table(type){
             `;
     }else if(type == 'review'){
 
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+            tax = 0;
+            fare = 0;
+            total_price = 0;
+            total_price_provider = [];
+            price_provider = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+            type_amount_repricing = ['Repricing'];
+            for(i in passenger){
+                if(i != 'booker'){
+                    for(j in passenger[i]){
+                        pax_type_repricing.push([passenger[i][j].first_name +passenger[i][j].last_name, passenger[i][j].first_name +passenger[i][j].last_name]);
+                        price_arr_repricing[passenger[i][j].first_name +passenger[i][j].last_name] = {
+                            'Fare': 0,
+                            'Tax': 0,
+                            'Repricing': 0
+                        }
+                    }
+                }
+            }
+            //repricing
+            text_repricing = `
+            <div class="col-lg-12">
+                <div style="padding:5px;" class="row">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3">Price</div>
+                    <div class="col-lg-3">Repricing</div>
+                    <div class="col-lg-3">Total</div>
+                </div>
+            </div>`;
+            for(k in price_arr_repricing){
+               text_repricing += `
+               <div class="col-lg-12">
+                    <div style="padding:5px;" class="row" id="adult">
+                        <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                        <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                        if(price_arr_repricing[k].Repricing == 0)
+                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                        else
+                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                        text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                    </div>
+                </div>`;
+            }
+            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+            document.getElementById('repricing_div').innerHTML = text_repricing;
+            //repricing
+        }
         text += `<h4>Price detail `+visa_request.destination+`</h4><hr/>
                 <table style="width:100%;">`;
         price = 0;
@@ -421,7 +470,28 @@ function update_table(type){
                 $text += ' @'+ visa.list_of_visa[i].sale_price.currency+ ' ' +getrupiah(visa.list_of_visa[i].sale_price.total_price) + '\n';
             }
         }
-
+        try{
+            if(upsell_price != 0){
+                text+=`<div class="row" style="padding-bottom:15px;">`
+                text+=`
+                <div class="col-lg-7" style="text-align:left;">
+                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                </div>
+                <div class="col-lg-5" style="text-align:right;">`;
+                if(visa.list_of_visa[0].sale_price.currency == 'IDR')
+                text+=`
+                    <span style="font-size:13px; font-weight:500;">`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+                else
+                text+=`
+                    <span style="font-size:13px; font-weight:500;">`+visa.list_of_visa[0].sale_price.currency+` `+upsell_price+`</span><br/>`;
+                text+=`</div></div>`;
+            }
+        }catch(err){}
+        text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+        try{
+            grand_total_price = price;
+            grand_total_price += upsell_price;
+        }catch(err){}
         text+=`
             <div class="row" style="padding-bottom:15px;">
                 <div class="col-lg-12">
@@ -431,11 +501,11 @@ function update_table(type){
                     <h6>Grand Total</h6>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(price)+`</h6>
+                    <h6>`+visa.list_of_visa[0].sale_price.currency+` `+getrupiah(grand_total_price)+`</h6>
                 </div>
             </div>`;
         $text += '\n';
-        $text += 'Grand Total: '+visa.list_of_visa[0].sale_price.currency + ' '+getrupiah(price);
+        $text += 'Grand Total: '+visa.list_of_visa[0].sale_price.currency + ' '+getrupiah(grand_total_price);
         try{
             display = document.getElementById('show_commission').style.display;
         }catch(err){
@@ -565,6 +635,7 @@ function update_table(type){
         }catch(err){
             display = 'none';
         }
+        if(visa.journey.state != 'issued')
         text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;"/></i></div>`;
         text+=`
         <div class="row" id="show_commission" style="display: `+display+`;">
@@ -661,11 +732,12 @@ function check_passenger(adult, child, infant){
                     'type': passenger_data_pick[i].sequence.substr(0, passenger_data_pick[i].sequence.length-1),
                     'number': passenger_data_pick[i].sequence.substr(passenger_data_pick[i].sequence.length-1, passenger_data_pick[i].sequence.length)
                 }
-                if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
-                   document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
-                   document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
-                   if(document.getElementById(passenger_check.type+passenger_check.number).value == passenger_data_pick[i].seq_id)
-                   error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+                if(document.getElementById(passenger_check.type+passenger_check.number).value == passenger_data_pick[i].seq_id){
+                    if(document.getElementById(passenger_check.type+'_title'+passenger_check.number).value != passenger_data_pick[i].title ||
+                       document.getElementById(passenger_check.type+'_first_name'+passenger_check.number).value != passenger_data_pick[i].first_name ||
+                       document.getElementById(passenger_check.type+'_last_name'+passenger_check.number).value != passenger_data_pick[i].last_name)
+                        error_log += "Search "+passenger_check.type+" "+passenger_check.number+" doesn't match!</br>\nPlease don't use inspect element!</br>\n";
+                }
            }else if(passenger_data_pick[i].sequence == 'booker'){
                 if(document.getElementById('booker_title').value != passenger_data_pick[i].title ||
                     document.getElementById('booker_first_name').value != passenger_data_pick[i].first_name ||

@@ -392,6 +392,7 @@ def review(request):
             'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
             'countries': airline_country,
             'phone_code': phone_code,
+            'upsell': request.session.get('hotel_upsell_'+request.session['hotel_signature']) and request.session.get('hotel_upsell_'+request.session['hotel_signature']) or 0,
             'hotel_search': request.session['hotel_request'],
             'hotel_pick': request.session['hotel_detail'],
             'hotel_room_detail_pick': request.session['hotel_room_pick'],

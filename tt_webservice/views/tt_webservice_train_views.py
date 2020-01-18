@@ -64,6 +64,8 @@ def api_models(request):
             res = assign_seats(request)
         elif req_data['action'] == 'cancel':
             res = cancel(request)
+        elif req_data['action'] == 'update_service_charge':
+            res = update_service_charge(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -391,9 +393,14 @@ def update_service_charge(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            request.session['train_upsell_'+request.POST['signature']] = total_upsell
             logging.getLogger("info_logger").info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

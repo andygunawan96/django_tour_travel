@@ -304,6 +304,7 @@ def review(request):
             'id_types': id_type,
             'train_request': request.session['train_request'],
             'response': request.session['train_pick'],
+            'upsell': request.session.get('train_upsell_'+request.session['train_signature']) and request.session.get('train_upsell_'+request.session['train_signature']) or 0,
             'username': request.session['user_account'],
             'passenger': request.session['train_create_passengers'],
             'javascript_version': javascript_version,

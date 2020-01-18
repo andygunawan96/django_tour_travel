@@ -357,6 +357,7 @@ def review(request):
             'countries': airline_country,
             'phone_code': phone_code,
             'visa': list_of_visa,
+            'upsell': request.session.get('visa_upsell_'+request.session['visa_signature']) and request.session.get('visa_upsell_'+request.session['visa_signature']) or 0,
             'type': request.session['list_of_visa_type'],
             'visa_request': request.session['visa_request'],
             'passengers': pax,

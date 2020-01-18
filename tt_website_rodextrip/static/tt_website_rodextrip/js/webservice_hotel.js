@@ -1046,7 +1046,8 @@ function hotel_get_booking(data){
                                 text_detail+= `</span>
                             </div>
                         </div>`;
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        if(msg.result.response.status != 'issued')
+                            text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
                             <hr/>
@@ -1309,30 +1310,73 @@ function share_data_room(){
     $text_share = window.encodeURIComponent($text);
 }
 
-function update_service_charge(){
-    document.getElementById('hotel_booking').innerHTML = '';
-    upsell = []
-    hotel_get_detail = msg;
-    for(i in hotel_get_detail.result.response.hotel_rooms){
-        currency = hotel_get_detail.result.response.hotel_rooms[i].currency;
-    }
-    for(i in hotel_get_detail.result.response.passengers){
-        list_price = []
-        for(j in list){
-            if(hotel_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
-                list_price.push({
-                    'amount': list[j],
-                    'currency_code': currency
-                });
-            }
-
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        document.getElementById('hotel_booking').innerHTML = '';
+        upsell = []
+        hotel_get_detail = msg;
+        for(i in hotel_get_detail.result.response.hotel_rooms){
+            currency = hotel_get_detail.result.response.hotel_rooms[i].currency;
         }
-        upsell.push({
-            'sequence': i,
-            'pricing': JSON.parse(JSON.stringify(list_price))
-        });
+        for(i in hotel_get_detail.result.response.passengers){
+            list_price = []
+            for(j in list){
+                if(hotel_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                }
+
+            }
+            upsell.push({
+                'sequence': i,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
+        }
+        repricing_order_number = hotel_get_booking.result.response.booking_name;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = -1;
+        currency = 'IDR';
+        for(i in adult){
+            list_price = []
+            for(j in list){
+                if(adult[i].first_name+adult[i].last_name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                    upsell_price += list[j];
+                }
+            }
+            counter_pax++;
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
+        for(i in child){
+            for(j in list){
+                if(child[i].first_name+child[i].last_name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                    upsell_price += list[j];
+                }
+            }
+            counter_pax++;
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
     }
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -1340,16 +1384,23 @@ function update_service_charge(){
             'action': 'update_service_charge',
        },
        data: {
-           'order_number': JSON.stringify(order_number),
+           'order_number': JSON.stringify(repricing_order_number),
            'passengers': JSON.stringify(upsell),
            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                airline_get_booking(order_number);
+                if(type == 'booking'){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    airline_get_booking(hotel_get_booking.result.response.booking_name);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    hotel_detail();
+                }
+
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 logout();
@@ -1357,7 +1408,7 @@ function update_service_charge(){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline service charge </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error hotel service charge </span>' + msg.result.error_msg,
                 })
                 $('.loader-rodextrip').fadeOut();
            }
@@ -1366,7 +1417,7 @@ function update_service_charge(){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+              html: '<span style="color: red;">Error hotel service charge </span>' + errorThrown,
             })
             $('.loader-rodextrip').fadeOut();
        },timeout: 60000

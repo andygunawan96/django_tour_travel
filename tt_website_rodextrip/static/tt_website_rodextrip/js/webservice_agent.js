@@ -935,8 +935,11 @@ function pick_passenger(type, sequence, product){
             document.getElementById('adult_first_name'+passenger_number).readOnly = true;
             document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
             document.getElementById('adult_last_name'+passenger_number).readOnly = true;
-            capitalizeInput('adult_first_name'+passenger_number);
-            capitalizeInput('adult_last_name'+passenger_number);
+
+//            capitalizeInput('adult_first_name'+passenger_number);
+//            passenger_data[sequence].first_name = document.getElementById('adult_first_name'+passenger_number).value;
+//            capitalizeInput('adult_last_name'+passenger_number);
+//            passenger_data[sequence].last_name = document.getElementById('adult_last_name'+passenger_number).value;
 
             document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
             if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
@@ -1005,8 +1008,12 @@ function pick_passenger(type, sequence, product){
             document.getElementById('booker_first_name').readOnly = true;
             document.getElementById('booker_last_name').value = passenger_data[sequence].last_name;
             document.getElementById('booker_last_name').readOnly = true;
-            capitalizeInput('booker_first_name');
-            capitalizeInput('booker_last_name');
+
+//            capitalizeInput('booker_first_name');
+//            passenger_data[sequence].first_name = document.getElementById('booker_first_name').value;
+//            capitalizeInput('booker_last_name');
+//            passenger_data[sequence].last_name = document.getElementById('booker_last_name').value;
+
             if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                 document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_name;
                 document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
@@ -1089,8 +1096,12 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('adult_last_name'+passenger_number).readOnly = true;
                 document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
-                capitalizeInput('adult_first_name'+passenger_number);
-                capitalizeInput('adult_last_name'+passenger_number);
+
+//                capitalizeInput('adult_first_name'+passenger_number);
+//                passenger_data[sequence].first_name = document.getElementById('adult_first_name'+passenger_number).value;
+//                capitalizeInput('adult_last_name'+passenger_number);
+//                passenger_data[sequence].last_name = document.getElementById('adult_last_name'+passenger_number).value;
+
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-adult_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
                     document.getElementById('adult_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
@@ -1233,8 +1244,12 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('child_first_name'+passenger_number).readOnly = true;
                 document.getElementById('child_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('child_last_name'+passenger_number).readOnly = true;
-                capitalizeInput('child_first_name'+passenger_number);
-                capitalizeInput('child_last_name'+passenger_number);
+
+//                capitalizeInput('child_first_name'+passenger_number);
+//                passenger_data[sequence].first_name = document.getElementById('child_first_name'+passenger_number).value;
+//                capitalizeInput('child_last_name'+passenger_number);
+//                passenger_data[sequence].last_name = document.getElementById('child_last_name'+passenger_number).value;
+
                 document.getElementById('child_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-child_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
@@ -1313,8 +1328,12 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('infant_first_name'+passenger_number).readOnly = true;
                 document.getElementById('infant_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('infant_last_name'+passenger_number).readOnly = true;
-                capitalizeInput('infant_first_name'+passenger_number);
-                capitalizeInput('infant_last_name'+passenger_number);
+
+//                capitalizeInput('infant_first_name'+passenger_number);
+//                passenger_data[sequence].first_name = document.getElementById('infant_first_name'+passenger_number).value;
+//                capitalizeInput('infant_last_name'+passenger_number);
+//                passenger_data[sequence].last_name = document.getElementById('infant_last_name'+passenger_number).value;
+
                 document.getElementById('infant_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-infant_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
@@ -1393,8 +1412,12 @@ function pick_passenger(type, sequence, product){
                 document.getElementById('senior_first_name'+passenger_number).readOnly = true;
                 document.getElementById('senior_last_name'+passenger_number).value = passenger_data[sequence].last_name;
                 document.getElementById('senior_last_name'+passenger_number).readOnly = true;
-                capitalizeInput('senior_first_name'+passenger_number);
-                capitalizeInput('senior_last_name'+passenger_number);
+
+//                capitalizeInput('senior_first_name'+passenger_number);
+//                passenger_data[sequence].first_name = document.getElementById('senior_first_name'+passenger_number).value;
+//                capitalizeInput('senior_last_name'+passenger_number);
+//                passenger_data[sequence].last_name = document.getElementById('senior_last_name'+passenger_number).value;
+
                 document.getElementById('senior_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                 if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                     document.getElementById('select2-senior_nationality'+passenger_number+'_id-container').innerHTML = passenger_data[sequence].nationality_name;
@@ -1709,6 +1732,8 @@ function clear_passenger(type, sequence){
         document.getElementById('booker_id_number').value = '';
         document.getElementById('booker_exp_date').value = '';
         document.getElementById('booker_country_of_issued').value = '';
+        document.getElementsByName('myRadios')[1].checked = true;
+        clear_passenger('Adult', 1);
     }else if(type == 'Adult'){
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence == 'adult'+sequence){

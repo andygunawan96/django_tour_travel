@@ -425,11 +425,14 @@ def create_booking(request):
                             if pax['nationality_name'] == country['name']:
                                 pax['nationality_code'] = country['code']
                                 break
-                    pax.update({
-                        'birth_date': '%s-%s-%s' % (
-                            pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                            pax['birth_date'].split(' ')[0]),
-                    })
+                    try:
+                        pax.update({
+                            'birth_date': '%s-%s-%s' % (
+                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                                pax['birth_date'].split(' ')[0]),
+                        })
+                    except:
+                        pass
                     passenger.append(pax)
         booker = request.session['hotel_review_pax']['booker']
         contacts = request.session['hotel_review_pax']['contact']
@@ -567,9 +570,14 @@ def update_service_charge(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
+            total_upsell = 0
+            for upsell in data['passengers']:
+                for pricing in upsell['pricing']:
+                    total_upsell += pricing['amount']
+            request.session['hotel_upsell_'+request.POST['signature']] = total_upsell
             logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

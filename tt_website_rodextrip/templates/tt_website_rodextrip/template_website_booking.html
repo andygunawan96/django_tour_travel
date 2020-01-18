@@ -1205,7 +1205,7 @@ Licence URI: http://www.os-templates.com/template-terms
 </script>
 {% endif %}
 <!--Start of Tawk.to Script-->
-{% if tawk_code != '' and username == '' %}
+{% if tawk_code != '' and username.user_name != '' %}
 <script type="text/javascript">
 var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
 Tawk_API.visitor = {

@@ -593,6 +593,7 @@ def review(request):
             'infant': request.session['tour_booking_data']['infant'],
             'room_list': request.session['tour_booking_data']['room_list'],
             'room_amount': int(request.session['tour_booking_data']['room_amount']),
+            'upsell': request.session.get('tour_upsell_'+request.session['tour_signature']) and request.session.get('tour_upsell_'+request.session['tour_signature']) or 0,
             'booker': booker,
             'adult_pax': adult,
             'child_pax': child,
