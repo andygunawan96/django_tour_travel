@@ -125,6 +125,10 @@ def index(request):
                         tour_countries = []
                         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                     # tour
+                    try:
+                        del request.session['hotel_error']
+                    except:
+                        pass
 
                     #get_data_awal
                     cache = {}

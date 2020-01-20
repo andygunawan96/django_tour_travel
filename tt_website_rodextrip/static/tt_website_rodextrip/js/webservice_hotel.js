@@ -632,7 +632,14 @@ function hotel_provision(price_code, provider){
           "provider": provider
        },
        success: function(msg) {
+            //testing
             console.log(msg);
+            provision = msg;
+            if(msg.result.error_code == 0){
+                document.getElementById('issued_hotel_btn').style.display = 'block';
+            }else if(msg.result.error_code == 4006){
+                document.getElementById('issued_hotel_btn').style.display = 'block';
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -649,6 +656,153 @@ function gotoForm(){
 }
 
 function hotel_issued_alert(){
+    Swal.fire({
+      title: 'Are you sure you want to Force Issued this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+//        hotel_issued_booking();
+        if(provision.result.error_code == 0){
+            $('.next-loading-booking').prop('disabled', true);
+            $('.next-loading-issued').addClass("running");
+            $('.next-loading-issued').prop('disabled', true);
+            $('.loader-rodextrip').fadeIn();
+            document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+            document.getElementById("signature").value = signature;
+            document.getElementById("provider").value = 'hotel';
+            document.getElementById("type").value = 'hotel_review';
+            document.getElementById("voucher_code").value = voucher_code;
+            document.getElementById("discount").value = JSON.stringify(discount_voucher);
+            document.getElementById("session_time_input").value = time_limit;
+            document.getElementById('hotel_issued').submit();
+        }else if(provision.result.error_code == 4006){
+            text = '';
+            text += `
+                <div class="row" style="margin-bottom:5px; ">
+                    <div class="col-lg-12">
+                       <h4> Old Price </h4>
+                       <hr/>
+                    </div>
+                </div>`;
+            for(i in hotel_price.rooms){
+                text += '<h5>'+ hotel_price.rooms[i].description + '</h5>';
+                text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
+                //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
+                text += '<span>Meal Type: ' + hotel_price.meal_type + '</span/><br/><br/>';
+
+                text += `<div class="row">`;
+                for(j in hotel_price.rooms[i].nightly_prices){
+                    date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
+                    if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                    }else{
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                    }
+                }
+                try{
+                    grand_total_price = parseInt(hotel_price.rooms[i].price_total);
+                }catch(err){}
+                text += `<div class="col-lg-12"><hr/></div>`;
+                try{
+                    if(upsell_price != 0){
+                        text+=`<div class="col-lg-7" style="text-align:left;">
+                            <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                        </div>
+                        <div class="col-lg-5" style="text-align:right;">`;
+                        text+=`
+                            <span style="font-size:13px; font-weight:500;">`+hotel_price.rooms[i].nightly_prices[j].currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+                        text+=`</div>`;
+                        grand_total_price += upsell_price;
+                    }
+                }catch(err){console.log(err)}
+                text += `<div class="col-lg-6">
+                    <span style="font-weight:bold;">Total</span>
+                </div>
+                <div class="col-lg-6" style="text-align:right;">
+                    <span style="font-weight:bold;">`+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(grand_total_price) +`</span>
+                </div>
+                <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
+                    </div>
+                </div>`;
+                text += `<div class="col-lg-12">
+                    <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Show Commission"/>
+                </div>`;
+                text += `</div>`;
+            }
+            document.getElementById('old_price').innerHTML = text;
+            text = '';
+            temporary = provision.result.response;
+
+            text += `
+                <div class="row" style="margin-bottom:5px; ">
+                    <div class="col-lg-12">
+                       <h4> New Price </h4>
+                       <hr/>
+                    </div>
+                </div>`;
+            for(i in temporary.rooms){
+                text += '<h5>'+ temporary.rooms[i].description + '</h5>';
+                text += '<span>Qty: '+ temporary.rooms[i].qty + '</span><br/>';
+                //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
+                text += '<span>Meal Type: ' + temporary.meal_type + '</span/><br/><br/>';
+
+                text += `<div class="row">`;
+                for(j in temporary.rooms[i].nightly_prices){
+                    date = new Date(temporary.rooms[i].nightly_prices[j].date).toString().split(' ');
+                    if(temporary.rooms[i].nightly_prices[j].currency != 'IDR'){
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + temporary.rooms[i].nightly_prices[j].currency + ' ' + parseInt((temporary.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                    }else{
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + temporary.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(temporary.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                    }
+                }
+                try{
+                    grand_total_price = parseInt(temporary.rooms[i].price_total);
+                }catch(err){}
+                text += `<div class="col-lg-12"><hr/></div>`;
+                try{
+                    if(upsell_price != 0){
+                        text+=`<div class="col-lg-7" style="text-align:left;">
+                            <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                        </div>
+                        <div class="col-lg-5" style="text-align:right;">`;
+                        text+=`
+                            <span style="font-size:13px; font-weight:500;">`+temporary.rooms[i].currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+                        text+=`</div>`;
+                        grand_total_price += upsell_price;
+                    }
+                }catch(err){console.log(err)}
+                text += `<div class="col-lg-6">
+                    <span style="font-weight:bold;">Total</span>
+                </div>
+                <div class="col-lg-6" style="text-align:right;">
+                    <span style="font-weight:bold;">`+temporary.rooms[i].currency+` `+ getrupiah(grand_total_price) +`</span>
+                </div>
+                <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.rooms[i].commission)) +`</span><br>
+                    </div>
+                </div>`;
+                text += `<div class="col-lg-12">
+                    <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Show Commission"/>
+                </div>`;
+                text += `</div>`;
+            }
+
+            document.getElementById('new_price').innerHTML = text;
+
+            $("#ModalChangePrice").modal('show');
+        }
+      }
+    })
+}
+
+function hotel_force_issued_alert(){
     Swal.fire({
       title: 'Are you sure you want to Force Issued this booking?',
       type: 'warning',
@@ -757,6 +911,7 @@ function hotel_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
+            document.getElementById('show_loading_booking_airline').hidden = true;
             try{
                 if(msg.result.error_code == 0){
                     hotel_get_detail = msg;

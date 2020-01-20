@@ -1263,12 +1263,40 @@ function get_booking_offline(data){
                     </div>
                     <div class="col-lg-4" style="padding-bottom:10px;">`;
                         if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                            if (msg.result.response.state == 'issued'){
+                            if(msg.result.response.attachment.length != 0){
                                 text+=`
-                                <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
+                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printAttachment" value="Attachment"/>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </a>`;
+                                text+=`
+                                    <div class="modal fade" id="printAttachment" role="dialog" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                          <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:`+text_color+`">Attachment</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">`;
+                                                            for(i in msg.result.response.attachment){
+                                                                text+=`
+                                                                <a href="`+msg.result.response.attachment[i].url+`" target="_blank" style="display:block;">`+msg.result.response.attachment[i].filename+`</a>`;
+                                                            }
+                                                            text+=`
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                `;
                             }
                         }
                             text+=`
