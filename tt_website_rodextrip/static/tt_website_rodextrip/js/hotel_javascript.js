@@ -1364,6 +1364,24 @@ function show_commission_hotel(){
     }
 }
 
+function show_commission_hotel_price_change(type){
+    if(type == 'old'){
+        var sc = document.getElementById("show_commission_hotel_old");
+        var scs = document.getElementById("show_commission_button_hotel_old");
+    }else{
+        var sc = document.getElementById("show_commission_hotel_new");
+        var scs = document.getElementById("show_commission_button_hotel_new");
+    }
+    if (sc.style.display === "none"){
+        sc.style.display = "block";
+        scs.value = "Hide Commission";
+    }
+    else{
+        sc.style.display = "none";
+        scs.value = "Show Commission";
+    }
+}
+
 function goto_passenger(){
     document.getElementById('hotel_detail_send').value = JSON.stringify(hotel_room);
     document.getElementById('time_limit_input').value = time_limit;

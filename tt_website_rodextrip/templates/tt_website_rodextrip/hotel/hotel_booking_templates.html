@@ -67,22 +67,15 @@
                 <h4> {{ error_msg }} </h4>
                 {% endif %}
             </div>
-            <div class="col-lg-12" id="show_loading_booking_airline" style="display:none;">
-                <div class="sk-circle">
-                    <div class="sk-circle1 sk-child"></div>
-                    <div class="sk-circle2 sk-child"></div>
-                    <div class="sk-circle3 sk-child"></div>
-                    <div class="sk-circle4 sk-child"></div>
-                    <div class="sk-circle5 sk-child"></div>
-                    <div class="sk-circle6 sk-child"></div>
-                    <div class="sk-circle7 sk-child"></div>
-                    <div class="sk-circle8 sk-child"></div>
-                    <div class="sk-circle9 sk-child"></div>
-                    <div class="sk-circle10 sk-child"></div>
-                    <div class="sk-circle11 sk-child"></div>
-                    <div class="sk-circle12 sk-child"></div>
+            <div class="col-lg-12" id="show_loading_booking_airline">
+                <div class="center-div">
+                    <div>
+                        <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                    </div>
                 </div>
-                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                <div style="text-align:center">
+                    <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
+                </div>
             </div>
             <div class="col-lg-8" id="hotel_resv_left">
                 <div class="row review-header" style="padding:10px; margin-bottom:15px;">

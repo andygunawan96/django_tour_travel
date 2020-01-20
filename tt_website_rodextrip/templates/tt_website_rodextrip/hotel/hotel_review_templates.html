@@ -245,7 +245,7 @@
                         <div class="col-lg-12">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="hotel_issued_alert();">
+                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;display:none;" id="issued_hotel_btn" onclick="hotel_issued_alert();">
                                 Issued Booking
                             </button>
                             {% endif %}
@@ -313,6 +313,38 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="ModalChangePrice" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div style="text-align:center" id="old_price">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div style="text-align:center" id="new_price">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="hotel_force_issued_alert();">Force Issued</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!--<div class="col-lg-8">-->
                     <!--<div class="row">-->
                         <!--<div class="col-lg-8"></div>-->
@@ -345,7 +377,7 @@
     //document.getElementById('voucher_discount').style.display = 'none';
     hotel_detail();
     hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
-    get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
+    //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
       breadcrumb_create("hotel", 5, 0);
     });
