@@ -2146,8 +2146,21 @@ function sort(){
                                <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
                                    <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                     <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                               </a>
-                           </div>
+                               </a>`;
+                               check_combo_price = false;
+                               for(j in airline_pick_list){
+                                   for(k in airline_pick_list[j].journey_group_fares){
+                                       if(airline[i].journey_group_fares.includes(airline_pick_list[j].journey_group_fares[k]) == true){
+                                           check_combo_price = true;
+                                           break;
+                                       }
+                                   }
+                                   if(check_combo_price == true)
+                                       break;
+                               }
+                               if(check_combo_price == true)
+                                    text+=`<label>Combo Price</label>`;
+                           text+=`</div>
                            <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
                                <div>
                                <span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span>`;
@@ -2626,7 +2639,21 @@ function sort(){
                                     <a id="detail_button_journey0`+i+`" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: #237395; text-decoration: unset;" aria-expanded="true">
                                         <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                         <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
-                                    </a>
+                                    </a>`;
+                                    check_combo_price = false;
+                                    for(j in airline_pick_list){
+                                        for(k in airline_pick_list[j].journey_group_fares){
+                                            if(airline[i].journey_group_fares.includes(airline_pick_list[j].journey_group_fares[k]) == true){
+                                                check_combo_price = true;
+                                                break;
+                                            }
+                                        }
+                                        if(check_combo_price == true)
+                                            break;
+                                    }
+                                    if(check_combo_price == true)
+                                        text+=`<label>Combo Price</label>`;
+                                text+=`
                                 </div>
                                 <div class="col-lg-8 col-md-8 col-sm-8">
                                     <div class="row">
