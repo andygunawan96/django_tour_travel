@@ -1896,7 +1896,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #header.header-scrolled {
-  background: rgba(0, 0, 0, 0.8);
+  /*background: rgba(0, 0, 0, 0.8);*/
   transition: all 0.5s;
 }
 
@@ -2279,7 +2279,11 @@ primary-btn:disabled {
 
 .banner-area {
   background: url(../../images/bg_7.jpg) center;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
   background-size: cover;
+
 }
 
 .banner-area .overlay-bg {
@@ -3157,7 +3161,7 @@ primary-btn:disabled {
 ################
 */
 
-.single-destination:hover{
+.single-destination.avail-sd:hover{
     box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
     z-index:10;
     cursor:pointer;
@@ -3544,6 +3548,11 @@ ul.create_tabs li:hover{
    color:#f15a22;
 }
 
+ul.create_tabs li label:hover{
+   color:#f15a22;
+   cursor:pointer;
+}
+
 li.create_tab-link label{
     cursor: pointer;
     text-align:center;
@@ -3815,7 +3824,7 @@ ul.tabs li.current .image-rounded-icon{
   display: -ms-flexbox; /* IE10 */
   display: flex;
   width: 100%;
-  margin-bottom:15px;
+  margin-bottom:5px;
 }
 
 .icon-search-ticket {
@@ -3945,6 +3954,7 @@ ul.tabs li.current .image-rounded-icon{
 
     position: absolute;
     left: 53%;
+    top:60px;
     z-index: 10;
     height: 40px;
     width: 40px;
@@ -4380,7 +4390,7 @@ ul.tabs li.current .image-rounded-icon{
   position: absolute;
   top: -10px;
   right: -25px;
-  padding: 10px 16px;
+  padding: 10px 14px;
   border-radius: 50%;
   background-color: white;
   color: black;
@@ -7540,3 +7550,18 @@ display: block;
   cursor: pointer;
   position: relative;
 }
+
+.single-post-area .overlay-bg-disabled {
+  background: rgba(150, 150, 150, 1) !important;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  opacity: 0.5;
+}
+
+.single-post-area.disabled-post{
+    transform: unset !important;
+    box-shadow: unset !important;
+}
+

@@ -369,6 +369,7 @@
     </div>
 </section>
 <section class="banner-area relative" id="change_search_box" style="padding-top:5px; padding-bottom:5px; z-index:100; position:relative; display:none;">
+    <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row fullscreen d-flex">
             <div class="col-lg-12 header-right" style="padding-top:50px; padding-bottom:50px; background-color:unset; border:unset;">
@@ -435,7 +436,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
@@ -485,8 +486,18 @@
                 </div>
             </div>
         </div>
+
+
+        {% if template == 1%}
         <div class="row full_tour_details">
             <div class="col-lg-12">
+        {% elif template == 2 %}
+        <div class="row full_tour_details hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
+            <div class="col-lg-12 hotel-search-form" style="background-color:unset; padding:15px; box-shadow:unset;">
+        {% elif template == 3 %}
+        <div class="row full_tour_details">
+            <div class="col-lg-12 header-right" style="background:unset; border:unset;">
+        {%endif%}
                 {% csrf_token %}
                 <div class="row" style="position:sticky;top: 40px;z-index: 89;">
                     <div class="col-lg-12">
@@ -546,9 +557,9 @@
 
                             </div>
                         </div>
-                        {% elif template == 2 or template == 3%}
+                        {% elif template == 2%}
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
-                            <ul class="tabs">
+                            <ul class="tabs" style="background:white;">
                                 <li class="tab-link current" data-tab="tab-itinerary"><label>Itinerary</label></li>
                                 {% if response.flight == 'include'%}
                                 <li class="tab-link" data-tab="tab-flight"><label>Flight Details</label></li>
@@ -570,6 +581,35 @@
                             </div>
                             {% endif %}
                             <div id="tab-other" class="tab-content">
+                                <div id="other_info">
+
+                                </div>
+                            </div>
+                        </div>
+                        {% elif template == 3%}
+                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
+                            <ul class="create_tabs" style="background:white;">
+                                <li class="create_tab-link current" data-tab="tab-itinerary"><label>Itinerary</label></li>
+                                {% if response.flight == 'include'%}
+                                <li class="create_tab-link" data-tab="tab-flight"><label>Flight Details</label></li>
+                                {% endif %}
+                                <li class="create_tab-link" data-tab="tab-other"><label>Tour Info</label></li>
+                            </ul>
+                        </div>
+                        <div style="border:1px solid #cdcdcd; background:white;">
+                            <div id="tab-itinerary" class="create_tab-content current">
+                                <div id="itinerary">
+
+                                </div>
+                            </div>
+                            {% if response.flight == 'include'%}
+                            <div id="tab-flight" class="create_tab-content">
+                                <div id="flight_details" style="overflow: scroll;">
+
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div id="tab-other" class="create_tab-content">
                                 <div id="other_info">
 
                                 </div>

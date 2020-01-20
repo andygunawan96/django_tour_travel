@@ -1815,6 +1815,9 @@ function activity_filter_render(){
         text+=`
         <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
             <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
+    }else if(template == 3){
+        text+=`
+        <div class="header-right" style="background:unset; border:unset;">`;
     }
     text+=`
         <div class="form-wrap" style="padding:0px; text-align:left;">
@@ -1824,7 +1827,7 @@ function activity_filter_render(){
             </div>
             <hr/>
             <h6 class="filter_general" onclick="show_hide_general('activityPrice');">Price Range <i class="fas fa-chevron-down" id="activityPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="activityPrice_generalUp" style="float:right; display:block;"></i></h6>
-            <div class="wrapper" id="activityPrice_generalShow" style="display:inline-block;">
+            <div id="activityPrice_generalShow" style="display:inline-block;">
                 <div class="range-slider">
                     <input type="text" class="js-range-slider"/>
                 </div>
@@ -2148,7 +2151,7 @@ function sort(activity_dat, check){
                    }else{
                         text+=`
                         <div class="single-post-area mb-30 activity_box" style="cursor:pointer;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">
-                            <div class="single-destination relative">
+                            <div class="single-destination avail-sd relative">
                                 <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                     <div class="overlay overlay-bg"></div>
                                     <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">

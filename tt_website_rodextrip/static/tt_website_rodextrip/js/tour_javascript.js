@@ -207,6 +207,8 @@ function read_other_info_dict(data, current_list_type){
                 temp_txt2 += '<li>';
             }else if(template == 2){
                 temp_txt2 += '<li style="list-style:unset;">'
+            }else if(template == 3){
+                temp_txt2 += '<li style="list-style:unset;">'
             }
         }
 
@@ -314,7 +316,11 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         if(template == 1){
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
-        template_txt += '<div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+        if(template == 3){
+            template_txt += '<div class="default-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+        }else{
+            template_txt += '<div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+        }
         for (var i=1; i<=parseInt(room_data.adult_limit); i++)
         {
             if (i == 1) {template_txt += '<option selected value="' + i + '">' + i + '</option>';}
@@ -331,7 +337,12 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         if(template == 1){
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
-        template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        if(template == 3){
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        }else{
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        }
+
         for (var i=0; i<=parseInt(room_data.pax_limit)-1; i++)
         {
             if (i == 0) {template_txt += '<option selected value="' + i + '">' + i + '</option>';}
@@ -348,7 +359,12 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         if(template == 1){
             template_txt += '<div class="input-container-search-ticket btn-group">';
         }
-        template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        if(template == 3){
+            template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        }else{
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        }
+
         template_txt += '<option selected value="0">0</option>';
         template_txt += '<option value="1">1</option>';
         template_txt += '</select></div>';
@@ -1025,6 +1041,8 @@ function tour_filter_render(){
                 text+=`
                 <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
                     <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
+            }else if(template == 3){
+                text+=`<div class="header-right" style="background:unset; border:unset;">`;
             }
             text+=`
                 <div class="form-wrap" style="padding:0px; text-align:left;">
@@ -1522,7 +1540,7 @@ function sort(tour_dat, exist_check){
                         {
                             text+=`
                             <div class="single-recent-blog-post item" style="cursor:pointer;" onclick="go_to_detail('`+tour_dat[i].sequence+`')">
-                                <div class="single-destination relative">
+                                <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
                                         <img class="img-fluid" src="`+img_src+`" alt="">
@@ -1581,7 +1599,67 @@ function sort(tour_dat, exist_check){
                         {
                             text+=`
                             <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                                <div class="single-destination avail-sd relative">
+                                    <div class="thumb relative">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body" style="padding:15px;">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                    }else if(template == 3){
+                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
+                        {
+                            text+=`
+                            <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
                                 <div class="single-destination relative">
+                                    <div style="background:red; position:absolute; right:0px; padding:20px; z-index:10;">
+                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
+                                    </div>
+                                    <div class="thumb relative">
+                                        <div class="overlay overlay-bg overlay-bg-disabled"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
+                                        <div class="card-body" style="padding:15px;">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
+                                                    <br/>
+                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                        else
+                        {
+                            text+=`
+                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                                <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
                                         <img class="img-fluid" src="`+img_src+`" alt="">

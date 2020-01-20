@@ -959,10 +959,10 @@ function train_detail(){
     <hr/>
     <div class="row" style="margin-bottom:5px;">
         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-            <span style="color:`+text_color+`;font-size:13px;"><b>Total</b></span><br>
+            <span style="font-size:13px;"><b>Total</b></span><br>
         </div>
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-            <span style="color:`+text_color+`;font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
+            <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(total_price+total_tax)+`</b></span><br>
         </div>
     </div>
 
