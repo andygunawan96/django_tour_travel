@@ -1117,7 +1117,6 @@ function get_price_itinerary(val){
                 }
             }
         }
-        console.log(airline_pick_list);
         if(airline_request.direction == 'MC')
             airline_pick_mc('all');
         else

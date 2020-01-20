@@ -922,6 +922,9 @@ function pick_passenger(type, sequence, product){
 //                    break;
 //                }
 //            }
+            for(i in document.getElementById('adult_title'+passenger_number).options){
+                document.getElementById('adult_title'+passenger_number).options[i].disabled = false;
+            }
             document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
             for(i in document.getElementById('adult_title'+passenger_number).options){
                 if(document.getElementById('adult_title'+passenger_number).options[i].selected != true)
@@ -997,6 +1000,9 @@ function pick_passenger(type, sequence, product){
                 }
             }
             document.getElementById('booker_title').value = passenger_data[sequence].title;
+            for(i in document.getElementById('booker_title').options){
+                document.getElementById('booker_title').options[i].disabled = false;
+            }
             for(i in document.getElementById('booker_title').options){
                 if(document.getElementById('booker_title').options[i].selected != true)
                    document.getElementById('booker_title').options[i].disabled = true;
@@ -1083,6 +1089,9 @@ function pick_passenger(type, sequence, product){
                 }
                 document.getElementById('adult_title'+passenger_number).value = passenger_data[sequence].title;
                 for(i in document.getElementById('adult_title'+passenger_number).options){
+                    document.getElementById('adult_title'+passenger_number).options[i].disabled = false;
+                }
+                for(i in document.getElementById('adult_title'+passenger_number).options){
                     if(document.getElementById('adult_title'+passenger_number).options[i].selected != true)
                         document.getElementById('adult_title'+passenger_number).options[i].disabled = true;
                 }
@@ -1090,7 +1099,6 @@ function pick_passenger(type, sequence, product){
                     $('#adult_title'+passenger_number).niceSelect('update');
                 }
 
-                console.log(document.getElementById('adult_title'+passenger_number).options);
                 document.getElementById('adult_first_name'+passenger_number).value = passenger_data[sequence].first_name;
                 document.getElementById('adult_first_name'+passenger_number).readOnly = true;
                 document.getElementById('adult_last_name'+passenger_number).value = passenger_data[sequence].last_name;
@@ -1124,7 +1132,7 @@ function pick_passenger(type, sequence, product){
                     //document.getElementById('adult_country_of_issued'+passenger_number).value = passenger_data[sequence].country_of_issued_id.code;
                 }else if(product == 'train'){
                     if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
-                        document.getElementById('adult_id_type'+passenger_number).value = 'pas';
+                        document.getElementById('adult_id_type'+passenger_number).value = 'passport';
                         document.getElementById('adult_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;
                         document.getElementById('adult_passport_number'+passenger_number).readOnly = true;
                         if(passenger_data[sequence].identities.passport.identity_country_of_issued_name != '' && passenger_data[sequence].identities.passport.identity_country_of_issued_name != undefined){
@@ -1176,6 +1184,7 @@ function pick_passenger(type, sequence, product){
                             document.getElementById('adult_passport_expired_date'+passenger_number).value = passenger_data[sequence].identities.passport.identity_expdate;
                         }
                     }
+                    $('#adult_id_type'+passenger_number).niceSelect('update');
                 }
                 try{
                     document.getElementById('adult_email'+passenger_number).value = passenger_data[sequence].email;
@@ -1233,6 +1242,9 @@ function pick_passenger(type, sequence, product){
                     }
                 }
                 document.getElementById('child_title'+passenger_number).value = passenger_data[sequence].title;
+                for(i in document.getElementById('child_title'+passenger_number).options){
+                    document.getElementById('child_title'+passenger_number).options[i].disabled = false;
+                }
                 for(i in document.getElementById('child_title'+passenger_number).options){
                     if(document.getElementById('child_title'+passenger_number).options[i].selected != true)
                         document.getElementById('child_title'+passenger_number).options[i].disabled = true;
@@ -1318,6 +1330,9 @@ function pick_passenger(type, sequence, product){
                 }
                 document.getElementById('infant_title'+passenger_number).value = passenger_data[sequence].title;
                 for(i in document.getElementById('infant_title'+passenger_number).options){
+                    document.getElementById('infant_title'+passenger_number).options[i].disabled = false;
+                }
+                for(i in document.getElementById('infant_title'+passenger_number).options){
                     if(document.getElementById('infant_title'+passenger_number).options[i].selected != true)
                         document.getElementById('infant_title'+passenger_number).options[i].disabled = true;
                 }
@@ -1402,8 +1417,7 @@ function pick_passenger(type, sequence, product){
 
                 document.getElementById('senior_title'+passenger_number).value = passenger_data[sequence].title;
                 for(i in document.getElementById('senior_title'+passenger_number).options){
-                   if(document.getElementById('senior_title'+passenger_number).options[i].selected != true)
-                        document.getElementById('senior_title'+passenger_number).options[i].disabled = true;
+                    document.getElementById('senior_title'+passenger_number).options[i].disabled = false;
                 }
                 if(template != 4){
                     $('#senior_title'+passenger_number).niceSelect('update');
