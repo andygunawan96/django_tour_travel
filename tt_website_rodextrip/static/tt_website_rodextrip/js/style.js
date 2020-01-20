@@ -2350,7 +2350,7 @@ function please_wait_transaction(){
     <div style="text-align:center;" id="waitFlightSearch" style="display:block;">
         <div class="center-div-t">
             <div>
-                <img src="/static/tt_website_rodextrip/img/loading-screen.gif" style="height:30px; width:30px;"/>
+                <img src="/static/tt_website_rodextrip/img/loading-screen-white.gif" style="height:30px; width:30px;"/>
             </div>
         </div>
         <div style="text-align:center">

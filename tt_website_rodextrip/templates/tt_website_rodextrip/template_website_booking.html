@@ -42,6 +42,11 @@ Licence URI: http://www.os-templates.com/template-terms
             background-image: url("{{background}}") !important;
             min-height:250px;
         }
+        {%elif template == 3%}
+        .banner-area{
+            background-image: url("{{background}}") !important;
+            min-height:250px;
+        }
         {% endif %}
     </style>
     <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css">
@@ -770,6 +775,10 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{text_color}};
         }
 
+        .center-div-t div{
+            background-color: {{color}};
+        }
+
         {% if template == 1%}
         .btn-txt-color{
             color:{{color}};
@@ -998,6 +1007,12 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}};
         }
         {% elif template == 3 %}
+        .switch_a{
+            color:{{text_color}};
+        }
+        .switch_a:hover{
+            color:{{color}};
+        }
         .header-right{
             background-color: {{tab_color}};
         }

@@ -366,7 +366,7 @@ function activity_search(){
                             }else{
                                 text+=`
                                 <div class="single-post-area mb-30 activity_box" title="`+activity_data[i].name+`" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
-                                    <div class="single-destination relative">
+                                    <div class="single-destination avail-sd relative">
                                         <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                             <div class="overlay overlay-bg"></div>
                                             <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
@@ -764,7 +764,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                         text+=`</select>
                                     </div>
                                 </div>`;
-                            }else{
+                            }else if(template == 1){
                                 text+=`
                                 <div class="form-select" style="margin-bottom:5px;">
                                     <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
@@ -772,6 +772,18 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                     text+=`
                                         <option>`+j+`</option>`;
                                     text+=`</select>
+                                </div>`;
+
+                            }else if(template == 3){
+                                text+=`
+                                <div class="form-group">
+                                    <div class="default-select" style="margin-bottom:5px;">
+                                        <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
+                                        for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
+                                        text+=`
+                                            <option>`+j+`</option>`;
+                                        text+=`</select>
+                                    </div>
                                 </div>`;
                             }
                         if(activity_type[activity_type_pick].skus[i].minAge != null)
@@ -887,8 +899,13 @@ function activity_get_price_date(activity_type_pick, pricing_days){
 
                    if(activity_type[activity_type_pick].timeslots.length>0){
                        text += `<div class="col-xs-12">Timeslot</div>
-                                <div class="col-xs-12">
-                                <div class="form-select">
+                                <div class="col-xs-12">`;
+                       if(template == 1 || template == 2){
+                            text+=`<div class="form-select">`;
+                       }else if(template == 3){
+                            text+=`<div class="default-select">`;
+                       }
+                            text+=`
                                 <select style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
                        text += `<option value=''>Please Pick a Timeslot!</option></div>`;
                        for(j in activity_type[activity_type_pick].timeslots)
