@@ -1918,18 +1918,14 @@ function sort(){
                check_combo_price = false;
                for(j in airline_pick_list){
                     try{
-                        if(airline_pick_list[i].journey_group_fares.length != 0){
-                            for(k in airline_pick_list[j].segments){
-                                for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
-                                    if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
-                                        check_combo_price = true;
-                                    }
-                                }
-                                if(check_combo_price == true)
-                                    break;
+                        for(k in airline_pick_list[j].segments){
+                            if(airline[i].segments[0].fares[0].group_flight_id == '')
+                                check_combo_price = true
+                            else if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id){
+                                check_combo_price = true;
                             }
-                        }else{
-                            check_combo_price = true;
+                            if(check_combo_price == true)
+                                break;
                         }
                     }catch(err){check_combo_price = true;}
                     if(check_combo_price == true)
@@ -2170,20 +2166,18 @@ function sort(){
                                    </a>`;
                                    check_combo_price = false;
                                    for(j in airline_pick_list){
-                                       for(k in airline_pick_list[j].segments){
-                                           for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
-                                               if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
-                                                    check_combo_price = true;
-                                               }
-                                           }
-                                           if(check_combo_price == true)
-                                               break;
-                                       }
-                                       if(check_combo_price == true)
-                                           break;
+                                        for(k in airline_pick_list[j].segments){
+                                            if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id){
+                                                check_combo_price = true;
+                                            }
+                                            if(check_combo_price == true)
+                                                break;
+                                        }
+                                        if(check_combo_price == true)
+                                            break;
                                    }
                                    if(check_combo_price == true)
-                                        text+=`<label>Combo Price</label>`;
+                                       text+=`<label>Combo Price</label>`;
                                text+=`</div>
                                <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
                                    <div>
@@ -2438,23 +2432,18 @@ function sort(){
                check_combo_price = false;
                for(j in airline_pick_list){
                     try{
-                        if(airline_pick_list[i].journey_group_fares.length != 0){
-                            for(k in airline_pick_list[j].segments){
-                                for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
-                                    if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
-                                        check_combo_price = true;
-                                    }
-                                }
-                                if(check_combo_price == true)
-                                    break;
+                        for(k in airline_pick_list[j].segments){
+                            if(airline[i].segments[0].fares[0].group_flight_id == '')
+                                check_combo_price = true
+                            else if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id){
+                                check_combo_price = true;
                             }
-                        }else{
-                            check_combo_price = true;
-
+                            if(check_combo_price == true)
+                                break;
                         }
-                        if(check_combo_price == true)
-                            break;
                     }catch(err){check_combo_price = true;}
+                    if(check_combo_price == true)
+                        break;
                }
                if(check_combo_price == true){
                    ticket_count++;
@@ -2691,10 +2680,8 @@ function sort(){
                                         check_combo_price = false;
                                         for(j in airline_pick_list){
                                             for(k in airline_pick_list[j].segments){
-                                                for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
-                                                    if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
-                                                        check_combo_price = true;
-                                                    }
+                                                if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id){
+                                                    check_combo_price = true;
                                                 }
                                                 if(check_combo_price == true)
                                                     break;

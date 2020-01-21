@@ -508,9 +508,9 @@ function train_get_booking(data){
                         <th style="width:30%;">Phone</th>
                     </tr>`;
                     title = '';
-                    if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == true)
+                    if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == "married")
                         title = 'MRS';
-                    else if(msg.result.response.booker.gender == 'female' && msg.result.response.booker.marital_status == false)
+                    else if(msg.result.response.booker.gender == 'female')
                         title = 'MS'
                     else
                         title = 'MR';

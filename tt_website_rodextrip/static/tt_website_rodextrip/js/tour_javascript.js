@@ -435,46 +435,6 @@ function render_child_infant_selection(adult_select) {
     tour_table_detail();
 }
 
-function get_total_price(discount_total) {
-    var total_price = 0;
-    total_price += parseInt(document.getElementById("adult_price").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("adult_surcharge_price").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("child_price").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("child_surcharge_price").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("infant_price").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("single_supplement_price").getAttribute("data-price"));
-//    total_price += parseInt(document.getElementById("extrabed_total").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("airport_tax_total").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("tipping_guide_total").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("tipping_tour_leader_total").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("tipping_driver_total").getAttribute("data-price"));
-    total_price += parseInt(document.getElementById("additional_charge_total").getAttribute("data-price"));
-    document.getElementById("sub_total_hidden").value = total_price;
-    document.getElementById("sub_total").value = getrupiah(total_price);
-    document.getElementById("discount_total_hidden").value = discount_total;
-    document.getElementById("discount_total").value = getrupiah(discount_total);
-    document.getElementById("grand_total_hidden").value = total_price - discount_total;
-    document.getElementById("grand_total").value = getrupiah(total_price - discount_total);
-
-    var total_commission = 0;
-    total_commission += parseInt(document.getElementById("adult_commission").getAttribute("data-price"));
-    total_commission += parseInt(document.getElementById("child_commission").getAttribute("data-price"));
-    total_commission += parseInt(document.getElementById("infant_commission").getAttribute("data-price"));
-    document.getElementById("commission_total").value = total_commission;
-    test = document.getElementById("commission_agent_type").value;
-    if (test == 'citra') {
-        document.getElementById("commission_total_content").innerHTML = getrupiah(total_commission * 0.8);
-    } else if (test == 'japro') {
-        document.getElementById("commission_total_content").innerHTML = getrupiah(total_commission * 0.7);
-    } else if (test == 'btb') {
-        document.getElementById("commission_total_content").innerHTML = getrupiah(total_commission * 0.7);
-    } else if (test == 'other') {
-        document.getElementById("commission_total_content").innerHTML = getrupiah(0);
-    } else {
-        document.getElementById("commission_total_content").innerHTML = getrupiah(0);
-    }
-}
-
 function check_detail(){
     document.getElementById('room_amount').value = room_amount;
     document.getElementById('time_limit_input').value = time_limit;
