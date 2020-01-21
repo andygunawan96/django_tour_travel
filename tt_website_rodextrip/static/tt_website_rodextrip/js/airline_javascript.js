@@ -1917,15 +1917,21 @@ function sort(){
            if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline[i].destination == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
                check_combo_price = false;
                for(j in airline_pick_list){
-                    for(k in airline_pick_list[j].segments){
-                        for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
-                            if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
-                                check_combo_price = true;
+                    try{
+                        if(airline_pick_list[i].journey_group_fares.length != 0){
+                            for(k in airline_pick_list[j].segments){
+                                for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
+                                    if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
+                                        check_combo_price = true;
+                                    }
+                                }
+                                if(check_combo_price == true)
+                                    break;
                             }
+                        }else{
+                            check_combo_price = true;
                         }
-                        if(check_combo_price == true)
-                            break;
-                    }
+                    }catch(err){check_combo_price = true;}
                     if(check_combo_price == true)
                         break;
                }
@@ -2431,17 +2437,24 @@ function sort(){
            }else if(airline[i].origin == airline_request.destination[0].split(' - ')[0] && airline[i].destination == airline_request.origin[0].split(' - ')[0] && airline_departure == 'return'){
                check_combo_price = false;
                for(j in airline_pick_list){
-                    for(k in airline_pick_list[j].segments){
-                        for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
-                            if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
-                                check_combo_price = true;
+                    try{
+                        if(airline_pick_list[i].journey_group_fares.length != 0){
+                            for(k in airline_pick_list[j].segments){
+                                for(l in airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares){
+                                    if(airline[i].journey_group_fares.includes(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_fares[l])){
+                                        check_combo_price = true;
+                                    }
+                                }
+                                if(check_combo_price == true)
+                                    break;
                             }
+                        }else{
+                            check_combo_price = true;
+
                         }
                         if(check_combo_price == true)
                             break;
-                    }
-                    if(check_combo_price == true)
-                        break;
+                    }catch(err){check_combo_price = true;}
                }
                if(check_combo_price == true){
                    ticket_count++;
