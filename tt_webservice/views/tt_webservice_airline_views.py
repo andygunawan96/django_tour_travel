@@ -1208,7 +1208,7 @@ def assign_seats(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_seat_request' + request.POST['signature'] not in request.session:
+    if 'airline_seat_request' + request.POST['signature'] in request.session:
         res = request.POST['airline_seat_request' + request.POST['signature']]
     elif len(request.session['airline_seat_request']) != 0:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST',timeout=300)
