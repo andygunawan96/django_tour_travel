@@ -1013,7 +1013,7 @@ function print_payment_rules(payment)
             idx += 1;
         }
     }
-    document.getElementById('tour_payment_rules').innerHTML += pay_text;
+    document.getElementById('tour_payment_rules').innerHTML = pay_text;
 }
 
 function tour_filter_render(){
