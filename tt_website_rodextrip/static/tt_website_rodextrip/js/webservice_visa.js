@@ -275,7 +275,7 @@ function sell_visa(){
             'signature': signature
        },
        success: function(msg) {
-
+            console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

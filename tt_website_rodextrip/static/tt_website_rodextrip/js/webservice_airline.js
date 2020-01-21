@@ -781,6 +781,7 @@ function datasearch2(airline){
    for(i in airline.schedules){
         for(j in airline.schedules[i].journeys){
            airline.schedules[i].journeys[j].sequence = counter;
+           available_count = 100;
            for(k in airline_request.origin){
                 if(airline_request.origin[k].split(' - ')[0] == airline.schedules[i].journeys[j].origin &&
                    airline_request.destination[k].split(' - ')[0] == airline.schedules[i].journeys[j].destination &&
@@ -795,6 +796,8 @@ function datasearch2(airline){
            for(k in airline.schedules[i].journeys[j].segments){
                for(l in airline.schedules[i].journeys[j].segments[k].fares){
                    if(airline.schedules[i].journeys[j].segments[k].fares[l].available_count >= parseInt(airline_request.adult)+parseInt(airline_request.child) || airline.schedules[i].journeys[j].segments[k].fares[l].available_count == -1){//atau buat sia
+                       if(available_count > airline.schedules[i].journeys[j].segments[k].fares[l].available_count)
+                            available_count = airline.schedules[i].journeys[j].segments[k].fares[l].available_count;
                        airline.schedules[i].journeys[j].segments[k].fare_pick = parseInt(k);
                        can_book = true;
                        for(m in airline.schedules[i].journeys[j].segments[k].fares[l].service_charge_summary){
@@ -821,6 +824,9 @@ function datasearch2(airline){
                }
            }
            airline.schedules[i].journeys[j].total_price = price;
+           if(available_count == 100)
+               available_count = 0;
+           airline.schedules[i].journeys[j].available_count = available_count;
            airline.schedules[i].journeys[j].can_book = can_book;
            airline.schedules[i].journeys[j].currency = currency;
            data.push(airline.schedules[i].journeys[j]);
@@ -828,7 +834,6 @@ function datasearch2(airline){
            counter++;
         }
    }
-
    airline_data = data;
 
 //   print_ticket_search(temp_data);
