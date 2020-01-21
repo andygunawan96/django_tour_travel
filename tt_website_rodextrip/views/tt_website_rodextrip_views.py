@@ -406,7 +406,24 @@ def admin(request):
                     text += 'none'
                 else:
                     text += "#" + request.POST['bg_tab_pick'] + 'B3'
-
+                text += '\n'
+                try:
+                    if request.FILES['filelogoicon'].content_type == 'image/jpeg' or request.FILES['filelogoicon'].content_type == 'image/png' or request.FILES['filelogoicon'].content_type == 'image/png':
+                        file = request.FILES['filelogoicon']
+                        filename = fs.save(file.name, file)
+                        text += fs.base_url + filename + '\n'
+                except:
+                    check = 0
+                    try:
+                        file = open(var_log_path() + "data_cache_template.txt", "r")
+                        for idx, line in enumerate(file):
+                            if idx == 14:
+                                text += line
+                                check = 1
+                                break
+                        file.close()
+                    except:
+                        pass
                 file = open(var_log_path()+'data_cache_template.txt', "w+")
                 file.write(text)
                 file.close()
@@ -612,6 +629,7 @@ def get_cache_data(javascript_version):
 def get_data_template(type='home'):
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+    logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     background = '/static/tt_website_rodextrip/images/bg_7.jpg'
     color = '#f15a22'
     website_name = 'Rodextrip'
@@ -676,6 +694,11 @@ We build this application for our existing partner and public users who register
                         tab_color = 'transparent'
                     else:
                         tab_color = line.split('\n')[0]
+            elif idx == 14:
+                if line == '\n':
+                    logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
+                else:
+                    logo_icon = line.split('\n')[0]
         if color == '':
             color = '#f15a22'
         file.close()
@@ -685,6 +708,7 @@ We build this application for our existing partner and public users who register
         pass
     return {
         'logo': logo,
+        'logo_icon': logo_icon,
         'template': template,
         'color': color,
         'desc': website_description.split('\n'),
