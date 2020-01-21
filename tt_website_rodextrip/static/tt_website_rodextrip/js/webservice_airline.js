@@ -2496,7 +2496,11 @@ function airline_commit_booking(val){
                     window.location.href="/airline";
                   }
                 })
-            }else{
+           }else if(msg.result.error_code == 4014){
+                console.log(msg.result.response.order_number);
+                document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                document.getElementById('airline_booking').submit();
+           }else{
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -2565,6 +2569,10 @@ function airline_force_commit_booking(val){
                     window.location.href="/airline";
                   }
                 })
+           }else if(msg.result.error_code == 4014){
+                console.log(msg.result.response.order_number);
+                document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                document.getElementById('airline_booking').submit();
            }else{
                 Swal.fire({
                   type: 'error',
