@@ -64,7 +64,7 @@ def search(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
-            'time_limit': 600,
+            'time_limit': 1200,
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
         })

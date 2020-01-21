@@ -251,7 +251,7 @@ def search(request):
             'username': request.session['user_account'],
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'time_limit': 600,
+            'time_limit': 1200,
             'static_path_url_server': get_url_static_path(),
             # 'co_uid': request.session['co_uid'],
             # 'cookies': json.dumps(res['result']['cookies']),

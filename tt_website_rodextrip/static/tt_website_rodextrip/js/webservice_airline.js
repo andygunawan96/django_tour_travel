@@ -757,7 +757,7 @@ function airline_search(provider,carrier_codes){
             document.getElementById("airlines_error").appendChild(node);
             node = document.createElement("div");
         }
-       },timeout: 60000 // sets timeout to 60 seconds
+       },timeout: 120000 // sets timeout to 120 seconds
     });
 
 }
