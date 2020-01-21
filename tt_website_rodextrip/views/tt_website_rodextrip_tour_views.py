@@ -102,7 +102,7 @@ def search(request):
             'dest_month_data': dest_month_data,
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
-            'time_limit': 600,
+            'time_limit': 1200,
             'static_path_url_server': get_url_static_path(),
         })
         return render(request, MODEL_NAME + '/tour/tour_search_templates.html', values)

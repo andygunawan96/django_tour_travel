@@ -86,7 +86,7 @@ def search(request):
             'countries': airline_country,
             'phone_code': phone_code,
             'signature': request.session['signature'],
-            'time_limit': 600,
+            'time_limit': 1200,
             'train_request': request.session['train_request'],
             'static_path_url_server': get_url_static_path(),
             'username': request.session['user_account'],

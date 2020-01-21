@@ -635,7 +635,7 @@ def search2(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=60)
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=120)
     try:
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
@@ -1067,10 +1067,13 @@ def update_contacts(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    if 'airline_update_contact' + request.POST['signature'] not in request.session:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    else:
+        res = request.session['airline_update_contact'+request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
+            request.session['airline_update_contact'+request.POST['signature']] = res
             logging.getLogger("info_logger").info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_contacts_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1135,10 +1138,13 @@ def update_passengers(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    if 'airline_update_passengers' + request.POST['signature'] not in request.session:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    else:
+        res = request.session['airline_update_passengers' + request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
+            request.session['airline_update_passengers' + request.POST['signature']] = res
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1159,10 +1165,13 @@ def sell_ssrs(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    if request.session['airline_ssr_request'] != {}:
+    if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
+        res = request.session['airline_sell_ssrs' + request.POST['signature']]
+    elif request.session['airline_ssr_request'] != {}:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
+            request.session['airline_sell_ssrs' + request.POST['signature']] = res
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1199,10 +1208,13 @@ def assign_seats(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    if len(request.session['airline_seat_request']) != 0:
+    if 'airline_seat_request' + request.POST['signature'] in request.session:
+        res = request.POST['airline_seat_request' + request.POST['signature']]
+    elif len(request.session['airline_seat_request']) != 0:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
+            request.POST['airline_seat_request' + request.POST['signature']] = res
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_passengers_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

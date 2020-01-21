@@ -1935,7 +1935,7 @@ function sort(){
                     if(check_combo_price == true)
                         break;
                }
-               if(check_combo_price == false && airline_pick_list.length == 0 || check_combo_price == true && airline_pick_list.length > 1){
+               if(check_combo_price == false && airline_pick_list.length == 0 || check_combo_price == true && airline_pick_list.length >= 1){
                    ticket_count++;
                    if(ticket_count >= first && ticket_count < last){
                        contain++;
