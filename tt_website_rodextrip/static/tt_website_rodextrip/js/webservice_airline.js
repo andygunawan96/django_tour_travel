@@ -852,15 +852,13 @@ function change_fare(journey, segment, fares){
             break;
         }
     }
-    group_fares = airline[journey].segments[segment].fares[fare_value].group_fares;
+    group_fares = airline[journey].segments[segment].fares[fare_value].group_fare_id;
     for(i in airline[journey].segments){
         if(group_fares.length != 0){
             for(j in airline[journey].segments[i].fares){
-                for(k in group_fares){
-                    if(airline[journey].segments[i].fares[j].group_fares.includes(group_fares[k]) == true){
-                        document.getElementsByName('journey'+journey+'segment'+i+'fare')[fare_value].checked = true;
-                        break;
-                    }
+                if(airline[journey].segments[i].fares[j].group_fare_id == group_fares == true){
+                    document.getElementsByName('journey'+journey+'segment'+i+'fare')[fare_value].checked = true;
+                    break;
                 }
             }
         }
