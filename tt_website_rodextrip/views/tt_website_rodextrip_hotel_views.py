@@ -369,7 +369,7 @@ def review(request):
                 "name": rec['category'] + ' ' + rec['description'],
                 "qty": 1,
                 "total": rec['price_total'],
-                "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax']['child_ages'])),
+                "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax'].get('child_ages',0))),
                 "tax": 0
             } for rec in request.session['hotel_room_pick']['rooms'] ],
             "line": [
