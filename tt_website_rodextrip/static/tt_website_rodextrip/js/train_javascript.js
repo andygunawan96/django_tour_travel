@@ -1780,6 +1780,8 @@ function print_seat_map(val){
         var text = '<div class="input-container-search-ticket"><div class="form-select" id="default-select"><select id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
     }else if(template == 2){
         var text = '<div class="input-container-search-ticket"><select class="form-control" style="font-size:13px;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
+    }else if(template == 3){
+        var text = '<div class="form-group"><select class="form-control" style="font-size:13px;" id="seat_map_wagon_pick" onchange="change_seat_map_from_selection(0);">';
     }
     if(seat_map_response.length != 0){
         for(i in seat_map_response){
@@ -1797,6 +1799,8 @@ function print_seat_map(val){
         text+=`</div></div>`;
         $('#seat_map_wagon_pick').niceSelect();
     }else if(template == 2){
+        text+=`</div>`;
+    }else if(template == 3){
         text+=`</div>`;
     }
 

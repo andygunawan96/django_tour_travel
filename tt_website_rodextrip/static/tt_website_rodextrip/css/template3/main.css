@@ -3801,6 +3801,11 @@ ul.tabs li.current .image-rounded-icon{
   display: none;
 }
 
+.check_box_custom input:disabled ~ .check_box_span_custom {
+  background-color: #9A9A9A;
+  cursor:not-allowed;
+}
+
 /* Show the checkmark when checked */
 .check_box_custom input:checked ~ .check_box_span_custom:after {
   display: block;
@@ -5301,7 +5306,7 @@ display: block;
   display: inline-block;
   font-size: 14px;
   cursor: pointer;
-  border-radius:48px;
+  border-radius:14px;
 }
 
 .button-seat-pass:focus{
@@ -7565,3 +7570,12 @@ display: block;
     box-shadow: unset !important;
 }
 
+.detail-hotel-box{
+    background-color:white;
+    padding:10px;
+    margin-bottom:15px;
+    border:1px solid #cdcdcd;
+}
+.detail-hotel-box:hover{
+    border:1px solid #f15a22;
+}

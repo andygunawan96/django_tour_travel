@@ -85,7 +85,9 @@ function change_transaction_type(type){
     document.getElementById('show_line').innerHTML = '';
 //    if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train' || document.getElementById('transaction_type').value  == 'hotel' || document.getElementById('transaction_type').value  == 'activity'){
         document.getElementById('show_line').hidden = false;
-        $('#transaction_type').niceSelect();
+        if(template != 4){
+            $('#transaction_type').niceSelect();
+        }
         text = '';
         text += `<h4>`+document.getElementById('transaction_type').value.charAt(0).toUpperCase() + document.getElementById('transaction_type').value.slice(1).toLowerCase()+` Line(s)</h4><hr/>`;
         text+=`
@@ -124,7 +126,6 @@ function add_table_of_passenger(){
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
                 <div class="modal-dialog">
-
                   <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
@@ -194,13 +195,19 @@ function add_table_of_passenger(){
                                                         text+=`<div>`;
                                                     }else if(template == 3){
                                                         text+=`<div class="default-select">`;
+                                                    }else if(template == 4){
+                                                        text+=`<div class="select-wrap">
+                                                        <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>`;
                                                     }
-                                                    text+=`
-                                                        <div class="form-select-2">
-                                                            <select id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
-                                                                for(i in titles){
-                                                                    text+= `<option>`+titles[i]+`</option>`;
-                                                                }
+                                                    text+=`<div class="form-select-2">`;
+                                                    if(template == 4){
+                                                        text+=`<select class="form-control" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                                    }else{
+                                                        text+=`<select id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                                    }
+                                                            for(i in titles){
+                                                                text+= `<option>`+titles[i]+`</option>`;
+                                                            }
                                                             text+=`</select>
                                                         </div>
                                                     </div>
@@ -307,6 +314,18 @@ function add_table_of_passenger(){
                                                             <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                             <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
                                                         text+=`</div>`;
+                                                    }else if(template == 4){
+                                                        text+=`<div class="input-container-search-ticket" style="margin-bottom:5px;">`;
+                                                        text+=`
+                                                            <select class="form-control js-example-basic-single" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" style="width:100%;" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`_id" placeholder="Country Of Issued" onchange="auto_complete('adult_country_of_issued`+parseInt(counter_passenger+1)+`')">
+                                                                <option value="">Select Country Of Issued</option>`;
+                                                                for(i in countries){
+                                                                   text+=`<option value="`+countries[i].code+`">`+countries[i].name+`</option>`;
+                                                                }
+                                                            text+=`</select>
+                                                            <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', `+parseInt(counter_passenger+1)+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
+                                                            <input type="hidden" name="adult_country_of_issued`+parseInt(counter_passenger+1)+`" id="adult_country_of_issued`+parseInt(counter_passenger+1)+`" />`;
+                                                        text+=`</div>`;
                                                     }
                                                 text+=`
                                                 </div>
@@ -400,7 +419,9 @@ function add_table_of_passenger(){
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
     $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
-    $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
+    if(template != 4){
+        $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
+    }
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
 }
@@ -510,9 +531,15 @@ function add_table_of_line(type){
                         text+=`<div class="form-select" id="default-select">`;
                     }else if(template == 3){
                         text+=`<div class="default-select" id="default-select">`;
+                    }else if(template == 4){
+                        text+=`<div class="select-wrap">
+                        <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>`;
                     }
-                    text+=`
-                        <select id='class`+counter_line+`' name='class`+counter_line+`' style="height:42px;">`;
+                    if(template == 4){
+                        text+=`<select class="form-control" id='class`+counter_line+`' name='class`+counter_line+`'>`;
+                    }else{
+                        text+=`<select id='class`+counter_line+`' name='class`+counter_line+`' style="height:42px;">`;
+                    }
                         for(i in class_of_service)
                             text+=`<option value="`+class_of_service[i][0]+`">`+class_of_service[i][1]+`</option>`;
                     text+=`
@@ -532,7 +559,9 @@ function add_table_of_line(type){
         node.innerHTML = text;
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
-        $('#class'+counter_line).niceSelect();
+        if(template != 4){
+            $('#class'+counter_line).niceSelect();
+        }
         set_provider_data(counter_line, type);
 //        set_origin_data(counter_line, type);
 //        set_destination_data(counter_line, type);
@@ -669,7 +698,9 @@ function add_table_of_line(type){
             </div>
         </div><hr/>`;
         node.innerHTML = text;
-        $('#class'+counter_line).niceSelect('update');
+        if(template != 4){
+            $('#class'+counter_line).niceSelect('update');
+        }
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 
@@ -746,7 +777,9 @@ function add_table_of_line(type){
 
         </div><hr/>`;
         node.innerHTML = text;
-        $('#class'+counter_line).niceSelect('update');
+        if(template != 4){
+            $('#class'+counter_line).niceSelect('update');
+        }
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 

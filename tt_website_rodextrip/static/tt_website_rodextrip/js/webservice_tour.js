@@ -116,7 +116,10 @@ function get_tour_config(type, val){
             }
 
             country_selection.innerHTML = country_txt;
-            $('#tour_countries').niceSelect('update');
+            if(template == 1 || template == 2 || template == 5){
+                $('#tour_countries').niceSelect('update');
+            }
+
             country_selection.setAttribute("onchange", "auto_complete_tour('tour_countries');");
             if(type == 'search')
             {
