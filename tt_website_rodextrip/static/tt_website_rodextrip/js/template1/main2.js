@@ -221,7 +221,6 @@ $(document).ready(function() {
         }
     });
 
-
     $('.owl-carousel-hotel-img').owlCarousel({
         loop:false,
         nav: true,
@@ -626,7 +625,7 @@ $(document).ready(function() {
        $(this).addClass("owl-bg-border");
      });
 
-     $("#video_activity").click(function() {
+    $("#video_activity").click(function() {
         var video = $("#video_activity").get(0);
         if ( video.paused ) {
             if(check_video_slider != 1){

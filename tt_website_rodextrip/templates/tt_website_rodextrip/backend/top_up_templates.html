@@ -338,6 +338,106 @@
         </div>
     </div>
 </section>
+{% elif template == 4 %}
+<section class="destinations-area" style="padding-top:130px; padding-bottom:40px;background: #f7f7f7;">
+    <div class="container">
+        <div class="row">
+            <div class="header-right" style="bottom:0px; padding-left:15px; padding-right:15px; background:unset; border:unset;">
+                <form action="{% url 'tt_website_rodextrip:top_up_history'%}" name="top_up_form" method="POST" id="top_up_form" class="form-wrap" style="padding:15px !important;">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-12" style="border:1px solid #cdcdcd; background:white; padding:20px;">
+                                <div class="row" style="text-align:left">
+                                    <div class="col-lg-12">
+                                        <h3>TOP UP SALDO</h3>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <span>Amount</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="this.value=this.value.replace(/[^\d]/,'');total_price_top_up();" placeholder="Min IDR 50,000">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <span>Total</span><br/>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" style="background-color:#eee;" class="form-control" id="total_amount" name="total_amount" value="{{agent.type}}" tabindex="1" readonly="readonly"/>
+                                        </div>
+                                    </div>
+
+                                    <!--<div class="col-lg-12">-->
+                                    <!--<span>Payment Method</span><br/>-->
+                                    <!--<div class="input-container-search-ticket btn-group">-->
+                                    <!--<div class="form-select" id="default-select">-->
+                                    <!--<select id="payment_method" name="payment_method" required="required">-->
+                                    <!--<option id="rodex_gateway" value="rodex_gateway">Rodex Gateway (8AM - 8PM)</option>-->
+                                    <!--&lt;!&ndash;<option id="online_payment" value="online_payment">Online Payment</option>&ndash;&gt;-->
+                                    <!--</select>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+
+
+                                    <div class="col-lg-12">
+                                        <div id="footer-info" class="footer-info">
+                                            <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;margin-bottom:20px;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of Rodextrip top up</span>
+                                                <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="margin-top:15px;">
+                                        <button type="button" id="submit_name" class="primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>
+                                    </div>
+
+                                    <div class="modal fade" id="tacModal" role="dialog">
+                                        <div class="modal-dialog">
+
+                                            <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:{{text_color}};">Term & Condition </h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="modal-body">
+                                                        <ol id="topup_tac">
+                                                            <h6>BANK TRANSFER / CASH</h6>
+                                                            <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
+                                                            <li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
+                                                            <h6>National Holiday included</h6>
+                                                            <h6>For CASH you have to send money to RODEX HO (Jl. Raya Darmo 177 B Surabaya)</h6><br/>
+                                                            <h6>VIRTUAL ACCOUNT</h6>
+
+                                                            <li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
+                                                            <h6>MANDIRI INTERNET BANKING</h6>
+                                                            <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
+                                                        </ol>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="overlay-div-box" onclick="close_div('payment_acq');" style="z-index:2;"></div>
+                                <div class="payment_acq" style="background-color:white; padding:10px; margin-top:10px; border:1px solid #cdcdcd;position:relative; z-index:4;" id="payment_acq" hidden>
+
+                                </div>
+                            </div>
+                            <!--<div class="col-lg-4" style="padding-bottom:20px;">-->
+
+                            <!--</div>-->
+                        </div>
+                    </form>
+            </div>
+        </div>
+    </div>
+</section>
 {%endif%}
 
 {% include 'tt_website_rodextrip/footer.html' %}

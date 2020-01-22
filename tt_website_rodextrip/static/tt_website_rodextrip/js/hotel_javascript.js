@@ -1005,6 +1005,8 @@ function hotel_filter_render(){
         text+=`
         <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
             <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
+    }else if(template == 3){
+        text+=`<div class="header-right" style="background:unset; border:unset;">`;
     }
     text+=`
         <div class="form-wrap" style="padding:0px; text-align:left;">
@@ -1014,7 +1016,7 @@ function hotel_filter_render(){
             </div>
             <hr/>
             <h6 class="filter_general" onclick="show_hide_general('hotelPrice');">Price Range <i class="fas fa-chevron-down" id="hotelPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelPrice_generalUp" style="float:right; display:block;"></i></h6>
-            <div class="wrapper" id="hotelPrice_generalShow" style="display:inline-block;">
+            <div id="hotelPrice_generalShow" style="display:inline-block;">
                 <div class="range-slider">
                     <input type="text" class="js-range-slider"/>
                 </div>

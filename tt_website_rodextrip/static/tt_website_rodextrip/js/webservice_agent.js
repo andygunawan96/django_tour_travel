@@ -591,7 +591,7 @@ function get_customer_list(passenger, number, product){
                                 <td>`+(parseInt(i)+1)+`</td>
                                 <td>
                                     <div class="row">
-                                        <div class="col-xs-3">`;
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
                                             if(msg.result.response[i].title == "MR"){
                                                 response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" style="width:100%;">`;
                                             }
@@ -603,7 +603,7 @@ function get_customer_list(passenger, number, product){
                                             }
                                     response+=`
                                         </div>
-                                        <div class="col-xs-9">
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                         <span style="font-weight:600; font-size:14px;">`+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+` </span>`;
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
@@ -614,8 +614,14 @@ function get_customer_list(passenger, number, product){
                                                 response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
                                             }else if(template == 3){
                                                 response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><div class="default-select">`;
+                                            }else if(template == 4){
+                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="select-wrap"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><span class="icon"><br/><span class="icon-keyboard_arrow_down"></span></span>`;
                                             }
-                                            response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
+                                            if(template == 4){
+                                                response+=`<select class="form-control phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                            }else{
+                                                response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                            }
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
@@ -624,6 +630,8 @@ function get_customer_list(passenger, number, product){
                                             }else if(template == 2){
                                                 response+=`</select></div></div></div>`;
                                             }else if(template == 3){
+                                                response+=`</select></div></div></div></div>`;
+                                            }else if(template == 4){
                                                 response+=`</select></div></div></div></div>`;
                                             }
                                         }else{
@@ -754,7 +762,7 @@ function get_customer_list(passenger, number, product){
                                 <td>`+(parseInt(i)+1)+`</td>
                                 <td>
                                     <div class="row">
-                                        <div class="col-xs-3">`;
+                                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
                                             if(msg.result.response[i].face_image.length > 0)
                                                 response+=`<img src="`+msg.result.response[i].face_image[0]+`" style="width:100%;">`;
                                             else if(msg.result.response[i].title == "MR"){
@@ -774,7 +782,7 @@ function get_customer_list(passenger, number, product){
                                             }
                                     response+=`
                                         </div>
-                                        <div class="col-xs-9">
+                                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                         <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
@@ -784,9 +792,15 @@ function get_customer_list(passenger, number, product){
                                             }else if(template == 2){
                                                 response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
                                             }else if(template == 3){
-                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><div class="default-select">`;
+                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="default-select"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
+                                            }else if(template == 4){
+                                                response+=`<br/> <div class="row"><div class="col-lg-12"><div class="select-wrap"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><span class="icon"><br/><span class="icon-keyboard_arrow_down"></span></span>`;
                                             }
-                                            response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
+                                            if(template == 4){
+                                                response+=`<select class="form-control phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                            }else{
+                                                response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                            }
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
@@ -795,7 +809,9 @@ function get_customer_list(passenger, number, product){
                                             }else if(template == 2){
                                                 response+=`</select></div></div></div>`;
                                             }else if(template == 3){
-                                                response+=`</select></div></div></div></div>`;
+                                                response+=`</select></div></div></div>`;
+                                            }else if(template == 4){
+                                                response+=`</select></div></div></div>`;
                                             }
                                         }else{
                                             response+=`<br/>`;
@@ -2554,7 +2570,7 @@ function get_passenger_cache(){
                         <td>`+(parseInt(i)+1)+`</td>
                         <td>
                             <div class="row">
-                                <div class="col-xs-3">`;
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
                                     if(msg.result.response[i].face_image.length > 0)
                                         response+=`<img src="`+msg.result.response[i].face_image[0]+`" style="width:100%;">`;
                                     else if(msg.result.response[i].title == "MR"){
@@ -2574,7 +2590,7 @@ function get_passenger_cache(){
                                     }
                             response+=`
                                 </div>
-                                <div class="col-xs-9">
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
                                 <span style="font-weight:600; font-size:14px;"> `+msg.result.response[i].title+` `+msg.result.response[i].first_name+` `+msg.result.response[i].last_name+``;
                                 if(msg.result.response[i].birth_date != '')
                                     response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
@@ -2585,8 +2601,14 @@ function get_passenger_cache(){
                                         response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
                                     }else if(template == 3){
                                         response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i><div class="default-select">`;
+                                    }else if(template == 4){
+                                        response+=`<br/> <div class="row"><div class="col-lg-12"><div class="select-wrap"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i><span class="icon"><br/><span class="icon-keyboard_arrow_down"></span></span>`;
                                     }
-                                    response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:80%;">`
+                                    if(template == 4){
+                                        response+=`<select class="form-control phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                    }else{
+                                        response+=`<select class="phone_chosen_cls" id="phone_chosen`+i+`" style="width:100%;">`;
+                                    }
                                     for(j in msg.result.response[i].phones){
                                         response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                     }
@@ -2596,6 +2618,8 @@ function get_passenger_cache(){
                                         response+=`</select></div></div></div>`;
                                     }else if(template == 3){
                                         response+=`</select></div></div></div></div>`;
+                                    }else if(template == 4){
+                                        response+=`</select></div></div></div>`;
                                     }
                                 }else{
                                     response+=`<br/>`;

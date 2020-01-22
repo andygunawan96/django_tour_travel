@@ -824,13 +824,11 @@ $(document).ready(function(){
                 var node = document.createElement("div");
                 text+=`
                 <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control rounded" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-                </div>
+                <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                 <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
 
                 node.innerHTML = text;
-                document.getElementById("airline_date_search").appendChild(node);
+                document.getElementById("train_date_search").appendChild(node);
                 node = document.createElement("div");
             }
             else if(template == 5){

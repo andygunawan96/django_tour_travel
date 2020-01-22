@@ -44,9 +44,16 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             text+=`<div class="form-select" id="default-select">`;
         }else if(template == 3){
             text+=`<div class="default-select" style="margin-bottom:15px;">`;
+        }else if(template == 4){
+            text+=`<div class="select-wrap" style="margin-bottom:15px;">
+            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>`;
         }
-        text+=`
-            <select class="payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
+
+        if(template == 4){
+            text+=`<select class="form-control payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
+        }else{
+            text+=`<select class="payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
+        }
             for(i in payment_acq2){
                 print = '';
                 if(i == 'va')

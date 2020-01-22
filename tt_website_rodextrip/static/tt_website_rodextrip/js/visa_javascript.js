@@ -1138,10 +1138,10 @@ function check_on_off_radio(pax_type,number,value){
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Copy</h6><br/></div>`;
                 for(j in visa.list_of_visa[i].requirements){
 //                    if(visa.list_of_visa[i].requirements[j].required == true){
-                        if(template != 2){
+                        if(template == 1){
                             text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
-                        }else{
-                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                        }else if(template == 2 || template == 3){
+                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
                         }
                         text_requirements += `
                             <label class="check_box_custom" style="padding-left:unset;">

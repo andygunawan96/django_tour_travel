@@ -231,15 +231,21 @@ function get_activity_config(type, val){
             }
             if(country_txt != ''){
                 document.getElementById('activity_countries').innerHTML = country_txt;
-                $('#activity_countries').niceSelect('update');
+                if(template == 1 || template == 2 || template == 5){
+                    $('#activity_countries').niceSelect('update');
+                }
             }
             if(type_txt != ''){
                 type_selection.innerHTML = type_txt;
-                $('#activity_type').niceSelect('update');
+                if(template == 1 || template == 2 || template == 5){
+                    $('#activity_type').niceSelect('update');
+                }
             }
             if(category_txt != ''){
                 category_selection.innerHTML = category_txt;
-                $('#activity_category').niceSelect('update');
+                if(template == 1 || template == 2 || template == 5){
+                    $('#activity_category').niceSelect('update');
+                }
             }
 
             country_selection.setAttribute("onchange", "auto_complete_activity('activity_countries');");

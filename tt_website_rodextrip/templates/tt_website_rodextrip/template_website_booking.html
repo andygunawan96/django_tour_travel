@@ -106,7 +106,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}css/template4/animate.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/magnific-popup.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/jquery-ui.css">
-    <link rel="stylesheet" href="{{ static_path }}css/template4/owl.carousel.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/owl.carousel.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/owl.theme.default.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/bootstrap-datepicker.css">
     <link rel="stylesheet" href="{{ static_path }}fonts/template4/fonts/flaticon/font/flaticon.css">
@@ -781,7 +781,7 @@ Licence URI: http://www.os-templates.com/template-terms
 
         {% if template == 1%}
         .btn-txt-color{
-            color:{{color}};
+            color:{{text_color}};
         }
         ul.create_tabs li.current{
             border-bottom: 5px solid {{color}};
@@ -803,6 +803,9 @@ Licence URI: http://www.os-templates.com/template-terms
 
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             background-color: rgba(30, 30, 30, 0.9);
+            color: {{color}};
+        }
+        .nav-tabs .nav-link.active .btn-txt-color{
             color: {{color}};
         }
         .nav-tabs .nav-link:hover .image-rounded-icon {
@@ -1088,6 +1091,20 @@ Licence URI: http://www.os-templates.com/template-terms
         #myBtnBTP:hover{
             background: {{color}};
             opacity: 0.8;
+        }
+        {% elif template == 4 %}
+        .border-primary{
+            border-color: {{color}} !important;
+        }
+        .border-primary:after{
+            background: {{color}};
+        }
+        .form-search-wrap{
+            background: {{tab_color}};
+        }
+        {% elif template == 5 %}
+        .search-field{
+            background: {{tab_color}};
         }
         {% endif %}
 

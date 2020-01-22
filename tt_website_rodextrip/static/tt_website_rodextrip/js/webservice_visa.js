@@ -821,10 +821,10 @@ function visa_get_data(data){
                                             </div>`;
                                         console.log(msg.result.response.passengers[i]);
                                         for(j in msg.result.response.passengers[i].visa.requirement){
-                                            if(template != 2){
+                                            if(template == 1){
                                                 text+=`
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
-                                            }else{
+                                            }else if(template == 2 || template == 3){
                                                 text+=`
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
                                             }

@@ -144,36 +144,126 @@ function get_banner(type,page){
                         }
                         text+=`</div>`;
                     }else if(type == 'small_banner'){
-                        text+=`
-                        <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="menu-content">
-                                            <div class="title text-center">
-                                                <h2>HOT DEALS</h2>
-                                            </div>
-                                            <br/>
-                                        </div>
-                                        <div class="owl-carousel-suggest owl-theme">`;
-                                        //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
-                                        //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
-                                        //</div>
-                                        for(i in msg.result.response){
-                                            text+=`
-                                            <div class="item">
-                                                <div class="single-destination relative">
-                                                    <div class="thumb relative">
-                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
-                                                    </div>
+                        if(template == 1){
+                            text+=`
+                            <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="menu-content">
+                                                <div class="title text-center">
+                                                    <h2>HOT DEALS</h2>
                                                 </div>
-                                            </div>`;
-                                        }
-                                        text+=`</div>
+                                                <br/>
+                                            </div>
+                                            <div class="owl-carousel-suggest owl-theme">`;
+                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                            //</div>
+                                            for(i in msg.result.response){
+                                                text+=`
+                                                <div class="item">
+                                                    <div class="single-destination relative">
+                                                        <div class="thumb relative">
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                            text+=`</div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </section>`;
+                            </section>`;
+                        }else if(template == 2){
+                            text+=`
+                            <section class="roberto-service-area" style="background:white;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
+                                                <h2>HOT DEALS</h2>
+                                            </div>
+                                            <div class="owl-carousel-suggest owl-theme">`;
+                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                            //</div>
+                                            for(i in msg.result.response){
+                                                text+=`
+                                                <div class="item">
+                                                    <div class="single-destination relative">
+                                                        <div class="thumb relative">
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                            text+=`</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>`;
+                        }else if(template == 3){
+                            text+=`
+                            <section class="feature-area section-gap" id="service">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row d-flex justify-content-center">
+                                                <div class="col-md-8 pb-20 header-text">
+                                                    <h1>HOT DEALS</h1>
+                                                </div>
+                                            </div>
+                                            <div class="owl-carousel-suggest owl-theme">`;
+                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                            //</div>
+                                            for(i in msg.result.response){
+                                                text+=`
+                                                <div class="item">
+                                                    <div class="single-destination relative">
+                                                        <div class="thumb relative">
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                            text+=`</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>`;
+                        }else if(template == 4){
+                            text+=`
+                            <div class="site-section bg-light">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="row justify-content-center mb-5">
+                                                <div class="col-md-7 text-center border-primary">
+                                                    <h2 class="font-weight-light text-primary" style="color:black !important">HOT DEAL</h2>
+                                                </div>
+                                            </div>
+                                            <div class="owl-carousel-suggest owl-theme">`;
+                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                            //</div>
+                                            for(i in msg.result.response){
+                                                text+=`
+                                                <div class="item">
+                                                    <div class="single-destination relative">
+                                                        <div class="thumb relative">
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                            text+=`</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
                     }else if(type == 'promotion'){
                         for(i in msg.result.response){
                             text+=`<center><img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/></center>`;

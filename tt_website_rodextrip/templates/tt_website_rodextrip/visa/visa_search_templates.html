@@ -175,7 +175,7 @@
     </div>
 </section>
 {% elif template == 3 %}
-<section class="change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="change_search_area" style="padding:10px 0px 10px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -192,48 +192,54 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" style="background-image: url({{static_path}}images/christmas-wallpaper2.jpg); padding-top:40px; padding-bottom:40px; z-index:2; position:relative; display:none;">
+<section class="banner-area relative" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
-        <div class="row fullscreen d-flex">
-            <div class="col-lg-12 header-right" style="padding:15px;">
-                <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" method="post" id="visa_searchForm">
-                    {% csrf_token %}
-                    <div class="row">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> Destination</span>
-                            <div class="form-select">
-                                <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="header-right" style="background:unset; border:unset;">
+                    <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" method="post" id="visa_searchForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                                <div class="form-group">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
 
-                                </select>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                             </div>
-                            <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> Departure</span>
-                            <div class="form-group">
-                                <div class="input-container-search-ticket">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <div class="form-group">
                                     <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span style="color:{{text_color}};"><i class="fas fa-city"></i> Consulate</span>
-                            <div class="form-select">
-                                <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <div class="form-group">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
 
-                                </select>
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
                             </div>
-                            <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
                         </div>
-                    </div>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
-                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Change Search
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
-                </form>
+                        <br/>
+                        <center>
+                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                Search
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -293,9 +299,15 @@
 
                 <div class="col-lg-8 col-md-8" style="margin-top:10px;">
                     <div class="row" id="show-search-train">
+                        {%if template == 3%}
+                        <div class="col-lg-12 header-right" id="visa_ticket" style="background:unset; border:unset;">
+
+                        </div>
+                        {% else %}
                         <div class="col-lg-12" id="visa_ticket">
 
                         </div>
+                        {%endif%}
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4" style="margin-top:10px;">
