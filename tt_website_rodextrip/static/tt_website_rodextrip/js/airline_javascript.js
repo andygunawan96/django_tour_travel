@@ -1830,15 +1830,14 @@ function get_airline_recommendations_list(){
                 if(airline_pick_list.length > parseInt(j)){
                     //check
                     if(airline_pick_list[j].journey_ref_id == recommendations_airline[i].journey_flight_refs[j].journey_ref_id){
-                        for(k in recommendations_airline[i].journey_flight_refs[j].fare_flight_refs){
-                            if(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].fare_ref_id == recommendations_airline[i].journey_flight_refs[j].fare_flight_refs[k].fare_ref_id){
-                                console.log(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].fare_ref_id);
-                                console.log(recommendations_airline[i].journey_flight_refs[j].fare_flight_refs[k].fare_ref_id);
-                            }else{
-                                check_recommendations_airline = 1
-                                break;
-                            }
-                        }
+//                        for(k in recommendations_airline[i].journey_flight_refs[j].fare_flight_refs){
+//                            if(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].fare_ref_id == recommendations_airline[i].journey_flight_refs[j].fare_flight_refs[k].fare_ref_id){
+//
+//                            }else{
+//                                check_recommendations_airline = 1
+//                                break;
+//                            }
+//                        }
                     }else{
                         check_recommendations_airline = 1;
                         break;
@@ -2976,9 +2975,13 @@ function change_departure(val){
     $('#button_copy_airline').hide();
     if(airline_request.direction != 'MC'){
         check_airline_pick = 0;
-        journey.splice(val-1,1);
-        value_pick.splice(val-1,1);
-        airline_pick_list.splice(val-1,1);
+        while(true){
+            journey.splice(val-1,1);
+            value_pick.splice(val-1,1);
+            airline_pick_list.splice(val-1,1);
+            if(airline_pick_list.length < val)
+                break;
+        }
         counter_search = val;
         document.getElementById("airline_ticket_pick").innerHTML = '';
         document.getElementById("airline_detail").innerHTML = '';
@@ -2990,9 +2993,13 @@ function change_departure(val){
         //MC
         //location.reload();
         check_airline_pick = 0;
-        journey.splice(val-1,1);
-        value_pick.splice(val-1,1);
-        airline_pick_list.splice(val-1,1);
+        while(true){
+            journey.splice(val-1,1);
+            value_pick.splice(val-1,1);
+            airline_pick_list.splice(val-1,1);
+            if(airline_pick_list.length < val)
+                break;
+        }
         counter_search = val;
         text = '';
         airline_pick_mc('no_button');

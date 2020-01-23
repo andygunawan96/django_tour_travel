@@ -1140,26 +1140,29 @@ function get_price_itinerary(val){
             airline_pick_mc('all');
         else
             airline_pick_mc('change');
-        get_price_itinerary_request();
+        set_automatic_combo_price('')
+//        get_price_itinerary_request();
     }
 }
 
 function set_automatic_combo_price(fare_pick){
     for(i in airline_pick_list){
-        for(j in airline_pick_list[i].segments){
-            if(fare_pick == '')
-                fare_pick = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service;
-            else if(fare_pick != airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service){
-                check_class_of_service = false;
-                for(k in airline_pick_list[i].segments[j].fares){
-                    if(airline_pick_list[i].segments[j].fares[k].class_of_service == fare_pick){
-                        airline_pick_list[i].segments[j].fare_pick = parseInt(k);
-                        check_class_of_service = true;
-                    }
-                }
-                if(check_class_of_service == false){
+        if(airline_pick_list[i].journey_ref_id != ''){
+            for(j in airline_pick_list[i].segments){
+                if(fare_pick == '')
                     fare_pick = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service;
-                    set_automatic_combo_price(fare_pick);
+                else if(fare_pick != airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service){
+                    check_class_of_service = false;
+                    for(k in airline_pick_list[i].segments[j].fares){
+                        if(airline_pick_list[i].segments[j].fares[k].class_of_service == fare_pick){
+                            airline_pick_list[i].segments[j].fare_pick = parseInt(k);
+                            check_class_of_service = true;
+                        }
+                    }
+                    if(check_class_of_service == false){
+                        fare_pick = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service;
+                        set_automatic_combo_price(fare_pick);
+                    }
                 }
             }
         }

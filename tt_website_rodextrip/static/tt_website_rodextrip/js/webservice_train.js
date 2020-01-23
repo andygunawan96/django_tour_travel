@@ -913,7 +913,7 @@ function train_get_booking(data){
             if(msg.result.response.state == 'booked'){
                 text += `
                 <div>
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="train_cancel_booking();" value="Cancel Booking"/>
+                    <input class="primary-btn-ticket" id="train_cancel_booking_btn" style="width:100%;" type="button" onclick="train_cancel_booking();" value="Cancel Booking"/>
                 </div>`;
             }
             document.getElementById('train_detail').innerHTML = text;
