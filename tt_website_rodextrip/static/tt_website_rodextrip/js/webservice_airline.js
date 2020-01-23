@@ -857,8 +857,10 @@ function change_fare(journey, segment, fares){
     for(i in airline[journey].segments){
         if(group_fares.length != 0){
             for(j in airline[journey].segments[i].fares){
-                if(airline[journey].segments[i].fares[j].group_fare_id == group_fares == true){
-                    document.getElementsByName('journey'+journey+'segment'+i+'fare')[fare_value].checked = true;
+                if(parseInt(i) == segment){
+                    break;
+                }else if(airline[journey].segments[i].fares[j].group_fare_id == group_fares){
+                    document.getElementsByName('journey'+journey+'segment'+i+'fare')[parseInt(j)].checked = true;
                     break;
                 }
             }
