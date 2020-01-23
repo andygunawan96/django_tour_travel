@@ -377,6 +377,7 @@ function create_new_passenger(){
                             console.log(msg);
                             if(msg.result.error_code==0){
                                 try{
+                                    document.getElementById('create_new_passenger_btn').disabled = false;
                                     document.getElementById('passenger_first_name').value = '';
                                     document.getElementById('passenger_last_name').value = '';
                                     document.getElementById('passenger_birth_date').value = '';

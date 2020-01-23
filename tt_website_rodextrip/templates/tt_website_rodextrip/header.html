@@ -41,7 +41,7 @@
                     <ul class="nav-menu">
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
                         {% if username != null %}
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">Reservation</a></li>
+                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children pt5"><a href="#">Top Up</a>
                             <ul>
@@ -199,7 +199,7 @@
                             <ul id="nav">
                                 <li class="active"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
                                 {% if username != null %}
-                                <li><a href="{% url 'tt_website_rodextrip:reservation'%}">Reservation</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                                 {% if "top_up" in username.co_agent_frontend_security %}
                                 <li><a href="#">Top Up</a>
                                     <ul class="dropdown">
@@ -314,7 +314,7 @@
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="index.html">Home</a></li>
                         {% if username != null %}
-                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">Reservation</a></li>
+                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children"><a href="#">Top Up</a>
                             <ul>
@@ -443,7 +443,7 @@
                     <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
                         <li><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
                         {% if username != null %}
-                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">Reservation</a></li>
+                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="has-children"><a href="#">Top Up</a>
                             <ul class="dropdown">
@@ -573,7 +573,7 @@
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
 
                         {% if username != null %}
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">Reservation</a></li>
+                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children" style="margin-top:8px;"><a href="">Top Up <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul>

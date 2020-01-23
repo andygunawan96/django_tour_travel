@@ -1013,7 +1013,6 @@ def get_ssr_availabilty(request):
             logging.getLogger("error_logger").error("get_ssr_availability_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
     request.session['airline_get_ssr'] = res
     return res
 
