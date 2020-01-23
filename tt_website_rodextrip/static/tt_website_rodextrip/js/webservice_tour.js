@@ -1927,8 +1927,9 @@ function table_price_update(msg,type){
     $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
     '\nPrices and availability may change at any time';
     price_txt += `<hr style="padding:0px;">`;
-    price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+    }
     try{
         console.log(upsell_price);
         if(upsell_price != 0){
