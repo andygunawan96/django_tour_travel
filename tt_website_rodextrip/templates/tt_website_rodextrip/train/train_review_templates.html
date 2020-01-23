@@ -131,10 +131,14 @@
                                 {% else %}
                                 <h5>Return</h5>
                                 {% endif %}
-                                <img data-toggle="tooltip" style="width:auto; height:50px;" title="KAI" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png">
-                                <h5>{{data.carrier_name}} {{data.carrier_number}}</h5>
-                                <span>Class {{data.cabin_class.1}} ({{data.class_of_service}})</span><br/>
                                 <div class="row">
+                                    <div class="col-lg-4 col-md-4">
+                                        <img data-toggle="tooltip" style="width:auto; height:50px;" title="KAI" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png">
+                                        <h5>{{data.carrier_name}} {{data.carrier_number}}</h5>
+                                        <span>Class {{data.cabin_class.1}} ({{data.class_of_service}})</span><br/>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8">
+                                        <div class="row">
                                     <div class="col-lg-6 col-xs-6">
                                         <table style="width:100%">
                                             <tr>
@@ -164,6 +168,8 @@
                                         </table>
                                         <span>{{data.arrival_date.0}}</span><br/>
                                         <span>{{data.destination}} ({{data.destination_name}})</span><br>
+                                    </div>
+                                </div>
                                     </div>
                                 </div>
                                 {%if forloop.counter != response|length %}<hr/>{%endif%}

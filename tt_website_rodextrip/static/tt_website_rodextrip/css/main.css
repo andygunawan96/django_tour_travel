@@ -2742,6 +2742,32 @@ body.mobile-nav-active #mobile-nav-toggle {
   position: relative;
 }
 
+.primary-btn-cancel {
+  background: transparent;
+  line-height: 35px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border: none;
+  border-radius: 3px;
+  color: #e81c30;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  position: relative;
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  position: relative;
+  border: 2px solid red;
+}
+
+.primary-btn-cancel:hover {
+  background: #e81c30;
+  color: white;
+}
+
 .primary-btn-standard {
   background: #f7f7f7;
   line-height: 42px;
