@@ -1821,6 +1821,41 @@ function sort_button(value){
    filtering('filter');
 }
 
+function get_airline_recommendations_list(){
+    airline_recommendations_list = [];
+    if(airline_pick_list.length != 0){
+        for(i in recommendations_airline){
+            check_recommendations_airline = 0
+            for(j in recommendations_airline[i].journey_flight_refs){
+                if(airline_pick_list.length > parseInt(j)){
+                    //check
+                    if(airline_pick_list[j].journey_ref_id == recommendations_airline[i].journey_flight_refs[j].journey_ref_id){
+                        for(k in recommendations_airline[i].journey_flight_refs[j].fare_flight_refs){
+                            if(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].fare_ref_id == recommendations_airline[i].journey_flight_refs[j].fare_flight_refs[k].fare_ref_id){
+                                console.log(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].fare_ref_id);
+                                console.log(recommendations_airline[i].journey_flight_refs[j].fare_flight_refs[k].fare_ref_id);
+                            }else{
+                                check_recommendations_airline = 1
+                                break;
+                            }
+                        }
+                    }else{
+                        check_recommendations_airline = 1;
+                        break;
+                    }
+                    //salah break
+                }else if(check_recommendations_airline == 0){
+                    airline_recommendations_list.push(recommendations_airline[i].journey_flight_refs[j].journey_ref_id);
+                    break;
+                }else{
+                    break;
+                }
+            }
+        }
+    }
+    console.log(airline_recommendations_list)
+}
+
 function sort(){
     airline = data;
     ticket_count = 0;
@@ -1913,25 +1948,10 @@ function sort(){
             text += `<div style="background-color:`+color+`; padding:10px;">
                     <h6 style="color:`+text_color+`;">Choose Flight `+counter_search+`</h6>
                 </div>`;
+        get_airline_recommendations_list();
         for(i in airline){
            if(airline[i].origin == airline_request.origin[counter_search-1].split(' - ')[0] && airline[i].destination == airline_request.destination[counter_search-1].split(' - ')[0] && airline_departure == 'departure' && airline_request.departure[counter_search-1] == airline[i].departure_date.split(' - ')[0]){
-               check_combo_price = false;
-               for(j in airline_pick_list){
-                    try{
-                        for(k in airline_pick_list[j].segments){
-                            if(airline[i].segments[0].fares[0].group_flight_id == '')
-                                check_combo_price = true
-                            else if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id){
-                                check_combo_price = true;
-                            }
-                            if(check_combo_price == true)
-                                break;
-                        }
-                    }catch(err){check_combo_price = true;}
-                    if(check_combo_price == true)
-                        break;
-               }
-               if(check_combo_price == false && airline_pick_list.length == 0 || check_combo_price == true && airline_pick_list.length >= 1){
+               if(airline_recommendations_list.length == 0 || airline_recommendations_list.includes(airline[i].journey_ref_id) == true){
                    ticket_count++;
                    if(ticket_count >= first && ticket_count < last){
                        contain++;
@@ -2164,19 +2184,7 @@ function sort(){
                                        <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                         <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                    </a>`;
-                                   check_combo_price = false;
-                                   for(j in airline_pick_list){
-                                        for(k in airline_pick_list[j].segments){
-                                            if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id && airline[i].segments[0].fares[0].group_flight_id != ''){
-                                                check_combo_price = true;
-                                            }
-                                            if(check_combo_price == true)
-                                                break;
-                                        }
-                                        if(check_combo_price == true)
-                                            break;
-                                   }
-                                   if(check_combo_price == true)
+                                   if(airline_recommendations_list.length != 0)
                                        text+=`<label>Combo Price</label>`;
                                text+=`</div>
                                <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
@@ -2431,23 +2439,7 @@ function sort(){
                    }
                }
            }else if(airline[i].origin == airline_request.destination[0].split(' - ')[0] && airline[i].destination == airline_request.origin[0].split(' - ')[0] && airline_departure == 'return'){
-               check_combo_price = false;
-               for(j in airline_pick_list){
-                    try{
-                        for(k in airline_pick_list[j].segments){
-                            if(airline[i].segments[0].fares[0].group_flight_id == '')
-                                check_combo_price = true
-                            else if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id){
-                                check_combo_price = true;
-                            }
-                            if(check_combo_price == true)
-                                break;
-                        }
-                    }catch(err){check_combo_price = true;}
-                    if(check_combo_price == true)
-                        break;
-               }
-               if(check_combo_price == true){
+               if(airline_recommendations_list.length == 0 || airline_recommendations_list.includes(airline[i].journey_ref_id) == true){
                    ticket_count++;
                    if(ticket_count >= first && ticket_count < last){
                        contain++;
@@ -2679,19 +2671,7 @@ function sort(){
                                             <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                             <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                         </a>`;
-                                        check_combo_price = false;
-                                        for(j in airline_pick_list){
-                                            for(k in airline_pick_list[j].segments){
-                                                if(airline[i].segments[0].fares[0].group_flight_id == airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].group_flight_id && airline[i].segments[0].fares[0].group_flight_id != ''){
-                                                    check_combo_price = true;
-                                                }
-                                                if(check_combo_price == true)
-                                                    break;
-                                            }
-                                            if(check_combo_price == true)
-                                                break;
-                                        }
-                                        if(check_combo_price == true)
+                                        if(airline_recommendations_list.length != 0)
                                             text+=`<label>Combo Price</label>`;
                                     text+=`
                                     </div>

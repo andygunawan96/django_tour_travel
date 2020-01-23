@@ -27,6 +27,7 @@
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
     signature = `{{signature}}`;
+    recommendations_airline = [];
     airline_check = 0;
     {% for key,value in airline_carriers.0.items %}
         {% if value.code == 'all' and value.bool == True %}

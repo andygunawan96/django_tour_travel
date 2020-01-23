@@ -636,9 +636,9 @@ function hotel_provision(price_code, provider){
             console.log(msg);
             provision = msg;
             if(msg.result.error_code == 0){
-                document.getElementById('issued_hotel_btn').style.display = 'block';
+                document.getElementById('issued_hotel_btn').disabled = false;
             }else if(msg.result.error_code == 4006){
-                document.getElementById('issued_hotel_btn').style.display = 'block';
+                document.getElementById('issued_hotel_btn').disabled = false;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

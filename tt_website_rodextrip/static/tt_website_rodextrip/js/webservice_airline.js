@@ -839,6 +839,7 @@ function datasearch2(airline){
 //   print_ticket_search(temp_data);
 //   sort_button('price');
 //   sort(temp_data);
+   recommendations_airline = recommendations_airline.concat(airline.recommendations)
    if(airline_request.departure.length != journey.length)
        filtering('filter');
 }
@@ -1621,20 +1622,20 @@ function get_price_itinerary_request(){
                 //$("#badge-flight-notif2").removeClass("infinite");
                 //$('#button_chart_airline').hide();
                 text = `<div class="col-lg-12" style="text-align:center;"><span style="font-weight: bold; font-size:14px; padding:15px;">No Price Itinerary</span></div>`;
-                check_other_class = false;
-                for(pick in airline_pick_list){
-                    for(segment in airline_pick_list[pick].segments){
-                        if(airline_pick_list[pick].segments[segment].fares.length > 1){
-                            check_other_class = true;
-                            break;
-                        }
-                    }
-                    if(check_other_class == true)
-                        break;
-                }
-                if(check_other_class == true){
-                    text += `<div class="col-lg-12" style="text-align:center;"><button type="button" class="primary-btn-custom" onclick="set_automatic_combo_price('');">Change class to combo</button></div>`;
-                }
+//                check_other_class = false;
+//                for(pick in airline_pick_list){
+//                    for(segment in airline_pick_list[pick].segments){
+//                        if(airline_pick_list[pick].segments[segment].fares.length > 1){
+//                            check_other_class = true;
+//                            break;
+//                        }
+//                    }
+//                    if(check_other_class == true)
+//                        break;
+//                }
+//                if(check_other_class == true){
+//                    text += `<div class="col-lg-12" style="text-align:center;"><button type="button" class="primary-btn-custom" onclick="set_automatic_combo_price('');">Change class to combo</button></div>`;
+//                }
 
                 document.getElementById('airline_detail').innerHTML = text;
                 $('#loading-search-flight').hide();
