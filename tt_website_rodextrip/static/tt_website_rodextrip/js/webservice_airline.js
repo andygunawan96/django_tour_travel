@@ -449,10 +449,12 @@ function carrier_to_provider(){
             }else if(airline_carriers[i][j].bool == true){
                 try{
                     if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == false)
-                        airline[i][airline_carriers[i][j].code] = airline_carriers[i][j].provider;
+                        for(k in airline_carriers[i][j].provider)
+                            if(provider_list[airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == true)
+                                airline[i][airline_carriers[i][j].code] = [airline_carriers[i][j].provider[k]];
                     else{
                         for(k in airline_carriers[i][j].provider){
-                            if(airline[i][airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == false)
+                            if(airline[i][airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == false && provider_list[airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]))
                                 airline[i][airline_carriers[i][j].code].push(airline_carriers[i][j].provider[k]);
                         }
                     }
@@ -2580,8 +2582,32 @@ function airline_force_commit_booking(val){
                 })
            }else if(msg.result.error_code == 4014){
                 console.log(msg.result.response.order_number);
-                document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                document.getElementById('airline_booking').submit();
+                try{
+                    if(msg.result.response.order_number != ''){
+                        document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('airline_booking').submit();
+                    }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        })
+                        $("#waitingTransaction").modal('hide');
+                        $('.loader-rodextrip').fadeOut();
+                        $('.btn-next').removeClass('running');
+                        $('.btn-next').prop('disabled', false);
+                    }
+                }catch(err){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                    })
+                    $("#waitingTransaction").modal('hide');
+                    $('.loader-rodextrip').fadeOut();
+                    $('.btn-next').removeClass('running');
+                    $('.btn-next').prop('disabled', false);
+                }
            }else{
                 Swal.fire({
                   type: 'error',

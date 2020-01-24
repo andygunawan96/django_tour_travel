@@ -1823,21 +1823,23 @@ function sort_button(value){
 
 function get_airline_recommendations_list(){
     airline_recommendations_list = [];
+    airline_recommendations_combo_list = [];
     if(airline_pick_list.length != 0){
         for(i in recommendations_airline){
-            check_recommendations_airline = 0
+            check_recommendations_airline = 0;
+            check_recommendations_airline_combo = true;
             for(j in recommendations_airline[i].journey_flight_refs){
                 if(airline_pick_list.length > parseInt(j)){
                     //check
                     if(airline_pick_list[j].journey_ref_id == recommendations_airline[i].journey_flight_refs[j].journey_ref_id){
-//                        for(k in recommendations_airline[i].journey_flight_refs[j].fare_flight_refs){
-//                            if(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].fare_ref_id == recommendations_airline[i].journey_flight_refs[j].fare_flight_refs[k].fare_ref_id){
-//
-//                            }else{
-//                                check_recommendations_airline = 1
-//                                break;
-//                            }
-//                        }
+                        for(k in recommendations_airline[i].journey_flight_refs[j].fare_flight_refs){
+                            if(airline_pick_list[j].segments[k].fares[airline_pick_list[j].segments[k].fare_pick].fare_ref_id == recommendations_airline[i].journey_flight_refs[j].fare_flight_refs[k].fare_ref_id){
+
+                            }else{
+                                check_recommendations_airline_combo = false;
+                                break;
+                            }
+                        }
                     }else{
                         check_recommendations_airline = 1;
                         break;
@@ -1845,6 +1847,7 @@ function get_airline_recommendations_list(){
                     //salah break
                 }else if(check_recommendations_airline == 0){
                     airline_recommendations_list.push(recommendations_airline[i].journey_flight_refs[j].journey_ref_id);
+                    airline_recommendations_combo_list.push(check_recommendations_airline_combo);
                     break;
                 }else{
                     break;
@@ -2184,7 +2187,10 @@ function sort(){
                                         <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                    </a>`;
                                    if(airline_recommendations_list.length != 0)
-                                       text+=`<label>Combo Price</label>`;
+                                       if(airline_recommendations_combo_list[airline_recommendations_list.indexOf(airline[i].journey_ref_id)] == true)
+                                            text+=`<label>Combo Price</label>`;
+                                       else
+                                            text+=`<label>Combo Price with upgrade class</label>`;
                                text+=`</div>
                                <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
                                    <div>
@@ -2670,8 +2676,12 @@ function sort(){
                                             <span class="detail-link" style="font-weight: bold; display:none;" id="flight_details_up`+i+`"> Flight details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
                                             <span class="detail-link" style="font-weight: bold; display:block;" id="flight_details_down`+i+`"> Flight details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                         </a>`;
-                                        if(airline_recommendations_list.length != 0)
-                                            text+=`<label>Combo Price</label>`;
+                                        if(airline_recommendations_list.length != 0){
+                                            if(airline_recommendations_combo_list[airline_recommendations_list.indexOf(airline[i].journey_ref_id)] == true)
+                                                text+=`<label>Combo Price</label>`;
+                                            else
+                                                text+=`<label>Combo Price with upgrade class</label>`;
+                                        }
                                     text+=`
                                     </div>
                                     <div class="col-lg-8 col-md-8 col-sm-8">
