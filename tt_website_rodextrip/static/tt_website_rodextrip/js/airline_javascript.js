@@ -151,7 +151,7 @@ function add_promotion_code(){
                 <input type="text" class="form-control" id="carrier_code_line`+promotion_code+`" name="carrier_code_line`+promotion_code+`" placeholder="ex GA"/>
             </div>
             <div class="col-lg-12" style="text-align:right;">
-                <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)">Delete<i class="fa fa-trash-alt" style="color:#E92B2B;font-size:16px;"></i></button>
+                <button type="button" class="primary-delete-date" onclick="delete_promotion_code(`+promotion_code+`)"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:16px;"></i> Delete</button>
             </div>
         </div>`;
     var node = document.createElement("div");
@@ -1010,7 +1010,7 @@ function airline_filter_render(){
 
     var node = document.createElement("div");
     text = '';
-    text+= `<h4>Filter</h4>
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
     <h6 class="filter_general" onclick="show_hide_general('airlineAirline');" id="filter_airline_span"></h6>
     <div id="airlineAirline_generalShow" style="display:inline-block;">
     </div>`;
@@ -1142,7 +1142,7 @@ function airline_filter_render(){
         </div>
     </div>
     */
-    text+= `<h4>Filter</h4>
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
     <hr/>
     <h6 style="padding-bottom:10px;">Departure Time</h6>`;
     for(i in departure_list){
@@ -5179,7 +5179,7 @@ function get_checked_copy_result(){
             text+=`
             </div>
             <div class="col-lg-3" style="text-align:right;">
-                <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_airline+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
+                <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_airline+`);"><i class="fas fa-times-circle" style="color:red; font-size:18px;"></i> Delete</span>
             </div>
             <div class="col-lg-12"><hr/></div>
         </div>`;
@@ -5271,4 +5271,25 @@ function delete_checked_copy_result(id){
         share_data();
     }
     checkboxCopy();
+}
+
+function reset_filter(){
+    change_filter('departure', 0);
+    change_filter('arrival', 0);
+    for(i in carrier_code){
+        carrier_code[i].status = false;
+        document.getElementById("checkbox_airline"+i).checked = carrier_code[i].status;
+        document.getElementById("checkbox_airline2"+i).checked = carrier_code[i].status;
+    }
+    for(i in transit_list){
+        transit_list[i].status = false;
+        document.getElementById("checkbox_transit"+i).checked = transit_list[i].status;
+        document.getElementById("checkbox_transit2"+i).checked = transit_list[i].status;
+    }
+    for(i in transit_duration_list){
+        transit_duration_list[i].status = false;
+        document.getElementById("checkbox_transit_duration"+i).checked = transit_duration_list[i].status;
+        document.getElementById("checkbox_transit_duration2"+i).checked = transit_duration_list[i].status;
+    }
+    filtering('filter');
 }

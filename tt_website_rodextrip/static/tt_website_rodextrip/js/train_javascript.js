@@ -178,7 +178,7 @@ function train_switch(){
 
 function train_filter_render(){
     text = '';
-    text+= `<h4>Filter</h4>
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
             <hr/>
             <h6 class="filter_general" onclick="show_hide_general('trainDeparture');">Departure Time <i class="fas fa-chevron-down" id="trainDeparture_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="trainDeparture_generalUp" style="float:right; display:block;"></i></h6>
     <div id="trainDeparture_generalShow" style="display:inline-block;">`;
@@ -263,7 +263,7 @@ function train_filter_render(){
 
 
     text = '';
-    text+= `<h4>Filter</h4>
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
             <hr/>
             <h6 style="padding-bottom:10px;">Departure Time</h6>`;
     for(i in departure_list){
@@ -377,13 +377,14 @@ function change_filter(type, value){
         document.getElementById("checkbox_departure_time"+value).checked = departure_list[value].status;
         document.getElementById("checkbox_departure_time2"+value).checked = departure_list[value].status;
     }else if(type == 'arrival'){
-        arrival_list
         if(value == 0)
+        {
             for(i in arrival_list){
                 arrival_list[i].status = false
                 document.getElementById("checkbox_arrival_time"+i).checked = arrival_list[i].status;
                 document.getElementById("checkbox_arrival_time2"+i).checked = arrival_list[i].status;
             }
+        }
         else{
             arrival_list[0].status = false;
             document.getElementById("checkbox_arrival_time0").checked = false;
@@ -1389,13 +1390,14 @@ function time_check(data){
     data.forEach((obj1)=> {
         check = 0;
         departure_list.forEach((obj)=> {
+            console.log(obj1);
             if(obj.status == true && obj.value == 'All' && check == 0){
                 check = 1;
             }else if(obj.status == true && check == 0){
                 time = obj.value.split(' - ');
                 for(i in time)
                     time[i] = time[i].split('.')[0]*3600 + time[i].split('.')[1]*60;
-                data_time = obj1.departure_date.split(' - ');
+                data_time = obj1.departure_date;
                 data_time = data_time[1].split(':')[0]*3600 + data_time[1].split(':')[1]*60;
                 if(time[0]<=data_time && time[1]>=data_time){
                     check = 1;
@@ -1411,7 +1413,7 @@ function time_check(data){
                     time = obj.value.split(' - ');
                     for(i in time)
                         time[i] = time[i].split('.')[0]*3600 + time[i].split('.')[1]*60;
-                    data_time = obj1.arrival_date.split(' - ');
+                    data_time = obj1.arrival_date;
                     data_time = data_time[1].split(':')[0]*3600 + data_time[1].split(':')[1]*60;
                     if(time[0]<=data_time && time[1]>=data_time){
                         temp_data.push(obj1);
@@ -2089,4 +2091,15 @@ function delete_checked_copy_result(id){
         share_data();
     }
     checkboxCopy();
+}
+
+function reset_filter(){
+    change_filter('departure', 0);
+    change_filter('arrival', 0);
+    for(i in cabin_list){
+        cabin_list[i].status = false;
+        document.getElementById("checkbox_cabin"+i).checked = cabin_list[i].status;
+        document.getElementById("checkbox_cabin2"+i).checked = cabin_list[i].status;
+    }
+    filtering('filter');
 }

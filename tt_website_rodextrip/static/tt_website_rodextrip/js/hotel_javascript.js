@@ -997,7 +997,7 @@ function hotel_filter_render(){
     node = document.createElement("div");
 
     text = '';
-    text+= `<h4>Filter</h4>
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
     <hr/>`;
     if(template == 1){
         text+=`<div class="banner-right">`;
@@ -1099,7 +1099,7 @@ function hotel_filter_render(){
 
     var node2 = document.createElement("div");
     text = '';
-    text+= `<h4>Filter</h4>
+    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
             <hr/>
             <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
             if(template == 1){
@@ -2146,3 +2146,19 @@ function change_image_hotel(numb){
 //    modalImg.src = urlImage;
 //    $("#openImage").modal('show');
 //}
+
+function reset_filter(){
+    document.getElementById('hotel_filter_name').value = '';
+    document.getElementById('price-from').value = low_price_slider;
+    document.getElementById('price-to').value = high_price_slider;
+    filter_name(1);
+    price_update(1, 1);
+    price_slider_true(1, 1);
+
+    for(i in rating_list){
+        rating_list[i].status = false;
+        document.getElementById("rating_filter"+i).checked = rating_list[i].status;
+        document.getElementById("rating_filter2"+i).checked = rating_list[i].status;
+    }
+    filtering('filter');
+}
