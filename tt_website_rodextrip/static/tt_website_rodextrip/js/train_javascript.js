@@ -1390,7 +1390,6 @@ function time_check(data){
     data.forEach((obj1)=> {
         check = 0;
         departure_list.forEach((obj)=> {
-            console.log(obj1);
             if(obj.status == true && obj.value == 'All' && check == 0){
                 check = 1;
             }else if(obj.status == true && check == 0){
