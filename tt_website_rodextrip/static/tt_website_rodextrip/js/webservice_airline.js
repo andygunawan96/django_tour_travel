@@ -1019,6 +1019,18 @@ function get_price_itinerary(val){
         //get farecode
 //        document.getElementById('airline_searchForm').
     }
+    if(airline_pick_list.length != 0 && airline_recommendations_combo_list[airline_recommendations_list.indexOf(airline_data_filter[val].journey_ref_id)] == false){
+        for(i in airline_pick_list){
+            for(j in airline_pick_list[i].segments){
+                for(k in airline_pick_list[i].segments[j].fares){
+                    if(airline_pick_list[i].segments[j].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_data_filter[val].journey_ref_id)].journey_flight_refs[i].fare_flight_refs[j].fare_ref_id){
+                        airline_pick_list[i].segments[j].fare_pick = parseInt(k);
+                        break;
+                    }
+                }
+            }
+        }
+    }
     airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
     value_pick.push(val);
 
@@ -1144,33 +1156,12 @@ function get_price_itinerary(val){
             airline_pick_mc('all');
         else
             airline_pick_mc('change');
-        set_automatic_combo_price('')
+        set_automatic_combo_price()
 //        get_price_itinerary_request();
     }
 }
 
-function set_automatic_combo_price(fare_pick){
-    for(i in airline_pick_list){
-        if(airline_pick_list[i].journey_ref_id != ''){
-            for(j in airline_pick_list[i].segments){
-                if(fare_pick == '')
-                    fare_pick = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service;
-                else if(fare_pick != airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service){
-                    check_class_of_service = false;
-                    for(k in airline_pick_list[i].segments[j].fares){
-                        if(airline_pick_list[i].segments[j].fares[k].class_of_service == fare_pick){
-                            airline_pick_list[i].segments[j].fare_pick = parseInt(k);
-                            check_class_of_service = true;
-                        }
-                    }
-                    if(check_class_of_service == false){
-                        fare_pick = airline_pick_list[i].segments[j].fares[airline_pick_list[i].segments[j].fare_pick].class_of_service;
-                        set_automatic_combo_price(fare_pick);
-                    }
-                }
-            }
-        }
-    }
+function set_automatic_combo_price(){
     journey = [];
     for(i in airline_pick_list){
         total_price_temp = 0;
@@ -2508,9 +2499,38 @@ function airline_commit_booking(val){
                   }
                 })
            }else if(msg.result.error_code == 4014){
-                console.log(msg.result.response.order_number);
-                document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                document.getElementById('airline_booking').submit();
+                if(val == 0){
+                    if(msg.result.response.order_number != ''){
+                        document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('airline_booking').submit();
+                    }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        })
+                        $("#waitingTransaction").modal('hide');
+                        $('.loader-rodextrip').fadeOut();
+                        $('.btn-next').removeClass('running');
+                        $('.btn-next').prop('disabled', false);
+                    }
+                }else{
+                    if(msg.result.response.order_number != ''){
+                       document.getElementById('order_number').value = msg.result.response.order_number;
+                       document.getElementById('issued').action = '/airline/booking';
+                       document.getElementById('issued').submit();
+                    }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        })
+                        $("#waitingTransaction").modal('hide');
+                        $('.loader-rodextrip').fadeOut();
+                        $('.btn-next').removeClass('running');
+                        $('.btn-next').prop('disabled', false);
+                    }
+                }
            }else{
                 Swal.fire({
                   type: 'error',
@@ -2581,8 +2601,7 @@ function airline_force_commit_booking(val){
                   }
                 })
            }else if(msg.result.error_code == 4014){
-                console.log(msg.result.response.order_number);
-                try{
+                if(val == 0){
                     if(msg.result.response.order_number != ''){
                         document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
                         document.getElementById('airline_booking').submit();
@@ -2597,16 +2616,22 @@ function airline_force_commit_booking(val){
                         $('.btn-next').removeClass('running');
                         $('.btn-next').prop('disabled', false);
                     }
-                }catch(err){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
-                    })
-                    $("#waitingTransaction").modal('hide');
-                    $('.loader-rodextrip').fadeOut();
-                    $('.btn-next').removeClass('running');
-                    $('.btn-next').prop('disabled', false);
+                }else{
+                    if(msg.result.response.order_number != ''){
+                       document.getElementById('order_number').value = msg.result.response.order_number;
+                       document.getElementById('issued').action = '/airline/booking';
+                       document.getElementById('issued').submit();
+                    }else{
+                        Swal.fire({
+                          type: 'error',
+                          title: 'Oops!',
+                          html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        })
+                        $("#waitingTransaction").modal('hide');
+                        $('.loader-rodextrip').fadeOut();
+                        $('.btn-next').removeClass('running');
+                        $('.btn-next').prop('disabled', false);
+                    }
                 }
            }else{
                 Swal.fire({

@@ -1823,6 +1823,7 @@ function sort_button(value){
 
 function get_airline_recommendations_list(){
     airline_recommendations_list = [];
+    airline_recommendations_journey = [];
     airline_recommendations_combo_list = [];
     if(airline_pick_list.length != 0){
         for(i in recommendations_airline){
@@ -1848,6 +1849,7 @@ function get_airline_recommendations_list(){
                 }else if(check_recommendations_airline == 0){
                     airline_recommendations_list.push(recommendations_airline[i].journey_flight_refs[j].journey_ref_id);
                     airline_recommendations_combo_list.push(check_recommendations_airline_combo);
+                    airline_recommendations_journey.push(recommendations_airline[i]);
                     break;
                 }else{
                     break;
