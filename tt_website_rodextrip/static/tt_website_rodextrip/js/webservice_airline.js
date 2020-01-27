@@ -1188,7 +1188,7 @@ function set_automatic_combo_price(fare_pick){
                     document.getElementsByName('journeypick'+airline_pick_list[i].airline_pick_sequence+'segment'+j+'fare')[k].checked = true;
                     for(l in airline_pick_list[i].segments[j].fares[k].service_charge_summary){
                         if(airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_type == 'ADT'){
-                            total_price_temp += airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].total_price;
+                            total_price_temp += airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].total_price / airline_pick_list[i].segments[j].fares[k].service_charge_summary[l].pax_count;
                             break;
                         }
                     }
