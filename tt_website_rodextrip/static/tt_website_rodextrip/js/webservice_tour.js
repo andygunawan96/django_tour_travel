@@ -1195,7 +1195,7 @@ function update_service_charge(type){
 function tour_get_booking(order_number)
 {
     price_arr_repricing = {};
-    getToken();
+    get_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/tour",

@@ -898,7 +898,7 @@ function hotel_issued_booking(){
 
 function hotel_get_booking(data){
     price_arr_repricing = {};
-    getToken();
+    get_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",

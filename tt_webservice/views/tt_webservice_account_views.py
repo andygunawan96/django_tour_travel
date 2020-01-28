@@ -39,6 +39,25 @@ month = {
 
 }
 
+class time:
+    def __init__(self, name):
+        self.get_time_balance = name
+        self.get_time_balance_first_time = True
+        self.get_time_transaction = name
+        self.get_time_transaction_first_time = True
+    def set_new_time_out(self, val):
+        if val == 'balance':
+            self.get_time_balance = datetime.now()
+        elif val == 'transaction':
+            self.get_time_transaction = datetime.now()
+    def set_first_time(self,val):
+        if val == 'balance':
+            self.get_time_balance_first_time = False
+        elif val == 'transaction':
+            self.get_time_transaction_first_time = False
+
+time_check = time(datetime.now())
+
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -219,9 +238,30 @@ def get_balance(request):
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         request.session['get_balance_session'] = res
         request.session.modified = True
+        time_check.set_new_time_out('balance')
+        time_check.set_first_time('balance')
     else:
         try:
-            res = request.session['get_balance_session']
+            date_time = datetime.now() - time_check.get_time_balance
+            if date_time.seconds >= 300 or time_check.get_time_balance_first_time == True:
+                try:
+                    data = {}
+                    headers = {
+                        "Accept": "application/json,text/html,application/xml",
+                        "Content-Type": "application/json",
+                        "action": "get_balance",
+                        "signature": request.POST['signature'],
+                    }
+                    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+                    request.session['get_balance_session'] = res
+                    request.session.modified = True
+                    time_check.set_new_time_out('balance')
+                    time_check.set_first_time('balance')
+                except Exception as e:
+                    res = request.session['get_balance_session']
+                    logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            else:
+                res = request.session['get_balance_session']
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
@@ -273,8 +313,53 @@ def get_transactions(request):
         if int(request.POST['offset']) == 0:
             request.session['get_transactions_session'] = res
             request.session.modified = True
+        time_check.set_new_time_out('transaction')
+        time_check.set_first_time('transaction')
     else:
-        res = request.session['get_transactions_session']
+        date_time = datetime.now() - time_check.get_time_transaction
+        if date_time.seconds >= 5 or time_check.get_time_transaction_first_time == True:
+            try:
+                name = ''
+                start_date = ''
+                end_date = ''
+                try:
+                    name = request.POST['key']
+                except:
+                    pass
+                if request.POST['start_date'] != 'Invalid date':
+                    start_date = request.POST['start_date']
+                if request.POST['end_date'] != 'Invalid date':
+                    end_date = request.POST['end_date']
+                data = {
+                    'minimum': int(request.POST['offset']) * int(request.POST['limit']),
+                    'maximum': (int(request.POST['offset']) + 1) * int(request.POST['limit']),
+                    'provider_type': json.loads(request.POST['provider_type']),
+                    'booker_name': request.POST['booker_name'],
+                    "type": request.POST['type'],
+                    # "name": request.POST['name'],
+                    "passenger_name": request.POST['passenger_name'],
+                    'pnr': request.POST['pnr'],
+                    "date_from": start_date,
+                    "date_to": end_date,
+                    "state": request.POST['state']
+                }
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_transactions",
+                    "signature": request.POST['signature'],
+                }
+                res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+                if int(request.POST['offset']) == 300:
+                    request.session['get_transactions_session'] = res
+                    request.session.modified = True
+                time_check.set_new_time_out('transaction')
+                time_check.set_first_time('transaction')
+            except Exception as e:
+                res = request.session['get_transactions_session']
+                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        else:
+            res = request.session['get_transactions_session']
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_transactions_account SUCCESS SIGNATURE " + request.POST['signature'])

@@ -335,7 +335,7 @@ function train_create_booking(val){
 
 function train_get_booking(data){
     price_arr_repricing = {};
-    getToken();
+    get_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/train",

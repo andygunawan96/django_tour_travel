@@ -152,6 +152,12 @@ function set_price(val, type, product_type){
                 <div class="col-sm-7" style='text-align:right;'>
                     <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][selected].name+`<br>
                 </div>`;
+        text+= `<div class='col-sm-6' style='text-align:left;'>
+                    <span>Credit Limit:</span>
+                </div>
+                <div class='col-sm-6' style='text-align:right;'>
+                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].credit_limit)+`</span>
+                </div>`;
         usage = payment_acq2[payment_method][selected].credit_limit - payment_acq2[payment_method][selected].actual_balance;
         text+= `<div class='col-sm-6' style='text-align:left;'>
                     <span>Usage:</span>
@@ -165,12 +171,7 @@ function set_price(val, type, product_type){
                 <div class='col-sm-6' style='text-align:right;'>
                     <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].actual_balance)+`</span>
                 </div>`;
-        text+= `<div class='col-sm-6' style='text-align:left;'>
-                    <span>Credit Limit:</span>
-                </div>
-                <div class='col-sm-6' style='text-align:right;'>
-                    <span>`+payment_acq2[payment_method][selected].currency+` `+getrupiah(payment_acq2[payment_method][selected].credit_limit)+`</span>
-                </div>`;
+
     }
     if(type == 'top_up' && payment_method == 'va'){
         var temp = payment_acq2[payment_method][selected].name.split(' ');
