@@ -129,11 +129,12 @@ function get_banner(type,page){
             'signature': signature
        },
        success: function(msg) {
-            console.log(msg);
             if(msg.result.error_code == 0){
                 document.getElementById(type).innerHTML = '';
                 text = '';
                 if(page == 'home'){
+                    if(msg.result.response.length == 0)
+                        document.getElementById(type).style.display = 'none';
                     if(type == 'big_banner'){
                         text+=`<div class="owl-carousel-banner owl-theme">`;
                         for(i in msg.result.response){

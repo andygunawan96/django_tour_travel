@@ -1009,11 +1009,13 @@ def get_ssr_availabilty(request):
                                 total += service_charge['amount']
                             ssr['total_price'] = total
                             ssr['currency'] = currency
+            request.session['airline_get_ssr'] = res
         else:
+            request.session['airline_get_ssr'] = res
             logging.getLogger("error_logger").error("get_ssr_availability_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    request.session['airline_get_ssr'] = res
+
     return res
 
 def get_seat_availability(request):

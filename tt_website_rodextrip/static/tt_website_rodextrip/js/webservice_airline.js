@@ -2708,7 +2708,7 @@ function airline_hold_booking(val){
 
 function airline_get_booking(data){
     price_arr_repricing = {};
-    getToken();
+    get_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/airline",

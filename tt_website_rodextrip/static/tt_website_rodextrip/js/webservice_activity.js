@@ -1425,7 +1425,7 @@ function update_service_charge(type){
 
 function activity_get_booking(data){
     price_arr_repricing = {};
-    getToken();
+    get_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/activity",

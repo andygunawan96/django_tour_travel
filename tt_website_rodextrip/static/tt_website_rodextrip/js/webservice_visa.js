@@ -575,7 +575,7 @@ function visa_commit_booking(){
 
 function visa_get_data(data){
     price_arr_repricing = {};
-    getToken();
+    get_balance('false');
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
