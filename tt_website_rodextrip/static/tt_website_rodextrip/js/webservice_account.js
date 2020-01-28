@@ -35,23 +35,48 @@ function get_balance(val){
     if(val != undefined)
         using_cache = val;
     getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/account",
-       headers:{
-            'action': 'get_balance',
-       },
-       data: {
-            'signature': signature,
-            'using_cache': using_cache
-       },
-       success: function(msg) {
-        console.log(msg);
-        if(msg.result.error_code == 0){
-            balance = parseInt(msg.result.response.balance);
-            credit_limit = parseInt(msg.result.response.credit_limit);
-            text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
-            try{
+    if(signature != ''){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'get_balance',
+           },
+           data: {
+                'signature': signature,
+                'using_cache': using_cache
+           },
+           success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                balance = parseInt(msg.result.response.balance);
+                credit_limit = parseInt(msg.result.response.credit_limit);
+                text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
+                try{
+                    document.getElementById("balance").innerHTML = text;
+                    try{
+                        document.getElementById("balance_mob").innerHTML = text;
+                    }catch(err){}
+                    try{
+                        document.getElementById("balance_search").innerHTML = text;
+                    }catch(err){}
+                }catch(err){}
+                text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
+                try{
+                    document.getElementById("credit_limit").innerHTML = text;
+                    try{
+                        document.getElementById("credit_mob").innerHTML = text;
+                    }catch(err){}
+                    try{
+                        document.getElementById("credit_search").innerHTML = text;
+                    }catch(err){}
+                }catch(err){}
+                //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+            }else{
+              text = `Balance: Timeout`;
+              try{
                 document.getElementById("balance").innerHTML = text;
                 try{
                     document.getElementById("balance_mob").innerHTML = text;
@@ -59,9 +84,9 @@ function get_balance(val){
                 try{
                     document.getElementById("balance_search").innerHTML = text;
                 }catch(err){}
-            }catch(err){}
-            text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
-            try{
+              }catch(err){}
+              text = `Credit Limit: Timeout`;
+              try{
                 document.getElementById("credit_limit").innerHTML = text;
                 try{
                     document.getElementById("credit_mob").innerHTML = text;
@@ -69,70 +94,49 @@ function get_balance(val){
                 try{
                     document.getElementById("credit_search").innerHTML = text;
                 }catch(err){}
-            }catch(err){}
-            //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
-        }else{
-          text = `Balance: Timeout`;
-          try{
-            document.getElementById("balance").innerHTML = text;
-            try{
-                document.getElementById("balance_mob").innerHTML = text;
-            }catch(err){}
-            try{
-                document.getElementById("balance_search").innerHTML = text;
-            }catch(err){}
-          }catch(err){}
-          text = `Credit Limit: Timeout`;
-          try{
-            document.getElementById("credit_limit").innerHTML = text;
-            try{
-                document.getElementById("credit_mob").innerHTML = text;
-            }catch(err){}
-            try{
-                document.getElementById("credit_search").innerHTML = text;
-            }catch(err){}
-          }catch(err){}
-            logout();
-//            Swal.fire({
-//              type: 'error',
-//              title: 'Oops!',
-//              html: '<span style="color: #ff9900;">Error balance </span>' + msg.result.error_msg,
-//            })
-        }
-        get_transactions_notification(val);
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-          logout();
-          text = `Balance: Failed`;
-          try{
-            document.getElementById("balance").innerHTML = text;
-            try{
-                document.getElementById("balance_mob").innerHTML = text;
-            }catch(err){}
-            try{
-                document.getElementById("balance_search").innerHTML = text;
-            }catch(err){}
-          }catch(err){}
-          text = `Credit Limit: Failed`;
-          try{
-            document.getElementById("credit_limit").innerHTML = text;
-            try{
-                document.getElementById("credit_mob").innerHTML = text;
-            }catch(err){}
-            try{
-                document.getElementById("credit_search").innerHTML = text;
-            }catch(err){}
-          }catch(err){}
+              }catch(err){}
+                logout();
+    //            Swal.fire({
+    //              type: 'error',
+    //              title: 'Oops!',
+    //              html: '<span style="color: #ff9900;">Error balance </span>' + msg.result.error_msg,
+    //            })
+            }
+            get_transactions_notification(val);
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+              logout();
+              text = `Balance: Failed`;
+              try{
+                document.getElementById("balance").innerHTML = text;
+                try{
+                    document.getElementById("balance_mob").innerHTML = text;
+                }catch(err){}
+                try{
+                    document.getElementById("balance_search").innerHTML = text;
+                }catch(err){}
+              }catch(err){}
+              text = `Credit Limit: Failed`;
+              try{
+                document.getElementById("credit_limit").innerHTML = text;
+                try{
+                    document.getElementById("credit_mob").innerHTML = text;
+                }catch(err){}
+                try{
+                    document.getElementById("credit_search").innerHTML = text;
+                }catch(err){}
+              }catch(err){}
 
-//            Swal.fire({
-//              type: 'error',
-//              title: 'Oops!',
-//              html: '<span style="color: red;">Error balance </span>' + errorThrown,
-//            })
-       },timeout: 60000
-    });
+    //            Swal.fire({
+    //              type: 'error',
+    //              title: 'Oops!',
+    //              html: '<span style="color: red;">Error balance </span>' + errorThrown,
+    //            })
+           },timeout: 60000
+        });
+    }else{
+
+    }
 }
 
 function get_account(){
@@ -176,50 +180,41 @@ function get_transactions_notification(val){
     limit_transaction = 10;
     getToken();
     using_cache = '';
-    if(val != undefined)
-        using_cache = val;
-    $.ajax({
-       type: "POST",
-       url: "/webservice/account",
-       headers:{
-            'action': 'get_transactions',
-       },
-       data: {
-            'offset': offset_transaction,
-            'limit': limit_transaction,
-            'provider_type': JSON.stringify([]),
-            'signature': signature,
-            'type': 'all',
-            'state': '',
-            'start_date': '',
-            'end_date': '',
-//            'name': '',
-            'booker_name': '',
-            'passenger_name': '',
-            'pnr': '',
-            'using_cache': using_cache
-       },
-       success: function(msg) {
-       console.log(msg);
-        if(msg.result.error_code == 0){
-            text = '';
-            var hold_date = '';
-            var date = '';
-            var check_notif = 0;
-            var timeout_notif = 5000;
-            var today = new Date();
-            if(Object.keys(msg.result.response).length == 0){
-                document.getElementById('notification_detail').innerHTML = `
-                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
-                        <div class="row">
-                            <div class="col-sm-12" style="text-align:center">
-                                <span style="font-weight:500"> No Notification</span>
-                            </div>
-                        </div>
-                        <hr>
-                    </div>`;
-                try{
-                    document.getElementById('notification_detail2').innerHTML = `
+    if(signature != ''){
+        if(val != undefined)
+            using_cache = val;
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'get_transactions',
+           },
+           data: {
+                'offset': offset_transaction,
+                'limit': limit_transaction,
+                'provider_type': JSON.stringify([]),
+                'signature': signature,
+                'type': 'all',
+                'state': '',
+                'start_date': '',
+                'end_date': '',
+                'name': '',
+                'booker_name': '',
+                'passenger_name': '',
+                'pnr': '',
+                'using_cache': using_cache
+           },
+           success: function(msg) {
+           console.log(msg);
+            if(msg.result.error_code == 0){
+                text = '';
+                var hold_date = '';
+                var date = '';
+                var check_notif = 0;
+                var timeout_notif = 5000;
+                var today = new Date();
+                if(Object.keys(msg.result.response).length == 0){
+                    document.getElementById('notification_detail').innerHTML = `
                         <div class="col-lg-12 notification-hover" style="cursor:pointer;">
                             <div class="row">
                                 <div class="col-sm-12" style="text-align:center">
@@ -228,62 +223,8 @@ function get_transactions_notification(val){
                             </div>
                             <hr>
                         </div>`;
-                }catch(err){}
-            }else{
-                for(i in msg.result.response){
-                    for(j in msg.result.response[i]){
-                        hold_date = '';
-                        if(check_notif == 5)
-                            break;
-                        if(msg.result.response[i].hold_date != ''){
-                            date = moment.utc(msg.result.response[i][j].hold_date).format('YYYY-MM-DD HH:mm:ss');
-                            var localTime  = moment.utc(date).toDate();
-                            if(today >= moment(localTime) && msg.result.response[i][j].state_description == 'Expired'){
-                                hold_date = 'Expired';
-                            }else if(msg.result.response[i][j].state_description == 'Issued'){
-                                hold_date = 'Issued';
-                            }else{
-                                hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                                if(window.location.href.split('/')[window.location.href.split('/').length-1] == "" && check_notif < 5){
-                                    document.getElementById('notification_div').innerHTML +=`
-                                        <div class="row" id="alert`+check_notif+`">
-                                            <div class="col-sm-6">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="alert alert-warning" role="alert">
-                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                  <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' - ' + hold_date+`
-                                                </div>
-                                            </div>
-                                        </div>
-                                    `;
-                                    check_notif++;
-                                    text = '';
-                                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                                    text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
-                                    text+=`<div class="row">
-                                            <div class="col-sm-6">`;
-                                    text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
-                                    text+=` </div>
-                                            <div class="col-sm-6" style="text-align:right">
-                                            <span style="font-weight:500;"> `+hold_date+`</span>`;
-                                    text+=` </div>
-                                           </div>`;
-                                    text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
-                                    text+=`<hr/></form>`;
-                                    text+=`</div>`;
-                                    document.getElementById('notification_detail').innerHTML += text;
-                                    document.getElementById('notification_detail2').innerHTML += text;
-                                }
-                            }
-                        }else{
-                            hold_date = 'Error booked';
-                        }
-                    }
-                }
-                if(check_notif == 0){
                     try{
-                        document.getElementById('notification_detail').innerHTML = `
+                        document.getElementById('notification_detail2').innerHTML = `
                             <div class="col-lg-12 notification-hover" style="cursor:pointer;">
                                 <div class="row">
                                     <div class="col-sm-12" style="text-align:center">
@@ -292,8 +233,62 @@ function get_transactions_notification(val){
                                 </div>
                                 <hr>
                             </div>`;
+                    }catch(err){}
+                }else{
+                    for(i in msg.result.response){
+                        for(j in msg.result.response[i]){
+                            hold_date = '';
+                            if(check_notif == 5)
+                                break;
+                            if(msg.result.response[i].hold_date != ''){
+                                date = moment.utc(msg.result.response[i][j].hold_date).format('YYYY-MM-DD HH:mm:ss');
+                                var localTime  = moment.utc(date).toDate();
+                                if(today >= moment(localTime) && msg.result.response[i][j].state_description == 'Expired'){
+                                    hold_date = 'Expired';
+                                }else if(msg.result.response[i][j].state_description == 'Issued'){
+                                    hold_date = 'Issued';
+                                }else{
+                                    hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == "" && check_notif < 5){
+                                        document.getElementById('notification_div').innerHTML +=`
+                                            <div class="row" id="alert`+check_notif+`">
+                                                <div class="col-sm-6">
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="alert alert-warning" role="alert">
+                                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                      <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' - ' + hold_date+`
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        `;
+                                        check_notif++;
+                                        text = '';
+                                        text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                                        text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                                        text+=`<div class="row">
+                                                <div class="col-sm-6">`;
+                                        text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
+                                        text+=` </div>
+                                                <div class="col-sm-6" style="text-align:right">
+                                                <span style="font-weight:500;"> `+hold_date+`</span>`;
+                                        text+=` </div>
+                                               </div>`;
+                                        text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
+                                        text+=`<hr/></form>`;
+                                        text+=`</div>`;
+                                        document.getElementById('notification_detail').innerHTML += text;
+                                        document.getElementById('notification_detail2').innerHTML += text;
+                                    }
+                                }
+                            }else{
+                                hold_date = 'Error booked';
+                            }
+                        }
+                    }
+                    if(check_notif == 0){
                         try{
-                            document.getElementById('notification_detail2').innerHTML = `
+                            document.getElementById('notification_detail').innerHTML = `
                                 <div class="col-lg-12 notification-hover" style="cursor:pointer;">
                                     <div class="row">
                                         <div class="col-sm-12" style="text-align:center">
@@ -302,48 +297,61 @@ function get_transactions_notification(val){
                                     </div>
                                     <hr>
                                 </div>`;
+                            try{
+                                document.getElementById('notification_detail2').innerHTML = `
+                                    <div class="col-lg-12 notification-hover" style="cursor:pointer;">
+                                        <div class="row">
+                                            <div class="col-sm-12" style="text-align:center">
+                                                <span style="font-weight:500"> No Notification</span>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>`;
+                            }catch(err){}
                         }catch(err){}
-                    }catch(err){}
+                    }
                 }
+                setTimeout(function() {
+                    $("#notification_div").fadeTo(500, 0).slideUp(500, function(){
+                        $(this).remove();
+                    });
+                }, timeout_notif);
+
+    //            document.getElementById('notification_detail2').innerHTML = text;
+
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                logout();
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error transactions notification </span>' + msg.result.error_msg,
+                })
+
+               text= '';
+               text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+               text+=`<span style="font-weight:500;"> No Notification</span>`;
+               text+=`</div>`;
+               document.getElementById('notification_detail').innerHTML = text;
             }
-            setTimeout(function() {
-                $("#notification_div").fadeTo(500, 0).slideUp(500, function(){
-                    $(this).remove();
-                });
-            }, timeout_notif);
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error transactions notification </span>' + errorThrown,
+                })
 
-//            document.getElementById('notification_detail2').innerHTML = text;
+               text= '';
+               text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+               text+=`<span style="font-weight:500;"> Please try again or check your internet connection</span>`;
+               text+=`</div>`;
+               document.getElementById('notification_detail').innerHTML = text;
+           },timeout: 60000
+        });
+    }else{
 
-        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
-        }else{
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error transactions notification </span>' + msg.result.error_msg,
-            })
-
-           text= '';
-           text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-           text+=`<span style="font-weight:500;"> No Notification</span>`;
-           text+=`</div>`;
-           document.getElementById('notification_detail').innerHTML = text;
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error transactions notification </span>' + errorThrown,
-            })
-
-           text= '';
-           text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-           text+=`<span style="font-weight:500;"> Please try again or check your internet connection</span>`;
-           text+=`</div>`;
-           document.getElementById('notification_detail').innerHTML = text;
-       },timeout: 60000
-    });
+    }
 }
 
 function get_transactions(type){

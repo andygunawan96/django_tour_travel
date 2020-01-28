@@ -38,7 +38,7 @@ def index(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        if request.POST['logout']:
+        if request.POST.get('logout'):
             request.session.delete()
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -47,202 +47,204 @@ def index(request):
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
             })
-    except:
-        try:
-            if 'login' not in request.session['user_account']['co_agent_frontend_security']:
-                values.update({
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                    'countries': airline_country,
-                    'phone_code': phone_code,
-                    'static_path_url_server': get_url_static_path(),
-                    'javascript_version': javascript_version,
-                })
-            elif bool(request.session._session):
-                #get_data_awal
-                try:
-                    javascript_version = get_javascript_version()
-                    cache_version = get_cache_version()
-                    response = get_cache_data(cache_version)
-                    provider_type = request.session['provider']
-                    request.session.create()
-
-                    try:
-                        airline_country = response['result']['response']['airline']['country']
-                        phone_code = []
-                        for i in airline_country:
-                            if i['phone_code'] not in phone_code:
-                                phone_code.append(i['phone_code'])
-                        phone_code = sorted(phone_code)
-                    except Exception as e:
-                        airline_country = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-                    airline_cabin_class_list = [
-                        {
-                            'name': 'Economy',
-                            'value': 'Y',
-                        }, {
-                            'name': 'Premium Economy',
-                            'value': 'W',
-                        }, {
-                            'name': 'Business',
-                            'value': 'C',
-                        }, {
-                            'name': 'First Class',
-                            'value': 'F',
-                        }
-                    ]
-                    # airline
-
-                    # activity
-                    try:
-                        activity_sub_categories = response['result']['response']['activity']['sub_categories']
-                    except Exception as e:
-                        activity_sub_categories = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    try:
-                        activity_categories = response['result']['response']['activity']['categories']
-                    except Exception as e:
-                        activity_categories = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    try:
-                        activity_types = response['result']['response']['activity']['types']
-                    except Exception as e:
-                        activity_types = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    try:
-                        activity_countries = response['result']['response']['activity']['countries']
-                    except Exception as e:
-                        activity_countries = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    # activity
-
-                    # tour
-                    try:
-                        tour_countries = response['result']['response']['tour']['countries']
-                    except Exception as e:
-                        tour_countries = []
-                        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                    # tour
-                    try:
-                        del request.session['hotel_error']
-                    except:
-                        pass
-
-                    #get_data_awal
-                    cache = {}
-                    try:
-                        cache['airline'] = {
-                                'origin': request.session['airline_request']['origin'][0],
-                                'destination': request.session['airline_request']['destination'][0],
-                                'departure': request.session['airline_request']['departure'][0],
-                            }
-                        if cache['airline']['departure'] == 'Invalid date':
-                            cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
-                    except:
-                        pass
-
-                    try:
-                        cache['train'] = {
-                                'origin': request.session['train_request']['origin'][0],
-                                'destination': request.session['train_request']['destination'][0],
-                                'departure': request.session['train_request']['departure'][0],
-                            }
-                        if cache['train']['departure'] == 'Invalid date':
-                            cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
-                    except:
-                        pass
-
-                    try:
-                        cache['hotel'] = {
-                                'checkin': request.session['hotel_request']['checkin_date'],
-                                'checkout': request.session['hotel_request']['checkout_date']
-                            }
-                        if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date':
-                            cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=1))[:10])
-                            cache['hotel']['checkout'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=2))[:10])
-                    except:
-                        pass
-
-                    try:
-                        cache['activity'] = {
-                                'name': request.session['activity_request']['query']
-                            }
-                    except:
-                        pass
-
-                    try:
-                        cache['tour'] = {
-                                'name': request.session['tour_request']['tour_query']
-                            }
-                    except:
-                        pass
-
-                    try:
-                        cache['visa'] = {
-                                'destination': request.session['visa_request']['destination'],
-                                'departure_date': request.session['visa_request']['departure_date'],
-                                'consulate': request.session['visa_request']['consulate']
-                            }
-                        if cache['visa']['departure_date'] == 'Invalid date':
-                            cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
-                    except:
-                        pass
+        else:
+            try:
+                if 'login' not in request.session['user_account']['co_agent_frontend_security']:
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
-                        'cache': json.dumps(cache),
                         'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                        'provider': provider_type,
                         'countries': airline_country,
                         'phone_code': phone_code,
-                        # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-                        'username': request.session['user_account'],
-                        # 'co_uid': request.session['co_uid'],
-                        'airline_cabin_class_list': airline_cabin_class_list,
-                        #activity
-                        'activity_sub_categories': activity_sub_categories,
-                        'activity_categories': activity_categories,
-                        'activity_types': activity_types,
-                        'activity_countries': activity_countries,
-                        #tour
-                        'tour_countries': tour_countries,
-                        'javascript_version': javascript_version,
-                        'update_data': 'false',
                         'static_path_url_server': get_url_static_path(),
-                        'signature': request.session['signature'],
+                        'javascript_version': javascript_version,
                     })
-                    return render(request, MODEL_NAME + '/home_templates.html', values)
-                    # return render(request, MODEL_NAME + '/testing.html', {})
-                except:
+                elif bool(request.session._session):
+                    #get_data_awal
+                    try:
+                        javascript_version = get_javascript_version()
+                        cache_version = get_cache_version()
+                        response = get_cache_data(cache_version)
+                        provider_type = request.session['provider']
+                        request.session.create()
+
+                        try:
+                            airline_country = response['result']['response']['airline']['country']
+                            phone_code = []
+                            for i in airline_country:
+                                if i['phone_code'] not in phone_code:
+                                    phone_code.append(i['phone_code'])
+                            phone_code = sorted(phone_code)
+                        except Exception as e:
+                            airline_country = []
+                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+                        airline_cabin_class_list = [
+                            {
+                                'name': 'Economy',
+                                'value': 'Y',
+                            }, {
+                                'name': 'Premium Economy',
+                                'value': 'W',
+                            }, {
+                                'name': 'Business',
+                                'value': 'C',
+                            }, {
+                                'name': 'First Class',
+                                'value': 'F',
+                            }
+                        ]
+                        # airline
+
+                        # activity
+                        try:
+                            activity_sub_categories = response['result']['response']['activity']['sub_categories']
+                        except Exception as e:
+                            activity_sub_categories = []
+                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                        try:
+                            activity_categories = response['result']['response']['activity']['categories']
+                        except Exception as e:
+                            activity_categories = []
+                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                        try:
+                            activity_types = response['result']['response']['activity']['types']
+                        except Exception as e:
+                            activity_types = []
+                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                        try:
+                            activity_countries = response['result']['response']['activity']['countries']
+                        except Exception as e:
+                            activity_countries = []
+                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                        # activity
+
+                        # tour
+                        try:
+                            tour_countries = response['result']['response']['tour']['countries']
+                        except Exception as e:
+                            tour_countries = []
+                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                        # tour
+                        try:
+                            del request.session['hotel_error']
+                        except:
+                            pass
+
+                        #get_data_awal
+                        cache = {}
+                        try:
+                            cache['airline'] = {
+                                    'origin': request.session['airline_request']['origin'][0],
+                                    'destination': request.session['airline_request']['destination'][0],
+                                    'departure': request.session['airline_request']['departure'][0],
+                                }
+                            if cache['airline']['departure'] == 'Invalid date':
+                                cache['airline']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                        except:
+                            pass
+
+                        try:
+                            cache['train'] = {
+                                    'origin': request.session['train_request']['origin'][0],
+                                    'destination': request.session['train_request']['destination'][0],
+                                    'departure': request.session['train_request']['departure'][0],
+                                }
+                            if cache['train']['departure'] == 'Invalid date':
+                                cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                        except:
+                            pass
+
+                        try:
+                            cache['hotel'] = {
+                                    'checkin': request.session['hotel_request']['checkin_date'],
+                                    'checkout': request.session['hotel_request']['checkout_date']
+                                }
+                            if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date':
+                                cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=1))[:10])
+                                cache['hotel']['checkout'] = convert_string_to_date_to_string_front_end(str(datetime.now() + relativedelta(days=2))[:10])
+                        except:
+                            pass
+
+                        try:
+                            cache['activity'] = {
+                                    'name': request.session['activity_request']['query']
+                                }
+                        except:
+                            pass
+
+                        try:
+                            cache['tour'] = {
+                                    'name': request.session['tour_request']['tour_query']
+                                }
+                        except:
+                            pass
+
+                        try:
+                            cache['visa'] = {
+                                    'destination': request.session['visa_request']['destination'],
+                                    'departure_date': request.session['visa_request']['departure_date'],
+                                    'consulate': request.session['visa_request']['consulate']
+                                }
+                            if cache['visa']['departure_date'] == 'Invalid date':
+                                cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+                        except:
+                            pass
+                        values.update({
+                            'static_path': path_util.get_static_path(MODEL_NAME),
+                            'cache': json.dumps(cache),
+                            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                            'provider': provider_type,
+                            'countries': airline_country,
+                            'phone_code': phone_code,
+                            # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                            'username': request.session['user_account'],
+                            # 'co_uid': request.session['co_uid'],
+                            'airline_cabin_class_list': airline_cabin_class_list,
+                            #activity
+                            'activity_sub_categories': activity_sub_categories,
+                            'activity_categories': activity_categories,
+                            'activity_types': activity_types,
+                            'activity_countries': activity_countries,
+                            #tour
+                            'tour_countries': tour_countries,
+                            'javascript_version': javascript_version,
+                            'update_data': 'false',
+                            'static_path_url_server': get_url_static_path(),
+                            'signature': request.session['signature'],
+                        })
+                        return render(request, MODEL_NAME + '/home_templates.html', values)
+                        # return render(request, MODEL_NAME + '/testing.html', {})
+                    except:
+                        values.update({
+                            'static_path': path_util.get_static_path(MODEL_NAME),
+                            'javascript_version': javascript_version,
+                            'static_path_url_server': get_url_static_path(),
+                        })
+                else:
+                    values.update({
+                        'static_path': path_util.get_static_path(MODEL_NAME),
+                        'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                        'countries': airline_country,
+                        'phone_code': phone_code,
+                        'javascript_version': javascript_version,
+                        'static_path_url_server': get_url_static_path(),
+                    })
+            except:
+                if request.session.get('user_account'):
+                    values.update({
+                        'static_path': path_util.get_static_path(MODEL_NAME),
+                        'javascript_version': javascript_version,
+                        'static_path_url_server': get_url_static_path(),
+                        'username': request.session.get('user_account') or '',
+                    })
+                else:
                     values.update({
                         'static_path': path_util.get_static_path(MODEL_NAME),
                         'javascript_version': javascript_version,
                         'static_path_url_server': get_url_static_path(),
                     })
-            else:
-                values.update({
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                    'countries': airline_country,
-                    'phone_code': phone_code,
-                    'javascript_version': javascript_version,
-                    'static_path_url_server': get_url_static_path(),
-                })
-        except:
-            if request.session.get('user_account'):
-                values.update({
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'javascript_version': javascript_version,
-                    'static_path_url_server': get_url_static_path(),
-                    'username': request.session.get('user_account') or '',
-                })
-            else:
-                values.update({
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'javascript_version': javascript_version,
-                    'static_path_url_server': get_url_static_path(),
-                })
+    except:
+        pass
     if translation.LANGUAGE_SESSION_KEY in request.session:
         del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
