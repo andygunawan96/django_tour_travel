@@ -1950,7 +1950,7 @@ function check_passport(value){
 function check_phone_number(value){
     var checknumber = "^[0-9]*$";//number
     if(value.match(checknumber)!=null){
-        if(value.length>8 && value.length < 14){
+        if(value.length>6 && value.length < 14){
             return true;
         }else{
             return false;
