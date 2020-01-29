@@ -21,7 +21,6 @@
     static_path_url_server = '{{static_path_url_server}}'
     airline_destination = [];
     train_destination = [];
-
     {% for airline in airline_destinations %}
         airline_destination.push({
             "name": "{{airline.name}}",
@@ -51,7 +50,8 @@
     countries = countries.replace(/False/g, 'false');
     countries = countries.replace(/True/g, 'true');
     countries = JSON.parse(countries);
-    signature = '{{signature}}'
+    signature = '{{signature}}';
+    signin_rodextrip('');
     function check_years_old(sequence){
         var birth_date = '';
         birth_date = moment(document.getElementById('adult_birth_date'+sequence).value, 'DD MMM YYYY');

@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from tools import util, ERR
 from tools.parser import *
-from datetime import *
+from datetime import datetime
 from tools.parser import *
 from ..static.tt_webservice.url import *
 from .tt_webservice_views import *

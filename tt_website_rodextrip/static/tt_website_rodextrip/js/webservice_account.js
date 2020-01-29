@@ -73,7 +73,7 @@ function get_balance(val){
                 }catch(err){}
                 //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
             }else{
               text = `Balance: Timeout`;
               try{
@@ -156,7 +156,7 @@ function get_account(){
         if(msg.result.error_code == 0){
             //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
+            auto_logout();
         }else{
             Swal.fire({
               type: 'error',
@@ -320,7 +320,7 @@ function get_transactions_notification(val){
     //            document.getElementById('notification_detail2').innerHTML = text;
 
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
             }else{
                 Swal.fire({
                   type: 'error',
@@ -572,7 +572,7 @@ function get_transactions(type){
                 //set_notification(msg.result.response.transport_booking);
             }
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
+            auto_logout();
         }else{
             Swal.fire({
               type: 'error',
@@ -613,7 +613,7 @@ function get_top_up_amount(){
             document.getElementById('amount').innerHTML = text;
             total_price_top_up();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
+            auto_logout();
         }else{
             Swal.fire({
               type: 'error',
@@ -672,7 +672,7 @@ function submit_top_up(){
             focus_box('payment_acq');
 //            document.getElementById('top_up_form').submit();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
+            auto_logout();
         }else{
             document.getElementById('submit_top_up').classList.remove('running');
             document.getElementById('submit_top_up').disabled = false;
@@ -865,7 +865,7 @@ function get_top_up(){
         if(msg.result.error_code == 0)
             table_top_up_history(msg.result.response);
         else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
+            auto_logout();
         }else{
             Swal.fire({
               type: 'error',

@@ -1050,7 +1050,7 @@ function train_issued(data){
                       html: '<span style="color: #ff9900;">Error train issued </span>' + msg.result.error_msg,
                     })
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                    logout();
+                    auto_logout();
                }else{
                     Swal.fire({
                       type: 'error',
@@ -1343,7 +1343,7 @@ function update_service_charge(type){
                 if(type == 'booking'){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    train_get_booking(order_number);
+                    train_get_booking(repricing_order_number);
                 }else{
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -1352,7 +1352,7 @@ function update_service_charge(type){
 
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',

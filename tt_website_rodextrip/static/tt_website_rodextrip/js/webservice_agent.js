@@ -403,7 +403,7 @@ function create_new_passenger(){
                                    text: '',
                                })
                             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                                logout();
+                                auto_logout();
                             }else{
                                 Swal.fire({
                                    type: 'error',
@@ -675,7 +675,7 @@ function get_customer_list(passenger, number, product){
                         $('.phone_chosen_cls').niceSelect();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                    logout();
+                    auto_logout();
                     $('.loading-booker-train').hide();
                 }else{
                     Swal.fire({
@@ -846,7 +846,7 @@ function get_customer_list(passenger, number, product){
                         $('.phone_chosen_cls').niceSelect();
                     }
                 }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                    logout();
+                    auto_logout();
                     $('.loading-pax-train').hide();
                 }else{
                     Swal.fire({
@@ -2305,7 +2305,7 @@ function top_up_payment(){
         if(msg.result.error_code == 0){
             alert(msg.result.response.message);
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            logout();
+            auto_logout();
         }else{
             Swal.fire({
               type: 'error',
@@ -3672,3 +3672,19 @@ function clear_search_pax(type,sequence){
     }
 }
 
+function auto_logout(msg){
+    try{
+        error_logger = msg.result.error_msg;
+    }catch(err){error_logger = 'Timeout!'}
+    Swal.fire({
+      title: error_logger,
+      type: 'warning',
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        logout();
+      }
+    })
+}
