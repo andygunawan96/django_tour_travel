@@ -1157,7 +1157,7 @@ function force_issued_activity(val){
     }).then((result) => {
       if (result.value) {
         please_wait_transaction();
-        $('.next-loading-booking').addClass("running");
+        $('.next-loading-issued').addClass("running");
         $('.next-loading-booking').prop('disabled', true);
         $('.next-loading-issued').prop('disabled', true);
         $('.issued_booking_btn').prop('disabled', true);

@@ -2291,6 +2291,8 @@ function activity_pre_issued_booking(order_number){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+        $('.next-loading-issued').addClass("running");
+        $('.next-loading-issued').prop('disabled', true);
         activity_issued_booking(order_number);
       }
     })
