@@ -139,6 +139,30 @@
         </div>
     </div>
 </header>
+{% elif template == 4 %}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px; z-index:100;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="width:80px; height:35px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                </div>
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
 {% endif %}
 
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
@@ -279,8 +303,11 @@
                                             {%elif template == 3%}
                                             <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height:47px;">
                                                 <div class="default-select" id="default-select">
+                                            {%elif template == 4%}
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px;">
+                                                <div class="form-select" id="default-select">
                                             {%endif%}
-                                                    <select id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});">
+                                                    <select {%if template == 4%} class="nice-select-default rounded" {%endif%} id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});" data-live-search="true">
                                                         <option value="0">Please select a room!</option>
                                                         {% for room in room_list %}
                                                         {% if pax.pax_type == 'ADT' and room.adult > 0 %}

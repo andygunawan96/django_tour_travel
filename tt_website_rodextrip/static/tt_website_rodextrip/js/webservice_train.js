@@ -74,6 +74,10 @@ function train_signin(data){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error train signin </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             try{
                 $("#waitingTransaction").modal('hide');
@@ -314,6 +318,10 @@ function train_create_booking(val){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error train create booking </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').removeClass("running");
             $('.hold-seat-booking-train').attr("disabled", false);
@@ -325,7 +333,11 @@ function train_create_booking(val){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error train create booking </span>' + errorThrown,
-           })
+           }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
+            })
            $('.hold-seat-booking-train').removeClass("running");
            $('.hold-seat-booking-train').attr("disabled", false);
            $("#waitingTransaction").modal('hide');
@@ -925,6 +937,10 @@ function train_get_booking(data){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error train booking </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             document.getElementById('show_loading_booking_train').hidden = true;
             $("#waitingTransaction").modal('hide');
@@ -935,6 +951,10 @@ function train_get_booking(data){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error train booking </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             document.getElementById('show_loading_booking_train').hidden = true;
             $("#waitingTransaction").modal('hide');
@@ -1048,6 +1068,10 @@ function train_issued(data){
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error train issued </span>' + msg.result.error_msg,
+                    }).then((result) => {
+                      if (result.value) {
+                        $("#waitingTransaction").modal('hide');
+                      }
                     })
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
@@ -1079,6 +1103,10 @@ function train_issued(data){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error train issued </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 price_arr_repricing = {};
                 pax_type_repricing = [];
@@ -1090,11 +1118,11 @@ function train_issued(data){
                 document.getElementById('show_loading_booking_train').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 document.getElementById('voucher_discount').style.display = 'none';
-               $('.hold-seat-booking-train').prop('disabled', false);
-               $('.hold-seat-booking-train').removeClass("running");
-               $("#waitingTransaction").modal('hide');
-               document.getElementById("overlay-div-box").style.display = "none";
-               train_get_booking(data);
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $("#waitingTransaction").modal('hide');
+                document.getElementById("overlay-div-box").style.display = "none";
+                train_get_booking(data);
            },timeout: 300000
         });
       }
@@ -1180,6 +1208,10 @@ function train_cancel_booking(){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error cancel train </span>' + msg.result.error_msg,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 price_arr_repricing = {};
                 pax_type_repricing = [];
@@ -1201,6 +1233,10 @@ function train_cancel_booking(){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 $("#waitingTransaction").modal('hide');
            },timeout: 60000
@@ -1251,6 +1287,10 @@ function train_manual_seat(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error train manual seat </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.submit-seat-train').removeClass("running");
             $("#waitingTransaction").modal('hide');
@@ -1261,6 +1301,10 @@ function train_manual_seat(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.submit-seat-train').removeClass("running");
             $("#waitingTransaction").modal('hide');

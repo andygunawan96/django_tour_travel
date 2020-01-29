@@ -162,7 +162,7 @@
 
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
-<section class="destinations-area" style="{% if template == 4%} padding-top:130px; {%else%} padding-top:30px; {%endif%} padding-bottom:40px; background:#f7f7f7;">
+<section class="destinations-area" style="{% if template == 4%} padding-top:50px; {%else%} padding-top:30px; {%endif%} padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
@@ -314,16 +314,17 @@
                                 </div>
                                 <div class="col-lg-3 col-md-6">
                                     <span>State</span>
-                                    <div class="select-wrap">
-                                        <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                        <select class="form-control" id="state">
-                                            <option value="all">All</option>
-                                            <option value="draft">Draft</option>
-                                            <option value="request">Request</option>
-                                            <option value="valid">Validated</option>
-                                            <option value="cancel">Cancelled</option>
-                                            <option value="expired">Expired</option>
-                                        </select>
+                                    <div class="input-container-search-ticket btn-group">
+                                        <div class="form-select" id="default-select">
+                                            <select class="nice-select-default rounded" id="state">
+                                                <option value="all">All</option>
+                                                <option value="draft">Draft</option>
+                                                <option value="request">Request</option>
+                                                <option value="valid">Validated</option>
+                                                <option value="cancel">Cancelled</option>
+                                                <option value="expired">Expired</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
 

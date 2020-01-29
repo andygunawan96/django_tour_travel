@@ -85,9 +85,7 @@ function change_transaction_type(type){
     document.getElementById('show_line').innerHTML = '';
 //    if(document.getElementById('transaction_type').value  == 'airline' || document.getElementById('transaction_type').value  == 'train' || document.getElementById('transaction_type').value  == 'hotel' || document.getElementById('transaction_type').value  == 'activity'){
         document.getElementById('show_line').hidden = false;
-        if(template != 4){
-            $('#transaction_type').niceSelect();
-        }
+        $('#transaction_type').niceSelect();
         text = '';
         text += `<h4>`+document.getElementById('transaction_type').value.charAt(0).toUpperCase() + document.getElementById('transaction_type').value.slice(1).toLowerCase()+` Line(s)</h4><hr/>`;
         text+=`
@@ -196,12 +194,11 @@ function add_table_of_passenger(){
                                                     }else if(template == 3){
                                                         text+=`<div class="default-select">`;
                                                     }else if(template == 4){
-                                                        text+=`<div class="select-wrap">
-                                                        <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>`;
+                                                        text+=`<div class="input-container-search-ticket">`;
                                                     }
                                                     text+=`<div class="form-select-2">`;
                                                     if(template == 4){
-                                                        text+=`<select class="form-control" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
+                                                        text+=`<select class="nice-select-default rounded" id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
                                                     }else{
                                                         text+=`<select id="adult_title`+parseInt(counter_passenger+1)+`" name="adult_title`+parseInt(counter_passenger+1)+`">`;
                                                     }
@@ -419,9 +416,7 @@ function add_table_of_passenger(){
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
     $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
-    if(template != 4){
-        $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
-    }
+    $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;
 }
@@ -527,16 +522,14 @@ function add_table_of_line(type){
                     if(template == 1){
                         text+=`<div class="input-container-search-ticket btn-group">`;
                     }
-                    if(template == 1 || template == 2){
+                    if(template == 1 || template == 2 || template == 4){
                         text+=`<div class="form-select" id="default-select">`;
                     }else if(template == 3){
                         text+=`<div class="default-select" id="default-select">`;
-                    }else if(template == 4){
-                        text+=`<div class="select-wrap">
-                        <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>`;
                     }
+
                     if(template == 4){
-                        text+=`<select class="form-control" id='class`+counter_line+`' name='class`+counter_line+`'>`;
+                        text+=`<select class="nice-select-default rounded" id='class`+counter_line+`' name='class`+counter_line+`'>`;
                     }else{
                         text+=`<select id='class`+counter_line+`' name='class`+counter_line+`' style="height:42px;">`;
                     }
@@ -559,9 +552,7 @@ function add_table_of_line(type){
         node.innerHTML = text;
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
-        if(template != 4){
-            $('#class'+counter_line).niceSelect();
-        }
+        $('#class'+counter_line).niceSelect();
         set_provider_data(counter_line, type);
 //        set_origin_data(counter_line, type);
 //        set_destination_data(counter_line, type);
@@ -698,9 +689,7 @@ function add_table_of_line(type){
             </div>
         </div><hr/>`;
         node.innerHTML = text;
-        if(template != 4){
-            $('#class'+counter_line).niceSelect('update');
-        }
+        $('#class'+counter_line).niceSelect('update');
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 
@@ -777,9 +766,7 @@ function add_table_of_line(type){
 
         </div><hr/>`;
         node.innerHTML = text;
-        if(template != 4){
-            $('#class'+counter_line).niceSelect('update');
-        }
+        $('#class'+counter_line).niceSelect('update');
         node.setAttribute('id', 'table_line'+counter_line);
         document.getElementById("table_of_line").appendChild(node);
 

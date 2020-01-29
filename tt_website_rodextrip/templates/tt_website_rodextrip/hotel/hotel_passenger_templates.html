@@ -2473,9 +2473,7 @@
 
     $( document ).ready(function() {
       breadcrumb_create("hotel", 4, 0);
-      if(template != 4){
-        $('.js-example-basic-single').niceSelect('destroy');
-      }
+      $('.js-example-basic-single').niceSelect('destroy');
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');

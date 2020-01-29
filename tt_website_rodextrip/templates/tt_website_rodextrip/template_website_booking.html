@@ -47,6 +47,14 @@ Licence URI: http://www.os-templates.com/template-terms
             background-image: url("{{background}}") !important;
             min-height:250px;
         }
+        {%elif template == 4%}
+        .price-area {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background-attachment: fixed !important;
+          background-position: center !important;
+          background-size: auto !important;
+          background-repeat: no-repeat !important;
+        }
         {% endif %}
     </style>
     <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css">
@@ -104,6 +112,7 @@ Licence URI: http://www.os-templates.com/template-terms
     <link rel="stylesheet" href="{{ static_path }}fonts/template4/fonts/icomoon/style.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/bootstrap.min.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/animate.min.css">
+    <link rel="stylesheet" href="{{ static_path }}css/template4/nice-select.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/magnific-popup.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/jquery-ui.css">
     <link rel="stylesheet" href="{{ static_path }}css/template4/owl.carousel.css">
@@ -1102,6 +1111,15 @@ Licence URI: http://www.os-templates.com/template-terms
         .form-search-wrap{
             background: {{tab_color}};
         }
+        .owl-theme .owl-nav [class*=owl-]{
+            background: {{color}} !important;
+        }
+        .form-control:active, .form-control:focus {
+            border-color: {{color}};
+        }
+        ul.tabs li.current{
+            color: {{color}};
+        }
         {% elif template == 5 %}
         .search-field{
             background: {{tab_color}};
@@ -1180,6 +1198,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <script src="{{ static_path }}js/template4/jquery-migrate-3.0.1.min.js"></script>
 <script src="{{ static_path }}js/template4/jquery-ui.js"></script>
 <script src="{{ static_path }}js/template4/popper.min.js"></script>
+<script src="{{ static_path }}js/template4/jquery.nice-select.min.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/template4/bootstrap.min.js"></script>-->
 <script src="{{ static_path }}js/template4/owl.carousel.min.js"></script>
 <script src="{{ static_path }}js/template4/jquery.stellar.min.js"></script>

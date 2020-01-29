@@ -2733,10 +2733,10 @@
                                     <br/>
                                     <center>
                                         <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
-                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                        Search
-                                        <div class="ld ld-ring ld-cycle"></div>
-                                    </button>
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            Search
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
                                     </center>
                                 </form>
                             </div>
@@ -3152,7 +3152,7 @@
         </div>
     </div>
 
-    <div style="position:relative; padding: 40px 0px; background:#f9f9ff;">
+    <div style="position:relative; padding: 40px 0px; background:#f9f9ff; z-index:1;">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-12">
@@ -3321,14 +3321,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-md-6 col-sm-6">
-                                                    <div class="select-wrap">
-                                                        <span class="span-search-ticket">Class</span>
-                                                        <span class="icon"><br/><span class="icon-keyboard_arrow_down"></span></span>
-                                                        <select class="form-control rounded" id="cabin_class_flight" name="cabin_class_flight" class="nice-select-default">
-                                                            {% for cabin_class in airline_cabin_class_list %}
-                                                            <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
+                                                    <span class="span-search-ticket">Class</span>
+                                                    <div class="input-container-search-ticket btn-group">
+                                                        <div class="form-select" id="default-select">
+                                                            <select class="nice-select-default rounded" id="cabin_class_flight" name="cabin_class_flight">
+                                                                {% for cabin_class in airline_cabin_class_list %}
+                                                                <option value="{{cabin_class.value}}" {% if cabin_class.value == "Y" %} selected {% endif %}>{{cabin_class.name}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -3653,7 +3654,7 @@
                                     </div>
                                     <br/>
                                     <center>
-                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-hotel" onclick="hotel_search_validation();" type="button" value="Submit">
+                                        <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                             Search
                                             <div class="ld ld-ring ld-cycle"></div>

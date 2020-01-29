@@ -423,9 +423,7 @@ function add_multi_city(type){
             document.getElementById("mc_airline_paxs").appendChild(node_paxs);
             get_carrier_code_list(type, counter_airline_search);
             airline_provider_list_mc.push(airline_provider_list);
-            if(template != 4){
-                $('#cabin_class_flight'+counter_airline_search).niceSelect();
-            }
+            $('#cabin_class_flight'+counter_airline_search).niceSelect();
         }
 
 //        var node_tabs = document.createElement("li");

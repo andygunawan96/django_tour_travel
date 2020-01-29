@@ -1439,10 +1439,10 @@ function check_passenger(adult, child){
                    error_log+= 'Birth date wrong for passenger adult '+i+'!\n';
            }else{
                error_log+= 'Please fill all the blank for Adult passenger '+i+'!\n';
-               alert(document.getElementById('adult_title'+i).value);
-               alert(document.getElementById('adult_first_name'+i).value);
-               alert(document.getElementById('adult_last_name'+i).value);
-               alert(document.getElementById('adult_nationality'+i).value);
+//               alert(document.getElementById('adult_title'+i).value);
+//               alert(document.getElementById('adult_first_name'+i).value);
+//               alert(document.getElementById('adult_last_name'+i).value);
+//               alert(document.getElementById('adult_nationality'+i).value);
            }if(document.getElementById('adult_cp'+i).checked == true){
                 if(check_email(document.getElementById('adult_email'+i).value)==false){
                     error_log+= 'Invalid Contact person email!</br>\n';
@@ -1479,7 +1479,13 @@ function check_passenger(adult, child){
            document.getElementById('hotel_review').submit();
        }
        else{
-           alert(error_log);
+           Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: error_log,
+            })
+            $('.btn-next').prop('disabled', false);
+            $('.btn-next').removeClass("running");
        }
      }else{
         console.log(document.getElementById('booker_title').value);
@@ -1489,7 +1495,13 @@ function check_passenger(adult, child){
         console.log(document.getElementById('booker_email').value);
         console.log(document.getElementById('booker_phone_code').value);
         console.log(document.getElementById('booker_phone').value);
-        alert('Please Fill all the blank !');
+        Swal.fire({
+            type: 'error',
+            title: 'Oops!',
+            html: 'Please Fill all the blank !',
+        })
+        $('.btn-next').prop('disabled', false);
+        $('.btn-next').removeClass("running");
      }
 }
 
