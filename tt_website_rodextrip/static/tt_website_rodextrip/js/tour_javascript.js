@@ -892,6 +892,7 @@ function force_issued_tour(val){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        $("#issuedModal").modal('hide');
         please_wait_transaction();
         $('.next-loading-booking').addClass("running");
         $('.next-loading-booking').prop('disabled', true);
