@@ -1091,7 +1091,7 @@ function update_service_charge(type){
                     if(type == 'booking'){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
-                        visa_get_data(order_number);
+                        visa_get_data(repricing_order_number);
                     }else{
                         price_arr_repricing = {};
                         pax_type_repricing = [];
@@ -1101,7 +1101,7 @@ function update_service_charge(type){
 
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',

@@ -1775,7 +1775,7 @@ function update_service_charge(){
                 get_booking_offline(offline_get_detail.result.response.order_number);
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',

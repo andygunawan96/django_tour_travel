@@ -1029,7 +1029,7 @@ function tour_issued_booking(order_number)
                {
                    price_arr_repricing = {};
                    pax_type_repricing = [];
-                   tour_get_booking(booking_num);
+                   tour_get_booking(order_number);
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('payment_acq').hidden = true;
                    $("#issuedModal").modal('hide');
@@ -1067,7 +1067,7 @@ function tour_issued_booking(order_number)
                 document.getElementById('product_title').innerHTML = '';
                 document.getElementById('product_type_title').innerHTML = '';
                 document.getElementById('tour_detail_table').innerHTML = '';
-                tour_get_booking(booking_num);
+                tour_get_booking(order_number);
                 $("#issuedModal").modal('hide');
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
@@ -1091,7 +1091,7 @@ function tour_issued_booking(order_number)
             document.getElementById('product_title').innerHTML = '';
             document.getElementById('product_type_title').innerHTML = '';
             document.getElementById('tour_detail_table').innerHTML = '';
-            tour_get_booking(booking_num);
+            tour_get_booking(order_number);
             $('.hold-seat-booking-train').prop('disabled', false);
             $('.hold-seat-booking-train').removeClass("running");
             $("#waitingTransaction").modal('hide');
@@ -1164,7 +1164,7 @@ function update_service_charge(type){
                 if(type == 'booking'){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    tour_get_booking(tour_order_number);
+                    tour_get_booking(repricing_order_number);
                 }else{
                     price_arr_repricing = {};
                     pax_type_repricing = [];
@@ -1173,7 +1173,7 @@ function update_service_charge(type){
 
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',

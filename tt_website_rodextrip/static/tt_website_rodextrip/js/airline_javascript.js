@@ -2192,7 +2192,7 @@ function sort(){
                                        if(airline_recommendations_combo_list[airline_recommendations_list.indexOf(airline[i].journey_ref_id)] == true)
                                             text+=`<label>Combo Price</label>`;
                                        else
-                                            text+=`<label>Combo Price with upgrade class</label>`;
+                                            text+=`<label>Combo Price with changed class</label>`;
                                text+=`</div>
                                <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
                                    <div>
@@ -2682,7 +2682,7 @@ function sort(){
                                             if(airline_recommendations_combo_list[airline_recommendations_list.indexOf(airline[i].journey_ref_id)] == true)
                                                 text+=`<label>Combo Price</label>`;
                                             else
-                                                text+=`<label>Combo Price with upgrade class</label>`;
+                                                text+=`<label>Combo Price with changed class</label>`;
                                         }
                                     text+=`
                                     </div>

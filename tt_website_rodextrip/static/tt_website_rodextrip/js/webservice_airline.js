@@ -1719,7 +1719,7 @@ function get_fare_rules(){
                 }
 
             }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
             }else if(msg.result.error_code == 4024){
                 Swal.fire({
                   type: 'error',
@@ -1768,7 +1768,7 @@ function airline_sell_journeys(){
            if(msg.result.error_code == 0){
                get_seat_availability('');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else if(msg.result.error_code == 4024){
                 Swal.fire({
                   type: 'error',
@@ -2161,7 +2161,7 @@ function airline_update_passenger(val){
                     document.getElementById('airline_issued').submit();
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else if(msg.result.error_code == 4024){
                 Swal.fire({
                   type: 'error',
@@ -2208,7 +2208,7 @@ function airline_update_contact_booker(val){
            if(msg.result.error_code == 0){
                 airline_update_passenger(val);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else if(msg.result.error_code == 4024){
                 Swal.fire({
                   type: 'error',
@@ -2465,7 +2465,7 @@ function airline_commit_booking(val){
                    document.getElementById('issued').submit();
                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else if(msg.result.error_code == 1026){
                 Swal.fire({
                   title: msg.result.error_msg+ ' Are you sure want to Book this booking?',
@@ -2589,7 +2589,7 @@ function airline_force_commit_booking(val){
                    document.getElementById('issued').submit();
                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else if(msg.result.error_code == 4024){
                 Swal.fire({
                   type: 'error',
@@ -3438,7 +3438,7 @@ function airline_get_booking(data){
             }
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-               logout();
+               auto_logout();
            }else{
                 text += `<div class="alert alert-danger">
                         <h5>
@@ -3512,7 +3512,7 @@ function airline_issued(data){
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
                    $(".issued_booking_btn").remove();
-                   airline_get_booking(msg.result.response.order_number);
+                   airline_get_booking(data);
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
                    pax_type_repricing = [];
@@ -3760,7 +3760,7 @@ function airline_issued(data){
 
                    $("#myModal").modal();
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                    logout();
+                    auto_logout();
                }else{
                     Swal.fire({
                       type: 'error',
@@ -3782,7 +3782,7 @@ function airline_issued(data){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(msg.result.response.order_number);
+                    airline_get_booking(data);
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -3804,7 +3804,7 @@ function airline_issued(data){
                 document.getElementById("overlay-div-box").style.display = "none";
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
-                airline_get_booking(msg.result.response.order_number);
+                airline_get_booking(data);
            },timeout: 300000
         });
       }
@@ -3881,7 +3881,7 @@ function update_service_charge(type){
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
-                        airline_get_booking(order_number);
+                        airline_get_booking(repricing_order_number);
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                     }else{
@@ -3892,7 +3892,7 @@ function update_service_charge(type){
                 }catch(err){}
                 $('#myModalRepricing').modal('hide');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',
@@ -3966,7 +3966,7 @@ function sell_ssrs_after_sales(){
            if(msg.result.error_code == 0){
                 airline_commit_booking(0);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',
@@ -4008,7 +4008,7 @@ function assign_seats_after_sales(){
            if(msg.result.error_code == 0){
                 airline_commit_booking(0);
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',
@@ -4954,7 +4954,7 @@ function reissue_airline_commit_booking(val){
 
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                logout();
+                auto_logout();
            }else{
                 Swal.fire({
                   type: 'error',
