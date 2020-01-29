@@ -318,6 +318,8 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         }
         if(template == 3){
             template_txt += '<div class="default-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
+        }else if(template == 4){
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
         }else{
             template_txt += '<div class="form-select" id="default-select" style="margin-bottom:5px;"><select class="adult_tour_room" id="adult_tour_room_' + idx + '" name="adult_tour_room_' + idx + '" data-index="' + idx + '" data-pax-limit="' + room_data.pax_limit + '" onchange="render_child_infant_selection(this)">';
         }
@@ -339,6 +341,8 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         }
         if(template == 3){
             template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        }else if(template == 4){
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
         }else{
             template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="child_tour_room" id="child_tour_room_' + idx + '" name="child_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
         }
@@ -361,6 +365,8 @@ function render_room_tour_field(idx, room_data, key_accomodation) {
         }
         if(template == 3){
             template_txt += '<div class="default-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
+        }else if(template == 4){
+            template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="nice-select-default rounded infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
         }else{
             template_txt += '<div class="form-select" style="margin-bottom:5px;"><select class="infant_tour_room" id="infant_tour_room_' + idx + '" name="infant_tour_room_' + idx + '" data-index="' + idx + '" onchange="tour_table_detail();">';
         }
@@ -1595,6 +1601,66 @@ function sort(tour_dat, exist_check){
                                     </div>
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg overlay-bg-disabled"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
+                                        <div class="card-body" style="padding:15px;">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color:#616161;" title="`+tour_data[i].name+`">`+tour_data[i].name+`</h6>
+                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px; color:#616161;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
+                                                    <br/>
+                                                    <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                        else
+                        {
+                            text+=`
+                            <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
+                                <div class="single-destination avail-sd relative">
+                                    <div class="thumb relative">
+                                        <div class="overlay overlay-bg"></div>
+                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                    </div>
+                                    <div class="card card-effect-promotion">
+                                        <div class="card-body" style="padding:15px;">
+                                            <div class="row details">
+                                                <div class="col-lg-12" style="text-align:left;">
+                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="`+tour_dat[i].name+`">`+tour_dat[i].name+`</h6>
+                                                    <span style="font-size:13px;"><i class="fas fa-calendar-alt"></i> `+dat_content1+`</span><br/>
+                                                    <span style="font-size:13px;"><i class="fas fa-users"></i> `+dat_content2+`</span><br/><br/>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:right;">
+                                                    <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_dat[i].adult_sale_price)+`</span>
+                                                    <br/>
+                                                    <button type="button" class="primary-btn" onclick="go_to_detail('`+tour_dat[i].sequence+`')">BOOK</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                        }
+                    }else if(template == 4){
+                        if (tour_dat[i].state == 'sold' || tour_data[i].seat <= 0)
+                        {
+                            text+=`
+                            <div class="single-post-area mb-30 disabled-post" onclick="" style="cursor:not-allowed;">
+                                <div class="single-destination overlay-bg-disabled relative">
+                                    <div style="background:red; position:absolute; padding:20px; z-index:10;">
+                                        <h5 style="color:`+text_color+`;">SOLD OUT</h5>
+                                    </div>
+                                    <div class="thumb relative">
+
                                         <img class="img-fluid" src="`+img_src+`" alt="">
                                     </div>
                                     <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">

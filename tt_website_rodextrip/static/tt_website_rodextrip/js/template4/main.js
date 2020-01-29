@@ -15,6 +15,15 @@ jQuery(document).ready(function($) {
         document.getElementById("credit_limit").innerHTML = document.getElementById("credit_mob").innerHTML;
     }catch(err){}
 
+    if (document.getElementById("default-select")) {
+        $('select').niceSelect();
+    };
+    if (document.getElementById("default-select2")) {
+        $('select').niceSelect();
+    };
+    if (document.getElementById("service-select")) {
+        $('select').niceSelect();
+    };
 
     var current=0;
     var check_counter_idx = 0;
@@ -63,7 +72,7 @@ jQuery(document).ready(function($) {
 
     }, 1000);
 
-		$('body').on('click', '.arrow-collapse', function(e) {
+    $('body').on('click', '.arrow-collapse', function(e) {
       var $this = $(this);
       if ( $this.closest('li').find('.collapse').hasClass('show') ) {
         $this.removeClass('active');

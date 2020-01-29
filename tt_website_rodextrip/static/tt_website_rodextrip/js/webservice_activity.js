@@ -997,10 +997,14 @@ function update_sell_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update sell activity </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1008,10 +1012,14 @@ function update_sell_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error update sell activity </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1036,10 +1044,14 @@ function update_contact_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update contact activity </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1047,10 +1059,14 @@ function update_contact_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error update contact activity </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1075,10 +1091,14 @@ function update_passengers_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update passengers activity </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1086,10 +1106,14 @@ function update_passengers_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error update passengers activity </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1118,10 +1142,14 @@ function update_options_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error update options activity </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1129,10 +1157,14 @@ function update_options_activity(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error update options activity </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1202,11 +1234,14 @@ function activity_commit_booking(val){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: #ff9900;">Error activity commit booking </span>' + msg.result.error_msg,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
-
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -1214,10 +1249,14 @@ function activity_commit_booking(val){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error activity commit booking </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
-           $('.hold-seat-booking-train').prop('disabled', false);
-           $('.hold-seat-booking-train').removeClass("running");
-           $("#waitingTransaction").modal('hide');
+            $('.hold-seat-booking-train').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
@@ -1269,6 +1308,10 @@ function activity_issued_booking(order_number)
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error activity issued booking </span>' + msg.result.error_msg,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
@@ -1278,6 +1321,10 @@ function activity_issued_booking(order_number)
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error activity issued booking </span>' + msg.result.error_msg,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 price_arr_repricing = {};
                 pax_type_repricing = [];
@@ -1293,6 +1340,10 @@ function activity_issued_booking(order_number)
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error activity issued booking </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             price_arr_repricing = {};
             pax_type_repricing = [];

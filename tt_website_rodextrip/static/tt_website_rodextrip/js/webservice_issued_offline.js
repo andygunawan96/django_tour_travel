@@ -18,18 +18,15 @@ function get_data_issued_offline(){
                text+= `<option value='`+issued_offline_data.transaction_type[i].code+`'>`+issued_offline_data.transaction_type[i].name+`</option>`;
            }
            document.getElementById('transaction_type').innerHTML = text;
-           if(template != 4){
-            $('#transaction_type').niceSelect('update');
-           }
+           $('#transaction_type').niceSelect('update');
 
            text = '<option value=""></option>';
            for(i in issued_offline_data.sector_type){
                text+= `<option value='`+issued_offline_data.sector_type[i][0]+`'>`+issued_offline_data.sector_type[i][1]+`</option>`;
            }
            document.getElementById('sector').innerHTML = text;
-           if(template != 4){
-            $('#sector').niceSelect('update');
-           }
+           $('#sector').niceSelect('update');
+
 
 //           text = '<option value=""></option>';
 //           for(i in issued_offline_data.carrier_id){
@@ -43,9 +40,7 @@ function get_data_issued_offline(){
                text+= `<option value='`+issued_offline_data.social_media_id[i].name+`'>`+issued_offline_data.social_media_id[i].name+`</option>`;
            }
            document.getElementById('social_media').innerHTML = text;
-           if(template != 4){
-            $('#social_media').niceSelect('update');
-           }
+           $('#social_media').niceSelect('update');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
@@ -850,11 +845,9 @@ function commit_booking(){
                document.getElementsByName('myRadios')[1].checked = true;
 //               document.getElementById('payment_acq').hidden = true;
                close_div('payment_acq');
-               if(template != 4 ){
-                   $('#transaction_type').niceSelect('update');
-                   $('#sector').niceSelect('update');
-                   $('#social_media').niceSelect('update');
-               }
+               $('#transaction_type').niceSelect('update');
+               $('#sector').niceSelect('update');
+               $('#social_media').niceSelect('update');
                document.getElementById('sector_div').hidden = true;
            }else{
                 Swal.fire({

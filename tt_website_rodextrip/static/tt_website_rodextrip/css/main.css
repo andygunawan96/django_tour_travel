@@ -2210,10 +2210,10 @@ h1, h2, h3, h4, h5, h6 {
   min-height: 28px;
   font-size: 12px;
   color: black;
-  white-space: normal;
   float: left;
   width: 100%;
   height: auto;
+  white-space: normal;
   word-wrap: break-word;
   border-bottom:1px solid #cdcdcd;
 }
@@ -2799,6 +2799,7 @@ body.mobile-nav-active #mobile-nav-toggle {
   line-height: 35px;
   padding-left: 15px;
   padding-right: 15px;
+  margin-bottom:5px;
   border: none;
   border-radius: 3px;
   color: #fff;

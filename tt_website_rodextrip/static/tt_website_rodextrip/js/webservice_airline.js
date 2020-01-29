@@ -2224,6 +2224,10 @@ function airline_update_contact_booker(val){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error Error airline update booker </span>' + msg.result.error_msg,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 $("#waitingTransaction").modal('hide');
                 $('.btn-next').removeClass('running');
@@ -2235,6 +2239,10 @@ function airline_update_contact_booker(val){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error Error airline update booker </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $("#waitingTransaction").modal('hide');
             $('.btn-next').removeClass('running');
@@ -2423,15 +2431,14 @@ function force_issued_airline(val){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
-        please_wait_transaction();
         $('.next-loading-booking').addClass("running");
         $('.next-loading-booking').prop('disabled', true);
         $('.next-loading-issued').prop('disabled', true);
         $('.issued_booking_btn').prop('disabled', true);
+        please_wait_transaction();
         airline_commit_booking(val);
       }
     })
-
 }
 
 function airline_commit_booking(val){
@@ -2508,6 +2515,10 @@ function airline_commit_booking(val){
                           type: 'error',
                           title: 'Oops!',
                           html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        }).then((result) => {
+                          if (result.value) {
+                            $("#waitingTransaction").modal('hide');
+                          }
                         })
                         $("#waitingTransaction").modal('hide');
                         $('.loader-rodextrip').fadeOut();
@@ -2524,6 +2535,10 @@ function airline_commit_booking(val){
                           type: 'error',
                           title: 'Oops!',
                           html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        }).then((result) => {
+                          if (result.value) {
+                            $("#waitingTransaction").modal('hide');
+                          }
                         })
                         $("#waitingTransaction").modal('hide');
                         $('.loader-rodextrip').fadeOut();
@@ -2536,6 +2551,10 @@ function airline_commit_booking(val){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 $("#waitingTransaction").modal('hide');
                 $('.loader-rodextrip').fadeOut();
@@ -2548,6 +2567,10 @@ function airline_commit_booking(val){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $("#waitingTransaction").modal('hide');
             $('.loader-rodextrip').fadeOut();
@@ -2610,6 +2633,10 @@ function airline_force_commit_booking(val){
                           type: 'error',
                           title: 'Oops!',
                           html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        }).then((result) => {
+                          if (result.value) {
+                            $("#waitingTransaction").modal('hide');
+                          }
                         })
                         $("#waitingTransaction").modal('hide');
                         $('.loader-rodextrip').fadeOut();
@@ -2626,6 +2653,10 @@ function airline_force_commit_booking(val){
                           type: 'error',
                           title: 'Oops!',
                           html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                        }).then((result) => {
+                          if (result.value) {
+                            $("#waitingTransaction").modal('hide');
+                          }
                         })
                         $("#waitingTransaction").modal('hide');
                         $('.loader-rodextrip').fadeOut();
@@ -2638,6 +2669,10 @@ function airline_force_commit_booking(val){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 $("#waitingTransaction").modal('hide');
                 $('.loader-rodextrip').fadeOut();
@@ -2650,6 +2685,10 @@ function airline_force_commit_booking(val){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
             $("#waitingTransaction").modal('hide');
             $('.loader-rodextrip').fadeOut();
@@ -3463,7 +3502,11 @@ function airline_get_booking(data){
             type: 'error',
             title: 'Oops!',
             html: '<span style="color: red;">Error airline booking </span>' + errorThrown,
-          })
+          }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
+            })
           $('.loader-rodextrip').fadeOut();
           $("#waitingTransaction").modal('hide');
        },timeout: 60000
@@ -3530,6 +3573,10 @@ function airline_issued(data){
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                    }).then((result) => {
+                      if (result.value) {
+                        $("#waitingTransaction").modal('hide');
+                      }
                     })
                     $("#waitingTransaction").modal('hide');
                     document.getElementById("overlay-div-box").style.display = "none";
@@ -3542,6 +3589,10 @@ function airline_issued(data){
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                    }).then((result) => {
+                      if (result.value) {
+                        $("#waitingTransaction").modal('hide');
+                      }
                     })
                     $("#waitingTransaction").modal('hide');
                     $('.btn-next').removeClass('running');
@@ -4183,6 +4234,10 @@ function airline_reissued(){
                    type: 'error',
                    title: 'Oops!',
                    html: '<span style="color: red;">Error reissued </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
                 airline_get_booking(airline_get_detail.result.response.order_number);
                 $('.loader-rodextrip').fadeOut();
@@ -4196,7 +4251,11 @@ function airline_reissued(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error reissued </span>' + errorThrown,
-           })
+           }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
+            })
            $('.loader-rodextrip').fadeOut();
            $("#waitingTransaction").modal('hide');
        },timeout: 60000

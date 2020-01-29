@@ -86,7 +86,11 @@ function visa_signin(data){
                   type: 'error',
                   title: 'Oops!',
                   html: msg.result.error_msg,
-               })
+               }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
                try{
                 $("#waitingTransaction").modal('hide');
                }catch(err){}
@@ -332,6 +336,10 @@ function check_hold_booking(){
           type: 'error',
           title: 'Oops!',
           html: '<span style="color: red;">Error check hold booking </span><br/>' + error_log,
+        }).then((result) => {
+          if (result.value) {
+            $("#waitingTransaction").modal('hide');
+          }
         })
         $('.next-loading').removeClass("running");
         $('.next-loading').prop('disabled', false);
@@ -453,6 +461,10 @@ function update_passenger(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error visa update passenger </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
        },timeout: 60000
     });
@@ -568,6 +580,10 @@ function visa_commit_booking(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error visa commit booking </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
        },timeout: 180000
     });
@@ -1015,6 +1031,10 @@ function visa_get_data(data){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error visa data </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
        },timeout: 60000
     });

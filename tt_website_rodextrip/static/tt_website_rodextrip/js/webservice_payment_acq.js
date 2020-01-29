@@ -37,20 +37,19 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             <h6 style="padding-bottom:10px;">1. Payment Via: </h6>`;
             if(template == 1){
                 text+=`<div class="input-container-search-ticket btn-group">`;
+            }else if(template == 4){
+                text+=`<div style="display:flex; margin-bottom:15px; width:100%;">`;
             }else{
                 text+=`<div>`;
             }
-        if(template == 1 || template == 2){
+        if(template == 1 || template == 2 || template == 4){
             text+=`<div class="form-select" id="default-select">`;
         }else if(template == 3){
             text+=`<div class="default-select" style="margin-bottom:15px;">`;
-        }else if(template == 4){
-            text+=`<div class="select-wrap" style="margin-bottom:15px;">
-            <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>`;
         }
 
         if(template == 4){
-            text+=`<select class="form-control payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
+            text+=`<select class="nice-select-default rounded payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
         }else{
             text+=`<select class="payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
         }
