@@ -1820,6 +1820,9 @@ function activity_filter_render(){
     }else if(template == 3){
         text+=`
         <div class="header-right" style="background:unset; border:unset;">`;
+    }else if(template == 4){
+        text+=`
+        <div>`;
     }
     text+=`
         <div class="form-wrap" style="padding:0px; text-align:left;">

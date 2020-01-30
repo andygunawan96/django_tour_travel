@@ -9,6 +9,7 @@ Licence: Free to use under our free template licence terms
 Licence URI: http://www.os-templates.com/template-terms
 -->
 <html>
+{% include 'tt_website_rodextrip/check_connection.html' %}
 <head>
     <!--<title>{{name}}</title>-->
     <meta charset="utf-8">
@@ -211,8 +212,23 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}} !important;
             opacity:0.7;
         }
+
+        @keyframes dash {
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
+
+        @keyframes filling {
+           0%, 90% { fill: {{color}};
+            fill-opacity: 0; }
+          100% { fill: {{color}};
+            fill-opacity: 1; }
+        }
+
+
         .lamp{
-            text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px #ff0000, 0 0 10px #ff8d00, 0 0 98px #ff0000
+            text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px transparent, 0 0 10px #ff8d00, 0 0 98px transparent
         }
         @-webkit-keyframes blink {
           20%,
@@ -233,7 +249,7 @@ Licence URI: http://www.os-templates.com/template-terms
         /*     color: #fccaff;
             text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
               0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092; */
-          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px #ff0000, 0 0 10px #ff8d00, 0 0 98px #ff0000;
+          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 20px {{color}}, 0 0 60px transparent, 0 0 10px #ff8d00, 0 0 98px transparent;
             color: #fff6a9;
           }
         }
@@ -257,7 +273,7 @@ Licence URI: http://www.os-templates.com/template-terms
         /*     color: #fccaff;
             text-shadow: 0 0 5px #f562ff, 0 0 15px #f562ff, 0 0 25px #f562ff,
               0 0 20px #f562ff, 0 0 30px #890092, 0 0 80px #890092, 0 0 80px #890092; */
-          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 40px {{color}}, 0 0 60px #ff0000, 0 0 10px #ff8d00, 0 0 98px #ff0000;
+          text-shadow: 0 0 5px {{color}}, 0 0 15px {{color}}, 0 0 20px {{color}}, 0 0 20px {{color}}, 0 0 60px transparent, 0 0 10px #ff8d00, 0 0 98px transparent;
             color: #fff6a9;
           }
         }
@@ -1102,6 +1118,9 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity: 0.8;
         }
         {% elif template == 4 %}
+        .modal-header{
+            background-color: {{color}};
+        }
         .border-primary{
             border-color: {{color}} !important;
         }
@@ -1117,8 +1136,44 @@ Licence URI: http://www.os-templates.com/template-terms
         .form-control:active, .form-control:focus {
             border-color: {{color}};
         }
-        ul.tabs li.current{
+        ul.tabs li{
+            color: {{text_color}};
+        }
+        ul.tabs li.current label{
+            border-bottom: 3px solid {{color}};
+        }
+        .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
             color: {{color}};
+        }
+        .site-navbar .site-navigation .site-menu .has-children .dropdown{
+            border-top: 2px solid {{color}};
+        }
+        a:hover{
+            color: {{color}} !important;
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        .nice-select:active, .nice-select.open, .nice-select:focus{
+            border-color: {{color}};
+        }
+        .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
+            color: {{color}};
+        }
+        #myBtnBTP{
+            background-color: {{color}}
+        }
+        #myBtnBTP:hover{
+            background-color: {{color}};
+            opacity:0.8;
         }
         {% elif template == 5 %}
         .search-field{
@@ -1166,48 +1221,48 @@ Licence URI: http://www.os-templates.com/template-terms
 
 <!--template2-->
 {% elif template == 2%}
-<script src="{{ static_path }}js/template2/jquery.min.js"></script>
-<script src="{{ static_path }}js/template2/popper.min.js"></script>
+<script src="{{ static_path }}js/template2/jquery.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template2/popper.min.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/template2/bootstrap.min.js"></script>-->
-<script src="{{ static_path }}js/template2/roberto.bundle.js"></script>
-<script src="{{ static_path }}js/template2/default-assets/active.js"></script>
-<script src="{{ static_path }}js/template2/main.js"></script>
-<script src="{{ static_path }}js/template1/owl.carousel.min.js"></script>
+<script src="{{ static_path }}js/template2/roberto.bundle.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template2/default-assets/active.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template2/main.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
 {% elif template == 3%}
-<script src="{{ static_path }}js/template3/vendor/jquery-2.2.4.min.js"></script>
+<script src="{{ static_path }}js/template3/vendor/jquery-2.2.4.min.js?version={{javascript_version}}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <!--<script src="{{ static_path }}js/template3/vendor/bootstrap.min.js"></script>-->
 <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBhOdIF3Y9382fqJYt5I_sswSrEw5eihAA"></script>-->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="{{ static_path }}js/template3/easing.min.js"></script>
-<script src="{{ static_path }}js/template3/hoverIntent.js"></script>
-<script src="{{ static_path }}js/template3/superfish.min.js"></script>
-<script src="{{ static_path }}js/template3/jquery.ajaxchimp.min.js"></script>
-<script src="{{ static_path }}js/template3/jquery.magnific-popup.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/easing.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/hoverIntent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/superfish.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.ajaxchimp.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/template3/owl.carousel.min.js"></script>-->
-<script src="{{ static_path }}js/template1/owl.carousel.min.js"></script>
-<script src="{{ static_path }}js/template3/jquery.sticky.js"></script>
-<script src="{{ static_path }}js/template3/jquery.nice-select.min.js"></script>
-<script src="{{ static_path }}js/template3/waypoints.min.js"></script>
-<script src="{{ static_path }}js/template3/jquery.counterup.min.js"></script>
-<script src="{{ static_path }}js/template3/parallax.min.js"></script>
-<script src="{{ static_path }}js/template3/mail-script.js"></script>
-<script src="{{ static_path }}js/template3/main.js"></script>
+<script src="{{ static_path }}js/template1/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.sticky.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.nice-select.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/waypoints.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/jquery.counterup.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/parallax.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/mail-script.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template3/main.js?version={{javascript_version}}"></script>
 {% elif template == 4%}
-<script src="{{ static_path }}js/template4/jquery-3.3.1.min.js"></script>
-<script src="{{ static_path }}js/template4/jquery-migrate-3.0.1.min.js"></script>
-<script src="{{ static_path }}js/template4/jquery-ui.js"></script>
-<script src="{{ static_path }}js/template4/popper.min.js"></script>
+<script src="{{ static_path }}js/template4/jquery-3.3.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery-migrate-3.0.1.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery-ui.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/popper.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/template4/jquery.nice-select.min.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/template4/bootstrap.min.js"></script>-->
-<script src="{{ static_path }}js/template4/owl.carousel.min.js"></script>
-<script src="{{ static_path }}js/template4/jquery.stellar.min.js"></script>
-<script src="{{ static_path }}js/template4/jquery.countdown.min.js"></script>
-<script src="{{ static_path }}js/template4/jquery.magnific-popup.min.js"></script>
-<script src="{{ static_path }}js/template4/bootstrap-datepicker.min.js"></script>
-<script src="{{ static_path }}js/template4/aos.js"></script>
-<script src="{{ static_path }}js/template4/rangeslider.min.js"></script>
-<script src="{{ static_path }}js/template4/main.js"></script>
+<script src="{{ static_path }}js/template4/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery.stellar.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery.countdown.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/jquery.magnific-popup.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/bootstrap-datepicker.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/aos.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/rangeslider.min.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/template4/main.js?version={{javascript_version}}"></script>
 
 {% elif template == 5%}
 <!--<script src="{{ static_path }}js/template5/vendor/jquery-2.2.4.min.js"></script>-->
