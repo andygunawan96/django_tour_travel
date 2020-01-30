@@ -12,14 +12,14 @@ $(document).ready(function(){
       var status = document.getElementById('status');
 
       if ( navigator.onLine && status.classList.contains('off') ) {
-        status.innerHTML = 'Your are online';
+        status.innerHTML = 'You are online';
         status.classList.remove('off');
         status.classList.add('on');
         status.style.display = "block";
         setTimeout(function(){ document.getElementById("status").innerHTML=""; status.classList.remove('off'); status.style.display = "none"; }, 3000);
       }
       if ( ! navigator.onLine && status.classList.contains('on') ) {
-        status.innerHTML = 'Your are offline';
+        status.innerHTML = 'You are offline';
         status.classList.remove('on');
         status.classList.add('off'); // can't use .replace() because of Chrome
         status.style.display = "block";

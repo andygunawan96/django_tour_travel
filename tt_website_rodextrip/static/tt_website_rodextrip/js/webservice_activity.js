@@ -791,6 +791,17 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                         text+=`</select>
                                     </div>
                                 </div>`;
+                            }else if(template == 4){
+                                text+=`
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select" style="margin-bottom:5px;">
+                                        <select class='nice-select-default rounded activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
+                                        for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
+                                        text+=`
+                                            <option>`+j+`</option>`;
+                                        text+=`</select>
+                                    </div>
+                                </div>`;
                             }
                         if(activity_type[activity_type_pick].skus[i].minAge != null)
                         {
@@ -906,13 +917,17 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    if(activity_type[activity_type_pick].timeslots.length>0){
                        text += `<div class="col-xs-12">Timeslot</div>
                                 <div class="col-xs-12">`;
-                       if(template == 1 || template == 2){
+                       if(template == 1 || template == 2 || template == 4){
                             text+=`<div class="form-select">`;
                        }else if(template == 3){
                             text+=`<div class="default-select">`;
                        }
-                            text+=`
-                                <select style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
+
+                       if(template == 4){
+                            text+=`<select class="nice-select-default rounded" style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
+                       }else{
+                            text+=`<select style="width:100%;" name="timeslot_1" id="timeslot_1" onchange="timeslot_change();">`;
+                       }
                        text += `<option value=''>Please Pick a Timeslot!</option></div>`;
                        for(j in activity_type[activity_type_pick].timeslots)
                        {
