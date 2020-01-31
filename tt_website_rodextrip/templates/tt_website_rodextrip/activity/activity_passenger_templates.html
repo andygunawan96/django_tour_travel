@@ -4097,8 +4097,8 @@
                                         <label style="color:red">*</label>
                                         <label>Title</label>
                                         <div class="input-container-search-ticket btn-group">
-                                            <div class="form-select">
-                                                <select class="nice-select-default rounded" id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
+                                            <div class="form-select-2" id="default-select">
+                                                <select class="nice-select-default rounded" id="booker_title" name="booker_title" onchange="change_booker_value('title');">
                                                     {% for title in adult_title%}
                                                     <option>{{title}}</option>
                                                     {% endfor %}
@@ -4316,7 +4316,7 @@
                                         <label style="color:red">*</label>
                                         <label>Title</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select">
+                                            <div class="form-select-2">
                                                 <select class="nice-select-default rounded" id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}">
                                                     {% for title in adult_title%}
                                                     <option>{{title}}</option>
@@ -4589,7 +4589,7 @@
                                         <label style="color:red">*</label>
                                         <label>Title</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select">
+                                            <div class="form-select-2">
                                                 <select class="nice-select-default rounded" id="senior_title{{forloop.counter}}" name="senior_title{{forloop.counter}}">
                                                     {% for title in adult_title%}
                                                     <option>{{title}}</option>
@@ -4864,7 +4864,7 @@
                                         <label style="color:red">*</label>
                                         <label>Title</label>
                                         <div class="input-container-search-ticket">
-                                            <div class="form-select">
+                                            <div class="form-select-2">
                                                 <select class="nice-select-default rounded" id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}">
                                                     {% for title in infant_title%}
                                                     <option>{{title}}</option>

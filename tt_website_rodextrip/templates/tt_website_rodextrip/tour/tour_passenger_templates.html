@@ -2887,7 +2887,7 @@
                                             <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket btn-group">
-                                                <div class="form-select" id="default-select">
+                                                <div class="form-select-2" id="default-select">
                                                     <select id="booker_title" name="booker_title" class="nice-select-default rounded" onchange="change_booker_value('title');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -2896,7 +2896,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-xs-6" style="margin-top:25px;">
+                                        <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
@@ -3102,7 +3102,7 @@
                                             <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket btn-group">
-                                                <div class="form-select">
+                                                <div class="form-select-2">
                                                     <select id="adult_title{{forloop.counter}}" name="adult_title{{forloop.counter}}" class="nice-select-default rounded">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -3314,7 +3314,7 @@
                                             <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket btn-group">
-                                                <div class="form-select">
+                                                <div class="form-select-2">
                                                     <select id="child_title{{forloop.counter}}" name="child_title{{forloop.counter}}" class="nice-select-default rounded">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>
@@ -3495,7 +3495,7 @@
                                             <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="input-container-search-ticket btn-group">
-                                                <div class="form-select">
+                                                <div class="form-select-2">
                                                     <select id="infant_title{{forloop.counter}}" name="infant_title{{forloop.counter}}" class="nice-select-default rounded">
                                                         {% for title in infant_title%}
                                                         <option>{{title}}</option>

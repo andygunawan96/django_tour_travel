@@ -843,6 +843,9 @@ function visa_get_data(data){
                                             }else if(template == 2 || template == 3){
                                                 text+=`
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                                            }else if(template == 4 || template == 5){
+                                                text+=`
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
                                             }
                                             text+=`
                                                 <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>

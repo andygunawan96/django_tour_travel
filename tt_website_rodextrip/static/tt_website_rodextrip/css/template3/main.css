@@ -3652,10 +3652,6 @@ ul.tabs li.current{
     /*transform: translateY(-10px);*/
 }
 
-ul.tabs li.current .image-rounded-icon{
-    background: #f15a22;
-}
-
 .tab-content{
     display: none;
     /*background: rgba(0,0,0,0.5);*/

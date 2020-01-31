@@ -375,16 +375,16 @@ function add_multi_city(type){
                                     <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4" class="form-control">`;
                         }
                         else if(template == 3){
-                            text_paxs += `
+                           text_paxs += `
                            <div class="form-group">
                                 <div class="default-select" id="default-select`+counter_airline_search+`">
                                     <select id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`" data-live-search="true" size="4">`;
                         }
                         else if(template == 4){
                             text_paxs += `
-                            <div class="select-wrap">
-                                <span class="icon"><span class="icon-keyboard_arrow_down"></span></span>
-                                <select class="form-control rounded" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
+                            <div class="input-container-search-ticket btn-group">
+                                <div class="form-select">
+                                    <select class="nice-select-default rounded" id="cabin_class_flight`+counter_airline_search+`" name="cabin_class_flight`+counter_airline_search+`">`;
                         }
                         else if(template == 5){
                             text_paxs += `
@@ -695,8 +695,8 @@ function add_multi_city(type){
                                     </div>
                                 </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 airline-to" style="z-index:5;">
-                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
-                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><i class="fas fa-exchange-alt icon-change"></i></a></h4>
+                            <h4 class="image-change-route-vertical"><a href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
+                            <h4 class="image-change-route-horizontal"><a class="horizontal-arrow" href="javascript:airline_switch(`+counter_airline_search+`);" tabindex="-1" style="z-index:5;" id="flight_switch`+counter_airline_search+`"><span class="icon icon-exchange"></span></a></h4>
                             <span class="span-search-ticket"><i class="fas fa-plane-arrival"></i> To</span>
                             <div class="input-container-search-ticket">`;
                                 if(type == 'search'){
@@ -3329,7 +3329,7 @@ function airline_detail(type){
                     text+=`<hr/>`;
                 }
                 flight_count++;
-                if(i != 0){
+                if(flight_count != 1){
                     text+=`<hr/>`;
                 }
                 text += `<h6>Flight `+flight_count+`</h6>`;

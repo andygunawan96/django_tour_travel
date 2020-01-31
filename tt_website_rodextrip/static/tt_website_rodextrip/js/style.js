@@ -1068,6 +1068,7 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 document.getElementById('is_combo_price').disabled = false;
+                document.getElementById('is_combo_price').checked = true;
                 document.getElementById('checkbox_combo_price').style.display = "block";
                 document.getElementById('ori_airline').style.display = "block";
                 document.getElementById('mc_airline_default').innerHTML = "";
@@ -1091,6 +1092,7 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 document.getElementById('is_combo_price').disabled = false;
+                document.getElementById('is_combo_price').checked = true;
                 document.getElementById('checkbox_combo_price').style.display = "block";
                 document.getElementById('ori_airline').style.display = "block";
                 document.getElementById('mc_airline_default').innerHTML = "";
@@ -1187,8 +1189,8 @@ $(document).ready(function(){
                         <div id="mc_airline_paxs"></div>
                         <div id="mc_airline_add" style="background:none !important;"></div>
                         <div style="text-align:left; padding-top:20px;">
-                            <button type="button" id="add_mc_btn" class="btn btn-primary rounded" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
-                            <button type="button" id="del_mc_btn" class="btn btn-primary rounded" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+                            <button type="button" id="add_mc_btn" class="primary-btn" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" id="del_mc_btn" class="primary-btn" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
                         </div>
                     </div>
                 </div>`;
