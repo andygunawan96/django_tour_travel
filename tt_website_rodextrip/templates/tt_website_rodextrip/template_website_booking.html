@@ -941,6 +941,9 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{color}} !important;
         }
         {% elif template == 2%}
+        .hotel-search-form-area .hotel-search-form{
+            background: #f7f7f7;
+        }
         ul.tabs{
             padding:5px 10px 0px 10px;
             background:{{tab_color}};
@@ -1046,13 +1049,17 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         ul.tabs li.current .btn-txt-color{
             color:{{color}} !important;
-            font-weight: 900;
+            font-weight: bold;
+            font-size:15px;
         }
         .image-rounded-icon{
             background: {{color}};
         }
         .btn-txt-color{
             color: {{text_color}};
+        }
+        .btn-txt-color:hover{
+            color: {{color}} !important;
         }
         ul.create_tabs li.current{
             border-bottom: 5px solid {{color}};
@@ -1083,9 +1090,6 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .nav-menu ul li:hover > a{
             color: {{color}};
-        }
-        ul.tabs li.current .image-rounded-icon {
-            background: {{color}};
         }
         ul.tabs li.current{
             color: {{color}};
@@ -1140,7 +1144,11 @@ Licence URI: http://www.os-templates.com/template-terms
             color: {{text_color}};
         }
         ul.tabs li.current label{
-            border-bottom: 3px solid {{color}};
+            font-size:14px;
+            border-bottom: 4px solid {{color}};
+        }
+        li.tab-link label:hover{
+            border-bottom: 4px solid {{color}};
         }
         .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
             color: {{color}};
@@ -1167,6 +1175,9 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus{
             color: {{color}};
+        }
+        .image-rounded-icon{
+            background: {{color}};
         }
         #myBtnBTP{
             background-color: {{color}}

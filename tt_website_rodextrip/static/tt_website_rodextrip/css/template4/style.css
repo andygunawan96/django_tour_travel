@@ -1,7 +1,7 @@
 /* Base */
 body {
   line-height: 1.4;
-  color: #4d4d4d;
+  color: black;
   font-weight: 400;
   font-size: 13px; }
 
@@ -52,6 +52,12 @@ h5 {
 
 h6 {
   font-size: 14px;
+}
+
+ul{
+    margin-block-start: unset;
+    margin-block-end: unset;
+    padding-inline-start: 15px;
 }
 
 .mb-30 {
@@ -1838,14 +1844,14 @@ option::after{
 
 ul.tabs{
     margin: 0px;
-    padding: 10px 0px 0px 0px;
+    padding: 0px 0px 0px 0px;
     list-style: none;
 }
 ul.tabs li{
     color: white;
     display: inline-block;
     font-size: 14px;
-    padding: 10px;
+    padding: 7px 10px 7px 10px;
     cursor: pointer;
 }
 
@@ -1855,7 +1861,7 @@ li.tab-link label{
 
 ul.tabs li.current{
     /*background: rgba(0,0,0,0.6);*/
-    transform: translateY(-5px);
+    /*transform: translateY(-5px);*/
     font-weight:bold;
 }
 
@@ -2041,7 +2047,7 @@ ul.tabs li.current{
   height: 15px;
   width: 15px;
   position: absolute;
-  left: -4%;
+  left: -3%;
   top: 30px;
 }
 
@@ -4543,10 +4549,10 @@ th input {
 
 .image-rounded-icon {
   border-radius: 20px;
-  font-size: 18px;
+  font-size: 16px;
   text-align: center;
   border-radius:50%;
-  padding:9px;
+  padding:7px;
 }
 .breadcrumb-header{
     padding-right:0px;
@@ -5567,18 +5573,18 @@ display: block;
 
 @media only screen and (min-width: 1200px) and (max-width: 1460px) {
     .image-change-route-vertical{
-        left: 46.5%;
+        left: -4%;
     }
     .image-change-route-vertical2{
-        left: 45.4%;
+        left: -2%;
     }
 }
 @media only screen and (min-width: 992px) and (max-width: 1140px) {
     .image-change-route-vertical{
-        left: 46.3%;
+        left: -4%;
     }
     .image-change-route-vertical2{
-        left: 45%;
+        left: -2%;
     }
 }
 
