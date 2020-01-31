@@ -98,6 +98,7 @@ def login(request):
     try:
         request.session['activity_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        request.session.modified = True
         logging.getLogger("info_logger").info(
             "SIGNIN ACTIVITY SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:

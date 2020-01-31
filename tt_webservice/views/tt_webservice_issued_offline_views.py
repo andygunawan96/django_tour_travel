@@ -92,6 +92,7 @@ def signin(request):
     try:
         request.session['issued_offline_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        request.session.modified = True
 
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

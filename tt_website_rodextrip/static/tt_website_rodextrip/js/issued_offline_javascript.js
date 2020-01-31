@@ -102,7 +102,7 @@ function change_transaction_type(type){
 //    }
 }
 
-function add_table_of_passenger(){
+function add_table_of_passenger(type){
     text= '';
     set_passenger_number(counter_passenger);
     var node = document.createElement("tr");
@@ -415,7 +415,8 @@ function add_table_of_passenger(){
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
-    $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
+    if(type == 'open')
+        $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
     $('#adult_title'+parseInt(counter_passenger+1)).niceSelect();
     auto_complete(`adult_nationality`+parseInt(counter_passenger+1));
     counter_passenger++;

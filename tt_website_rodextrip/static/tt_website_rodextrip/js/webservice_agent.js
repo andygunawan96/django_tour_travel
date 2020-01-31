@@ -1495,7 +1495,7 @@ function copy_booker_to_passenger(val,type){
                document.getElementById('booker_phone').value != ''){
                 try{
                     if(counter_passenger == 0){
-                        add_table_of_passenger();
+                        add_table_of_passenger('');
                     }
                     for(i in passenger_data_pick){
                         if(passenger_data_pick[i].sequence == 'adult1'){
