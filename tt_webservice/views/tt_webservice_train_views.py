@@ -94,6 +94,8 @@ def login(request):
     try:
         request.session['train_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        request.session.modified = True
+
         logging.getLogger("info_logger").info("SIGNIN TRAIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

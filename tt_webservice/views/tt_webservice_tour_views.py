@@ -98,6 +98,7 @@ def login(request):
     try:
         request.session['tour_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        request.session.modified = True
         logging.getLogger("info_logger").info(
             "SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:

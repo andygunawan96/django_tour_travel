@@ -52,6 +52,7 @@ def login(request,func):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['signature'] = res['result']['response']['signature']
+        request.session.modified = True
         if func == 'get_config':
             get_config(request)
         elif func == 'register':
