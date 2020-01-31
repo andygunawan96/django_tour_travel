@@ -29,7 +29,7 @@ def open_page(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        values = get_data_template()
+        values = get_data_template(request)
         social_medias = []
         try:
             social_medias = response['result']['response']['issued_offline']['social_media_id']
@@ -63,7 +63,7 @@ def register_agent(request):
     counter = 1
     javascript_version = get_javascript_version()
 
-    values = get_data_template()
+    values = get_data_template(request)
 
     #pic
     while(check):

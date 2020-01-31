@@ -49,7 +49,7 @@ def search(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        values = get_data_template('search')
+        values = get_data_template(request, 'search')
         try:
             origin = []
             destination = []
@@ -102,7 +102,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         # agent
         adult_title = ['MR', 'MRS', 'MS']
@@ -162,7 +162,7 @@ def review(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         adult = []
         infant = []
@@ -322,7 +322,7 @@ def booking(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
 
-        values = get_data_template()
+        values = get_data_template(request)
         try:
             request.session['train_order_number'] = request.POST['order_number']
         except:
@@ -346,7 +346,7 @@ def booking(request):
 def seat_map(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        values = get_data_template()
+        values = get_data_template(request)
         try:
             request.session['train_seat_map_request'] = json.loads(request.POST['seat_map_request_input'])
             request.session['train_passenger_request'] = json.loads(request.POST['passenger_input'])

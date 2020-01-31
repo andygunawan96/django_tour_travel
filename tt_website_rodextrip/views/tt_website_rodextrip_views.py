@@ -27,7 +27,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 def index(request):
     try:
-        values = get_data_template()
+        values = get_data_template(request)
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
@@ -66,7 +66,6 @@ def index(request):
                         response = get_cache_data(cache_version)
                         provider_type = request.session['provider']
                         request.session.create()
-
                         try:
                             airline_country = response['result']['response']['airline']['country']
                             phone_code = []
@@ -269,7 +268,7 @@ def testing(request):
 
 def login(request):
     javascript_version = get_javascript_version()
-    values = get_data_template('login')
+    values = get_data_template(request, 'login')
 
     try:
         if request.POST['logout'] == 'true':
@@ -449,7 +448,7 @@ def admin(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            values = get_data_template()
+            values = get_data_template(request)
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values.update({
@@ -487,7 +486,7 @@ def reservation(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         new_airline_carriers = {}
         for key, value in airline_carriers.items():
@@ -522,7 +521,7 @@ def top_up(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        values = get_data_template()
+        values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -551,7 +550,7 @@ def payment(request):
         discount_voucher = json.loads(request.POST['discount'])
         voucher_code = request.POST['voucher_code']
         type = request.POST['type'] #tipe airline_review
-        values = get_data_template()
+        values = get_data_template(request)
         try:
             payment = request.POST['payment']
         except:
@@ -590,7 +589,7 @@ def top_up_history(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -628,7 +627,9 @@ def get_cache_data(javascript_version):
     file.close()
     return response
 
-def get_data_template(type='home'):
+def get_data_template(request, type='home'):
+    if type != 'login':
+        request.session.set_expiry(1200)
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
