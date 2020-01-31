@@ -56,7 +56,7 @@ def search(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        values = get_data_template('search')
+        values = get_data_template(request, 'search')
 
         dest_month_data = [
             {'value': '00', 'string': 'All Months'},
@@ -122,7 +122,7 @@ def detail(request):
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
 
-        values = get_data_template('search')
+        values = get_data_template(request, 'search')
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -184,7 +184,7 @@ def passenger(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -355,7 +355,7 @@ def review(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        values = get_data_template()
+        values = get_data_template(request)
         # res = json.loads(request.POST['response'])
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -616,7 +616,7 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        values = get_data_template()
+        values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

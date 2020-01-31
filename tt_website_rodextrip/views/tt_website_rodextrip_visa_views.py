@@ -20,7 +20,7 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 
 def search(request):
-    values = get_data_template('search')
+    values = get_data_template(request, 'search')
     javascript_version = get_javascript_version()
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
@@ -61,7 +61,7 @@ def passenger(request):
     javascript_version = get_javascript_version()
     cache_version = get_cache_version()
     response = get_cache_data(cache_version)
-    values = get_data_template()
+    values = get_data_template(request)
 
     request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -179,7 +179,7 @@ def review(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        values = get_data_template()
+        values = get_data_template(request)
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -375,7 +375,7 @@ def review(request):
 
 def booking(request):
     if 'user_account' in request.session._session:
-        values = get_data_template()
+        values = get_data_template(request)
         javascript_version = get_javascript_version()
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

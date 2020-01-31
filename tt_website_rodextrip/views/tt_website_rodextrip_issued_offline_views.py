@@ -24,7 +24,7 @@ def issued_offline(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         file = open(var_log_path()+"airline_destination.txt", "r")
         for line in file:
@@ -76,7 +76,7 @@ def issued_offline_history(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        values = get_data_template()
+        values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -96,7 +96,7 @@ def issued_offline_history(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        values = get_data_template()
+        values = get_data_template(request)
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:

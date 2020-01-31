@@ -48,7 +48,7 @@ def search(request):
             response = json.loads(line)
         file.close()
 
-        values = get_data_template('search')
+        values = get_data_template(request, 'search')
 
         airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
         for i in response:
@@ -279,7 +279,7 @@ def passenger(request):
                 carrier = json.loads(line)
             file.close()
 
-            values = get_data_template()
+            values = get_data_template(request)
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
@@ -397,7 +397,7 @@ def ssr(request):
         carrier = json.loads(file.read())
         file.close()
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         try:
             passenger = []
@@ -577,7 +577,7 @@ def seat_map(request):
             carrier = json.loads(line)
         file.close()
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         ssr = []
 
@@ -759,7 +759,7 @@ def seat_map_public(request, signature=-1):
             carrier = json.loads(line)
         file.close()
 
-        values = get_data_template()
+        values = get_data_template(request)
 
 
         additional_price_input = '0'
@@ -794,7 +794,7 @@ def review(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        values = get_data_template()
+        values = get_data_template(request)
 
         ssr = []
         if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'ssr':
@@ -1067,7 +1067,7 @@ def review_after_sales(request):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        values = get_data_template()
+        values = get_data_template(request)
         goto = 0
         ssr = []
 
@@ -1204,7 +1204,7 @@ def booking(request):
             airline_carriers = json.loads(line)
         file.close()
 
-        values = get_data_template()
+        values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser

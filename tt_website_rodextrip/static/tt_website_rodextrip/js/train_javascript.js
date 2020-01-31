@@ -498,7 +498,12 @@ function check_destination_origin(){
 
 function getrupiah(price){
     try{
-        var temp = price.toString();
+        var temp = parseInt(price);
+        var positif = false;
+        if(temp > -1)
+            positif = true;
+        temp = price.toString();
+        temp = temp.split('-')[temp.split('-').length-1];
         var pj = temp.split('.')[0].toString().length;
         var priceshow="";
         for(x=0;x<pj;x++){
@@ -512,6 +517,8 @@ function getrupiah(price){
                 priceshow+=temp.charAt(x);
             }
         }
+        if(positif == false)
+            priceshow = '-' + priceshow;
         return priceshow;
     }catch(err){
         return price;

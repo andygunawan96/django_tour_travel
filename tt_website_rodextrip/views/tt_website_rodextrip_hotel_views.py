@@ -23,7 +23,7 @@ def search(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        values = get_data_template('search')
+        values = get_data_template(request, 'search')
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -78,7 +78,7 @@ def detail(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        values = get_data_template('search')
+        values = get_data_template(request, 'search')
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -146,7 +146,7 @@ def passengers(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        values = get_data_template()
+        values = get_data_template(request)
 
         request.session['time_limit'] = int(request.POST['time_limit_input'])
 
@@ -207,7 +207,7 @@ def review(request):
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
-        values = get_data_template()
+        values = get_data_template(request)
         airline_country = response['result']['response']['airline']['country']
         phone_code = []
         for i in airline_country:
@@ -415,7 +415,7 @@ def review(request):
 def booking(request):
     if 'user_account' in request.session._session:
         javascript_version = get_javascript_version()
-        values = get_data_template()
+        values = get_data_template(request)
 
         try:
             try:
