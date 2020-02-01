@@ -2474,22 +2474,27 @@ function airline_commit_booking(val){
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else if(msg.result.error_code == 1026){
+//                Swal.fire({
+//                  title: msg.result.error_msg+ ' Are you sure want to Book this booking?',
+//                  type: 'warning',
+//                  showCancelButton: true,
+//                  confirmButtonColor: '#3085d6',
+//                  cancelButtonColor: '#d33',
+//                  confirmButtonText: 'Yes'
+//                }).then((result) => {
+//                  if (result.value) {
+//                        please_wait_transaction();
+//                        $('.next-loading-booking').addClass("running");
+//                        $('.next-loading-booking').prop('disabled', true);
+//                        $('.next-loading-issued').prop('disabled', true);
+//                        $('.issued_booking_btn').prop('disabled', true);
+//                        airline_force_commit_booking(1);
+//                  }
+//                })
                 Swal.fire({
-                  title: msg.result.error_msg+ ' Are you sure want to Book this booking?',
-                  type: 'warning',
-                  showCancelButton: true,
-                  confirmButtonColor: '#3085d6',
-                  cancelButtonColor: '#d33',
-                  confirmButtonText: 'Yes'
-                }).then((result) => {
-                  if (result.value) {
-                        please_wait_transaction();
-                        $('.next-loading-booking').addClass("running");
-                        $('.next-loading-booking').prop('disabled', true);
-                        $('.next-loading-issued').prop('disabled', true);
-                        $('.issued_booking_btn').prop('disabled', true);
-                        airline_force_commit_booking(1);
-                  }
+                  type: 'error',
+                  title: 'Oops!',
+                  html: 'Booking passenger validator, Please contact BTB!',
                 })
                 $("#waitingTransaction").modal('hide');
                 $('.loader-rodextrip').fadeOut();
