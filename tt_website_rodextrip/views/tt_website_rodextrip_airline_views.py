@@ -538,6 +538,9 @@ def ssr(request):
                     'airline_list': airline_list
                 })
                 airline_list = []
+            upsell = 0
+            for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                upsell = pax['channel_service_charges']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'after_sales': 1,
@@ -545,6 +548,7 @@ def ssr(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'airline_carriers': carrier,
+                'upsell': upsell,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 # 'airline_destinations': airline_destinations,
                 # 'airline_pick': request.session['airline_pick'],
@@ -721,6 +725,9 @@ def seat_map(request):
             })
         except:
             additional_price_input = 0
+            upsell = 0
+            for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                upsell = pax['channel_service_charges']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'airline_carriers': carrier,
@@ -728,6 +735,7 @@ def seat_map(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'after_sales': 1,
+                'upsell': upsell,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 'additional_price': float(additional_price_input),
                 # 'airline_destinations': airline_destinations,
