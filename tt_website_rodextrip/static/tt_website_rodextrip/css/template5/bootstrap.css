@@ -283,6 +283,12 @@ select {
     text-transform: none
 }
 
+button:focus {
+  /*outline: 1px dotted;
+  outline: 5px auto -webkit-focus-ring-color;*/
+  outline: unset !important;
+}
+
 [type=reset],
 [type=submit],
 button,
@@ -1910,15 +1916,16 @@ pre code {
 .form-control {
     display: block;
     width: 100%;
-    height: calc(2.25rem + 2px);
+    height: calc(2.25rem + 5px);
     padding: .375rem .75rem;
     font-size: 13px;
     line-height: 1.5;
-    color: #444;
+    color: black;
     background-color: #fff;
     background-clip: padding-box;
     border: 1px solid #ced4da;
-    border-radius: .25rem;
+    border-radius: 0.25rem;
+    margin-bottom:15px;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
 }
 
@@ -3189,7 +3196,11 @@ input[type=submit].btn-block {
 
 .dropdown-menu {
     position: absolute;
-    top: 100%;
+    transform: unset !important;
+    width:100%;
+    max-height:350px;
+    overflow: auto;
+    top: 100% !important;
     left: 0;
     z-index: 1000;
     display: none;

@@ -823,9 +823,12 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
-                <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
+                <span class="span-search-ticket">Departure</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                    <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
+                </div>`;
 
                 node.innerHTML = text;
                 document.getElementById("train_date_search").appendChild(node);
@@ -836,9 +839,8 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 text+=`
-                <span class="span-search-ticket">Departure</span>
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
                     <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                 </div>
                 <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
@@ -891,9 +893,10 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+                <span class="span-search-ticket">Departure - Return</span>
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control rounded" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                    <input type="text" class="form-control" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
                 </div>
 
                 <input type="hidden" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -908,9 +911,8 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 text+=`
-                <span class="span-search-ticket">Departure - Return</span>
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
                     <input type="text" class="form-control" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
                 </div>
                 <input type="hidden" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -978,9 +980,10 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                <span class="span-search-ticket">Departure</span>
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control rounded" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                    <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                 </div>
                 <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
 
@@ -993,9 +996,8 @@ $(document).ready(function(){
                 text='';
                 var node = document.createElement("div");
                 text+=`
-                <span class="span-search-ticket">Departure</span>
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
                     <input type="text" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                 </div>
                 <input type="hidden" class="form-control date-picker airline_return" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
@@ -1075,9 +1077,10 @@ $(document).ready(function(){
                 airline_counter_config = 0;
                 counter_airline_search = 0;
                 text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
+                <span class="span-search-ticket">Departure - Return</span>
                 <div class="input-container-search-ticket">
-                    <input type="text" class="form-control rounded" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                    <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
                 </div>
 
                 <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -1099,9 +1102,8 @@ $(document).ready(function(){
                 airline_counter_config = 0;
                 counter_airline_search = 0;
                 text+=`
-                <span class="span-search-ticket">Departure - Return</span>
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
                     <input type="text" class="form-control" name="airline_departure_return" id="airline_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
                 </div>
                 <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -1202,9 +1204,9 @@ $(document).ready(function(){
                     <div class="col-lg-12">
                         <div id="mc_airline_paxs"></div>
                         <div id="mc_airline_add" style="background:none !important;"></div>
-                        <div style="text-align:left; padding-top:20px;">
-                            <button type="button" id="add_mc_btn" class="btn btn-primary rounded" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
-                            <button type="button" id="del_mc_btn" class="btn btn-primary rounded" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
+                        <div style="text-align:left; padding-top:15px;">
+                            <button type="button" id="add_mc_btn" class="primary-btn rounded" onclick="add_multi_city('home');"><i class="fas fa-plus"></i> Add</button>
+                            <button type="button" id="del_mc_btn" class="primary-btn rounded" onclick="del_multi_city();"><i class="fas fa-trash-alt"></i> Delete</button>
                         </div>
                     </div>
                 </div>`;
@@ -1256,22 +1258,21 @@ $(document).ready(function(){
             }
             else if (template == 4){
             text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
-                <div class="form-group">
+                <span class="span-search-ticket">Departure</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                     <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                 </div>
                 <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
             }
             else if (template == 5){
             text+=`
-                <span class="span-search-ticket">Departure</span>
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
                     <input type="text" style="background:white;" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                 </div>
                 <input type="hidden" class="form-control" name="airline_return" id="airline_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">`;
             }
-
 
             node.innerHTML = text;
             document.getElementById("airline_date_search").appendChild(node);
@@ -1341,8 +1342,9 @@ $(document).ready(function(){
             }
             else if(template == 4){
             text+=`
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
-                <div class="form-group">
+                <span class="span-search-ticket">Departure - Return</span>
+                <div class="input-container-search-ticket">
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                     <input type="text" style="background:white;" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
                 </div>
                 <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
@@ -1350,9 +1352,8 @@ $(document).ready(function(){
             }
             else if(template == 5){
             text+=`
-                <span class="span-search-ticket">Departure - Return</span>
+                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure - Return</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt icon-search-ticket"></i>
                     <input type="text" style="background:white;" class="form-control" name="airline_departure_return" id="airline_departure_return" value="{{airline_request.departure}} - {{airline_request.return}}" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly>
                 </div>
                 <input type="hidden" class="form-control" name="airline_departure" id="airline_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>

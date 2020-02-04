@@ -75,7 +75,7 @@ a {
   outline: 0; }
 
 a:focus, a:hover{
-  color:#f15a22 !important;
+  color:#f15a22;
 }
 
 .btn.active.focus,
@@ -1415,15 +1415,18 @@ h1, h2, h3, h4, h5, h6 {
     right: 20px; }
 
 .form-select {
-  height: 40px;
+  height: 43px;
+  color:black;
+  margin-bottom:15px;
   width: 100%; }
   .form-select .nice-select {
     border: none;
     border-radius: 0px;
-    height: 40px;
-    background: #f9f9ff;
-    padding-left: 45px;
+    height: 43px;
+    background: white;
+    padding-left: 15px;
     padding-right: 40px;
+    border-radius: 0.25rem;
     width: 100%; }
     .form-select .nice-select .list {
       margin-top: 0;
@@ -1441,7 +1444,7 @@ h1, h2, h3, h4, h5, h6 {
         line-height: 28px;
         min-height: 28px;
         font-size: 12px;
-        padding-left: 45px; }
+        padding-left: 15px; }
         .form-select .nice-select .list .option.selected {
           color: #ea6c5d;
           background: transparent; }
@@ -1558,7 +1561,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .nav-menu ul ul {
   top: 0;
-  right: 100%; }
+  right: 95%; }
 
 .nav-menu ul li {
   min-width: 180px; }
@@ -1961,7 +1964,7 @@ body.mobile-nav-active #mobile-nav-toggle {
     border-radius: 0;
     font-size: 13px;
     font-weight: 300;
-    color: #777777; }
+    color: #000; }
     @media (max-width: 1199px) {
       .search-field .app-select {
         margin-bottom: 25px; } }
@@ -1977,7 +1980,7 @@ body.mobile-nav-active #mobile-nav-toggle {
       .search-field .range-wrap {
         margin-bottom: 30px; } }
   .search-field .primary-btn {
-    margin-top: 25px; }
+    margin-top: 0px; }
     @media (max-width: 991px) {
       .search-field .primary-btn {
         margin-top: 0px; } }
@@ -2079,9 +2082,8 @@ body.mobile-nav-active #mobile-nav-toggle {
   margin-left: 0; }
 
 .fullscreen {
-    min-height:600px;
     height:auto ;
-    padding-top:200px;
+    padding-top:100px;
 }
 
 /*@media (max-width: 414px) {
@@ -3295,7 +3297,7 @@ ul.tabs li{
     text-align:center;
     display: inline-block;
     /*padding: 10px 20px 0px 20px;*/
-    padding: 10px 15px 5px 0px;
+    padding: 0px 15px 0px 15px;
     cursor: pointer;
     font-weight: 300;
 }
@@ -3311,7 +3313,7 @@ ul.tabs li.current{
 }
 
 ul.tabs li.current .image-rounded-icon{
-    background: #f15a22 !important;
+    background: #f15a22;
 }
 
 .tab-content{
@@ -3500,8 +3502,8 @@ ul.tabs li.current .image-rounded-icon{
   height: 15px;
   width: 15px;
   position: absolute;
-  left: -3%;
-  top: 30px;
+  left: 46.9%;
+  top: 22px;
 }
 
 .image-change-route-horizontal {
@@ -3517,8 +3519,66 @@ ul.tabs li.current .image-rounded-icon{
     transform-origin: left top;
 
     position: absolute;
-    top: -3px;
-    left: 53%;
+    top: 64px;
+    left: 52%;
+    z-index: 10;
+    height: 40px;
+    width: 40px;
+}
+
+.image-change-route-vertical2 {
+  z-index: 10;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: 45.9%;
+  top: 23px;
+}
+
+.image-change-route-horizontal2 {
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: left top;
+    -moz-transform: rotate(90deg);
+    -moz-transform-origin: left top;
+    -ms-transform: rotate(90deg);
+    -ms-transform-origin: left top;
+    -o-transform: rotate(90deg);
+    -o-transform-origin: left top;
+    transform: rotate(90deg);
+    transform-origin: left top;
+
+    position: absolute;
+    top: 66px;
+    left: 52%;
+    z-index: 10;
+    height: 40px;
+    width: 40px;
+}
+
+.image-change-route-vertical3 {
+  z-index: 10;
+  height: 15px;
+  width: 15px;
+  position: absolute;
+  left: -6%;
+  top: 23px;
+}
+
+.image-change-route-horizontal3 {
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: left top;
+    -moz-transform: rotate(90deg);
+    -moz-transform-origin: left top;
+    -ms-transform: rotate(90deg);
+    -ms-transform-origin: left top;
+    -o-transform: rotate(90deg);
+    -o-transform-origin: left top;
+    transform: rotate(90deg);
+    transform-origin: left top;
+
+    position: absolute;
+    top: -20px;
+    left: 52%;
     z-index: 10;
     height: 40px;
     width: 40px;
@@ -3529,6 +3589,18 @@ ul.tabs li.current .image-rounded-icon{
       display:none;
     }
     .image-change-route-horizontal{
+      display:block;
+    }
+    .image-change-route-vertical2{
+      display:none;
+    }
+    .image-change-route-horizontal2{
+      display:block;
+    }
+    .image-change-route-vertical3{
+      display:none;
+    }
+    .image-change-route-horizontal3{
       display:block;
     }
 
@@ -3544,38 +3616,17 @@ ul.tabs li.current .image-rounded-icon{
     .image-change-route-horizontal{
       display:none;
     }
-}
-
-@media only screen and (min-width: 992px) and (max-width: 1199px){
-    .image-change-route-vertical {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: -4%;
-      top: 30px;
+    .image-change-route-vertical2{
+      display:block;
     }
-}
-
-@media only screen and (min-width: 768px) and (max-width: 991px){
-    .image-change-route-vertical {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: -6%;
-      top: 30px;
+    .image-change-route-horizontal2{
+      display:none;
     }
-}
-
-@media only screen and (min-width: 576px) and (max-width: 767px){
-    .image-change-route-vertical {
-      z-index: 10;
-      height: 15px;
-      width: 15px;
-      position: absolute;
-      left: -5%;
-      top: 30px;
+    .image-change-route-vertical3{
+      display:block;
+    }
+    .image-change-route-horizontal3{
+      display:none;
     }
 }
 
@@ -4209,6 +4260,9 @@ ul.tabs li.current .image-rounded-icon{
 }
 
 @media (max-width: 991px) {
+  .notification-mobile{
+    display: block !important;
+  }
   .notification-mobile{
     display: block !important;
   }
@@ -7196,7 +7250,7 @@ display: block;
 
 @media only screen and (min-width: 1200px) and (max-width: 1460px) {
     .image-change-route-vertical{
-        left: 46.5%;
+        left: 47%;
     }
     .image-change-route-vertical2{
         left: 45.4%;
@@ -7204,7 +7258,7 @@ display: block;
 }
 @media only screen and (min-width: 992px) and (max-width: 1140px) {
     .image-change-route-vertical{
-        left: 46.3%;
+        left: 46.5%;
     }
     .image-change-route-vertical2{
         left: 45%;
@@ -7223,6 +7277,11 @@ display: block;
     }
 }
 
+@media only screen and (min-width: 576px) and (max-width: 767px){
+    .image-change-route-vertical {
+      left: 46%;
+    }
+}
 .single-post-area .overlay-bg-disabled {
   background: rgba(150, 150, 150, 1) !important;
   -webkit-transition: all 0.3s ease 0s;

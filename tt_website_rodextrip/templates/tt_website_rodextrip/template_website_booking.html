@@ -55,6 +55,14 @@ Licence URI: http://www.os-templates.com/template-terms
           background-size: auto !important;
           background-repeat: no-repeat !important;
         }
+        {%elif template == 5%}
+        .home-banner-area {
+          background: linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
+          background-attachment: fixed !important;
+          background-position: center !important;
+          background-size: auto !important;
+          background-repeat: no-repeat !important;
+        }
         {% endif %}
     </style>
     <link rel="stylesheet" href="{{ static_path }}/css/auto-complete.css">
@@ -630,6 +638,10 @@ Licence URI: http://www.os-templates.com/template-terms
         .li-activity:hover {
             background-color: white;
         }
+        .icon-search-ticket{
+            background: {{color}};
+            color: {{text_color}};
+        }
         .myticket_static {
             background-color: {{color}};
             color: white;
@@ -1130,9 +1142,6 @@ Licence URI: http://www.os-templates.com/template-terms
         .border-primary:after{
             background: {{color}};
         }
-        .form-search-wrap{
-            background: {{tab_color}};
-        }
         .owl-theme .owl-nav [class*=owl-]{
             background: {{color}} !important;
         }
@@ -1141,13 +1150,17 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         ul.tabs li{
             color: {{text_color}};
+            background: {{tab_color}};
+        }
+        ul.tabs li:hover{
+            color: {{text_color}};
+            background: {{color}};
+        }
+        ul.tabs li.current {
+            background: {{color}};
         }
         ul.tabs li.current label{
             font-size:14px;
-            border-bottom: 4px solid {{color}};
-        }
-        li.tab-link label:hover{
-            border-bottom: 4px solid {{color}};
         }
         .site-navbar .site-navigation .site-menu .has-children:hover > a, .site-navbar .site-navigation .site-menu .has-children:focus > a, .site-navbar .site-navigation .site-menu .has-children:active > a {
             color: {{color}};
@@ -1186,8 +1199,59 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity:0.8;
         }
         {% elif template == 5 %}
+        .btn-txt-color{
+            color: {{text_color}};
+        }
+        .image-rounded-icon{
+            background: {{color}};
+        }
+        a:focus, a:hover{
+            color: {{color}} !important;
+        }
+        .nav-menu li:hover > a, .nav-menu > .menu-active > a{
+            color: {{color}} !important;
+        }
+
+        #mobile-nav-toggle i{
+            color: {{color}};
+        }
+        .modal-header{
+            background: {{color}};
+        }
         .search-field{
             background: {{tab_color}};
+        }
+        .form-select .nice-select .list .option.selected{
+            color:{{color}};
+        }
+        .form-select .nice-select .list .option:hover{
+            color: {{color}};
+        }
+        ul.tabs li{
+            color: {{text_color}};
+        }
+        ul.tabs li:hover{
+            border-bottom: 5px solid {{color}};
+        }
+        ul.tabs li.current {
+            border-bottom: 5px solid {{text_color}};
+        }
+        ul.create_tabs li.current{
+            border-bottom: 5px solid {{text_color}};
+            color: {{color}};
+        }
+        ul.create_tabs li:hover{
+            color: {{color}};
+        }
+        ul.edit_tabs li.current{
+            border-bottom: 5px solid {{color}};
+            color: {{color}};
+        }
+        ul.edit_tabs li:hover{
+            color: {{color}};
+        }
+        ul.tabs li.current .image-rounded-icon{
+            background: {{color}} !important;
         }
         {% endif %}
 
