@@ -195,7 +195,7 @@ function tour_search(){
                        img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                    }
 
-                   dat_content1 = ``+tour_data[i].departure_date_str+` - `+tour_data[i].return_date_str;
+                   dat_content1 = ``+tour_data[i].departure_date_str+` - `+tour_data[i].arrival_date_str;
                    dat_content2 = ``+tour_data[i].seat+`/`+tour_data[i].quota + ` Available`;
 
                    text+=`
@@ -551,7 +551,7 @@ function tour_get_details(package_id){
                     country_text += `<span>Available Quota : ` + tour_data.seat + `</span><br/>`;
                 }
                 country_text += `<br/><span style="font-size: 14px;"><i class="fa fa-calendar" aria-hidden="true"></i> `;
-                country_text += tour_data.departure_date_f + ` - ` + tour_data.return_date_f;
+                country_text += tour_data.departure_date_f + ` - ` + tour_data.arrival_date_f;
                 country_text += `</span>`;
                 if (tour_data.duration)
                 {
@@ -694,7 +694,7 @@ function tour_get_details(package_id){
                         }
                         flight_details_text += `</td>`;
 
-                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k].return_date_fmt;
+                        flight_details_text += `<td colspan="2">`+tour_data.flight_segments[k].destination_id+`<br/>`+tour_data.flight_segments[k]._date_fmt;
                         if(tour_data.flight_segments[k].destination_terminal)
                         {
                             flight_details_text += `<br/>Terminal : ` + tour_data.flight_segments[k].destination_terminal;
@@ -1407,7 +1407,7 @@ function tour_get_booking(order_number)
                                 <hr/>
                                 <h4>`+tour_package.name+`</h4>
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i>
-                                `+tour_package.departure_date_f+` - `+tour_package.return_date_f+`
+                                `+tour_package.departure_date_f+` - `+tour_package.arrival_date_f+`
                                 </span>
                                 <br/>
                                 <span><i class="fa fa-clock-o" aria-hidden="true"></i> `+tour_package.duration+` Days</span>
@@ -1602,9 +1602,9 @@ function tour_get_booking(order_number)
                `;
             document.getElementById('tour_final_info').innerHTML = text;
             document.getElementById('product_title').innerHTML = tour_package.name;
-            document.getElementById('product_type_title').innerHTML = book_obj.departure_date_str+' - '+book_obj.return_date_str;
+            document.getElementById('product_type_title').innerHTML = book_obj.departure_date_str+' - '+book_obj.arrival_date_str;
             price_text = '';
-            $test = tour_package.name+'\n'+book_obj.departure_date_str+' - '+book_obj.return_date_str+'\n';
+            $test = tour_package.name+'\n'+book_obj.departure_date_str+' - '+book_obj.arrival_date_str+'\n';
             $test += 'Status: ' + conv_status+'\n';
 
             //detail
@@ -1891,7 +1891,7 @@ function table_price_update(msg,type){
     $('#loading-price-tour').hide();
     price_tour_info = msg.result.tour_info;
     $test += price_tour_info.name + '\n';
-    $test += price_tour_info.departure_date_str + ' - ' + price_tour_info.return_date_str + '\n\n';
+    $test += price_tour_info.departure_date_str + ' - ' + price_tour_info.arrival_date_str + '\n\n';
 
     try{
         for(i in all_pax){

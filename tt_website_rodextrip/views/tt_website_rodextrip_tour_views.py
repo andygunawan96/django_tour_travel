@@ -260,7 +260,7 @@ def passenger(request):
         try:
             request.session['tour_dept_return_data'] = {
                 'departure': request.POST.get('departure_date_tour2') and request.POST['departure_date_tour2'] or request.session['tour_pick']['departure_date'],
-                'return': request.POST.get('return_date_tour2') and request.POST['return_date_tour2'] or request.session['tour_pick']['return_date']
+                'return': request.POST.get('arrival_date_tour2') and request.POST['arrival_date_tour2'] or request.session['tour_pick']['arrival_date']
             }
         except:
             request.session['tour_dept_return_data'] = request.session['tour_dept_return_data']
@@ -270,7 +270,7 @@ def passenger(request):
 
         request.session['tour_pick'].update({
             'tour_departure_date': dept,
-            'tour_return_date': arr,
+            'tour_arrival_date': arr,
         })
 
         try:
@@ -575,7 +575,7 @@ def review(request):
                 {
                     "resv": "-",
                     "checkin": request.session['tour_pick']['departure_date'],
-                    "checkout": request.session['tour_pick']['return_date'],
+                    "checkout": request.session['tour_pick']['arrival_date'],
                     "tour_name": request.session['tour_pick']['name'],
                 }
             ],

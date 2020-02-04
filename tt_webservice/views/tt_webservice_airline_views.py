@@ -1324,7 +1324,7 @@ def get_booking(request):
             #pax
             for pax in res['result']['response']['passengers']:
                 try:
-                    if pax['birth_date'].split(' ')[0].split('-') == 3:
+                    if len(pax['birth_date'].split(' ')[0].split('-')) == 3:
                         pax.update({
                             'birth_date': '%s %s %s' % (
                                 pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],

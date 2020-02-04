@@ -484,7 +484,7 @@ def get_booking(request):
                     if line['departure_date']:
                         line.update({
                             'departure_date': convert_string_to_date_to_string_front_end_with_time(line['departure_date'] + ':00'),
-                            'return_date': convert_string_to_date_to_string_front_end_with_time(line['return_date'] + ':00'),
+                            'arrival_date': convert_string_to_date_to_string_front_end_with_time(line['arrival_date'] + ':00'),
                         })
                 elif res['result']['response']['offline_provider_type'] == 'activity':
                     if line['visit_date']:

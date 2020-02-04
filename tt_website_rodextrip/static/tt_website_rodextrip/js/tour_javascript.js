@@ -1438,7 +1438,7 @@ function sort(tour_dat, exist_check){
                    img_src = static_path_url_server+`/public/tour_packages/not_found.png`;
                }
 
-               dat_content1 = ``+tour_dat[i].departure_date_str+` - `+tour_dat[i].return_date_str;
+               dat_content1 = ``+tour_dat[i].departure_date_str+` - `+tour_dat[i].arrival_date_str;
                dat_content2 = ``+tour_dat[i].seat+`/`+tour_dat[i].quota + ` Available`;
 
                text+=`
