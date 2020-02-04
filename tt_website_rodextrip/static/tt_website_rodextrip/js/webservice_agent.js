@@ -609,7 +609,7 @@ function get_customer_list(passenger, number, product){
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0){
-                                            if(template == 1){
+                                            if(template == 1 || template == 5){
                                                 response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
                                             }else if(template == 2){
                                                 response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
@@ -622,7 +622,7 @@ function get_customer_list(passenger, number, product){
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
-                                            if(template == 1){
+                                            if(template == 1 || template == 5){
                                                 response+=`</select></div>`;
                                             }else if(template == 2){
                                                 response+=`</select></div></div></div>`;
@@ -784,7 +784,7 @@ function get_customer_list(passenger, number, product){
                                         if(msg.result.response[i].birth_date != '')
                                             response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                         if(msg.result.response[i].phones.length != 0){
-                                            if(template == 1){
+                                            if(template == 1 || template == 5){
                                                 response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
                                             }else if(template == 2){
                                                 response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto; padding-right:5px;"></i>`;
@@ -797,7 +797,7 @@ function get_customer_list(passenger, number, product){
                                             for(j in msg.result.response[i].phones){
                                                 response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                             }
-                                            if(template == 1){
+                                            if(template == 1 || template == 5){
                                                 response+=`</select></div>`;
                                             }else if(template == 2){
                                                 response+=`</select></div></div></div>`;
@@ -2550,7 +2550,7 @@ function get_passenger_cache(){
                                 if(msg.result.response[i].birth_date != '')
                                     response+=`<br/> <span><i class="fas fa-birthday-cake"></i> `+msg.result.response[i].birth_date+`</span>`;
                                 if(msg.result.response[i].phones.length != 0){
-                                    if(template == 1){
+                                    if(template == 1 || template == 5){
                                         response+=`<br/> <div class="row" style="margin-left:0"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
                                     }else if(template == 2){
                                         response+=`<br/> <div class="row"><div class="col-lg-12"><div class="input-container-search-ticket"><i class="fas fa-mobile-alt" style="margin-top:auto;margin-bottom:auto;padding-right:5px;"></i> `;
@@ -2563,7 +2563,7 @@ function get_passenger_cache(){
                                     for(j in msg.result.response[i].phones){
                                         response += `<option>`+msg.result.response[i].phones[j].calling_code+` - `+msg.result.response[i].phones[j].calling_number+`</option>`;
                                     }
-                                    if(template == 1){
+                                    if(template == 1 || template == 5){
                                         response+=`</select></div>`;
                                     }else if(template == 2){
                                         response+=`</select></div></div></div>`;

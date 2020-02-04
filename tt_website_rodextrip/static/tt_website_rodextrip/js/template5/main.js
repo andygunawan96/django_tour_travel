@@ -143,8 +143,17 @@ $(document).ready(function () {
         });
         $('body').append($mobile_nav);
         $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<button type="button" id="mobile-nav-toggle"><i class="lnr lnr-menu"></i></button>');
+        $('body .main-menu .container .menu-header-icon .menu-header-icon2').prepend('<span class="notification-mbl" title="Click to show your notification" style="font-size:16px;color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i></span>');
         $('body .main-menu .container .menu-header-icon .menu-header-icon2').append('<div id="mobile-body-overly"></div>');
+        $('#mobile-nav').find('.balance_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="balance_mob"></span></a></li>');
+        $('#mobile-nav').find('.credit_mobile').replaceWith('<li class="pt5"><a style="color:white;"><span id="credit_mob"></span></a></li>');
         $('#mobile-nav').find('.menu-has-children').prepend('<i class="lnr lnr-chevron-down"></i>');
+        try{
+            document.getElementById("balance_mob").innerHTML = document.getElementById("balance").innerHTML;
+        }catch(err){}
+        try{
+            document.getElementById("credit_mob").innerHTML = document.getElementById("credit_limit").innerHTML;
+        }catch(err){}
 
         $(document).on('click', '.menu-has-children i', function (e) {
             $(this).next().toggleClass('menu-item-active');

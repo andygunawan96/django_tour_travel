@@ -264,6 +264,37 @@ function get_banner(type,page){
                                     </div>
                                 </div>
                             </div>`;
+                        }else if(template == 5){
+                            text+=`
+                            <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="menu-content">
+                                                <div class="title text-center">
+                                                    <h2>HOT DEALS</h2>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                            <div class="owl-carousel-suggest owl-theme">`;
+                                            //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
+                                            //    <h5 style="color:`+text_color+`;">SOLD OUT BRO</h5>
+                                            //</div>
+                                            for(i in msg.result.response){
+                                                text+=`
+                                                <div class="item">
+                                                    <div class="single-destination relative">
+                                                        <div class="thumb relative">
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                        </div>
+                                                    </div>
+                                                </div>`;
+                                            }
+                                            text+=`</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>`;
                         }
                     }else if(type == 'promotion'){
                         for(i in msg.result.response){
