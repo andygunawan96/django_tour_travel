@@ -420,7 +420,7 @@ def get_booking(request):
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            res['result']['response']['journey']['departure_date'] = convert_string_to_date_to_string_front_end(res['result']['response']['journey']['departure_date'])
+            res['result']['response']['journey']['departure_date'] = convert_string_to_date_to_string_front_end_with_unkown_separator(res['result']['response']['journey']['departure_date'])
             for pax in res['result']['response']['passengers']:
                 pax['birth_date'] = convert_string_to_date_to_string_front_end(pax['birth_date'])
             logging.getLogger("info_logger").info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])

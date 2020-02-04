@@ -214,6 +214,7 @@ function hotel_search(){
                     //kalau error belum
                 }
            }catch(err){
+                $('#loading-search-hotel').hide();
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -222,6 +223,7 @@ function hotel_search(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('#loading-search-hotel').hide();
             Swal.fire({
               type: 'error',
               title: 'Oops!',

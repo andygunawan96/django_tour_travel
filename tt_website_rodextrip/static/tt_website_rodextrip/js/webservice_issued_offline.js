@@ -1021,15 +1021,15 @@ function get_booking_offline(data){
                                 $text += msg.result.response.lines[i].carrier;
 
                                 $text += ' ' + msg.result.response.lines[i].class + '\n';
-                                if(msg.result.response.lines[i].departure_date.split('  ')[0] == msg.result.response.lines[i].return_date.split('  ')[0]){
+                                if(msg.result.response.lines[i].departure_date.split('  ')[0] == msg.result.response.lines[i].arrival_date.split('  ')[0]){
                                     $text += msg.result.response.lines[i].departure_date.split('  ')[0]+' ';
                                     $text += msg.result.response.lines[i].departure_date.split('  ')[1]+' - ';
-                                    $text += msg.result.response.lines[i].return_date.split('  ')[1]+'\n';
+                                    $text += msg.result.response.lines[i].arrival_date.split('  ')[1]+'\n';
                                 }else{
                                     $text += msg.result.response.lines[i].departure_date.split('  ')[0]+' ';
                                     $text += msg.result.response.lines[i].departure_date.split('  ')[1]+' - ';
-                                    $text += msg.result.response.lines[i].return_date.split('  ')[0]+' ';
-                                    $text += msg.result.response.lines[i].return_date.split('  ')[1]+'\n';
+                                    $text += msg.result.response.lines[i].arrival_date.split('  ')[0]+' ';
+                                    $text += msg.result.response.lines[i].arrival_date.split('  ')[1]+'\n';
                                 }
                                 $text += msg.result.response.lines[i].origin +' - '+msg.result.response.lines[i].destination +'\n\n';
 
@@ -1075,12 +1075,12 @@ function get_booking_offline(data){
                                             <div class="col-lg-6 col-xs-6" style="padding:0;">
                                                 <table style="width:100%; margin-bottom:6px;">
                                                     <tr>
-                                                        <td><h5>`+msg.result.response.lines[i].return_date.split('  ')[1]+`</h5></td>
+                                                        <td><h5>`+msg.result.response.lines[i].arrival_date.split('  ')[1]+`</h5></td>
                                                         <td></td>
                                                         <td style="height:30px;padding:0 15px;width:100%"></td>
                                                     </tr>
                                                 </table>
-                                                <span>`+msg.result.response.lines[i].return_date.split('  ')[0]+`</span><br/>
+                                                <span>`+msg.result.response.lines[i].arrival_date.split('  ')[0]+`</span><br/>
                                                 <span style="font-weight:500;">`+msg.result.response.lines[i].destination+`</span>
                                             </div>
                                         </div>
