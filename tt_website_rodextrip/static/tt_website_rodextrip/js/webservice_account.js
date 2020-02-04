@@ -257,24 +257,23 @@ function get_transactions_notification(val){
                                                 <div class="col-sm-6">
                                                     <div class="alert alert-warning" role="alert">
                                                       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                      <strong>Hurry pay for this booking!</strong> `+msg.result.response[i].order_number + ' - ' + hold_date+`
+                                                      <strong>Hurry pay for this booking!</strong> `+msg.result.response[i][j].order_number + ' - ' + hold_date+`
                                                     </div>
                                                 </div>
-                                            </div>
-                                        `;
+                                            </div>`;
                                         check_notif++;
                                         text = '';
                                         text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                                        text+=`<form action="airline/booking" method="post" id="notification_`+number+`" onclick="set_csrf_notification(`+number+`)">`;
+                                        text+=`<form action="airline/booking" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
                                         text+=`<div class="row">
                                                 <div class="col-sm-6">`;
-                                        text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i].order_number+` - `+msg.result.response[i].pnr+`</span>`;
+                                        text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
                                         text+=` </div>
                                                 <div class="col-sm-6" style="text-align:right">
                                                 <span style="font-weight:500;"> `+hold_date+`</span>`;
                                         text+=` </div>
                                                </div>`;
-                                        text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i].order_number+`">`;
+                                        text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i][j].order_number+`">`;
                                         text+=`<hr/></form>`;
                                         text+=`</div>`;
                                         document.getElementById('notification_detail').innerHTML += text;
