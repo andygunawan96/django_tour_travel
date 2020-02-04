@@ -2754,7 +2754,7 @@ function airline_pick_mc(type){
                 }
                 else if(airline_pick_list[i].is_combo_price == false){
                     text+=`
-                    <div class="col-lg-12" id="copy_div_airline`+airline[i].sequence+`">
+                    <div class="col-lg-12" id="copy_div_airline`+airline_pick_list[i].sequence+`">
                         <span class="copy_airline" hidden>`+airline_pick_list[i].sequence+`</span>
                         <div class="row">
                             <div class="col-lg-2">`;

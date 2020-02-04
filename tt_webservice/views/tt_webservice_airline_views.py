@@ -1323,11 +1323,15 @@ def get_booking(request):
         if res['result']['error_code'] == 0:
             #pax
             for pax in res['result']['response']['passengers']:
-                pax.update({
-                    'birth_date': '%s %s %s' % (
-                        pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
-                        pax['birth_date'].split(' ')[0].split('-')[0])
-                })
+                try:
+                    if pax['birth_date'].split(' ')[0].split('-') == 3:
+                        pax.update({
+                            'birth_date': '%s %s %s' % (
+                                pax['birth_date'].split(' ')[0].split('-')[2], month[pax['birth_date'].split(' ')[0].split('-')[1]],
+                                pax['birth_date'].split(' ')[0].split('-')[0])
+                        })
+                except:
+                    pass
             for provider in res['result']['response']['provider_bookings']:
                 for journey in provider['journeys']:
                     journey.update({
