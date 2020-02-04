@@ -1388,23 +1388,8 @@ function sort(tour_dat, exist_check){
                 }else if(sorting == 'Earliest Departure'){
                     var dept_datei = '';
                     var dept_datej = '';
-                    if(tour_dat[i].tour_category == 'private')
-                    {
-                        dept_datei = Date.parse(tour_dat[i].start_period);
-                    }
-                    else
-                    {
-                        dept_datei = Date.parse(tour_dat[i].departure_date);
-                    }
-
-                    if(tour_dat[j].tour_category == 'private')
-                    {
-                        dept_datej = Date.parse(tour_dat[j].start_period);
-                    }
-                    else
-                    {
-                        dept_datej = Date.parse(tour_dat[j].departure_date);
-                    }
+                    dept_datei = Date.parse(tour_dat[i].departure_date);
+                    dept_datej = Date.parse(tour_dat[j].departure_date);
                     if(dept_datei > dept_datej){
                         var temp = tour_dat[i];
                         tour_dat[i] = tour_dat[j];
@@ -1413,23 +1398,8 @@ function sort(tour_dat, exist_check){
                 }else if(sorting == 'Latest Departure'){
                     var dept_datei = '';
                     var dept_datej = '';
-                    if(tour_dat[i].tour_category == 'private')
-                    {
-                        dept_datei = Date.parse(tour_dat[i].start_period);
-                    }
-                    else
-                    {
-                        dept_datei = Date.parse(tour_dat[i].departure_date);
-                    }
-
-                    if(tour_dat[j].tour_category == 'private')
-                    {
-                        dept_datej = Date.parse(tour_dat[j].start_period);
-                    }
-                    else
-                    {
-                        dept_datej = Date.parse(tour_dat[j].departure_date);
-                    }
+                    dept_datei = Date.parse(tour_dat[i].departure_date);
+                    dept_datej = Date.parse(tour_dat[j].departure_date);
                     if(dept_datei < dept_datej){
                         var temp = tour_dat[i];
                         tour_dat[i] = tour_dat[j];
