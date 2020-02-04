@@ -1588,7 +1588,7 @@ function sort(value){
                 <span class="copy_train" hidden>`+i+`</span>
                 <div class="row">
                     <div class="col-lg-9">
-                        <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+`</h4>
+                        <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
                     </div>
                     <div class="col-lg-3">`;
                        if(data_filter[i].available_count > 0 && data_filter[i].can_book == true){

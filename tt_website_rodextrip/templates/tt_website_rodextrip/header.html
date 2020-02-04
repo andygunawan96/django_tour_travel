@@ -673,6 +673,21 @@
 
         function set_csrf_notification(number){
             document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
+            if(document.getElementById('type_reservation'+number).value == 'airline'){
+                document.getElementById('notification_'+number).action = '/airline/booking';
+            }else if(document.getElementById('type_reservation'+number).value == 'train'){
+                document.getElementById('notification_'+number).action = '/train/booking';
+            }else if(document.getElementById('type_reservation'+number).value == 'activity'){
+                document.getElementById('notification_'+number).action = '/activity/booking';
+            }else if(document.getElementById('type_reservation'+number).value == 'hotel'){
+                document.getElementById('notification_'+number).action = '/hotel/booking';
+            }else if(document.getElementById('type_reservation'+number).value == 'visa'){
+                document.getElementById('notification_'+number).action = '/visa/booking';
+            }else if(document.getElementById('type_reservation'+number).value == 'tour'){
+                document.getElementById('notification_'+number).action = '/tour/booking';
+            }else if(document.getElementById('type_reservation'+number).value == 'offline'){
+                document.getElementById('notification_'+number).action = '/issued_offline/booking';
+            }
             document.getElementById('notification_'+number).submit();
         }
     {% endif %}
