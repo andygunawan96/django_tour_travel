@@ -881,6 +881,7 @@ function hotel_issued_booking(){
 //                form.submit();
             }else{
                 //swal
+                $("#waitingTransaction").modal('hide');
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -889,6 +890,7 @@ function hotel_issued_booking(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $("#waitingTransaction").modal('hide');
             Swal.fire({
               type: 'error',
               title: 'Oops!',
