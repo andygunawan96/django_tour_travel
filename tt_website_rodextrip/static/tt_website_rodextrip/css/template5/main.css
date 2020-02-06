@@ -1422,6 +1422,7 @@ h1, h2, h3, h4, h5, h6 {
   .form-select .nice-select {
     border: none;
     border-radius: 0px;
+    border: 1px solid #ced4da;
     height: 43px;
     background: white;
     padding-left: 15px;
@@ -1433,10 +1434,14 @@ h1, h2, h3, h4, h5, h6 {
       border: none;
       border-radius: 0px;
       box-shadow: none;
+      border: 1px solid #cdcdcd;
       width: 100%;
       padding: 10px 0 10px 0px; }
       .form-select .nice-select .list .option {
         font-weight: 300;
+        height: auto;
+        white-space: normal;
+        word-wrap: break-word;
         -webkit-transition: all 0.3s ease 0s;
         -moz-transition: all 0.3s ease 0s;
         -o-transition: all 0.3s ease 0s;
@@ -1453,6 +1458,11 @@ h1, h2, h3, h4, h5, h6 {
           background: transparent; }
   .form-select .current {
     margin-right: 50px;
+    overflow: hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    width:100%;
+    display:inline-block;
     font-weight: 300; }
   .form-select .nice-select::after {
     right: 20px; }
@@ -7391,3 +7401,124 @@ ul.edit_tabs li.current .image-rounded-icon{
 .edit_tab-content.current{
     display: inherit;
 }
+
+.destinations-area{
+    background: #f7f7f7;
+}
+
+
+@media (min-width: 992px) {
+  .primary-myticket {
+    display:block !important;
+  }
+
+  .myticket {
+    display:block;
+  }
+  .mystickycopybot {
+    display:block;
+  }
+  .mystickyticket {
+    display:block !important;
+  }
+
+  #filter-search-flight {
+    display:block !important;
+  }
+
+  #sorting-search-flight {
+    display:block !important;
+  }
+
+  #sorting-search-hotel{
+    display:block !important;
+  }
+
+  #filter-search-train {
+    display:block !important;
+  }
+
+  #sorting-search-train {
+    display:block !important;
+  }
+
+  #mybuttonsticky {
+    display:none !important;
+  }
+  .my_sticky_button {
+    display:none !important;
+  }
+
+  .myticket_static {
+    display:block !important;
+  }
+
+  .name_hotel_search{
+    padding-left:0px;
+    padding-top:0px;
+  }
+}
+
+@media (max-width: 991px) {
+  .header_breadcrumb{
+      position:unset !important;
+      top: unset !important;
+  }
+
+  .primary-myticket {
+    display:none !important;
+  }
+
+  .myticket {
+    display:none !important;
+  }
+  .mystickycopybot {
+    display:none;
+  }
+  .mystickyticket {
+    display:none !important;
+  }
+
+  #filter-search-flight {
+    display:none !important;
+  }
+
+  #sorting-search-flight {
+    display:none !important;
+  }
+
+  #sorting-search-hotel {
+    display:none !important;
+  }
+
+  #filter-search-train {
+    display:none !important;
+  }
+
+  #sorting-search-train {
+    display:none !important;
+  }
+
+  #mybuttonsticky {
+    display:block !important;
+  }
+  .my_sticky_button {
+    display:block !important;
+  }
+
+  .myticket_static {
+    display:none !important;
+  }
+
+  .name_hotel_search{
+    padding-left:15px;
+    padding-top:15px;
+  }
+}
+
+.single-destination.avail-sd:hover{
+    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
+    z-index:10;
+    cursor:pointer;
+}
+

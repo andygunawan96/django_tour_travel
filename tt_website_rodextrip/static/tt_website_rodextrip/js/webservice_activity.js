@@ -373,8 +373,11 @@ function activity_search(){
                                 text+=`
                                 <div class="single-post-area mb-30 activity_box" title="`+activity_data[i].name+`" style="cursor:pointer;" onclick="go_to_detail('`+activity_data[i].sequence+`')">
                                     <div class="single-destination avail-sd relative">
-                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                            <div class="overlay overlay-bg"></div>
+                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">`;
+                                        if(template != 5){
+                                            text+=`<div class="overlay overlay-bg"></div>`;
+                                        }
+                                        text+=`
                                             <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
                                         </div>
                                         <div class="card card-effect-promotion">
@@ -802,6 +805,17 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                         text+=`</select>
                                     </div>
                                 </div>`;
+                            }else if(template == 5){
+                                text+=`
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select" style="margin-bottom:5px;">
+                                        <select class='nice-select-default rounded activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
+                                        for(j=parseInt(activity_type[activity_type_pick].skus[i].minPax); j<=parseInt(activity_type[activity_type_pick].skus[i].maxPax); j++)
+                                        text+=`
+                                            <option>`+j+`</option>`;
+                                        text+=`</select>
+                                    </div>
+                                </div>`;
                             }
                         if(activity_type[activity_type_pick].skus[i].minAge != null)
                         {
@@ -917,7 +931,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    if(activity_type[activity_type_pick].timeslots.length>0){
                        text += `<div class="col-xs-12">Timeslot</div>
                                 <div class="col-xs-12">`;
-                       if(template == 1 || template == 2 || template == 4){
+                       if(template == 1 || template == 2 || template == 4 || template == 5){
                             text+=`<div class="form-select">`;
                        }else if(template == 3){
                             text+=`<div class="default-select">`;

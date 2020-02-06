@@ -1827,7 +1827,7 @@ function activity_filter_render(){
     }else if(template == 3){
         text+=`
         <div class="header-right" style="background:unset; border:unset;">`;
-    }else if(template == 4){
+    }else if(template == 4 || template == 5){
         text+=`
         <div>`;
     }
@@ -2164,8 +2164,11 @@ function sort(activity_dat, check){
                         text+=`
                         <div class="single-post-area mb-30 activity_box" style="cursor:pointer;" onclick="go_to_detail('`+activity_dat[i].sequence+`')">
                             <div class="single-destination avail-sd relative">
-                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                    <div class="overlay overlay-bg"></div>
+                                <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('http://static.rodextrip.com/public/tour_packages/not_found.png'); background-size: 100%; 100%;">`;
+                                    if(template != 5){
+                                        text+=`<div class="overlay overlay-bg"></div>`;
+                                    }
+                                text+=`
                                     <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">
                                 </div>
                                 <div class="card card-effect-promotion">
