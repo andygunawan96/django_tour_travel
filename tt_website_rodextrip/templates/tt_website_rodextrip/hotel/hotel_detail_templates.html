@@ -16,13 +16,13 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
-    $(document).ready(function() {
-        $('#asdasd').datepicker({
-            'format': 'd M yyyy',
-            'todayHighlight': true,
-            'autoclose': true
-        });
-    });
+    //$(document).ready(function() {
+    //    $('#asdasd').datepicker({
+    //        'format': 'd M yyyy',
+    //        'todayHighlight': true,
+    //        'autoclose': true
+    //    });
+    //});
     time_limit = {{time_limit}};
     session_time_limit();
     facilities = `{{response.facilities}}`;
@@ -637,6 +637,155 @@
         </div>
     </div>
 </section>
+{% elif template == 5 %}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:relative; z-index:90;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:90; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                        {% csrf_token %}
+                        <div class="row">
+                            <input type="hidden" id="response" name="response">
+                            <div class="col-lg-6 col-md-6">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                <div class="input-container-search-ticket">
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
+                                <div class="input-container-search-ticket">
+                                    <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
+                                    <datalist id="hotel_country_nationality"/>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                <div class="input-container-search-ticket">
+                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                    <i class="fas fa-moon" id="total_night_search" style="padding-top:15px; padding-left:15px; font-size:15px; color:{{text_color}};">1</i>
+                                </div>
+                                <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
+                                <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{hotel_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> Guest</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
+                                    <ul class="dropdown-menu" role="menu" style="z-index:5;">
+                                        <div class="container">
+                                            <div class="row">
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">Room<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{hotel_search.room}}" min="1">
+                                                        <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{hotel_search.adult}}" min="1">
+                                                        <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                                    <div style="float:left;">
+                                                        <label>
+                                                            <span style="color:black; font-size:13px;">Child<br/></span>
+                                                            <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                        <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{hotel_search.child}}">
+                                                        <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <div class="row" id="guest_child_age">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12" style="margin-top:5px;float:left;">
+                                <label class="check_box_custom">
+                                    <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                    <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == true %} value="true" checked {% else %} value="false" {% endif %}/>
+                                    <span class="check_box_span_custom"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <center>
+                            <button class="primary-btn" onclick="hotel_search_validation();" type="submit" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                Search
+                            </button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {%endif%}
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
@@ -881,6 +1030,48 @@
                                                 <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
                                                 <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif template == 3 %}
+                            <div class="banner-right">
+                                <div class="row form-wrap" style="padding:0px !important;">
+                                    <div class="col-lg-12">
+                                        <span style="float:left; font-weight:700;"><i class="fas fa-calendar-alt"></i> Change Schedule</span>
+                                        <div class="input-container-search-ticket">
+                                            <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout2" id="hotel_checkin_checkout2" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
+                                            <i class="fas fa-moon icon-search-ticket" id="total_night_search2" style="border: 1px solid #cdcdcd;">1</i>
+                                            <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
+                                            <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif template == 4 %}
+                            <div class="banner-right">
+                                <div class="row form-wrap" style="padding:0px !important;">
+                                    <div class="col-lg-12">
+                                        <span style="float:left; font-weight:700;"><i class="fas fa-calendar-alt"></i> Change Schedule</span>
+                                        <div class="input-container-search-ticket">
+                                            <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout2" id="hotel_checkin_checkout2" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
+                                            <i class="fas fa-moon icon-search-ticket" id="total_night_search2" style="border: 1px solid #cdcdcd;">1</i>
+                                            <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
+                                            <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% elif template == 5 %}
+                            <div class="banner-right">
+                                <div class="row form-wrap" style="padding:0px !important;">
+                                    <div class="col-lg-12">
+                                        <span style="float:left; font-weight:700;"><i class="fas fa-calendar-alt"></i> Change Schedule</span>
+                                        <div class="input-container-search-ticket">
+                                            <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout2" id="hotel_checkin_checkout2" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
+                                            <i class="fas fa-moon icon-search-ticket" id="total_night_search2" style="border: 1px solid #cdcdcd;">1</i>
+                                            <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
+                                            <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
                                         </div>
                                     </div>
                                 </div>
