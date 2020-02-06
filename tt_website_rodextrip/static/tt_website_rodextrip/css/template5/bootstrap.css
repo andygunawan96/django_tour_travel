@@ -1916,7 +1916,7 @@ pre code {
 .form-control {
     display: block;
     width: 100%;
-    height: calc(2.25rem + 5px);
+    height: 43px;
     padding: .375rem .75rem;
     font-size: 13px;
     line-height: 1.5;

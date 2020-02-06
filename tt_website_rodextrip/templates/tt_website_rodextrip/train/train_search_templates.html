@@ -1013,6 +1013,249 @@
         </div>
     </div>
 </section>
+{% elif template == 5 %}
+<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:7;">
+    <div class="container" id="train_search_params">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                            <span style="text-transform: capitalize; font-size:12px;"> <span class="copy_span">{% if train_request.direction == 'OW' %} One Way {% elif train_request.direction == 'RT' %} Round Trip {% endif %}</span> - </span>
+                            <span style="text-transform: capitalize; font-size:12px;" title="{{train_request.origin}} > {{train_request.destination}}"><span class="copy_span">{{train_request.origin.0}}</span> {% if train_request.direction == 'OW' %} <i class="fas fa-arrow-right"></i> {% elif train_request.direction == 'RT' %} <i class="fas fa-arrows-alt-h"></i> {%endif%}<span class="copy_span">{{train_request.destination.0}}</span></span>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
+                        <span class="copy_span" style="text-transform: capitalize; font-size:13px;">{{train_request.departure.0}} {% if train_request.departure|length > 1%} - {{train_request.departure.1}} {% endif%} </span>
+                        <span style="text-transform: capitalize; font-size:12px; margin-left:5px;"><i class="fas fa-users"></i> <span class="copy_span">{% if train_request.adult != 0 %} {{train_request.adult}} Adult {% endif %} {% if train_request.infant != 0 %}, {{train_request.infant}} Infant {% endif %}</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm" onsubmit="return search_train_validation()">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-12" id="radio_train_search" style="padding:0px; text-align:left;margin-bottom:10px;">
+                                <label class="radio-button-custom" style="margin-bottom:0px;">
+                                    <span style="font-size:13px; color:{{text_color}};">One Way</span>
+                                    <input type="radio" {% if train_request.direction == 'OW' %}checked="checked" {% endif %} name="radio_train_type" value="oneway">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                                <label class="radio-button-custom" style="margin-bottom:0px;">
+                                    <span style="font-size:13px; color:{{text_color}};">Round-trip</span>
+                                    <input type="radio" {% if train_request.direction == 'RT' %}checked="checked" {% endif %} name="radio_train_type" value="roundtrip">
+                                    <span class="checkmark-radio"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 train-from" style="padding-left:0px;">
+                                        <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-from-white.png" style="width:20px; height: 20px;"/> From</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="train_origin" name="train_origin" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_origin').select();" onclick="set_train_search_value_to_false();" value="{{train_request.origin}}">
+                                        </div>
+                                    </div>
+                                    <div class="image-change-route-vertical2">
+                                        <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    </div>
+                                    <div class="image-change-route-horizontal2">
+                                        <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-6 train-to" style="z-index:5; padding-right:0px;">
+                                        <span class="span-search-ticket"><img src="{{static_path}}img/icon/train-to-white.png" style="width:20px; height: 20px;"/> To</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="train_destination" name="train_destination" class="form-control" type="text" placeholder="Destination" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="" onfocus="document.getElementById('train_destination').select();" onclick="set_train_search_value_to_false();" value="{{train_request.destination}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6" id="train_date_search">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <div class="input-container-search-ticket">
+                                    <input type="text" style="background:white;" class="form-control" id="train_departure" name="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly value=""/>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
+                                <div class="input-container-search-ticket btn-group">
+                                    <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <div class="row" style="padding:10px;">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">Adult<br/></span>
+                                                        <span style="color:gray; font-size:11px;">(Age 3+)</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" value="1" min="1" value="{{train_request.adult}}" readonly>
+                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
+                                                <div style="float:left;">
+                                                    <label>
+                                                        <span style="color:black; font-size:13px;">Infant<br/></span>
+                                                        <span style="color:gray; font-size:11px;">(Age < 3)</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
+                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
+                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
+                                                        <i class="fas fa-minus"></i>
+                                                    </button>
+                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="0" value="{{train_request.infant}}" readonly>
+                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+
+                        <input type="hidden" id="train_response" name="response"/>
+                        <center>
+                            <button class="primary-btn ld-ext-right" id="btn-search-train" type="button" onclick="train_check_search_values();" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                Search
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+
+                    <!--<form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="train_searchForm">-->
+                    <!--{% csrf_token %}-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">-->
+                    <!--<span class="span-search-ticket">From</span>-->
+                    <!--<div class="input-container-search-ticket" style="z-index:4;">-->
+                    <!--<input list="train_origin_name" id="train_origin" value="{{train_request.origin}}" class="form-control" name="train_origin" onkeyup="search_train('origin');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
+                    <!--<datalist id="train_origin_name"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="z-index:4; padding:0px;">-->
+                    <!--<h2 class="image-change-route-vertical image-vertical"><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="fas fa-exchange-alt"></i></a></h2>-->
+                    <!--<span class="span-search-ticket">To</span>-->
+                    <!--<div class="input-container-search-ticket" style="z-index:4;">-->
+                    <!--<div class="input-container-search-ticket">-->
+                    <!--<input list="train_destination_name" id="train_destination" value="{{train_request.destination}}" class="form-control" name="train_destination" onkeyup="search_train('destination');" placeholder="City or Station " onfocus="this.placeholder = ''" onblur="this.placeholder = 'City or Station '" autocomplete="off"/>-->
+                    <!--<datalist id="train_destination_name"/>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">-->
+                    <!--<span class="span-search-ticket">Departure</span>-->
+                    <!--<div class="input-container-search-ticket">-->
+                    <!--<input type="text" class="form-control date-picker" id="train_departure" name="train_departure" value="{{train_request.departure}}" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '">-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">-->
+                    <!--<span class="span-search-ticket">Passenger</span>-->
+
+                    <!--<div class="input-container-search-ticket btn-group">-->
+                    <!--<button id="show_total_pax_train" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>-->
+                    <!--<ul class="dropdown-menu" role="menu">-->
+                    <!--<div class="container">-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<label>-->
+                    <!--&lt;!&ndash;<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>&ndash;&gt;-->
+                    <!--<span style="color:black; font-size:13px;">Adults<br/></span>-->
+                    <!--<span style="color:gray; font-size:11px;">(Age 3+)</span>-->
+                    <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="col-lg-6">-->
+                    <!--<div style="text-align:right; padding:5px 0px 5px 5px;">-->
+                    <!--<span class="input-group-btn">-->
+                    <!--<button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>-->
+                    <!--<span><i class="fas fa-minus"></i></span>-->
+                    <!--</button>-->
+                    <!--</span>-->
+                    <!--<input type="hidden" id="train_adult" name="train_adult" value="{{train_request.adult}}" min="1">-->
+                    <!--<span style="color:black; font-size:14px;padding:5px;" id="show_adult_train" id="show_adult_train"></span>-->
+                    <!--<span class="input-group-btn">-->
+                    <!--<button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">-->
+                    <!--<span><i class="fas fa-plus"></i></span>-->
+                    <!--</button>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+
+                    <!--<div class="col-sm-6">-->
+                    <!--<label>-->
+                    <!--&lt;!&ndash;<img src="{{static_path}}img/icon/adult-icon.png" style="width:15px; height:25px;"/>&ndash;&gt;-->
+                    <!--<span style="color:black; font-size:13px;">Infant<br/></span>-->
+                    <!--<span style="color:gray; font-size:11px;">(Age <3)</span>-->
+                    <!--</label>-->
+                    <!--</div>-->
+                    <!--<div class="col-sm-6">-->
+                    <!--<div style="float:right; padding:5px 0px 5px 5px;">-->
+                    <!--<span class="input-group-btn">-->
+                    <!--<button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>-->
+                    <!--<span><i class="fas fa-minus"></i></span>-->
+                    <!--</button>-->
+                    <!--</span>-->
+                    <!--<input type="hidden" id="train_infant" name="train_infant" value="{{train_request.infant}}">-->
+                    <!--<span style="color:black; font-size:14px;padding:5px;" id="show_infant_train" id="show_infant_train"></span>-->
+                    <!--<span class="input-group-btn">-->
+
+                    <!--<button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">-->
+                    <!--<span><i class="fas fa-plus"></i></span>-->
+                    <!--</button>-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;<input type="text" id="quantity" name="quantity" class="form-control input-number" value="10" min="1" max="100">&ndash;&gt;-->
+                    <!--</div>-->
+                    <!--</ul>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<br/>-->
+
+                    <!--<input type="hidden" id="train_response" name="response"/>-->
+                    <!--<button class="primary-btn" type="submit" value="Submit">-->
+                    <!--<i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>-->
+                    <!--Change Search-->
+                    <!--</button>-->
+                    <!--&lt;!&ndash;<a hrpoaef="#" class="primary-btn text-uppercase">Search for Ticket</a>&ndash;&gt;-->
+                    <!--</form>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {%endif%}
 
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
