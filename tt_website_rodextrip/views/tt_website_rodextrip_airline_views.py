@@ -330,12 +330,15 @@ def passenger(request):
                 journey['rules'] = []
         request.session['airline_pick'] = airline_pick_list
 
-        airline_pick_price_itinerary = request.session['airline_price_itinerary']
-        for airline_pick in airline_pick_price_itinerary['price_itinerary_provider']:
-            for journey in airline_pick['price_itinerary']:
-                journey['rules'] = []
-        request.session['airline_price_itinerary'] = airline_pick_price_itinerary
-        request.session.modified = True
+        try:
+            airline_pick_price_itinerary = request.session['airline_price_itinerary']
+            for airline_pick in airline_pick_price_itinerary['price_itinerary_provider']:
+                for journey in airline_pick['price_itinerary']:
+                    journey['rules'] = []
+            request.session['airline_price_itinerary'] = airline_pick_price_itinerary
+            request.session.modified = True
+        except:
+            pass
         is_lionair = False
         is_international = False
         for airline in request.session['airline_pick']:

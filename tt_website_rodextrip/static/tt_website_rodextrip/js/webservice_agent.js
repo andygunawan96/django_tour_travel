@@ -644,6 +644,13 @@ function get_customer_list(passenger, number, product){
                                             response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
                                         else if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                             response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                        if(msg.result.response[i].customer_parents.length != 0){
+                                            response += `<div class="tooltip-inner" style="text-align:left;" data-tooltip="`;
+                                            for(j in msg.result.response[i].customer_parents){
+                                                response+= "• " +  msg.result.response[i].customer_parents[j].type + ' ' +  msg.result.response[i].customer_parents[j].name + ' ' + msg.result.response[i].customer_parents[j].currency + ' ' + getrupiah(msg.result.response[i].customer_parents[j].actual_balance) + '\n';
+                                            }
+                                            response += `"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</span></div>`;
+                                        }
                                     response+=`
                                     </div>
                                 </td>`;
@@ -817,6 +824,13 @@ function get_customer_list(passenger, number, product){
                                             response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
                                         else if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                             response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                        if(msg.result.response[i].customer_parents.length != 0){
+                                            response += `<div class="tooltip-inner" style="text-align:left;" data-tooltip="`;
+                                            for(j in msg.result.response[i].customer_parents){
+                                                response+= "• " + msg.result.response[i].customer_parents[j].type + ' ' + msg.result.response[i].customer_parents[j].name + ' ' + msg.result.response[i].customer_parents[j].currency + ' ' + getrupiah(msg.result.response[i].customer_parents[j].actual_balance) + '\n';
+                                            }
+                                            response += `"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</span></div>`;
+                                        }
                                     response+=`
                                     </div>
                                 </td>`;
@@ -1063,6 +1077,16 @@ function pick_passenger(type, sequence, product){
                     document.getElementById('booker_exp_date').readOnly = true;
 
                 }
+            }
+            $("#corporate_booker").attr('data-tooltip', '');
+            document.getElementById('corporate_booker').style.display = 'none';
+            if(passenger_data[sequence].customer_parents.length != 0){
+                corporate_booker_temp = ''
+                for(j in passenger_data[sequence].customer_parents){
+                    corporate_booker_temp += passenger_data[sequence].customer_parents[j].name + ' ' + passenger_data[sequence].customer_parents[j].currency + ' ' + getrupiah(passenger_data[sequence].customer_parents[j].actual_balance) + '\n';
+                }
+                $("#corporate_booker").attr('data-tooltip', corporate_booker_temp);
+                document.getElementById('corporate_booker').style.display = 'block';
             }
             auto_complete('booker_nationality');
             document.getElementById('booker_id').value = passenger_data[sequence].seq_id;
@@ -2583,6 +2607,13 @@ function get_passenger_cache(){
                                     response+=`<br/> <span><i class="fas fa-id-card"></i> KTP - `+msg.result.response[i].identities.ktp.identity_number+`</span>`;
                                 if(msg.result.response[i].identities.hasOwnProperty('sim') == true)
                                     response+=`<br/> <span><i class="fas fa-id-badge"></i> SIM - `+msg.result.response[i].identities.sim.identity_number+`</span>`;
+                                if(msg.result.response[i].customer_parents.length != 0){
+                                    response += `<div class="tooltip-inner" style="text-align:left;" style data-tooltip="`;
+                                    for(j in msg.result.response[i].customer_parents){
+                                        response+= "• " + msg.result.response[i].customer_parents[j].type + ' ' + msg.result.response[i].customer_parents[j].name + ' ' + msg.result.response[i].customer_parents[j].currency + ' ' + getrupiah(msg.result.response[i].customer_parents[j].actual_balance) + '\n';
+                                    }
+                                    response += `"><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</span></div>`;
+                                }
                             response+=`
                             </div>
                         </td>`;
@@ -3088,6 +3119,16 @@ function pick_passenger_cache(val){
         document.getElementById(passenger_pick+'_id'+passenger_pick_number).value = passenger_data_cache[val].seq_id;
         //untuk booker check
         if(passenger_pick == 'booker'){
+            $("#corporate_booker").attr('data-tooltip', '');
+            document.getElementById('corporate_booker').style.display = 'none';
+            if(passenger_data_cache[val].customer_parents.length != 0){
+                corporate_booker_temp = ''
+                for(j in passenger_data_cache[val].customer_parents){
+                    corporate_booker_temp += passenger_data_cache[val].customer_parents[j].type + ' ' + passenger_data_cache[val].customer_parents[j].name + ' ' + passenger_data_cache[val].customer_parents[j].currency + ' ' + getrupiah(passenger_data_cache[val].customer_parents[j].actual_balance) + '\n';
+                }
+                $("#corporate_booker").attr('data-tooltip', corporate_booker_temp);
+                document.getElementById('corporate_booker').style.display = 'block';
+            }
             passenger_data_pick.push(passenger_data_cache[val]);
             passenger_data_pick[passenger_data_pick.length-1].sequence = passenger_pick+passenger_pick_number;
             document.getElementById('move_btn_'+val).innerHTML = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
