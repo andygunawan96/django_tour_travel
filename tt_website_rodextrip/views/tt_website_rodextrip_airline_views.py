@@ -335,7 +335,7 @@ def passenger(request):
             for journey in airline_pick['price_itinerary']:
                 journey['rules'] = []
         request.session['airline_price_itinerary'] = airline_pick_price_itinerary
-
+        request.session.modified = True
         is_lionair = False
         is_international = False
         for airline in request.session['airline_pick']:
@@ -1028,7 +1028,7 @@ def review(request):
         for line in file:
             airline_carriers = json.loads(line)
         file.close()
-
+        request.session.modified = True
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         additional_price_input = ''

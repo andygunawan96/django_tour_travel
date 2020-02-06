@@ -810,7 +810,6 @@ def get_price_itinerary(request, boolean, counter):
             "infant": int(request.session['airline_request']['infant']),
             "schedules": schedules,
         }
-        request.session['airline_get_price_request'] = data
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -820,6 +819,8 @@ def get_price_itinerary(request, boolean, counter):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
+    request.session['airline_get_price_request'] = data
+    request.session.modified = True
 
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=120)
 
