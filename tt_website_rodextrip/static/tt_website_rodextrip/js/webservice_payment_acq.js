@@ -57,8 +57,10 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                 print = '';
                 if(i == 'va')
                     print = 'Virtual Account';
-                else
-                    print = i.charAt(0).toUpperCase() + i.slice(1).toLowerCase();
+                else{
+                    data_temp = i.split('_').join(' ')
+                    print = data_temp.charAt(0).toUpperCase() + data_temp.slice(1).toLowerCase();
+                }
                 text+=`<option value="`+i+`">`+print+`</option>`;
             }
             text+=`</select>
