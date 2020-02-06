@@ -980,6 +980,7 @@ function add_multi_city(type){
     }
 }
 
+
 function del_multi_city(){
     if(counter_airline_search!=1){
         //document.getElementById("mc_airline"+counter_airline_search).remove();

@@ -189,7 +189,7 @@ function get_promotions(){
                 text+=`<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].name+` - `+msg.result.response[i].description+`</option>`;
             }
             document.getElementById('promotion').innerHTML = text;
-            if(template == 1 || template == 3 || template == 4){
+            if(template == 1 || template == 3 || template == 4 || template == 5){
                 $('#promotion').niceSelect();
             }else if(template == 2){
                 $('#promotion').niceSelect("update");

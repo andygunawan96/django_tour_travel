@@ -596,6 +596,142 @@
         </div>
     </div>
 </section>
+{% elif template == 5 %}
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; z-index:90; position:relative;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;">Tour Search: {% if query %}{{query}}{% else %}All Tours{% endif %}</span><br/>
+                <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
+                    <span id="search_country_name">
+                        All Countries
+                    </span>,
+                    <span id="search_city_name">
+                        All Cities
+                    </span>
+                </span>
+                <span style="text-transform: capitalize;"><i class="fa fa-calendar"></i>
+                    <span id="search_month_name">
+                        {% if not dest_month or dest_month == '00' %}
+                        All Months
+                        {% else %}
+                        {% for month_data in dest_month_data %}
+                        {% if month_data.value == dest_month %}
+                        {{month_data.string}}
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                    </span>,
+                    <span id="search_year_name">
+                        {% if not dest_year or dest_year == '0000' %}
+                        All Years
+                        {% else %}
+                        {{dest_year}}
+                        {% endif %}
+                    </span>
+                </span>
+                <br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:91; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{% url 'tt_website_rodextrip:tour_search'%}" id="tour_search_form" class="form-wrap" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
+                                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
+                                <div class="input-container-search-ticket">
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{query}}"/>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
+                                <span class="span-search-ticket">&nbsp;</span>
+                                <div class="input-container-search-ticket">
+                                    <button type="button" class="form-control" id="tour_advanced_down" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="tour_advanced_up" onclick="show_hide_advanced('tour');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="tour_advanced_search" style="display:none;">
+                            <div class="col-lg-6">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination </span>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="form-select">
+                                            <select class="js-example-basic-single" style="width:100%;" id="tour_countries" size="5" data-live-search="true" name="tour_countries">
+                                                <option value="0" selected="">All Countries</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="form-select">
+                                            <div id="temp_tour_cities">
+                                                <select class="js-example-basic-single" style="width:100%;" id="tour_cities" name="tour_cities" size="5">
+                                                    <option value="0" selected="">All Cities</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure Time </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
+                                                    {% for month_data in dest_month_data %}
+                                                    {% if month_data.value == dest_month %}
+                                                    <option value="{{month_data.value}}" selected="">{{month_data.string}}</option>
+                                                    {% else %}
+                                                    <option value="{{month_data.value}}">{{month_data.string}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                                        <input id="tour_hidden_year" type="hidden" value="{{dest_year}}"/>
+                                        <div class="form-select">
+                                            <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_year" id="tour_dest_year" size="5">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                        <center>
+                            <button class="button-search primary-btn ld-ext-right" onclick="tour_search_form_submit();" type="button" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                Search
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+            </div>
+        </div>
+    </div>
+</section>
 {%endif%}
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background: #f7f7f7;">
@@ -752,6 +888,35 @@
                             </div>
                         </div>
                         {% elif template == 4%}
+                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
+                            <ul class="create_tabs" style="background:white;">
+                                <li class="create_tab-link current" data-tab="tab-itinerary"><label>Itinerary</label></li>
+                                {% if response.flight == 'include'%}
+                                <li class="create_tab-link" data-tab="tab-flight"><label>Flight Details</label></li>
+                                {% endif %}
+                                <li class="create_tab-link" data-tab="tab-other"><label>Tour Info</label></li>
+                            </ul>
+                        </div>
+                        <div style="border:1px solid #cdcdcd; background:white;">
+                            <div id="tab-itinerary" class="create_tab-content current">
+                                <div id="itinerary">
+
+                                </div>
+                            </div>
+                            {% if response.flight == 'include'%}
+                            <div id="tab-flight" class="create_tab-content">
+                                <div id="flight_details" style="overflow: scroll;">
+
+                                </div>
+                            </div>
+                            {% endif %}
+                            <div id="tab-other" class="create_tab-content">
+                                <div id="other_info">
+
+                                </div>
+                            </div>
+                        </div>
+                        {% elif template == 5%}
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
                             <ul class="create_tabs" style="background:white;">
                                 <li class="create_tab-link current" data-tab="tab-itinerary"><label>Itinerary</label></li>
