@@ -1025,7 +1025,7 @@ function pick_passenger(type, sequence, product){
             if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                 document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_name;
                 document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
-                document.getElementById('booker_nationality').disabled = true;
+                document.getElementById('booker_nationality_id').disabled = true;
             }
             document.getElementById('booker_email').value = passenger_data[sequence].email;
             try{
@@ -1724,7 +1724,7 @@ function clear_passenger(type, sequence){
         document.getElementById('booker_last_name').value = '';
         document.getElementById('booker_last_name').readOnly = false;
         document.getElementById('booker_nationality').value = 'Indonesia';
-        document.getElementById('booker_nationality').disabled = false;
+        document.getElementById('booker_nationality_id').disabled = false;
         document.getElementById('booker_email').value = '';
         document.getElementById('booker_email').readOnly = false;
         document.getElementById('booker_phone_code').value = '62';
