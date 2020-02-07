@@ -125,7 +125,8 @@ def index(request):
                             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                         # tour
                         try:
-                            del request.session['hotel_error']
+                            if 'hotel_error' in request.session._session:
+                                del request.session['hotel_error']
                         except:
                             pass
 
@@ -214,6 +215,10 @@ def index(request):
                         return render(request, MODEL_NAME + '/home_templates.html', values)
                         # return render(request, MODEL_NAME + '/testing.html', {})
                     except:
+                        if request.session._session:
+                            for key in reversed(list(request.session._session.keys())):
+                                del request.session[key]
+                            request.session.modified = True
                         values.update({
                             'static_path': path_util.get_static_path(MODEL_NAME),
                             'javascript_version': javascript_version,
@@ -250,10 +255,6 @@ def index(request):
     return no_session_logout(request)
 
 def no_session_logout(request):
-    try:
-        request.session.delete()
-    except:
-        pass
     return redirect('/')
 
 def goto_dashboard():
@@ -269,11 +270,13 @@ def testing(request):
 def login(request):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
-
     try:
         if request.POST['logout'] == 'true':
             try:
-                request.session.delete()
+                if request.session._session:
+                    for key in reversed(list(request.session._session.keys())):
+                        del request.session[key]
+                    request.session.modified = True
             except:
                 pass
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -294,7 +297,10 @@ def login(request):
                 response = get_cache_data(cache_version)
                 return goto_dashboard()
         except:
-            request.session.delete()
+            if request.session._session:
+                for key in reversed(list(request.session._session.keys())):
+                    del request.session[key]
+                request.session.modified = True
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             values.update({
