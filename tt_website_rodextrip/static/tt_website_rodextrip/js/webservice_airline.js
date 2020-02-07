@@ -2927,7 +2927,7 @@ function airline_get_booking(data){
                                     cabin_class = 'First Class';
                                 for(l in msg.result.response.provider_bookings[i].journeys[j].segments[k].legs){
                                     try{
-                                        $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name;
+                                        $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
                                     }catch(err){
                                         $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code;
                                     }
