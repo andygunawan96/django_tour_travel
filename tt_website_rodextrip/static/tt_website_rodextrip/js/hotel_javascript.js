@@ -112,28 +112,33 @@ function search_hotel(val){
 
 function getrupiah(price){
     try{
-        var temp = parseInt(price);
-        var positif = false;
-        if(temp > -1)
-            positif = true;
-        temp = price.toString();
-        temp = temp.split('-')[temp.split('-').length-1];
-        var pj = temp.split('.')[0].toString().length;
-        var priceshow="";
-        for(x=0;x<pj;x++){
-            if((pj-x)%3==0 && x!=0){
-                priceshow+=",";
-            }
-            priceshow+=temp.charAt(x);
-        }
-        if(temp.split('.').length == 2){
-            for(x=pj;x<temp.length;x++){
+        if(isNaN(price) == false && price != ''){
+            var temp = parseInt(price);
+            var positif = false;
+            if(temp > -1)
+                positif = true;
+
+            temp = temp.toString();
+            temp = temp.split('-')[temp.split('-').length-1];
+            var pj = temp.split('.')[0].toString().length;
+            var priceshow="";
+            for(x=0;x<pj;x++){
+                if((pj-x)%3==0 && x!=0){
+                    priceshow+=",";
+                }
                 priceshow+=temp.charAt(x);
             }
+            if(temp.split('.').length == 2){
+                for(x=pj;x<temp.length;x++){
+                    priceshow+=temp.charAt(x);
+                }
+            }
+            if(positif == false)
+                priceshow = '-' + priceshow;
+            return priceshow;
+        }else{
+            return '';
         }
-        if(positif == false)
-            priceshow = '-' + priceshow;
-        return priceshow;
     }catch(err){
         return price;
     }

@@ -173,6 +173,7 @@ def login(request):
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
+        print(json.dumps(res))
         request.session['airline_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
         request.session.modified = True
