@@ -47,84 +47,90 @@ def open_page(request):
             # 'co_uid': request.session['co_uid'],
         })
     except:
-        values.update({
-            'static_path': path_util.get_static_path(MODEL_NAME),
-            'javascript_version': javascript_version,
-            'static_path_url_server': get_url_static_path(),
-            'signature': request.session['signature'],
-        })
+        try:
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+                'signature': request.session['signature'],
+            })
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return render(request, MODEL_NAME + '/agent_registration/registration_form_template.html', values)
 
 
 def register_agent(request):
-    regis_doc = []
-    pic = []
-    check = True
-    counter = 1
-    javascript_version = get_javascript_version()
+    try:
+        regis_doc = []
+        pic = []
+        check = True
+        counter = 1
+        javascript_version = get_javascript_version()
 
-    values = get_data_template(request)
+        values = get_data_template(request)
 
-    #pic
-    while(check):
-        try:
-            pic.append({
-                'birth_date': request.POST['birth_date'+str(counter)] and request.POST['birth_date'+str(counter)] or '',
-                'first_name': request.POST['first_name'+str(counter)] and request.POST['first_name'+str(counter)] or '',
-                'last_name': request.POST['last_name'+str(counter)] and request.POST['last_name'+str(counter)] or '',
-                'email': request.POST['email'+str(counter)] and request.POST['email'+str(counter)] or '',
-                'phone': request.POST['phone'+str(counter)] and request.POST['phone'+str(counter)] or '',
-                'mobile': request.POST['mobile'+str(counter)] and request.POST['mobile'+str(counter)] or '',
-                'job_position': request.POST['job_position'+str(counter)] and request.POST['job_position'+str(counter)] or '',
-            })
-        except:
-            check = False
-        counter = counter + 1
-    #regis
-    check = True
-    counter = 1
-    while (check):
-        try:
-            regis_doc.append({
-                'data': base64.b64encode(request.FILES['Resume'+str(counter)].read()).decode("utf-8"),
-                'content_type': request.FILES['Resume'+str(counter)].content_type,
-                'type': request.POST['type_regis_doc'+str(counter)] and request.POST['type_regis_doc'+str(counter)] or '',
-                'name': request.FILES['Resume'+str(counter)].name
-            })
-        except:
-            check = False
-        counter = counter + 1
+        #pic
+        while(check):
+            try:
+                pic.append({
+                    'birth_date': request.POST['birth_date'+str(counter)] and request.POST['birth_date'+str(counter)] or '',
+                    'first_name': request.POST['first_name'+str(counter)] and request.POST['first_name'+str(counter)] or '',
+                    'last_name': request.POST['last_name'+str(counter)] and request.POST['last_name'+str(counter)] or '',
+                    'email': request.POST['email'+str(counter)] and request.POST['email'+str(counter)] or '',
+                    'phone': request.POST['phone'+str(counter)] and request.POST['phone'+str(counter)] or '',
+                    'mobile': request.POST['mobile'+str(counter)] and request.POST['mobile'+str(counter)] or '',
+                    'job_position': request.POST['job_position'+str(counter)] and request.POST['job_position'+str(counter)] or '',
+                })
+            except:
+                check = False
+            counter = counter + 1
+        #regis
+        check = True
+        counter = 1
+        while (check):
+            try:
+                regis_doc.append({
+                    'data': base64.b64encode(request.FILES['Resume'+str(counter)].read()).decode("utf-8"),
+                    'content_type': request.FILES['Resume'+str(counter)].content_type,
+                    'type': request.POST['type_regis_doc'+str(counter)] and request.POST['type_regis_doc'+str(counter)] or '',
+                    'name': request.FILES['Resume'+str(counter)].name
+                })
+            except:
+                check = False
+            counter = counter + 1
 
-    request.session['registration_request'] = {
-        'company': {
-            'company_type': request.POST['radio_company_type'],
-            'business_license': request.POST.get('business_license') and request.POST['business_license'] or '',
-            'npwp': request.POST.get('npwp') and request.POST['npwp'] or '',
-            'name': request.POST['comp_name'] and request.POST['comp_name'] or '',
-        },
-        'address': {
-            # 'city': request.POST['city'] and request.POST['city_id'] or '',
-            'city': 1,
-            'zip': request.POST['zip'] and request.POST['zip'] or '',
-            'address': request.POST['street'] and request.POST['street'] or '',
-            'address2': request.POST['street2'] and request.POST['street2'] or '',
-        },
-        'promotion_id': request.POST['promotion'] and request.POST['promotion'] or '',
-        'pic': pic,
-        'regis_doc': regis_doc,
-        'other': {
-            'social_media': request.POST['social_media'] and request.POST['social_media'] or '',
-            'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or '',
-        },
-    }
+        request.session['registration_request'] = {
+            'company': {
+                'company_type': request.POST['radio_company_type'],
+                'business_license': request.POST.get('business_license') and request.POST['business_license'] or '',
+                'npwp': request.POST.get('npwp') and request.POST['npwp'] or '',
+                'name': request.POST['comp_name'] and request.POST['comp_name'] or '',
+            },
+            'address': {
+                # 'city': request.POST['city'] and request.POST['city_id'] or '',
+                'city': 1,
+                'zip': request.POST['zip'] and request.POST['zip'] or '',
+                'address': request.POST['street'] and request.POST['street'] or '',
+                'address2': request.POST['street2'] and request.POST['street2'] or '',
+            },
+            'promotion_id': request.POST['promotion'] and request.POST['promotion'] or '',
+            'pic': pic,
+            'regis_doc': regis_doc,
+            'other': {
+                'social_media': request.POST['social_media'] and request.POST['social_media'] or '',
+                'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or '',
+            },
+        }
 
-    values.update({
-        'username': request.session['user_account'],
-        'static_path': path_util.get_static_path(MODEL_NAME),
-        'signature': request.session['signature'],
-        'static_path_url_server': get_url_static_path(),
-        'javascript_version': javascript_version,
-    })
+        values.update({
+            'username': request.session['user_account'],
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'signature': request.session['signature'],
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+        })
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return render(request, MODEL_NAME + '/agent_registration/registration_finish_template.html', values)
 
 
