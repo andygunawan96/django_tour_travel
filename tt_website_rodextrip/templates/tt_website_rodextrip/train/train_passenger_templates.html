@@ -137,7 +137,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select-2" id="default-select">
-                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -181,7 +181,7 @@
                                             <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('first_name');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
@@ -195,7 +195,7 @@
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('last_name');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_last_name');change_booker_value('train');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -205,7 +205,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('nationality');" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -220,7 +220,7 @@
                                             <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('email');">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
@@ -232,7 +232,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
                                                             {% endfor %}
@@ -241,7 +241,7 @@
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
                                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
@@ -831,7 +831,7 @@
                                                 <label>Title</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select-2" id="default-select">
-                                                        <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
+                                                        <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                             {% for title in adult_title%}
                                                             <option>{{title}}</option>
                                                             {% endfor %}
@@ -875,7 +875,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>First name and middle name (if any)</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('first_name');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                    <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                     <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                     <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                     <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
@@ -889,7 +889,7 @@
                                                 <br/>
                                                 <label>Last name</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('last_name');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                    <input type="text" onchange="capitalizeInput('booker_last_name');change_booker_value('train');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                             </div>
@@ -899,7 +899,7 @@
                                                 <label>Nationality</label>
                                                 <div class="input-container-search-ticket">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('nationality');" class="nice-select-default">
+                                                        <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                             {% for country in countries %}
                                                             <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                             {% endfor %}
@@ -914,7 +914,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>Contact Email Address</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('email');">
+                                                    <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
                                                 </div>
                                                 <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                             </div>
@@ -926,7 +926,7 @@
                                                 <div class="row">
                                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                         <div class="form-select">
-                                                            <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
+                                                            <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                                 {% for phone in phone_code %}
                                                                 <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
                                                                 {% endfor %}
@@ -935,7 +935,7 @@
                                                         <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                     </div>
                                                     <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                        <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');">
+                                                        <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                         <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                     </div>
                                                 </div>
@@ -1524,7 +1524,7 @@
                                             <label style="color:red">*</label>
                                             <label>Title</label>
                                             <div class="default-select" id="default-select">
-                                                <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
+                                                <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                     {% for title in adult_title%}
                                                     <option>{{title}}</option>
                                                     {% endfor %}
@@ -1567,7 +1567,7 @@
                                             <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('first_name');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
@@ -1581,7 +1581,7 @@
                                             <br/>
                                             <label>Last name</label>
                                             <div class="form-group">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('last_name');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_last_name');change_booker_value('train');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -1590,7 +1590,7 @@
                                             <label style="color:red">*</label>
                                             <label>Nationality</label>
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('nationality');" class="nice-select-default">
+                                                <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                     {% for country in countries %}
                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -1604,7 +1604,7 @@
                                             <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('email');">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
@@ -1616,7 +1616,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
                                                             {% endfor %}
@@ -1625,7 +1625,7 @@
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
                                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>
@@ -2195,7 +2195,7 @@
                                         <label>Title</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select-2" id="default-select">
-                                                <select class="nice-select-default rounded" id="booker_title" name="booker_title" onchange="change_booker_value('title');">
+                                                <select class="nice-select-default rounded" id="booker_title" name="booker_title" onchange="change_booker_value('train');">
                                                     {% for title in adult_title%}
                                                     <option>{{title}}</option>
                                                     {% endfor %}
@@ -2239,7 +2239,7 @@
                                         <label style="color:red">*</label>
                                         <label>First name and middle name (if any)</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('first_name');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                            <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                             <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                             <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                             <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
@@ -2253,7 +2253,7 @@
                                         <br/>
                                         <label>Last name</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('last_name');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                            <input type="text" onchange="capitalizeInput('booker_last_name');change_booker_value('train');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                         </div>
                                         <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                     </div>
@@ -2263,7 +2263,7 @@
                                         <label>Nationality</label>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('nationality');" class="nice-select-default">
+                                                <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                     {% for country in countries %}
                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -2278,7 +2278,7 @@
                                         <label style="color:red">*</label>
                                         <label>Contact Email Address</label>
                                         <div class="input-container-search-ticket">
-                                            <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('email');">
+                                            <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
                                         </div>
                                         <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                     </div>
@@ -2290,7 +2290,7 @@
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
+                                                    <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                         {% for phone in phone_code %}
                                                         <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
                                                         {% endfor %}
@@ -2299,7 +2299,7 @@
                                                 <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                             </div>
                                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');">
+                                                <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                 <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                             </div>
                                         </div>
@@ -2885,7 +2885,7 @@
                                             <label>Title</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select" id="default-select">
-                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('title');">
+                                                    <select id="booker_title" name="booker_title" class="nice-select-default" onchange="change_booker_value('train');">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
                                                         {% endfor %}
@@ -2926,7 +2926,7 @@
                                             <label style="color:red">*</label>
                                             <label>First name and middle name (if any)</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_first_name'); change_booker_value('first_name');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_first_name');change_booker_value('train');" class="form-control" name="booker_first_name" id="booker_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                                 <input type="hidden" class="form-control" name="booker_birth_date" id="booker_birth_date" />
                                                 <input type="hidden" class="form-control" name="booker_id_type" id="booker_id_type" />
                                                 <input type="hidden" class="form-control" name="booker_id_number" id="booker_id_number" />
@@ -2940,7 +2940,7 @@
                                             <br/>
                                             <label>Last name</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" onchange="capitalizeInput('booker_last_name'); change_booker_value('last_name');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                                <input type="text" onchange="capitalizeInput('booker_last_name');change_booker_value('train');" class="form-control" name="booker_last_name" id="booker_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                             </div>
                                             <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
                                         </div>
@@ -2950,7 +2950,7 @@
                                             <label>Nationality</label>
                                             <div class="input-container-search-ticket">
                                                 <div class="form-select">
-                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('nationality');" class="nice-select-default">
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="Nationality" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
                                                         {% for country in countries %}
                                                         <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                         {% endfor %}
@@ -2965,7 +2965,7 @@
                                             <label style="color:red">*</label>
                                             <label>Contact Email Address</label>
                                             <div class="input-container-search-ticket">
-                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('email');">
+                                                <input type="text" class="form-control" name="booker_email" id="booker_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '" onchange="change_booker_value('train');">
                                             </div>
                                             <label style="font-size:12px; padding:0;">Example: email@example.com</label>
                                         </div>
@@ -2977,7 +2977,7 @@
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                     <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code')" class="nice-select-default" onchange="change_booker_value('phone_id');">
+                                                        <select class="form-control js-example-basic-single" name="booker_phone_code_id" style="width:100%;" id="booker_phone_code_id" onchange="auto_complete('booker_phone_code');change_booker_value('train');" class="nice-select-default">
                                                             {% for phone in phone_code %}
                                                             <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
                                                             {% endfor %}
@@ -2986,7 +2986,7 @@
                                                     <input type="hidden" name="booker_phone_code" id="booker_phone_code" />
                                                 </div>
                                                 <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('phone');">
+                                                    <input type="text" class="form-control" name="booker_phone" id="booker_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '" onchange="change_booker_value('train');">
                                                     <input type="hidden" class="form-control" name="booker_id" id="booker_id">
                                                 </div>
                                             </div>

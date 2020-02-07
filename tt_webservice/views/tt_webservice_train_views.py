@@ -342,7 +342,7 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=60)
     try:
         if res['result']['error_code'] == 0:
             for provider_booking in res['result']['response']['provider_bookings']:
@@ -492,7 +492,7 @@ def cancel(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=60)
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS cancel TRAIN SIGNATURE " + request.POST['signature'])
@@ -507,7 +507,11 @@ def assign_seats(request):
     try:
         passengers = json.loads(request.POST['pax'])
         provider_bookings = []
-
+        provider = ''
+        try:
+            provider = request.session['train_booking'][0]['provider']
+        except:
+            pass
         for idx, pax in enumerate(passengers):
             for idy, seat in enumerate(pax['seat_pick']):
                 if pax['seat_pick'][idy]['wagon'] != pax['seat'][idy]['wagon'] or pax['seat_pick'][idy]['seat'] != pax['seat'][idy]['seat'] or pax['seat_pick'][idy]['column'] != pax['seat'][idy]['column']:
@@ -532,7 +536,7 @@ def assign_seats(request):
                             })
                         else:
                             provider_bookings.append({
-                                "provider": provider_kai,
+                                "provider": provider and provider or provider_kai,
                                 "sequence": idy + 1,
                                 "journeys": journeys
                             })

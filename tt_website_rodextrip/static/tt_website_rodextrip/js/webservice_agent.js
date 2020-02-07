@@ -890,24 +890,7 @@ function gotoForm(){
 function change_booker_value(type){
     try{
         if(document.getElementsByName('myRadios')[0].checked == true){
-            if(type == 'title'){
-                document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
-            }else if(type == 'first_name'){
-                document.getElementById('adult_first_name1').value = document.getElementById('booker_first_name').value;
-            }else if(type == 'last_name'){
-                document.getElementById('adult_last_name1').value = document.getElementById('booker_last_name').value;
-            }else if(type == 'nationality'){
-                document.getElementById('select2-adult_nationality1_id-container').value = document.getElementById('booker_nationality').value;
-                document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
-            }else if(type == 'email'){
-                document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
-            }else if(type == 'phone_id'){
-                document.getElementById('select2-adult_phone_code1_id-container').innerHTML = document.getElementById('booker_phone_code').value;
-                document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
-
-            }else if(type == 'phone'){
-                document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
-            }
+            copy_booker_to_passenger('copy',type)
         }
     }catch(err){}
 }
@@ -1042,6 +1025,7 @@ function pick_passenger(type, sequence, product){
             if(passenger_data[sequence].nationality_name != '' && passenger_data[sequence].nationality_name != ''){
                 document.getElementById('select2-booker_nationality_id-container').innerHTML = passenger_data[sequence].nationality_name;
                 document.getElementById('booker_nationality').value = passenger_data[sequence].nationality_name;
+                document.getElementById('booker_nationality').disabled = true;
             }
             document.getElementById('booker_email').value = passenger_data[sequence].email;
             try{
@@ -1615,6 +1599,9 @@ function copy_booker_to_passenger(val,type){
             document.getElementById('adult_title1').value = document.getElementById('booker_title').value;
             document.getElementById('adult_title1').readOnly = true;
             for(i in document.getElementById('adult_title1').options){
+                document.getElementById('adult_title1').options[i].disabled = false;
+            }
+            for(i in document.getElementById('adult_title1').options){
                 if(document.getElementById('adult_title1').options[i].selected != true)
                     document.getElementById('adult_title1').options[i].disabled = true;
             }
@@ -1737,6 +1724,7 @@ function clear_passenger(type, sequence){
         document.getElementById('booker_last_name').value = '';
         document.getElementById('booker_last_name').readOnly = false;
         document.getElementById('booker_nationality').value = 'Indonesia';
+        document.getElementById('booker_nationality').disabled = false;
         document.getElementById('booker_email').value = '';
         document.getElementById('booker_email').readOnly = false;
         document.getElementById('booker_phone_code').value = '62';
@@ -1776,7 +1764,9 @@ function clear_passenger(type, sequence){
             document.getElementById('adult_last_name'+sequence).readOnly = false;
             document.getElementById('adult_nationality'+sequence).value = 'Indonesia';
             document.getElementById('select2-adult_nationality'+sequence+'_id-container').value = 'Indonesia';
+            document.getElementById('adult_nationality'+sequence+'_id').disabled = false;
             document.getElementById('adult_birth_date'+sequence).value = '';
+            document.getElementById('adult_birth_date'+sequence).disabled = false;
             document.getElementById('adult_passport_number'+sequence).value = '';
             document.getElementById('adult_passport_number'+sequence).readOnly = false;
             document.getElementById('adult_passport_expired_date'+sequence).value = '';
@@ -3676,6 +3666,8 @@ function auto_logout(msg){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        logout();
+      }else{
         logout();
       }
     })

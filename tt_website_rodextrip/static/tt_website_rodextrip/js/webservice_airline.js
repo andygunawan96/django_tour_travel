@@ -1427,7 +1427,8 @@ function get_price_itinerary_request(){
                                                         </div>
                                                     </div>
                                                 </div>`;
-                                                $text += airline_request.adult + ' Adult @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare + price))+'\n';
+                                                $text += airline_request.adult + ' Adult Fare @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+'\n';
+                                                $text += airline_request.adult + ' Adult Tax @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                                 price = 0;
                                             }
                                         }catch(err){
