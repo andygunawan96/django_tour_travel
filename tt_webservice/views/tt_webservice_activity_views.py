@@ -155,16 +155,18 @@ def search(request):
         logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
-    counter = 0
+    try:
+        counter = 0
+        for i in res['result']['response']:
+            i.update({
+                'sequence': counter
+            })
+            counter += 1
 
-    for i in res['result']['response']:
-        i.update({
-            'sequence': counter
-        })
-        counter += 1
-
-    request.session['activity_search'] = res['result']['response']
-    request.session.modified = True
+        request.session['activity_search'] = res['result']['response']
+        request.session.modified = True
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
