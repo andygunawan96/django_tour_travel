@@ -1663,7 +1663,7 @@ function get_price_itinerary_request(){
               html: '<span style="color: red;">Error airline price itinerary request </span>' + errorThrown,
             })
             $('.loader-rodextrip').fadeOut();
-       },timeout: 60000
+       },timeout: 120000
     });
 }
 

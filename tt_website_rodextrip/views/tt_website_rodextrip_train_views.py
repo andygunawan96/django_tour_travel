@@ -57,8 +57,12 @@ def search(request):
                 departure = []
                 if request.POST['radio_train_type'] == 'roundtrip':
                     direction = 'RT'
-                    departure.append(request.POST['train_departure_return'].split(' - ')[0])
-                    departure.append(request.POST['train_departure_return'].split(' - ')[1])
+                    try:
+                        departure.append(request.POST['train_departure_return'].split(' - ')[0])
+                        departure.append(request.POST['train_departure_return'].split(' - ')[1])
+                    except:
+                        departure.append(request.POST['train_departure'].split(' - ')[0])
+                        departure.append(request.POST['train_departure'].split(' - ')[1])
                     origin.append(request.POST['train_origin'])
                     origin.append(request.POST['train_destination'])
                     destination.append(request.POST['train_destination'])
