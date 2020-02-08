@@ -498,7 +498,7 @@ function check_destination_origin(){
 
 function getrupiah(price){
     try{
-        if(isNaN(price) == false && price != ''){
+        if(isNaN(price) == false && price.length != 0){
             var temp = parseInt(price);
             var positif = false;
             if(temp > -1)
