@@ -144,8 +144,6 @@ def search(request):
             'type_id': request.session['activity_search_request']['type_id'],
             'category': request.session['activity_search_request']['category'],
             'sub_category': request.session['activity_search_request']['sub_category'],
-            'limit': int(request.POST['limit']),
-            'offset': int(request.POST['offset']),
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

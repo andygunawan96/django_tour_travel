@@ -47,8 +47,6 @@ def search(request):
                     'type_id': request.POST.get('activity_type') and int(request.POST['activity_type']) or 0,
                     'category': request.POST.get('activity_category') and int(request.POST['activity_category'].split(' ')[0]) or 0,
                     'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
-                    'limit': 25,
-                    'offset': 0,
                 }
             except:
                 request.session['activity_search_request'] = request.session['activity_search_request']
