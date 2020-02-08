@@ -157,27 +157,16 @@ def search(request):
         logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
-
-    data_activity = []
     counter = 0
-    try:
-        if int(request.POST['offset']) != 0:
-            for data in request.session['activity_search']:
-                data_activity.append(data)
-                counter += 1
-    except:
-        print('no data')
-
 
     for i in res['result']['response']:
         i.update({
             'sequence': counter
         })
-        data_activity.append(i)
         counter += 1
 
-    request.session['activity_search'] = data_activity
-
+    request.session['activity_search'] = res['result']['response']
+    request.session.modified = True
     return res
 
 
