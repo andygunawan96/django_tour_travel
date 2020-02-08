@@ -1222,6 +1222,19 @@
       var secondDate = new Date(`{{check_out}}`);
       var diffDays = Math.round(Math.abs((firstDate.getTime() - secondDate.getTime())/(oneDay)));
 
+      var hotel_autocomplete = new autoComplete({
+        selector: '#hotel_id_destination',
+        minChars: 1,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            get_auto_complete(term,suggest);
+        },
+        onSelect: function(e, term, item){
+            $("#hotel_id_destination").trigger("blur");
+        }
+    });
+
       $("#total_night_search").text(diffDays);
       $('input[name="hotel_checkin_checkout"]').daterangepicker({
           singleDatePicker: false,
