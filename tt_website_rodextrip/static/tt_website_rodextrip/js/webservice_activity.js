@@ -335,8 +335,8 @@ function activity_search(){
                        <form action='/activity/detail' method=POST id='myForm`+activity_data[i].sequence+`'>
                             <div id='csrf`+activity_data[i].sequence+`'></div>
                             <input type='hidden' value='`+JSON.stringify(activity_data[i]).replace(/[']/g, /["]/g)+`'/>
-                            <input id='uuid' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
-                            <input id='sequence' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>`;
+                            <input id='uuid`+activity_data[i].sequence+`' name='uuid' type=hidden value='`+activity_data[i].uuid+`'/>
+                            <input id='sequence`+activity_data[i].sequence+`' name='sequence' type=hidden value='`+activity_data[i].sequence+`'/>`;
 
                             if(template == 1){
                                 text+=`
