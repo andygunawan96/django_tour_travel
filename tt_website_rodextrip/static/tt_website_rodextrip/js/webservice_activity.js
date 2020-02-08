@@ -7,7 +7,6 @@ activity_timeslot = '';
 additional_price = 0;
 event_pick = 0;
 pricing_days = 1;
-offset = 0;
 high_price_slider = 0;
 low_price_slider = 99999999;
 step_slider = 0;
@@ -40,7 +39,6 @@ var month = {
 }
 
 function activity_login(data){
-    offset = 0;
     getToken();
     //document.getElementById('activity_category').value.split(' - ')[1]
     $.ajax({
@@ -51,8 +49,6 @@ function activity_login(data){
        },
        data: {
           'sort': 'price_asc',
-          'limit': 20,
-          'offset': offset
        },
        success: function(msg) {
 
@@ -146,7 +142,7 @@ function get_activity_config(type, val){
             category_txt = '';
             if(type == 'search')
             {
-                if (parsed_country == 0)
+                if (!parsed_country || parsed_country == 0)
                 {
                     country_txt += `<option value="" selected="">All Countries</option>`;
                 }
@@ -167,7 +163,7 @@ function get_activity_config(type, val){
                     }
                 }
 
-                if (parsed_type == 0)
+                if (!parsed_type || parsed_type == 0)
                 {
                     type_txt += `<option value="0" selected="">All Types</option>`;
                 }
@@ -188,7 +184,7 @@ function get_activity_config(type, val){
                     }
                 }
 
-                if (parsed_category == 0)
+                if (!parsed_category || parsed_category == 0)
                 {
                     category_txt += `<option value="0" selected="">All Categories</option>`;
                 }
@@ -275,7 +271,6 @@ function get_activity_config(type, val){
 }
 
 function activity_search(){
-    offset++;
     get_new = false;
     getToken();
     //document.getElementById('activity_category').value.split(' - ')[1]
@@ -288,8 +283,6 @@ function activity_search(){
        data: {
           'search_request': JSON.stringify(activity_request),
           'sort': 'price_asc',
-          'limit': 20,
-          'offset': offset,
           'signature': signature
        },
        success: function(msg) {
@@ -442,7 +435,6 @@ function activity_search(){
                });
                $(".js-range-slider2").data("ionRangeSlider").reset();
 
-               offset++;
                document.getElementById('activity_ticket').innerHTML += text;
 
                var items = $(".activity_box");
