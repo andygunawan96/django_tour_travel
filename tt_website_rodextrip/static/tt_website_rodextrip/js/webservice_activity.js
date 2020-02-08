@@ -994,6 +994,13 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                    activity_table_detail();
                }
            }
+           else
+           {
+                $('#loading-detail-activity').hide();
+                document.getElementById('activity_date_desc').innerHTML = `
+                           <small id="departure_date_activity_desc" class="hidden" style="color: red;">Ticket is unavailable on this date.</small>
+                           `;
+           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
