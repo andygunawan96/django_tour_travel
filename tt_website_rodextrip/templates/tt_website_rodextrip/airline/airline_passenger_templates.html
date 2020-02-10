@@ -1139,7 +1139,38 @@
                                                         {% endfor %}
                                                     </select>
                                                 </div>
-                                                <div class="col-lg-6"></div>
+                                                <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
+                                                    <div class="row" style="margin:0">
+                                                        <button type="button" class="btn btn-secondary" style="width:42px;height:42px;margin-right:5px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                                        <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</button>
+                                                        <div class="modal fade" id="myModalHelp" role="dialog">
+                                                            <div class="modal-dialog">
+
+                                                                <!-- Modal content-->
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header">
+                                                                        <h4 class="modal-title" style="color:{{text_color}};">Help <i class="fas fa-address-card"></i></h4>
+                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <div class="col-sm-12">
+                                                                            <center><img src="/static/tt_website_rodextrip/img/id_card.png" style="width:50%;"></center>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p>1. Please fill passenger name like in your ID card. If there's chinese word in your name please use chinese word.</p>
+                                                                            <p>2. Maximum 30 characters for title, first name, and last name. If more than 30 characters you can put 30 first characters like in your ID card. </p>
+                                                                            <p>3. Please use character such as "," or "." same like in your id card.</p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div class="col-lg-6">
                                                     <br/>
                                                     <label style="color:red">*</label>
@@ -3802,6 +3833,7 @@
                                         </div>
                                         <div class="col-lg-6 col-xs-6" style="margin-top:auto;">
                                             <button type="button" class="btn btn-secondary" style="width:42px;height:42px;" data-toggle="modal" data-target="#myModalHelp"><i class="fas fa-info-circle"></i></button>
+                                            <button type="button" class="tooltip-inner" style="display:none" id="corporate_booker" data-tooltip=""><i class="fas fa-money-bill-wave-alt"></i> Corporate Booker</button>
                                             <div class="modal fade" id="myModalHelp" role="dialog">
                                                 <div class="modal-dialog">
 

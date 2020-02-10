@@ -275,7 +275,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 search_type">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" onchange="" name="tour_dest_month" id="tour_dest_month" size="5">
                                                 {% for month_data in dest_month_data %}
@@ -508,8 +508,9 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Tour</span>
+                                <span class="span-search-ticket">Tour</span>
                                 <div class="input-container-search-ticket">
+                                    <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                     <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="tour_query" id="tour_query" placeholder="Search for Tour" autocomplete="off" value="{{query}}"/>
                                 </div>
                             </div>

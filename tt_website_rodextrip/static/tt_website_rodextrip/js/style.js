@@ -122,7 +122,7 @@ $(document).ready(function(){
         document.getElementById("div-search-overlay").style.zIndex = "3";
         if(div_overlay_checked == 1){
             $('html, body').animate({
-                scrollTop: $("#div-search-overlay").offset().top - 75
+                scrollTop: $("#div-search-overlay").offset().top - 110
             }, 500);
         }
     });
@@ -825,7 +825,7 @@ $(document).ready(function(){
                 text+=`
                 <span class="span-search-ticket">Departure</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                     <input type="text" class="form-control" name="train_departure" id="train_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly style="background:white;">
                     <input type="hidden" class="form-control date-picker airline_return" name="train_return" id="train_return" placeholder="Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Return Date '" autocomplete="off">
                 </div>`;
@@ -895,7 +895,7 @@ $(document).ready(function(){
                 text+=`
                 <span class="span-search-ticket">Departure - Return</span>
                 <div class="input-container-search-ticket">
-                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
                     <input type="text" class="form-control" name="train_departure_return" id="train_departure_return" placeholder="Departure Date - Return Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date - Return Date '" autocomplete="off" readonly style="background:white;">
                 </div>
 
@@ -1843,7 +1843,7 @@ function show_hide_change_search(){
         change_search_box.style.display = "block";
         document.getElementById("overlay-search-box").style.display = "block";
         $('html, body').animate({
-            scrollTop: $("#change_search_box").offset().top - 65
+            scrollTop: $("#change_search_box").offset().top - 70
         }, 500);
         document.getElementById("change_search_text").innerHTML = "Hide Search";
     }

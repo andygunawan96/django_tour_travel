@@ -1846,6 +1846,7 @@ pre code {
   font-size: 1rem;
   line-height: 1.5;
   color: black;
+  height: 42px;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #cdcdcd;

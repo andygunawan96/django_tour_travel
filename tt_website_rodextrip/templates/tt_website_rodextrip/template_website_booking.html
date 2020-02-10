@@ -45,7 +45,7 @@ Licence URI: http://www.os-templates.com/template-terms
         {%elif template == 3%}
         .banner-area{
             background-image: url("{{background}}") !important;
-            min-height:250px;
+            min-height:225px;
         }
         {%elif template == 4%}
         .price-area {
@@ -965,9 +965,11 @@ Licence URI: http://www.os-templates.com/template-terms
             background: #f7f7f7;
         }
         ul.tabs{
-            padding:5px 10px 0px 10px;
+            padding:5px 10px 0px 0px;
+        }
+        ul.tabs li{
             background:{{tab_color}};
-            border:1px solid #cdcdcd;
+            border-bottom: 5px solid {{tab_color}};
         }
         .btn-txt-color{
             color:{{text_color}};
@@ -988,7 +990,7 @@ Licence URI: http://www.os-templates.com/template-terms
         }
         ul.tabs li:hover {
             color: {{color}};
-            border-bottom: 5px solid {{text_color}};
+            border-bottom: 5px solid {{color}};
         }
         .nice-select .option.selected{
             color: {{color}};
