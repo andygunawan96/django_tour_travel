@@ -361,7 +361,7 @@ function train_get_booking(data){
        console.log(msg);
         if(msg.result.error_code == 0){
             train_get_detail = msg;
-            if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued'){
+            if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                 get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
                 document.getElementById('voucher_discount').style.display = '';
             }else{

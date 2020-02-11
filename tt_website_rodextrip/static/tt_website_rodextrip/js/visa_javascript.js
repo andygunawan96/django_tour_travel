@@ -635,8 +635,8 @@ function update_table(type){
         }catch(err){
             display = 'none';
         }
-        if(visa.journey.state != 'issued')
-        text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;"/></i></div>`;
+        if(visa.journey.state == 'booked')
+            text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;"/></i></div>`;
         text+=`
         <div class="row" id="show_commission" style="display: `+display+`;">
             <div class="col-lg-12" style="text-align:center;">

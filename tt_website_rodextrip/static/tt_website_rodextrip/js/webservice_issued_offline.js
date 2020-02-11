@@ -1520,7 +1520,7 @@ function get_booking_offline(data){
                             text_detail+= `</span>
                         </div>
                     </div>`;
-                    if(msg.result.response.state != 'issued')
+                    if(msg.result.response.state == 'booked')
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
