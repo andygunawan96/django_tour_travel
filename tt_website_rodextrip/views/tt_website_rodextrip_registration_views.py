@@ -56,6 +56,7 @@ def open_page(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/agent_registration/registration_form_template.html', values)
 
 
@@ -131,6 +132,7 @@ def register_agent(request):
         })
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/agent_registration/registration_finish_template.html', values)
 
 

@@ -51,3 +51,8 @@ urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+handler400 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler400'
+handler403 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler403'
+handler404 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler404'
+handler500 = 'tt_website_rodextrip.views.tt_website_rodextrip_error.handler500'
