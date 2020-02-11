@@ -236,7 +236,7 @@
                                     <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> Check-in</span>
                                     <div class="input-container-search-ticket">
                                         <input style="background:white;" class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                        <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
+                                        <i class="fas fa-moon" id="total_night_search" style="padding-left:15px; padding-top:15px;">1</i>
                                     </div>
                                     <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
                                     <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{hotel_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
@@ -357,7 +357,7 @@
         </div>
     </div>
 </section>
-<section class="banner-area relative" id="change_search_box" style="padding-top:30px; padding-bottom:20px; background-color: black; z-index:98; position:relative; display:none;">
+<section class="banner-area relative" id="change_search_box" style="padding-top:50px; padding-bottom:40px; background-color: black; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -517,23 +517,26 @@
                     <div class="row">
                         <input type="hidden" id="response" name="response">
                         <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                            <span class="span-search-ticket">Destination or Hotel Name</span>
                             <div class="input-container-search-ticket">
+                                <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
+                            <span class="span-search-ticket">Guest Nationality</span>
                             <div class="input-container-search-ticket">
+                                <i class="fas fa-globe-asia" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
                                 <datalist id="hotel_country_nationality"/>
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                            <span class="span-search-ticket">Check-in</span>
                             <div class="input-container-search-ticket">
+                                <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                 <i class="fas fa-moon" id="total_night_search" style="padding-left:10px;padding-top:15px; color:{{text_color}};">1</i>
                             </div>
@@ -542,8 +545,9 @@
                         </div>
 
                         <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket"><i class="fas fa-users"></i> Guest</span>
+                            <span class="span-search-ticket">Guest</span>
                             <div class="input-container-search-ticket btn-group">
+                                <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                 <ul class="dropdown-menu" role="menu" style="z-index:5;">
                                     <div class="container">
@@ -1026,7 +1030,7 @@
                                             <span style="float:left; font-weight:700;"><i class="fas fa-calendar-alt"></i> Change Schedule</span>
                                             <div class="input-container-search-ticket">
                                                 <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout2" id="hotel_checkin_checkout2" placeholder="Check-In - Check-out Date " value="{{check_in}} - {{check_out}}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly onchange="hotel_detail_request(`{{response.external_code}}`);"/>
-                                                <i class="fas fa-moon icon-search-ticket" id="total_night_search2" style="border: 1px solid #cdcdcd;">1</i>
+                                                <i class="fas fa-moon icon-search-ticket" id="total_night_search2">1</i>
                                                 <!--<input class="form-control" type="hidden" name="checkin_date" id="checkin_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_in}}"  onchange="change_date('checkin');"/>-->
                                                 <!--<input class="form-control" type="hidden" name="checkout_date" id="checkout_date" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{check_out}}" onchange="change_date('checkout');"/>-->
                                             </div>

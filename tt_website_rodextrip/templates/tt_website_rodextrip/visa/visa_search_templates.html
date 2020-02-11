@@ -123,17 +123,16 @@
         </div>
     </div>
 </section>
-<section class="bg-img bg-overlay jarallax" id="change_search_box" style="padding-top:40px; padding-bottom:40px; z-index:5; position:relative; display:none;">
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="padding-top:40px; padding-bottom:20px; z-index:5; position:relative; display:none;">
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
-                <div class="hotel-search-form-area" style="bottom:0px; padding-left:15px; padding-right:15px;">
+                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
                     <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
-
                         <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" method="post" id="visa_searchForm">
                             {% csrf_token %}
                             <div class="row">
-                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> Destination</span>
                                     <div class="form-select">
                                         <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
@@ -271,8 +270,9 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                            <span class="span-search-ticket">Destination</span>
                             <div class="input-container-search-ticket">
+                                <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <div class="form-select">
                                     <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
 
@@ -282,16 +282,18 @@
                             <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                            <span class="span-search-ticket">Departure</span>
                             <div class="form-group">
                                 <div class="input-container-search-ticket">
+                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                     <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                            <span class="span-search-ticket">Consulate</span>
                             <div class="input-container-search-ticket">
+                                <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <div class="form-select">
                                     <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
 
