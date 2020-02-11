@@ -1792,7 +1792,7 @@ function tour_get_booking(order_number)
                        <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                   </div>
              </div>`;
-             if(msg.result.response.state != 'issued')
+             if(msg.result.response.state == 'booked')
              price_text+=`
              <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
              price_text+=`<div class="row">
