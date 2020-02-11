@@ -51,6 +51,8 @@ def get_client_action(request):
 
 def get_client_data(request):
     data = request.POST if request.method == 'POST' else request.GET
+    if not data:
+        data = request.data
     if type(data) != dict:
         data = data.dict()
     return data

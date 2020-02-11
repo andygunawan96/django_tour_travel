@@ -99,6 +99,7 @@ def search(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -162,6 +163,7 @@ def passenger(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_passenger_templates.html', values)
     else:
         return no_session_logout(request)
@@ -326,6 +328,7 @@ def review(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_review_templates.html', values)
     else:
         return no_session_logout(request)
@@ -355,6 +358,7 @@ def booking(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
     else:
         return no_session_logout(request)
@@ -383,6 +387,7 @@ def seat_map(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_seat_map_templates.html', values)
     else:
         return no_session_logout(request)

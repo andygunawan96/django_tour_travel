@@ -1,0 +1,14 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<title>{{name}} - Error</title>
+{% if username != null %}
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/header.html' %}
+{% endif %}
+LALALALA
+
+{% endblock %}

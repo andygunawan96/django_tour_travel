@@ -215,6 +215,7 @@ def index(request):
                             })
                         except Exception as e:
                             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                            raise Exception('Make response code 500!')
                         return render(request, MODEL_NAME + '/home_templates.html', values)
                         # return render(request, MODEL_NAME + '/testing.html', {})
                     except:
@@ -292,6 +293,7 @@ def login(request):
                 })
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                raise Exception('Make response code 500!')
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
     except:
@@ -317,6 +319,7 @@ def login(request):
                 })
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                raise Exception('Make response code 500!')
             # return goto_dashboard()
             return render(request, MODEL_NAME+'/login_templates.html', values)
 
@@ -456,6 +459,7 @@ def admin(request):
                             os.remove(fs.location+'/'+file)
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                raise Exception('Make response code 500!')
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
@@ -484,6 +488,7 @@ def admin(request):
                 })
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                raise Exception('Make response code 500!')
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
         else:
             return no_session_logout(request)
@@ -530,6 +535,7 @@ def reservation(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/reservation_templates.html', values)
     else:
         return no_session_logout(request)
@@ -564,6 +570,7 @@ def top_up(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
     else:
         return no_session_logout(request)
@@ -603,6 +610,7 @@ def payment(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/payment_force_issued.html', values)
     else:
         return no_session_logout(request)
@@ -637,6 +645,7 @@ def top_up_history(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/top_up_history_templates.html', values)
     else:
         return no_session_logout(request)
