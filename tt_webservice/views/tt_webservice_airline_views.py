@@ -1006,6 +1006,7 @@ def get_ssr_availabilty(request):
     try:
         if res['result']['error_code'] == 0:
             try:
+                logging.getLogger("error_info").info("get_ssr_availability AIRLINE SIGNATURE " + request.POST['signature'])
                 for ssr_availability_provider in res['result']['response']['ssr_availability_provider']:
                     for ssr_availability in ssr_availability_provider['ssr_availability']:
                         for ssrs in ssr_availability_provider['ssr_availability'][ssr_availability]:
@@ -1021,8 +1022,10 @@ def get_ssr_availabilty(request):
                                     total += service_charge['amount']
                                 ssr['total_price'] = total
                                 ssr['currency'] = currency
+
             except:
                 pass
+                logging.getLogger("error_logger").error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
             request.session['airline_get_ssr'] = res
         else:
             request.session['airline_get_ssr'] = res
@@ -1050,7 +1053,7 @@ def get_seat_availability(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("error_info").info("get_seat_availability AIRLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("get_ssr_availability_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("get_seat_availability ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

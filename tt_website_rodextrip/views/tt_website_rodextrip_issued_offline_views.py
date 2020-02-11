@@ -63,6 +63,7 @@ def issued_offline(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_templates.html', values)
     else:
         return no_session_logout(request)
@@ -94,6 +95,7 @@ def issued_offline_history(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_history_templates.html', values)
     else:
         return no_session_logout(request)
@@ -119,6 +121,7 @@ def booking(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/issued_offline/issued_offline_booking_templates.html', values)
     else:
         return no_session_logout(request)

@@ -71,6 +71,7 @@ def search(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/hotel/hotel_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -117,6 +118,7 @@ def detail(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
     else:
         return no_session_logout(request)
@@ -146,6 +148,7 @@ def detail_static(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/hotel/hotel_detail_static.html', values)
 
 
@@ -209,6 +212,7 @@ def passengers(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/hotel/hotel_passenger_templates.html', values)
     else:
         return no_session_logout(request)
@@ -421,6 +425,7 @@ def review(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/hotel/hotel_review_templates.html', values)
     else:
         return index(request)
@@ -451,6 +456,7 @@ def booking(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
     else:
         return no_session_logout(request)

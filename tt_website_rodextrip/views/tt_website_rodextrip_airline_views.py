@@ -261,6 +261,7 @@ def search(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_search_templates.html', values)
     else:
         return no_session_logout(request)
@@ -386,6 +387,7 @@ def passenger(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_passenger_templates.html', values)
     else:
         return no_session_logout(request)
@@ -572,6 +574,7 @@ def ssr(request):
                 })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_ssr_templates.html', values)
     else:
         return no_session_logout(request)
@@ -760,6 +763,7 @@ def seat_map(request):
                 })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_seat_map_templates.html', values)
     else:
         return no_session_logout(request)
@@ -1055,8 +1059,8 @@ def review(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
-                'ssr': request.session['airline_get_ssr']['result']['error_code'],
-                'seat': request.session['airline_get_seat_availability']['result']['error_code'],
+                'ssr': request.session.get('airline_get_ssr')['result']['error_code'] if request.session.get('airline_get_ssr')['result']['error_code'] == 0 else 1,
+                'seat': request.session.get('airline_get_seat_availability')['result']['error_code'] if request.session.get('airline_get_seat_availability')['result']['error_code'] == 0 else 1,
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
                 'airline_pick': request.session['airline_pick'],
@@ -1076,6 +1080,7 @@ def review(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_review_templates.html', values)
     else:
         return no_session_logout(request)
@@ -1219,6 +1224,7 @@ def review_after_sales(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/airline/airline_review_after_sales_templates.html', values)
     else:
         return no_session_logout(request)
@@ -1253,6 +1259,7 @@ def booking(request):
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_booking_templates.html', values)
     else:
         return no_session_logout(request)
