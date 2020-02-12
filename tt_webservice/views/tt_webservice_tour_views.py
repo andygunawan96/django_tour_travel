@@ -98,8 +98,8 @@ def login(request):
     try:
         request.session['tour_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
         logging.getLogger("info_logger").info(
             "SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
@@ -175,8 +175,8 @@ def search(request):
             counter += 1
 
         request.session['tour_search'] = data_tour
+        logging.getLogger("info_logger").info(json.dumps(request.session['tour_search']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -250,8 +250,8 @@ def get_pricing(request):
                 }
             })
         request.session['tour_price'] = res
+        logging.getLogger("info_logger").info(json.dumps(request.session['tour_price']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -523,8 +523,8 @@ def commit_booking(request):
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     if res['result']['error_code'] == 0:
         request.session['tour_order_number'] = res['result']['response']['order_number']
+        logging.getLogger("info_logger").info(json.dumps(request.session['tour_order_number']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
 
     return res
 
@@ -575,8 +575,8 @@ def get_booking(request):
             res['result']['response']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['departure_date'])
             res['result']['response']['arrival_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['arrival_date'])
             request.session['tour_get_booking_response'] = res
+            logging.getLogger("info_logger").info(json.dumps(request.session['tour_get_booking_response']))
             request.session.modified = True
-            logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -667,8 +667,8 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['tour_upsell_'+request.POST['signature']] = total_upsell
+            logging.getLogger("info_logger").info(json.dumps(request.session['tour_upsell_' + request.POST['signature']]))
             request.session.modified = True
-            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_service_charge TOUR SIGNATURE " + request.POST['signature'])

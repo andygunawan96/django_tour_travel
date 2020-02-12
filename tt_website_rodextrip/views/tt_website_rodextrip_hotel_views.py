@@ -53,8 +53,6 @@ def search(request):
                 }
             except:
                 print('error')
-            request.session.modified = True
-            logging.getLogger("info_logger").info('HOTEL SEARCH')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'countries': response['result']['response']['airline']['country'],
@@ -101,8 +99,6 @@ def detail(request):
             except:
                 pass
             data = request.session['hotel_request']
-            request.session.modified = True
-            logging.getLogger("info_logger").info('HOTEL DETAIL')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'hotel_search': data,
@@ -192,8 +188,6 @@ def passengers(request):
                 'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
             })
             request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
-            request.session.modified = True
-            logging.getLogger("info_logger").info('HOTEL PASSENGER')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -404,9 +398,6 @@ def review(request):
                    }
                for rec in request.session['hotel_room_pick']['rooms']],
             })
-
-            request.session.modified = True
-            logging.getLogger("info_logger").info('HOTEL REVIEW')
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
