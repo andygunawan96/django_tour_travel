@@ -50,6 +50,8 @@ def search(request):
                 }
             except:
                 request.session['activity_search_request'] = request.session['activity_search_request']
+            request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(request.session['activity_search_request']))
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -103,6 +105,9 @@ def detail(request):
                 request.session['time_limit'] = request.session['time_limit']
                 request.session['activity_pick_seq'] = request.session['activity_pick_seq']
                 request.session['activity_pick'] = request.session['activity_pick']
+
+            request.session.modified = True
+            logging.getLogger("info_logger").info('ACTIVITY DETAIL')
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -174,7 +179,8 @@ def passenger(request):
             except:
                 request.session['time_limit'] = request.session['time_limit']
                 request.session['activity_request'] = request.session['activity_request']
-
+            request.session.modified = True
+            logging.getLogger("info_logger").info('ACTIVITY PASSENGER')
             try:
                 pax_count = {}
                 # pax count per type
@@ -1253,6 +1259,9 @@ def review(request):
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            request.session.modified = True
+            logging.getLogger("info_logger").info('ACTIVITY REVIEW')
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'additional_price': request.POST['additional_price'],

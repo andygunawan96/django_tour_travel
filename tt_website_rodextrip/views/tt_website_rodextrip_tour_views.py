@@ -87,7 +87,8 @@ def search(request):
                 }
             except:
                 request.session['tour_request'] = request.session['tour_request']
-
+            request.session.modified = True
+            logging.getLogger("info_logger").info('TOUR SEARCH')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
@@ -157,6 +158,8 @@ def detail(request):
                 {'value': '11', 'string': 'November'},
                 {'value': '12', 'string': 'December'},
             ]
+            request.session.modified = True
+            logging.getLogger("info_logger").info('TOUR DETAIL')
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -325,6 +328,9 @@ def passenger(request):
                 'infant': request.session['tour_pax_amount']['infant_amt'],
                 'tour_data': request.session['tour_pick'],
             }
+
+            request.session.modified = True
+            logging.getLogger("info_logger").info('TOUR PASSENGER')
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -593,6 +599,8 @@ def review(request):
                     }
                 ],
             }
+            request.session.modified = True
+            logging.getLogger("info_logger").info('TOUR REVIEW')
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),

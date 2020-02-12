@@ -100,6 +100,7 @@ def login(request):
         request.session['hotel_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
         request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -224,6 +225,8 @@ def search(request):
             'error_code': res['result']['error_code'],
             'signature': signature
         }
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             hotel_data = []
             for hotel in res['result']['response']['city_ids']:
@@ -293,6 +296,8 @@ def detail(request):
             'error_code': res['result']['error_code'],
             'signature': signature
         }
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -325,6 +330,8 @@ def get_cancellation_policy(request):
             'error_code': res['result']['error_code'],
             'signature': signature
         }
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -347,6 +354,8 @@ def get_top_facility(request):
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
         request.session['hotel_cancellation_policy'] = res
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_top_facility_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -373,6 +382,8 @@ def get_facility_img(request):
             'error_code': res['result']['error_code'],
             'signature': signature
         }
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_facility_img_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -403,6 +414,8 @@ def provision(request):
             'error_code': res['result']['error_code'],
             'signature': signature
         }
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -508,6 +521,8 @@ def create_booking(request):
             'error_code': res['result']['error_code'],
             'signature': signature
         }
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -534,6 +549,8 @@ def get_booking(request):
 
     try:
         request.session['hotel_provision'] = res
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             res['result']['response'].update({
                 'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
@@ -579,6 +596,8 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['hotel_upsell_'+request.POST['signature']] = total_upsell
+            request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

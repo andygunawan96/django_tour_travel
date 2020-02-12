@@ -95,6 +95,7 @@ def login(request):
         request.session['train_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
         request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
 
         logging.getLogger("info_logger").info("SIGNIN TRAIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
@@ -311,6 +312,8 @@ def commit_booking(request):
     try:
         if res['result']['error_code'] == 0:
             request.session['train_order_number'] = res['result']['response']['order_number']
+            request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS commit_booking TRAIN SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR commit_booking_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -403,6 +406,8 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['train_upsell_'+request.POST['signature']] = total_upsell
+            request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

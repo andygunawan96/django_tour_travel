@@ -2182,6 +2182,7 @@ function airline_update_passenger(val){
                   html: '<span style="color: #ff9900;">Error airline update passenger </span>' + msg.result.error_msg,
                 })
                 $('.loader-rodextrip').fadeOut();
+                $("#waitingTransaction").modal('hide');
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2191,6 +2192,7 @@ function airline_update_passenger(val){
               html: '<span style="color: red;">Error airline update passenger </span>' + errorThrown,
             })
             $('.loader-rodextrip').fadeOut();
+            $("#waitingTransaction").modal('hide');
        },timeout: 60000
     });
 }
