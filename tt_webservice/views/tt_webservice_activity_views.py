@@ -165,6 +165,7 @@ def search(request):
 
         request.session['activity_search'] = res['result']['response']
         request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(request.session['activity_search']))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
