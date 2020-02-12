@@ -130,6 +130,8 @@ def register_agent(request):
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })
+        request.session.modified = True
+        logging.getLogger("info_logger").info('REGISTRATION AGENT')
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')

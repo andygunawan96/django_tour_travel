@@ -231,7 +231,8 @@ def search(request):
             request.session['airline_request'] = airline_request
             request.session['airline_mc_counter'] = 0
             # get_balance(request)
-
+            request.session.modified = True
+            logging.getLogger("info_logger").info('AIRLINE SEARCH')
 
             # airline
 
@@ -356,6 +357,8 @@ def passenger(request):
             elif is_international == True:
                 break
         try:
+            request.session.modified = True
+            logging.getLogger("info_logger").info('AIRLINE PASSENGER')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'ssr': ssr,
@@ -433,6 +436,8 @@ def ssr(request):
                     })
                     airline_list = []
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
+                request.session.modified = True
+                logging.getLogger("info_logger").info('AIRLINE SSR')
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_request': request.session['airline_request'],
@@ -714,6 +719,8 @@ def seat_map(request):
                             })
 
             additional_price_input = ''
+            request.session.modified = True
+            logging.getLogger("info_logger").info('AIRLINE SEATS')
             try:
                 additional_price = request.POST['additional_price_input'].split(',')
                 for i in additional_price:
@@ -1053,6 +1060,9 @@ def review(request):
             additional_price = request.POST['additional_price_input'].split(',')
             for i in additional_price:
                 additional_price_input += i
+
+            request.session.modified = True
+            logging.getLogger("info_logger").info('AIRLINE REVIEW')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],

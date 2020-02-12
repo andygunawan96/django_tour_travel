@@ -311,7 +311,7 @@ function get_banner(type,page){
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px;">Active</span>
+                                        <span style="font-size:13px;color:`+text_color+`;">Active</span>
                                         <input type="checkbox" value="" id="`+type+i+`_active" name="`+type+i+`_active"`;
                                         if(msg.result.response[i].active == true)
                                             text+=` checked`;
@@ -321,7 +321,7 @@ function get_banner(type,page){
                                 </div>
                                 <div class="col-lg-6">
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px;">Delete</span>
+                                        <span style="font-size:13px;color:`+text_color+`;">Delete</span>
                                         <input type="checkbox" value="" id="`+type+i+`_delete" name="`+type+i+`_delete">
                                         <span class="check_box_span_custom"></span>
                                     </label>

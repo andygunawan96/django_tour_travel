@@ -106,6 +106,7 @@ def login(request):
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
         request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -220,6 +221,8 @@ def search(request):
                 'visa_type': visa_type,
                 'process_type': process_type
             }
+            request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS search VISA SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR search_visa TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -456,6 +459,8 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['visa_upsell_'+request.POST['signature']] = total_upsell
+            request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])

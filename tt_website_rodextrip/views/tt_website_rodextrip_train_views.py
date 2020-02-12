@@ -85,6 +85,9 @@ def search(request):
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
+            request.session.modified = True
+            logging.getLogger("info_logger").info('TRAIN SEARCH')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -142,6 +145,8 @@ def passenger(request):
                 infant.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            request.session.modified = True
+            logging.getLogger("info_logger").info('TRAIN PASSENGER')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -310,6 +315,8 @@ def review(request):
             time_limit = request.session['time_limit']
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            request.session.modified = True
+            logging.getLogger("info_logger").info('TRAIN REVIEW')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],

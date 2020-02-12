@@ -53,6 +53,7 @@ def login(request,func):
     try:
         request.session['signature'] = res['result']['response']['signature']
         request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if func == 'get_config':
             get_config(request)
         elif func == 'register':

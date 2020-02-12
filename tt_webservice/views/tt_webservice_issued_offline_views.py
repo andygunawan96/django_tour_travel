@@ -501,6 +501,8 @@ def get_booking(request):
                             'check_out': convert_string_to_date_to_string_front_end(line['check_out']),
                         })
             request.session['offline_get_booking_response'] = res
+            request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

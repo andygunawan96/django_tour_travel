@@ -237,8 +237,9 @@ def get_balance(request):
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         request.session['get_balance_session'] = res
-        logging.getLogger("info_logger").info(json.dumps(res))
         request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
+
         time_check.set_new_time_out('balance')
         time_check.set_first_time('balance')
     else:
@@ -255,8 +256,8 @@ def get_balance(request):
                     }
                     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                     request.session['get_balance_session'] = res
-                    logging.getLogger("info_logger").info(json.dumps(res))
                     request.session.modified = True
+                    logging.getLogger("info_logger").info(json.dumps(res))
                     time_check.set_new_time_out('balance')
                     time_check.set_first_time('balance')
                 except Exception as e:
@@ -277,8 +278,8 @@ def get_balance(request):
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
             request.session['get_balance_session'] = res
-            logging.getLogger("info_logger").info(json.dumps(res))
             request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
             time_check.set_new_time_out('balance')
             time_check.set_first_time('balance')
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -331,6 +332,7 @@ def get_transactions(request):
         if int(request.POST['offset']) == 0:
             request.session['get_transactions_session'] = res
             request.session.modified = True
+            logging.getLogger("info_logger").info(json.dumps(res))
         time_check.set_new_time_out('transaction')
         time_check.set_first_time('transaction')
     else:
@@ -371,6 +373,7 @@ def get_transactions(request):
                 if int(request.POST['offset']) == 300:
                     request.session['get_transactions_session'] = res
                     request.session.modified = True
+                    logging.getLogger("info_logger").info(json.dumps(res))
                 time_check.set_new_time_out('transaction')
                 time_check.set_first_time('transaction')
             except Exception as e:
@@ -403,6 +406,8 @@ def get_top_up_amount(request):
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
         request.session['top_up_amount'] = res['result']['response']
+        request.session.modified = True
+        logging.getLogger("info_logger").info(json.dumps(res))
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
         else:
