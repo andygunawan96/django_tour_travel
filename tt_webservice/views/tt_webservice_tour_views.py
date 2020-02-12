@@ -142,7 +142,7 @@ def search(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
-            "signature": request.session['tour_signature']
+            "signature": request.session['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
