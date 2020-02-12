@@ -150,6 +150,7 @@ def search(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     try:
+        res['result']['response']['provider'] = data['provider']
         if res['result']['error_code'] == 0:
 
             entry_type = {
@@ -231,7 +232,7 @@ def sell_visa(request):
         data = {
             'pax': request.session['visa_sell'],
             'passenger': request.session['visa_passenger'],
-            "provider": 'rodextrip_visa'
+            "provider": request.session['visa_search']['result']['response']['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

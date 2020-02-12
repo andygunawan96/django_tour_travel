@@ -237,6 +237,7 @@ def get_balance(request):
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         request.session['get_balance_session'] = res
+        logging.getLogger("info_logger").info(json.dumps(res))
         request.session.modified = True
         time_check.set_new_time_out('balance')
         time_check.set_first_time('balance')
@@ -254,6 +255,7 @@ def get_balance(request):
                     }
                     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                     request.session['get_balance_session'] = res
+                    logging.getLogger("info_logger").info(json.dumps(res))
                     request.session.modified = True
                     time_check.set_new_time_out('balance')
                     time_check.set_first_time('balance')
@@ -263,6 +265,22 @@ def get_balance(request):
             else:
                 res = request.session['get_balance_session']
         except Exception as e:
+            try:
+                data = {}
+                headers = {
+                    "Accept": "application/json,text/html,application/xml",
+                    "Content-Type": "application/json",
+                    "action": "get_balance",
+                    "signature": request.POST['signature'],
+                }
+            except Exception as e:
+                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+            request.session['get_balance_session'] = res
+            logging.getLogger("info_logger").info(json.dumps(res))
+            request.session.modified = True
+            time_check.set_new_time_out('balance')
+            time_check.set_first_time('balance')
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
         if res['result']['error_code'] == 0:

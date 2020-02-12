@@ -910,6 +910,12 @@ def get_price_itinerary(request, boolean, counter):
             except:
                 pass
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            try:
+                print(json.dumps(res['result']['response']))
+                request.session['airline_price_itinerary'] = res['result']['response']
+                request.session.modified = True
+            except:
+                pass
         elif boolean == True:
             pass
         else:
@@ -938,12 +944,6 @@ def get_price_itinerary(request, boolean, counter):
             res['result']['response'].update({
                 'is_combo_price': not boolean
             })
-    except:
-        pass
-    try:
-        print(json.dumps(res['result']['response']))
-        request.session['airline_price_itinerary'] = res['result']['response']
-        request.session.modified = True
     except:
         pass
     return res

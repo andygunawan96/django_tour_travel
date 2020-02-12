@@ -764,7 +764,8 @@ We build this application for our existing partner and public users who register
         'facebook_url': facebook,
         'instagram_url': instagram,
         'text_color': text_color,
-        'tab_color': tab_color
+        'tab_color': tab_color,
+        'update_data': ''
     }
 
 # @api_view(['GET'])
