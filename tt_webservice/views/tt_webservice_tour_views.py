@@ -98,7 +98,7 @@ def login(request):
     try:
         request.session['tour_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
+        logging.getLogger("info_logger").info(json.dumps(request.session['tour_signature']))
         request.session.modified = True
         logging.getLogger("info_logger").info(
             "SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])

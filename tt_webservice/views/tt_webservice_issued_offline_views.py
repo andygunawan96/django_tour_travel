@@ -92,7 +92,7 @@ def signin(request):
     try:
         request.session['issued_offline_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
+        logging.getLogger("info_logger").info(json.dumps(request.session['issued_offline_signature']))
         request.session.modified = True
 
     except Exception as e:
