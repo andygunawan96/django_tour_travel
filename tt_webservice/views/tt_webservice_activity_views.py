@@ -98,9 +98,9 @@ def login(request):
     try:
         request.session['activity_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(
-            "SIGNIN ACTIVITY SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        logging.getLogger("info_logger").info("SIGNIN ACTIVITY SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -164,8 +164,8 @@ def search(request):
             counter += 1
 
         request.session['activity_search'] = res['result']['response']
-        request.session.modified = True
         logging.getLogger("info_logger").info(json.dumps(request.session['activity_search']))
+        request.session.modified = True
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -198,8 +198,8 @@ def get_details(request):
                     })
 
             request.session['activity_detail'] = res['response']
+            logging.getLogger("info_logger").info(json.dumps(request.session['activity_detail']))
             request.session.modified = True
-            logging.getLogger("info_logger").info(json.dumps(res))
     except:
         print('error')
     return res
@@ -223,8 +223,8 @@ def get_pricing(request):
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
     request.session['activity_price'] = res
+    logging.getLogger("info_logger").info(json.dumps(request.session['activity_price']))
     request.session.modified = True
-    logging.getLogger("info_logger").info(json.dumps(res))
     return res
 
 
@@ -532,8 +532,8 @@ def commit_booking(request):
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     if res['result']['error_code'] == 0:
         request.session['activity_order_number'] = res['result']['response']['order_number']
+        logging.getLogger("info_logger").info(json.dumps(request.session['activity_order_number']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
     return res
 
 
@@ -555,8 +555,8 @@ def get_booking(request):
             'visit_date': new_visit_date
         })
         request.session['activity_get_booking_response'] = res
+        logging.getLogger("info_logger").info(json.dumps(request.session['activity_get_booking_response']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -624,8 +624,8 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['activity_upsell_'+request.POST['signature']] = total_upsell
+            logging.getLogger("info_logger").info(json.dumps(request.session['activity_upsell_' + request.POST['signature']]))
             request.session.modified = True
-            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])

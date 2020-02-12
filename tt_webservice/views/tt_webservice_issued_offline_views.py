@@ -92,6 +92,7 @@ def signin(request):
     try:
         request.session['issued_offline_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
         request.session.modified = True
 
     except Exception as e:
@@ -501,8 +502,8 @@ def get_booking(request):
                             'check_out': convert_string_to_date_to_string_front_end(line['check_out']),
                         })
             request.session['offline_get_booking_response'] = res
+            logging.getLogger("info_logger").info(json.dumps(request.session['offline_get_booking_response']))
             request.session.modified = True
-            logging.getLogger("info_logger").info(json.dumps(res))
             logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

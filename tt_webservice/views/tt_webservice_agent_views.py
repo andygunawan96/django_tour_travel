@@ -104,7 +104,7 @@ def signin(request):
         "co_password": request.POST['password'],
         # "co_user": user_default,  # request.POST['username'],
         # "co_password": password_default, #request.POST['password'],
-        "co_uid": ""
+        # "co_uid": ""
     }
 
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)

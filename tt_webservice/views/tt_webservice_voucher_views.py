@@ -78,8 +78,8 @@ def get_voucher(request):
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -107,8 +107,8 @@ def set_voucher(request):
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

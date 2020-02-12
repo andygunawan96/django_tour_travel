@@ -52,8 +52,8 @@ def login(request,func):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         request.session['signature'] = res['result']['response']['signature']
+        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
         if func == 'get_config':
             get_config(request)
         elif func == 'register':
