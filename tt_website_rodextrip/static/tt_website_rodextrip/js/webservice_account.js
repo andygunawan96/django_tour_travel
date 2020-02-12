@@ -34,7 +34,6 @@ function get_balance(val){
     using_cache = '';
     if(val != undefined)
         using_cache = val;
-    getToken();
     if(signature != ''){
         $.ajax({
            type: "POST",
