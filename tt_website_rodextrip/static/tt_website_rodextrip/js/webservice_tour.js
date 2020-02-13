@@ -48,6 +48,31 @@ function tour_login(data){
     });
 }
 
+function get_tour_auto_complete(type){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'get_auto_complete_sync',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            console.log(msg);
+            get_tour_config(type);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error tour config </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
 function get_tour_config(type, val){
     getToken();
     $.ajax({

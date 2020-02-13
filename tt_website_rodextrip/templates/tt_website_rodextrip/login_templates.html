@@ -147,10 +147,22 @@
 			<div class="row">
 				<div class="col-lg-12" style="text-align:center; margin-bottom:15px;">
 					<span class="footer-promote" style="color:{{text_color}}; font-weight:500;">
-						Dapatkan harga khusus SQTF 13-16 Februari 2020.
+						Get Special Price for SQTF 13 - 16 February 2020.
 					</span>
 					<span class="footer-promote" style="color:{{color}};">
-						<span class="lamp">Hanya 4 hari!</span>
+						<span class="lamp"><script>
+						promotion_date = new Date('2020-02-17')
+						today = new Date();
+						days = promotion_date.getTime() - today.getTime();
+						days = Math.ceil(days / (1000 * 3600 * 24));
+						if(days > 0)
+							if(days == 1)
+								document.write('Just ' + days + ' day left');
+							else
+								document.write('Just ' + days + ' days left');
+						else
+							document.write('Event has been passed');
+						</script> !</span>
 					</span>
 				</div>
 				<div class="col-lg-12" style="text-align:center;">

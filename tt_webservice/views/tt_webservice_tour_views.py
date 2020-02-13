@@ -39,12 +39,27 @@ month = {
     '12': 'Dec',
 }
 
+class provider_tour:
+    def __init__(self, name):
+        self.get_time_auto_complete_tour = name
+        self.get_time_auto_complete_tour_first_time = True
+    def set_new_time_out(self, val):
+        if val == 'auto_complete':
+            self.get_time_auto_complete_tour = datetime.now()
+    def set_first_time(self,val):
+        if val == 'auto_complete':
+            self.get_time_auto_complete_tour_first_time = False
+
+tour = provider_tour(datetime.now())
+
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_auto_complete_sync':
+            res = get_auto_complete_gateway(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
         elif req_data['action'] == 'search':
@@ -106,6 +121,45 @@ def login(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def get_auto_complete_gateway(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "search_autocomplete",
+            "signature": request.POST['signature']
+        }
+
+        data = {
+            "name": '',
+            "limit": 9999
+        }
+        date_time = datetime.now() - tour.get_time_auto_complete_tour
+        if date_time.seconds >= 1800 or tour.get_time_auto_complete_tour_first_time == True:
+            res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=120)
+            tour.set_new_time_out('auto_complete')
+            tour.set_first_time('auto_complete')
+            try:
+                if res['result']['error_code'] == 0:
+                    file = open(var_log_path() + "tour_cache_data.txt", "w+")
+                    file.write(json.dumps(res['result']['response']))
+                    file.close()
+            except Exception as e:
+                logging.getLogger("info_logger").info(
+                    "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
+                        e) + '\n' + traceback.format_exc())
+                pass
+        else:
+            cache_version = get_cache_version()
+            temp_data = get_cache_data(cache_version)
+
+            res = {
+                'tour_countries': temp_data['result']['response']['tour']['countries']
+            }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return res
 
 def get_data(request):
     try:
