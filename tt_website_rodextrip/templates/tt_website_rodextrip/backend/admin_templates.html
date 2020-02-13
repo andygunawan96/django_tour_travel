@@ -48,13 +48,13 @@
     <div class="container">
         <div id="overlay-search-box" onclick="off_overlay()"></div>
         <div class="banner-right" style="margin-bottom:25px;">
-            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
+            <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data" style="padding:0px;">
                 {% csrf_token %}
                 <div class="col-lg-12" style="margin-bottom:15px;color:white;">
                     <h3 style="color:white;">Admin Setting</h3>
                 </div>
                 <div class="col-lg-12" id="div-search-overlay">
-                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
+                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}};">
                         <ul class="create_tabs" id="identity">
                             <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                             <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
@@ -115,7 +115,7 @@
                                     </div>
                                     <div class="col-lg-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Website Description</h6>
-                                        <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;height:140px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
+                                        <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                     </div>
                                     <div class="col-lg-12"><hr/></div>
                                     <div class="col-lg-6">
@@ -307,7 +307,7 @@
                                     <div class="col-lg-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
                                         <div class="form-select" id="default-select">
-                                            <select class="form-control" id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                            <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                 <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
                                                 <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
                                             </select>
@@ -594,13 +594,13 @@
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Button Color</h6>
                                     <div class="form-select">
-                                        <input class="jscolor nice-select-default form-control" value="{{color}}" name="color_pick">
+                                        <input class="jscolor form-control" value="{{color}}" name="color_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Text Color</h6>
                                     <div class="form-select">
-                                        <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
+                                        <input class="jscolor form-control" value="{{text_color}}" name="text_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
@@ -612,7 +612,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Website Description</h6>
-                                    <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
+                                    <textarea rows="6" cols="50" class="form-control" style="font-size:13px; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
@@ -715,7 +715,7 @@
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6>Image Small Banner</h6><br/>
+                                    <h6 style="color:{{text_color}};">Image Small Banner</h6><br/>
                                     <div id="small_banner">
 
                                     </div>
@@ -804,7 +804,7 @@
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
                                     <div class="form-select" id="default-select">
-                                        <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                        <select class="form-control" id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
                                             <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
                                         </select>
