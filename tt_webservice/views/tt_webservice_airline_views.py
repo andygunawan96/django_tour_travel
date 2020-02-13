@@ -912,7 +912,6 @@ def get_price_itinerary(request, boolean, counter):
                 pass
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
             try:
-                print(json.dumps(res['result']['response']))
                 request.session['airline_price_itinerary'] = res['result']['response']
                 logging.getLogger("info_logger").info(json.dumps(request.session['airline_price_itinerary']))
                 request.session.modified = True
