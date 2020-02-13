@@ -10,6 +10,7 @@ import logging
 import base64
 import traceback
 from .tt_webservice_views import *
+import time
 _logger = logging.getLogger(__name__)
 
 @api_view(['GET', 'POST'])
@@ -51,13 +52,14 @@ def login(request,func):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
+        time.sleep(1)
         request.session['signature'] = res['result']['response']['signature']
         logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
         request.session.modified = True
         if func == 'get_config':
-            get_config(request)
+            res = get_config(request)
         elif func == 'register':
-            register(request)
+            res = register(request)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -127,7 +129,7 @@ def get_promotions(request):
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] != 0:
-        login(request, 'get_config')
+        res = login(request, 'get_config')
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS get_promotion_agent_regis SIGNATURE " + request.session['signature'])
@@ -152,7 +154,7 @@ def register(request):
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] != 0:
-            login(request, 'register')
+            res = login(request, 'register')
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

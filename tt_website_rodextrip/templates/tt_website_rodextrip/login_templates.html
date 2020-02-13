@@ -53,7 +53,7 @@
 									<i class="fas fa-lock icon-login" style="color:{{text_color}};"></i>
 									<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
 								</div>
-								<div class="input-container-login">
+								<div class="input-container-login" style="margin-bottom:2px;">
 									<span style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forget Password</a></span>
 								</div>
 							</div>
@@ -63,6 +63,9 @@
 									LOGIN
 									<div class="ld ld-ring ld-cycle"></div>
 								</button>
+								<div class="input-container-login" style="margin-bottom:2px;">
+									<span style="color:{{color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer;" href="{% url 'tt_website_rodextrip:registration' %}"> Sign Up Here</a></span>
+								</div>
 							</div>
 						</div>
 					</form>
@@ -118,6 +121,9 @@
 					</div>
 					<div class="validate-input" style="text-align:center; padding-top:15px;">
 						<span style="color:{{color}};padding-top:15px;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forget Password</a></span>
+					</div>
+					<div class="validate-input" style="text-align:center; padding-top:15px;">
+						<span style="color:{{color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer;" href="{% url 'tt_website_rodextrip:registration' %}"> Sign Up Here</a></span>
 					</div>
 				</form>
 			</div>
