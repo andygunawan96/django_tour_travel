@@ -119,83 +119,36 @@ function get_promotions(){
             console.log(msg);
 //            if(msg.result.error_code == 0)
 //                requirement_document = msg.result.response;
-            msg = {
-                'result':{
-                    'response': [
-                      {
-                        "id": 15,
-                        "name": "Citra - Standard",
-                        "agent_type": "Agent Citra",
-                        "start_date": "2019-01-01",
-                        "end_date": "2100-12-31",
-                        "default_commission": true,
-                        "description": "Pricing recruitment commission standard citra",
-                        "commission": [
-                          {
-                            "recruited": "Agent Citra",
-                            "registration_fee": 0,
-                            "discount_type": "amount",
-                            "discount_amount": 0,
-                            "lines": [
-                              {
-                                "agent_type_id": "Agent Citra",
-                                "amount": 5000000
-                              }
-                            ]
-                          },
-                          {
-                            "recruited": "Agent JaPro",
-                            "registration_fee": 0,
-                            "discount_type": "amount",
-                            "discount_amount": 0,
-                            "lines": [
-                              {
-                                "agent_type_id": "Agent Citra",
-                                "amount": 1500000
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "id": 13,
-                        "name": "Citra - Citra - November Ceria",
-                        "agent_type": "Agent Citra",
-                        "start_date": "2019-11-01",
-                        "end_date": "2019-11-30",
-                        "default_commission": false,
-                        "description": "Promo untuk citra berlaku mulai 10-31 oktober 2019",
-                        "commission": [
-                          {
-                            "recruited": "Agent Citra",
-                            "registration_fee": 97250000,
-                            "discount_type": "amount",
-                            "discount_amount": 750000,
-                            "lines": [
-                              {
-                                "agent_type_id": "Agent Citra",
-                                "amount": 5000000
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
+            try{
+                promotion = msg.result.response;
+                text = '<option value="" disabled selected>Promotions</option>';
+                for(i in msg.result.response){
+                    text+=`<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].name+` - `+msg.result.response[i].description+`</option>`;
+                }
+                document.getElementById('promotion').innerHTML = text;
+                if(template == 1 || template == 3 || template == 4 || template == 5){
+                    $('#promotion').niceSelect();
+                }else if(template == 2){
+                    $('#promotion').niceSelect("update");
+                }
+            }catch(err){
+                text = '<option value="" disabled selected>Promotions</option>';
+                document.getElementById('promotion').innerHTML = text;
+                if(template == 1 || template == 3 || template == 4 || template == 5){
+                    $('#promotion').niceSelect();
+                }else if(template == 2){
+                    $('#promotion').niceSelect("update");
                 }
             }
-            promotion = msg.result.response;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
             text = '<option value="" disabled selected>Promotions</option>';
-            for(i in msg.result.response){
-                text+=`<option value="`+msg.result.response[i].id+`">`+msg.result.response[i].name+` - `+msg.result.response[i].description+`</option>`;
-            }
             document.getElementById('promotion').innerHTML = text;
             if(template == 1 || template == 3 || template == 4 || template == 5){
                 $('#promotion').niceSelect();
             }else if(template == 2){
                 $('#promotion').niceSelect("update");
             }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({
               type: 'error',
               title: 'Oops!',

@@ -672,6 +672,7 @@ def get_cache_data(javascript_version):
 def get_data_template(request, type='home'):
     if type != 'login':
         request.session.set_expiry(1200)
+        request.session.modified = True
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'

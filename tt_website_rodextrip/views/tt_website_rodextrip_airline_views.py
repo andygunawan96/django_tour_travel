@@ -339,6 +339,7 @@ def passenger(request):
                 for journey in airline_pick['price_itinerary']:
                     journey['rules'] = []
             request.session['airline_price_itinerary'] = airline_pick_price_itinerary
+            request.session.modified = True
         except:
             pass
         is_lionair = False
@@ -1058,8 +1059,8 @@ def review(request):
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
-                'ssr': request.session.get('airline_get_ssr')['result']['error_code'] if request.session.get('airline_get_ssr')['result']['error_code'] == 0 else 1,
-                'seat': request.session.get('airline_get_seat_availability')['result']['error_code'] if request.session.get('airline_get_seat_availability')['result']['error_code'] == 0 else 1,
+                'ssr': request.session.get('airline_get_ssr')['result']['error_code'] if request.session.get('airline_get_ssr') else 1,
+                'seat': request.session.get('airline_get_seat_availability')['result']['error_code'] if request.session.get('airline_get_seat_availability') else 1,
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
                 'airline_pick': request.session['airline_pick'],
