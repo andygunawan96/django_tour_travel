@@ -83,7 +83,7 @@ class provider_airline:
         elif val == 'provider_list_data':
             self.get_time_provider_list_data_first_time = False
 
-a = provider_airline(datetime.now())
+airline = provider_airline(datetime.now())
 
 @api_view(['GET', 'POST'])
 def api_models(request):
@@ -199,16 +199,16 @@ def get_carrier_code_list(request):
             "action": "get_carriers",
             "signature": signature
         }
-        date_time = datetime.now() - a.get_time_carrier_airline
+        date_time = datetime.now() - airline.get_time_carrier_airline
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    if date_time.seconds >= 300 or a.get_time_carrier_airline_first_time == True:
+    if date_time.seconds >= 300 or airline.get_time_carrier_airline_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                a.set_new_time_out('carrier')
-                a.set_first_time('carrier')
+                airline.set_new_time_out('carrier')
+                airline.set_first_time('carrier')
                 res = res['result']['response']
                 res.update({
                     'GA1': {
@@ -311,13 +311,13 @@ def get_carrier_providers(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - a.get_time_provider_airline
-    if date_time.seconds >= 300 or a.get_time_provider_airline_first_time == True:
+    date_time = datetime.now() - airline.get_time_provider_airline
+    if date_time.seconds >= 300 or airline.get_time_provider_airline_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                a.set_new_time_out('provider')
-                a.set_first_time('provider')
+                airline.set_new_time_out('provider')
+                airline.set_first_time('provider')
                 res = json.dumps(res['result']['response'])
                 file = open(var_log_path()+"get_list_provider.txt", "w+")
                 file.write(res)
@@ -355,13 +355,13 @@ def get_carriers(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - a.get_time_carrier_airline
-    if date_time.seconds >= 300 or a.get_time_carrier_airline_first_time == True:
+    date_time = datetime.now() - airline.get_time_carrier_airline
+    if date_time.seconds >= 300 or airline.get_time_carrier_airline_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                a.set_new_time_out('carrier')
-                a.set_first_time('carrier')
+                airline.set_new_time_out('carrier')
+                airline.set_first_time('carrier')
                 res = res['result']['response']
                 file = open(var_log_path()+"get_airline_carriers" + ".txt", "w+")
                 file.write(json.dumps(res))
@@ -399,13 +399,13 @@ def get_carriers_search(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - a.get_time_carrier_airline
-    if date_time.seconds >= 300 or a.get_time_carrier_airline_first_time == True:
+    date_time = datetime.now() - airline.get_time_carrier_airline
+    if date_time.seconds >= 300 or airline.get_time_carrier_airline_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                a.set_new_time_out('carrier')
-                a.set_first_time('carrier')
+                airline.set_new_time_out('carrier')
+                airline.set_first_time('carrier')
                 res = res['result']['response']
                 # res.update({
                 #     'GA1': {
@@ -508,13 +508,13 @@ def get_provider_description(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - a.get_time_provider_airline
-    if date_time.seconds >= 300 or a.get_time_provider_list_data_first_time == True:
+    date_time = datetime.now() - airline.get_time_provider_airline
+    if date_time.seconds >= 300 or airline.get_time_provider_list_data_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                a.set_new_time_out('provider_list_data')
-                a.set_first_time('provider_list_data')
+                airline.set_new_time_out('provider_list_data')
+                airline.set_first_time('provider_list_data')
                 res = json.dumps(res['result']['response'])
                 file = open(var_log_path()+"get_list_provider_data.txt", "w+")
                 file.write(res)
