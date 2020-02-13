@@ -808,7 +808,8 @@
         {
             if(activity_data[i].sequence == sequence)
             {
-                pick = JSON.stringify(activity_data[i]);
+                pick = JSON.stringify(activity_data[i]).replace(/'/g,'');
+                //pick = JSON.stringify(activity_data[i]);
                 document.getElementById(`csrf`+sequence).innerHTML = `{% csrf_token %}`;
                 document.getElementById(`csrf`+sequence).innerHTML += `<input type='hidden' value='`+pick+`' name='activity_pick'/>`;
                 document.getElementById('myForm'+sequence).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
