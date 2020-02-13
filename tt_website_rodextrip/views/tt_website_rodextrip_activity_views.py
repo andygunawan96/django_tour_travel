@@ -97,11 +97,9 @@ def detail(request):
 
             try:
                 request.session['time_limit'] = int(request.POST['time_limit_input'])
-                request.session['activity_pick_seq'] = int(request.POST['sequence'])
                 request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
             except:
                 request.session['time_limit'] = request.session['time_limit']
-                request.session['activity_pick_seq'] = request.session['activity_pick_seq']
                 request.session['activity_pick'] = request.session['activity_pick']
 
 
@@ -110,7 +108,7 @@ def detail(request):
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'response': request.session['activity_search'][request.session['activity_pick_seq']],
+                'response': request.session['activity_pick'],
                 'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
