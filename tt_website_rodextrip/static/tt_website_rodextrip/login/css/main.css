@@ -142,6 +142,45 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
 
+.login-header{
+    height:100vh;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.login-header-area{
+    min-height:12vh;
+    padding:1.5vh 0vh;
+    z-index:10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-footer-area{
+    min-height:12vh;
+    padding:1.5vh 0vh;
+    z-index:10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.lamp-login{
+    font-size:50px;
+}
+
+.footer-promote{
+    font-size:16px;
+}
+
+.logo-login{
+    max-height:60px;
+    max-width:150px;
+}
+
 .limiter {
   width: 100%;
   margin: 0 auto;
@@ -149,7 +188,7 @@ iframe {
 
 .container-login100 {
   width: 100%;  
-  min-height: 90vh;
+  min-height: 76vh;
   display: -webkit-box;
   display: -webkit-flex;
   display: -moz-box;
@@ -219,6 +258,7 @@ iframe {
   font-family: Ubuntu-Bold;
   font-size: 28px;
   color: #fff;
+  padding-bottom:15px;
   line-height: 1.2;
   text-align: center;
   text-transform: uppercase;
@@ -519,11 +559,19 @@ iframe {
     }
 
     .container-login100{
-        height:100vh;
+        height:88vh;
     }
 
     .limiter{
-        height:100vh;
+        height:88vh;
+    }
+
+    .lamp-login{
+        font-size:40px;
+    }
+
+    .footer-promote{
+        font-size:16px;
     }
 
     .form-box-login{

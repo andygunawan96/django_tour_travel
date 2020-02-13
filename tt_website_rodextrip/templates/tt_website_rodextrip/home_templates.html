@@ -219,7 +219,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="image-change-route-vertical">
-                                                            <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                            <h4><a href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:black;" id="flight_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                         </div>
                                                         <div class="image-change-route-horizontal">
                                                             <h4><a class="horizontal-arrow" href="javascript:airline_switch();" tabindex="-1" style="z-index:5; color:{{text_color}};" id="flight_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt icon-change"></i></i></a></h4>
@@ -388,7 +388,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="image-change-route-vertical2">
-                                                    <h4><a href="javascript:train_switch();" style="z-index:5;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
+                                                    <h4><a href="javascript:train_switch();" style="z-index:5; color:black;" id="train_switch"><i class="image-rounded-icon2"><i class="fas fa-exchange-alt"></i></i></a></h4>
                                                 </div>
                                                 <div class="image-change-route-horizontal2">
                                                     <h4><a class="horizontal-arrow" href="javascript:train_switch();" style="z-index:5; color:{{text_color}} !important;" id="train_switch"><i class="image-rounded-icon"><i class="fas fa-exchange-alt"></i></i></a></h4>
@@ -493,7 +493,7 @@
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in - Check-out</span>
                                             <div class="input-container-search-ticket">
                                                 <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                                <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
+                                                <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px;">1</i>
                                             </div>
                                             <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
                                             <input class="form-control" type="hidden" name="hotel_checkout" id="hotel_checkout"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
@@ -1634,8 +1634,10 @@
                                     </div>
                                     <div class="col-lg-3 col-md-6 col-sm-6">
                                         <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> CheckIn - CheckOut</span>
-                                        <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly style="background:white !important;"/>
-                                        <span class="span-search-ticket"><i class="fas fa-moon" id="total_night_search">1</i> night</span>
+                                        <div class="input-container-search-ticket">
+                                            <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly style="background:white !important;"/>
+                                            <span class="span-search-ticket" style="padding-top:10px; padding-left:10px;"><i class="fas fa-moon" id="total_night_search">1</i></span>
+                                        </div>
                                         <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
                                         <input class="form-control" type="hidden" name="hotel_checkout" id="hotel_checkout"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />
                                     </div>
@@ -2556,9 +2558,9 @@
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> CheckIn - CheckOut</span>
-                                            <div class="form-group">
+                                            <div class="input-container-search-ticket">
                                                 <input class="form-control" type="text" style="background:white;" name="hotel_checkin_checkout" id="hotel_checkin_checkout" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                                <span class="span-search-ticket"><i class="fas fa-moon" id="total_night_search">1</i> night</span>
+                                                <span class="span-search-ticket" style="padding-left:10px; padding-top:10px;"><i class="fas fa-moon" id="total_night_search">1</i></span>
                                             </div>
                                             <input class="form-control" type="hidden" name="hotel_checkin" id="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off"/>
                                             <input class="form-control" type="hidden" name="hotel_checkout" id="hotel_checkout"  autocomplete="off" placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" />

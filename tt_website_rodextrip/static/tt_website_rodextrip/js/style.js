@@ -110,12 +110,6 @@ $(document).ready(function(){
         }, 500);
     });
 
-    $('#return-to-top').click(function() {      // When arrow is clicked
-        $('body,html').animate({
-            scrollTop : 0                       // Scroll to top of body
-        }, 500);
-    });
-
     $('#div-search-overlay').click(function() {      // When arrow is clicked
         div_overlay_checked += 1;
         document.getElementById("overlay-search-box").style.display = "block";
@@ -751,7 +745,6 @@ $(document).ready(function(){
         active_sticky_hotel("location");
     });
 
-
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
             scrollTop: $("div.div-select-room-hotel").offset().top - 90
@@ -783,6 +776,7 @@ $(document).ready(function(){
             scrollTop: $("div.div-register-partnership").offset().top
         }, 500)
     });
+
     $('#register-partnership-japro').click(function(e){
         $('html, body').animate({
             scrollTop: $("div.div-register-partnership").offset().top

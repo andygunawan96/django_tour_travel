@@ -22,6 +22,10 @@ Licence URI: http://www.os-templates.com/template-terms
 
     <!--template1-->
     <style>
+        .login-header{
+            background-image: url('{{background}}');
+        }
+
         {%if template == 1%}
         .testimonial-area {
             background-image: url("{{background}}") !important;
@@ -182,6 +186,11 @@ Licence URI: http://www.os-templates.com/template-terms
         }
     </style>
     <style>
+        .forgot-pass-login{
+            color:{{text_color}};
+            font-size:15px;
+            font-weight:700;
+        }
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             background-color: {{tab_color}} !important;
         }
