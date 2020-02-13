@@ -1288,7 +1288,7 @@ def commit_booking(request):
                     'voucher': {}
                 })
             provider = []
-            for provider_type in request.session['airline_pick']:
+            for provider_type in request.session['airline_price_itinerary']['price_itinerary_provider']:
                 if not provider_type['provider'] in provider:
                     provider.append(provider_type['provider'])
             if request.POST['voucher_code'] != '':

@@ -310,10 +310,10 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
             request.session['time_limit'] = int(request.POST['time_limit_input'])
-            try:
-                request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
-            except:
-                pass
+            # try:
+            #     request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
+            # except:
+            #     pass
         except:
             pass
         ssr = 0
@@ -328,12 +328,12 @@ def passenger(request):
         except:
             seat_map = 1
 
-        airline_pick_list = request.session['airline_pick']
-        for airline_pick in airline_pick_list:
-            for journey in airline_pick['price_itinerary']:
-                journey['rules'] = []
-        request.session['airline_pick'] = airline_pick_list
-        request.session.modified = True
+        # airline_pick_list = request.session['airline_pick']
+        # for airline_pick in airline_pick_list:
+        #     for journey in airline_pick['price_itinerary']:
+        #         journey['rules'] = []
+        # request.session['airline_pick'] = airline_pick_list
+        # request.session.modified = True
         # try:
         #     airline_pick_price_itinerary = request.session['airline_price_itinerary']
         #     for airline_pick in airline_pick_price_itinerary['price_itinerary_provider']:
@@ -345,7 +345,7 @@ def passenger(request):
         #     pass
         is_lionair = False
         is_international = False
-        for airline in request.session['airline_pick']:
+        for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
             if airline['provider'] == 'lionair':
                 is_lionair = True
                 break
@@ -369,7 +369,7 @@ def passenger(request):
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
                 'airline_carriers': carrier,
-                'airline_pick': request.session['airline_pick'],
+                'airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'adults': adult,
                 'childs': child,
                 'infants': infant,
@@ -445,7 +445,7 @@ def ssr(request):
                     'additional_price': float(additional_price_input),
                     'airline_carriers': carrier,
                     # 'airline_destinations': airline_destinations,
-                    'airline_pick': request.session['airline_pick'],
+                    'airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
                     'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
                     'signature': request.session['airline_signature'],
                     'airline_ssrs': airline_ssr,
@@ -1064,9 +1064,9 @@ def review(request):
                 'seat': request.session.get('airline_get_seat_availability')['result']['error_code'] if request.session.get('airline_get_seat_availability') else 1,
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
-                'airline_pick': request.session['airline_pick'],
+                'airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'back_page': request.META.get('HTTP_REFERER'),
-                'json_airline_pick': request.session['airline_pick'],
+                'json_airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'airline_carriers': airline_carriers,
                 'additional_price': float(additional_price_input),
                 'username': request.session['user_account'],
