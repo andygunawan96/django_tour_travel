@@ -567,52 +567,52 @@ def search2(request):
 
         # origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
         # destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
-        request.session['airline_request'] = json.loads(request.POST['search_request'])
+        data_search = json.loads(request.POST['search_request'])
         direction = 'MC'
         journey_list = []
-        if request.session['airline_request']['is_combo_price'] == 'false':
+        if data_search['is_combo_price'] == 'false':
             is_combo_price = False
         else:
             is_combo_price = True
-        if request.session['airline_request']['direction'] == 'MC':
-            for idx, i in enumerate(request.session['airline_request']['origin']):
+        if data_search['direction'] == 'MC':
+            for idx, i in enumerate(data_search['origin']):
                 departure_date = '%s-%s-%s' % (
-                    request.session['airline_request']['departure'][idx].split(' ')[2],
-                    month[request.session['airline_request']['departure'][idx].split(' ')[1]],
-                    request.session['airline_request']['departure'][idx].split(' ')[0])
+                    data_search['departure'][idx].split(' ')[2],
+                    month[data_search['departure'][idx].split(' ')[1]],
+                    data_search['departure'][idx].split(' ')[0])
                 journey_list.append({
-                    'origin': request.session['airline_request']['origin'][idx].split(' - ')[0],
-                    'destination': request.session['airline_request']['destination'][idx].split(' - ')[0],
+                    'origin': data_search['origin'][idx].split(' - ')[0],
+                    'destination': data_search['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date
                 })
-            cabin_class = request.session['airline_request']['cabin_class'][0]
-        elif request.session['airline_request']['direction'] == 'RT':
-            for idx, i in enumerate(request.session['airline_request']['origin']):
+            cabin_class = data_search['cabin_class'][0]
+        elif data_search['direction'] == 'RT':
+            for idx, i in enumerate(data_search['origin']):
                 departure_date = '%s-%s-%s' % (
-                    request.session['airline_request']['departure'][idx].split(' ')[2],
-                    month[request.session['airline_request']['departure'][idx].split(' ')[1]],
-                    request.session['airline_request']['departure'][idx].split(' ')[0])
+                    data_search['departure'][idx].split(' ')[2],
+                    month[data_search['departure'][idx].split(' ')[1]],
+                    data_search['departure'][idx].split(' ')[0])
                 journey_list.append({
-                    'origin': request.session['airline_request']['origin'][idx].split(' - ')[0],
-                    'destination': request.session['airline_request']['destination'][idx].split(' - ')[0],
+                    'origin': data_search['origin'][idx].split(' - ')[0],
+                    'destination': data_search['destination'][idx].split(' - ')[0],
                     'departure_date': departure_date
                 })
-            cabin_class = request.session['airline_request']['cabin_class'][0]
+            cabin_class = data_search['cabin_class'][0]
         else:
             #default
             departure_date = '%s-%s-%s' % (
-                request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
-                month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
-                request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
+                data_search['departure'][int(request.POST['counter_search'])].split(' ')[2],
+                month[data_search['departure'][int(request.POST['counter_search'])].split(' ')[1]],
+                data_search['departure'][int(request.POST['counter_search'])].split(' ')[0])
             journey_list.append({
-                'origin': request.session['airline_request']['origin'][int(request.POST['counter_search'])].split(' - ')[0],
-                'destination': request.session['airline_request']['destination'][int(request.POST['counter_search'])].split(' - ')[0],
+                'origin': data_search['origin'][int(request.POST['counter_search'])].split(' - ')[0],
+                'destination': data_search['destination'][int(request.POST['counter_search'])].split(' - ')[0],
                 'departure_date': departure_date
             })
-            cabin_class = request.session['airline_request']['cabin_class'][int(request.POST['counter_search'])]
+            cabin_class = data_search['cabin_class'][int(request.POST['counter_search'])]
             is_combo_price = False
 
-        # if request.session['airline_request']['is_combo_price'] == 'true':
+        # if request.session['is_combo_price'] == 'true':
         #     is_combo_price = True
         # else:
         #     is_combo_price = False
@@ -621,9 +621,9 @@ def search2(request):
             "journey_list": journey_list,
             "direction": direction,
             "is_combo_price": is_combo_price,
-            "adult": int(request.session['airline_request']['adult']),
-            "child": int(request.session['airline_request']['child']),
-            "infant": int(request.session['airline_request']['infant']),
+            "adult": int(data_search['adult']),
+            "child": int(data_search['child']),
+            "infant": int(data_search['infant']),
             "cabin_class": cabin_class,
             "provider": request.POST['provider'],
             # "provider": 'amadeus',
@@ -728,7 +728,12 @@ def search2(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
-        response_search = res['result']
+        if res['result']['response'] != '':
+            response_search = res['result']
+        else:
+            response_search = {
+                'result': res
+            }
     except:
         response_search = {
             'result': res
