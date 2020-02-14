@@ -300,72 +300,41 @@ def passenger(request):
             adult = []
             infant = []
             child = []
-            for i in range(int(request.session['airline_request']['adult'])):
+            pax = copy.deepcopy(request.session['airline_request'])
+            for i in range(int(pax['adult'])):
                 adult.append('')
-            for i in range(int(request.session['airline_request']['child'])):
+            for i in range(int(pax['child'])):
                 child.append('')
-            for i in range(int(request.session['airline_request']['infant'])):
+            for i in range(int(pax['infant'])):
                 infant.append('')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
             request.session['time_limit'] = int(request.POST['time_limit_input'])
-            # try:
-            #     request.session['airline_pick'] = json.loads(request.POST['airline_pick'].replace('&&&', ','))
-            # except:
-            #     pass
         except:
             pass
-        ssr = 0
-        seat_map = 0
-        try:
-            ssr = request.session['airline_get_ssr']['result']['error_code']
-        except:
-            ssr = 1
 
-        try:
-            seat_map = request.session['airline_get_seat_availability']['result']['error_code']
-        except:
-            seat_map = 1
-
-        # airline_pick_list = request.session['airline_pick']
-        # for airline_pick in airline_pick_list:
-        #     for journey in airline_pick['price_itinerary']:
-        #         journey['rules'] = []
-        # request.session['airline_pick'] = airline_pick_list
-        # request.session.modified = True
-        # try:
-        #     airline_pick_price_itinerary = request.session['airline_price_itinerary']
-        #     for airline_pick in airline_pick_price_itinerary['price_itinerary_provider']:
-        #         for journey in airline_pick['price_itinerary']:
-        #             journey['rules'] = []
-        #     request.session['airline_price_itinerary'] = airline_pick_price_itinerary
-        #     request.session.modified = True
-        # except:
-        #     pass
         is_lionair = False
         is_international = False
         for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
             if airline['provider'] == 'lionair':
                 is_lionair = True
                 break
-        for seq in airline['price_itinerary']:
-            if seq['origin_country'] != 'Indonesia' or seq['destination_country'] != 'Indonesia':
-                is_international = True
-                break
-            elif is_international == True:
-                break
+            for seq in airline['price_itinerary']:
+                if seq['origin_country'] != 'Indonesia' or seq['destination_country'] != 'Indonesia':
+                    is_international = True
+                    break
+                elif is_international == True:
+                    break
         try:
             logging.getLogger("info_logger").info('AIRLINE PASSENGER')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'ssr': ssr,
                 'is_lionair': is_lionair,
                 'is_international': is_international,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'seat_map': seat_map,
                 'airline_request': request.session['airline_request'],
                 'price': request.session['airline_price_itinerary'],
                 'airline_carriers': carrier,
@@ -863,6 +832,7 @@ def review(request):
                         sell_ssrs_request = []
                     if len(sell_ssrs) > 0:
                         request.session['airline_ssr_request'] = sell_ssrs
+                        request.session.modified = True
                     sell_ssrs = []
                 except:
                     print('no ssr')
@@ -898,6 +868,7 @@ def review(request):
                                 })
                             pax_request = []
                     request.session['airline_seat_request'] = segment_seat_request
+                    request.session.modified = True
                 except:
                     print('no seatmap')
 
@@ -1038,6 +1009,7 @@ def review(request):
                     'infant': infant,
                     'contact': contact
                 }
+                request.session.modified = True
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
                 for pax in passenger:
                     pax['ssr_list'] = []

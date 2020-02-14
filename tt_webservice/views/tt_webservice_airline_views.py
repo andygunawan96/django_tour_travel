@@ -964,9 +964,6 @@ def get_fare_rules(request):
 
     try:
         if res['result']['error_code'] == 0:
-            request.session['get_fare_rules'] = res['result']['response']
-            logging.getLogger("info_logger").info(json.dumps(request.session['get_fare_rules']))
-            request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS get_fare_rules AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("get_fare_rules_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1031,17 +1028,16 @@ def get_ssr_availabilty(request):
                 logging.getLogger("error_logger").error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
             request.session['airline_get_ssr'] = res
             logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_ssr']))
-            request.session.modified = True
         else:
             request.session['airline_get_ssr'] = res
             logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_ssr']))
-            request.session.modified = True
+
             logging.getLogger("error_logger").error("get_ssr_availability_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         request.session['airline_get_ssr'] = res
         logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_ssr']))
-        request.session.modified = True
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    request.session.modified = True
     return res
 
 def get_seat_availability(request):
@@ -1096,7 +1092,7 @@ def update_contacts(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_update_contact' + request.POST['signature'] not in request.session:
+    if 'airline_update_contact' + request.POST['signature'] not in request.session or request.session.get('airline_update_contact' + request.POST['signature']) != data:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     else:
         res = request.session['airline_update_contact'+request.POST['signature']]
@@ -1169,7 +1165,7 @@ def update_passengers(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_update_passengers' + request.POST['signature'] not in request.session:
+    if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers' + request.POST['signature']) != data:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     else:
         res = request.session['airline_update_passengers' + request.POST['signature']]
