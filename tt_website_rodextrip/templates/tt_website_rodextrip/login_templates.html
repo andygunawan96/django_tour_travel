@@ -53,7 +53,7 @@
 									<i class="fas fa-lock icon-login" style="color:{{text_color}};"></i>
 									<input type="password" class="form-login-control" id="password2" name="password" placeholder="Password"/>
 								</div>
-								<div class="input-container-login">
+								<div class="input-container-login" style="margin-top:5px;">
 									<span class="forgot-pass-login"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forget Password</a></span>
 								</div>
 							</div>
@@ -63,8 +63,8 @@
 									LOGIN
 									<div class="ld ld-ring ld-cycle"></div>
 								</button>
-								<div class="input-container-login" style="margin-bottom:2px;">
-									<span style="color:{{color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer;" href="{% url 'tt_website_rodextrip:registration' %}"> Sign Up Here</a></span>
+								<div class="input-container-login" style="margin-bottom:2px;margin-top:5px;">
+									<span style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer; color:{{text_color}};" href="{% url 'tt_website_rodextrip:registration' %}"> Sign Up Here</a></span>
 								</div>
 							</div>
 						</div>
@@ -78,25 +78,66 @@
 		<div class="wrap-login100 rodextrip-login">
 			<span class="login100-form-title">
 				<span class="lamp" style="font-size:50px;">{{name}}</span>
+				<br/>
+				<span class="footer-promote" style="color:{{text_color}}; font-weight:500;">
+					Get Special Price for SQTF 13 - 16 February 2020.
+				</span>
+				<br/>
+				<span class="footer-promote" style="color:{{color}};">
+					<span class="lamp"><script>
+					promotion_date = new Date('2020-02-17')
+					today = new Date();
+					days = promotion_date.getTime() - today.getTime();
+					days = Math.ceil(days / (1000 * 3600 * 24));
+					if(days > 0)
+						if(days == 1)
+							document.write('Just ' + days + ' day left');
+						else
+							document.write('Just ' + days + ' days left');
+					else
+						document.write('Event has been passed');
+					</script> !</span>
+				</span>
 				<!--				<h1 class="label">Happy New Year 2020</h1>-->
 			</span>
 
-<!--			<div style="text-align:center; position:absolute; bottom:15px; left:0px; right:0px; ">-->
-<!--				{% if instagram_url != '' or facebook_url != '' %}-->
-<!--				<span style="color:{{text_color}}; font-weight:700;">Follow us</span>-->
-<!--				<br/>-->
-<!--				{% if instagram_url != ''%}-->
-<!--				<a href="{{instagram_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>-->
-<!--				{% endif %}-->
-<!--				{% if facebook_url != ''%}-->
-<!--				<a href="{{facebook_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>-->
-<!--				{% endif %}-->
-<!--				{% endif %}-->
-<!--			</div>-->
+			<div style="text-align:center; position:absolute; bottom:15px; left:0px; right:0px; ">
+				{% if instagram_url != '' or facebook_url != '' %}
+				<span style="color:{{text_color}}; font-weight:700;">Follow us</span>
+				<br/>
+				{% if instagram_url != ''%}
+				<a href="{{instagram_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
+				{% endif %}
+				{% if facebook_url != ''%}
+				<a href="{{facebook_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
+				{% endif %}
+				{% endif %}
+			</div>
 		</div>
-		<div class="wrap-login100 p-t-30 p-b-50 form-box-login" style="display:none;">
+		<div class="wrap-login100 p-t-30 form-box-login" style="display:none;">
 			<span class="login100-form-title" style="padding-bottom:15px;">
 				<span class="lamp lamp-login">RODEXTRIP</span>
+				<br/>
+				<span class="footer-promote" style="color:{{text_color}}; font-weight:500;">
+					Get Special Price for SQTF 13 - 16 February 2020.
+				</span>
+				<br/>
+				<span class="footer-promote" style="color:{{color}};">
+					<span class="lamp"><script>
+					promotion_date = new Date('2020-02-17')
+					today = new Date();
+					days = promotion_date.getTime() - today.getTime();
+					days = Math.ceil(days / (1000 * 3600 * 24));
+					if(days > 0)
+						if(days == 1)
+							document.write('Just ' + days + ' day left');
+						else
+							document.write('Just ' + days + ' days left');
+					else
+						document.write('Event has been passed');
+					</script> !</span>
+				</span>
+
 				<!--				<h1 class="label">Happy New Year 2020</h1>-->
 			</span>
 			<div id="testing">
@@ -120,62 +161,24 @@
 						</button>
 					</div>
 					<div class="validate-input" style="text-align:center; padding-top:15px;">
-						<span style="color:{{color}};padding-top:15px;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forget Password</a></span>
+						<span style="color:{{color}};padding-top:15px;font-weight:700;"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> Forget Password</a></span>
 					</div>
 					<div class="validate-input" style="text-align:center; padding-top:15px;">
-						<span style="color:{{color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer;" href="{% url 'tt_website_rodextrip:registration' %}"> Sign Up Here</a></span>
+						<span style="color:{{color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i><a style="cursor:pointer; color:{{color}};" href="{% url 'tt_website_rodextrip:registration' %}"> Sign Up Here</a></span>
 					</div>
 				</form>
 			</div>
-<!--			<div style="text-align:center; margin-top:30px;">-->
-<!--				{% if instagram_url != '' or facebook_url != '' %}-->
-<!--				<span style="color:{{text_color}}; font-weight:500;">Follow us</span>-->
-<!--				<br/>-->
-<!--				{% if instagram_url != ''%}-->
-<!--				<a href="{{instagram_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>-->
-<!--				{% endif %}-->
-<!--				{% if facebook_url != ''%}-->
-<!--				<a href="{{facebook_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>-->
-<!--				{% endif %}-->
-<!--				{% endif %}-->
-<!--			</div>-->
-		</div>
-	</div>
-
-	<div class="login-footer-area" style="{%if tab_color == 'transparent'%} background:rgba(0,0,0,0.4); {% else %} background: {{tab_color}}; {% endif %} text-align:center;">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12" style="text-align:center; margin-bottom:15px;">
-					<span class="footer-promote" style="color:{{text_color}}; font-weight:500;">
-						Get Special Price for SQTF 13 - 16 February 2020.
-					</span>
-					<span class="footer-promote" style="color:{{color}};">
-						<span class="lamp"><script>
-						promotion_date = new Date('2020-02-17')
-						today = new Date();
-						days = promotion_date.getTime() - today.getTime();
-						days = Math.ceil(days / (1000 * 3600 * 24));
-						if(days > 0)
-							if(days == 1)
-								document.write('Just ' + days + ' day left');
-							else
-								document.write('Just ' + days + ' days left');
-						else
-							document.write('Event has been passed');
-						</script> !</span>
-					</span>
-				</div>
-				<div class="col-lg-12" style="text-align:center;">
-					{% if instagram_url != '' or facebook_url != '' %}
-					<span class="footer-promote" style="color:{{text_color}}; padding-right:10px; font-weight:500;">Follow us </span>
-					{% if instagram_url != ''%}
-					<a href="{{instagram_url}}"><img style="height:25px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
-					{% endif %}
-					{% if facebook_url != ''%}
-					<a href="{{facebook_url}}"><img style="height:25px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
-					{% endif %}
-					{% endif %}
-				</div>
+			<div style="text-align:center; margin-top:30px;">
+				{% if instagram_url != '' or facebook_url != '' %}
+				<span style="color:{{text_color}}; font-weight:500;">Follow us</span>
+				<br/>
+				{% if instagram_url != ''%}
+				<a href="{{instagram_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
+				{% endif %}
+				{% if facebook_url != ''%}
+				<a href="{{facebook_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
+				{% endif %}
+				{% endif %}
 			</div>
 		</div>
 	</div>
