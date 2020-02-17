@@ -177,9 +177,15 @@ def signin(request):
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     try:
-        return 'login' in res_user['result']['response']['co_agent_frontend_security']
+        return res_user
     except:
-        return False
+        return {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'Wrong username or password',
+                'response': ''
+            }
+        }
 
 def get_new_cache(signature):
     try:
@@ -728,11 +734,11 @@ def update_customer_list(request):
                 except:
                     pass
             #ganti cache
-            for pax in request.POST['cache_passengers']:
+            for pax in request.session.get('cache_passengers'):
                 if pax['seq_id'] == request.POST['cust_code']:
                     pax = res['result']['response'][0]
                     break
-            res['result']['response'] = request.POST['cache_passengers']
+            res['result']['response'] = request.session.get('cache_passengers')
             logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
