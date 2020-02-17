@@ -151,6 +151,26 @@ $(document).ready(function(){
 		$("#"+tab_id).addClass('current');
 	})
 
+    $('ul.popular1_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.popular1_tabs li').removeClass('current');
+		$('.popular1_tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
+    $('ul.popular2_tabs li').click(function(){
+		var tab_id = $(this).attr('data-tab');
+
+		$('ul.popular2_tabs li').removeClass('current');
+		$('.popular2_tab-content').removeClass('current');
+
+		$(this).addClass('current');
+		$("#"+tab_id).addClass('current');
+	})
+
 //    $('#myModalTicketFlight').click(function() {
 //
 //    });
