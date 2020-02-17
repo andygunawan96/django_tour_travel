@@ -177,9 +177,15 @@ def signin(request):
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     try:
-        return 'login' in res_user['result']['response']['co_agent_frontend_security']
+        return res_user
     except:
-        return False
+        return {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'Wrong username or password',
+                'response': ''
+            }
+        }
 
 def get_new_cache(signature):
     try:

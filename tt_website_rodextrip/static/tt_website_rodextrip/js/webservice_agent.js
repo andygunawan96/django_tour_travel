@@ -23,7 +23,7 @@ function signin(){
                },
                success: function(msg) {
                 console.log(msg);
-                if(msg == true){
+                if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
                     gotoForm();
                     let timerInterval
                     Swal.fire({
@@ -56,7 +56,7 @@ function signin(){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      text: 'Please input correct username or password',
+                      text: msg.result.error_msg,
                     })
                 }
                },

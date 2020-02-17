@@ -702,7 +702,7 @@ $(document).ready(function(){
         var quantity = parseInt($('#hotel_child').val());
 
         // If is not undefined
-        if (quantity < quantity_room_hotel){
+        if (quantity < quantity_room_hotel*2){
             $('#hotel_child').val(quantity + 1);
             $("#show_child_hotel").text(quantity + 1);
             quantity_child_hotel = quantity + 1;
@@ -711,12 +711,10 @@ $(document).ready(function(){
             guest_child_age();
         }
 
-        if(quantity_child_hotel == quantity_room_hotel){
+        if(quantity_child_hotel == quantity_room_hotel*2){
             document.getElementById("right-plus-child-hotel").disabled = true;
             document.getElementById("left-minus-child-hotel").disabled = false;
-        }
-
-        if(quantity_child_hotel < quantity_room_hotel){
+        }else if(quantity_child_hotel <= quantity_room_hotel*2 && quantity_child_hotel > 0){
             document.getElementById("right-plus-child-hotel").disabled = false;
             document.getElementById("left-minus-child-hotel").disabled = false;
         }
