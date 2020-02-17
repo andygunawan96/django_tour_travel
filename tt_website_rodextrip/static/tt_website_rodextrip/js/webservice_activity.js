@@ -556,7 +556,7 @@ function activity_get_detail(uuid){
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
-                          html: '<span style="color: #ff9900;">Error activity detail </span>' + msg.result.error_msg,
+                          html: '<span style="color: #ff9900;">Error activity details </span>' + msg.result.error_msg,
                         })
                       var temp = ``;
                       temp += `
@@ -568,7 +568,7 @@ function activity_get_detail(uuid){
                         Swal.fire({
                           type: 'error',
                           title: 'Oops!',
-                          html: '<span style="color: #ff9900;">Error customer list </span>' + msg.error_msg,
+                          html: '<span style="color: #ff9900;">Error activity get details </span>' + msg.error_msg,
                         })
                       var temp = ``;
                       temp += `
@@ -583,7 +583,7 @@ function activity_get_detail(uuid){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error customer list </span>' + msg.error_msg,
+                      html: '<span style="color: #ff9900;">Error activity get details </span>' + msg.error_msg,
                     })
                   var temp = ``;
                   temp += `
@@ -711,6 +711,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
        data: {
           'product_type_uuid': activity_type[activity_type_pick].uuid,
           'provider': activity_type[activity_type_pick].provider_code,
+          'fare_code': activity_type[activity_type_pick].provider_fare_code,
           'pricing_days': pricing_days,
           'startingDate': startingDate,
           'signature': signature
