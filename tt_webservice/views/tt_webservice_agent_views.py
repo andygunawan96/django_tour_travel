@@ -179,13 +179,11 @@ def signin(request):
     try:
         return res_user
     except:
-        return {
-            'result': {
-                'error_code': 500,
-                'error_msg': 'Wrong username or password',
-                'response': ''
-            }
-        }
+        if res['result']['error_code'] == 4002:
+            res['result']['error_msg'] = 'User and password is not match'
+            return res
+        else:
+            return res
 
 def get_new_cache(signature):
     try:

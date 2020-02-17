@@ -521,7 +521,8 @@ def ssr(request):
                     airline_list = []
                 upsell = 0
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
-                    upsell = pax['channel_service_charges']
+                    if pax.get('channel_service_charges'):
+                        upsell = pax.get('channel_service_charges')
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'after_sales': 1,

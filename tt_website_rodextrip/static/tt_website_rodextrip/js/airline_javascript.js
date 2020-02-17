@@ -3840,7 +3840,7 @@ function airline_detail(type){
                                     <label>`+l+`</label>
                                 </div>
                                 <div class="col-lg-6" style="text-align:right;">
-                                    <label>`+airline_get_booking.passengers[j].sale_service_charges[k][l].currency + ' '+ airline_get_booking.passengers[j].sale_service_charges[k][l].amount+`</label>
+                                    <label>`+airline_get_booking.passengers[j].sale_service_charges[k][l].currency + ' '+ getrupiah(airline_get_booking.passengers[j].sale_service_charges[k][l].amount)+`</label>
                                 </div>
                             </div>`;
                         }
@@ -3859,7 +3859,7 @@ function airline_detail(type){
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_get_booking.passengers[j].sale_service_charges[k][l].currency == 'IDR')
             text+=`
-                <span style="font-size:13px; font-weight:500;" id="additional_price">`+getrupiah(additional_price)+`</span><br/>`;
+                <span style="font-size:13px; font-weight:500;" id="additional_price">`+currency+` `+getrupiah(additional_price)+`</span><br/>`;
             else
             text+=`
                 <span style="font-size:13px; font-weight:500;" id="additional_price">`+additional_price+`</span><br/>`;
@@ -3871,10 +3871,10 @@ function airline_detail(type){
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_get_booking.passengers[j].sale_service_charges[k][l].currency == 'IDR')
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(parseFloat(total_price+additional_price))+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+additional_price))+`</b></span><br/>`;
             else
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+parseFloat(total_price+additional_price)+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
             text+=`
             </div>`;
     }
