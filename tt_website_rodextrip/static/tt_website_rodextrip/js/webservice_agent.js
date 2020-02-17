@@ -2608,7 +2608,7 @@ function get_passenger_cache(){
                             </div>
                         </td>`;
                         if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'passenger'){
-                            response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
+                            response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;" onchange="btn_move_passenger_cache_enable(`+i+`);">`;
                             if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
                                 response+=`<optgroup label="Booker">`;
                                 response+=`<option value="booker">Booker</option>`;
@@ -2653,21 +2653,19 @@ function get_passenger_cache(){
                             response+=`</select></td>`;
                             check = 0;
                             var passenger_sequence = '';
-                            console.log(msg.result.response[i].seq_id);
-                            for(i in passenger_data_pick){
+                            for(j in passenger_data_pick){
                                 console.log(passenger_data_pick);
-                                if(passenger_data_pick[i].seq_id == msg.result.response[i].seq_id){
+                                if(passenger_data_pick[j].seq_id == msg.result.response[i].seq_id){
                                     check = 1;
-                                    var passenger_pick = passenger_data_pick[i].sequence.replace(/[^a-zA-Z ]/g,"");
-                                    var passenger_pick_number = passenger_data_pick[i].sequence.replace( /^\D+/g, '');
+                                    var passenger_pick = passenger_data_pick[j].sequence.replace(/[^a-zA-Z ]/g,"");
+                                    var passenger_pick_number = passenger_data_pick[j].sequence.replace( /^\D+/g, '');
                                     passenger_sequence = passenger_pick.charAt(0).toUpperCase() + passenger_pick.slice(1).toLowerCase() + ' ' + passenger_pick_number;
                                 }
                             }
-                            console.log(check);
                             if(check == 0)
                                 response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
                             else
-                                response+=`<td><button type="button" class="primary-btn-custom" disabled>`+passenger_sequence+`</button></td>`;
+                                response+=`<td><button type="button" class="primary-btn-custom" id="move_btn_`+i+`" disabled>`+passenger_sequence+`</button></td>`;
                         }else if(window.location.href.split('/')[window.location.href.split('/').length-1] == 'issued_offline'){
                             response+=`<td><select class="selection_type_ns" id="selection_type`+i+`" style="width:100%;">`;
                             if(msg.result.response[i].title == "MR" || msg.result.response[i].title == "MRS" || msg.result.response[i].title == "MS"){
@@ -2701,7 +2699,7 @@ function get_passenger_cache(){
                             if(check == 0)
                                 response+=`<td><button type="button" class="primary-btn-custom" onclick="update_customer_cache_list(`+i+`)" id="move_btn_`+i+`">Move</button></td>`;
                             else
-                                response+=`<td><button type="button" class="primary-btn-custom" disabled>`+passenger_sequence+`</button></td>`;
+                                response+=`<td><button type="button" class="primary-btn-custom" disabled id="move_btn_`+i+`">`+passenger_sequence+`</button></td>`;
                         }
                         response+=`<td>
                                         <button type="button" class="primary-btn-custom" onclick="del_passenger_cache(`+i+`);">Delete</button>`;
@@ -3055,7 +3053,7 @@ function pick_passenger_cache(val){
     var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
     check = 0;
     for(i in passenger_data_pick){
-        if(passenger_data_pick[i].seq_id == passenger_data[val].seq_id)
+        if(passenger_data_pick[i].seq_id == document.getElementById(passenger_pick+'_id'+passenger_pick_number).value)
             check = 1;
     }
     if(check == 0){
@@ -3145,6 +3143,23 @@ function pick_passenger_cache(val){
           title: 'Oops...',
           text: "You can't choose same person in 1 booking",
       })
+    }
+}
+
+function btn_move_passenger_cache_enable(val){
+    var passenger_pick = document.getElementById('selection_type'+val).value.replace(/[^a-zA-Z ]/g,"");
+    var passenger_pick_number = document.getElementById('selection_type'+val).value.replace( /^\D+/g, '');
+    check = 0;
+    for(i in passenger_data_pick){
+        if(passenger_data_pick[i].seq_id == passenger_data_cache[val].seq_id)
+            check = 1;
+    }
+    console.log(check);
+    console.log('move_btn_'+val);
+    if(check == 0){
+        document.getElementById('move_btn_'+val).innerHTML = 'Move';
+        document.getElementById('move_btn_'+val).disabled = false;
+        document.getElementById('move_btn_'+val).setAttribute("onclick",`update_customer_cache_list(`+val+`);`);
     }
 }
 
