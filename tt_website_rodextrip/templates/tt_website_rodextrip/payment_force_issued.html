@@ -139,7 +139,9 @@
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
-    get_payment_acq('Issued',passengers.booker.booker_seq_id, '', 'billing',signature,'{{type}}');
+    try{
+        get_payment_acq('Issued',passengers.booker.booker_seq_id, '', 'billing',signature,'{{type}}');
+    }catch(err){}
     $( document ).ready(function() {
         breadcrumb_create("{{provider}}", 4, 0);
     });

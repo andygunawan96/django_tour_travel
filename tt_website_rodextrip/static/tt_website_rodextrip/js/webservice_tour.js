@@ -1874,8 +1874,10 @@ function tour_get_booking(order_number)
                    full_pay_opt.innerHTML = 'IDR ' + getrupiah(grand_total);
                }
                print_payment_rules(payment);
-               get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
-               document.getElementById("final_issued_btn").style.display = "block";
+               try{
+                   get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
+                   document.getElementById("final_issued_btn").style.display = "block";
+               }catch(err){}
            }
            else
            {
