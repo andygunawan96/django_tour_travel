@@ -277,6 +277,7 @@ def login(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
+                'username': {'co_user_login': ''}
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
