@@ -1165,7 +1165,9 @@ function update_options_activity(){
             {
                 act_booker_id = '';
             }
-            get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity_review');
+            try{
+                get_payment_acq('Issued', act_booker_id, '', 'billing', signature, 'activity_review');
+            }catch(err){}
         }else{
             Swal.fire({
               type: 'error',
@@ -2145,8 +2147,10 @@ function activity_get_booking(data){
 
             if(msg.result.response.status == 'booked')
             {
-                get_payment_acq('Issued', msg.result.response.booker_seq_id, activity_order_number, 'billing',signature,'activity');
-                document.getElementById("final_issued_btn").style.display = "block";
+                try{
+                    get_payment_acq('Issued', msg.result.response.booker_seq_id, activity_order_number, 'billing',signature,'activity');
+                    document.getElementById("final_issued_btn").style.display = "block";
+                }catch(err){}
             }
             else
             {
