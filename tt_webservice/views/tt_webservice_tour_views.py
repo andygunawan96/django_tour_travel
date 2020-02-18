@@ -272,6 +272,7 @@ def get_pricing(request):
     try:
         data = {
             'provider': request.session['tour_pick']['provider'],
+            "fare_code": request.session['tour_pick']['provider_fare_code'],
             'req': json.loads(request.POST['req']),
         }
         headers = {
@@ -356,6 +357,7 @@ def sell_tour(request):
         "child": request.session['tour_booking_data']['child'],
         "infant": request.session['tour_booking_data']['infant'],
         'provider': request.session['tour_pick']['provider'],
+        "fare_code": request.session['tour_pick']['provider_fare_code'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -677,6 +679,7 @@ def issued_booking(request):
 def get_payment_rules(request):
     data = {
         'provider': request.session['tour_pick']['provider'],
+        "fare_code": request.session['tour_pick']['provider_fare_code'],
         'id': request.POST['id']
     }
     headers = {
