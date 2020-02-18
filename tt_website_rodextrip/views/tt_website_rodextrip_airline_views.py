@@ -684,9 +684,13 @@ def seat_map(request):
 
             additional_price_input = ''
             try:
-                additional_price = request.POST['additional_price_input'].split(',')
+                additional_price = 0
                 for i in additional_price:
                     additional_price_input += i
+                upsell = 0
+                for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
+                    if pax.get('channel_service_charges'):
+                        upsell = pax.get('channel_service_charges')
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_carriers': carrier,
@@ -694,7 +698,7 @@ def seat_map(request):
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'after_sales': 0,
-                    'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
+                    'upsell': upsell,
                     'airline_request': request.session['airline_request'],
                     'price': request.session['airline_price_itinerary'],
                     'additional_price': float(additional_price_input),
@@ -711,7 +715,8 @@ def seat_map(request):
                 additional_price_input = 0
                 upsell = 0
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
-                    upsell = pax['channel_service_charges']
+                    if pax.get('channel_service_charges'):
+                        upsell = pax.get('channel_service_charges')
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_carriers': carrier,
@@ -1039,7 +1044,7 @@ def review(request):
                 'back_page': request.META.get('HTTP_REFERER'),
                 'json_airline_pick': request.session['airline_price_itinerary']['price_itinerary_provider'],
                 'airline_carriers': airline_carriers,
-                'additional_price': float(additional_price_input),
+                'additional_price': float(additional_price_input.split(' ')[1]),
                 'username': request.session['user_account'],
                 'passengers': request.session['airline_create_passengers'],
                 'passengers_ssr': passenger,
@@ -1183,14 +1188,14 @@ def review_after_sales(request):
                 'after_sales_type': after_sales_type,
                 'goto': goto,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
-                'additional_price': request.POST['additional_price_input'],
+                'additional_price': float(additional_price_input.split(' ')[1]),
                 'username': request.session['user_account'],
                 'passengers': request.session['airline_create_passengers'],
                 'passengers_ssr': passenger,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
-                # 'time_limit': int(request.POST['time_limit_input']),
+                'time_limit': 1200,
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })

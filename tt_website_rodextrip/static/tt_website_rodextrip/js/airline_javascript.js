@@ -3833,7 +3833,8 @@ function airline_detail(type){
                     if(i == k){
                         for(l in airline_get_booking.passengers[j].sale_service_charges[k]){
                             total_price += airline_get_booking.passengers[j].sale_service_charges[k][l].amount;
-                            currency += airline_get_booking.passengers[j].sale_service_charges[k][l].currency;
+                            if(currency == '')
+                                currency = airline_get_booking.passengers[j].sale_service_charges[k][l].currency;
                             text += `
                             <div class="row">
                                 <div class="col-lg-6">
@@ -3871,7 +3872,7 @@ function airline_detail(type){
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_get_booking.passengers[j].sale_service_charges[k][l].currency == 'IDR')
             text+=`
-                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+additional_price))+`</b></span><br/>`;
+                <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+currency+` `+getrupiah(parseFloat(total_price+parseFloat(additional_price)))+`</b></span><br/>`;
             else
             text+=`
                 <span style="font-size:14px; font-weight:bold;" id="total_price"><b>`+getrupiah(total_price+additional_price)+`</b></span><br/>`;
