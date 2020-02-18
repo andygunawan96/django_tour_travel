@@ -221,14 +221,15 @@ def search(request):
     try:
         counter = 0
         sequence = 0
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['hotel_error'] = {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        }
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_error']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
+            signature = copy.deepcopy(request.session['hotel_signature'])
+            request.session['hotel_error'] = {
+                'error_code': res['result']['error_code'],
+                'signature': signature
+            }
+            logging.getLogger("info_logger").info(json.dumps(request.session['hotel_error']))
+            request.session.modified = True
+
             hotel_data = []
             for hotel in res['result']['response']['city_ids']:
                 hotel.update({
