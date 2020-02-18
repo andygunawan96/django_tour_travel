@@ -97,14 +97,14 @@ function signin(){
                 'password':$('#password').val()
                },
                success: function(msg) {
-                console.log(msg);
-                if(msg == true){
+                if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
+                    gotoForm();
                     let timerInterval
                     Swal.fire({
                       type: 'success',
                       title: 'Login Success!',
                       html: 'Please Wait ...',
-                      timer: 2000,
+                      timer: 50000,
                       onBeforeOpen: () => {
                         Swal.showLoading()
                         timerInterval = setInterval(() => {
@@ -120,7 +120,7 @@ function signin(){
                         /* Read more about handling dismissals below */
                         result.dismiss === Swal.DismissReason.timer
                       ) {
-                        gotoForm();
+
                       }
                     })
                 }else{
@@ -130,7 +130,7 @@ function signin(){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      text: 'Please input correct username or password',
+                      text: msg.result.error_msg,
                     })
                 }
                },
