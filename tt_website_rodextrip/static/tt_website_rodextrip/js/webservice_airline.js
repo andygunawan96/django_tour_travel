@@ -2803,12 +2803,14 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
             }else if(msg.result.response.state == 'booked'){
-               get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-               document.getElementById('voucher_div').style.display = '';
-               //document.getElementById('issued-breadcrumb').classList.remove("active");
-               //document.getElementById('issued-breadcrumb').classList.add("current");
-               document.getElementById('issued-breadcrumb').classList.add("br-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+               try{
+                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                   document.getElementById('voucher_div').style.display = '';
+                   //document.getElementById('issued-breadcrumb').classList.remove("active");
+                   //document.getElementById('issued-breadcrumb').classList.add("current");
+                   document.getElementById('issued-breadcrumb').classList.add("br-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+               }catch(err){}
             }else if(msg.result.response.state == 'draft'){
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");
