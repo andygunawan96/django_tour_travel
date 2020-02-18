@@ -61,21 +61,8 @@ def index(request):
                 elif bool(request.session._session):
                     #get_data_awal
                     try:
-                        javascript_version = get_javascript_version()
-                        cache_version = get_cache_version()
-                        response = get_cache_data(cache_version)
                         provider_type = request.session['provider']
                         request.session.create()
-                        try:
-                            airline_country = response['result']['response']['airline']['country']
-                            phone_code = []
-                            for i in airline_country:
-                                if i['phone_code'] not in phone_code:
-                                    phone_code.append(i['phone_code'])
-                            phone_code = sorted(phone_code)
-                        except Exception as e:
-                            airline_country = []
-                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
                         airline_cabin_class_list = [
                             {
@@ -212,6 +199,7 @@ def index(request):
                                 'update_data': 'false',
                                 'static_path_url_server': get_url_static_path(),
                                 'signature': request.session['signature'],
+
                             })
                         except Exception as e:
                             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -274,54 +262,51 @@ def testing(request):
 def login(request):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
-    try:
-        if request.POST['logout'] == 'true':
-            try:
-                if request.session._session:
-                    for key in reversed(list(request.session._session.keys())):
-                        del request.session[key]
-                    request.session.modified = True
-            except:
-                pass
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            try:
-                values.update({
-                    'static_path': path_util.get_static_path(MODEL_NAME),
-                    'javascript_version': javascript_version,
-                    'static_path_url_server': get_url_static_path(),
-                })
-            except Exception as e:
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                raise Exception('Make response code 500!')
-            # return goto_dashboard()
-            return render(request, MODEL_NAME+'/login_templates.html', values)
-    except:
-        # if 'session' in request:
+    if request.POST.get('logout') == 'true':
         try:
-            if 'login' in request.session['user_account']['co_agent_frontend_security']:
-                javascript_version = get_javascript_version()
-                cache_version = get_cache_version()
-                response = get_cache_data(cache_version)
-                return goto_dashboard()
+            if request.session._session:
+                for key in reversed(list(request.session._session.keys())):
+                    del request.session[key]
+                request.session.modified = True
         except:
+            pass
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        try:
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+            })
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        # return goto_dashboard()
+        return render(request, MODEL_NAME+'/login_templates.html', values)
+    else:
+        # if 'session' in request:
+        if request.session.get('user_account') and 'login' in request.session.get('user_account')['co_agent_frontend_security']:
+            return goto_dashboard()
+        else:
             if request.session._session:
                 for key in reversed(list(request.session._session.keys())):
                     del request.session[key]
                 request.session.modified = True
             if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+                del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
             try:
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'javascript_version': javascript_version,
                     'static_path_url_server': get_url_static_path(),
+                    'username': {'co_user_login': ''}
                 })
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
             # return goto_dashboard()
-            return render(request, MODEL_NAME+'/login_templates.html', values)
+            return render(request, MODEL_NAME + '/login_templates.html', values)
+
 
 def admin(request):
     if 'user_account' in request.session._session:

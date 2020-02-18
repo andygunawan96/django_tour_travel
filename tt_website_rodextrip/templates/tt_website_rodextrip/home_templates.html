@@ -61,7 +61,7 @@
 </style>
 <title>{{name}} - Home</title>
 
-{% if username != null %}
+{% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
@@ -72,7 +72,7 @@
     <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
-                {% if username != null %}
+                {% if username.co_user_login != '' %}
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
                 <div class="col-lg-12">
                     <h4 style="color:{{text_color}}; padding-bottom:20px;">
@@ -97,7 +97,7 @@
                 </div>
                 {% endif %}
 
-                {% if username != null %}
+                {% if username.co_user_login != '' %}
                 <input type="hidden" id="country_id"/>
                 <input type="hidden" id="start"/>
                 <input type="hidden" id="end"/>
@@ -873,7 +873,7 @@
     <div id="small_banner" style="padding: 0px 0px 15px 0px;">
 
     </div>
-    {% if username != null %}
+    {% if username.co_user_login != '' %}
 
 <!--    <section class="destinations-area section-gap">-->
 <!--        <div class="container">-->
@@ -1497,7 +1497,7 @@
         <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="hotel-search-form-area" style="position:relative;">
             <div class="container-fluid">
-                {% if username != null %}
+                {% if username.co_user_name != '' %}
                 <h3 style="color:{{text_color}}; padding-bottom:20px;">
                     Hello, {{username.co_user_name}}!
                     Grow your business with <span class="lamp">{{name}}</span>
@@ -1505,7 +1505,7 @@
                 {% endif %}
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
                 <div class="hotel-search-form" id="div-search-overlay">
-                    {% if username != null %}
+                    {% if username.co_user_login != '' %}
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
@@ -2414,7 +2414,7 @@
                 <div class="col-lg-12">
                     <div id="overlay-search-box" onclick="off_overlay()"></div>
                     <div class="row fullscreen d-flex" id="div-search-overlay" style="margin-top:60px; margin-bottom:60px; position:relative; padding:15px;">
-                        {% if username != null %}
+                        {% if username.co_user_name != '' %}
                         {% if "ticketing" in username.co_agent_frontend_security %}
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
                             <h4 class="text-white">
@@ -3333,7 +3333,7 @@
     <div class="site-blocks-cover overlay" style="background-image: url('{{background}}');" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center" style="padding-top:100px;">
-                {% if username != null %}
+                {% if username.co_user_name != '' %}
                 <div class="col-xl-12" style="text-align:center;">
                     <h3 style="color:{{text_color}}; padding-bottom:20px;">
                         Hello, {{username.co_user_name}}!<br/>
@@ -3361,7 +3361,7 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12">
                         <div class="row">
-                            {% if username != null %}
+                            {% if username.co_user_login != '' %}
                             <div class="col-xl-12" style="text-align:left;">
                                 <div class="div-tabs style-scrollbar">
                                     <input type="hidden" id="country_id"/>
@@ -3404,7 +3404,7 @@
                 <div class="row justify-content-center">
                     <div class="col-xl-12">
                         <div class="row">
-                            {% if username != null %}
+                            {% if username.co_user_name != '' %}
                             <div class="col-xl-12" style="text-align:left;">
                                 {% if "airline" in provider %}
                                 <div class="form-search-wrap tab-content current" id="tab-airline" data-aos="fade-up" data-aos-delay="200">
@@ -4297,7 +4297,7 @@
                     <div class="row">
                         <div class="banner-content col-xl-12" style="padding:0px; margin-bottom:15px;">
                             <div class="row">
-                                {% if username != null %}
+                                {% if username.co_user_name != '' %}
                                 <div class="col-xl-4" style="text-align:left; font-weight:bold;">
                                     <h4 style="color:{{text_color}};">
                                         Hello, {{username.co_user_name}}!
@@ -4340,7 +4340,7 @@
                         </div>
                         <div class="banner-content col-xl-12 search-field" id="div-search-overlay">
                             <div class="row">
-                                {% if username != null %}
+                                {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
                                     {% if "airline" in provider %}
                                     <div id="tab-airline" class="tab-content current">
@@ -5089,7 +5089,7 @@
     {%endif%}
     {% include 'tt_website_rodextrip/footer.html' %}
     <script>
-    {% if username != undefined %}
+    {% if username.co_user_login != '' %}
         try{
             //hotel_signin('home');
             {% if "airline" in provider %}
@@ -5150,10 +5150,8 @@
             function change_date(type){
                 if(type == 'checkin'){
                     change_date_hotel('checkin');
-                    hotel_detail_request(`{{response.external_code}}`);
                 }else{
                     change_date_hotel('checkout');
-                    hotel_detail_request(`{{response.external_code}}`);
                 }
             }
 
@@ -5244,7 +5242,7 @@
 
         }
     {% endif %}
-    {% if username != null %}
+    {% if username.co_user_login != '' %}
     //test
 
     //test

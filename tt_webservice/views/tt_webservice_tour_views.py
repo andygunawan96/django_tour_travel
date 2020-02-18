@@ -211,7 +211,7 @@ def search(request):
                     data_tour.append(data)
                     counter += 1
         except:
-            print('no data')
+            print('tour no data')
 
         for i in res['result']['response']['result']:
             i.update({

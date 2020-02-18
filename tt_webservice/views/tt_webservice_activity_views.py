@@ -202,7 +202,7 @@ def get_details(request):
             logging.getLogger("info_logger").info(json.dumps(request.session['activity_detail']))
             request.session.modified = True
     except:
-        print('error')
+        print('activity error')
     return res
 
 

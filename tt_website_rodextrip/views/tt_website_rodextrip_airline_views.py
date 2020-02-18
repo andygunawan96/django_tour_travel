@@ -113,7 +113,6 @@ def search(request):
                                         airline_carriers[idx][provider]['bool'] = False
                                 except:
                                     airline_carriers[idx][provider]['bool'] = False
-                                    print('%s %s' % ('no ', provider))
 
                         origin = []
                         destination = []
@@ -158,7 +157,6 @@ def search(request):
                                         airline_carriers[idx][provider]['bool'] = False
                                 except:
                                     airline_carriers[idx][provider]['bool'] = False
-                                    print('%s %s' % ('no ', provider))
                         origin = []
                         destination = []
                         departure = []
@@ -185,7 +183,7 @@ def search(request):
                 except:
                     direction = 'OW'
                     return_date = request.POST['airline_departure']
-                    print('no return')
+                    print('airline no return')
 
 
                 airline_request = {
@@ -836,7 +834,7 @@ def review(request):
                         request.session.modified = True
                     sell_ssrs = []
                 except:
-                    print('no ssr')
+                    print('airline no ssr')
 
             #SEAT
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'seat_map':
@@ -871,7 +869,7 @@ def review(request):
                     request.session['airline_seat_request'] = segment_seat_request
                     request.session.modified = True
                 except:
-                    print('no seatmap')
+                    print('airline no seatmap')
 
 
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'passenger':
@@ -1117,7 +1115,7 @@ def review_after_sales(request):
                     sell_ssrs = []
                     after_sales_type = 'ssr'
                 except:
-                    print('no ssr')
+                    print('airline no ssr')
 
             # SEAT
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/')) - 1] == 'seat_map':
@@ -1153,7 +1151,7 @@ def review_after_sales(request):
                     request.session['airline_seat_request'] = segment_seat_request
                     after_sales_type = 'seat'
                 except:
-                    print('no seatmap')
+                    print('airline no seatmap')
 
             # agent
             # TODO LIST INTRO SSR sudah list perpassenger --> list per segment --> isi semua ssr tinggal dipisah

@@ -296,7 +296,6 @@ def passenger(request):
                                 "name": perbooking['name'],
                                 "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perbooking['inputType'] == 8:
                             upload.append({
                                 "uuid": perbooking['uuid'],
@@ -304,7 +303,6 @@ def passenger(request):
                                 "name": perbooking['name'],
                                 "type": request.FILES['perbooking' + str(idx)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perbooking['inputType'] == 9:
                             perbooking_list.append({
                                 "uuid": perbooking['uuid'],
@@ -467,8 +465,6 @@ def review(request):
             perpax_list = []
             perpax_list_temp = []
             for i in range(int(request.session['activity_request']['adult_passenger_count'])):
-                print(request.POST['adult_title'+str(i+1)])
-
                 adult.append({
                     "first_name": request.POST['adult_first_name'+str(i+1)],
                     "last_name": request.POST['adult_last_name'+str(i+1)],
@@ -561,7 +557,6 @@ def review(request):
                                 "name": perpax['name'],
                                 "type": request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perpax['inputType'] == 8:
                             # upload
                             upload.append({
@@ -570,7 +565,6 @@ def review(request):
                                 "name": perpax['name'],
                                 "type": request.FILES['adult_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perpax['inputType'] == 9:
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
@@ -732,7 +726,6 @@ def review(request):
 
             #senior
             for i in range(int(request.session['activity_request']['senior_passenger_count'])):
-                print(request.POST['senior_title'+str(i+1)])
 
                 senior.append({
                     "first_name": request.POST['senior_first_name'+str(i+1)],
@@ -818,7 +811,6 @@ def review(request):
                                 "name": perpax['name'],
                                 "type": request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perpax['inputType'] == 8:
                             # upload
                             upload.append({
@@ -827,7 +819,6 @@ def review(request):
                                 "name": perpax['name'],
                                 "type":request.FILES['senior_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perpax['inputType'] == 9:
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],
@@ -1006,16 +997,14 @@ def review(request):
                                 "name": perpax['name'],
                                 "type": request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perpax['inputType'] == 8:
                             # upload
                             upload.append({
                                 "uuid": perpax['uuid'],
                                 "value": base64.b64encode(request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].read()).decode(),
                                 "name": perpax['name'],
-                                "type":request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
+                                "type": request.FILES['child_perpax' + str(i + 1) + '_' + str(idx + 1)].content_type.split('/')[-1]
                             })
-                            print('a')
                         elif perpax['inputType'] == 9:
                             perpax_list_temp.append({
                                 "uuid": perpax['uuid'],

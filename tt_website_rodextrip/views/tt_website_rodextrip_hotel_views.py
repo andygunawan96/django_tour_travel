@@ -51,6 +51,7 @@ def search(request):
                     'child': int(request.POST['hotel_child']),
                     'child_age': child_age
                 }
+                request.session.modified = True
             except:
                 print('error')
             values.update({
