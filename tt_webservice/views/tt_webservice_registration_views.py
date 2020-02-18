@@ -44,8 +44,8 @@ def login(request,func):
             "user": user_global,
             "password": password_global,
             "api_key": api_key,
-            "co_user": user_default,  # request.POST['username'],
-            "co_password": password_default,  # request.POST['password'],
+            "co_user": user_global,  # request.POST['username'],
+            "co_password": password_global,  # request.POST['password'],
             "co_uid": ""
         }
     except Exception as e:
@@ -103,7 +103,7 @@ def get_config(request):
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] != 0:
-        login(request, 'get_config')
+        res = login(request, 'get_config')
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS get_config_agent_regis SIGNATURE " + request.session['signature'])

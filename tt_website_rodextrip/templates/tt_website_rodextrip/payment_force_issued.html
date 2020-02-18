@@ -36,7 +36,7 @@
 
 <title>{{name}} - Payment {{provider}}</title>
 
-{% if username != null %}
+{% if username.co_user_login != '' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}

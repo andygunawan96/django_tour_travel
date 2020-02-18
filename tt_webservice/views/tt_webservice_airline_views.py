@@ -11,6 +11,7 @@ from .tt_webservice_voucher_views import *
 import json
 import logging
 import traceback
+import copy
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -173,12 +174,16 @@ def login(request):
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        print(json.dumps(res))
-        request.session['airline_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['airline_signature']))
-        request.session.modified = True
-        logging.getLogger("info_logger").info("SIGNIN AIRLINE SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        if res['result']['error_code'] == 0:
+            if 'airline_signature' in request.session:
+                del request.session['airline_signature']
+            request.session['airline_signature'] = res['result']['response']['signature']
+            if 'signature' in request.session:
+                del request.session['signature']
+            request.session['signature'] = res['result']['response']['signature']
+            logging.getLogger("info_logger").info(json.dumps(request.session['airline_signature']))
+            request.session.modified = True
+            logging.getLogger("info_logger").info("SIGNIN AIRLINE SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -555,18 +560,6 @@ def search2(request):
                 'city': country['city'],
                 'country': country['country'],
             })
-
-        # get_data_awal
-        # direction = request.session['airline_request']['direction']
-        # departure_date = '%s-%s-%s' % (request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[2],
-        #                                month[request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[1]],
-        #                                request.session['airline_request']['departure'][int(request.POST['counter_search'])].split(' ')[0])
-        # return_date = '%s-%s-%s' % (request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[2],
-        #                             month[request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[1]],
-        #                             request.session['airline_request']['return'][int(request.POST['counter_search'])].split(' ')[0])
-
-        # origin = request.session['airline_request']['origin'][int(request.POST['counter_search'])][-4:][:3]
-        # destination = request.session['airline_request']['destination'][int(request.POST['counter_search'])][-4:][:3]
         data_search = json.loads(request.POST['search_request'])
         direction = 'MC'
         journey_list = []
@@ -611,11 +604,6 @@ def search2(request):
             })
             cabin_class = data_search['cabin_class'][int(request.POST['counter_search'])]
             is_combo_price = False
-
-        # if request.session['is_combo_price'] == 'true':
-        #     is_combo_price = True
-        # else:
-        #     is_combo_price = False
 
         data = {
             "journey_list": journey_list,
@@ -809,12 +797,12 @@ def get_price_itinerary(request, boolean, counter):
                         'carrier_code': carrier_code
                     })
                 journeys = []
-        request.session['airline_promotion_code'] = json.loads(request.POST['promo_codes'])
+        airline_request = copy.deepcopy(request.session['airline_request'])
         data = {
-            "promo_codes": request.session['airline_promotion_code'],
-            "adult": int(request.session['airline_request']['adult']),
-            "child": int(request.session['airline_request']['child']),
-            "infant": int(request.session['airline_request']['infant']),
+            "promo_codes": json.loads(request.POST['promo_codes']),
+            "adult": int(airline_request['adult']),
+            "child": int(airline_request['child']),
+            "infant": int(airline_request['infant']),
             "schedules": schedules,
         }
         headers = {
@@ -823,6 +811,8 @@ def get_price_itinerary(request, boolean, counter):
             "action": "get_price_itinerary",
             "signature": request.POST['signature'],
         }
+        if 'airline_get_price_request' in request.session:
+            del request.session['airline_get_price_request']
         request.session['airline_get_price_request'] = data
         logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_price_request']))
         request.session.modified = True
@@ -917,6 +907,8 @@ def get_price_itinerary(request, boolean, counter):
                 pass
             logging.getLogger("info_logger").info("SUCCESS get_price_itinerary AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
             try:
+                if 'airline_price_itinerary' in request.session:
+                    del request.session['airline_price_itinerary']
                 request.session['airline_price_itinerary'] = res['result']['response']
                 logging.getLogger("info_logger").info(json.dumps(request.session['airline_price_itinerary']))
                 request.session.modified = True
@@ -1031,14 +1023,20 @@ def get_ssr_availabilty(request):
             except:
                 pass
                 logging.getLogger("error_logger").error("get_ssr_availability_airline AIRLINE SIGNATURE " + request.POST['signature'] + json.dumps(res))
+            if 'airline_get_ssr' in request.session:
+                del request.session['airline_get_ssr']
             request.session['airline_get_ssr'] = res
             logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_ssr']))
         else:
+            if 'airline_get_ssr' in request.session:
+                del request.session['airline_get_ssr']
             request.session['airline_get_ssr'] = res
             logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_ssr']))
 
             logging.getLogger("error_logger").error("get_ssr_availability_airline ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
+        if 'airline_get_ssr' in request.session:
+            del request.session['airline_get_ssr']
         request.session['airline_get_ssr'] = res
         logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_ssr']))
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -1054,6 +1052,8 @@ def get_seat_availability(request):
         "signature": request.POST['signature'],
     }
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    if 'airline_get_seat_availability' in request.session:
+        del request.session['airline_get_seat_availability']
     request.session['airline_get_seat_availability'] = res
     logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_seat_availability']))
     request.session.modified = True
@@ -1071,8 +1071,8 @@ def get_seat_map_response(request):
 
 def update_contacts(request):
     try:
-        booker = request.session['airline_create_passengers']['booker']
-        contacts = request.session['airline_create_passengers']['contact']
+        booker = copy.deepcopy(request.session['airline_create_passengers']['booker'])
+        contacts = copy.deepcopy(request.session['airline_create_passengers']['contact'])
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         for country in response['result']['response']['airline']['country']:
@@ -1103,8 +1103,9 @@ def update_contacts(request):
         res = request.session['airline_update_contact'+request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
+            if 'airline_update_contact'+request.POST['signature'] in request.session:
+                del request.session['airline_update_contact'+request.POST['signature']]
             request.session['airline_update_contact'+request.POST['signature']] = res
-            logging.getLogger("info_logger").info(json.dumps(request.session['airline_update_contact']))
             request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
         else:
@@ -1118,9 +1119,10 @@ def update_passengers(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         passenger = []
-        for pax_type in request.session['airline_create_passengers']:
+        passenger_cache = copy.deepcopy(request.session['airline_create_passengers'])
+        for pax_type in passenger_cache:
             if pax_type != 'booker' and pax_type != 'contact':
-                for pax in request.session['airline_create_passengers'][pax_type]:
+                for pax in passenger_cache[pax_type]:
                     if pax['nationality_name'] != '':
                         for country in response['result']['response']['airline']['country']:
                             if pax['nationality_name'] == country['name']:
@@ -1176,8 +1178,9 @@ def update_passengers(request):
         res = request.session['airline_update_passengers' + request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
+            if 'airline_update_passengers' + request.POST['signature'] in request.session:
+                del request.session['airline_update_passengers' + request.POST['signature']]
             request.session['airline_update_passengers' + request.POST['signature']] = res
-            logging.getLogger("info_logger").info(json.dumps(request.session['airline_update_passengers']))
             request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
@@ -1205,6 +1208,8 @@ def sell_ssrs(request):
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST',timeout=300)
     try:
         if res['result']['error_code'] == 0:
+            if 'airline_sell_ssrs' + request.POST['signature'] in request.session:
+                del request.session['airline_sell_ssrs' + request.POST['signature']]
             request.session['airline_sell_ssrs' + request.POST['signature']] = res
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:

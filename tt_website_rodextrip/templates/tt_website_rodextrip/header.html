@@ -44,7 +44,7 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
-                        {% if username != null %}
+                        {% if username.co_user_login != ''%}
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children pt5"><a href="#">Top Up</a>
@@ -57,7 +57,7 @@
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
 
-                        {% if username != null %}
+                        {% if username.co_user_login != '' %}
                         {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
                         <li class="credit_mobile pt5"><a id="credit_limit" style="color:black;"></a></li>
                         {% else %}
@@ -201,7 +201,7 @@
                         <div class="classynav">
                             <ul id="nav">
                                 <li class="active"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
-                                {% if username != null %}
+                                {% if username.co_user_login != '' %}
                                 <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                                 {% if "top_up" in username.co_agent_frontend_security %}
                                 <li><a href="#">Top Up</a>
@@ -220,7 +220,7 @@
                                 <li class="balance_mobile"><a id="balance"></a></li>
                                 {% endif %}
 
-                                {% if username != null %}
+                                {% if username.co_user_login != '' %}
                                 <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                                     <ul class="dropdown" style="margin-top:10px;">
                                         <li><a href="#">Partnership</a>
@@ -283,7 +283,7 @@
                             <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
                             <!--                            </div>-->
 
-                            {% if username == null %}
+                            {% if username.co_user_login == '' %}
                             <div class="book-now-btn ml-3 ml-lg-5">
                                 <a href="{% url 'tt_website_rodextrip:login'%}">Sign In <i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
                             </div>
@@ -315,7 +315,7 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li class="menu-active"><a href="index.html">Home</a></li>
-                        {% if username != null %}
+                        {% if username.co_user_login != '' %}
                         <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children"><a href="#">Top Up</a>
@@ -333,7 +333,7 @@
                         <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
                         {% endif %}
 
-                        {% if username != null %}
+                        {% if username.co_user_login != '' %}
                         <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul>
                                 <li class="menu-has-children"><a href="#">Partnership</a>
@@ -443,7 +443,7 @@
                     <nav class="site-navigation position-relative text-right" role="navigation">
                         <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
                             <li><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
-                            {% if username != null %}
+                            {% if username.co_user_login != '' %}
                             <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                             {% if "top_up" in username.co_agent_frontend_security %}
                             <li class="has-children"><a href="#">Top Up</a>
@@ -462,7 +462,7 @@
                             <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
                             {% endif %}
 
-                            {% if username != null %}
+                            {% if username.co_user_login != '' %}
                             <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
                                 <ul class="dropdown">
                                     <li class="has-children"><a href="#">Partnership</a>
@@ -573,7 +573,7 @@
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
-                        {% if username != null %}
+                        {% if username.co_user_login != '' %}
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
                         <li class="menu-has-children" style="margin-top:8px;"><a href="#">Top Up <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
@@ -586,7 +586,7 @@
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
 
-                        {% if username != null %}
+                        {% if username.co_user_login != '' %}
                         {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
                         <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit" style="color:black;"></a></li>
                         {% else %}
@@ -677,7 +677,7 @@
 </div>
 
 <script>
-    {% if username != null %}
+    {% if username.co_user_login != '' %}
         time = 300;
         triggered_balance({{update_data}});
         get_balance({{update_data}});
