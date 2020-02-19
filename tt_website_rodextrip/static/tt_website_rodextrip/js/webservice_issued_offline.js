@@ -816,7 +816,7 @@ function commit_booking(){
                Swal.fire({
                  type: 'success',
                  title: 'Booking!',
-                 html: 'Issued Offline number booking: ' + msg.result.response.id,
+                 html: 'Issued Offline number booking: ' + msg.result.response.order_number,
                })
 
                document.getElementById('transaction_type').value = '';

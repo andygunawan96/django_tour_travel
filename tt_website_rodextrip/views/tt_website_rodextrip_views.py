@@ -62,8 +62,6 @@ def index(request):
                     #get_data_awal
                     try:
                         provider_type = request.session['provider']
-                        request.session.create()
-
                         airline_cabin_class_list = [
                             {
                                 'name': 'Economy',

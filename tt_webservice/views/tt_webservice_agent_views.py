@@ -133,6 +133,7 @@ def signin(request):
             request.session['user_account'] = res_user['result']['response']
             try:
                 if res['result']['error_code'] == 0:
+                    request.session.create()
                     data = {}
                     headers = {
                         "Accept": "application/json,text/html,application/xml",
@@ -168,6 +169,7 @@ def signin(request):
                     logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
             except:
                 get_new_cache(res['result']['response']['signature'])
+                request.session.create()
         else:
             logging.getLogger("error_logger").error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
 
