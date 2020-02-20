@@ -693,15 +693,16 @@ function train_get_detail(){
                                 <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(passengers.adult))+`</span>
                             </div>`;
                         $text += passengers.adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
-                    }else if(journeys[i].fares[i].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
+                    }
+                    if(parseInt(passengers.infant) > 0){
                         train_detail_text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant(s) x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                                <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant(s) x `+price['currency']+` `+getrupiah(0)+`</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(passengers.infant))+`</span>
+                                <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0)+`</span>
                             </div>`;
-                        $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
+                        $text += passengers.infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
                     }
                 }
                 $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(journeys[i].fares[0].service_charge_summary[0].total_tax) + '\n\n';
@@ -929,15 +930,16 @@ function train_detail(){
                             <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(adult))+`</span>
                         </div>`;
                     $text += adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
-                }else if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
+                }
+                if(parseInt(infant) > 0){
                     text+=`
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) x `+price['currency']+` `+getrupiah(price['fare'])+`</span>
+                            <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) x `+price['currency']+` `+getrupiah(0)+`</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(price['fare'] * parseInt(infant))+`</span>
+                            <span style="font-size:13px;">`+price['currency']+` `+getrupiah(0)+`</span>
                         </div>`;
-                    $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
+                    $text += infant+`x Infant Fare @`+price['currency']+' '+getrupiah(0)+`\n`;
                 }
             }
         }

@@ -375,9 +375,9 @@ def get_booking(request):
                         month[pax['birth_date'].split(' ')[0].split('-')[1]],
                         pax['birth_date'].split(' ')[0].split('-')[0])
                 })
-            logging.getLogger("info_logger").info("SUCCESS get_booking TRAIN SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS get_booking TRAIN SIGNATURE " + request.session['train_signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_booking_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR get_booking_train TRAIN SIGNATURE " + request.session['train_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

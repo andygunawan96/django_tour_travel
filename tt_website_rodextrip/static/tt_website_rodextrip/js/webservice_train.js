@@ -1005,7 +1005,10 @@ function set_seat_map(){
             }
         }
     }
-    getToken();
+    for(i=passengers.length-1;i>0;i--){
+        if(passengers[i].seat_list[0].seat_code == '')
+            passengers.pop(i);
+    }
     document.getElementById('passenger_input').value = JSON.stringify(passengers);
     document.getElementById('seat_map_request_input').value = JSON.stringify(seat_map_request);
     goto_seat_map();
