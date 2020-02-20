@@ -570,7 +570,7 @@ function visa_commit_booking(){
                 document.getElementById('issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
-                close_div('payment_acq');
+//                close_div('payment_acq');
                 set_payment('Issued','visa');
             }
        },
