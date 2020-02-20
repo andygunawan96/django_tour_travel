@@ -1097,7 +1097,7 @@ def update_contacts(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    if 'airline_update_contact' + request.POST['signature'] not in request.session or request.session.get('airline_update_contact' + request.POST['signature']) != data:
+    if 'airline_update_contact' + request.POST['signature'] not in request.session or request.session.get('airline_update_contact_data' + request.POST['signature']) != data:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     else:
         res = request.session['airline_update_contact'+request.POST['signature']]
@@ -1106,6 +1106,7 @@ def update_contacts(request):
             if 'airline_update_contact'+request.POST['signature'] in request.session:
                 del request.session['airline_update_contact'+request.POST['signature']]
             request.session['airline_update_contact'+request.POST['signature']] = res
+            request.session['airline_update_contact_data'+request.POST['signature']] = data
             request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS update_contacts AIRLINE SIGNATURE " + request.POST['signature'])
         else:
@@ -1172,7 +1173,7 @@ def update_passengers(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers' + request.POST['signature']) != data:
+    if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data:
         res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
     else:
         res = request.session['airline_update_passengers' + request.POST['signature']]
@@ -1181,6 +1182,7 @@ def update_passengers(request):
             if 'airline_update_passengers' + request.POST['signature'] in request.session:
                 del request.session['airline_update_passengers' + request.POST['signature']]
             request.session['airline_update_passengers' + request.POST['signature']] = res
+            request.session['airline_update_passengers_data' + request.POST['signature']] = data
             request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS update_passengers AIRLINE SIGNATURE " + request.POST['signature'])
         else:
