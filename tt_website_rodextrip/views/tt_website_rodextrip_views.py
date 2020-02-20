@@ -39,7 +39,6 @@ def index(request):
         phone_code = sorted(phone_code)
 
         if request.POST.get('logout'):
-            request.session.delete()
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -262,14 +261,9 @@ def login(request):
     values = get_data_template(request, 'login')
     if request.POST.get('logout') == 'true':
         try:
-            if request.session._session:
-                for key in reversed(list(request.session._session.keys())):
-                    del request.session[key]
-                request.session.modified = True
+            request.session.delete()
         except:
             pass
-        if translation.LANGUAGE_SESSION_KEY in request.session:
-            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -287,12 +281,7 @@ def login(request):
         if request.session.get('user_account') and 'login' in request.session.get('user_account')['co_agent_frontend_security']:
             return goto_dashboard()
         else:
-            if request.session._session:
-                for key in reversed(list(request.session._session.keys())):
-                    del request.session[key]
-                request.session.modified = True
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
+            request.session.delete()
             try:
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
@@ -543,7 +532,6 @@ def top_up(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
-                'username': request.session['user_account'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
@@ -556,6 +544,40 @@ def top_up(request):
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
+    else:
+        return no_session_logout(request)
+
+def top_up_quota_pnr(request):
+    if 'user_account' in request.session._session:
+        try:
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            values = get_data_template(request)
+
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'username': request.session['user_account'],
+                'static_path_url_server': get_url_static_path(),
+                'javascript_version': javascript_version,
+                'signature': request.session['signature'],
+            })
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/backend/top_up_quota_pnr_templates.html', values)
     else:
         return no_session_logout(request)
 

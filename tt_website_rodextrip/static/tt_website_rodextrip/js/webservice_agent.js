@@ -2654,7 +2654,6 @@ function get_passenger_cache(){
                             check = 0;
                             var passenger_sequence = '';
                             for(j in passenger_data_pick){
-                                console.log(passenger_data_pick);
                                 if(passenger_data_pick[j].seq_id == msg.result.response[i].seq_id){
                                     check = 1;
                                     var passenger_pick = passenger_data_pick[j].sequence.replace(/[^a-zA-Z ]/g,"");
