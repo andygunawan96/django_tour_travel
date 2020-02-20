@@ -1257,12 +1257,13 @@ function get_price_itinerary_request(){
                     for(j in resJson.result.response.price_itinerary_provider[i].price_itinerary){
                         for(k in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments){
                             for(l in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
+                                airline_price.push({});
                                 for(m in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary){
                                     price_type['fare'] = resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].total_fare / resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                                     price_type['tax'] = resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].total_tax / resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                                     price_type['rac'] = resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].total_rac / resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_count;
+                                    price_type['roc'] = 0;
                                     price_type['currency'] = resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].service_charges[0].currency;
-                                    airline_price.push({});
                                     airline_price[airline_price.length-1][resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
                                     price_type = [];
                                 }
