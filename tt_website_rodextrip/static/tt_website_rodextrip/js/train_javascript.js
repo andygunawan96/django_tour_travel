@@ -1497,7 +1497,7 @@ function sort(value){
         }
     }else if(sorting_value == 'Earliest Arrival'){
         for(var i = 0; i < data_filter.length-1; i++) {
-            for(var j = i+1; j <data_filter.length; j++) {
+            for(var j = i+1; j < data_filter.length; j++) {
                 if (data_filter[i].arrival_date > data_filter[j].arrival_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
@@ -1507,7 +1507,7 @@ function sort(value){
         }
     }else if(sorting_value == 'Latest Arrival'){
         for(var i = 0; i < data_filter.length-1; i++) {
-            for(var j = i+1; j <data_filter.length; j++) {
+            for(var j = i+1; j < data_filter.length; j++) {
                 if (data_filter[i].arrival_date < data_filter[j].arrival_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
@@ -1517,7 +1517,7 @@ function sort(value){
         }
     }else if(sorting_value == 'Earliest Departure'){
         for(var i = 0; i < data_filter.length-1; i++) {
-            for(var j = i+1; j <data_filter.length; j++) {
+            for(var j = i+1; j < data_filter.length; j++) {
                 if (data_filter[i].departure_date > data_filter[j].departure_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];
@@ -1527,7 +1527,7 @@ function sort(value){
         }
     }else if(sorting_value == 'Latest Departure'){
         for(var i = 0; i < data_filter.length-1; i++) {
-            for(var j = i+1; j <data_filter.length; j++) {
+            for(var j = i+1; j < data_filter.length; j++) {
                 if (data_filter[i].departure_date < data_filter[j].departure_date){
                     temp = data_filter[i];
                     data_filter[i] = data_filter[j];

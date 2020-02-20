@@ -50,6 +50,9 @@
                         <li class="menu-has-children pt5"><a href="#">Top Up</a>
                             <ul>
                                 <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                {% if username.co_agent_type_name == 'Agent BTBO 2' %}
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                {% endif %}
                                 <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
                             </ul>
                         </li>
@@ -207,6 +210,9 @@
                                 <li><a href="#">Top Up</a>
                                     <ul class="dropdown">
                                         <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                        {% if username.co_agent_type_name == 'Agent BTBO 2' %}
+                                        <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                        {% endif %}
                                         <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
                                     </ul>
                                 </li>
@@ -321,6 +327,9 @@
                         <li class="menu-has-children"><a href="#">Top Up</a>
                             <ul>
                                 <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                {% if username.co_agent_type_name == 'Agent BTBO 2' %}
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                {% endif %}
                                 <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
                             </ul>
                         </li>
@@ -449,6 +458,9 @@
                             <li class="has-children"><a href="#">Top Up</a>
                                 <ul class="dropdown">
                                     <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                    {% if username.co_agent_type_name == 'Agent BTBO 2' %}
+                                    <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                    {% endif %}
                                     <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
                                 </ul>
                             </li>
@@ -579,6 +591,9 @@
                         <li class="menu-has-children" style="margin-top:8px;"><a href="#">Top Up <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul style="top:65%;">
                                 <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                {% if username.co_agent_type_name == 'Agent BTBO 2' %}
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                {% endif %}
                                 <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
                             </ul>
                         </li>

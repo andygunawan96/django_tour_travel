@@ -589,7 +589,7 @@ function get_transactions(type){
     });
 }
 
-function get_top_up_amount(){
+function get_top_up_quota_amount(){
     getToken();
     $.ajax({
        type: "POST",
@@ -602,14 +602,25 @@ function get_top_up_amount(){
        },
        success: function(msg) {
         console.log('here');
-        console.log(msg);
+        msg = {
+            'result': {
+                'error_code': 0,
+                'response': [{
+                    'seq_id': 'Q1',
+                    'amount': 1500000,
+                    'name': '1000',
+                    'currency': 'IDR'
+                }]
+            }
+        }
         top_up_amount_list = msg.result.response;
         if(msg.result.error_code == 0){
             text = '';
             for(i in msg.result.response)
-                text += `<option value="`+msg.result.response[i].seq_id+`" data-amount="`+msg.result.response[i].amount+`">`+msg.result.response[i].name+`</option>`;
+                text += `<option value="`+msg.result.response[i].seq_id+`" data-amount="`+msg.result.response[i].amount+`">`+getrupiah(msg.result.response[i].name)+` - PNR</option>`;
             document.getElementById('amount').innerHTML = text;
-            total_price_top_up();
+            $('#amount').niceSelect('update');
+            change_quota_top_up_price();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             auto_logout();
         }else{
@@ -628,6 +639,18 @@ function get_top_up_amount(){
             })
        },timeout: 60000
     });
+}
+
+function change_quota_top_up_price(){
+    for(i in top_up_amount_list){
+        console.log(top_up_amount_list[i].seq_id);
+        console.log(document.getElementById('amount').value);
+        if(top_up_amount_list[i].seq_id == document.getElementById('amount').value){
+            console.log('here');
+            document.getElementById('total_amount').value = top_up_amount_list[i].currency + ' ' + getrupiah(top_up_amount_list[i].amount);
+            break;
+        }
+    }
 }
 
 function change_top_up(){
