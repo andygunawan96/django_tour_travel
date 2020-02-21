@@ -510,7 +510,7 @@ function triggered_balance(val){
             time--;
         }else{
             get_balance(val);
-            time=300;
+            time = 300;
         }
     }, 1000);
 

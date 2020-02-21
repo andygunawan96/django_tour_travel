@@ -2162,7 +2162,9 @@
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
-    document.getElementById('voucher_discount').style.display = 'none';
+    try{
+        document.getElementById('voucher_discount').style.display = 'none';
+    }catch(err){}
     $( document ).ready(function() {
       $('.js-example-basic-single').select2();
       get_data_issued_offline();

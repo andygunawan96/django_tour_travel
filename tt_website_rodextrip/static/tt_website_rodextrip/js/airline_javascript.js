@@ -3313,7 +3313,8 @@ function airline_detail(type){
             for(j in price_itinerary.price_itinerary_provider[i].price_itinerary){
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
                     for(l in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
-                        airline_price.push({});
+                        if(price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary.length != 0)
+                            airline_price.push({});
                         for(m in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary){
                             price_type['fare'] = price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].total_fare / price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                             price_type['tax'] = price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].total_tax / price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_count;
@@ -3600,7 +3601,7 @@ function airline_detail(type){
             service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
             type_amount_repricing = ['Repricing'];
             for(i in passengers){
-                if(i != 'booker'){
+                if(i != 'booker' && i != 'contact'){
                     for(j in passengers[i]){
                         pax_type_repricing.push([passengers[i][j].first_name +passengers[i][j].last_name, passengers[i][j].first_name +passengers[i][j].last_name]);
                         price_arr_repricing[passengers[i][j].first_name +passengers[i][j].last_name] = {

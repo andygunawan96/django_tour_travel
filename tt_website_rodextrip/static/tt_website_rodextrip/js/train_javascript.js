@@ -800,7 +800,7 @@ function train_detail(){
         service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
         type_amount_repricing = ['Repricing'];
         for(i in passengers){
-            if(i != 'booker'){
+            if(i != 'booker' && i != 'contact'){
                 for(j in passengers[i]){
                     pax_type_repricing.push([passengers[i][j].first_name +passengers[i][j].last_name, passengers[i][j].first_name +passengers[i][j].last_name]);
                     price_arr_repricing[passengers[i][j].first_name +passengers[i][j].last_name] = {
@@ -1895,11 +1895,7 @@ function print_seat_map(val){
                     text+=`
                   </div>`;
                 }
-            text+=`
-                      <a class="prev" style="color:black;" onclick="plusSlides(-1, 0)">&#10094;</a>
-                      <a class="next" style="color:black;" onclick="plusSlides(1, 0)">&#10095;</a>
-                    </div>
-                    `;
+            text+=`</div>`;
 
             document.getElementById('train_seat_map').innerHTML += text;
             if(val == 0)

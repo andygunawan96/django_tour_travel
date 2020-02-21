@@ -1257,7 +1257,8 @@ function get_price_itinerary_request(){
                     for(j in resJson.result.response.price_itinerary_provider[i].price_itinerary){
                         for(k in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments){
                             for(l in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares){
-                                airline_price.push({});
+                                if(resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary.length != 0)
+                                    airline_price.push({});
                                 for(m in resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary){
                                     price_type['fare'] = resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].total_fare / resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                                     price_type['tax'] = resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].total_tax / resJson.result.response.price_itinerary_provider[i].price_itinerary[j].segments[k].fares[l].service_charge_summary[m].pax_count;
@@ -2831,7 +2832,9 @@ function airline_get_booking(data){
             }
 
             if(msg.result.response.state == 'issued'){
-               document.getElementById('voucher_discount').style.display = 'none';
+                try{
+                    document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){}
                //tanya ko sam kalau nyalain
 //                document.getElementById('ssr_request_after_sales').hidden = false;
 //                document.getElementById('ssr_request_after_sales').innerHTML = `
@@ -3951,7 +3954,7 @@ function update_service_charge(type){
                     }else{
                         price_arr_repricing = {};
                         pax_type_repricing = [];
-                        airline_detail();
+                        airline_detail('');
                     }
                 }catch(err){}
                 $('#myModalRepricing').modal('hide');
