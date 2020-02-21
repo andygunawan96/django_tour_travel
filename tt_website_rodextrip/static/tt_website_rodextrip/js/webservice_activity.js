@@ -1531,7 +1531,9 @@ function activity_get_booking(data){
             }
             else{
                 if(msg.result.response.status == 'issued'){
-                    document.getElementById('voucher_discount').style.display = 'none';
+                    try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){}
                     conv_status = 'Issued';
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");

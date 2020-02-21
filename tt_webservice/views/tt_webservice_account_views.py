@@ -337,7 +337,7 @@ def get_transactions(request):
         time_check.set_first_time('transaction')
     else:
         date_time = datetime.now() - time_check.get_time_transaction
-        if date_time.seconds >= 5 or time_check.get_time_transaction_first_time == True:
+        if date_time.seconds >= 300 or time_check.get_time_transaction_first_time == True:
             try:
                 name = ''
                 start_date = ''

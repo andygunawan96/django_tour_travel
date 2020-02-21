@@ -943,7 +943,9 @@ function get_booking_offline(data){
                 }
 
                 if(msg.result.response.state == 'issued'){
-                   document.getElementById('voucher_discount').style.display = 'none';
+                    try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){}
                    //tanya ko sam kalau nyalain
     //                document.getElementById('ssr_request_after_sales').hidden = false;
     //                document.getElementById('ssr_request_after_sales').innerHTML = `

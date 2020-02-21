@@ -368,7 +368,7 @@ function update_table(type){
             service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
             type_amount_repricing = ['Repricing'];
             for(i in passenger){
-                if(i != 'booker'){
+                if(i != 'booker' && i != 'contact'){
                     for(j in passenger[i]){
                         pax_type_repricing.push([passenger[i][j].first_name +passenger[i][j].last_name, passenger[i][j].first_name +passenger[i][j].last_name]);
                         price_arr_repricing[passenger[i][j].first_name +passenger[i][j].last_name] = {

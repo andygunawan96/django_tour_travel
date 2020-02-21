@@ -367,7 +367,9 @@ function train_get_booking(data){
                     document.getElementById('voucher_discount').style.display = '';
                 }catch(err){}
             }else{
-                document.getElementById('voucher_discount').style.display = 'none';
+                try{
+                    document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){}
             }
             total_price_provider = [];
             price_provider = 0;
@@ -1053,7 +1055,9 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
-                   document.getElementById('voucher_discount').style.display = 'none';
+                   try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                   }catch(err){}
                    $("#waitingTransaction").modal('hide');
                    train_get_booking(data);
                }else if(msg.result.error_code == 1009){
@@ -1067,7 +1071,9 @@ function train_issued(data){
                    document.getElementById('show_loading_booking_train').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
-                   document.getElementById('voucher_discount').style.display = 'none';
+                   try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                   }catch(err){}
                    $("#waitingTransaction").modal('hide');
                    train_get_booking(data);
                    Swal.fire({
@@ -1097,7 +1103,9 @@ function train_issued(data){
                     document.getElementById('show_loading_booking_train').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
                     document.getElementById("overlay-div-box").style.display = "none";
-                    document.getElementById('voucher_discount').style.display = 'none';
+                    try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){}
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
                     $("#waitingTransaction").modal('hide');
@@ -1123,7 +1131,9 @@ function train_issued(data){
                 document.getElementById('show_loading_booking_train').style.display = 'block';
                 document.getElementById('show_loading_booking_train').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
-                document.getElementById('voucher_discount').style.display = 'none';
+                try{
+                    document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){}
                 $('.hold-seat-booking-train').prop('disabled', false);
                 $('.hold-seat-booking-train').removeClass("running");
                 $("#waitingTransaction").modal('hide');
@@ -1206,7 +1216,9 @@ function train_cancel_booking(){
                document.getElementById('show_loading_booking_train').hidden = false;
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
-               document.getElementById('voucher_discount').style.display = 'none';
+               try{
+                    document.getElementById('voucher_discount').style.display = 'none';
+               }catch(err){}
                train_get_booking(order_number);
 
             }else{
@@ -1229,7 +1241,9 @@ function train_cancel_booking(){
                 document.getElementById('show_loading_booking_train').hidden = false;
                 document.getElementById('payment_acq').hidden = true;
                 document.getElementById("overlay-div-box").style.display = "none";
-                document.getElementById('voucher_discount').style.display = 'none';
+                try{
+                    document.getElementById('voucher_discount').style.display = 'none';
+                }catch(err){}
                 train_get_booking(order_number);
                 $("#waitingTransaction").modal('hide');
             }
