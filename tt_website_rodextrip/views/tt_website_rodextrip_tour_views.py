@@ -295,7 +295,7 @@ def passenger(request):
 
                     chosen_room = False
                     for temp_room in request.session['tour_data']['accommodations']:
-                        if int(temp_room['id']) == int(request.POST['room_id_' + str(idx + 1)]):
+                        if temp_room['room_code'] == request.POST['room_code_' + str(idx + 1)]:
                             chosen_room = temp_room
 
                     room.update({
@@ -305,7 +305,7 @@ def passenger(request):
                         'hotel': chosen_room['hotel'],
                         'name': chosen_room['name'],
                         'star': chosen_room['star'],
-                        'id': chosen_room['id'],
+                        'room_code': chosen_room['room_code'],
                         'notes': request.POST.get(note) and request.POST[note] or '',
                         'room_seq': 'Room ' + str(idx + 1),
                     })
@@ -550,7 +550,7 @@ def review(request):
             for rec in all_pax:
                 rec.update({
                     'sequence': temp_idx,
-                    'room_id': 0,
+                    'room_code': '',
                     'room_seq': 0,
                 })
                 temp_idx += 1
