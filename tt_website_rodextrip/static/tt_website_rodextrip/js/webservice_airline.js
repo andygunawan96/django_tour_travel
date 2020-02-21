@@ -3525,7 +3525,7 @@ function airline_get_booking(data){
             })
           $('.loader-rodextrip').fadeOut();
           $("#waitingTransaction").modal('hide');
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
