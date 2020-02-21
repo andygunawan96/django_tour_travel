@@ -245,7 +245,7 @@
                                             <td>
                                                 {{forloop.counter}}
                                                 <input type="hidden" id="room_sequence{{forloop.counter}}" value="{{forloop.counter}}"/>
-                                                <input type="hidden" id="room_id_{{forloop.counter}}" value="{{room.id}}"/>
+                                                <input type="hidden" id="room_code_{{forloop.counter}}" value="{{room.room_code}}"/>
                                                 <input type="hidden" id="adult_quota_room{{forloop.counter}}" value="{{room.adult}}"/>
                                                 <input type="hidden" id="child_quota_room{{forloop.counter}}" value="{{room.child}}"/>
                                                 <input type="hidden" id="infant_quota_room{{forloop.counter}}" value="{{room.infant}}"/>
@@ -559,7 +559,7 @@
     $(document).ready(function () {
         breadcrumb_create("tour", 5, 0);
         get_price_itinerary_cache('review');
-        get_payment_rules('{{tour_data.id}}');
+        get_payment_rules('{{tour_data.tour_code}}');
         //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'tour');
     });
 </script>

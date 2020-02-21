@@ -591,7 +591,7 @@ function tour_search(){
     });
 }
 
-function tour_get_details(package_id){
+function tour_get_details(tour_code){
     getToken();
     $.ajax({
        type: "POST",
@@ -600,7 +600,7 @@ function tour_get_details(package_id){
             'action': 'get_details',
        },
        data: {
-           'id': package_id,
+           'tour_code': tour_code,
            'signature': signature
        },
        success: function(msg) {
@@ -801,7 +801,7 @@ function tour_get_details(package_id){
                         <td style="width:20%;">`+tour_data.accommodations[n].name+` `+tour_data.accommodations[n].bed_type+`<br/>Max `+tour_data.accommodations[n].pax_limit+` persons</td>
                         <td style="width:40%;">`+tour_data.accommodations[n].description+`</td>`;
                     room_list_text += `
-                        <td style="width:10%;"><button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data.accommodations[n].id+`" onclick="add_tour_room(`+n+`)">Add</button></td>
+                        <td style="width:10%;"><button type="button" class="primary-btn-ticket btn-add-rooms" value="`+tour_data.accommodations[n].room_code+`" onclick="add_tour_room(`+n+`)">Add</button></td>
                     </tr>
                     `;
                 }
@@ -969,7 +969,7 @@ function update_passengers_tour(val){
         var temp_room_seq = document.getElementById("room_select_pax"+String(i+1)).value;
         var temp_pax_id = document.getElementById("temp_pax_id"+String(i+1)).value;
         temp_dict = {
-            'room_id': document.getElementById("room_id_"+String(temp_room_seq)).value,
+            'room_code': document.getElementById("room_code_"+String(temp_room_seq)).value,
             'room_seq': 'Room ' + String(temp_room_seq)
         }
         room_choice_dict[temp_pax_id] = temp_dict;
@@ -1115,7 +1115,7 @@ function commit_booking_tour(val)
     });
 }
 
-function get_payment_rules(id)
+function get_payment_rules(tour_code)
 {
     getToken();
     $.ajax({
@@ -1125,7 +1125,7 @@ function get_payment_rules(id)
             'action': 'get_payment_rules',
        },
        data: {
-           'id': id,
+           'tour_code': tour_code,
            'signature': signature
        },
        success: function(msg) {

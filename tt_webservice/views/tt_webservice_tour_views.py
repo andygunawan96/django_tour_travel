@@ -240,7 +240,7 @@ def search(request):
 def get_details(request):
     try:
         data = {
-            'id': request.POST['id'],
+            'tour_code': request.POST['tour_code'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -344,14 +344,14 @@ def sell_tour(request):
     final_room_list = []
     for room in room_list:
         final_room_list.append({
-            'room_id': room['id'],
+            'room_code': room['room_code'],
             'notes': room['notes'],
             'room_seq': room['room_seq'],
         })
 
     data = {
         "promotion_codes_booking": [],
-        "tour_id": request.session['tour_pick']['id'],
+        "tour_code": request.session['tour_pick']['tour_code'],
         'room_list': final_room_list,
         "adult": request.session['tour_booking_data']['adult'],
         "child": request.session['tour_booking_data']['child'],
@@ -522,7 +522,7 @@ def update_passengers(request):
         for key, val in room_choices.items():
             if int(key) == int(rec['temp_pax_id']):
                 rec.update({
-                    'tour_room_id': val['room_id'],
+                    'tour_room_code': val['room_code'],
                     'tour_room_seq': val['room_seq'],
                 })
 
@@ -680,7 +680,7 @@ def get_payment_rules(request):
     data = {
         'provider': request.session['tour_pick']['provider'],
         "fare_code": request.session['tour_pick']['provider_fare_code'],
-        'id': request.POST['id']
+        'tour_code': request.POST['tour_code']
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
