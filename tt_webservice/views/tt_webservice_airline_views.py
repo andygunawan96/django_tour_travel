@@ -827,6 +827,7 @@ def get_price_itinerary(request, boolean, counter):
                 for price_itinerary_provider in res['result']['response']['price_itinerary_provider']:
                     for journey in price_itinerary_provider['price_itinerary']:
                         journey.update({
+                            'rules': [],
                             'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
                             'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
                         })
