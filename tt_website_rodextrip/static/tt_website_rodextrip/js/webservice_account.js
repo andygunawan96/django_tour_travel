@@ -94,17 +94,16 @@ function get_balance(val){
                     document.getElementById("credit_search").innerHTML = text;
                 }catch(err){}
               }catch(err){}
-                logout();
-    //            Swal.fire({
-    //              type: 'error',
-    //              title: 'Oops!',
-    //              html: '<span style="color: #ff9900;">Error balance </span>' + msg.result.error_msg,
-    //            })
+              Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error get balance </span>' + msg.result.error_msg,
+              })
             }
             get_transactions_notification(val);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-              logout();
+              auto_logout();
               text = `Balance: Failed`;
               try{
                 document.getElementById("balance").innerHTML = text;
@@ -125,12 +124,6 @@ function get_balance(val){
                     document.getElementById("credit_search").innerHTML = text;
                 }catch(err){}
               }catch(err){}
-
-    //            Swal.fire({
-    //              type: 'error',
-    //              title: 'Oops!',
-    //              html: '<span style="color: red;">Error balance </span>' + errorThrown,
-    //            })
            },timeout: 60000
         });
     }else{
@@ -165,12 +158,12 @@ function get_account(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            logout();
-//            Swal.fire({
-//              type: 'error',
-//              title: 'Oops!',
-//              html: '<span style="color: red;">Error account </span>' + errorThrown,
-//            })
+//            logout();
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error account </span>' + errorThrown,
+            })
        },timeout: 60000
     });
 }

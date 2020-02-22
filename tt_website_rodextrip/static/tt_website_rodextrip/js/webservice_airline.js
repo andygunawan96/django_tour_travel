@@ -1605,7 +1605,7 @@ function get_price_itinerary_request(){
                 get_fare_rules();
 
             }else if(resJson.result.error_code == 4003 || resJson.result.error_code == 4002){
-                logout();
+                auto_logout();
             }else if(resJson.result.error_code == 4024){
                 Swal.fire({
                   type: 'error',

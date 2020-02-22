@@ -160,7 +160,7 @@ def search(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=180)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
@@ -210,7 +210,7 @@ def sell_journeys(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS sell_journeys TRAIN SIGNATURE " + request.POST['signature'])
@@ -308,7 +308,7 @@ def commit_booking(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
             request.session['train_order_number'] = res['result']['response']['order_number']
@@ -345,7 +345,7 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=60)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
             for provider_booking in res['result']['response']['provider_bookings']:
@@ -398,7 +398,7 @@ def update_service_charge(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0
@@ -473,7 +473,7 @@ def issued(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS issued AIRLINE SIGNATURE " + request.POST['signature'])
@@ -497,7 +497,7 @@ def cancel(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=60)
+    res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS cancel TRAIN SIGNATURE " + request.POST['signature'])
@@ -558,7 +558,7 @@ def assign_seats(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     if len(provider_bookings) > 0:
-        res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST')
+        res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
         try:
             if res['result']['error_code'] == 0:
                 logging.getLogger("info_logger").info("SUCCESS assign_seats TRAIN SIGNATURE " + request.POST['signature'])

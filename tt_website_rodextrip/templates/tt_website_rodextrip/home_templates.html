@@ -5204,8 +5204,6 @@
             });
             {% endif %}
             {% if "activity" in provider %}
-            get_activity_config('home');
-
             var activity_autocomplete = new autoComplete({
                 selector: '#activity_query',
                 minChars: 1,
@@ -5222,7 +5220,6 @@
 
             {% endif %}
             {% if "tour" in provider %}
-            get_tour_auto_complete('home');
             get_dept_year();
             var tour_autocomplete = new autoComplete({
                 selector: '#tour_query',
@@ -5443,6 +5440,7 @@
             });
         {% endif %}
         {% if "tour" in provider %}
+            get_tour_auto_complete('home');
             $("#tour_search_form").bind("keypress", function(e) {
                 if (e.keyCode == 13) {
                     return false;
@@ -5450,6 +5448,7 @@
             });
         {% endif %}
         {% if "activity" in provider %}
+            get_activity_config('home');
             $("#activity_search_form").bind("keypress", function(e) {
                 if (e.keyCode == 13) {
                     return false;

@@ -1099,7 +1099,7 @@ def update_contacts(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     if 'airline_update_contact' + request.POST['signature'] not in request.session or request.session.get('airline_update_contact_data' + request.POST['signature']) != data:
-        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     else:
         res = request.session['airline_update_contact'+request.POST['signature']]
     try:
@@ -1175,7 +1175,7 @@ def update_passengers(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     if 'airline_update_passengers' + request.POST['signature'] not in request.session or request.session.get('airline_update_passengers_data' + request.POST['signature']) != data:
-        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     else:
         res = request.session['airline_update_passengers' + request.POST['signature']]
     try:
