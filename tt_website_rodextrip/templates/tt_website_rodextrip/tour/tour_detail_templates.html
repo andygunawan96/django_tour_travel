@@ -962,27 +962,6 @@
                                         <h4>Room Setting</h4>
                                     </div>
                                     <div class="col-lg-7" style="margin-bottom:15px; padding-top:10px;">
-                                        {% if response.tour_type == 'private' %}
-                                        <div class="banner-right" style="margin-bottom: 25px;">
-                                            <div class="form-wrap" style="text-align: left; padding:0px;">
-                                                <h4>Tour Date</h4>
-                                                <hr/>
-                                                <label for="departure_date_tour">Departure Date</label>
-                                                <div class="input-container-search-ticket btn-group">
-                                                    <i class="fas fa-calendar icon-search-ticket" style="font-size:14px;"></i>
-                                                    <input class="form-control" type="text" name="departure_date_tour" id="departure_date_tour" placeholder="Choose your departure date"/>
-                                                </div>
-                                                <input type="hidden" id="departure_date_tour2" name="departure_date_tour2" value=""/><br/>
-                                                <label for="return_date_tour">Arrival Date</label>
-                                                <div class="input-container-search-ticket btn-group">
-                                                    <i class="fas fa-calendar icon-search-ticket" style="font-size:14px;"></i>
-                                                    <input class="form-control" type="text" name="return_date_tour" id="return_date_tour" placeholder="Choose your arrival date"/>
-                                                </div>
-                                                <input type="hidden" id="return_date_tour2" name="return_date_tour2" value=""/>
-                                            </div>
-                                        </div>
-                                        {% endif %}
-
                                         <input type="hidden" id="room_amount" name="room_amount"/>
                                         <div id="tour_room_input">
 
