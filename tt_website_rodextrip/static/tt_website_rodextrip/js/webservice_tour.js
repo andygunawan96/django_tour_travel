@@ -591,7 +591,7 @@ function tour_search(){
     });
 }
 
-function tour_get_details(tour_code){
+function tour_get_details(tour_code, tour_provider){
     getToken();
     $.ajax({
        type: "POST",
@@ -601,6 +601,7 @@ function tour_get_details(tour_code){
        },
        data: {
            'tour_code': tour_code,
+           'provider': tour_provider,
            'signature': signature
        },
        success: function(msg) {

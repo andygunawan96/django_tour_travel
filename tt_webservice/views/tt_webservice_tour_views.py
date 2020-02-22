@@ -195,7 +195,7 @@ def search(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "search",
+            "action": "search_all_provider",
             "signature": request.session['signature']
         }
     except Exception as e:
@@ -241,11 +241,12 @@ def get_details(request):
     try:
         data = {
             'tour_code': request.POST['tour_code'],
+            'provider': request.POST['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "get_details",
+            "action": "get_details_provider",
             "signature": request.session['tour_signature']
         }
     except Exception as e:

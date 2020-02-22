@@ -18,6 +18,7 @@
     dest_city = {{dest_city}};
     tour_id = '{{response.id}}';
     tour_code = '{{response.tour_code}}';
+    tour_provider = '{{response.provider}}';
 
     time_limit = {{time_limit}};
     session_time_limit();
@@ -1104,7 +1105,8 @@
                 $("#tour_query").trigger("blur");
             }
         });
-        tour_get_details(tour_code);
+        // tour_get_details(tour_code);
+        tour_get_details(tour_code, tour_provider);
 
         $('#product-tour').click(function(e){
             $('html, body').animate({
