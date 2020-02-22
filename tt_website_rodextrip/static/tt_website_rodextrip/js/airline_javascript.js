@@ -1402,9 +1402,9 @@ function airline_set_passenger_plus(type, val){
         }
         else{
             document.getElementById("right-plus-infant-flight").disabled = true;
-            document.getElementById("left-plus-infant-flight").disabled = false;
+            document.getElementById("left-minus-infant-flight").disabled = false;
             document.getElementById("right-plus-infant-flight1").disabled = true;
-            document.getElementById("left-plus-infant-flight1").disabled = false;
+            document.getElementById("left-minus-infant-flight1").disabled = false;
         }
     }
 

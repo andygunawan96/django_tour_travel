@@ -2925,7 +2925,7 @@ ul.edit_tabs li.current .image-rounded-icon{
   width:25px;
   border: 1px solid transparent;
   cursor:pointer;
-  color:#303030;
+  color:#000;
 }
 
 .btn-custom-circle:hover {
@@ -2934,7 +2934,7 @@ ul.edit_tabs li.current .image-rounded-icon{
 
 .btn-custom-circle:disabled {
   border: 1px solid #999999;
-  background-color: #E1E1E1;
+  background-color: #E1E1E1 !important;
   color: #A5A5A5;
   cursor:not-allowed;
 }
