@@ -650,7 +650,7 @@ def issued_booking(request):
             'payment_method': request.POST['payment_method'],
             'member': member,
             'acquirer_seq_id': request.POST['seq_id'],
-            'voucher_code': request.POST['voucher_code']
+            'voucher': {}
         }
         if request.POST['voucher_code'] != '':
             data.update({
