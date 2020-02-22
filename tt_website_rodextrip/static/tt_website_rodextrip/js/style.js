@@ -542,7 +542,7 @@ $(document).ready(function(){
         }
         else{
             document.getElementById("right-plus-infant-flight").disabled = true;
-            document.getElementById("left-plus-infant-flight").disabled = false;
+            document.getElementById("left-minus-infant-flight").disabled = false;
         }
     });
     $('.left-minus-infant-flight').click(function(e){

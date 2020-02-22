@@ -136,11 +136,11 @@
                                             </div>
                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" {% if train_request.adult == 1 %} disabled {% endif %}>
+                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" readonly>
-                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="" {% if train_request.adult == 4 %} disabled {% endif %}>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" readonly>
+                                                    <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -156,11 +156,11 @@
                                             </div>
                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" {% if train_request.infant == 0 %} disabled {% endif %}>
+                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
-                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="" {% if train_request.adult == train_request.infant %} disabled {% endif %}>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
+                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -366,7 +366,7 @@
                                     <span style="color:{{text_color}};"><i class="fas fa-users"></i> Passenger</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                        <ul class="dropdown-menu" role="menu">
+                                        <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
                                             <div class="row" style="padding:10px;">
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                     <div style="float:left;">
@@ -378,10 +378,10 @@
                                                 </div>
                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" {% if train_request.adult == 1 %} disabled {% endif %}>
+                                                        <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                             <i class="fas fa-minus"></i>
                                                         </button>
-                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" {% if train_request.adult == 4 %} disabled {% endif %}>
+                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" disabled>
                                                         <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
@@ -398,11 +398,11 @@
                                                 </div>
                                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                     <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" {% if train_request.infant == 0 %} disabled {% endif %}>
+                                                        <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                             <i class="fas fa-minus"></i>
                                                         </button>
-                                                        <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
-                                                        <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="" {% if train_request.adult == train_request.infant %} disabled {% endif %}>
+                                                        <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" disabled>
+                                                        <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                             <i class="fas fa-plus"></i>
                                                         </button>
                                                     </div>
@@ -608,7 +608,7 @@
                             <span class="span-search-ticket"><i class="fas fa-users"></i> Passenger</span>
                             <div class="form-group">
                                 <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                <ul class="dropdown-menu" role="menu">
+                                <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
                                     <div class="row" style="padding:10px;">
                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                             <div style="float:left;">
@@ -620,11 +620,11 @@
                                         </div>
                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                             <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" {% if train_request.adult == 1 %} disabled {% endif %}>
+                                                <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                     <i class="fas fa-minus"></i>
                                                 </button>
-                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" readonly>
-                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="" {% if train_request.adult == 4 %} disabled {% endif %}>
+                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" disabled>
+                                                <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </div>
@@ -640,11 +640,11 @@
                                         </div>
                                         <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                             <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" {% if train_request.infant == 0 %} disabled {% endif %}>
+                                                <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                     <i class="fas fa-minus"></i>
                                                 </button>
-                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
-                                                <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="" {% if train_request.adult == train_request.infant %} disabled {% endif %}>
+                                                <input type="text" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" disabled>
+                                                <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                     <i class="fas fa-plus"></i>
                                                 </button>
                                             </div>
@@ -856,7 +856,7 @@
                                 <div class="input-container-search-ticket btn-group">
                                     <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                     <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
+                                    <ul class="dropdown-menu" style="overflow-y:unset;" role="menu">
                                         <div class="row" style="padding:10px;">
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                 <div style="float:left;">
@@ -868,10 +868,10 @@
                                             </div>
                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" {% if train_request.adult == 1 %} disabled {% endif %}>
+                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" {% if train_request.adult == 4 %} disabled {% endif %}>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" disabled>
                                                     <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
@@ -888,11 +888,11 @@
                                             </div>
                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" {% if train_request.infant == 0 %} disabled {% endif %}>
+                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
-                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="" {% if train_request.adult == train_request.infant %} disabled {% endif %}>
+                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" disabled>
+                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -1099,7 +1099,7 @@
                                 <span class="span-search-ticket">Passenger</span>
                                 <div class="input-container-search-ticket btn-group">
                                     <button id="show_total_pax_train" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown"></button>
-                                    <ul class="dropdown-menu" role="menu">
+                                    <ul class="dropdown-menu" style="overflow:unset;" role="menu">
                                         <div class="row" style="padding:10px;">
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="float:left !important;">
                                                 <div style="float:left;">
@@ -1111,10 +1111,10 @@
                                             </div>
                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" {% if train_request.adult == 1 %} disabled {% endif %}>
+                                                    <button type="button" class="left-minus-adult-train btn-custom-circle" id="left-minus-adult-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" readonly {% if train_request.adult == 4 %} disabled {% endif %}>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_adult" name="train_adult" min="1" value="{{train_request.adult}}" disabled>
                                                     <button type="button" class="right-plus-adult-train btn-custom-circle" id="right-plus-adult-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
@@ -1131,11 +1131,11 @@
                                             </div>
                                             <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="float:right !important;">
                                                 <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" {% if train_request.infant == 0 %} disabled {% endif %}>
+                                                    <button type="button" class="left-minus-infant-train btn-custom-circle" id="left-minus-infant-train" data-type="minus" data-field="" disabled>
                                                         <i class="fas fa-minus"></i>
                                                     </button>
-                                                    <input type="text" class="form-control" style="padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" readonly>
-                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="" {% if train_request.adult == train_request.infant %} disabled {% endif %}>
+                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; font-size:13px; text-align:center; width:25px;" id="train_infant" name="train_infant" value="{{train_request.infant}}" disabled>
+                                                    <button type="button" class="right-plus-infant-train btn-custom-circle" id="right-plus-infant-train" data-type="plus" data-field="">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -1507,6 +1507,33 @@
     });
 
     $(function() {
+      var quantity_adult_train = parseInt($('#train_adult').val());
+      var quantity_infant_train = parseInt($('#train_infant').val());
+      if (quantity_adult_train == 4){
+        document.getElementById("left-minus-adult-train").disabled = false;
+        document.getElementById("right-plus-adult-train").disabled = true;
+      }else if (quantity_adult_train == 1){
+        document.getElementById("left-minus-adult-train").disabled = true;
+        document.getElementById("right-plus-adult-train").disabled = false;
+      }else{
+        document.getElementById("left-minus-adult-train").disabled = false;
+        document.getElementById("right-plus-adult-train").disabled = false;
+      }
+
+      if(quantity_infant_train == quantity_adult_train){
+        document.getElementById("left-minus-infant-train").disabled = false;
+        document.getElementById("right-plus-infant-train").disabled = true;
+      }
+      else if(quantity_infant_train == 0){
+        document.getElementById("left-minus-infant-train").disabled = true;
+        document.getElementById("right-plus-infant-train").disabled = false;
+      }
+      else{
+        document.getElementById("right-plus-infant-train").disabled = false;
+        document.getElementById("left-minus-infant-train").disabled = false;
+      }
+
+
         var radioValueTrain = $("input[name='radio_train_type']:checked").val();
         if(radioValueTrain){
             $radio_value_string = radioValueTrain;

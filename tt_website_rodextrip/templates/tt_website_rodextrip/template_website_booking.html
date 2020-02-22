@@ -412,12 +412,18 @@ Licence URI: http://www.os-templates.com/template-terms
             user-select: none;
             border: 1px solid transparent;
             cursor: pointer;
-            color: #303030;
+            color: #000;
             height: 30px;
         }
         .btn-custom-circle:hover {
             background-color: {{color}};
             opacity:0.9;
+        }
+        .btn-custom-circle:disabled {
+            border: 1px solid #999999;
+            background-color: #E1E1E1 !important;
+            color: #A5A5A5;
+            cursor:not-allowed;
         }
         .detail-link{
             text-decoration: unset;
