@@ -322,7 +322,7 @@ function hotel_facility_request(hotel_facilities){
                         break;
                     }
                     if (facility_image[i].internal_code == hotel_facilities[rec].facility_id){
-                        //console.log(facility_image[i].facility_name+ ' Similar Code');
+                        // console.log(facility_image[i].name);
                         new_html = `
                         <div class="col-md-3 col-sm-4 col-xs-6" style="width:25%; padding-bottom:15px;">
                             <i class="fas fa-circle" style="font-size:9px;"></i>
