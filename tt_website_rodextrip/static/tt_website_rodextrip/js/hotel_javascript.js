@@ -283,15 +283,20 @@ function filtering(type, update){
             low_price_slider = 99999999;
         }
 
-        if (selected_fac != false){
+        if (selected_fac.length > 0 ){
             console.log('Selected Length: ' + selected_fac.length);
             data.hotel_ids.forEach((obj)=> {
                 var selected = 0;
                 selected_fac.forEach((obj1)=> {
                     for( var i = 0; i < obj.facilities.length; i++){
-                        if (obj.facilities[i].facility_id === top_facility[obj1].internal_code){
+                        if (top_facility[obj1].facility_name.toLowerCase().includes(obj.facilities[i].facility_name.toLowerCase()) ){
                             selected += 1;
-                            break;
+                            continue;
+                        }
+                        if (top_facility[obj1].internal_name.toLowerCase().includes(obj.facilities[i].facility_name.toLowerCase()) ){
+                        //if (obj.facilities[i].facility_id === top_facility[obj1].internal_code){
+                            selected += 1;
+                            continue;
                         }
                     }
                 });
@@ -468,17 +473,48 @@ function sort(response, check_filter){
             }
         }
 
+        // console.log('Lowest Price');
         for(var i = 0; i < response.hotel_ids.length-1; i++) {
             for(var j = i+1; j <= response.hotel_ids.length-1; j++) {
                 if(sorting == 'Lowest Price'){
                     var price_i = 0;
                     var price_j = 0;
-                    if(response.hotel_ids[i].prices.length > 0)
-                        price_i = response.hotel_ids[j].prices[0].price_total;
+                    if(response.hotel_ids[i].prices.length > 0){
+                        var arr = [];
+                        for (var key in response.hotel_ids[i].prices) {
+                            if (response.hotel_ids[i].prices.hasOwnProperty(key)) {
+                                arr.push( response.hotel_ids[i].prices[key].price );
+                            }
+                        }
+                        for(var l = 0; l < arr.length-1; l++)
+                            for(var k = l+1; k <= arr.length-1; k++) {
+                                if(arr[j].price > arr[k].price){
+                                    var temp = arr[l];
+                                    arr[l] = arr[k];
+                                    arr[k] = temp;
+                                }
+                            }
+                        price_i = arr[0];
+                    }
                     else
                         price_i = 0;
-                    if(response.hotel_ids[j].prices.length > 0)
-                        price_j = response.hotel_ids[j].prices[0].price_total;
+                    if(response.hotel_ids[j].prices.length > 0){
+                        var arr = [];
+                        for (var key in response.hotel_ids[j].prices) {
+                            if (response.hotel_ids[j].prices.hasOwnProperty(key)) {
+                                arr.push( response.hotel_ids[j].prices[key].price );
+                            }
+                        }
+                        for(var l = 0; l < arr.length-1; l++)
+                            for(var k = l+1; k <= arr.length-1; k++) {
+                                if(arr[l].price > arr[k].price){
+                                    var temp = arr[l];
+                                    arr[l] = arr[k];
+                                    arr[k] = temp;
+                                }
+                            }
+                        price_j = arr[0];
+                    }
                     else
                         price_j = 0;
                     if(price_i > price_j){
@@ -489,12 +525,42 @@ function sort(response, check_filter){
                 }else if(sorting == 'Highest Price'){
                     var price_i = 0;
                     var price_j = 0;
-                    if(response.hotel_ids[i].prices.length > 0)
-                        price_i = response.hotel_ids[j].prices[0].price_total;
+                    if(response.hotel_ids[i].prices.length > 0){
+                        var arr = [];
+                        for (var key in response.hotel_ids[i].prices) {
+                            if (response.hotel_ids[i].prices.hasOwnProperty(key)) {
+                                arr.push( response.hotel_ids[i].prices[key].price );
+                            }
+                        }
+                        for(var l = 0; l < arr.length-1; l++)
+                            for(var k = l+1; k <= arr.length-1; k++) {
+                                if(arr[l].price < arr[k].price){
+                                    var temp = arr[l];
+                                    arr[l] = arr[k];
+                                    arr[k] = temp;
+                                }
+                            }
+                        price_i = arr[0];
+                    }
                     else
                         price_i = 0;
-                    if(response.hotel_ids[j].prices.length > 0)
-                        price_j = response.hotel_ids[j].prices[0].price_total;
+                    if(response.hotel_ids[j].prices.length > 0){
+                        var arr = [];
+                        for (var key in response.hotel_ids[j].prices) {
+                            if (response.hotel_ids[j].prices.hasOwnProperty(key)) {
+                                arr.push( response.hotel_ids[j].prices[key].price );
+                            }
+                        }
+                        for(var l = 0; l < arr.length-1; l++)
+                            for(var k = l+1; k <= arr.length-1; k++) {
+                                if(arr[l].price < arr[k].price){
+                                    var temp = arr[l];
+                                    arr[l] = arr[k];
+                                    arr[k] = temp;
+                                }
+                            }
+                        price_j = arr[0];
+                    }
                     else
                         price_j = 0;
                     if(price_i < price_j){
@@ -529,6 +595,7 @@ function sort(response, check_filter){
                 }
             }
         }
+        //console.log('Done');
         document.getElementById("hotel_result_city").innerHTML = '';
         text = '';
         var node = document.createElement("div");
@@ -731,7 +798,11 @@ function sort(response, check_filter){
                                         for(j in top_facility){
                                             var facility_check = 0;
                                             for(k in response.hotel_ids[i].facilities){
-                                                if(top_facility[j].internal_code == response.hotel_ids[i].facilities[k].facility_id){
+                                                if(top_facility[j].facility_name.toLowerCase() == response.hotel_ids[i].facilities[k].facility_name.toLowerCase() ){
+                                                    facility_check = 1;
+                                                    ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
+                                                    break;
+                                                } else if (top_facility[j].internal_name.toLowerCase().includes(response.hotel_ids[i].facilities[k].facility_name.toLowerCase()) ){
                                                     facility_check = 1;
                                                     ava_fac += response.hotel_ids[i].facilities[k].facility_id + ','
                                                     break;
@@ -774,7 +845,6 @@ function sort(response, check_filter){
                             <div class="col-lg-5 col-md-5" style="padding-top:5px;">
                                 <div class="row" style="padding:0px;">`;
                                     if(Object.keys(response.hotel_ids[i].prices).length > 0){
-
                                         var arr = [];
                                         for (var key in response.hotel_ids[i].prices) {
                                             if (response.hotel_ids[i].prices.hasOwnProperty(key)) {
