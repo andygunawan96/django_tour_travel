@@ -164,7 +164,7 @@ function train_search(signature){
               title: 'Oops!',
               html: '<span style="color: red;">Error train search </span>' + errorThrown,
             })
-       },timeout: 180000
+       },timeout: 480000
     });
 }
 
@@ -341,7 +341,7 @@ function train_create_booking(val){
            $('.hold-seat-booking-train').removeClass("running");
            $('.hold-seat-booking-train').attr("disabled", false);
            $("#waitingTransaction").modal('hide');
-       },timeout: 300000
+       },timeout: 480000
     });
 }
 
@@ -963,7 +963,7 @@ function train_get_booking(data){
             })
             document.getElementById('show_loading_booking_train').hidden = true;
             $("#waitingTransaction").modal('hide');
-       },timeout: 60000
+       },timeout: 480000
     });
 }
 
@@ -1139,7 +1139,7 @@ function train_issued(data){
                 $("#waitingTransaction").modal('hide');
                 document.getElementById("overlay-div-box").style.display = "none";
                 train_get_booking(data);
-           },timeout: 300000
+           },timeout: 480000
         });
       }
     })
@@ -1176,7 +1176,7 @@ function train_get_seat_map(){
               title: 'Oops!',
               html: '<span style="color: red;">Error train seat map </span>' + errorThrown,
             })
-       },timeout: 60000
+       },timeout: 480000
     });
 }
 
@@ -1259,7 +1259,7 @@ function train_cancel_booking(){
                   }
                 })
                 $("#waitingTransaction").modal('hide');
-           },timeout: 60000
+           },timeout: 480000
         });
         $('.submit-seat-train').addClass("running");
       }
@@ -1329,7 +1329,7 @@ function train_manual_seat(){
             $('.submit-seat-train').removeClass("running");
             $("#waitingTransaction").modal('hide');
             $('.change-seat-train-buttons').prop('disabled', false);
-       },timeout: 60000
+       },timeout: 480000
     });
 }
 
@@ -1431,7 +1431,7 @@ function update_service_charge(type){
               title: 'Oops!',
               html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
             })
-       },timeout: 60000
+       },timeout: 480000
     });
 
 }
