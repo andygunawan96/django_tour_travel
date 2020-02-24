@@ -140,8 +140,7 @@ def search(request):
             'query': request.session['activity_search_request']['query'].replace('&amp;', '&'),
             'country': request.session['activity_search_request']['country'],
             'city': request.session['activity_search_request']['city'],
-            'sort': request.POST['sort'],
-            'type_id': request.session['activity_search_request']['type_id'],
+            'type': request.session['activity_search_request']['type'],
             'category': request.session['activity_search_request']['category'],
             'sub_category': request.session['activity_search_request']['sub_category'],
         }
