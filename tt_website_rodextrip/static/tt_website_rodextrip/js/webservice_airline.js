@@ -2895,8 +2895,9 @@ function airline_get_booking(data){
                             <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
                     }
-                    if(check_provider_booking == 0){
+                    if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
                         $text += msg.result.response.state_description+'\n';
+                        check_provider_booking++;
                         $(".issued_booking_btn").remove();
                     }
                     $text +='\n';
@@ -2936,7 +2937,7 @@ function airline_get_booking(data){
                                     try{
                                         $text += airline_carriers[msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code].name + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
                                     }catch(err){
-                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code;
+                                        $text += msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_code + ' ' + msg.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number;
                                     }
                                     if(cabin_class != '')
                                         $text += ' ' + cabin_class;
