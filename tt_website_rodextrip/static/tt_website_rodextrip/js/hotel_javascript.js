@@ -194,8 +194,8 @@ function hotel_search_validation(){
     if(document.getElementById("hotel_id_nationality").value == '')
         text+= 'Please fill nationality\n';
     today = new Date().toString().split(' ');
-    if(moment(today[2]+' '+today[1]+' '+today[3], 'DD MMM YYYY') >= moment(document.getElementById("hotel_checkin").value, 'DD MMM YYYY'))
-        text+= 'Checkin date must 1 day from today\n';
+    if(moment(today[2]+' '+today[1]+' '+today[3], 'DD MMM YYYY') > moment(document.getElementById("hotel_checkin").value, 'DD MMM YYYY'))
+        text+= 'Checkin date minimum today\n';
     if(document.getElementById("hotel_checkin").value == '')
         text+= 'Please fill checkin date\n';
     if(document.getElementById("hotel_checkout").value == '')
