@@ -48,7 +48,7 @@ function activity_login(data){
             'action': 'login',
        },
        data: {
-          'sort': 'price_asc',
+
        },
        success: function(msg) {
 
@@ -282,7 +282,6 @@ function activity_search(){
        },
        data: {
           'search_request': JSON.stringify(activity_request),
-          'sort': 'price_asc',
           'signature': signature
        },
        success: function(msg) {
