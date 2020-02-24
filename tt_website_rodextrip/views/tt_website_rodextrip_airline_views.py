@@ -683,14 +683,10 @@ def seat_map(request):
                             })
 
             additional_price_input = ''
+            additional_price = request.POST['additional_price_input'].split(',')
+            for i in additional_price:
+                additional_price_input += i
             try:
-                additional_price = 0
-                for i in additional_price:
-                    additional_price_input += i
-                upsell = 0
-                for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
-                    if pax.get('channel_service_charges'):
-                        upsell = pax.get('channel_service_charges')
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_carriers': carrier,
@@ -698,7 +694,7 @@ def seat_map(request):
                     'countries': airline_country,
                     'phone_code': phone_code,
                     'after_sales': 0,
-                    'upsell': upsell,
+                    'upsell': request.session.get('airline_upsell_'+request.session['airline_signature']) and request.session.get('airline_upsell_'+request.session['airline_signature']) or 0,
                     'airline_request': request.session['airline_request'],
                     'price': request.session['airline_price_itinerary'],
                     'additional_price': float(additional_price_input),

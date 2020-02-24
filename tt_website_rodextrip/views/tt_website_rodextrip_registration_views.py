@@ -39,7 +39,7 @@ def open_page(request):
             'countries': response['result']['response']['airline']['country'],
             'static_path': path_util.get_static_path(MODEL_NAME),
             'javascript_version': javascript_version,
-            'username': request.session.get('user_account'),
+            'username': request.session.get('user_account') or {'co_user_login': ''},
             'static_path_url_server': get_url_static_path(),
             'signature': request.session.get('signature'),
             'social_medias': social_medias,
