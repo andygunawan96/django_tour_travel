@@ -3359,11 +3359,12 @@ function airline_detail(type){
                 text += `<h6>Flight `+flight_count+`</h6>`;
                 $text +='Flight '+flight_count+'\n';
                 //logo
-                for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list) //print gambar airline
+                carrier_code_list = Array.from(new Set(price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list))
+                for(k in carrier_code_list) //print gambar airline
                     try{
-                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][carrier_code_list[k]]+`" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" title="" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+price_itinerary.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" title="" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                     }
 
                 for(k in price_itinerary.price_itinerary_provider[i].price_itinerary[j].segments){
@@ -4242,11 +4243,12 @@ function get_airline_review(){
             //logo
             text+=`<div class="row">
                 <div class="col-lg-4">`;
-            for(k in airline_pick[i].price_itinerary[j].carrier_code_list) //print gambar airline
+            carrier_code_list = Array.from(new Set(airline_pick[i].price_itinerary[j].carrier_code_list))
+            for(k in carrier_code_list) //print gambar airline
                 try{
-                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[airline_pick.price_itinerary_provider[i].price_itinerary[j].carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="`+airline_carriers[carrier_code_list[k]]+`" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                 }catch(err){
-                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+airline_pick[i].price_itinerary[j].carrier_code_list[k]+`.png"><span> </span>`;
+                    text+=`<img data-toggle="tooltip" title="" style="width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                 }
             text+=`</div>`;
             for(k in airline_pick[i].price_itinerary[j].segments){
