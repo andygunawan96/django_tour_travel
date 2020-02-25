@@ -114,7 +114,7 @@ def register_agent(request):
                 'address': request.POST['street'] and request.POST['street'] or '',
                 'address2': request.POST['street2'] and request.POST['street2'] or '',
             },
-            'promotion_id': request.POST['promotion'] and request.POST['promotion'] or '',
+            'promotion_id': request.POST.get('promotion') and request.POST['promotion'] or '',
             'pic': pic,
             'regis_doc': regis_doc,
             'other': {
@@ -124,9 +124,9 @@ def register_agent(request):
         }
 
         values.update({
-            'username': request.session['user_account'],
+            'username': request.session.get('user_account') or {'co_user_login': ''},
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'signature': request.session['signature'],
+            'signature': request.session.get('signature'),
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })

@@ -14,10 +14,11 @@ function submit_agent_registration(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                if(username == 'itrodex.api')
-                    get_payment_acq('Issued','', '', 'top_up', signature, 'registration','', '')
-                else
-                    get_payment_acq('Issued','', '', 'billing', signature, 'registration','', '')
+//                if(username == '')
+//                    get_payment_acq('Issued','', '', 'top_up', signature, 'registration','', '')
+//                else
+//                    get_payment_acq('Issued','', '', 'billing', signature, 'registration','', '')
+//                document.getElementById('payment_acq').hidden = false;
                 text = '';
                 text += `<br/>
                     <label>Registration Number: `+msg.result.response.registration_number+`</label><br/>

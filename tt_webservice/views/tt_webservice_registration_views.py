@@ -11,6 +11,7 @@ import base64
 import traceback
 from .tt_webservice_views import *
 import time
+import copy
 _logger = logging.getLogger(__name__)
 
 @api_view(['GET', 'POST'])
@@ -60,6 +61,10 @@ def login(request,func):
             res = get_config(request)
         elif func == 'register':
             res = register(request)
+        elif func == 'get_requirement':
+            res = get_requirement_list_doc(request)
+        elif func == 'get_promotions':
+            res = get_promotions(request)
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -73,11 +78,13 @@ def get_requirement_list_doc(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_requirement_list_doc",
-            'signature': request.session['signature']
+            'signature': request.session.get('signature') or ''
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
+    if res['result']['error_code'] != 0:
+        res = login(request, 'get_requirement')
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS get_requirement_list_doc_agent_regis SIGNATURE " + request.session['signature'])
@@ -96,7 +103,7 @@ def get_config(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_config",
-            'signature': request.session['signature']
+            'signature': request.session.get('signature') or ''
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -122,14 +129,14 @@ def get_promotions(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_promotions",
-            'signature': request.POST['signature']
+            'signature': request.session.get('signature') or ''
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
 
     if res['result']['error_code'] != 0:
-        res = login(request, 'get_config')
+        res = login(request, 'get_promotions')
     try:
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("SUCCESS get_promotion_agent_regis SIGNATURE " + request.session['signature'])
@@ -140,26 +147,37 @@ def get_promotions(request):
     return res
 
 def register(request):
+    check = 0
     try:
-        data = request.session['registration_request']
-        data['regis_doc'] = upload_image_agent_regis(data['regis_doc'], data['company']['name'], request.POST['signature'])
+        data = copy.deepcopy(request.session['registration_request'])
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "create_agent",
-            "signature": request.POST['signature'],
+            "signature": request.session.get('signature') or ''
         }
+        if request.session['register_done_data'] == data:
+            check = 1
+        else:
+            data['regis_doc'] = upload_image_agent_regis(data['regis_doc'], data['company']['name'], request.session.get('signature') or '')
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
+    if check == 0:
+        res = util.send_request(url=url + "session/agent_registration", data=data, headers=headers, method='POST')
+    else:
+        res = request.session['register_result_done']
     try:
         if res['result']['error_code'] != 0:
             res = login(request, 'register')
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
+    if res['result']['error_code'] != 0:
+        res = login(request, 'register')
     try:
         if res['result']['error_code'] == 0:
+            request.session['register_done_data'] = copy.deepcopy(request.session['registration_request'])
+            request.session['register_result_done'] = res
+            request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS create_agent_agent_regis SIGNATURE " + request.session['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR create_agent_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
