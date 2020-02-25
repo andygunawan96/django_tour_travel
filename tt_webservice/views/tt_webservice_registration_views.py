@@ -156,7 +156,7 @@ def register(request):
             "action": "create_agent",
             "signature": request.session.get('signature') or ''
         }
-        if request.session['register_done_data'] == data:
+        if request.session.get('register_done_data') == data:
             check = 1
         else:
             data['regis_doc'] = upload_image_agent_regis(data['regis_doc'], data['company']['name'], request.session.get('signature') or '')
