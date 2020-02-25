@@ -868,24 +868,33 @@ function hotel_issued_booking(){
        success: function(msg) {
             console.log('Result');
             console.log(msg);
-            if(msg.result.error_code == 0){
-                document.getElementById('order_number').value = msg.result.response.os_res_no;
-                document.getElementById('issued').action = '/hotel/booking';
-                document.getElementById('issued').submit();
-//                var form = document.getElementById('hotel_booking');
-//                var input = document.createElement('input');//prepare a new input DOM element
-//                input.setAttribute('name', 'result');//set the param name
-//                input.setAttribute('value', JSON.stringify(msg) );//set the value
-//                input.setAttribute('type', 'hidden')//set the type
-//                form.appendChild(input);
-//                form.submit();
-            }else{
-                //swal
+            try{
+                if(msg.result.error_code == 0){
+                    document.getElementById('order_number').value = msg.result.response.os_res_no;
+                    document.getElementById('issued').action = '/hotel/booking';
+                    document.getElementById('issued').submit();
+    //                var form = document.getElementById('hotel_booking');
+    //                var input = document.createElement('input');//prepare a new input DOM element
+    //                input.setAttribute('name', 'result');//set the param name
+    //                input.setAttribute('value', JSON.stringify(msg) );//set the value
+    //                input.setAttribute('type', 'hidden')//set the type
+    //                form.appendChild(input);
+    //                form.submit();
+                }else{
+                    //swal
+                    $("#waitingTransaction").modal('hide');
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error issued hotel </span>' + errorThrown,
+                    })
+                }
+            }catch(err){
                 $("#waitingTransaction").modal('hide');
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error issued hotel </span>' + errorThrown,
+                  html: '<span style="color: red;">Error hotel issued booking </span>',
                 })
             }
        },
@@ -896,7 +905,7 @@ function hotel_issued_booking(){
               title: 'Oops!',
               html: '<span style="color: red;">Error hotel issued booking </span>' + errorThrown,
             })
-       },timeout: 180000
+       },timeout: 300000
     });
 }
 
