@@ -274,6 +274,9 @@ function check_registration(){
             break;
         }
     }
+    if(company == ''){
+        error_log+= 'Please fill company!\n';
+    }
 //    if(company == 'individual'){
 //
 //    }else if(company == 'company'){
