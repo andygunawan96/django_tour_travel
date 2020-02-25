@@ -315,15 +315,15 @@ def passenger(request):
         is_lionair = False
         is_international = False
         for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
-            if airline['provider'] == 'lionair':
-                is_lionair = True
-                break
             for seq in airline['price_itinerary']:
                 if seq['origin_country'] != 'Indonesia' or seq['destination_country'] != 'Indonesia':
                     is_international = True
                     break
                 elif is_international == True:
                     break
+            if airline['provider'] == 'lionair':
+                is_lionair = True
+
         try:
             logging.getLogger("info_logger").info('AIRLINE PASSENGER')
             values.update({
@@ -394,7 +394,8 @@ def ssr(request):
                     for available in ssr_provider['ssr_availability']:
                         for journey in ssr_provider['ssr_availability'][available]:
                             for segment in journey['segments']:
-                                airline_list.append(segment['carrier_code'])
+                                if segment['carrier_code'] not in airline_list:
+                                    airline_list.append(segment['carrier_code'])
                         break
                     ssr_provider.update({
                         'airline_list': airline_list
@@ -511,7 +512,8 @@ def ssr(request):
                     for available in ssr_provider['ssr_availability']:
                         for journey in ssr_provider['ssr_availability'][available]:
                             for segment in journey['segments']:
-                                airline_list.append(segment['carrier_code'])
+                                if segment['carrier_code'] not in airline_list:
+                                    airline_list.append(segment['carrier_code'])
                         break
                     ssr_provider.update({
                         'airline_list': airline_list

@@ -12,6 +12,7 @@ import json
 import logging
 import traceback
 import copy
+import time
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -1431,6 +1432,7 @@ def get_booking(request):
                                         'destination_name': destination['name'],
                                     })
                                     break
+            time.sleep(1)
             request.session['airline_get_booking_response'] = res
             logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_booking_response']))
             request.session.modified = True

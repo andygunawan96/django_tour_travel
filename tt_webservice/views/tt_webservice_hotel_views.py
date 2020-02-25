@@ -514,7 +514,7 @@ def create_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
 
     try:
         request.session['hotel_booking'] = res['result']['response']
