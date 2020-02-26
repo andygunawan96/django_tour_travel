@@ -178,6 +178,12 @@ function reset_password(){
                 console.log(msg);
                 if(msg.result.error_code == 0){
                     signature = msg.result.response.signature;
+
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Yeah!',
+                      html: '<span>Reset Password Success, If Your Already Have an Account Please Check Your Email</span>'
+                    })
                 }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {

@@ -405,9 +405,10 @@ function activity_table_detail(){
    if(agent_security.includes('book_reservation') == true)
    text_btn = `
        <center>
-       <button type="button" class="primary-btn-ticket" value="Next" onclick='check_detail();' style="width:100%;">
+       <button type="button" class="btn-next primary-btn-ticket ld-ext-right" value="Next" onclick='check_detail();' style="width:100%;">
             Next
             <i class="fas fa-angle-right"></i>
+            <div class="ld ld-ring ld-cycle"></div>
        </button><br/>
        </center>
    `;
@@ -716,6 +717,8 @@ function check_detail(){
     console.log(activity_date_pick);
     console.log(activity_date[event_pick][parseInt(activity_date_pick)].date);
     console.log(activity_date[event_pick][parseInt(activity_date_pick)].available);
+    $('.btn-next').addClass("running");
+    $('.btn-next').prop('disabled', true);
 
     date = document.getElementById('activity_date').value.split(' ')[2]+'-'+month[document.getElementById('activity_date').value.split(' ')[1]]+'-'+document.getElementById('activity_date').value.split(' ')[0]
     console.log(date);
@@ -847,6 +850,8 @@ function check_detail(){
     }else{
         document.getElementById('show_error_log').innerHTML = text;
         $("#myModalErrorDetail").modal('show');
+        $('.btn-next').removeClass("running");
+        $('.btn-next').prop('disabled', false);
     }
 }
 
