@@ -153,7 +153,7 @@ def search(request):
     except Exception as e:
         logging.error(msg=str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
     try:
         counter = 0
         for i in res['result']['response']:

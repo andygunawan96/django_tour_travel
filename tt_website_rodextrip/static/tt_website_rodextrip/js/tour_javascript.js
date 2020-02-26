@@ -454,6 +454,9 @@ function render_child_infant_selection(adult_select) {
 }
 
 function check_detail(){
+    $('.btn-next').addClass("running");
+    $('.btn-next').prop('disabled', true);
+
     document.getElementById('room_amount').value = room_amount;
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('go_to_pax').submit();

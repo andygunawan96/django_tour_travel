@@ -2180,9 +2180,10 @@ function table_price_update(msg,type){
     if(type == 'detail'){
         if(agent_security.includes('book_reservation') == true)
         next_btn_txt = `<center>
-                        <button type="button" class="primary-btn-ticket" value="Next" onclick="check_detail();" style="width:100%;">
+                        <button type="button" class="btn-next primary-btn-ticket ld-ext-right" value="Next" onclick="check_detail();" style="width:100%;">
                             Next
                             <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </center>`;
         else
@@ -2190,9 +2191,10 @@ function table_price_update(msg,type){
         document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
     }else if(type == 'passenger'){
         next_btn_txt = `<center>
-                        <button type="button" class="primary-btn-ticket" value="Next" onclick="next_disabled();check_passenger(adult, child, infant);" style="width:100%;">
+                        <button type="button" class="btn-next primary-btn-ticket ld-ext-right" value="Next" onclick="next_disabled();check_passenger(adult, child, infant);" style="width:100%;">
                             Next
                             <i class="fas fa-angle-right"></i>
+                            <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </center>`;
         document.getElementById('tour_detail_next_btn').innerHTML = next_btn_txt;
