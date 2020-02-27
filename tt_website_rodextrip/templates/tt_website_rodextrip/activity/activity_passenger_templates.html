@@ -31,6 +31,12 @@
     passenger = `{{pax_count}}`;
     passenger = passenger.replace(/&#39;/g,'"');
     passenger = JSON.parse(passenger);
+    activity_pax_data = `{{activity_pax_data}}`;
+    activity_pax_data = activity_pax_data.replace(/&#39;/g,'"');
+    activity_pax_data = activity_pax_data.replace(/True/g,'true');
+    activity_pax_data = activity_pax_data.replace('\n','\\n');
+    activity_pax_data = JSON.parse(activity_pax_data.replace(/False/g,'false'));
+    console.log(activity_pax_data);
     locations = [];
     images = [];
     {% for i in response.locations %}

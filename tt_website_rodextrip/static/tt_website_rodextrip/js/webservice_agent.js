@@ -3018,7 +3018,6 @@ function get_countries(){
 }
 
 function update_customer_cache_list(val){
-    console.log(document.getElementById('selection_type'+val).value);
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -3032,14 +3031,45 @@ function update_customer_cache_list(val){
        },
        success: function(msg) {
         console.log(msg);
+        data = document.getElementById('selection_type'+val).value.replace(/[0-9]/g, '');
         if(msg.result.error_code==0){
             passenger_data_cache = msg.result.response;
-            pick_passenger_cache(val);
-            $('.loading-booker-train').hide();
-        }else{
-            pick_passenger_cache(val);
-            $('.loading-booker-train').hide();
         }
+        check = 0;
+        years_old = moment(passenger_data_cache[val].birth_date, "DD MMM YYYY");
+        years_old = parseInt(Math.abs(moment(new Date()) - years_old)/31536000000)
+        if(document.URL.split('/')[document.URL.split('/').length-2] == 'airline' || document.URL.split('/')[document.URL.split('/').length-2] == 'visa' || document.URL.split('/')[document.URL.split('/').length-1] == 'issued_offline' || document.URL.split('/')[document.URL.split('/').length-2] == 'tour'){
+            if(data == 'adult' && years_old < 12)
+                check = 1;
+            else if(data == 'infant' && years_old > 2)
+                check = 1;
+            else if(data == 'child' && years_old < 3 || data == 'child' && years_old > 11)
+                check = 1
+        }else if(document.URL.split('/')[document.URL.split('/').length-2] == 'train'){
+            if(data == 'adult' && years_old < 2)
+                check = 1;
+            else if(data == 'infant' && years_old > 2)
+                check = 1;
+        }else if(document.URL.split('/')[document.URL.split('/').length-2] == 'hotel'){
+            if(data == 'adult' && years_old < 5)
+                check = 1;
+            else if(data == 'child' && years_old < 5)
+                check = 1
+        }else if(document.URL.split('/')[document.URL.split('/').length-2] == 'activity'){
+            if(data == 'booker')
+                check = 0;
+            else if(years_old < parseInt(activity_pax_data[data][0].min_age) - 1 || years_old > parseInt(activity_pax_data[data][0].max_age) + 1)
+                check = 1;
+        }
+        if(check == 0)
+            pick_passenger_cache(val);
+        else
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: "<span>"+data+" years old doesn't match </span>",
+            })
+        $('.loading-booker-train').hide();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             Swal.fire({

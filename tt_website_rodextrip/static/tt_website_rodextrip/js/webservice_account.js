@@ -582,36 +582,26 @@ function get_transactions(type){
     });
 }
 
-function get_top_up_quota_amount(){
-    getToken();
+function get_top_up_quota(){
     $.ajax({
        type: "POST",
        url: "/webservice/account",
        headers:{
-            'action': 'get_top_up_amount',
+            'action': 'get_top_up_quota',
        },
        data: {
         'signature': signature
        },
        success: function(msg) {
-        console.log('here');
-        msg = {
-            'result': {
-                'error_code': 0,
-                'response': [{
-                    'seq_id': 'Q1',
-                    'amount': 1500000,
-                    'name': '1000',
-                    'currency': 'IDR'
-                }]
-            }
-        }
+        console.log(msg);
         top_up_amount_list = msg.result.response;
         if(msg.result.error_code == 0){
             text = '';
-            for(i in msg.result.response)
-                text += `<option value="`+msg.result.response[i].seq_id+`" data-amount="`+msg.result.response[i].amount+`">`+getrupiah(msg.result.response[i].name)+` - PNR</option>`;
+            for(i in msg.result.response.price_list){
+                text += `<option value="`+msg.result.response.price_list[i].seq_id+`" data-amount="`+msg.result.response.price_list[i].amount+`">`+getrupiah(msg.result.response.price_list[i].amount)+` - PNR for `+msg.result.response.price_list[i].validity_duration+` days</option>`;
+            }
             document.getElementById('amount').innerHTML = text;
+            document.getElementById('term_n_condition').innerHTML = 'Issued without package quota will be charge '+ msg.result.response.currency + ' ' + getrupiah(msg.result.response.excess_quota_fee);
             $('#amount').niceSelect('update');
             change_quota_top_up_price();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -635,15 +625,61 @@ function get_top_up_quota_amount(){
 }
 
 function change_quota_top_up_price(){
-    for(i in top_up_amount_list){
-        console.log(top_up_amount_list[i].seq_id);
-        console.log(document.getElementById('amount').value);
-        if(top_up_amount_list[i].seq_id == document.getElementById('amount').value){
-            console.log('here');
-            document.getElementById('total_amount').value = top_up_amount_list[i].currency + ' ' + getrupiah(top_up_amount_list[i].amount);
+    for(i in top_up_amount_list.price_list){
+        if(top_up_amount_list.price_list[i].seq_id == document.getElementById('amount').value){
+            document.getElementById('total_amount').value = top_up_amount_list.price_list[i].currency + ' ' + getrupiah(top_up_amount_list.price_list[i].price);
             break;
         }
     }
+}
+
+function check_top_up_quota(){
+    error_log = '';
+    if(document.getElementById('amount').value == '')
+        error_log += 'Please fill amount quota!\n';
+    if(error_log == '')
+        buy_quota_btbo2();
+    else
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: error_log,
+        })
+}
+
+function buy_quota_btbo2(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'buy_quota_btbo2',
+       },
+       data: {
+            'signature': signature,
+            'seq_id': document.getElementById('amount').value
+       },
+       success: function(msg) {
+        console.log(msg);
+        if(msg.result.error_code == 0){
+            document.getElementById('top_up_form').submit();
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+            auto_logout();
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: #ff9900;">Error topup amount </span>' + msg.result.error_msg,
+            })
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error topup amount</span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
 }
 
 function change_top_up(){
@@ -856,29 +892,70 @@ function get_top_up(){
        },
        success: function(msg) {
         console.log(msg);
-        document.getElementById('table_top_up_history').innerHTML = `<tr>
-                        <th style="width:5%;">No.</th>
-                        <th style="width:20%;">Top Up Number</th>
-                        <th style="width:20%;">Due Date</th>
-                        <th style="width:15%;">Amount</th>
-                        <th style="width:15%;">Status</th>
-                        <th style="width:15%;">Payment Method</th>
-                        <th style="width:15%;">Help By</th>
-                        <th style="width:10%;">Action</th>
-                    </tr>`;
         document.getElementById('button').disabled = false;
-        top_up_history = msg.result.response;
+        data_length = 0;
         //edit here
-        for(i in top_up_history){
-            if(top_up_history[i].due_date != ''){
-                tes = moment.utc(top_up_history[i].due_date).format('YYYY-MM-DD HH:mm:ss')
-                var localTime  = moment.utc(tes).toDate();
-                top_up_history[i].due_date = moment(localTime).format('DD MMM YYYY HH:mm');
+        for(i in msg.result.response){
+            str = i;
+            if(data_length == 0)
+                text += `<label class="radio-button-custom">
+                        <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
+                        <input type="radio" checked="checked" name="filter" value="`+str+`" onclick="table_top_up_history();">
+                        <span class="checkmark-radio"></span>
+                    </label>`;
+            else
+                text += `<label class="radio-button-custom">
+                        <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
+                        <input type="radio" name="filter" value="`+str+`" onclick="table_top_up_quota_history();">
+                        <span class="checkmark-radio"></span>
+                    </label>`;
+            if(i == 'top_up'){
+                for(j in msg.result.response[i])
+                    if(msg.result.response[i][j].due_date != ''){
+                        tes = moment.utc(msg.result.response[i][j].due_date).format('YYYY-MM-DD HH:mm:ss')
+                        var localTime  = moment.utc(tes).toDate();
+                        msg.result.response[i][j].due_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    }
+            }else{
+                for(j in msg.result.response[i]){
+                    if(msg.result.response[i][j].expired_date != ''){
+                        msg.result.response[i][j].expired_date = moment(msg.result.response[i][j].expired_date).format('DD MMM YYYY');
+                    }
+                }
             }
+            data_length++;
         }
-        if(msg.result.error_code == 0)
-            table_top_up_history(msg.result.response);
-        else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+        top_up_history = msg.result.response;
+        type = '';
+        try{
+            var radios = document.getElementsByName('filter');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    // do whatever you want with the checked radio
+                    company = radios[j].value;
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
+            }
+        }catch(err){}
+        if(type == '')
+            document.getElementById('type').innerHTML = text;
+        if(msg.result.error_code == 0){
+            type = '';
+            var radios = document.getElementsByName('filter');
+            for (var j = 0, length = radios.length; j < length; j++) {
+                if (radios[j].checked) {
+                    // do whatever you want with the checked radio
+                    type = radios[j].value;
+                    // only one radio can be logically checked, don't check the rest
+                    break;
+                }
+            }
+            if(type == 'top up')
+                table_top_up_history();
+            else
+                table_top_up_quota_history();
+        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             auto_logout();
         }else{
             Swal.fire({
@@ -970,7 +1047,18 @@ function request_top_up(val){
     });
 }
 
-function table_top_up_history(data){
+function table_top_up_history(){
+    data = top_up_history['top up'];
+    document.getElementById('table_top_up_history').innerHTML = `<tr>
+                    <th style="width:5%;">No.</th>
+                    <th style="width:20%;">Top Up Number</th>
+                    <th style="width:20%;">Due Date</th>
+                    <th style="width:15%;">Amount</th>
+                    <th style="width:15%;">Status</th>
+                    <th style="width:15%;">Payment Method</th>
+                    <th style="width:15%;">Help By</th>
+                    <th style="width:10%;">Action</th>
+                </tr>`;
     text= '';
     var node = document.createElement("tr");
     data_counter = 0;
@@ -1008,6 +1096,47 @@ function table_top_up_history(data){
                 <input type='button' style="margin-top:5px;" class="primary-btn-custom" value='Invoice' onclick="get_printout('`+data[i].name+`', 'invoice','top_up');" />`;
             }
             text+=`</td>`;
+            text+= `</tr>`;
+            node.innerHTML = text;
+            document.getElementById("table_top_up_history").appendChild(node);
+            node = document.createElement("tr");
+            $('#loading-search-top-up').hide();
+    //                   document.getElementById('airlines_ticket').innerHTML += text;
+            text = '';
+            data_counter++;
+        }
+    }else{
+        $('#loading-search-top-up').hide();
+        $('#top_up_found').show();
+    }
+}
+
+function table_top_up_quota_history(){
+    data = top_up_history['quota'];
+    document.getElementById('table_top_up_history').innerHTML = `<tr>
+                    <th style="width:5%;">No.</th>
+                    <th style="width:20%;">Quota Package</th>
+                    <th style="width:20%;">Used Amount</th>
+                    <th style="width:15%;">Available Amount</th>
+                    <th style="width:15%;">Expired Date</th>
+                    <th style="width:15%;">Status</th>
+                </tr>`;
+    text= '';
+    var node = document.createElement("tr");
+    data_counter = 0;
+    if(data.length != 0){
+        $('#top_up_found').hide();
+        for(i in data){
+            data_search.push(data[i]);
+            text+=`
+            <tr>
+                <td>`+(parseInt(i)+1)+`</td>
+                <td>`+data[i].name+`</td>`;
+
+            text+= `<td>`+data[i].used_amount+`</td>`;
+            text+= `<td style="text-align:right">`+data[i].available_amount+`</td>`;
+            text+= `<td>`+data[i].expired_date+`</td>`;
+            text+= `<td>`+data[i].state+`</td>`;
             text+= `</tr>`;
             node.innerHTML = text;
             document.getElementById("table_top_up_history").appendChild(node);

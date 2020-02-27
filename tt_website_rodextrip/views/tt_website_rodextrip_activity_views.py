@@ -395,6 +395,7 @@ def passenger(request):
                 'senior_count': request.session['activity_request']['senior_passenger_count'],
                 'booker_min_age': request.session['activity_pax_data']['booker_min_age'],
                 'booker_max_age': request.session['activity_pax_data']['booker_max_age'],
+                'activity_pax_data': request.session['activity_pax_data'],
                 'adults': request.session['activity_pax_data']['adult'],
                 'infants': request.session['activity_pax_data']['infant'],
                 'seniors': request.session['activity_pax_data']['senior'],

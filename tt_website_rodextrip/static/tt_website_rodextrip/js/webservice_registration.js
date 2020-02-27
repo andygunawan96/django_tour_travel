@@ -167,9 +167,15 @@ function change_promotion(){
             for(j in promotion[i].commission){
                 text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '<br/>';
                 if(promotion[i].commission[j].discount_amount != 0){
-                    text += 'Discount ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].discount_amount) + '<br/>';
+                    if(promotion[i].commission[j].discount_type == 'percentage')
+                        text += 'Discount ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee * promotion[i].commission[j].discount_amount / 100) + '<br/>';
+                    else
+                        text += 'Discount ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].discount_amount) + '<br/>';
                 }
-                text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '<br/>';
+                if(promotion[i].commission[j].discount_type == 'percentage')
+                    text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee - (promotion[i].commission[j].registration_fee * promotion[i].commission[j].discount_amount / 100)) +  '<br/>';
+                else
+                    text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee - promotion[i].commission[j].discount_amount) +  '<br/>';
                 for(k in promotion[i].commission[j].lines){
                     text += 'Commission ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].lines[k].amount) + '<br/><br/>';
                 }
