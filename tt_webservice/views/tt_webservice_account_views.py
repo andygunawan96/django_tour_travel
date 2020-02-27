@@ -74,6 +74,10 @@ def api_models(request):
             res = get_version(request)
         elif req_data['action'] == 'get_top_up_amount':
             res = get_top_up_amount(request)
+        elif req_data['action'] == 'get_top_up_quota':
+            res = get_top_up_quota(request)
+        elif req_data['action'] == 'buy_quota_btbo2':
+            res = buy_quota_btbo2(request)
         elif req_data['action'] == 'get_top_up':
             res = get_top_up(request)
         elif req_data['action'] == 'submit_top_up':
@@ -390,6 +394,56 @@ def get_transactions(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def buy_quota_btbo2(request):
+    try:
+        data = {
+            'seq_id': request.POST['seq_id']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "buy_quota_btbo2",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_top_up_amount_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_top_up_quota(request):
+    try:
+        data = {
+            'state': 'all'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_top_up_quota",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+    try:
+        request.session['top_up_amount'] = res['result']['response']
+        logging.getLogger("info_logger").info(json.dumps(request.session['top_up_amount']))
+        request.session.modified = True
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_top_up_amount_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
 
 def get_top_up_amount(request):
     try:
