@@ -1586,7 +1586,7 @@ function copy_booker_to_passenger(val,type){
                   text: "Please fill contact person first!",
                 })
             }
-        }else if(document.getElementById('adult_id1').value == ''){
+        }else if(document.getElementById('adult_id1').value == '' || document.getElementById('adult_id1').value == document.getElementById('booker_id').value){
             for(i in passenger_data_pick){
                 if(passenger_data_pick[i].sequence == 'adult1'){
                     passenger_data_pick.splice(i,1);
@@ -3057,7 +3057,10 @@ function update_customer_cache_list(val){
                 check = 1
         }else if(document.URL.split('/')[document.URL.split('/').length-2] == 'activity'){
             if(data == 'booker')
-                check = 0;
+                try{
+                    if(years_old < parseInt(activity_pax_data['adult'][0].min_age) - 1 || years_old > parseInt(activity_pax_data['adult'][0].max_age) + 1)
+                        check = 1
+                }catch(err){check = 0;}
             else if(years_old < parseInt(activity_pax_data[data][0].min_age) - 1 || years_old > parseInt(activity_pax_data[data][0].max_age) + 1)
                 check = 1;
         }
