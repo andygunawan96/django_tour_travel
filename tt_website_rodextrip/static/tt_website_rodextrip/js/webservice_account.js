@@ -897,13 +897,13 @@ function get_top_up(){
         //edit here
         for(i in msg.result.response){
             str = i;
-            if(data_length == 0)
+            if(i == 'top up')
                 text += `<label class="radio-button-custom">
                         <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
                         <input type="radio" checked="checked" name="filter" value="`+str+`" onclick="table_top_up_history();">
                         <span class="checkmark-radio"></span>
                     </label>`;
-            else
+            else if(agent_security.includes('pnr_quota') == true)
                 text += `<label class="radio-button-custom">
                         <span>`+str.charAt(0).toUpperCase()+str.slice(1).toLowerCase()+`</span>
                         <input type="radio" name="filter" value="`+str+`" onclick="table_top_up_quota_history();">

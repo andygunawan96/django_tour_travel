@@ -1,6 +1,8 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
     signature = '{{signature}}';
+    agent_security = `{{username.co_agent_frontend_security}}`;
+    agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
 </script>
 <div id="status" class="status on" style="display:none; top:0px; z-index:1000;"></div>
 {%if template == 1%}

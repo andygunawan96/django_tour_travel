@@ -10,6 +10,8 @@
 </div>
 
 <script>
+    agent_security = `{{username.co_agent_frontend_security}}`;
+    agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
     {% if username.co_user_login != '' %}
         time = 300;
         signature = '{{signature}}';
