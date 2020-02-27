@@ -3585,7 +3585,7 @@ function airline_issued(data){
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
-                   $(".issued_booking_btn").remove();
+                   $(".issued_booking_btn").hide();
                    Swal.fire({
                       type: 'error',
                       title: 'Oops!',

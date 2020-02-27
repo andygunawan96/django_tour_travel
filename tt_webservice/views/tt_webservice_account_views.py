@@ -496,11 +496,6 @@ def get_top_up(request):
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            for top_up in res['result']['response']:
-                if top_up['due_date'] != '':
-                    top_up.update({
-                        'due_date': convert_string_to_date_to_string_front_end_with_time(top_up['due_date'])
-                    })
             logging.getLogger("info_logger").info("get_top_up_account SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("get_top_up_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

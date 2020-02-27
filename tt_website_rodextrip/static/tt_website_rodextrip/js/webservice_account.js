@@ -637,9 +637,20 @@ function check_top_up_quota(){
     error_log = '';
     if(document.getElementById('amount').value == '')
         error_log += 'Please fill amount quota!\n';
-    if(error_log == '')
-        buy_quota_btbo2();
-    else
+    if(error_log == ''){
+        Swal.fire({
+          title: 'Do you want to proceed this request?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+          if (result.value)
+                buy_quota_btbo2();
+        })
+
+    }else
         Swal.fire({
           type: 'error',
           title: 'Oops!',
@@ -661,6 +672,29 @@ function buy_quota_btbo2(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
+            Swal.fire({
+              type: 'success',
+              title: 'Success top up quota pnr!',
+              html: 'Please Wait ...',
+              timer: 50000,
+              onBeforeOpen: () => {
+                Swal.showLoading()
+                timerInterval = setInterval(() => {
+                  Swal.getContent().querySelector('strong')
+                    .textContent = Swal.getTimerLeft()
+                }, 100)
+              },
+              onClose: () => {
+                clearInterval(timerInterval)
+              }
+            }).then((result) => {
+              if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.timer
+              ) {
+
+              }
+            })
             document.getElementById('top_up_form').submit();
         }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
             auto_logout();
@@ -668,7 +702,7 @@ function buy_quota_btbo2(){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error topup amount </span>' + msg.result.error_msg,
+              html: '<span style="color: #ff9900;">Error top up quota pnr </span>' + msg.result.error_msg,
             })
         }
        },
