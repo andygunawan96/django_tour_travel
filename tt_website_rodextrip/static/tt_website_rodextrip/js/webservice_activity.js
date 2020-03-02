@@ -1651,7 +1651,7 @@ function activity_get_booking(data){
                         <div class="row">
                             <div class="col-lg-12">
                                 <div id="activity_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
-                                    <h6>Order Number : `+msg.result.response.name+`</h6><br/>
+                                    <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
                                      <table style="width:100%;">
                                         <tr>
                                             <th>PNR</th>
@@ -1820,7 +1820,7 @@ function activity_get_booking(data){
                     }
                     else
                     {
-                        text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.name+`');" style="width:100%;">
+                        text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="activity_get_voucher('`+msg.result.response.order_number+`');" style="width:100%;">
                                     Print Voucher <div class="ld ld-ring ld-cycle"></div>
                                 </button>`;
                     }
@@ -1829,7 +1829,7 @@ function activity_get_booking(data){
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
                if(msg.result.response.status == 'pending' || msg.result.response.status == 'paid')
                {
-//                   text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
+//                   text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.order_number+`/4')" style="width:100%;">
 //                                Print Invoice
 //                             </button>`;
                     text+=`
@@ -1890,7 +1890,7 @@ function activity_get_booking(data){
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
 
                if(msg.result.response.status == 'issued'){
-//                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.name+`/4')" style="width:100%;">
+//                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.order_number+`/4')" style="width:100%;">
 //                                Print Invoice
 //                             </button>`;
                     text+=`
@@ -1935,7 +1935,7 @@ function activity_get_booking(data){
                                         <div style="text-align:right;">
                                             <span>Don't want to edit? just submit</span>
                                             <br/>
-                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.name+`', 'invoice','activity');"/>
+                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','activity');"/>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
@@ -1955,7 +1955,7 @@ function activity_get_booking(data){
             if(msg.result.response.activity.name != msg.result.response.activity.type)
                 document.getElementById('product_type_title').innerHTML = msg.result.response.activity.type;
             price_text = '';
-            $test = 'Order Number: '+ msg.result.response.name + '\n';
+            $test = 'Order Number: '+ msg.result.response.order_number + '\n';
             $test += 'Booking Code: '+ msg.result.response.pnr+'\n';
             $test += 'Status: '+ conv_status+'\n\n';
 
