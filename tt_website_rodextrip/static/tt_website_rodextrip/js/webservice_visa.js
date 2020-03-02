@@ -16,6 +16,7 @@ function get_visa_config(type){
             visa_signin('');
         visa_config = msg;
         destination = document.getElementById('visa_destination_id');
+        count = 0;
         for(i in msg){
             var node = document.createElement("option");
             node.text = i;
@@ -36,11 +37,14 @@ function get_visa_config(type){
                         document.getElementById('visa_destination_id_hidden').value = i;
                     }
                 }catch(err){
-                    node.setAttribute('selected', 'selected');
-                    document.getElementById('visa_destination_id_hidden').value = i;
+                    if(count == 0){
+                        node.setAttribute('selected', 'selected');
+                        document.getElementById('visa_destination_id_hidden').value = i;
+                    }
 
                 }
             }
+            count++;
             destination.add(node);
         }
 //        visa_config = msg.destinations;

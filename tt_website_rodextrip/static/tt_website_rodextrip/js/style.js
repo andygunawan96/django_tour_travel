@@ -807,7 +807,7 @@ $(document).ready(function(){
         }, 500)
     });
 
-    $('#radio_train_search').change(function(){
+    $('#radio_train_search').click(function(){
         selected_value = $("input[name='radio_train_type']:checked").val();
         if (selected_value == "oneway"){
             if(template == 1 || template == 2 || template == 3){
@@ -961,7 +961,7 @@ $(document).ready(function(){
         }
     });
 
-    $('#radio_airline_search').change(function(){
+    $('#radio_airline_search').click(function(){
         selected_value = $("input[name='radio_airline_type']:checked").val();
         if (selected_value == "oneway"){
             if(template == 1 || template == 2 || template == 3){
@@ -1238,7 +1238,7 @@ $(document).ready(function(){
         }
     });
 
-    $('#radio_airline_change_search').change(function(){
+    $('#radio_airline_change_search').click(function(){
         selected_value = $("input[name='radio_airline_type']:checked").val();
         if (selected_value == "oneway"){
             document.getElementById("airline_date_search").innerHTML = '';

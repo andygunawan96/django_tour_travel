@@ -326,15 +326,18 @@ def get_cancellation_policy(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
     try:
-        request.session['hotel_cancellation_policy'] = res
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['hotel_error'] = {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        }
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_cancellation_policy']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
+            for rec in res['result']['response']['policies']:
+                rec['date'] = convert_string_to_date_to_string_front_end(rec['date'])
+            request.session['hotel_cancellation_policy'] = res
+
+            signature = copy.deepcopy(request.session['hotel_signature'])
+            request.session['hotel_error'] = {
+                'error_code': res['result']['error_code'],
+                'signature': signature
+            }
+            logging.getLogger("info_logger").info(json.dumps(request.session['hotel_cancellation_policy']))
+            request.session.modified = True
             logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
             logging.getLogger("error_logger").error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

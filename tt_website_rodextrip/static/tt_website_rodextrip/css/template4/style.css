@@ -1955,7 +1955,6 @@ ul.tabs li.current{
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  margin:0px 0px -10px 0px;
 }
 
 /* Hide the browser's default checkbox */

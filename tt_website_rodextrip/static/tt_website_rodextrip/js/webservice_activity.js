@@ -765,7 +765,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
                                         text+=`</select>
                                     </div>
                                 </div>`;
-                            }else if(template == 1){
+                            }else if(template == 2){
                                 text+=`
                                 <div class="form-select" style="margin-bottom:5px;">
                                     <select class='activity_pax' id='`+low_sku_id+`_passenger' name='`+low_sku_id+`_passenger' onchange='activity_table_detail()'>`;
