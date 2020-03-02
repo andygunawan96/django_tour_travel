@@ -273,7 +273,7 @@ function check_issued_offline(){
                 }else{
                     document.getElementById('hotel_room'+i).style['border-color'] = '#EFEFEF';
                     request["line_hotel_room"+i] = document.getElementById('hotel_room'+i).value;
-                }if(document.getElementById('hotel_qty'+i).value == ''){
+                }if(document.getElementById('hotel_qty'+i).value == '' && check_number(document.getElementById('hotel_qty'+i).value)){
                     error_log += 'Please fill quantity for line '+ (i+1) + '\n';
                     document.getElementById('hotel_qty'+i).style['border-color'] = 'red';
                 }else{

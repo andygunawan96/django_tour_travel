@@ -326,19 +326,19 @@
                                         </div>
                                         <div class="col-lg-6">
                                             {%if template == 1%}
-                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px;">
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px">
                                                 <div class="form-select" id="default-select">
                                             {%elif template == 2%}
-                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height:47px;">
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
                                                 <div class="form-select" id="default-select">
                                             {%elif template == 3%}
-                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height:47px;">
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
                                                 <div class="default-select" id="default-select">
                                             {%elif template == 4%}
-                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px;">
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
                                                 <div class="form-select" id="default-select">
                                             {%elif template == 5%}
-                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px;">
+                                            <div id="div_select_pax{{forloop.counter}}" style="padding: 2px 2px 4px 2px; height: 49px;">
                                                 <div class="form-select" id="default-select">
                                             {%endif%}
                                                     <select {%if template == 4%} class="nice-select-default rounded" {%endif%} id="room_select_pax{{forloop.counter}}" name="room_select_pax{{forloop.counter}}" onchange="refresh_room_availability({{forloop.counter}});" data-live-search="true">

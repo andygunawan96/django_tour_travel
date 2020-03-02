@@ -1102,7 +1102,7 @@
                                                                         <input class="form-control" type="text" id="train_booker_search" placeholder="Search"/>
                                                                     </div>
                                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                        <button type="button" class="primary-btn" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
+                                                                        <button type="button" class="primary-btn" id="booker_search" onclick="get_customer_list('booker','0','airline');">Search <i class="fas fa-search"></i></button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -1311,7 +1311,7 @@
                                                                             <input class="form-control" type="text" id="train_adult{{forloop.counter}}_search" placeholder="Search"/>
                                                                         </div>
                                                                         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                            <button type="button" class="primary-btn" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
+                                                                            <button type="button" class="primary-btn" id="search_adult_{{forloop.counter}}" onclick="get_customer_list('adult',{{forloop.counter}}, 'airline')">Search</button>
                                                                         </div>
                                                                     </div>
                                                                     <div class="row">
@@ -1488,7 +1488,7 @@
                                                                         <input class="form-control" type="text" id="train_child{{forloop.counter}}_search" placeholder="Search"/>
                                                                     </div>
                                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                        <button type="button" class="primary-btn" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
+                                                                        <button type="button" class="primary-btn" id="search_child_{{forloop.counter}}" onclick="get_customer_list('child',{{forloop.counter}}, 'airline')">Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -1635,7 +1635,7 @@
                                                                         <input class="form-control" type="text" id="train_infant{{forloop.counter}}_search" placeholder="Search"/>
                                                                     </div>
                                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                                        <button type="button" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
+                                                                        <button type="button" id="search_infant_{{forloop.counter}}" id="search_infant_{{forloop.counter}}" class="primary-btn" onclick="get_customer_list('infant',{{forloop.counter}}, 'airline')">Search</button>
                                                                     </div>
                                                                 </div>
                                                                 <div class="row">
@@ -3705,7 +3705,7 @@
             <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
                 <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
             </div>
-            <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
+            <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create" style="display:flex; padding-top:5px; padding-left:15px;">
                 <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
                     <span class="breadcrumb-rdx-icon br-icon-done"><i class="fas fa-check"></i></span>
                     <span style="padding-left:5px;">Home</span>

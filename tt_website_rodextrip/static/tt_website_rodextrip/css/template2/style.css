@@ -2724,7 +2724,6 @@ ul.edit_tabs li.current .image-rounded-icon{
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  margin:0px 0px -10px 0px;
 }
 
 /* Hide the browser's default checkbox */
@@ -6465,4 +6464,9 @@ display: block;
 .primary-btn-cancel:hover {
   background: #e81c30;
   color: white;
+}
+
+.form-select-2 {
+    height: 40px;
+    width: 100%;
 }
