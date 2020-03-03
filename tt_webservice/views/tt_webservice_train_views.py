@@ -48,6 +48,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 'get_config_provider':
+            res = get_config_provider(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'sell_journeys':
@@ -103,6 +105,29 @@ def login(request):
 
     return res
 
+def get_config_provider(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_list",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'train'
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("info_logger").info("get_providers VISA ERROR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
 def get_data(request):
     try:
         file = open(var_log_path()+"train_cache_data.txt", "r")
@@ -149,7 +174,8 @@ def search(request):
             "direction": request.session['train_request']['direction'],
             "adult": int(request.session['train_request']['adult']),
             "infant": int(request.session['train_request']['infant']),
-            "provider": provider_kai
+            "provider": request.POST['provider'],
+            # "provider": provider_kai
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

@@ -701,7 +701,7 @@ function visa_check_search(){
         if(check_number(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value) == false){
             error_log = 'Please input number in pax type '+ visa[i].pax_type[1]+'\n';
         }else{
-            if(provider_pick.includes(visa[i]['provider']) == false)
+            if(provider_pick.includes(visa[i]['provider']) == false && parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value) > 0)
                 provider_pick.push(visa[i]['provider']);
         }
     }

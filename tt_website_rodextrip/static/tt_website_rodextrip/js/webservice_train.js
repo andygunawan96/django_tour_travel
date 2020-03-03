@@ -55,7 +55,8 @@ function train_signin(data){
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 if(data == '')
-                    train_search(msg.result.response.signature);
+                    train_get_config_provider();
+//                    train_search(msg.result.response.signature);
                 else if(data != '')
                     train_get_booking(data);
             }else{
@@ -110,12 +111,53 @@ function get_train_config(){
     });
 }
 
+function train_get_config_provider(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'get_config_provider',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            counter_train_provider = 0;
+            if(msg.result.error_code == 0){
+                provider_length = msg.result.response.providers.length;
+                for(i in msg.result.response.providers){
+                    train_search(msg.result.response.providers[i].provider);
+                }
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+               try{
+                $("#waitingTransaction").modal('hide');
+               }catch(err){}
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
 //signin jadi 1 sama search
-function train_search(signature){
+function train_search(provider){
     document.getElementById('train_ticket').innerHTML = ``;
     document.getElementById('train_detail').innerHTML = ``;
-
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -124,12 +166,14 @@ function train_search(signature){
        },
        data: {
             'signature': signature,
-            'search_request': JSON.stringify(train_request)
+            'search_request': JSON.stringify(train_request),
+            'provider': provider
        },
        success: function(msg) {
            console.log(msg);
            try{
                 if(msg.result.error_code==0){
+                    counter_train_provider++;
                     datasearch2(msg.result.response)
                 }else{
                     loadingTrain();
@@ -181,8 +225,9 @@ function elapse_time(departure){
 }
 
 function datasearch2(train){
-    var counter = 0;
+    var counter = train_data.length;
     data = [];
+
     for(i in train.schedules){
         for(j in train.schedules[i].journeys){
            train.schedules[i].journeys[j].sequence = counter;
