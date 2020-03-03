@@ -866,6 +866,7 @@ function sort(response, check_filter){
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
                                                 if(j == 0){
                                                     text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
+                                                    text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
                                                 }
                                                 text +=`
                                                 </div>
@@ -890,6 +891,7 @@ function sort(response, check_filter){
                                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
                                                         if(j == 0){
                                                             text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
+                                                            text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
                                                         }else if(j > 2){
                                                             text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
                                                         }
