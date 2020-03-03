@@ -1207,6 +1207,7 @@ def review(request):
                 })
 
             search_request = {
+                "product_uuid": request.session['activity_request']['activity_uuid'],
                 "product_type_uuid": request.session['activity_request']['activity_types_data'][int(request.session['activity_request']['activity_type_pick'])]['uuid'],
                 "visit_date": request.session['activity_price']['result']['response'][int(request.session['activity_request']['event_pick'])][int(request.session['activity_request']['activity_date_pick'])]['date'],
                 "timeslot": timeslot and timeslot['uuid'] or False,
