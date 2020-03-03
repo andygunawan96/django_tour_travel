@@ -60,6 +60,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_config_provider':
+            res = get_config_provider(request)
         elif req_data['action'] == 'get_config':
             res = get_config(request)
         elif req_data['action'] == 'search':
@@ -105,11 +107,36 @@ def login(request):
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
+        if request.session.get('visa_search'):
+            del request.session['visa_search']
         logging.getLogger("info_logger").info(json.dumps(request.session['visa_signature']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
+    return res
+
+def get_config_provider(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_provider_list",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'visa'
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("info_logger").info("get_providers VISA ERROR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_config(request):
@@ -139,7 +166,9 @@ def search(request):
             "destination": destination,
             "consulate": consulate,
             "departure_date": departure_date,
-            "provider": 'rodextrip_visa'
+            "provider": request.POST['provider']
+            # "provider": 'rodextrip_visa'
+            # "provider": 'rodextrip_visa_btbo2'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -174,7 +203,7 @@ def search(request):
                 'infant': [],
                 'elder': []
             }
-
+            visa_list = request.session.get('visa_search')
             for list_of_visa in res['result']['response']['list_of_visa']:
                 #paxtype
                 if list_of_visa['pax_type'] == 'ADT':
@@ -214,8 +243,12 @@ def search(request):
                     visa_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['visa_type'])
                 if list_of_visa['type']['process_type'] not in process_type[list_of_visa['pax_type'][1].lower()]:
                     process_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['type']['process_type'])
-
-            request.session['visa_search'] = res
+                if visa_list:
+                    visa_list['result']['response'].append(list_of_visa)
+            if visa_list:
+                request.session['visa_search'] = visa_list
+            else:
+                request.session['visa_search'] = res
             request.session['list_of_visa_type'] = {
                 'entry_type': entry_type,
                 'visa_type': visa_type,
@@ -233,9 +266,7 @@ def search(request):
 def sell_visa(request):
     try:
         data = {
-            'pax': request.session['visa_sell'],
-            'passenger': request.session['visa_passenger'],
-            "provider": request.session['visa_search']['result']['response']['provider']
+            'sell_visa': request.session['visa_sell']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

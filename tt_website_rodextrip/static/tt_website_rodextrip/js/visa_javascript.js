@@ -49,7 +49,7 @@ function set_price_visa(val){
 function set_total_price_visa(){
     price = 0;
     for(i in visa){
-        qty = document.getElementById('qty_pax_'+i).value;
+        qty = document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value;
         price += parseInt(qty) * visa[i].sale_price.total_price;
     }
     //tinggal set html
@@ -58,7 +58,7 @@ function set_total_price_visa(){
 function set_commission_price_visa(){
     price = 0;
     for(i in visa){
-        qty = document.getElementById('qty_pax_'+i).value;
+        qty = document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value;
         price += parseInt(qty) * visa[i].sale_price.commission;
     }
     //tinggal set html
@@ -79,7 +79,7 @@ function update_table(type){
         for(i in visa){
             if(moment(visa_request.departure) >= moment().subtract(visa[i].type.duration*-1,'days'))
                 check_visa = 1;
-            pax_count = parseInt(document.getElementById('qty_pax_'+i).value);
+            pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
             if(isNaN(pax_count)){
                 pax_count = 0;
             }
@@ -146,7 +146,7 @@ function update_table(type){
         else{
             $text += 'Price\n';
             for(i in visa){
-                pax_count = parseInt(document.getElementById('qty_pax_'+i).value);
+                pax_count = parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value);
                 if(isNaN(pax_count)){
                     pax_count = 0;
                 }
@@ -227,7 +227,7 @@ function update_table(type){
                 text+=
                 `<div class="row" style="margin-top:10px; text-align:center;">
                     <div class="col-lg-12" style="padding-bottom:10px;">
-                        <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
+                        <button id="visa_btn_search" class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
                             Next
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
@@ -696,29 +696,37 @@ function copy_data(type){
 
 function visa_check_search(){
     error_log = '';
+    provider_pick = [];
     for(i in visa){
-        if(check_number(document.getElementById('qty_pax_'+i).value) == false){
+        if(check_number(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value) == false){
             error_log = 'Please input number in pax type '+ visa[i].pax_type[1]+'\n';
-
+        }else{
+            if(provider_pick.includes(visa[i]['provider']) == false)
+                provider_pick.push(visa[i]['provider']);
         }
     }
     check = 0;
     for(i in visa){
-        if(document.getElementById('qty_pax_'+i).value != '' && document.getElementById('qty_pax_'+i).value != '0'){
+        if(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value != '' && document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value != '0'){
             check = 1;
         }
     }
+    if(provider_pick.length > 1)
+        error_log += 'Please choose 1 provider';
     if(check == 0){
         for(i in visa){
-            document.getElementById('qty_pax_'+i).style['border-color'] = 'red';
+            document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).style['border-color'] = 'red';
         }
         alert('Please input pax')
         $('.next-loading').removeClass("running");
     }else if(error_log == ''){
         document.getElementById('time_limit_input').value = time_limit;
+        document.getElementById('visa_list').value = JSON.stringify(visa);
         document.getElementById('visa_passenger').submit();
     }else{
         alert(error_log);
+        document.getElementById('visa_btn_search').disabled = false;
+        $('.next-loading').removeClass("running");
     }
 }
 
@@ -1178,7 +1186,7 @@ function check_on_off_radio(pax_type,number,value){
                 pax_required_down.style.display = "none";
 
                 visa.list_of_visa[i].total_pax = visa.list_of_visa[i].total_pax - 1;
-                pax_check.value = i;
+                pax_check.value = visa.list_of_visa[i].id;
                 list_of_name = name.split(' ');
                 list_of_name.shift();
                 list_of_name.shift();
@@ -1359,7 +1367,6 @@ function set_value_radio_first(pax_type,number){
 function update_contact_cp(val){
     temp = 1;
     while(temp != adult+1){
-        console.log(document.getElementById('adult_cp'+temp.toString()).checked);
         if(document.getElementById('adult_cp'+temp.toString()).checked == true && val != temp){
             document.getElementById('adult_cp_hidden1_'+temp.toString()).hidden = true;
             document.getElementById('adult_cp_hidden2_'+temp.toString()).hidden = true;
@@ -1391,7 +1398,6 @@ function check_before_calculate(){
 
 function check_before_add_repricing(){
     check = 0;
-    console.log(visa.list_of_visa);
     for(i in visa.list_of_visa){
         if(visa.list_of_visa[i].total_pax != 0){
             check = 1;

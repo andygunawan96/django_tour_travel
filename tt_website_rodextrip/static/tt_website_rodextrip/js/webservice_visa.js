@@ -1,4 +1,4 @@
-visa = '';
+visa = [];
 
 
 function get_visa_config(type){
@@ -81,7 +81,8 @@ function visa_signin(data){
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 if(data == ''){
-                    search_visa();
+//                    search_visa();
+                    visa_get_config_provider();
                 }else if(data != ''){
                     visa_get_data(data);
                 }
@@ -110,8 +111,49 @@ function visa_signin(data){
     });
 }
 
-function search_visa(){
-    getToken();
+function visa_get_config_provider(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'get_config_provider',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            counter_visa = 0;
+            if(msg.result.error_code == 0){
+                provider_length = msg.result.response.providers.length;
+                for(i in msg.result.response.providers){
+                    search_visa(msg.result.response.providers[i].provider)
+                }
+            }else{
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: msg.result.error_msg,
+               }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+               try{
+                $("#waitingTransaction").modal('hide');
+               }catch(err){}
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+
+function search_visa(provider){
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -122,22 +164,32 @@ function search_visa(){
             'destination': document.getElementById('visa_destination_id_hidden').value,
             'departure_date': document.getElementById('visa_departure').value,
             'consulate': document.getElementById('visa_consulate_id_hidden').value,
+            'provider': provider,
             'signature': signature
        },
        success: function(msg) {
             console.log(msg);
             var node;
             try{
-                visa = msg.result.response.list_of_visa;
                 country = msg.result.response.country;
             }catch(err){}
             if(msg.result.error_code == 0 && msg.result.response.list_of_visa.length != 0){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
+                    visa.push(msg.result.response.list_of_visa[i])
+                    counter_visa ++;
                     node = document.createElement("div");
 
                     text= `
-                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px;" id="journey`+i+`">
+                        <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px;" id="journey`+i+`">`;
+                    if(provider_length > 1)
+                        text+=`
+                        <div class="row" style="text-align:right">
+                            <div class="col-sm-9"></div>
+                            <div class="col-sm-3">`+msg.result.response.list_of_visa[i].provider+`</div>
+                        </div>
+                        `
+                    text+=`
                             <div class="row">
                                 <div class="col-lg-12">
                                     <table style="width:100%" id="list-of-passenger">
@@ -165,7 +217,7 @@ function search_visa(){
                                             }
                                             text+=`
                                                 <div class="form-wrap" style="padding:0px;">
-                                                    <input style="margin-bottom:unset;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+i+`" name="qty_pax_`+i+`" onchange="update_table('search');"/>
+                                                    <input style="margin-bottom:unset;" class="form-control" type="number" value="0" min="0" id="qty_pax_`+counter_visa+`" name="qty_pax_`+counter_visa+`" onchange="update_table('search');"/>
                                                 </div>
                                             </div>`;
                                             if(template == 2){
@@ -181,26 +233,26 @@ function search_visa(){
                                         <div class="col-lg-7 col-md-7 col-sm-6 col-xs-6" style="text-align:left;">
                                             <div class="row">
                                                 <div class="col-lg-6">
-                                                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+i+`);" href="#detail_departjourney`+i+`" style="color: `+color+`;" aria-expanded="true">
-                                                        <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+i+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                        <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+i+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                    <a id="detail_button_journey0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_flight_details(`+counter_visa+`);" href="#detail_departjourney`+counter_visa+`" style="color: `+color+`;" aria-expanded="true">
+                                                        <span style="text-align:left; font-weight: bold; display:none;" id="flight_details_up`+counter_visa+`"> Visa details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span style="text-align:left; font-weight: bold; display:block;" id="flight_details_down`+counter_visa+`"> Visa details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-6">
-                                                    <a id="detail_button_attachment0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_attachment_details(`+i+`);" href="#detail_attachment`+i+`" style="color: `+color+`;" aria-expanded="true">
-                                                        <span style="text-align:left; font-weight: bold; display:none;" id="attach_details_up`+i+`"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
-                                                        <span style="text-align:left; font-weight: bold; display:block;" id="attach_details_down`+i+`"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
+                                                    <a id="detail_button_attachment0" data-toggle="collapse" data-parent="#accordiondepart" onclick="show_attachment_details(`+counter_visa+`);" href="#detail_attachment`+counter_visa+`" style="color: `+color+`;" aria-expanded="true">
+                                                        <span style="text-align:left; font-weight: bold; display:none;" id="attach_details_up`+counter_visa+`"> Attachment details <i class="fas fa-chevron-up" style="font-size:14px;"></i></span>
+                                                        <span style="text-align:left; font-weight: bold; display:block;" id="attach_details_down`+counter_visa+`"> Attachment details <i class="fas fa-chevron-down" style="font-size:14px;"></i></span>
                                                     </a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6" style="text-align:right;">
-                                            <span id="fare`+i+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
+                                            <span id="fare`+counter_visa+`" class="basic_fare_field" style="font-size:16px;font-weight: bold; color:#505050;">`+msg.result.response.list_of_visa[i].sale_price.currency+` `+getrupiah(msg.result.response.list_of_visa[i].sale_price.total_price)+`</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div id="detail_departjourney`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
+                            <div id="detail_departjourney`+counter_visa+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
                                 <hr/>
                                 <div id="journey0segment0" style="background-color:white;">
                                     <h6>Consulate Address</h6>
@@ -227,7 +279,7 @@ function search_visa(){
                                     text+=`
                                 </div>
                             </div>
-                            <div id="detail_attachment`+i+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
+                            <div id="detail_attachment`+counter_visa+`" class="panel-collapse in collapse show" aria-expanded="true" style="margin-top:15px; display: none;">
                                 <hr/>
                                 <div id="attachment">
                                     <h6>Attachment</h6>`;
@@ -418,7 +470,7 @@ function update_passenger(){
                     visa.list_of_visa[j].visa_type[0] == visa_type &&
                     visa.list_of_visa[j].type.process_type[0] == process_type &&
                     visa.list_of_visa[j].entry_type[0] == entry_type &&
-                    document.getElementById(visa.list_of_visa[j].pax_type[1].toLowerCase()+'_check'+pax_count).value == visa.list_of_visa[j].sequence){
+                    document.getElementById(i+'_check'+pax_count).value == visa.list_of_visa[j].id){
                         required = [];
                         for(count in visa.list_of_visa[j].requirements){
                             required.push({
@@ -839,7 +891,6 @@ function visa_get_data(data){
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
                                                 <h6>Copy</h6>
                                             </div>`;
-                                        console.log(msg.result.response.passengers[i]);
                                         for(j in msg.result.response.passengers[i].visa.requirement){
                                             if(template == 1){
                                                 text+=`
@@ -1056,7 +1107,6 @@ function update_service_charge(type){
                 currency = visa.passengers[i].sale_service_charges[j].TOTAL.currency;
             }
             list_price = []
-            console.log(list);
             for(j in list){
                 if(visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
                     list_price.push({
