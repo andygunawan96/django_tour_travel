@@ -72,9 +72,9 @@ def passenger(request):
             values = get_data_template(request)
 
             request.session['time_limit'] = int(request.POST['time_limit_input'])
-
+            request.session['visa_search']['result']['response']['list_of_visa'] = json.loads(request.POST['visa_list'])
             list_visa = request.session['visa_search']
-            count = 0
+            count = 1
             pax_count = 0
             pax = {
                 'adult': 0,
@@ -110,10 +110,21 @@ def passenger(request):
                 pax_count = 0
                 try:
                     pax_count = int(request.POST['qty_pax_'+str(count)])
-                    sell_journey.append({
-                        'pax': int(request.POST['qty_pax_'+str(count)]),
-                        'id': visa['id']
-                    })
+                    check = 0
+                    for rec in sell_journey:
+                        if rec['provider'] == visa['provider']:
+                            check = 1
+                    if check == 0:
+                        sell_journey.append({
+                            'pax': [],
+                            'provider': visa['provider']
+                        })
+                    for rec in sell_journey:
+                        if rec['provider'] == visa['provider']:
+                            rec['pax'].append({
+                                'pax': int(request.POST['qty_pax_'+str(count)]),
+                                'id': visa['id'],
+                            })
                 except:
                     try:
                         pax_count = visa['total_pax']
@@ -146,7 +157,16 @@ def passenger(request):
                     for i in range(pax_count):
                         elder.append('')
                 count = count + 1
-            request.session['visa_sell'] = sell_journey
+            sell = []
+            for rec in sell_journey:
+                check = 0
+                for rec_pax in rec['pax']:
+                    if rec_pax['pax'] > 0:
+                        check = 1
+                if check == 1:
+                    sell.append(rec)
+
+            request.session['visa_sell'] = sell
             request.session['visa_passenger'] = pax
             request.session['visa_search'] = list_visa
             list_of_visa = json.loads(json.dumps(request.session['visa_search']['result']['response']))
