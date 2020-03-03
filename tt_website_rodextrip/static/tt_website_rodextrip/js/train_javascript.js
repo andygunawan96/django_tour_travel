@@ -1592,7 +1592,15 @@ function sort(value){
             else
                 response+=`<div style="background-color:#E5E5E5; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">`;
             response += `
-                <span class="copy_train" hidden>`+i+`</span>
+                <span class="copy_train" hidden>`+i+`</span>`;
+            if(counter_train_provider > 1)
+                response +=`
+                    <div class="row" style="text-align:right">
+                        <div class="col-sm-9"></div>
+                        <div class="col-sm-3">`+data_filter[i].provider+`</div>
+                    </div>
+                `;
+            response+=`
                 <div class="row">
                     <div class="col-lg-9">
                         <h4 class="copy_train_name">`+data_filter[i].carrier_name+` - (`+data_filter[i].carrier_number+`)  - `+data_filter[i].cabin_class[1]+` (`+data_filter[i].class_of_service+`)</h4>
