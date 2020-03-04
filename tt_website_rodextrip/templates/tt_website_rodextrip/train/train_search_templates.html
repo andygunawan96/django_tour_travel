@@ -1557,7 +1557,8 @@
             $('input[name="train_departure"]').daterangepicker({
               singleDatePicker: false,
               autoUpdateInput: true,
-              startDate: departure_date,
+              startDate: departure_date.split(' - ')[0],
+              endDate: departure_date.split(' - ')[1],
               minDate: moment(),
               maxDate: moment().subtract(-30, 'days'),
               showDropdowns: true,

@@ -1908,7 +1908,9 @@ function hotel_detail(){
         text += `</div>`;
     }
     //console.log(text);
-    document.getElementById('hotel_detail').innerHTML = text;
+    try{
+        document.getElementById('hotel_detail').innerHTML = text;
+    }catch(err){}
 }
 
 function hotel_review_price_total(prices){
