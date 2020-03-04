@@ -982,10 +982,14 @@ def sell_journeys(request):
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    if 'sell_journey' + request.POST['signature'] not in request.session or request.session.get('sell_journey_data' + request.POST['signature']) != data:
+        res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    else:
+        res = request.session['sell_journey'+request.POST['signature']]
     try:
         if res['result']['error_code'] == 0:
+            request.session['sell_journey'+request.POST['signature']] = res
+            request.session['sell_journey_data'+request.POST['signature']] = data
             logging.getLogger("info_logger").info("SUCCESS sell_journeys AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR sell_journeys_airline AIRLINE SIGNATURE " + request.POST['signature'])
