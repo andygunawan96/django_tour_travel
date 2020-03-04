@@ -422,8 +422,7 @@ def ssr(request):
                     'javascript_version': javascript_version,
                     'static_path_url_server': get_url_static_path(),
                     'time_limit': int(request.POST['time_limit_input']),
-                    # 'cookies': json.dumps(res['result']['cookies']),
-
+                    'airline_getbooking': ''
                 })
             except:
                 #dari getbooking
@@ -532,16 +531,18 @@ def ssr(request):
                     'airline_carriers': carrier,
                     'upsell': upsell,
                     'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
-                    # 'airline_destinations': airline_destinations,
-                    # 'airline_pick': request.session['airline_pick'],
                     'airline_ssrs': airline_ssr,
                     'passengers': passenger,
                     'username': request.session['user_account'],
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
-                    # 'time_limit': int(request.POST['time_limit_input']),
-                    # 'cookies': json.dumps(res['result']['cookies']),
+                    'airline_request': '',
+                    'price': '',
+                    'additional_price': '',
+                    'airline_pick': '',
 
+                    'signature': request.session['airline_signature'],
+                    'time_limit': int(request.POST['time_limit_input']),
                 })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -700,14 +701,12 @@ def seat_map(request):
                     'airline_request': request.session['airline_request'],
                     'price': request.session['airline_price_itinerary'],
                     'additional_price': float(additional_price_input),
-                    # 'airline_destinations': airline_destinations,
-                    # 'airline_seat_map': request.session['airline_get_seat_availability']['result']['response'],
                     'passengers': passenger,
                     'username': request.session['user_account'],
                     'static_path_url_server': get_url_static_path(),
                     'javascript_version': javascript_version,
                     'time_limit': int(request.POST['time_limit_input']),
-                    # 'cookies': json.dumps(res['result']['cookies']),
+                    'airline_getbooking': ''
                 })
             except:
                 additional_price_input = 0
@@ -725,13 +724,14 @@ def seat_map(request):
                     'upsell': upsell,
                     'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                     'additional_price': float(additional_price_input),
-                    # 'airline_destinations': airline_destinations,
-                    # 'airline_seat_map': request.session['airline_get_seat_availability']['result']['response'],
                     'passengers': passenger,
                     'static_path_url_server': get_url_static_path(),
                     'username': request.session['user_account'],
                     'javascript_version': javascript_version,
-                    # 'cookies': json.dumps(res['result']['cookies']),
+                    'airline_request': '',
+                    'price': '',
+
+                    'time_limit': '',
                 })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

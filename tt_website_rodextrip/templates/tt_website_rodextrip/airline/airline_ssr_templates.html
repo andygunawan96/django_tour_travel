@@ -41,7 +41,7 @@
     {% endfor %}
     console.log(ssr_keys);
     signature = `{{signature}}`;
-    try{
+    if({{after_sales}} == 0){
         time_limit = '{{time_limit}}';
         if(time_limit != ''){
             time_limit = parseInt(time_limit);
@@ -69,7 +69,7 @@
         }else{
             additional_price_fix = 0;
         }
-    }catch(err){
+    }else if({{after_sales}} == 1){
         //request new
         airline_get_booking = `{{airline_getbooking}}`;
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
