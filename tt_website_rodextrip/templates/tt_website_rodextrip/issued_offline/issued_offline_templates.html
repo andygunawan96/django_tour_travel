@@ -20,23 +20,11 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     airline_destination = [];
-    train_destination = [];
     {% for airline in airline_destinations %}
         airline_destination.push({
             "name": "{{airline.name}}",
             "code": "{{airline.code}}",
             "city": "{{airline.city}}"
-        });
-    {% endfor %}
-
-    {% for train in train_destination %}
-        temp_train = `{{train}}`;
-        temp_train = temp_train.replace(/&#39;/g, "");
-        temp_train = temp_train.replace('[', "");
-        temp_train = temp_train.replace(']', "");
-        train_destination.push({
-            'code':temp_train.split(', ')[0],
-            'name':temp_train.split(', ')[1]
         });
     {% endfor %}
 

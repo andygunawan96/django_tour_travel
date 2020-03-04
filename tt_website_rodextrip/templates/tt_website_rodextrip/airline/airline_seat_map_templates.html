@@ -31,7 +31,7 @@
     signature = `{{signature}}`;
     additional_price = `{{additional_price}}`;
     additional_price = parseFloat(additional_price);
-    try{
+    if({{after_sales}} == 0){
         time_limit = '{{time_limit}}';
         if(time_limit != ''){
             time_limit = parseInt(time_limit);
@@ -48,7 +48,7 @@
         breadcrumb = 2;
         type = '';
         additional_price_fix = parseFloat(additional_price);
-    }catch(err){
+    }else if({{after_sales}} == 1){
         airline_get_booking = `{{airline_getbooking}}`;
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
         airline_get_booking = airline_get_booking.replace(/True/g, 'true');
