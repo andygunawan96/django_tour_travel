@@ -107,6 +107,7 @@ function onchange_agent_type(){
 }
 
 function get_promotions(){
+    data = '';
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -114,7 +115,7 @@ function get_promotions(){
             'action': 'get_promotions',
        },
        data: {
-            'signature': signature
+            'signature': ''
        },
        success: function(msg) {
             console.log(msg);
