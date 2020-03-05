@@ -928,6 +928,7 @@ function get_top_up(){
         console.log(msg);
         document.getElementById('button').disabled = false;
         data_length = 0;
+        text = '';
         //edit here
         for(i in msg.result.response){
             str = i;
