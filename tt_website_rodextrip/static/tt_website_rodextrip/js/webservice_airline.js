@@ -1218,8 +1218,16 @@ function set_automatic_combo_price(){
 }
 
 function get_price_itinerary_request(){
+    added = 1;
     for(i in airline_pick_list){
-        document.getElementById('changejourney_pick'+parseInt(parseInt(i)+1)).disabled = true;
+        try{
+            document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = true;
+        }catch(err){
+            added++;
+            try{
+                document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = true;
+            }catch(err){}
+        }
     }
     separate = false;
     try{
@@ -1255,8 +1263,16 @@ function get_price_itinerary_request(){
           'separate_journey': separate,
        },
        success: function(resJson) {
+           added = 1;
            for(i in airline_pick_list){
-                document.getElementById('changejourney_pick'+parseInt(parseInt(i)+1)).disabled = false;
+                try{
+                    document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = false;
+                }catch(err){
+                    added++;
+                    try{
+                        document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = false;
+                    }catch(err){}
+                }
            }
            console.log(resJson);
            price_type = {};
@@ -1656,8 +1672,16 @@ function get_price_itinerary_request(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+           added = 1;
            for(i in airline_pick_list){
-                document.getElementById('changejourney_pick'+parseInt(parseInt(i)+1)).disabled = false;
+                try{
+                    document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = false;
+                }catch(err){
+                    added++;
+                    try{
+                        document.getElementById('changejourney_pick'+parseInt(parseInt(i)+added)).disabled = false;
+                    }catch(err){}
+                }
            }
            //document.getElementById("badge-flight-notif").innerHTML = "0";
            //document.getElementById("badge-flight-notif2").innerHTML = "0";

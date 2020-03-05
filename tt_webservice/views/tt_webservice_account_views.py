@@ -92,6 +92,10 @@ def api_models(request):
             res = request_top_up(request)
         elif req_data['action'] == 'reset_password':
             res = reset_password(request)
+        elif req_data['action'] == 'set_highlight_url':
+            res = set_highlight_url(request)
+        elif req_data['action'] == 'get_highlight_url':
+            res = get_highlight_url(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:

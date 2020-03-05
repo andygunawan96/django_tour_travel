@@ -170,7 +170,6 @@ function get_account(){
 
 function get_transactions_notification(val){
     limit_transaction = 10;
-    getToken();
     using_cache = '';
     if(signature != ''){
         if(val != undefined)
