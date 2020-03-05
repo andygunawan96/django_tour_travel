@@ -241,7 +241,8 @@ def get_details(request):
     try:
         data = {
             'tour_code': request.POST['tour_code'],
-            'provider': request.POST['provider']
+            'provider': request.POST['provider'],
+            'fare_code': request.POST['fare_code']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
