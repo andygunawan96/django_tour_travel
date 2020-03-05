@@ -1228,9 +1228,7 @@ def booking(request):
                 'airline_carriers': airline_carriers,
                 'order_number': order_number,
                 'static_path_url_server': get_url_static_path(),
-                # 'order_number': 'AL.19081332140',
                 'javascript_version': javascript_version,
-                # 'order_number': 'AL.19072446048',
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

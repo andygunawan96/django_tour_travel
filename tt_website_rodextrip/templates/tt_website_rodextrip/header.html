@@ -1,6 +1,5 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script>
-    signature = '{{signature}}';
     agent_security = `{{username.co_agent_frontend_security}}`;
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
 </script>
@@ -697,8 +696,9 @@
     {% if username.co_user_login != '' %}
         time = 300;
         triggered_balance({{update_data}});
-        get_balance({{update_data}});
-
+        setTimeout(function() {
+            get_balance({{update_data}});
+        }, 2000);
         function set_csrf_notification(number){
             document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
             if(document.getElementById('type_reservation'+number).value == 'airline'){

@@ -14,8 +14,9 @@
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
     {% if username.co_user_login != '' %}
         time = 300;
-        signature = '{{signature}}';
         triggered_balance({{update_data}});
-        get_balance({{update_data}});
+        setTimeout(function() {
+            get_balance({{update_data}});
+        }, 2000);
     {% endif %}
 </script>
