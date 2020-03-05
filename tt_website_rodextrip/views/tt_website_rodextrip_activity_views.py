@@ -1302,7 +1302,6 @@ def booking(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'order_number': request.POST['order_number'],
                 'username': request.session['user_account'],
-                # 'cookies': json.dumps(res['result']['cookies']),
                 'javascript_version': javascript_version,
                 'signature': request.session['signature'],
                 'static_path_url_server': get_url_static_path(),
