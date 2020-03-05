@@ -610,6 +610,31 @@ def confirm_top_up(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def set_highlight_url(request):
+    data = ''
+    for rec in json.loads(request.POST['data']):
+        if rec != '\n' and rec != '':
+            if data != '':
+                data += '\n'
+            data += rec
+
+    file = open(var_log_path() + "highlight_data.txt", "w+")
+    file.write(data)
+    file.close()
+    return 0
+
+def get_highlight_url(request):
+    data = []
+    try:
+        file = open(var_log_path() + "highlight_data.txt", "r")
+        for line in file:
+            if line != '\n':
+                data.append(line)
+        file.close()
+    except:
+        pass
+    return data
+
 #DEPRECATED
 def request_top_up(request):
     try:
