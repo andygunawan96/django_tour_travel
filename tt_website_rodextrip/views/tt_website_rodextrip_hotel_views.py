@@ -198,6 +198,7 @@ def passengers(request):
                 'hotel_room_detail_pick': request.session['hotel_room_pick'],
                 # 'username': request.session['username'],
                 'username': request.session['user_account'],
+                'response': request.session['hotel_detail'],
                 'childs': child,
                 'adults': adult,
                 'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
