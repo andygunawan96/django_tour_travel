@@ -79,6 +79,9 @@
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
+                                {% if "edit_announcement" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
+                                {% endif %}
                                 <li><a href="https://backend.rodextrip.com">Backend</a></li>
                                 <li>
                                     <a>
