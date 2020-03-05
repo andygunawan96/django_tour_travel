@@ -723,6 +723,15 @@ function airline_search(provider,carrier_codes){
               var bar2 = document.getElementById('barFlightSearch').ldBar;
               bar1.set((airline_choose/count_progress_bar_airline)*100);
               if ((airline_choose/count_progress_bar_airline)*100 == 100){
+                if(count_progress_bar_airline == 1){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error airline search </span>' + msg.error_msg,
+                    })
+
+                }
+                filtering('sort');
                 $("#barFlightSearch").hide();
                 $("#waitFlightSearch").hide();
               }
@@ -737,6 +746,7 @@ function airline_search(provider,carrier_codes){
         if ((airline_choose/count_progress_bar_airline)*100 == 100){
             $("#barFlightSearch").hide();
             $("#waitFlightSearch").hide();
+            filtering('sort');
         }
        if (count_progress_bar_airline == airline_choose && airline_data.length == 0){
             Swal.fire({

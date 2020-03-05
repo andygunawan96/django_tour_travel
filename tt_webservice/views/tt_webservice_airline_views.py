@@ -717,12 +717,8 @@ def search2(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     try:
-        if res['result']['response'] != '':
-            response_search = res['result']
-        else:
-            response_search = {
-                'result': res
-            }
+        response_search = res['result']
+
     except:
         response_search = {
             'result': res
