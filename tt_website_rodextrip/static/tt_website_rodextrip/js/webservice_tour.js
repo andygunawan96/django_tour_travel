@@ -602,6 +602,7 @@ function tour_get_details(tour_code, tour_provider){
        data: {
            'tour_code': tour_code,
            'provider': tour_provider,
+           'fare_code': tour_fare_code,
            'signature': signature
        },
        success: function(msg) {
