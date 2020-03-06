@@ -29,7 +29,7 @@ def open_page(request):
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
 
-        values = get_data_template(request)
+        values = get_data_template(request, 'registration')
         social_medias = []
         try:
             social_medias = response['result']['response']['issued_offline']['social_media_id']
@@ -41,7 +41,7 @@ def open_page(request):
             'javascript_version': javascript_version,
             'username': request.session.get('user_account') or {'co_user_login': ''},
             'static_path_url_server': get_url_static_path(),
-            'signature': request.session.get('signature'),
+            'signature': request.session.get('signature') or '',
             'social_medias': social_medias,
             # 'username': request.session['username'],
             # 'co_uid': request.session['co_uid'],
@@ -52,7 +52,7 @@ def open_page(request):
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
-                'signature': request.session['signature'],
+                'signature': request.session.get('signature') or '',
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

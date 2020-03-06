@@ -417,6 +417,27 @@ def admin(request):
                             file.close()
                         except:
                             pass
+                        if check == 0:
+                            text += '\n'
+                    try:
+                        if request.FILES['fileRegistrationBanner'].content_type == 'image/jpeg' or request.FILES['fileRegistrationBanner'].content_type == 'image/png' or request.FILES['fileRegistrationBanner'].content_type == 'image/png':
+                            file = request.FILES['fileRegistrationBanner']
+                            filename = fs.save(file.name, file)
+                            text += fs.base_url + filename + '\n'
+                    except:
+                        check = 0
+                        try:
+                            file = open(var_log_path() + "data_cache_template.txt", "r")
+                            for idx, line in enumerate(file):
+                                if idx == 15:
+                                    text += line
+                                    check = 1
+                                    break
+                            file.close()
+                        except:
+                            pass
+                        if check == 0:
+                            text += '\n'
                     file = open(var_log_path()+'data_cache_template.txt', "w+")
                     file.write(text)
                     file.close()
@@ -727,7 +748,10 @@ def get_data_template(request, type='home'):
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
-    background = '/static/tt_website_rodextrip/images/bg_7.jpg'
+    if type == 'registration':
+        background = 'https://www.skytors.id/web/image/28381'
+    else:
+        background = '/static/tt_website_rodextrip/images/bg_7.jpg'
     color = '#f15a22'
     website_name = 'Rodextrip'
     tawk_chat = 0
@@ -796,6 +820,11 @@ We build this application for our existing partner and public users who register
                     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
                 else:
                     logo_icon = line.split('\n')[0]
+            elif idx == 15 and type == 'registration':
+                if line != '\n':
+                    background = line.split('\n')[0]
+                else:
+                    background = 'https://www.skytors.id/web/image/28381'
         if color == '':
             color = '#f15a22'
         file.close()

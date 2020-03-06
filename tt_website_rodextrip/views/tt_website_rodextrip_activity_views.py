@@ -1243,6 +1243,8 @@ def review(request):
                 ],
             }
 
+            request.session['activity_json_printout' + request.session['activity_signature']] = printout_rec
+
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
