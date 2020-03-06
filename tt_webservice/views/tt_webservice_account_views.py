@@ -612,11 +612,15 @@ def confirm_top_up(request):
 
 def set_highlight_url(request):
     data = ''
-    for rec in json.loads(request.POST['data']):
-        if rec != '\n' and rec != '':
-            if data != '':
-                data += '\n'
-            data += rec
+    data_list = json.loads(request.POST['data'])
+    if len(data_list) == 0:
+        pass
+    else:
+        for rec in data_list:
+            if rec[0] != '' and rec[1] != '':
+                if data != '':
+                    data += '\n'
+                data += '%s %s' % (rec[0], rec[1])
 
     file = open(var_log_path() + "highlight_data.txt", "w+")
     file.write(data)
@@ -629,7 +633,7 @@ def get_highlight_url(request):
         file = open(var_log_path() + "highlight_data.txt", "r")
         for line in file:
             if line != '\n':
-                data.append(line)
+                data.append(line.split(' '))
         file.close()
     except:
         pass
