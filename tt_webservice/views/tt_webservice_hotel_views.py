@@ -362,9 +362,9 @@ def get_top_facility(request):
         logging.getLogger("info_logger").info(json.dumps(request.session['hotel_cancellation_policy']))
         request.session.modified = True
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_top_facility_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            logging.getLogger("info_logger").info("get_top_facility_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
         else:
-            logging.getLogger("error_logger").error("get_top_facility_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("get_top_facility_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

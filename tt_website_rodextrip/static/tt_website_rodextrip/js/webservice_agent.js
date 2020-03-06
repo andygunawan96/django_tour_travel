@@ -1903,7 +1903,7 @@ function check_ktp(value){
 function check_sim(value){
     var checknumber = "^[0-9]*$";//number
     if(value.match(checknumber)!=null){
-        if(value.length==12 || value.length==13){
+        if(value.length>=12){
             return true;
         }else{
             return false;
