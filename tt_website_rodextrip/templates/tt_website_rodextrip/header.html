@@ -1,4 +1,5 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
 <script>
     agent_security = `{{username.co_agent_frontend_security}}`;
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
@@ -60,7 +61,10 @@
                         {% endif%}
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
-
+                        <li class="menu-has-children pt5"><a href="#">Highlight</a>
+                            <ul id="highlight_header_div" style="text-align:center;">
+                            </ul>
+                        </li>
                         {% if username.co_user_login != '' %}
                         {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
                         <li class="credit_mobile pt5"><a id="credit_limit" style="color:black;"></a></li>
@@ -226,7 +230,10 @@
                                 {% endif%}
                                 <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                                 {% endif %}
-
+                                <li class="menu-has-children pt5"><a href="#">Highlight</a>
+                                    <ul id="highlight_header_div" style="text-align:center;">
+                                    </ul>
+                                </li>
                                 {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
                                 <li class="credit_mobile"><a id="credit_limit"></a></li>
                                 {% else %}
@@ -349,6 +356,10 @@
                         {% endif%}
                         <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
+                        <li class="menu-has-children pt5"><a href="#">Highlight</a>
+                            <ul id="highlight_header_div" style="text-align:center;">
+                            </ul>
+                        </li>
                         {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
                         <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
                         {% else %}
@@ -486,6 +497,10 @@
                             {% endif%}
                             <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                             {% endif %}
+                            <li class="menu-has-children pt5"><a href="#">Highlight</a>
+                                <ul id="highlight_header_div" style="text-align:center;">
+                                </ul>
+                            </li>
 
                             {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
                             <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
@@ -625,6 +640,10 @@
                         {% endif%}
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
+                        <li class="menu-has-children pt5"><a href="#">Highlight</a>
+                            <ul id="highlight_header_div" style="text-align:center;">
+                            </ul>
+                        </li>
 
                         {% if username.co_user_login != '' %}
                         {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
@@ -724,6 +743,7 @@
 
 <script>
     {% if username.co_user_login != '' %}
+        get_highlight('header');
         time = 300;
         triggered_balance({{update_data}});
         setTimeout(function() {
