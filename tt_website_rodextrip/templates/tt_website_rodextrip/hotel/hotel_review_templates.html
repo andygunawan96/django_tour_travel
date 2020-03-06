@@ -10,6 +10,7 @@
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script>
     static_path_url_server = '{{static_path_url_server}}'
@@ -228,7 +229,10 @@
 
                         </div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
-                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{ printout_rec }}')" style="width:100%;">
+                            <!--<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/form.itinerary/{{ printout_rec }}')" style="width:100%;">-->
+                                <!--Print Itinerary Form-->
+                            <!--</button>-->
+                            <button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('','itinerary','hotel');" style="width:100%;">
                                 Print Itinerary Form
                             </button>
                         </div>

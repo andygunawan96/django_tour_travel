@@ -211,7 +211,7 @@ def add_banner(request):
 
         for i in request.FILES:
             for img in request.FILES.getlist(i):
-                if i != 'fileToUpload' and i != 'fileBackgroundLogin' and i != 'fileBackgroundHome' and i != 'fileBackgroundSearch' and i != 'filelogoicon':
+                if i != 'fileToUpload' and i != 'fileBackgroundLogin' and i != 'fileBackgroundHome' and i != 'fileBackgroundSearch' and i != 'filelogoicon' and i != 'fileRegistrationBanner':
                     imgData.append({
                         'filename': img.name,
                         'file_reference': img.name,

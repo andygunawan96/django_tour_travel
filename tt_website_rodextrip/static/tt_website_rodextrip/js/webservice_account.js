@@ -34,7 +34,7 @@ function get_balance(val){
     using_cache = '';
     if(val != undefined)
         using_cache = val;
-    if(signature != ''){
+    if(typeof signature !== 'undefined'){
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -133,39 +133,40 @@ function get_balance(val){
 
 function get_account(){
     limit_transaction = 20;
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/account",
-       headers:{
-            'action': 'get_account',
-       },
-       data: {
-            'signature': signature
-       },
-       success: function(msg) {
-       console.log(msg);
-        if(msg.result.error_code == 0){
-            //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-        }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-            auto_logout();
-        }else{
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: #ff9900;">Error account </span>' + msg.result.error_msg,
-            })
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-//            logout();
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error account </span>' + errorThrown,
-            })
-       },timeout: 60000
-    });
+    if(typeof variable !== 'undefined'){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'get_account',
+           },
+           data: {
+                'signature': signature
+           },
+           success: function(msg) {
+           console.log(msg);
+            if(msg.result.error_code == 0){
+                //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
+            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error account </span>' + msg.result.error_msg,
+                })
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+    //            logout();
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error account </span>' + errorThrown,
+                })
+           },timeout: 60000
+        });
+    }
 }
 
 function get_transactions_notification(val){

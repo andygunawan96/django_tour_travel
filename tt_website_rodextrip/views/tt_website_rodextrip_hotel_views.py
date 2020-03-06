@@ -400,7 +400,7 @@ def review(request):
                    }
                for rec in request.session['hotel_room_pick']['rooms']],
             })
-
+            request.session['hotel_json_printout' + request.session['hotel_signature']] = print_json
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
