@@ -288,7 +288,9 @@ function get_top_facility(){
     });
 }
 
-function hotel_facility_request(hotel_facilities){
+//Versi 1 dimana ambil icon facility dari backend
+function hotel_facility_request_1(hotel_facilities){
+    getToken();
     $.ajax({
         type: "POST",
         url: "/webservice/hotel",
@@ -302,8 +304,10 @@ function hotel_facility_request(hotel_facilities){
             //console.log('start');
             facility_image = msg.result.response;
             facility_image_html = '';
+            //Note: Fungsi Buat get Master facility dari backend(msg)
+            //Note: Fungsi Buat checking Facility Hotel yg sedang aktif(hotel_facilities)
+            //console.log(msg);
             //console.log(hotel_facilities);
-            //console.log(facility_image);
             hotel_facilities = $.parseJSON(hotel_facilities);
             //console.log(hotel_facilities);
 
@@ -352,6 +356,29 @@ function hotel_facility_request(hotel_facilities){
     });
 }
 
+//Versi 2 Menggunakan icon standart sja
+function hotel_facility_request(hotel_facilities){
+    getToken();
+    var facility_image_html = '';
+    hotel_facilities = $.parseJSON(hotel_facilities);
+    for (rec in hotel_facilities){
+        //console.log(hotel_facilities[rec].facility_name);
+        if (hotel_facilities[rec].facility_name != undefined){
+            var fac_name = hotel_facilities[rec].facility_name;
+        } else {
+            // Error handling untuk KNB
+            // Hapus jika data dari KNB sdah di update
+            var fac_name = hotel_facilities[rec];
+        }
+        facility_image_html += `
+                <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
+                    <i class="fas fa-circle" style="font-size:9px;"></i>
+                    <span style="font-weight:500;"> `+ fac_name +`</span>
+                </div>`;
+    }
+    document.getElementById("js_image_facility").innerHTML = facility_image_html;
+}
+
 function hotel_detail_request(checkin_date, checkout_date){
     clearTimeout(myVar);
     // Remove Copy dan Next button waktu ganti tanggal START
@@ -360,7 +387,7 @@ function hotel_detail_request(checkin_date, checkout_date){
     document.getElementById("detail_room_pick").innerHTML = '';
     document.getElementById('hotel_detail_table').innerHTML = '';
     document.getElementById("select_copy_all").innerHTML = '';
-//    date_hotel
+    // date_hotel
     document.getElementById('date_hotel').innerHTML = 'Date: ' + checkin_date + ' - ' + checkout_date;
     myVar = setTimeout(function() {
         $.ajax({
@@ -891,6 +918,10 @@ function hotel_issued_booking(){
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: red;">Error issued hotel </span>' + errorThrown,
+                    }).then((result) => {
+                      if (result.value) {
+                        $("#waitingTransaction").modal('hide');
+                      }
                     })
                 }
             }catch(err){
@@ -899,6 +930,10 @@ function hotel_issued_booking(){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error hotel issued booking </span>',
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
                 })
             }
        },
@@ -908,6 +943,10 @@ function hotel_issued_booking(){
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error hotel issued booking </span>' + errorThrown,
+            }).then((result) => {
+              if (result.value) {
+                $("#waitingTransaction").modal('hide');
+              }
             })
        },timeout: 300000
     });
