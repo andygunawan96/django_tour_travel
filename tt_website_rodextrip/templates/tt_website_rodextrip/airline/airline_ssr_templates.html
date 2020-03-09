@@ -71,6 +71,7 @@
         }
     }else if({{after_sales}} == 1){
         //request new
+        time_limit = '{{time_limit}}';
         airline_get_booking = `{{airline_getbooking}}`;
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
         airline_get_booking = airline_get_booking.replace(/True/g, 'true');
