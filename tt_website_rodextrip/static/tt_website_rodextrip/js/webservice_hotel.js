@@ -917,7 +917,7 @@ function hotel_issued_booking(){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: red;">Error issued hotel </span>' + errorThrown,
+                      html: '<span style="color: red;">Error issued hotel </span>' + msg.result.error_msg,
                     }).then((result) => {
                       if (result.value) {
                         $("#waitingTransaction").modal('hide');

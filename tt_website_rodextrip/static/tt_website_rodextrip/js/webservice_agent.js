@@ -1000,11 +1000,12 @@ function pick_passenger(type, sequence, product){
         check = 0;
         if(check == 0){
             document.getElementById('train_booker_search').value = '';
-            console.log(document.getElementsByName('myRadios')[0].checked);
-            if(document.getElementsByName('myRadios')[0].checked == true){
-                clear_passenger('Adult',1);
-                document.getElementsByName('myRadios')[1].checked = true;
-            }
+            try{
+                if(document.getElementsByName('myRadios')[0].checked == true){
+                    clear_passenger('Adult',1);
+                    document.getElementsByName('myRadios')[1].checked = true;
+                }
+            }catch(err){}
 
             for(i in passenger_data_pick){
                 if(passenger_data_pick[i].sequence == 'booker'){

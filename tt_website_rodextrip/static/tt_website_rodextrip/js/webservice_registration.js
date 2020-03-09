@@ -68,10 +68,42 @@ function agent_register_get_config(){
             agent_regis_config = msg;
             //agent type
             text = '<option value="" disabled selected>Agent Type</option>';
+            text_partnership = `
+            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
+                    <h3>About Partnership</h3>`;
+            text_tab_partnership = `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
+                        <ul class="create_tabs" id="identity">`;
+            text_tab_value = `<div class="banner-right" style="background-color:white;">`;
+            print_tab = 0;
             for(i in msg.result.response.agent_type){
-//                if(msg.result.response.agent_type[i].is_allow_regis == true)
                 text+=`<option value="`+msg.result.response.agent_type[i].name+`">`+msg.result.response.agent_type[i].name+`</option>`;
+                if(Object.keys(msg.result.response.agent_type[i].product).length != 0){
+                    print_tab = 1;
+                    if(i == 0)
+                        text_tab_partnership += `<li class="create_tab-link current" data-tab="`+msg.result.response.agent_type[i].name+`"><label>`+msg.result.response.agent_type[i].name+`</label></li>`;
+                    else
+                        text_tab_partnership += `<li class="create_tab-link" data-tab="`+msg.result.response.agent_type[i].name+`"><label>`+msg.result.response.agent_type[i].name+`</label></li>`;
+                    if(i == 0)
+                        text_tab_value += `<div id="`+msg.result.response.agent_type[i].name+`" class="create_tab-content current" style="padding:15px; background:white; border:1px solid #cdcdcd;">`;
+                    else
+                        text_tab_value += `<div id="`+msg.result.response.agent_type[i].name+`" class="create_tab-content" style="padding:15px; background:white; border:1px solid #cdcdcd;">`;
+                    for(j in msg.result.response.agent_type[i].product){
+                        text_tab_value += `<h4>`+j+`</h4>`;
+                        for(k in msg.result.response.agent_type[i].product[j]){
+                            text_tab_value += `<p>`+msg.result.response.agent_type[i].product[j][k]+`</p>`;
+                        }
+                    }
+                    text_tab_value += `</div>`;
+
+                }
             }
+            if(text_tab_partnership != ''){
+                text_tab_partnership += `</ul></div>`;
+            }
+            text_partnership += text_tab_partnership+text_tab_value+`</div>`;
+            if(print_tab == 1)
+                document.getElementById('partnership').innerHTML = text_partnership;
+
             document.getElementById('agent_type_id').innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
