@@ -231,7 +231,7 @@
                                 <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                                 {% endif %}
                                 <li class="menu-has-children pt5"><a href="#">Highlight</a>
-                                    <ul id="highlight_header_div" style="text-align:center;">
+                                    <ul id="highlight_header_div" class="dropdown">
                                     </ul>
                                 </li>
                                 {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
@@ -356,8 +356,8 @@
                         {% endif%}
                         <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
-                        <li class="menu-has-children pt5"><a href="#">Highlight</a>
-                            <ul id="highlight_header_div" style="text-align:center;">
+                        <li class="menu-has-children"><a href="#">Highlight</a>
+                            <ul id="highlight_header_div">
                             </ul>
                         </li>
                         {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
@@ -497,8 +497,8 @@
                             {% endif%}
                             <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                             {% endif %}
-                            <li class="menu-has-children pt5"><a href="#">Highlight</a>
-                                <ul id="highlight_header_div" style="text-align:center;">
+                            <li class="has-children"><a href="#">Highlight</a>
+                                <ul id="highlight_header_div" class="dropdown">
                                 </ul>
                             </li>
 
@@ -640,8 +640,8 @@
                         {% endif%}
                         <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
                         {% endif %}
-                        <li class="menu-has-children pt5"><a href="#">Highlight</a>
-                            <ul id="highlight_header_div" style="text-align:center;">
+                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">Highlight</a>
+                            <ul id="highlight_header_div" style="top:65%;">
                             </ul>
                         </li>
 
@@ -744,11 +744,13 @@
 <script>
     {% if username.co_user_login != '' %}
         get_highlight('header');
-        time = 300;
-        triggered_balance({{update_data}});
-        setTimeout(function() {
-            get_balance({{update_data}});
-        }, 2000);
+        if(document.URL.split('/')[document.URL.split('/').length-1] != 'ssr' || document.URL.split('/')[document.URL.split('/').length-1] != 'seat'){
+            time = 300;
+            triggered_balance({{update_data}});
+            setTimeout(function() {
+                get_balance({{update_data}});
+            }, 2000);
+        }
         function set_csrf_notification(number){
             document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
             if(document.getElementById('type_reservation'+number).value == 'airline'){

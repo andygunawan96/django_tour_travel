@@ -542,7 +542,7 @@ def ssr(request):
                     'airline_pick': '',
 
                     'signature': request.session['airline_signature'],
-                    'time_limit': int(request.POST['time_limit_input']),
+                    'time_limit': '',
                 })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -684,12 +684,11 @@ def seat_map(request):
                                 'currency': '',
                                 'price': ''
                             })
-
-            additional_price_input = ''
-            additional_price = request.POST['additional_price_input'].split(',')
-            for i in additional_price:
-                additional_price_input += i
             try:
+                additional_price_input = ''
+                additional_price = request.POST['additional_price_input'].split(',')
+                for i in additional_price:
+                    additional_price_input += i
                 values.update({
                     'static_path': path_util.get_static_path(MODEL_NAME),
                     'airline_carriers': carrier,
@@ -709,7 +708,6 @@ def seat_map(request):
                     'airline_getbooking': ''
                 })
             except:
-                additional_price_input = 0
                 upsell = 0
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if pax.get('channel_service_charges'):
@@ -723,15 +721,14 @@ def seat_map(request):
                     'after_sales': 1,
                     'upsell': upsell,
                     'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
-                    'additional_price': float(additional_price_input),
+                    'additional_price': '',
                     'passengers': passenger,
                     'static_path_url_server': get_url_static_path(),
                     'username': request.session['user_account'],
                     'javascript_version': javascript_version,
                     'airline_request': '',
                     'price': '',
-
-                    'time_limit': '',
+                    'time_limit': ''
                 })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

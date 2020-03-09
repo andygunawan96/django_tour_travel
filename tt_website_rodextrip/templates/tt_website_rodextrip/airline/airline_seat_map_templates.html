@@ -28,7 +28,6 @@
     passengers = passengers.replace(/&#39;/g, '"');
     passengers = passengers.replace(/True/g, '"true"');
     passengers = JSON.parse(passengers.replace(/False/g, '"false"'));
-    signature = `{{signature}}`;
     additional_price = `{{additional_price}}`;
     additional_price = parseFloat(additional_price);
     if({{after_sales}} == 0){
@@ -49,15 +48,16 @@
         type = '';
         additional_price_fix = parseFloat(additional_price);
     }else if({{after_sales}} == 1){
+        time_limit = '{{time_limit}}';
         airline_get_booking = `{{airline_getbooking}}`;
         airline_get_booking = airline_get_booking.replace(/&#39;/g, '"');
         airline_get_booking = airline_get_booking.replace(/True/g, 'true');
         airline_get_booking = airline_get_booking.replace(/False/g, 'false');
-        console.log(airline_get_booking);
         airline_get_booking = JSON.parse(airline_get_booking);
         breadcrumb = 2;
         type = 'request_new';
         additional_price_fix = 0;
+        additional_price = 0;
     }
     passenger_pick = '';
 
@@ -224,31 +224,7 @@ img {vertical-align: middle;}
                                             </div>
                                         </div>
                                         <div class="slideshow-container" id="airline_slideshow" style="padding-top:15px;">
-                                            {% for seat_provider in airline_seat_map.seat_availability_provider %}
-                                            {% for segment in seat_provider.segments %}
-                                            {% for seat_cabin in segment.seat_cabins %}
-                                            <!--ganti gerbong sini-->
-                                            <div class="mySlides1">
-                                                {% for seat_row in seat_cabin.seat_rows %}
-                                                <div style="width:100%;text-align:center;">
-                                                    {% with 8 as percent%}
-                                                    {% for seat in seat_row.seats%}
 
-                                                    {% if seat.availability == 0 %}
-                                                    <input class="button-seat-map" type="button" style="width:{{percent}}%;background-color:#656565; color:{{text_color}}; margin:3px;" onclick="alert('Already booked');" value="{{seat_row.row_number}}{{seat.column}}"/>
-                                                    {% elif seat.availability == 1%}
-                                                    <input class="button-seat-map" type="button" style="width:{{percent}}%;background-color:#CACACA; margin:3px;" onclick="change_seat('','')" value="{{seat_row.row_number}}{{seat.column}}"/>
-                                                    {% elif seat.availability == -1%}
-                                                    <input type="button" style="width:{{percent}}%;background-color:transparent;border:transparent; margin:3px;" value="" disabled/>
-                                                    {% endif %}
-                                                    {% endfor %}
-                                                    {% endwith %}
-                                                </div>
-                                                {% endfor %}
-                                            </div>
-                                            {% endfor %}
-                                            {% endfor %}
-                                            {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -286,6 +262,11 @@ img {vertical-align: middle;}
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    if(time_limit != ''){
+        document.getElementById('div_4').hidden = false;
+        type  = '';
+    }else
+        type = 'request_new';
     try{
         airline_detail(type);
     }catch(err){
