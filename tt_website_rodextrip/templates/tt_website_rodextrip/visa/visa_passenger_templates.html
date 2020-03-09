@@ -260,7 +260,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                    {% if passengers.adult|length != 0 %}
+                                    {% if passengers.adult != 0 %}
                                     <label>Do you book this trip for you?</label>
                                     <label class="radio-button-custom">
                                         Yes
@@ -1127,7 +1127,7 @@
                             <div class="row" style="margin-bottom:20px;">
                                 <div class="col-lg-12">
                                     <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                        {% if passengers.adult|length != '0' %}
+                                        {% if passengers.adult != 0 %}
                                         <label>Do you book this trip for you?</label>
                                         <label class="radio-button-custom">
                                             Yes
@@ -1978,7 +1978,7 @@
                         <div class="row" style="margin-bottom:20px;">
                             <div class="col-lg-12">
                                 <div style="background:white; padding:10px; border:1px solid #cdcdcd;">
-                                    {% if passengers.adult|length != '0' %}
+                                        {% if passengers.adult != 0 %}
                                     <label>Do you book this trip for you?</label>
                                     <label class="radio-button-custom">
                                         Yes

@@ -144,17 +144,28 @@ def get_auto_complete_gateway(request):
                     file = open(var_log_path() + "tour_cache_data.txt", "w+")
                     file.write(json.dumps(res['result']['response']))
                     file.close()
+                    res = {
+                        'result': {
+                            'error_code': 0,
+                            'error_msg': 'update cache tour'
+                        }
+                    }
             except Exception as e:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
-                pass
+                res = {
+                    'result': {
+                        'error_code': 0,
+                        'error_msg': 'using old cache'
+                    }
+                }
         else:
-            cache_version = get_cache_version()
-            temp_data = get_cache_data(cache_version)
-
             res = {
-                'tour_countries': temp_data['result']['response']['tour']['countries']
+                'result': {
+                    'error_code': 0,
+                    'error_msg': 'using old cache tour'
+                }
             }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
