@@ -49,6 +49,15 @@ function signin(){
 
                       }
                     })
+                }else if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == false){
+                    $('.button-login').prop('disabled', false);
+                    $('.button-login').removeClass("running");
+
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      text: "It looks like you don't have permission to login!",
+                    })
                 }else{
                     $('.button-login').prop('disabled', false);
                     $('.button-login').removeClass("running");
@@ -122,6 +131,15 @@ function signin(){
                       ) {
 
                       }
+                    })
+                }else if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == false){
+                    $('.button-login').prop('disabled', false);
+                    $('.button-login').removeClass("running");
+
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      text: "It looks like you don't have permission to login!",
                     })
                 }else{
                     $('.button-login').prop('disabled', false);

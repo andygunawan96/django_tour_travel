@@ -5085,12 +5085,6 @@ function get_price_itinerary_reissue_request(){
             <button class="primary-btn" id="next_reissue" style="width:100%;" onclick="sell_journey_reissue_construct();" type="button" value="Next">
                 Next
             </button>
-        </div>
-
-        <div class="col-lg-12">
-            <div style="background-color:white; padding:10px; border:1px solid `+color+`;margin-top:10px;" id="payment_acq" hidden>
-
-            </div>
         </div>`;
     text+=`</div>`;
 
@@ -5147,6 +5141,7 @@ function sell_journey_reissue_construct(){
                                    console.log(msg);
                                    if(msg.result.error_code == 0){
                                        get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, '', 'billing',signature,'airline_reissue');
+                                       document.getElementById('payment_acq').hidden = false;
                                    }
                                },
                                error: function(XMLHttpRequest, textStatus, errorThrown) {
