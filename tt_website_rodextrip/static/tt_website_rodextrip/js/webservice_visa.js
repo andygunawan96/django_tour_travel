@@ -353,21 +353,21 @@ function check_hold_booking(){
         if(i != 'booker' && i != 'contact'){
             for(k in passenger[i]){
                 count_pax = parseInt(k) + 1;
-                var radios = document.getElementsByName('adult_visa_type'+count_pax);
+                var radios = document.getElementsByName(i+'_visa_type'+count_pax);
                 visa_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
                     if(radios[j].checked == true){
                         visa_type = radios[j].value;
                     }
                 }
-                radios = document.getElementsByName('adult_entry_type'+count_pax);
+                radios = document.getElementsByName(i+'_entry_type'+count_pax);
                 entry_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
                     if(radios[j].checked == true){
                         entry_type = radios[j].value;
                     }
                 }
-                radios = document.getElementsByName('adult_process_type'+count_pax);
+                radios = document.getElementsByName(i+'_process_type'+count_pax);
                 process_type = '';
                 for (var j = 0, length = radios.length; j < length; j++) {
                     if(radios[j].checked == true){
