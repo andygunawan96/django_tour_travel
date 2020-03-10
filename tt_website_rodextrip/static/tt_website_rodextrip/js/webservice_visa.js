@@ -297,7 +297,7 @@ function search_visa(provider){
                 update_table('search');
             }
             if(provider_length == provider_search){
-                if(msg.result.response.list_of_visa.length != 0){
+                if(msg.result.response.list_of_visa.length == 0){
                     node = document.createElement("div");
                     text= `
                     <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding: 15px 0px 15px 15px; text-align:center;">
