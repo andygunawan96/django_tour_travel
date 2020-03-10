@@ -1,5 +1,5 @@
 visa = [];
-
+provider_search = 0;
 
 function get_visa_config(type){
     getToken();
@@ -123,6 +123,7 @@ function visa_get_config_provider(){
        },
        success: function(msg) {
             counter_visa = 0;
+            provider_search++;
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
                 for(i in msg.result.response.providers){
@@ -295,19 +296,21 @@ function search_visa(provider){
                 }
                 update_table('search');
             }
-            else{
-                node = document.createElement("div");
-                text= `
-                <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding: 15px 0px 15px 15px; text-align:center;">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <h3><i class="fas fa-search"></i> VISA NOT FOUND</h3>
+            if(provider_length == provider_search){
+                if(msg.result.response.list_of_visa.length != 0){
+                    node = document.createElement("div");
+                    text= `
+                    <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding: 15px 0px 15px 15px; text-align:center;">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <h3><i class="fas fa-search"></i> VISA NOT FOUND</h3>
+                            </div>
                         </div>
-                    </div>
-                </div>`;
+                    </div>`;
 
-                node.innerHTML = text;
-                document.getElementById("show-visa-search").appendChild(node);
+                    node.innerHTML = text;
+                    document.getElementById("show-visa-search").appendChild(node);
+                }
             }
 
             document.getElementById('loading-search-visa').hidden = true;
@@ -466,11 +469,11 @@ function update_passenger(){
                     }
                 }
                 for(j in visa.list_of_visa){ //list of visa
-                    if(visa.list_of_visa[j].pax_type[0] == passenger[i][k].pax_type &&
-                    visa.list_of_visa[j].visa_type[0] == visa_type &&
-                    visa.list_of_visa[j].type.process_type[0] == process_type &&
-                    visa.list_of_visa[j].entry_type[0] == entry_type &&
-                    document.getElementById(i+'_check'+pax_count).value == visa.list_of_visa[j].id){
+                    if(visa.list_of_visa[j].pax_type[1].toLowerCase() == i &&
+                        visa.list_of_visa[j].visa_type[0] == visa_type &&
+                        visa.list_of_visa[j].entry_type[0] == entry_type &&
+                        visa.list_of_visa[j].type.process_type[0] == process_type &&
+                        visa.list_of_visa[j].pax_count != 0){
                         required = [];
                         for(count in visa.list_of_visa[j].requirements){
                             required.push({
@@ -490,7 +493,6 @@ function update_passenger(){
             }
         }
     }
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
