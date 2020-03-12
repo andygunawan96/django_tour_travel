@@ -409,6 +409,8 @@ function issued_offline_signin(data){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -610,7 +612,9 @@ function set_data_issued_offline(){
               title: 'Oops!',
               html: '<span style="color: red;">Error set data issued offline  </span>' + errorThrown,
             })
-       },timeout: 120000
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
+       },timeout: 60000
     });
 }
 
@@ -718,6 +722,8 @@ function update_booker(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -785,6 +791,8 @@ function update_passenger(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -861,6 +869,8 @@ function commit_booking(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.payment_acq_btn').prop('disabled', false);
+            $('.hold-seat-booking-train').removeClass("running");
             Swal.fire({
               type: 'error',
               title: 'Oops!',

@@ -2045,7 +2045,6 @@ function get_seat_availability(type){
 }
 
 function get_seat_map_response(){
-    getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",

@@ -8,6 +8,7 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
+import time
 _logger = logging.getLogger(__name__)
 from .tt_webservice_views import *
 
@@ -39,7 +40,7 @@ month = {
 
 }
 
-class time:
+class time_class:
     def __init__(self, name):
         self.get_time_balance = name
         self.get_time_balance_first_time = True
@@ -56,7 +57,7 @@ class time:
         elif val == 'transaction':
             self.get_time_transaction_first_time = False
 
-time_check = time(datetime.now())
+time_check = time_class(datetime.now())
 
 @api_view(['GET', 'POST'])
 def api_models(request):
@@ -243,6 +244,7 @@ def get_balance(request):
             }
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        time.sleep(1)
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         request.session['get_balance_session'] = res
         logging.getLogger("info_logger").info(json.dumps(request.session['get_balance_session']))
@@ -263,6 +265,7 @@ def get_balance(request):
                         "signature": request.POST['signature'],
                     }
                     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+                    time.sleep(1)
                     request.session['get_balance_session'] = res
                     logging.getLogger("info_logger").info(json.dumps(request.session['get_balance_session']))
                     request.session.modified = True
@@ -285,6 +288,7 @@ def get_balance(request):
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+            time.sleep(1)
             request.session['get_balance_session'] = res
             logging.getLogger("info_logger").info(json.dumps(request.session['get_balance_session']))
             request.session.modified = True
@@ -338,6 +342,7 @@ def get_transactions(request):
 
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         if int(request.POST['offset']) == 0:
+            time.sleep(1)
             request.session['get_transactions_session'] = res
             logging.getLogger("info_logger").info(json.dumps(request.session['get_transactions_session']))
             request.session.modified = True
@@ -379,6 +384,7 @@ def get_transactions(request):
                 }
                 res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                 if int(request.POST['offset']) == 300:
+                    time.sleep(1)
                     request.session['get_transactions_session'] = res
                     logging.getLogger("info_logger").info(json.dumps(request.session['get_transactions_session']))
                     request.session.modified = True

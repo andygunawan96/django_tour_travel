@@ -1330,10 +1330,8 @@ def commit_booking(request):
     return res
 
 def get_booking(request):
-    # nanti ganti ke get_ssr_availability
     try:
         data = {
-            # 'order_number': 'TB.190329533467'
             'order_number': request.POST['order_number']
         }
         headers = {
@@ -1360,9 +1358,7 @@ def get_booking(request):
                 'name': country['name'],
                 'city': country['city']
             })
-        # airline
         if res['result']['error_code'] == 0:
-            #pax
             for pax in res['result']['response']['passengers']:
                 try:
                     if len(pax['birth_date'].split(' ')[0].split('-')) == 3:
@@ -1432,14 +1428,18 @@ def get_booking(request):
                                         'destination_name': destination['name'],
                                     })
                                     break
-            time.sleep(1)
-            request.session['airline_get_booking_response'] = res
+            time.sleep(5)
+            response = copy.deepcopy(res)
+            for rec in response['result']['response']['provider_bookings']:
+                rec['error_msg'] = ''
+            request.session['airline_get_booking_response'] = response
             logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_booking_response']))
-            request.session.modified = True
+
             logging.getLogger("info_logger").info("SUCCESS get_booking AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_booking_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
+        request.session['airline_get_booking_response'] = res
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 

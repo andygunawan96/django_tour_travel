@@ -540,7 +540,6 @@ def ssr(request):
                     'price': '',
                     'additional_price': '',
                     'airline_pick': '',
-
                     'signature': request.session['airline_signature'],
                     'time_limit': '',
                 })
@@ -1205,6 +1204,8 @@ def booking(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
+            if 'airline_create_passengers' in request.session:
+                del request.session['airline_create_passengers']
             file = open(var_log_path()+"get_airline_carriers.txt", "r")
             for line in file:
                 airline_carriers = json.loads(line)
