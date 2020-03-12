@@ -256,6 +256,18 @@ def testing(request):
     }
     return render(request, MODEL_NAME+'/testing.html', values)
 
+def page(request, data):
+    javascript_version = get_javascript_version()
+    values = get_data_template(request, 'login')
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+        'username': {'co_user_login': ''},
+        'data': data
+    })
+    return render(request, MODEL_NAME + '/page.html', values)
+
 def login(request):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
