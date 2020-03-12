@@ -3037,6 +3037,8 @@ function airline_get_booking(data){
 //                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
 //                document.getElementById('reissued').hidden = false;
 //                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
+//                document.getElementById('cancel').hidden = false;
+//                document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
             }
             check_provider_booking = 0;
             if(msg.result.response.state == 'booked'){
@@ -3723,6 +3725,98 @@ function airline_get_booking(data){
           $("#waitingTransaction").modal('hide');
        },timeout: 300000
     });
+}
+
+function cancel_btn(data){
+    Swal.fire({
+      title: 'Are you sure want to Cancel this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'cancel',
+           },
+           data: {
+               'order_number': data,
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   //update ticket
+                   price_arr_repricing = {};
+                   pax_type_repricing = [];
+                   $("#waitingTransaction").modal('hide');
+                   document.getElementById('show_loading_booking_airline').hidden = false;
+                   document.getElementById('airline_booking').innerHTML = '';
+                   document.getElementById('airline_detail').innerHTML = '';
+                   document.getElementById('payment_acq').innerHTML = '';
+                   document.getElementById('show_loading_booking_airline').style.display = 'block';
+                   document.getElementById('show_loading_booking_airline').hidden = false;
+                   document.getElementById('payment_acq').hidden = true;
+                   document.getElementById("overlay-div-box").style.display = "none";
+                   $(".issued_booking_btn").remove();
+                   airline_get_booking(data);
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+
+                    $("#waitingTransaction").modal('hide');
+                    document.getElementById("overlay-div-box").style.display = "none";
+
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    airline_get_booking(data);
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
+                })
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('airline_booking').innerHTML = '';
+                document.getElementById('airline_detail').innerHTML = '';
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('show_loading_booking_airline').style.display = 'block';
+                document.getElementById('show_loading_booking_airline').hidden = false;
+                document.getElementById('payment_acq').hidden = true;
+                $("#waitingTransaction").modal('hide');
+                document.getElementById("overlay-div-box").style.display = "none";
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                airline_get_booking(data);
+           },timeout: 300000
+        });
+      }
+    })
 }
 
 function airline_issued(data){

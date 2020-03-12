@@ -135,6 +135,8 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'issued':
             res = issued(request)
+        elif req_data['action'] == 'cancel':
+            res = cancel(request)
         elif req_data['action'] == 'reissue':
             res = reissue(request)
         elif req_data['action'] == 'sell_journey_reissue_construct':
@@ -1476,6 +1478,31 @@ def update_service_charge(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def cancel(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "cancel",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
 def issued(request):
     # nanti ganti ke get_ssr_availability
     try:
@@ -1525,10 +1552,7 @@ def reissue(request):
             for journey in provider['journey_list']:
                 journey['departure_date'] = parse_date_time_to_server(journey['departure_date'])
         data = {
-            # 'order_number': 'TB.190329533467'
             'provider_list': data_request,
-            # 'member': member,
-            # 'seq_id': request.POST['seq_id'],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
