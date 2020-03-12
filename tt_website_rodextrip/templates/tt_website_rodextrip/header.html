@@ -3,6 +3,11 @@
 <script>
     agent_security = `{{username.co_agent_frontend_security}}`;
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
+    url = document.URL;
+    url = url.split('/');
+
+    url = url[0] + '//backend.' + url[2];
+    console.log(url)
 </script>
 <div id="status" class="status on" style="display:none; top:0px; z-index:1000;"></div>
 {%if template == 1%}
@@ -86,7 +91,8 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                <li><a href="" id="backend_btn">Backend</a></li>
+                                <li><a href="javascript:test_ledger(10);">Test Ledger</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
@@ -115,7 +121,8 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                <li><a href="" id="backend_btn">Backend</a></li>
+                                <li><a href="javascript:test_ledger(10);">Test Ledger</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
@@ -256,7 +263,7 @@
                                         {% if "edit_announcement" in username.co_agent_frontend_security %}
                                         <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                         {% endif %}
-                                        <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                        <li><a href="" id="backend_btn">Backend</a></li>
                                         <li style="z-index:5;">
                                             <a>
                                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Sign Out</button>
@@ -281,7 +288,7 @@
                                         {% if "edit_announcement" in username.co_agent_frontend_security %}
                                         <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                         {% endif %}
-                                        <li class="pt5"><a href="https://backend.rodextrip.com">Backend</a></li>
+                                        <li class="pt5"><a href="" id="backend_btn">Backend</a></li>
                                         <li style="z-index:5;">
                                             <a>
                                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Sign Out</button>
@@ -382,7 +389,7 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                <li><a href="" id="backend_btn">Backend</a></li>
                                 <li>
                                     <center>
                                         <a>
@@ -408,7 +415,7 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                <li><a href="" id="backend_btn">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
@@ -524,7 +531,7 @@
                                     {% if "edit_announcement" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                     {% endif %}
-                                    <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                    <li><a href="" id="backend_btn">Backend</a></li>
                                     <li>
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
@@ -548,7 +555,7 @@
                                     {% if "edit_announcement" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                     {% endif %}
-                                    <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                    <li><a href="" id="backend_btn">Backend</a></li>
                                     <li>
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
@@ -667,7 +674,7 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                <li><a href="" id="backend_btn">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
@@ -697,7 +704,7 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="https://backend.rodextrip.com">Backend</a></li>
+                                <li><a href="" id="backend_btn">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
@@ -742,6 +749,7 @@
 </div>
 
 <script>
+    document.getElementById('backend_btn').href = url;
     {% if username.co_user_login != '' %}
         get_highlight('header');
         if(document.URL.split('/')[document.URL.split('/').length-1] != 'ssr' || document.URL.split('/')[document.URL.split('/').length-1] != 'seat'){
