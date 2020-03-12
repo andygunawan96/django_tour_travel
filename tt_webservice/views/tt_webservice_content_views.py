@@ -310,7 +310,6 @@ def set_inactive_delete_banner(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
-
 def get_public_holiday(request):
     try:
         headers = {
