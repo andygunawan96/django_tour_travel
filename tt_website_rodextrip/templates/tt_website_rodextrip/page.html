@@ -1,0 +1,12 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="https://cdn.ckeditor.com/ckeditor5/17.0.0/classic/ckeditor.js"></script>
+<div id="container">
+</div>
+<script>
+        get_page(`{{data}}`);
+</script>
+{% endblock %}

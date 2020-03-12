@@ -570,3 +570,169 @@ function handleFileSelect_promotionbanner(e) {
 
     });
 }
+
+function get_page(data){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_dynamic_page_detail',
+       },
+       data: {
+            'data': data
+       },
+       success: function(msg) {
+            if(msg.result.error_code == 0)
+                document.getElementById('container').innerHTML = msg.result.response.body;
+            else{
+                document.getElementById('container').innerHTML = 'Page not found';
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+            })
+       }
+    });
+}
+
+function get_dynamic_page(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'get_dynamic_page',
+       },
+       data: {},
+       success: function(msg) {
+            console.log(msg);
+            text = '';
+                counter = 1;
+                text +=`<div class="col-lg-12" >
+                            <label class="radio-button-custom">
+                                <span style="font-size:14px; color:`+text_color+`;">Create New</span>
+                                <input type="radio" checked name="page" value="create_new">
+                                <span class="checkmark-radio"></span>
+                            </label>`;
+            if(msg.result.error_code == 0){
+                dynamic_page = msg.result.response;
+                for(i in msg.result.response){
+                    text+=`<label class="radio-button-custom">
+                                <span style="font-size:14px; color:`+text_color+`;">`+msg.result.response[i].title+`</span>
+                                <input type="radio" name="page" value="`+msg.result.response[i].title+`">
+                                <span class="checkmark-radio"></span>
+                            </label>`;
+                    counter++;
+                    if(counter == 4){
+                        text+=`</div>`;
+                        counter=0;
+                    }
+                }
+            }
+            if(counter != 0)
+                text+=`</div>`;
+            document.getElementById('page_choose').innerHTML = text;
+
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+            })
+       }
+    });
+}
+
+function change_dynamic_page(){
+    var radios = document.getElementsByName('page');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            page_number = j-1;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    if(page_number != -1){
+        document.getElementById('page_active').checked = dynamic_page[page_number].state;
+        document.getElementById('title_dynamic_page').value = dynamic_page[page_number].title;
+        document.getElementById('image_carousel').value = dynamic_page[page_number].image_carousel;
+        CKEDITOR.instances.editor.setData(dynamic_page[page_number].body);
+    }else{
+        document.getElementById('page_active').checked = false;
+        document.getElementById('title_dynamic_page').value = '';
+        document.getElementById('image_carousel').value = '';
+        CKEDITOR.instances.editor.setData('');
+    }
+
+}
+
+function run_dynamic_page(){
+    document.getElementById('editor_test').innerHTML = CKEDITOR.instances.editor.getData()
+}
+
+function update_dynamic_page(){
+    var radios = document.getElementsByName('page');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            page_choose = radios[j].value;
+            page_number = j-1;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    error_log = '';
+    if(document.getElementById('title_dynamic_page').value == ''){
+        error_log += 'Please input title\n';
+    }
+    if(document.getElementById('image_carousel').value == ''){
+        error_log += 'Please input image URL\n';
+    }
+    if(CKEDITOR.instances.editor.getData() == ''){
+        error_log += 'Please HTML\n';
+    }
+    if(error_log == ''){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'set_dynamic_page',
+           },
+           data: {
+                'state': document.getElementById('page_active').value,
+                'title': document.getElementById('title_dynamic_page').value,
+                'page': document.getElementById('page_choose').value,
+                'page_number': parseInt(page_number),
+                'body': JSON.stringify(CKEDITOR.instances.editor.getData()),
+                'image': document.getElementById('image_carousel').value
+           },
+           success: function(msg) {
+                if(msg.result.error_code == 0)
+                    location.reload();
+                else
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                    })
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
+                })
+           }
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: error_log,
+        })
+    }
+}

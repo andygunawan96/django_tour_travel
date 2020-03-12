@@ -13,6 +13,9 @@ import traceback
 from .tt_webservice_views import *
 _logger = logging.getLogger(__name__)
 
+from django.core.files.storage import FileSystemStorage
+import os
+
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -79,6 +82,12 @@ def api_models(request):
             res = update_image_passenger(request)
         elif req_data['action'] == 'get_public_holiday':
             res = get_public_holiday(request)
+        elif req_data['action'] == 'get_dynamic_page':
+            res = get_dynamic_page(request)
+        elif req_data['action'] == 'set_dynamic_page':
+            res = set_dynamic_page(request)
+        elif req_data['action'] == 'get_dynamic_page_detail':
+            res = get_dynamic_page_detail(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -211,7 +220,7 @@ def add_banner(request):
 
         for i in request.FILES:
             for img in request.FILES.getlist(i):
-                if i != 'fileToUpload' and i != 'fileBackgroundLogin' and i != 'fileBackgroundHome' and i != 'fileBackgroundSearch' and i != 'filelogoicon' and i != 'fileRegistrationBanner':
+                if i != 'fileToUpload' and i != 'fileBackgroundLogin' and i != 'fileBackgroundHome' and i != 'fileBackgroundSearch' and i != 'filelogoicon' and i != 'fileRegistrationBanner' and i != 'image_carousel':
                     imgData.append({
                         'filename': img.name,
                         'file_reference': img.name,
@@ -331,6 +340,144 @@ def get_public_holiday(request):
                 'error_code': -1,
                 'error_msg': str(e),
                 'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_dynamic_page(request):
+    try:
+        response = []
+        for data in os.listdir('/var/log/django/page_dynamic'):
+            file = open('/var/log/django/page_dynamic/' + data, "r")
+            state = ''
+            title = ''
+            body = ''
+            image_carousel = ''
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    state = line.split('\n')[0]
+                elif idx == 1:
+                    title = line.split('\n')[0]
+                elif idx == 2:
+                    body = json.loads(line.split('\n')[0])
+                elif idx == 3:
+                    image_carousel = line.split('\n')[0]
+            file.close()
+            response.append({
+                "state": bool(state),
+                "title": title,
+                "body": body,
+                "image_carousel": image_carousel
+            })
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_dynamic_page_detail(request):
+    try:
+        file = open('/var/log/django/page_dynamic/' + request.POST['data'] + '.txt', "r")
+        state = ''
+        title = ''
+        body = ''
+        image_carousel = ''
+        for idx, line in enumerate(file):
+            if idx == 0:
+                state = line.split('\n')[0]
+            elif idx == 1:
+                title = line.split('\n')[0]
+            elif idx == 2:
+                body = json.loads(line.split('\n')[0])
+            elif idx == 3:
+                image_carousel = line.split('\n')[0]
+        file.close()
+        response = {
+            "state": bool(state),
+            "title": title,
+            "body": body,
+            "image_carousel": image_carousel
+        }
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def set_dynamic_page(request):
+    try:
+        if not os.path.exists("/var/log/django/page_dynamic"):
+            os.mkdir('/var/log/django/page_dynamic')
+        data = os.listdir('/var/log/django/page_dynamic')
+        #create new
+        title = request.POST['title']
+        counter = 0
+        if int(request.POST['page_number']) == -1:
+
+            while True:
+                if title in data:
+                    counter += 1
+                else:
+                    if counter != 0:
+                        title += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + request.POST['title'] + '\n' + request.POST['body'] + '\n' + request.POST['image_carousel']
+            file = open('/var/log/django/page_dynamic/' + title + ".txt", "w+")
+            file.write(text)
+            file.close()
+        #replace
+        else:
+            os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
+            data = os.listdir('/var/log/django/page_dynamic')
+            while True:
+                if title in data:
+                    counter += 1
+                else:
+                    if counter != 0:
+                        title += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + request.POST['title'] + '\n' + request.POST['body'] + '\n' + request.POST['image_carousel']
+            file = open('/var/log/django/page_dynamic/' + title + ".txt", "w+")
+            file.write(text)
+            file.close()
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': 'Success'
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': "Can't create",
+                'response': []
             }
         }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
