@@ -296,9 +296,39 @@ function get_banner(type,page){
                             </section>`;
                         }
                     }else if(type == 'promotion'){
-                        for(i in msg.result.response){
-                            text+=`<center><img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/></center>`;
-                        }
+                        text+=`
+                        <div class="modal fade" id="myModalPromotion" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                            <center>
+                                                <h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> PROMOTIONS! </h2>
+                                            </center>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <center>
+                                                <span data-dismiss="modal" style="color:#ffffff;font-weight:bold;">Click everywhere to close! X</span>
+                                            </center>
+                                        </div>
+                                        <div class="col-lg-12">`;
+                                            text+=`<div class="owl-carousel-promotion owl-theme">`;
+                                            for(i in msg.result.response){
+                                                text+=`
+                                                <div class="item">
+                                                    <center>
+                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-height:360px; width:auto;"/>
+                                                    </center>
+                                                </div>`;
+                                            }
+                                            text+=`</div>`;
+                                        text+=`
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>`;
                     }
                 }else if(page == 'admin'){
                     //<img src="`+msg.result.response[i].url+`" id="`+msg.result.response[i].seq_id+`" style="height:220px;width:auto"/>
@@ -408,6 +438,45 @@ function get_banner(type,page){
                                     }
                                 }
                             });
+                        }
+                        else if(type == 'promotion'){
+                            $('.owl-carousel-promotion').owlCarousel({
+                                loop:true,
+                                nav: false,
+                                navRewind:false,
+                                rewind: false,
+                                margin: 20,
+                                items:1,
+                                responsiveClass:true,
+                                dots: false,
+                                merge: false,
+                                lazyLoad:true,
+                                smartSpeed:500,
+                                autoplay: true,
+                                autoplayTimeout:3000,
+                                autoplayHoverPause:false,
+                                navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                                responsive:{
+                                    0:{
+                                        items:1,
+                                        nav:false
+                                    },
+                                    480:{
+                                        items:1,
+                                        nav:false
+                                    },
+                                    768:{
+                                        items:1,
+                                        nav:false
+                                    },
+                                    961:{
+                                        items:1,
+                                        nav:false,
+                                    }
+                                }
+                            });
+
+                            $("#myModalPromotion").modal('show');
                         }
                     }
                 }
