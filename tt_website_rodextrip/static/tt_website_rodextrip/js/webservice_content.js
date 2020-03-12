@@ -333,7 +333,7 @@ function get_banner(type,page){
                 }
                 document.getElementById(type).innerHTML = text;
                 if(page == 'home'){
-                    if(msg.result.response.length == 0){
+                    if(msg.result.response.length > 0){
                         if(type == 'big_banner'){
                             $('.owl-carousel-banner').owlCarousel({
                                 loop:true,

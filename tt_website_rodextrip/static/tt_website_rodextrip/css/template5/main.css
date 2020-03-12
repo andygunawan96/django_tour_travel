@@ -3417,7 +3417,7 @@ ul.tabs li.current .image-rounded-icon{
 
 /* The container */
 .check_box_custom {
-  display: block;
+  display: inline-block;
   position: relative;
   padding-left: 25px;
   cursor: pointer;
