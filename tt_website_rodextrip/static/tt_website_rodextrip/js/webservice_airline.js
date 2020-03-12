@@ -3727,7 +3727,7 @@ function airline_get_booking(data){
     });
 }
 
-function cancel_btn(data){
+function cancel_btn(){
     Swal.fire({
       title: 'Are you sure want to Cancel this booking?',
       type: 'warning',
@@ -3747,7 +3747,7 @@ function cancel_btn(data){
                 'action': 'cancel',
            },
            data: {
-               'order_number': data,
+               'order_number': airline_get_detail.result.response.order_number,
                'signature': signature
            },
            success: function(msg) {
