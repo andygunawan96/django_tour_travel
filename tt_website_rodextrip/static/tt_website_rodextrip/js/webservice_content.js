@@ -642,8 +642,8 @@ function get_dynamic_page(type){
                     for(i in msg.result.response){
                         if(msg.result.response[i].state == true)
                             text+=`
-                                <div class="item" style="max-height:150px;" onclick="window.location.href='/page/`+msg.result.response[i].title+`'">
-                                    <img class="img-fluid" src="`+msg.result.response[i].image_carousel+`" alt="">
+                                <div class="item" style="" onclick="window.location.href='/page/`+msg.result.response[i].title.split(' ').join('')+`'">
+                                    <img class="img-fluid" style="max-height:150px;max-width:150px;" src="`+msg.result.response[i].image_carousel+`" alt="">
                                     <span style="color:`+text_color+`">`+msg.result.response[i].title+`</span>
                                 </div>`;
                     }
@@ -756,7 +756,7 @@ function update_dynamic_page(){
     }
     if(error_log == ''){
         var formData = new FormData($('#form_admin').get(0));
-        formData.append('state', document.getElementById('page_active').value);
+        formData.append('state', document.getElementById('page_active').checked);
         formData.append('title', document.getElementById('title_dynamic_page').value);
         formData.append('page', document.getElementById('page_choose').value);
         formData.append('page_number', parseInt(page_number));
