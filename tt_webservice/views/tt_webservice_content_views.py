@@ -429,55 +429,134 @@ def get_dynamic_page_detail(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
+def delete_dynamic_page(request):
+    try:
+        data = os.listdir('/var/log/django/page_dynamic')
+        os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
+        # check image
+        fs = FileSystemStorage()
+        data = os.listdir('/var/log/django/page_dynamic')
+        image_list = []
+        for rec in data:
+            file = open('/var/log/django/page_dynamic/' + rec, "r")
+            for idx, line in enumerate(file):
+                if idx == 3:
+                    image_list.append(line.split('\n')[0])
+        for data in os.listdir(fs.location):
+            if not data in image_list:
+                os.remove(fs.location + data)
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'Error Delete',
+                'response': ''
+            }
+        }
+    return res
+
 def set_dynamic_page(request):
     try:
+        fs = FileSystemStorage()
+        fs.location += '/image_dynamic'
+        if not os.path.exists(fs.location):
+            os.mkdir(fs.location)
         if not os.path.exists("/var/log/django/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
+
+        filename = ''
+        try:
+            if request.FILES['image_carousel'].content_type == 'image/jpeg' or request.FILES['image_carousel'].content_type == 'image/png' or request.FILES['image_carousel'].content_type == 'image/png':
+                file = request.FILES['image_carousel']
+                filename = fs.save(file.name, file)
+        except:
+            pass
+
         data = os.listdir('/var/log/django/page_dynamic')
         #create new
         title = request.POST['title']
-        counter = 0
+        counter = 1
         if int(request.POST['page_number']) == -1:
 
             while True:
-                if title in data:
+                if counter == 0 and title + '.txt' in data:
+                    counter += 1
+                elif title + str(counter) + '.txt' in data:
                     counter += 1
                 else:
                     if counter != 0:
                         title += str(counter)
                     break
-            text = request.POST['state'] + '\n' + request.POST['title'] + '\n' + request.POST['body'] + '\n' + request.POST['image_carousel']
+            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
             file = open('/var/log/django/page_dynamic/' + title + ".txt", "w+")
             file.write(text)
             file.close()
         #replace
         else:
+            if filename == '':
+                file = open('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])], "r")
+                for idx, line in enumerate(file):
+                    if idx == 3:
+                        text = line.split('\n')[0].split('/')
+                        text.pop(0)
+                        text.pop(0)
+                        text.pop(0)
+                        filename = "/".join(text)
             os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
             data = os.listdir('/var/log/django/page_dynamic')
             while True:
-                if title in data:
+                if counter == 0 and title + '.txt' in data:
+                    counter += 1
+                elif title + str(counter) + '.txt' in data:
                     counter += 1
                 else:
                     if counter != 0:
                         title += str(counter)
                     break
-            text = request.POST['state'] + '\n' + request.POST['title'] + '\n' + request.POST['body'] + '\n' + request.POST['image_carousel']
+            text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
             file = open('/var/log/django/page_dynamic/' + title + ".txt", "w+")
             file.write(text)
             file.close()
+        #check image
+        data = os.listdir('/var/log/django/page_dynamic')
+        image_list = []
+        for rec in data:
+            file = open('/var/log/django/page_dynamic/' + rec, "r")
+            for idx, line in enumerate(file):
+                if idx == 3:
+                    text = line.split('\n')[0].split('/')
+                    text.pop(0)
+                    text.pop(0)
+                    text.pop(0)
+                    image_list.append("/".join(text))
+        for data in os.listdir(fs.location):
+            if not data in image_list:
+                os.remove(fs.location + '/' + data)
+
         res = {
             'result': {
                 'error_code': 0,
-                'error_msg': '',
-                'response': 'Success'
+                'error_msg': 'Success',
+                'response': ''
             }
         }
     except Exception as e:
+        if int(request.POST['page_number']) == -1:
+            error = "Can't create"
+        else:
+            error = "Can't update"
         res = {
             'result': {
                 'error_code': 500,
-                'error_msg': "Can't create",
-                'response': []
+                'error_msg': error,
+                'response': ''
             }
         }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

@@ -598,7 +598,8 @@ function get_page(data){
     });
 }
 
-function get_dynamic_page(){
+function get_dynamic_page(type){
+    console.log(type);
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -608,6 +609,7 @@ function get_dynamic_page(){
        data: {},
        success: function(msg) {
             console.log(msg);
+            if(type == 'admin'){
             text = '';
                 counter = 1;
                 text +=`<div class="col-lg-12" >
@@ -616,24 +618,81 @@ function get_dynamic_page(){
                                 <input type="radio" checked name="page" value="create_new">
                                 <span class="checkmark-radio"></span>
                             </label>`;
+            }
             if(msg.result.error_code == 0){
-                dynamic_page = msg.result.response;
-                for(i in msg.result.response){
-                    text+=`<label class="radio-button-custom">
-                                <span style="font-size:14px; color:`+text_color+`;">`+msg.result.response[i].title+`</span>
-                                <input type="radio" name="page" value="`+msg.result.response[i].title+`">
-                                <span class="checkmark-radio"></span>
-                            </label>`;
-                    counter++;
-                    if(counter == 4){
-                        text+=`</div>`;
-                        counter=0;
+                if(type == 'admin'){
+                    dynamic_page = msg.result.response;
+                    for(i in msg.result.response){
+                        text+=`<label class="radio-button-custom">
+                                    <span style="font-size:14px; color:`+text_color+`;">`+msg.result.response[i].title+`</span>
+                                    <input type="radio" name="page" value="`+msg.result.response[i].title+`">
+                                    <span class="checkmark-radio"></span>
+                                </label>`;
+                        counter++;
+                        if(counter == 4){
+                            text+=`</div>`;
+                            counter=0;
+                        }
                     }
                 }
+                else if(type == 'login'){
+                    console.log('lala');
+                    text = `
+                    <div class="owl-carousel-login owl-theme" >`;
+                    for(i in msg.result.response){
+                        if(msg.result.response[i].state == true)
+                            text+=`
+                                <div class="item" onclick="window.location.href='/page/`+msg.result.response[i].title+`'">
+                                    <img class="img-fluid" src="`+msg.result.response[i].image_carousel+`" alt="">
+                                    <span style="color:`+text_color+`">`+msg.result.response[i].title+`</span>
+                                </div>`;
+                    }
+                    text+=`
+                    </div>`;
+                    console.log(text);
+                    document.getElementById('owl-login').innerHTML = text;
+                    $('.owl-carousel-login').owlCarousel({
+                        loop:true,
+                        nav: false,
+                        navRewind:false,
+                        rewind: false,
+                        margin: 20,
+                        items:1,
+                        responsiveClass:true,
+                        dots: false,
+                        merge: false,
+                        lazyLoad:true,
+                        smartSpeed:500,
+                        autoplay: true,
+                        autoplayTimeout:3000,
+                        autoplayHoverPause:false,
+                        navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
+                        responsive:{
+                            0:{
+                                items:1,
+                                nav:false
+                            },
+                            480:{
+                                items:1,
+                                nav:false
+                            },
+                            768:{
+                                items:1,
+                                nav:false
+                            },
+                            961:{
+                                items:1,
+                                nav:false,
+                            }
+                        }
+                    });
+                }
             }
-            if(counter != 0)
-                text+=`</div>`;
-            document.getElementById('page_choose').innerHTML = text;
+            if(type == 'admin'){
+                if(counter != 0)
+                    text+=`</div>`;
+                document.getElementById('page_choose').innerHTML = text;
+            }
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -659,12 +718,12 @@ function change_dynamic_page(){
     if(page_number != -1){
         document.getElementById('page_active').checked = dynamic_page[page_number].state;
         document.getElementById('title_dynamic_page').value = dynamic_page[page_number].title;
-        document.getElementById('image_carousel').value = dynamic_page[page_number].image_carousel;
+        document.getElementById('delete_page').hidden = false;
         CKEDITOR.instances.editor.setData(dynamic_page[page_number].body);
     }else{
         document.getElementById('page_active').checked = false;
         document.getElementById('title_dynamic_page').value = '';
-        document.getElementById('image_carousel').value = '';
+        document.getElementById('delete_page').hidden = true;
         CKEDITOR.instances.editor.setData('');
     }
 
@@ -689,37 +748,44 @@ function update_dynamic_page(){
     if(document.getElementById('title_dynamic_page').value == ''){
         error_log += 'Please input title\n';
     }
-    if(document.getElementById('image_carousel').value == ''){
+    if(document.getElementById("image_carousel").files.length == 0 && page_number == -1){
         error_log += 'Please input image URL\n';
     }
     if(CKEDITOR.instances.editor.getData() == ''){
         error_log += 'Please HTML\n';
     }
     if(error_log == ''){
+        var formData = new FormData($('#form_admin').get(0));
+        formData.append('state', document.getElementById('page_active').value);
+        formData.append('title', document.getElementById('title_dynamic_page').value);
+        formData.append('page', document.getElementById('page_choose').value);
+        formData.append('page_number', parseInt(page_number));
+        formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
+        getToken();
         $.ajax({
            type: "POST",
            url: "/webservice/content",
            headers:{
                 'action': 'set_dynamic_page',
            },
-           data: {
-                'state': document.getElementById('page_active').value,
-                'title': document.getElementById('title_dynamic_page').value,
-                'page': document.getElementById('page_choose').value,
-                'page_number': parseInt(page_number),
-                'body': JSON.stringify(CKEDITOR.instances.editor.getData()),
-                'image': document.getElementById('image_carousel').value
-           },
+           data: formData,
            success: function(msg) {
-                if(msg.result.error_code == 0)
+                if(msg.result.error_code == 0){
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Update!',
+                      html: msg.result.error_msg,
+                    })
                     location.reload();
-                else
+                }else
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: msg.result.error_msg,
                     })
            },
+           contentType:false,
+           processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 Swal.fire({
                   type: 'error',

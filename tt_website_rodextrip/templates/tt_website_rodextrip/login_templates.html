@@ -28,6 +28,7 @@
 <link rel="stylesheet" href="{{ static_path }}css/loading-btn.css?version={{javascript_version}}">
 <link rel="stylesheet" href="{{ static_path }}css/loading-bar.css?version={{javascript_version}}">
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/vendor/login_main.js?version={{javascript_version}}"></script>
@@ -118,19 +119,8 @@
 				<!--</span>-->
 				<!--				<h1 class="label">Happy New Year 2020</h1>-->
 			</span>
-			<div class="owl-carousel-login owl-theme">
-				<div class="item">
-					<img class="img-fluid" src="/static/tt_website_rodextrip/images/bg_1.jpg" alt="">
-				</div>
-				<div class="item">
-					<img class="img-fluid" src="/static/tt_website_rodextrip/images/bg_2.jpg" alt="">
-				</div>
-				<div class="item">
-					<img class="img-fluid" src="/static/tt_website_rodextrip/images/bg_3.jpg" alt="">
-				</div>
-				<div class="item">
-					<img class="img-fluid" src="/static/tt_website_rodextrip/images/bg_7.jpg" alt="">
-				</div>
+			<div id="owl-login">
+
 			</div>
 			<div style="text-align:center; position:absolute; bottom:15px; left:0px; right:0px; ">
 				{% if instagram_url != '' or facebook_url != '' %}
@@ -263,6 +253,8 @@
 <script src="{{ static_path }}js/main1.js?version={{javascript_version}}"></script>
 <!--===============================================================================================-->
 <!--loading-bar-->
+<script>
+	get_dynamic_page('login');
+</script>
 <script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>
-
 {% endblock %}

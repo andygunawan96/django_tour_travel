@@ -461,7 +461,7 @@ def admin(request):
                             pass
                     #delete file ga pake
                     for file in os.listdir(fs.location):
-                        if not file in temp:
+                        if not file in temp and file != 'image_dynamic':
                             os.remove(fs.location+'/'+file)
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
