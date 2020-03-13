@@ -397,7 +397,10 @@ def get_dynamic_page_detail(request):
         image_carousel = ''
         for idx, line in enumerate(file):
             if idx == 0:
-                state = line.split('\n')[0]
+                if line.split('\n')[0] == 'on':
+                    state = True
+                else:
+                    state = False
             elif idx == 1:
                 title = line.split('\n')[0]
             elif idx == 2:
@@ -517,7 +520,7 @@ def set_dynamic_page(request):
                 elif title + str(counter) + '.txt' in data:
                     counter += 1
                 else:
-                    if counter != 0:
+                    if counter != 1:
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
