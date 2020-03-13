@@ -642,7 +642,7 @@ function get_dynamic_page(type){
                     for(i in msg.result.response){
                         if(msg.result.response[i].state == true)
                             text+=`
-                                <div class="item" onclick="window.location.href='/page/`+msg.result.response[i].title+`'">
+                                <div class="item" style="max-height:150px;" onclick="window.location.href='/page/`+msg.result.response[i].title+`'">
                                     <img class="img-fluid" src="`+msg.result.response[i].image_carousel+`" alt="">
                                     <span style="color:`+text_color+`">`+msg.result.response[i].title+`</span>
                                 </div>`;
