@@ -356,7 +356,10 @@ def get_dynamic_page(request):
             image_carousel = ''
             for idx, line in enumerate(file):
                 if idx == 0:
-                    state = line.split('\n')[0]
+                    if line.split('\n')[0] == 'false':
+                        state = False
+                    else:
+                        state = True
                 elif idx == 1:
                     title = line.split('\n')[0]
                 elif idx == 2:
@@ -397,10 +400,10 @@ def get_dynamic_page_detail(request):
         image_carousel = ''
         for idx, line in enumerate(file):
             if idx == 0:
-                if line.split('\n')[0] == 'on':
-                    state = True
-                else:
+                if line.split('\n')[0] == 'false':
                     state = False
+                else:
+                    state = True
             elif idx == 1:
                 title = line.split('\n')[0]
             elif idx == 2:
@@ -494,11 +497,11 @@ def set_dynamic_page(request):
                 elif title + str(counter) + '.txt' in data:
                     counter += 1
                 else:
-                    if counter != 0:
+                    if counter != 1:
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
-            file = open('/var/log/django/page_dynamic/' + title + ".txt", "w+")
+            file = open('/var/log/django/page_dynamic/' + "".join(title.split(' ')) + ".txt", "w+")
             file.write(text)
             file.close()
         #replace
@@ -524,7 +527,7 @@ def set_dynamic_page(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
-            file = open('/var/log/django/page_dynamic/' + title + ".txt", "w+")
+            file = open('/var/log/django/page_dynamic/' + "".join(title.split(' ')) + ".txt", "w+")
             file.write(text)
             file.close()
         #check image
