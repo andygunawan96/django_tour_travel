@@ -658,7 +658,6 @@ function get_dynamic_page(type){
                     text+=`
                     </div>`;
 
-                    console.log(text);
                     document.getElementById('owl-login').innerHTML = text;
                     document.getElementById('owl-login2').innerHTML = text;
                     $('.owl-carousel-login').owlCarousel({
