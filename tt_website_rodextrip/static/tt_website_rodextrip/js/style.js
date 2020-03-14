@@ -870,7 +870,7 @@ $(document).ready(function(){
               opens: 'center',
               startDate: moment(),
               minDate: moment(),
-              maxDate: moment().subtract(-30, 'days'),
+              maxDate: moment().subtract(-90, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
@@ -945,7 +945,7 @@ $(document).ready(function(){
               startDate: moment(),
               endDate: moment().subtract(-1, 'days'),
               minDate: moment(),
-              maxDate: moment().subtract(-30, 'days'),
+              maxDate: moment().subtract(-90, 'days'),
               showDropdowns: true,
               locale: {
                   format: 'DD MMM YYYY',
