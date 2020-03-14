@@ -582,9 +582,12 @@ function get_page(data){
             'data': data
        },
        success: function(msg) {
-            if(msg.result.error_code == 0)
+            if(msg.result.error_code == 0){
+                msg.result.response.body = msg.result.response.body.replace(/&lt;/g, '<');
+                msg.result.response.body = msg.result.response.body.replace(/&gt;/g, '>');
+
                 document.getElementById('container').innerHTML = msg.result.response.body;
-            else{
+            }else{
                 document.getElementById('container').innerHTML = 'Page not found';
             }
        },
