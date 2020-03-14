@@ -1514,6 +1514,7 @@
                 {% endif %}
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
                 <div class="hotel-search-form" id="div-search-overlay">
+
                     {% if username.co_user_login != '' %}
                     <input type="hidden" id="country_id"/>
                     <input type="hidden" id="start"/>
@@ -2181,6 +2182,9 @@
                         </button>
                     </div>
                     {% endif %}
+                    <div id="big_banner" style="margin-top:30px; padding-bottom:15px;">
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -2422,13 +2426,17 @@
     <!--</div>-->
 
     {% elif template == 3 %}
-    <section class="banner-area relative" style="background: url('{{background}}') center !important;">
+    <section class="banner-area relative" style="background: url('{{background}}') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
         <div class="overlay overlay-bg"></div>
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-12">
                     <div id="overlay-search-box" onclick="off_overlay()"></div>
-                    <div class="row fullscreen d-flex" id="div-search-overlay" style="margin-top:60px; margin-bottom:60px; position:relative; padding:15px;">
+                    <div id="big_banner" style="margin-top:30px;">
+
+                    </div>
+                    <div class="row fullscreen d-flex" id="div-search-overlay" style="margin-top:40px; margin-bottom:40px; position:relative; padding:15px;">
                         {% if username.co_user_name != '' %}
                         {% if "ticketing" in username.co_agent_frontend_security %}
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
@@ -4080,6 +4088,12 @@
             </div>
         </div>
     </div>
+
+    <div class="container">
+        <div id="big_banner" style="margin-top:30px; padding-bottom:15px;">
+
+        </div>
+    </div>
     <div id="small_banner">
 
     </div>
@@ -4320,6 +4334,9 @@
             <div class="row fullscreen justify-content-center">
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
                 <div class="col-xl-12" id="div-search-overlay">
+                    <div id="big_banner" style="padding-bottom:15px;">
+
+                    </div>
                     <div class="row">
                         <div class="banner-content col-xl-12" style="padding:0px; margin-bottom:15px;">
                             <div class="row">

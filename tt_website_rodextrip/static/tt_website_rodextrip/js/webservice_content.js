@@ -476,7 +476,11 @@ function get_banner(type,page){
                                 }
                             });
 
-                            $("#myModalPromotion").modal('show');
+                            if(template != 2){
+                                $("#myModalPromotion").modal('show');
+                            }else{
+                                $("#myModalPromotion").modal();
+                            }
                         }
                     }
                 }
@@ -633,7 +637,7 @@ function get_dynamic_page(type){
                                 </label>`;
                         counter++;
                         if(counter == 4){
-                            text+=`</div>`;
+                            text+=`</div><div class="col-lg-12" >`;
                             counter=0;
                         }
                     }
@@ -641,33 +645,36 @@ function get_dynamic_page(type){
                 else if(type == 'login'){
                     console.log('lala');
                     text = `
-                    <div class="owl-carousel-login owl-theme" >`;
+                    <div class="owl-carousel-login owl-theme">`;
                     for(i in msg.result.response){
-                        if(msg.result.response[i].state == true)
+                        if(msg.result.response[i].state == true){
                             text+=`
-                                <div class="item" style="" onclick="window.location.href='/page/`+msg.result.response[i].title.split(' ').join('')+`'">
-                                    <img class="img-fluid" style="max-height:150px;max-width:150px;" src="`+msg.result.response[i].image_carousel+`" alt="">
-                                    <span style="color:`+text_color+`">`+msg.result.response[i].title+`</span>
-                                </div>`;
+                            <div class="item" style="text-align:center;" onclick="window.location.href='/page/`+msg.result.response[i].title.split(' ').join('')+`'">
+                                <img class="img-fluid" style="height:300px;" src="`+msg.result.response[i].image_carousel+`" alt="">
+                                <span style="background-color:`+color+`; padding:5px 15px 15px 15px; width:100%; font-size:16px; color:`+text_color+`">`+msg.result.response[i].title+`</span>
+                            </div>`;
+                        }
                     }
                     text+=`
                     </div>`;
+
                     console.log(text);
                     document.getElementById('owl-login').innerHTML = text;
+                    document.getElementById('owl-login2').innerHTML = text;
                     $('.owl-carousel-login').owlCarousel({
-                        loop:true,
+                        loop:false,
                         nav: false,
                         navRewind:false,
                         rewind: false,
                         margin: 20,
                         items:1,
                         responsiveClass:true,
-                        dots: false,
+                        dots: true,
                         merge: false,
                         lazyLoad:true,
                         smartSpeed:500,
                         autoplay: true,
-                        autoplayTimeout:3000,
+                        autoplayTimeout:10000,
                         autoplayHoverPause:false,
                         navText: ['<i class="fa fa-chevron-left owl-wh"/>', '<i class="fa fa-chevron-right owl-wh"/>'],
                         responsive:{
@@ -680,12 +687,12 @@ function get_dynamic_page(type){
                                 nav:false
                             },
                             768:{
-                                items:1,
-                                nav:false
+                                items:2,
+                                nav:true
                             },
                             961:{
-                                items:1,
-                                nav:false,
+                                items:3,
+                                nav:true,
                             }
                         }
                     });
