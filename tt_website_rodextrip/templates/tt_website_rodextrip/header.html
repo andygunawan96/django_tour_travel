@@ -121,7 +121,7 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="" id="backend_btn">Backend</a></li>
+                                <li><a href="" id="backend_btn2">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
@@ -287,7 +287,7 @@
                                         {% if "edit_announcement" in username.co_agent_frontend_security %}
                                         <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                         {% endif %}
-                                        <li class="pt5"><a href="" id="backend_btn">Backend</a></li>
+                                        <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
                                         <li style="z-index:5;">
                                             <a>
                                                 <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Sign Out</button>
@@ -414,7 +414,7 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="" id="backend_btn">Backend</a></li>
+                                <li><a href="" id="backend_btn2">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
@@ -554,7 +554,7 @@
                                     {% if "edit_announcement" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                     {% endif %}
-                                    <li><a href="" id="backend_btn">Backend</a></li>
+                                    <li><a href="" id="backend_btn2">Backend</a></li>
                                     <li>
                                         <a>
                                             <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
@@ -703,7 +703,7 @@
                                 {% if "edit_announcement" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:highlight_setting'%}">Highlight Setting</a></li>
                                 {% endif %}
-                                <li><a href="" id="backend_btn">Backend</a></li>
+                                <li><a href="" id="backend_btn2">Backend</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
@@ -749,6 +749,7 @@
 
 <script>
     document.getElementById('backend_btn').href = url;
+    document.getElementById('backend_btn2').href = url;
     {% if username.co_user_login != '' %}
         get_highlight('header');
         if(document.URL.split('/')[document.URL.split('/').length-1] != 'ssr' || document.URL.split('/')[document.URL.split('/').length-1] != 'seat'){
