@@ -315,12 +315,14 @@ def passenger(request):
         is_lionair = False
         is_international = False
         for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
-            for seq in airline['price_itinerary']:
-                if seq['origin_country'] != 'Indonesia' or seq['destination_country'] != 'Indonesia':
-                    is_international = True
-                    break
-                elif is_international == True:
-                    break
+            for journey in airline['price_itinerary']:
+                for segment in journey['segments']:
+                    for leg in segment['legs']:
+                        if leg['origin_country'] != 'Indonesia' or leg['destination_country'] != 'Indonesia':
+                            is_international = True
+                            break
+                        elif is_international == True:
+                            break
             if airline['provider'] == 'lionair':
                 is_lionair = True
 
