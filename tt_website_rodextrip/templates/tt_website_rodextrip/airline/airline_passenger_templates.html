@@ -4705,8 +4705,8 @@
           $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment(),
-              minDate: moment(),
+              startDate: moment().subtract(-6, 'months').subtract(-1, 'days'),
+              minDate: moment().subtract(-6, 'months').subtract(-1, 'days'),
               showDropdowns: true,
               opens: 'center',
               locale: {
@@ -4743,8 +4743,8 @@
           $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment(),
-              minDate: moment(),
+              startDate: moment().subtract(-6, 'months').subtract(-1, 'days'),
+              minDate: moment().subtract(-6, 'months').subtract(-1, 'days'),
               showDropdowns: true,
               opens: 'center',
               locale: {
@@ -4780,8 +4780,8 @@
           $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment(),
-              minDate: moment(),
+              startDate: moment().subtract(-6, 'months').subtract(-1, 'days'),
+              minDate: moment().subtract(-6, 'months').subtract(-1, 'days'),
               showDropdowns: true,
               opens: 'center',
               locale: {
