@@ -37,17 +37,20 @@
             {% endif %}
             <div class="col-lg-12">
                 <div class="alert alert-success" role="alert">
-                    Your Agent Registration has been submitted with the ID: <span id="result_data_id"></span>
+                    <strong>Your Agent Registration has been submitted!</strong>
+                </div>
+                <div id="result_data_id" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom: 20px;">
+
                 </div>
                 <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px;margin-bottom:10px; position:relative;" id="payment_acq" hidden>
+                </div>
             </div>
         </div>
     </div>
-</div>
-{% include 'tt_website_rodextrip/footer.html' %}
+    {% include 'tt_website_rodextrip/footer.html' %}
 
-<script>
+    <script>
     submit_agent_registration();
 </script>
 
-{% endblock %}
+    {% endblock %}

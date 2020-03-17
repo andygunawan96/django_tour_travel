@@ -19,16 +19,41 @@ function submit_agent_registration(){
 //                else
 //                    get_payment_acq('Issued','', '', 'billing', signature, 'registration','', '')
 //                document.getElementById('payment_acq').hidden = false;
-                text = '';
-                text += `<br/>
-                    <label>Registration Number: `+msg.result.response.registration_number+`</label><br/>
-                    <label>`+msg.result.response.name+`</label><br/>
-                    <label>Fee: `;
-                if(msg.result.response.currency != false)
-                    text+=msg.result.response.currency+' ';
+                text = `<h6>Registration Number: `+msg.result.response.registration_number+`</h6><br/>`;
+                text += `
+                    <table style="width:100%;">
+                        <tr>
+                            <th>Registered Agent Name</th>
+                            <th>Total Fee</th>
+                        </tr>
+                        <tr>
+                            <td>`;
+
+                if (msg.result.response.name)
+                {
+                    text += msg.result.response.name;
+                }
                 else
-                    text+='IDR ';
-                text+=getrupiah(msg.result.response.registration_fee)+`</label><br/>`;
+                {
+                    text += 'N/A';
+                }
+
+                text +=`</td>
+                            <td>`;
+                if (msg.result.response.currency)
+                {
+                    text += msg.result.response.currency+' ';
+                }
+                else
+                {
+                    text += 'IDR ';
+                }
+                text += getrupiah(msg.result.response.registration_fee);
+                text +=`</td>
+                        </tr>
+                     </table>
+                `;
+
                 $("#result_data_id").html(text);
             }else{
                 Swal.fire({
@@ -47,6 +72,12 @@ function submit_agent_registration(){
             })
        },timeout: 60000
     });
+}
+
+function toggle_benefit_fa(partner_idx, accor_idx)
+{
+    var arrow_obj = document.getElementById("arrowX"+partner_idx+"Y"+accor_idx);
+    arrow_obj.classList.toggle("rotateactive");
 }
 
 function agent_register_get_config(){
@@ -68,42 +99,85 @@ function agent_register_get_config(){
             agent_regis_config = msg;
             //agent type
             text = '<option value="" disabled selected>Agent Type</option>';
-            text_partnership = `
-            <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                    <h3>About Partnership</h3>`;
-            text_tab_partnership = `<div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
-                        <ul class="create_tabs" id="identity">`;
-            text_tab_value = `<div class="banner-right" style="background-color:white;">`;
-            print_tab = 0;
+            text_partnership_tab = ``;
+            text_partnership = ``;
+            var partnership_idx = 0;
             for(i in msg.result.response.agent_type){
                 text+=`<option value="`+msg.result.response.agent_type[i].name+`">`+msg.result.response.agent_type[i].name+`</option>`;
-                if(Object.keys(msg.result.response.agent_type[i].product).length != 0){
-                    print_tab = 1;
-                    if(i == 0)
-                        text_tab_partnership += `<li class="create_tab-link current" data-tab="`+msg.result.response.agent_type[i].name+`"><label>`+msg.result.response.agent_type[i].name+`</label></li>`;
-                    else
-                        text_tab_partnership += `<li class="create_tab-link" data-tab="`+msg.result.response.agent_type[i].name+`"><label>`+msg.result.response.agent_type[i].name+`</label></li>`;
-                    if(i == 0)
-                        text_tab_value += `<div id="`+msg.result.response.agent_type[i].name+`" class="create_tab-content current" style="padding:15px; background:white; border:1px solid #cdcdcd;">`;
-                    else
-                        text_tab_value += `<div id="`+msg.result.response.agent_type[i].name+`" class="create_tab-content" style="padding:15px; background:white; border:1px solid #cdcdcd;">`;
-                    for(j in msg.result.response.agent_type[i].product){
-                        text_tab_value += `<h4>`+j+`</h4>`;
-                        for(k in msg.result.response.agent_type[i].product[j]){
-                            text_tab_value += `<p>`+msg.result.response.agent_type[i].product[j][k]+`</p>`;
-                        }
+                if (partnership_idx == 0)
+                {
+                    text_partnership_tab += `
+                    <li class="create_tab-link current" data-tab="agent_type`+partnership_idx+`-tab"><label style="font-size:15px;">`+msg.result.response.agent_type[i].name+`</label></li>
+                    `;
+                    text_partnership += `
+                    <div id="agent_type`+partnership_idx+`-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px; background-color:white !important; border-top: 2px solid #cdcdcd;">
+                        <h4 style="text-align:center;">`+msg.result.response.agent_type[i].name+`</h4>
+                        <div class="accordion" id="accordion_num`+partnership_idx+`" style="margin-top: 20px;">`;
+
+                    accordion_idx = 0;
+                    for (j in msg.result.response.agent_type[i].product)
+                    {
+                        text_partnership += `
+                            <div class="card" style="border: none;">
+                                <div class="card-header" id="headingX`+partnership_idx+`Y`+accordion_idx+`" style="background-color: transparent; border: none;">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseX`+partnership_idx+`Y`+accordion_idx+`" aria-expanded="false" aria-controls="collapseX`+partnership_idx+`Y`+accordion_idx+`" style="width: 100%; background-color: #f5f5f5; border: 1px solid `+color+`;" onclick="toggle_benefit_fa(`+partnership_idx+`, `+accordion_idx+`);">
+                                      <span style="float: left; color:black; font-weight: bold;">`+msg.result.response.agent_type[i].product[j].title+`</span>
+                                      <span style="float: right; color:black; font-weight: bold;"><i id="arrowX`+partnership_idx+`Y`+accordion_idx+`" class="fa fa-caret-down" aria-hidden="false"></i></span>
+                                    </button>
+                                </div>
+
+                                <div id="collapseX`+partnership_idx+`Y`+accordion_idx+`" class="collapse" aria-labelledby="headingX`+partnership_idx+`Y`+accordion_idx+`">
+                                  <div class="card-body" style="color: black; border-left: 3px solid `+color+`; margin: 0 20px 0 20px;">
+                                    `+msg.result.response.agent_type[i].product[j].benefit+`
+                                  </div>
+                                </div>
+                            </div>
+                        `;
+                        accordion_idx += 1;
                     }
-                    text_tab_value += `</div>`;
-
+                    text_partnership += `
+                        </div>
+                    </div>
+                    `;
                 }
-            }
-            if(text_tab_partnership != ''){
-                text_tab_partnership += `</ul></div>`;
-            }
-            text_partnership += text_tab_partnership+text_tab_value+`</div>`;
-            if(print_tab == 1)
-                document.getElementById('partnership').innerHTML = text_partnership;
+                else
+                {
+                    text_partnership_tab += `
+                    <li class="create_tab-link" data-tab="agent_type`+partnership_idx+`-tab"><label style="font-size:15px;">`+msg.result.response.agent_type[i].name+`</label></li>
+                    `;
+                    text_partnership += `
+                    <div id="agent_type`+partnership_idx+`-tab" class="create_tab-content" style="padding:20px 0px 10px 0px; background-color:white !important; border-top: 2px solid #cdcdcd;">
+                        <h4 style="text-align:center;">`+msg.result.response.agent_type[i].name+`</h4>
+                        <div class="accordion" id="accordion_num`+partnership_idx+`" style="margin-top: 20px;">`;
+                    accordion_idx = 0;
+                    for (j in msg.result.response.agent_type[i].product)
+                    {
+                        text_partnership += `
+                            <div class="card">
+                                <div class="card-header" id="headingX`+partnership_idx+`Y`+accordion_idx+`" style="background-color: transparent;">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseX`+partnership_idx+`Y`+accordion_idx+`" aria-expanded="false" aria-controls="collapseX`+partnership_idx+`Y`+accordion_idx+`">
+                                      `+msg.result.response.agent_type[i].product[j].title+`
+                                    </button>
+                                </div>
 
+                                <div id="collapseX`+partnership_idx+`Y`+accordion_idx+`" class="collapse" aria-labelledby="headingX`+partnership_idx+`Y`+accordion_idx+`" data-parent="#accordion_num`+partnership_idx+`">
+                                  <div class="card-body">
+                                    `+msg.result.response.agent_type[i].product[j].benefit+`
+                                  </div>
+                                </div>
+                            </div>
+                        `;
+                        accordion_idx += 1;
+                    }
+                    text_partnership += `
+                        </div>
+                    </div>
+                    `;
+                }
+                partnership_idx += 1;
+            }
+            document.getElementById('partnership_tab').innerHTML = text_partnership_tab;
+            document.getElementById('partnership').innerHTML = text_partnership;
             document.getElementById('agent_type_id').innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -134,8 +208,23 @@ function onchange_agent_type(){
                 </label>`;
         }
     }
+    term_text = '';
+    for(i in msg.result.response.agent_type){
+        if(document.getElementById('agent_type').value == msg.result.response.agent_type[i].name){
+            console.log(msg.result.response.agent_type[i].terms_and_condition);
+            if(msg.result.response.agent_type[i].terms_and_condition)
+            {
+                term_text += msg.result.response.agent_type[i].terms_and_condition;
+            }
+            else
+            {
+                term_text += 'Terms and Condition of this agent type is not set yet. Please contact our Network and Development Team for further information.';
+            }
+        }
+    }
 
-        document.getElementById('company_type').innerHTML = text;
+    document.getElementById('company_type').innerHTML = text;
+    document.getElementById('term_condition_modal').innerHTML = term_text;
 }
 
 function get_promotions(){
@@ -195,24 +284,51 @@ function get_promotions(){
 function change_promotion(){
     console.log(document.getElementById('promotion').value);
     text = '';
+    temp_grand_total = 0;
     for(i in promotion){
         if(document.getElementById('promotion').value == promotion[i].id){
+            text += '<h4>Price Details</h4><hr/>';
             for(j in promotion[i].commission){
-                text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '<br/>';
+                text += '<table style="width:100%; margin-bottom: 10px;">';
+                text += '<tr>';
+                text += '<td style="width:30%;"><strong>' + promotion[i].commission[j].recruited + ' Fee</strong></td>';
+                text += '<td>: </td>';
+                text += '<td>' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee) +  '</td>';
+                text += '</tr>';
+                temp_grand_total += promotion[i].commission[j].registration_fee;
                 if(promotion[i].commission[j].discount_amount != 0){
+                    text += '<tr>';
+                    text += '<td style="width:30%;"><strong>Discount</strong></td>';
+                    text += '<td>: </td>';
                     if(promotion[i].commission[j].discount_type == 'percentage')
-                        text += 'Discount ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee * promotion[i].commission[j].discount_amount / 100) + '<br/>';
+                    {
+                        text += '<td>' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee * promotion[i].commission[j].discount_amount / 100) + '</td>';
+                        temp_grand_total -= (promotion[i].commission[j].registration_fee * promotion[i].commission[j].discount_amount / 100);
+                    }
                     else
-                        text += 'Discount ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].discount_amount) + '<br/>';
+                    {
+                        text += '<td>' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].discount_amount) + '</td>';
+                        temp_grand_total -= promotion[i].commission[j].discount_amount;
+                    }
+                    text += '</tr>';
+                    text += '<tr>';
+                    text += '<td style="width:30%;"><strong>Total</strong></td>';
+                    text += '<td>: </td>';
+                    if(promotion[i].commission[j].discount_type == 'percentage')
+                        text += '<td>' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee - (promotion[i].commission[j].registration_fee * promotion[i].commission[j].discount_amount / 100)) +  '</td>';
+                    else
+                        text += '<td>' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee - promotion[i].commission[j].discount_amount) +  '</td>';
+                    text += '</tr>';
                 }
-                if(promotion[i].commission[j].discount_type == 'percentage')
-                    text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee - (promotion[i].commission[j].registration_fee * promotion[i].commission[j].discount_amount / 100)) +  '<br/>';
-                else
-                    text += promotion[i].commission[j].recruited + ' fee ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].registration_fee - promotion[i].commission[j].discount_amount) +  '<br/>';
-                for(k in promotion[i].commission[j].lines){
-                    text += 'Commission ' + promotion[i].commission[j].currency + ' ' + getrupiah(promotion[i].commission[j].lines[k].amount) + '<br/><br/>';
-                }
+                text += '</table>';
             }
+            text += '<hr/><table style="width:100%;">';
+            text += '<tr>';
+            text += '<td style="width:30%;"><strong>Grand Total</strong></td>';
+            text += '<td>: </td>';
+            text += '<td>IDR ' + getrupiah(temp_grand_total) +  '</td>';
+            text += '</tr>';
+            text += '</table>';
         }
     }
     document.getElementById('promotion_desc').innerHTML = text;
@@ -314,7 +430,7 @@ function check_registration(){
         }
     }
     if(company == ''){
-        error_log+= 'Please fill company!\n';
+        error_log+= 'Please choose your business type (individual or company)!\n<br/>';
     }
 //    if(company == 'individual'){
 //
@@ -332,22 +448,17 @@ function check_registration(){
 //        }
 //    }
     if(document.getElementById('agent_type').value == ''){
-        error_log+= 'Please fill agent type!\n';
+        error_log+= 'Please choose agent type!\n<br/>';
         document.getElementById('agent_type').style['border-color'] = 'red';
     }else{
         document.getElementById('agent_type').style['border-color'] = '#EFEFEF';
-    }if(document.getElementById('comp_name').value == ''){
-        error_log+= 'Please fill company name!\n';
-        document.getElementById('comp_name').style['border-color'] = 'red';
-    }else{
-        document.getElementById('comp_name').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('street').value == ''){
-        error_log+= 'Please fill street!\n';
+        error_log+= 'Please fill street!\n<br/>';
         document.getElementById('street').style['border-color'] = 'red';
     }else{
         document.getElementById('street').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('country').value == ''){
-        error_log+= 'Please fill country!\n';
+        error_log+= 'Please fill country!\n<br/>';
         document.getElementById('country').style['border-color'] = 'red';
     }else{
         document.getElementById('country').style['border-color'] = '#EFEFEF';
@@ -357,7 +468,7 @@ function check_registration(){
 //    }else{
 //        document.getElementById('city').style['border-color'] = '#EFEFEF';
     }if(document.getElementById('tacagree').checked == false){
-        error_log+= 'Please fill check term n condition!\n';
+        error_log+= 'You must agree to our terms and condition to continue!\n<br/>';
         document.getElementById('tacagree').style['border-color'] = 'red';
     }else{
         document.getElementById('tacagree').style['border-color'] = '#EFEFEF';
@@ -365,12 +476,12 @@ function check_registration(){
     //check pic
     for(i=1;i<=counter_passenger;i++){
         if(document.getElementById('first_name'+i).value == ''){
-            error_log+= 'Please fill first name for pic '+i+'!\n';
+            error_log+= 'Please fill first name for PIC '+i+'!\n<br/>';
             document.getElementById('first_name'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('first_name'+i).style['border-color'] = '#EFEFEF';
         }if(document.getElementById('last_name'+i).value == ''){
-            error_log+= 'Please fill last name for pic '+i+'!\n';
+            error_log+= 'Please fill last name for PIC '+i+'!\n<br/>';
             document.getElementById('last_name'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('last_name'+i).style['border-color'] = '#EFEFEF';
@@ -378,13 +489,13 @@ function check_registration(){
         //birth
         //email
         if(document.getElementById('mobile'+i).value == ''){
-            error_log+= 'Please fill mobile for pic '+i+'!\n';
+            error_log+= 'Please fill mobile for PIC '+i+'!\n<br/>';
             document.getElementById('mobile'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('mobile'+i).style['border-color'] = '#EFEFEF';
         }
         if(document.getElementById('job_position'+i).value == ''){
-            error_log+= 'Please fill job position for pic '+i+'!\n';
+            error_log+= 'Please fill job position for PIC '+i+'!\n<br/>';
             document.getElementById('job_position'+i).style['border-color'] = 'red';
         }else{
             document.getElementById('job_position'+i).style['border-color'] = '#EFEFEF';
@@ -395,14 +506,14 @@ function check_registration(){
         if(document.getElementById('agent_type').value == 'Agent Citra'){
             if( document.getElementById("resume"+i).files.length == 0 ){
                 if(i == 1)
-                    error_log+= 'Please fill ktp!\n';
+                    error_log+= 'Please fill KTP!\n<br/>';
                 else if(i == 2)
-                    error_log+= 'Please fill npwp!\n';
+                    error_log+= 'Please fill NPWP!\n<br/>';
                 else if(i == 3)
-                    error_log+= 'Please fill siup!\n';
+                    error_log+= 'Please fill SIUP!\n<br/>';
                 document.getElementById('resume'+i).style['border-color'] = 'red';
             }else if(i == 1 && document.getElementById("resume"+i).files.length == 0){
-                error_log+= 'Please fill ktp!\n';
+                error_log+= 'Please fill KTP!\n<br/>';
                 document.getElementById('resume'+i).style['border-color'] = 'red';
             }else{
                 document.getElementById('resume'+i).style['border-color'] = '#EFEFEF';

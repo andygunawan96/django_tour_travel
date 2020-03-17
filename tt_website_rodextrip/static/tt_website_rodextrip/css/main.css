@@ -8200,6 +8200,10 @@ ul.popular2_tabs li.current .image-rounded-icon{
     display: inherit;
 }
 
+.fa.rotateactive {
+  transform: rotateZ(180deg);
+}
+
 
 
 @media (max-width: 767px) {
