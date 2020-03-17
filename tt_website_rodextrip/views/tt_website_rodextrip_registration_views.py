@@ -105,7 +105,7 @@ def register_agent(request):
                 'company_type': request.POST['radio_company_type'],
                 'business_license': request.POST.get('business_license') and request.POST['business_license'] or '',
                 'npwp': request.POST.get('npwp') and request.POST['npwp'] or '',
-                'name': request.POST['comp_name'] and request.POST['comp_name'] or '',
+                'name': request.POST.get('comp_name') and request.POST['comp_name'] or '',
             },
             'address': {
                 # 'city': request.POST['city'] and request.POST['city_id'] or '',
