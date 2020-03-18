@@ -1650,6 +1650,9 @@ function sort(value){
                     </div>
 
                     <div class="col-lg-4">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                            <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
+                        </div>
                         <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
                         check = 0;
                         for(j in journeys){
