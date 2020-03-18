@@ -590,7 +590,7 @@ function get_page(data){
                 msg.result.response.body = msg.result.response.body.replace(/&lt;/g, '<');
                 msg.result.response.body = msg.result.response.body.replace(/&gt;/g, '>');
                 document.getElementById('container').innerHTML = msg.result.response.body;
-                document.getElementById('header').innerHTML = `<h3 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h3><img src="`+msg.result.response.image_carousel+`" style="height:300px;" alt="" title="" />`;
+                document.getElementById('header_page').innerHTML = `<h3 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h3><img src="`+msg.result.response.image_carousel+`" style="height:30px;" alt="" title="" />`;
 
             }else{
                 document.getElementById('container').innerHTML = 'Page not found';
