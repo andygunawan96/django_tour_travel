@@ -153,15 +153,16 @@ function agent_register_get_config(){
                     for (j in msg.result.response.agent_type[i].product)
                     {
                         text_partnership += `
-                            <div class="card">
-                                <div class="card-header" id="headingX`+partnership_idx+`Y`+accordion_idx+`" style="background-color: transparent;">
-                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseX`+partnership_idx+`Y`+accordion_idx+`" aria-expanded="false" aria-controls="collapseX`+partnership_idx+`Y`+accordion_idx+`">
-                                      `+msg.result.response.agent_type[i].product[j].title+`
+                            <div class="card" style="border: none;">
+                                <div class="card-header" id="headingX`+partnership_idx+`Y`+accordion_idx+`" style="background-color: transparent; border: none;">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseX`+partnership_idx+`Y`+accordion_idx+`" aria-expanded="false" aria-controls="collapseX`+partnership_idx+`Y`+accordion_idx+`" style="width: 100%; background-color: #f5f5f5; border: 1px solid `+color+`;" onclick="toggle_benefit_fa(`+partnership_idx+`, `+accordion_idx+`);">
+                                      <span style="float: left; color:black; font-weight: bold;">`+msg.result.response.agent_type[i].product[j].title+`</span>
+                                      <span style="float: right; color:black; font-weight: bold;"><i id="arrowX`+partnership_idx+`Y`+accordion_idx+`" class="fa fa-caret-down" aria-hidden="false"></i></span>
                                     </button>
                                 </div>
 
-                                <div id="collapseX`+partnership_idx+`Y`+accordion_idx+`" class="collapse" aria-labelledby="headingX`+partnership_idx+`Y`+accordion_idx+`" data-parent="#accordion_num`+partnership_idx+`">
-                                  <div class="card-body">
+                                <div id="collapseX`+partnership_idx+`Y`+accordion_idx+`" class="collapse" aria-labelledby="headingX`+partnership_idx+`Y`+accordion_idx+`">
+                                  <div class="card-body" style="color: black; border-left: 3px solid `+color+`; margin: 0 20px 0 20px;">
                                     `+msg.result.response.agent_type[i].product[j].benefit+`
                                   </div>
                                 </div>

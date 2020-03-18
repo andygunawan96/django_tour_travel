@@ -1283,6 +1283,15 @@
         auto_complete('country')
         auto_complete_registration('social_media');
     });
+    $( document ).on( "click", "ul.create_tabs li", function() {
+        var tab_id = $(this).attr('data-tab');
+
+        $('ul.create_tabs li').removeClass('current');
+        $('.create_tab-content').removeClass('current');
+
+        $(this).addClass('current');
+        $("#"+tab_id).addClass('current');
+    });
 
 </script>
 {% endblock %}
