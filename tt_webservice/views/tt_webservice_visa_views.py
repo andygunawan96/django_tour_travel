@@ -11,6 +11,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice_voucher_views import *
+import time
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -66,6 +67,8 @@ def api_models(request):
             res = get_config(request)
         elif req_data['action'] == 'search':
             res = search(request)
+        elif req_data['action'] == 'get_availability':
+            res = get_availability(request)
         elif req_data['action'] == 'sell_visa':
             res = sell_visa(request)
         elif req_data['action'] == 'update_passengers':
@@ -105,6 +108,7 @@ def login(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
+        time.sleep(1)
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
         if request.session.get('visa_search'):
@@ -166,9 +170,7 @@ def search(request):
             "destination": destination,
             "consulate": consulate,
             "departure_date": departure_date,
-            "provider": request.POST['provider']
-            # "provider": 'rodextrip_visa'
-            # "provider": 'rodextrip_visa_btbo2'
+            "provider": 'visa_internal'
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -180,7 +182,6 @@ def search(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     try:
-        res['result']['response']['provider'] = data['provider']
         if res['result']['error_code'] == 0:
 
             entry_type = {
@@ -259,6 +260,30 @@ def search(request):
             logging.getLogger("info_logger").info("SUCCESS search VISA SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR search_visa TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_availability(request):
+    try:
+        data = {
+            'reference_code': json.loads(request.POST['reference_code']),
+            'provider': request.POST['provider']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_availability",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("ERROR sell_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

@@ -227,8 +227,8 @@ function update_table(type){
                 text+=
                 `<div class="row" style="margin-top:10px; text-align:center;">
                     <div class="col-lg-12" style="padding-bottom:10px;">
-                        <button id="visa_btn_search" class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_search();" type="button" value="Next">
-                            Next
+                        <button id="visa_btn_search" class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" onclick="show_loading();visa_check_availability();" type="button" value="Next">
+                            Get Price
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </div>
@@ -692,6 +692,43 @@ function copy_data(type){
       type: 'success',
       title: 'Copied Successfully'
     })
+}
+
+function visa_check_availability(){
+    error_log = '';
+    provider_pick = [];
+    reference_code = [];
+    for(i in visa){
+        if(check_number(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value) == false){
+            error_log = 'Please input number in pax type '+ visa[i].pax_type[1]+'\n';
+        }else{
+            if(provider_pick.includes(visa[i]['provider']) == false && parseInt(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value) > 0){
+                provider_pick.push(visa[i]['provider']);
+                reference_code.push(visa[i]['id']);
+            }
+        }
+    }
+    check = 0;
+    for(i in visa){
+        if(document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value != '' && document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).value != '0'){
+            check = 1;
+        }
+    }
+    if(provider_pick.length > 1)
+        error_log += 'Please choose 1 provider';
+    if(check == 0){
+        for(i in visa){
+            document.getElementById('qty_pax_'+parseInt(parseInt(i)+1)).style['border-color'] = 'red';
+        }
+        alert('Please input pax')
+        $('.next-loading').removeClass("running");
+    }else if(error_log == ''){
+        get_availability();
+    }else{
+        alert(error_log);
+        document.getElementById('visa_btn_search').disabled = false;
+        $('.next-loading').removeClass("running");
+    }
 }
 
 function visa_check_search(){
