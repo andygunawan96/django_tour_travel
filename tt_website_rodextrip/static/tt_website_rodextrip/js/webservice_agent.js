@@ -1309,7 +1309,6 @@ function pick_passenger(type, sequence, product){
                     document.getElementById('child_nationality'+passenger_number).value = passenger_data[sequence].nationality_name;
                 }
                 document.getElementById('child_birth_date'+passenger_number).value = passenger_data[sequence].birth_date;
-                check_years_old(passenger_number,'child');
                 if(product=='airline' || product == 'activity' || product == 'visa' || product == 'tour'){
                     if(passenger_data[sequence].identities.hasOwnProperty('passport') == true){
                         document.getElementById('child_passport_number'+passenger_number).value = passenger_data[sequence].identities.passport.identity_number;

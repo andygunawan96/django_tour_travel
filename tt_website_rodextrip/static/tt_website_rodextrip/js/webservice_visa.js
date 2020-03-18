@@ -81,8 +81,7 @@ function visa_signin(data){
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 if(data == ''){
-//                    search_visa();
-                    visa_get_config_provider();
+                    search_visa();
                 }else if(data != ''){
                     visa_get_data(data);
                 }
@@ -122,7 +121,6 @@ function visa_get_config_provider(){
             'signature': signature
        },
        success: function(msg) {
-            counter_visa = 0;
             provider_search++;
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
@@ -154,7 +152,8 @@ function visa_get_config_provider(){
     });
 }
 
-function search_visa(provider){
+function search_visa(){
+    counter_visa = 0;
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -165,8 +164,7 @@ function search_visa(provider){
             'destination': document.getElementById('visa_destination_id_hidden').value,
             'departure_date': document.getElementById('visa_departure').value,
             'consulate': document.getElementById('visa_consulate_id_hidden').value,
-            'provider': provider,
-            'signature': signature
+            'signature': signature,
        },
        success: function(msg) {
             console.log(msg);
@@ -178,18 +176,11 @@ function search_visa(provider){
                 for(i in msg.result.response.list_of_visa){
                     //pax type
                     visa.push(msg.result.response.list_of_visa[i])
-                    counter_visa ++;
+                    counter_visa++;
                     node = document.createElement("div");
 
                     text= `
                         <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding:15px;" id="journey`+i+`">`;
-                    if(provider_length > 1)
-                        text+=`
-                        <div class="row" style="text-align:right">
-                            <div class="col-sm-9"></div>
-                            <div class="col-sm-3">`+msg.result.response.list_of_visa[i].provider+`</div>
-                        </div>
-                        `
                     text+=`
                             <div class="row">
                                 <div class="col-lg-12">
@@ -296,22 +287,6 @@ function search_visa(provider){
                 }
                 update_table('search');
             }
-            if(provider_length == provider_search){
-                if(msg.result.response.list_of_visa.length == 0){
-                    node = document.createElement("div");
-                    text= `
-                    <div style="background-color:white; border:1px solid #cdcdcd; margin-bottom:15px; padding: 15px 0px 15px 15px; text-align:center;">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <h3><i class="fas fa-search"></i> VISA NOT FOUND</h3>
-                            </div>
-                        </div>
-                    </div>`;
-
-                    node.innerHTML = text;
-                    document.getElementById("show-visa-search").appendChild(node);
-                }
-            }
 
             document.getElementById('loading-search-visa').hidden = true;
 
@@ -323,6 +298,46 @@ function search_visa(provider){
               html: '<span style="color: red;">Error visa search </span>' + errorThrown,
             })
        },timeout: 120000
+    });
+}
+
+function get_availability(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'get_availability',
+       },
+       data: {
+            'reference_code': JSON.stringify(reference_code),
+            'provider': provider_pick[0],
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            check = 0;
+            for(i in msg.result.response.availability){
+                if(msg.result.response.availability[i] == false)
+                    check = 1;
+            }
+            if(check == 0){
+                document.getElementById('visa_btn_search').innerHTML = `Next <div class="ld ld-ring ld-cycle"></div>`;
+                document.getElementById('visa_btn_search').disabled = false;
+                document.getElementById("visa_btn_search").setAttribute( "onClick", "javascript: show_loading();visa_check_search();" );
+            }else{
+                document.getElementById('visa_btn_search').disabled = false;
+            }
+            $('.next-loading').removeClass("running");
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            document.getElementById('visa_btn_search').disabled = false;
+            $('.hold-seat-booking-train').removeClass("running");
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error visa sell </span>' + errorThrown,
+            })
+       },timeout: 60000
     });
 }
 
