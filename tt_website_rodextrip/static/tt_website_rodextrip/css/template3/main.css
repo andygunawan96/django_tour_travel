@@ -1987,7 +1987,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Nav Menu Arrows */
 .sf-arrows .sf-with-ul {
-  padding-right: 30px;
+  padding-right: 25px;
 }
 
 .sf-arrows .sf-with-ul:after {
@@ -2016,7 +2016,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Nav Meu Styling */
 .nav-menu a {
-  padding: 6px;
+  padding: 5px;
   text-decoration: none;
   display: inline-block;
   color: #fff;
