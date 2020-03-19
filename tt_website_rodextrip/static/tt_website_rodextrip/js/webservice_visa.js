@@ -315,15 +315,19 @@ function get_availability(){
        },
        success: function(msg) {
             console.log(msg);
-            check = 0;
-            for(i in msg.result.response.availability){
-                if(msg.result.response.availability[i] == false)
-                    check = 1;
-            }
-            if(check == 0){
-                document.getElementById('visa_btn_search').innerHTML = `Next <div class="ld ld-ring ld-cycle"></div>`;
-                document.getElementById('visa_btn_search').disabled = false;
-                document.getElementById("visa_btn_search").setAttribute( "onClick", "javascript: show_loading();visa_check_search();" );
+            if(msg.result.error_code == 0){
+                check = 0;
+                for(i in msg.result.response.availability){
+                    if(msg.result.response.availability[i] == false)
+                        check = 1;
+                }
+                if(check == 0){
+                    document.getElementById('visa_btn_search').innerHTML = `Next <div class="ld ld-ring ld-cycle"></div>`;
+                    document.getElementById('visa_btn_search').disabled = false;
+                    document.getElementById("visa_btn_search").setAttribute( "onClick", "javascript: show_loading();visa_check_search();" );
+                }else{
+                    document.getElementById('visa_btn_search').disabled = false;
+                }
             }else{
                 document.getElementById('visa_btn_search').disabled = false;
             }
