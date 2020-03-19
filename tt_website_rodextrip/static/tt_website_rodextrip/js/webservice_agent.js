@@ -2434,6 +2434,11 @@ function logout(){
     //logout here
 }
 
+function change_language(val){
+    document.getElementById('selection_language').value = val;
+    document.getElementById('form_language').submit();
+}
+
 //plugin passenger
 
 function add_passenger_cache(sequence){
