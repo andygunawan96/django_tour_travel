@@ -228,8 +228,8 @@ function tour_search(){
                         <form action='/tour/detail' method='POST' id='myForm`+tour_data[i].sequence+`'>
                             <div id='csrf`+tour_data[i].sequence+`'></div>
                             <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
-                            <input id='uuid' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
-                            <input id='sequence' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>`;
+                            <input id='uuid`+tour_data[i].sequence+`' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
+                            <input id='sequence`+tour_data[i].sequence+`' name='sequence' type='hidden' value='`+tour_data[i].sequence+`'/>`;
                             if(template == 1){
                                 if (tour_data[i].state == 'sold' || tour_data[i].seat <= 0)
                                 {
@@ -253,7 +253,7 @@ function tour_search(){
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -280,7 +280,7 @@ function tour_search(){
                                                         </div>
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
-                                                            <button href="#" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -313,7 +313,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
                                                             <br/>
-                                                            <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -341,7 +341,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -373,7 +373,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
                                                             <br/>
-                                                            <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -401,7 +401,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -432,7 +432,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
                                                             <br/>
-                                                            <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -460,7 +460,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -491,7 +491,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold; color:#616161;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`  </span>
                                                             <br/>
-                                                            <button href="#" class="primary-btn-custom" onclick="" disabled>SOLD OUT</button>
+                                                            <button href="#" class="primary-btn-custom" type="button" onclick="" disabled>SOLD OUT</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -518,7 +518,7 @@ function tour_search(){
                                                         <div class="col-lg-12" style="text-align:right;">
                                                             <span style="font-size:13px;font-weight:bold;">IDR `+getrupiah(tour_data[i].adult_sale_price)+`</span>
                                                             <br/>
-                                                            <button type="button" class="primary-btn-custom" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
+                                                            <button type="button" class="primary-btn-custom" type="button" onclick="go_to_detail('`+tour_data[i].sequence+`')">BOOK</button>
                                                         </div>
                                                     </div>
                                                 </div>
