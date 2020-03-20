@@ -2,7 +2,6 @@ function update_banner(){
     var formData = new FormData($('#form_admin').get(0));
     formData.append('signature', signature)
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -19,11 +18,13 @@ function update_banner(){
        contentType:false,
        processData:false,
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+                })
+            }
        }
     });
 }
@@ -90,7 +91,6 @@ function set_inactive_delete_banner(){
 
     console.log(img);
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -108,18 +108,19 @@ function set_inactive_delete_banner(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error inactive delete banner </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error inactive delete banner </span>' + errorThrown,
+                })
+            }
        }
     });
 }
 
 
 function get_banner(type,page){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -490,11 +491,13 @@ function get_banner(type,page){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error banner </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error banner </span>' + errorThrown,
+                })
+            }
        }
     });
 }
@@ -579,7 +582,6 @@ function handleFileSelect_promotionbanner(e) {
 }
 
 function get_page(data){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -601,18 +603,19 @@ function get_page(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+                })
+            }
        }
     });
 }
 
 function get_dynamic_page(type){
     console.log(type);
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -711,11 +714,13 @@ function get_dynamic_page(type){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error update banner </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+                })
+            }
        }
     });
 }
@@ -777,7 +782,6 @@ function update_dynamic_page(){
         formData.append('page_number', parseInt(page_number));
         formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
         getToken();
-        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/content",
@@ -803,11 +807,13 @@ function update_dynamic_page(){
            contentType:false,
            processData:false,
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
-                })
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
+                    })
+                }
            }
         });
     }else{

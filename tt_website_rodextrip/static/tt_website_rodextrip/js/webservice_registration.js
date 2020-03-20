@@ -2,7 +2,6 @@ counter_passenger = 0;
 counter_regis_doc = 0;
 function submit_agent_registration(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -66,11 +65,13 @@ function submit_agent_registration(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error submit agent registration </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error submit agent registration </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -83,7 +84,6 @@ function toggle_benefit_fa(partner_idx, accor_idx)
 
 function agent_register_get_config(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -184,11 +184,13 @@ function agent_register_get_config(){
             document.getElementById('agent_type_id').innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error agent registration config </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error agent registration config </span>' + errorThrown,
+                })
+            }
        },timeout: 180000
     });
 }
@@ -232,7 +234,6 @@ function onchange_agent_type(){
 
 function get_promotions(){
     data = '';
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -269,18 +270,22 @@ function get_promotions(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            text = '<option value="" disabled selected>Promotions</option>';
-            document.getElementById('promotion').innerHTML = text;
-            if(template == 1 || template == 3 || template == 4 || template == 5){
-                $('#promotion').niceSelect();
-            }else if(template == 2){
-                $('#promotion').niceSelect("update");
+            if(XMLHttpRequest.status == 500){
+                text = '<option value="" disabled selected>Promotions</option>';
+                document.getElementById('promotion').innerHTML = text;
+                if(template == 1 || template == 3 || template == 4 || template == 5){
+                    $('#promotion').niceSelect();
+                }else if(template == 2){
+                    $('#promotion').niceSelect("update");
+                }
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
+                    })
+                }
             }
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
-            })
        },timeout: 60000
     });
 }
@@ -340,7 +345,6 @@ function change_promotion(){
 
 function agent_register_get_requirement_list_doc(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -356,11 +360,13 @@ function agent_register_get_requirement_list_doc(){
                 requirement_document = msg.result.response;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error agent registration requirement list </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }

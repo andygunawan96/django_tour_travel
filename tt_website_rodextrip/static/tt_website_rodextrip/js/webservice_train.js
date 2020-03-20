@@ -43,7 +43,6 @@ function can_book(departure, arrival){
 
 function train_signin(data){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -72,25 +71,26 @@ function train_signin(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error train signin </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
-                $("#waitingTransaction").modal('hide');
-              }
-            })
-            try{
-                $("#waitingTransaction").modal('hide');
-            }catch(err){}
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error train signin </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                try{
+                    $("#waitingTransaction").modal('hide');
+                }catch(err){}
+            }
        },timeout: 60000
     });
 }
 
 function get_train_config(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -108,13 +108,14 @@ function get_train_config(){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
+           if(XMLHttpRequest.status == 500){
+                alert(errorThrown);
+           }
        }
     });
 }
 
 function train_get_config_provider(){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -148,11 +149,13 @@ function train_get_config_provider(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -161,7 +164,6 @@ function train_get_config_provider(){
 function train_search(provider){
     document.getElementById('train_ticket').innerHTML = ``;
     document.getElementById('train_detail').innerHTML = ``;
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -207,11 +209,13 @@ function train_search(provider){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error train search </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error train search </span>' + errorThrown,
+                })
+            }
        },timeout: 480000
     });
 }
@@ -340,7 +344,6 @@ function train_create_booking(val){
         data['member'] = payment_acq2[payment_method][selected].method;
     }catch(err){
     }
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -379,18 +382,20 @@ function train_create_booking(val){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error train create booking </span>' + errorThrown,
-           }).then((result) => {
-              if (result.value) {
-                $("#waitingTransaction").modal('hide');
-              }
-            })
-           $('.hold-seat-booking-train').removeClass("running");
-           $('.hold-seat-booking-train').attr("disabled", false);
-           $("#waitingTransaction").modal('hide');
+           if(XMLHttpRequest.status == 500){
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error train create booking </span>' + errorThrown,
+               }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+               $('.hold-seat-booking-train').removeClass("running");
+               $('.hold-seat-booking-train').attr("disabled", false);
+               $("#waitingTransaction").modal('hide');
+           }
        },timeout: 480000
     });
 }
@@ -398,7 +403,6 @@ function train_create_booking(val){
 function train_get_booking(data){
     price_arr_repricing = {};
     get_balance('false');
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1004,17 +1008,19 @@ function train_get_booking(data){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error train booking </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error train booking </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                document.getElementById('show_loading_booking_train').hidden = true;
                 $("#waitingTransaction").modal('hide');
-              }
-            })
-            document.getElementById('show_loading_booking_train').hidden = true;
-            $("#waitingTransaction").modal('hide');
+            }
        },timeout: 480000
     });
 }
@@ -1080,7 +1086,6 @@ function train_issued(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
-        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/train",
@@ -1166,32 +1171,34 @@ function train_issued(data){
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error train issued </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error train issued </span>' + errorThrown,
+                    }).then((result) => {
+                      if (result.value) {
+                        $("#waitingTransaction").modal('hide');
+                      }
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_train').hidden = true;
+                    document.getElementById('train_booking').innerHTML = '';
+                    document.getElementById('train_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_train').style.display = 'block';
+                    document.getElementById('show_loading_booking_train').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){}
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
                     $("#waitingTransaction").modal('hide');
-                  }
-                })
-                price_arr_repricing = {};
-                pax_type_repricing = [];
-                document.getElementById('show_loading_booking_train').hidden = true;
-                document.getElementById('train_booking').innerHTML = '';
-                document.getElementById('train_detail').innerHTML = '';
-                document.getElementById('payment_acq').innerHTML = '';
-                document.getElementById('show_loading_booking_train').style.display = 'block';
-                document.getElementById('show_loading_booking_train').hidden = false;
-                document.getElementById('payment_acq').hidden = true;
-                try{
-                    document.getElementById('voucher_discount').style.display = 'none';
-                }catch(err){}
-                $('.hold-seat-booking-train').prop('disabled', false);
-                $('.hold-seat-booking-train').removeClass("running");
-                $("#waitingTransaction").modal('hide');
-                document.getElementById("overlay-div-box").style.display = "none";
-                train_get_booking(data);
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    train_get_booking(data);
+                }
            },timeout: 480000
         });
       }
@@ -1200,7 +1207,6 @@ function train_issued(data){
 
 function train_get_seat_map(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1225,11 +1231,13 @@ function train_get_seat_map(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error train seat map </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error train seat map </span>' + errorThrown,
+                })
+            }
        },timeout: 480000
     });
 }
@@ -1246,7 +1254,6 @@ function train_cancel_booking(){
       if (result.value) {
         please_wait_transaction();
         getToken();
-        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/train",
@@ -1304,16 +1311,18 @@ function train_cancel_booking(){
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-               Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
-                }).then((result) => {
-                  if (result.value) {
+               if(XMLHttpRequest.status == 500){
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
+                    }).then((result) => {
+                      if (result.value) {
+                        $("#waitingTransaction").modal('hide');
+                      }
+                    })
                     $("#waitingTransaction").modal('hide');
-                  }
-                })
-                $("#waitingTransaction").modal('hide');
+                }
            },timeout: 480000
         });
         $('.submit-seat-train').addClass("running");
@@ -1325,7 +1334,6 @@ function train_manual_seat(){
     $('.submit-seat-train').addClass("running");
     $('.change-seat-train-buttons').prop('disabled', true);
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1373,18 +1381,20 @@ function train_manual_seat(){
             $('.change-seat-train-buttons').prop('disabled', false);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-           Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+           if(XMLHttpRequest.status == 500){
+               Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error train manual seat </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                $('.submit-seat-train').removeClass("running");
                 $("#waitingTransaction").modal('hide');
-              }
-            })
-            $('.submit-seat-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
-            $('.change-seat-train-buttons').prop('disabled', false);
+                $('.change-seat-train-buttons').prop('disabled', false);
+            }
        },timeout: 480000
     });
 }
@@ -1445,7 +1455,6 @@ function update_service_charge(type){
                 });
         }
     }
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1482,11 +1491,13 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+                })
+            }
        },timeout: 480000
     });
 
