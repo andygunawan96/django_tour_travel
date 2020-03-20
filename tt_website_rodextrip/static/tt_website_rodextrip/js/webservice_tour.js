@@ -7,7 +7,6 @@ step_slider = 0;
 function tour_login(data){
     //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -37,20 +36,21 @@ function tour_login(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour login </span>' + errorThrown,
-            })
-            try{
-                $('#loading-search-tour').hide();
-            }catch(err){}
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour login </span>' + errorThrown,
+                })
+                try{
+                    $('#loading-search-tour').hide();
+                }catch(err){}
+            }
        },timeout: 60000
     });
 }
 
 function get_tour_auto_complete(type){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -65,18 +65,19 @@ function get_tour_auto_complete(type){
             get_tour_config(type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour config </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour config </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
 
 function get_tour_config(type, val){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -158,11 +159,13 @@ function get_tour_config(type, val){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour config </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour config </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -174,7 +177,6 @@ function tour_search(){
     }
     get_new = false;
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -586,18 +588,19 @@ function tour_search(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour search </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour search </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
 
 function tour_get_details(tour_code, tour_provider){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -863,11 +866,13 @@ function tour_get_details(tour_code, tour_provider){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour details </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour details </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -875,7 +880,6 @@ function tour_get_details(tour_code, tour_provider){
 
 function update_sell_tour(val){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -906,25 +910,26 @@ function update_sell_tour(val){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error update sell tour </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update sell tour </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
                 $("#waitingTransaction").modal('hide');
-              }
-            })
-            $('.hold-seat-booking-train').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            }
        },timeout: 60000
     });
 }
 
 function update_contact_tour(val){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -955,18 +960,20 @@ function update_contact_tour(val){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error update contact tour </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update contact tour </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
                 $("#waitingTransaction").modal('hide');
-              }
-            })
-            $('.hold-seat-booking-train').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            }
        },timeout: 60000
     });
 }
@@ -984,7 +991,6 @@ function update_passengers_tour(val){
         room_choice_dict[temp_pax_id] = temp_dict;
     }
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1031,18 +1037,20 @@ function update_passengers_tour(val){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error update passengers tour </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update passengers tour </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
                 $("#waitingTransaction").modal('hide');
-              }
-            })
-            $('.hold-seat-booking-train').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            }
        },timeout: 60000
     });
 }
@@ -1074,7 +1082,6 @@ function commit_booking_tour(val)
     }catch(err){
     }
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1110,18 +1117,20 @@ function commit_booking_tour(val)
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour commit booking </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour commit booking </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
                 $("#waitingTransaction").modal('hide');
-              }
-            })
-            $('.hold-seat-booking-train').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+            }
        },timeout: 60000
     });
 }
@@ -1129,7 +1138,6 @@ function commit_booking_tour(val)
 function get_payment_rules(tour_code)
 {
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1149,11 +1157,13 @@ function get_payment_rules(tour_code)
 //           }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour payment rules </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour payment rules </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -1192,7 +1202,6 @@ function tour_issued_booking(order_number)
         }
     }
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1265,30 +1274,32 @@ function tour_issued_booking(order_number)
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour issued booking </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour issued booking </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+                price_arr_repricing = {};
+                pax_type_repricing = [];
+                document.getElementById('payment_acq').innerHTML = '';
+                document.getElementById('payment_acq').hidden = true;
+                $("#issuedModal").modal('hide');
                 $("#waitingTransaction").modal('hide');
-              }
-            })
-            price_arr_repricing = {};
-            pax_type_repricing = [];
-            document.getElementById('payment_acq').innerHTML = '';
-            document.getElementById('payment_acq').hidden = true;
-            $("#issuedModal").modal('hide');
-            $("#waitingTransaction").modal('hide');
-            document.getElementById("overlay-div-box").style.display = "none";
-            document.getElementById('tour_final_info').innerHTML = text;
-            document.getElementById('product_title').innerHTML = '';
-            document.getElementById('product_type_title').innerHTML = '';
-            document.getElementById('tour_detail_table').innerHTML = '';
-            tour_get_booking(order_number);
-            $('.hold-seat-booking-train').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            $("#waitingTransaction").modal('hide');
+                document.getElementById("overlay-div-box").style.display = "none";
+                document.getElementById('tour_final_info').innerHTML = text;
+                document.getElementById('product_title').innerHTML = '';
+                document.getElementById('product_type_title').innerHTML = '';
+                document.getElementById('tour_detail_table').innerHTML = '';
+                tour_get_booking(order_number);
+                $('.hold-seat-booking-train').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                $("#waitingTransaction").modal('hide');
+            }
        },timeout: 60000
     });
 }
@@ -1341,7 +1352,6 @@ function update_service_charge(type){
                 });
         }
     }
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1378,11 +1388,13 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour update service charge </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour update service charge </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -1391,7 +1403,6 @@ function tour_get_booking(order_number)
 {
     price_arr_repricing = {};
     get_balance('false');
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1900,17 +1911,18 @@ function tour_get_booking(order_number)
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour get booking </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour get booking </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
 
 function get_price_itinerary(request,type) {
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1925,11 +1937,13 @@ function get_price_itinerary(request,type) {
             table_price_update(msg,type);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -2224,7 +2238,6 @@ function table_price_update(msg,type){
 }
 
 function get_price_itinerary_cache(type) {
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -2240,11 +2253,13 @@ function get_price_itinerary_cache(type) {
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error tour price itinerary </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -2258,7 +2273,6 @@ function tour_search_autocomplete(term,suggest){
 
     getToken();
     tourAutoCompleteVar = setTimeout(function() {
-        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/tour",
@@ -2273,7 +2287,9 @@ function tour_search_autocomplete(term,suggest){
             suggest(tour_choices);
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-               alert(errorThrown);
+               if(XMLHttpRequest.status == 500){
+                    alert(errorThrown);
+               }
            }
         });
     }, 150);

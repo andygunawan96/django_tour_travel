@@ -3,7 +3,6 @@ provider_search = 0;
 
 function get_visa_config(type){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -57,21 +56,21 @@ function get_visa_config(type){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa config </span>' + errorThrown,
-            })
-            try{
-                $("#show_loading_booking_airline").hide();
-            }catch(err){}
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa config </span>' + errorThrown,
+                })
+                try{
+                    $("#show_loading_booking_airline").hide();
+                }catch(err){}
        },timeout: 120000
     });
 }
 
 function visa_signin(data){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -103,17 +102,18 @@ function visa_signin(data){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
 
 function visa_get_config_provider(){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -146,18 +146,19 @@ function visa_get_config_provider(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
 
 function search_visa(){
     counter_visa = 0;
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -296,17 +297,18 @@ function search_visa(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa search </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa search </span>' + errorThrown,
+                })
+            }
        },timeout: 120000
     });
 }
 
 function get_availability(){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -339,20 +341,21 @@ function get_availability(){
             $('.next-loading').removeClass("running");
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            document.getElementById('visa_btn_search').disabled = false;
-            $('.hold-seat-booking-train').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa sell </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                document.getElementById('visa_btn_search').disabled = false;
+                $('.hold-seat-booking-train').removeClass("running");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa sell </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
 
 function sell_visa(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -366,11 +369,13 @@ function sell_visa(){
             console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa sell </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa sell </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -518,7 +523,6 @@ function update_passenger(){
             }
         }
     }
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -540,23 +544,24 @@ function update_passenger(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $("#waitingTransaction").modal('hide');
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa update passenger </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
                 $("#waitingTransaction").modal('hide');
-              }
-            })
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa update passenger </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+            }
        },timeout: 60000
     });
 }
 
 function update_contact(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -585,11 +590,13 @@ function update_contact(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa update search </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa update search </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -637,7 +644,6 @@ function visa_commit_booking(){
         data['voucher_code'] = voucher_code;
     }catch(err){}
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -660,16 +666,18 @@ function visa_commit_booking(){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $("#waitingTransaction").modal('hide');
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa commit booking </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
                 $("#waitingTransaction").modal('hide');
-              }
-            })
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa commit booking </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+            }
        },timeout: 180000
     });
 }
@@ -677,7 +685,6 @@ function visa_commit_booking(){
 function visa_get_data(data){
     price_arr_repricing = {};
     get_balance('false');
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -1114,16 +1121,18 @@ function visa_get_data(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $("#waitingTransaction").modal('hide');
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error visa data </span>' + errorThrown,
-            }).then((result) => {
-              if (result.value) {
+            if(XMLHttpRequest.status == 500){
                 $("#waitingTransaction").modal('hide');
-              }
-            })
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error visa data </span>' + errorThrown,
+                }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+            }
        },timeout: 60000
     });
 }
@@ -1180,7 +1189,6 @@ function update_service_charge(type){
                 });
         }
     }
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -1220,12 +1228,14 @@ function update_service_charge(type){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
-            })
-            $('.loader-rodextrip').fadeOut();
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+                })
+                $('.loader-rodextrip').fadeOut();
+            }
        },timeout: 60000
     });
 

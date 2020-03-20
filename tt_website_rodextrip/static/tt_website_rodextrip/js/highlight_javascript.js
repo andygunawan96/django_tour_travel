@@ -39,7 +39,6 @@ function delete_table_of_highlight(val){
 }
 
 function get_highlight(type){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -65,11 +64,13 @@ function get_highlight(type){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error hotel detail request </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error hotel detail request </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -82,7 +83,6 @@ function save_highlight(){
         }catch(err){}
     }
     console.log(data);
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -102,11 +102,13 @@ function save_highlight(){
             })
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error hotel detail request </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error hotel detail request </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }

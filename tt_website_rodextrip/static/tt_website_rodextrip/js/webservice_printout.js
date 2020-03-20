@@ -15,7 +15,6 @@ function get_printout(order_number,type,provider_type){
         try{
             additional_information = document.getElementById('additional_information').value;
         }catch(err){}
-        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/printout",
@@ -48,11 +47,13 @@ function get_printout(order_number,type,provider_type){
                 printout_state = 0;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error printout </span>' + errorThrown,
-                })
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error printout </span>' + errorThrown,
+                    })
+                }
            },timeout: 60000
         });
     }else{

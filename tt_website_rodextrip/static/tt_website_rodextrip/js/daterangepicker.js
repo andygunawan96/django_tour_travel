@@ -11,7 +11,6 @@ var date_api = {};
 
 function get_public_holiday(start_date, end_date, country_id){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -31,11 +30,13 @@ function get_public_holiday(start_date, end_date, country_id){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error calendar </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error calendar </span>' + errorThrown,
+                })
+            }
        }
     });
 }

@@ -3,7 +3,6 @@ counter_line = 0;
 agent_offside = 0;
 function get_data_issued_offline(){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -44,11 +43,13 @@ function get_data_issued_offline(){
            $('#social_media').niceSelect('update');
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error data issued offline </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error data issued offline </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -389,7 +390,6 @@ function check_issued_offline(){
 }
 function issued_offline_signin(data){
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -411,13 +411,15 @@ function issued_offline_signin(data){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('.payment_acq_btn').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -596,7 +598,6 @@ function set_data_issued_offline(){
     request["desc"] = document.getElementById('description').value;
     request["counter_line"] = counter_line;
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -610,13 +611,15 @@ function set_data_issued_offline(){
                 update_booker();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error set data issued offline  </span>' + errorThrown,
-            })
-            $('.payment_acq_btn').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error set data issued offline  </span>' + errorThrown,
+                })
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+            }
        },timeout: 60000
     });
 }
@@ -712,7 +715,6 @@ function update_booker(){
     else
         request['myRadios'] = false;
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -726,13 +728,15 @@ function update_booker(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('.payment_acq_btn').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error issued offline update booker </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error issued offline update booker </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -778,7 +782,6 @@ function update_passenger(){
     }
     request["counter_passenger"] = counter_passenger;
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -796,13 +799,15 @@ function update_passenger(){
 
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('.payment_acq_btn').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error issued offline update passenger </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error issued offline update passenger </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -816,7 +821,6 @@ function commit_booking(){
     }
 
     getToken();
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -875,19 +879,20 @@ function commit_booking(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('.payment_acq_btn').prop('disabled', false);
-            $('.hold-seat-booking-train').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error issued offline commit booking </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                $('.payment_acq_btn').prop('disabled', false);
+                $('.hold-seat-booking-train').removeClass("running");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error issued offline commit booking </span>' + errorThrown,
+                })
+            }
        },timeout: 180000
     });
 }
 
 function get_booking_offline(data){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -1700,17 +1705,18 @@ function get_booking_offline(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error issued offline get booking </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error issued offline get booking </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
 
 function validate(data){
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -1743,11 +1749,13 @@ function validate(data){
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error history issued offline </span>' + errorThrown,
-            })
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error history issued offline </span>' + errorThrown,
+                })
+            }
        },timeout: 60000
     });
 }
@@ -1773,7 +1781,6 @@ function update_service_charge(){
         });
     }
     console.log(upsell);
-    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -1804,12 +1811,14 @@ function update_service_charge(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
-            })
-            $('.loader-rodextrip').fadeOut();
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+                })
+                $('.loader-rodextrip').fadeOut();
+            }
        },timeout: 60000
     });
 
