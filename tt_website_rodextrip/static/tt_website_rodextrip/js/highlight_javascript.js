@@ -39,7 +39,7 @@ function delete_table_of_highlight(val){
 }
 
 function get_highlight(type){
-    this['$']['Event']['preventDefault'];
+
     $.ajax({
        type: "POST",
        url: "/webservice/account",

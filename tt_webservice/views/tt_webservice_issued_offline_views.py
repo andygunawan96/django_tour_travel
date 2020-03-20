@@ -122,11 +122,15 @@ def set_data_issued_offline(request):
                 if temp_date[4] == 'PM':
                     temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
                     temp_date[3] = temp_date[3].split(' ')[1]
+                if temp_date[4] == 'AM' and temp_date[3].split(':')[0] == '12':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') - timedelta(hours=12))
                 departure = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 temp_date = request.POST['line_arrival' + str(i)].split(' ')
                 if temp_date[4] == 'PM':
                     temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
                     temp_date[3] = temp_date[3].split(' ')[1]
+                if temp_date[4] == 'AM' and temp_date[3].split(':')[0] == '12':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') - timedelta(hours=12))
                 arrival = [temp_date[2]+'-'+month[temp_date[1]]+'-'+temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 if request.POST['type'] == 'airline':
                     origin = request.POST['line_origin'+str(i)].split(' - ')[0]
@@ -171,6 +175,8 @@ def set_data_issued_offline(request):
                 if temp_date[4] == 'PM':
                     temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
                     temp_date[3] = temp_date[3].split(' ')[1]
+                if temp_date[4] == 'AM' and temp_date[3].split(':')[0] == '12':
+                    temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') - timedelta(hours=12))
                 departure = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0], temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
                 line.append({
                     "name": request.POST['line_activity_name' + str(i)],
@@ -189,6 +195,8 @@ def set_data_issued_offline(request):
         if temp_date[4] == 'PM':
             temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') + timedelta(hours=12))
             temp_date[3] = temp_date[3].split(' ')[1]
+        if temp_date[4] == 'AM' and temp_date[3].split(':')[0] == '12':
+            temp_date[3] = str(datetime.strptime(temp_date[3], '%H:%M:%S') - timedelta(hours=12))
         exp_date = [temp_date[2] + '-' + month[temp_date[1]] + '-' + temp_date[0],temp_date[3].split(':')[0] + ':' + temp_date[3].split(':')[1]]
 
         data_issued_offline = {
