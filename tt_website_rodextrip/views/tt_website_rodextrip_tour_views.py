@@ -345,6 +345,7 @@ def passenger(request):
                 'room_list': request.session['tour_room_mapping']['render_pax_per_room'],
                 'room_amount': request.session['tour_room_mapping']['room_amount'],
                 'time_limit': request.session['time_limit'],
+                'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'signature': request.session['tour_signature'],
             })
