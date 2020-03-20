@@ -1912,8 +1912,7 @@ function sort(){
                         airline[i] = airline[j];
                         airline[j] = temp;
                     }
-                }
-                if(sorting == 'Lowest Price'){
+                }else if(sorting == 'Lowest Price'){
                     if(airline[i].total_price > airline[j].total_price){
                         var temp = airline[i];
                         airline[i] = airline[j];
@@ -1950,7 +1949,11 @@ function sort(){
                         airline[j] = temp;
                     }
                 }
-
+                if(parseInt(airline[i].available_count) == 0){
+                    var temp = airline[i];
+                    airline[i] = airline[j];
+                    airline[j] = temp;
+                }
             }
         }
         airline_data_filter = airline;

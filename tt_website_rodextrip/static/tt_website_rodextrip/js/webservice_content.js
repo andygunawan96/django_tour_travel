@@ -2,6 +2,7 @@ function update_banner(){
     var formData = new FormData($('#form_admin').get(0));
     formData.append('signature', signature)
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -89,6 +90,7 @@ function set_inactive_delete_banner(){
 
     console.log(img);
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -117,6 +119,7 @@ function set_inactive_delete_banner(){
 
 
 function get_banner(type,page){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -576,6 +579,7 @@ function handleFileSelect_promotionbanner(e) {
 }
 
 function get_page(data){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -608,6 +612,7 @@ function get_page(data){
 
 function get_dynamic_page(type){
     console.log(type);
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -772,6 +777,7 @@ function update_dynamic_page(){
         formData.append('page_number', parseInt(page_number));
         formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
         getToken();
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/content",
