@@ -1,7 +1,7 @@
 discount_voucher = {};
 voucher_code = '';
 function get_voucher(){
-    this['$']['Event']['preventDefault'];
+
     $.ajax({
        type: "POST",
        url: "/webservice/voucher",
@@ -25,7 +25,7 @@ function get_voucher(){
 }
 
 function set_voucher(type){
-    this['$']['Event']['preventDefault'];
+
     $.ajax({
        type: "POST",
        url: "/webservice/voucher",
@@ -88,7 +88,7 @@ function check_voucher(){
         }
         voucher_reference = document.getElementById('voucher_code').value; //lalala.testing
 //        voucher_reference = "TEST001";
-        this['$']['Event']['preventDefault'];
+
         $.ajax({
            type: "POST",
            url: "/webservice/voucher",

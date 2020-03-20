@@ -11,7 +11,7 @@ var date_api = {};
 
 function get_public_holiday(start_date, end_date, country_id){
     getToken();
-    this['$']['Event']['preventDefault'];
+
     $.ajax({
        type: "POST",
        url: "/webservice/content",

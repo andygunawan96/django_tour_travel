@@ -2,7 +2,7 @@ counter_passenger = 0;
 counter_regis_doc = 0;
 function submit_agent_registration(){
     getToken();
-    this['$']['Event']['preventDefault'];
+
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
