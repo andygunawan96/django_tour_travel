@@ -24,7 +24,7 @@ function signin_rodextrip(type){
             Swal.fire({
               type: 'error',
               title: 'Oops!',
-              html: '<span style="color: red;">Error issued offline signin </span>' + errorThrown,
+              html: '<span style="color: red;">Error get signature </span>' + errorThrown,
             })
        },timeout: 60000
     });

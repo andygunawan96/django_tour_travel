@@ -348,6 +348,8 @@ def get_public_holiday(request):
 def get_dynamic_page(request):
     try:
         response = []
+        if not os.path.exists("/var/log/django/page_dynamic"):
+            os.mkdir('/var/log/django/page_dynamic')
         for data in os.listdir('/var/log/django/page_dynamic'):
             file = open('/var/log/django/page_dynamic/' + data, "r")
             state = ''
