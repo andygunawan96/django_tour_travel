@@ -2,7 +2,7 @@ discount_voucher = {};
 voucher_code = '';
 CustomEvent_for_PreventDefault = new CustomEvent("close", { "cancelable": true });
 function get_voucher(){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/voucher",
@@ -26,7 +26,7 @@ function get_voucher(){
 }
 
 function set_voucher(type){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/voucher",
@@ -89,7 +89,7 @@ function check_voucher(){
         }
         voucher_reference = document.getElementById('voucher_code').value; //lalala.testing
 //        voucher_reference = "TEST001";
-        CustomEvent_for_PreventDefault.isDefaultPrevented();
+        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/voucher",

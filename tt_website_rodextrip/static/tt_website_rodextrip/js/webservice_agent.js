@@ -12,7 +12,7 @@ function signin(){
             $('.button-login').prop('disabled', true);
 
             getToken();
-            CustomEvent_for_PreventDefault.isDefaultPrevented();
+//            // CustomEvent_for_PreventDefault.isDefaultPrevented();
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -97,7 +97,7 @@ function signin(){
             $('.button-login').prop('disabled', true);
 
             getToken();
-            CustomEvent_for_PreventDefault.isDefaultPrevented();
+            // CustomEvent_for_PreventDefault.isDefaultPrevented();
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -186,7 +186,7 @@ function reset_password(){
     }
     console.log(username)
     if(username != ''){
-        CustomEvent_for_PreventDefault.isDefaultPrevented();
+        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -227,7 +227,7 @@ function reset_password(){
 
 function get_path_url_server(){ //DEPRECATED
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -381,7 +381,7 @@ function create_new_passenger(){
            var formData = new FormData($('#form_identity_passenger').get(0));
            formData.append('signature', signature)
            getToken();
-           CustomEvent_for_PreventDefault.isDefaultPrevented();
+           // CustomEvent_for_PreventDefault.isDefaultPrevented();
            $.ajax({
                type: "POST",
                url: "/webservice/content",
@@ -395,7 +395,7 @@ function create_new_passenger(){
                         img_list = [];
                         for(i in msg.result.response)
                             img_list.push([msg.result.response[i][0], 4, msg.result.response[i][2]])
-                        CustomEvent_for_PreventDefault.isDefaultPrevented();
+                        // CustomEvent_for_PreventDefault.isDefaultPrevented();
                         $.ajax({
                            type: "POST",
                            url: "/webservice/agent",
@@ -590,7 +590,7 @@ function get_customer_list(passenger, number, product){
 
         }
         if(name.length >= 2){
-            CustomEvent_for_PreventDefault.isDefaultPrevented();
+            // CustomEvent_for_PreventDefault.isDefaultPrevented();
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -763,7 +763,7 @@ function get_customer_list(passenger, number, product){
                 passenger = 'adult';
                 check = 1;
             }
-            CustomEvent_for_PreventDefault.isDefaultPrevented();
+            // CustomEvent_for_PreventDefault.isDefaultPrevented();
             $.ajax({
                type: "POST",
                url: "/webservice/agent",
@@ -2131,7 +2131,7 @@ function check_regex(value,regex){
 function get_top_up_history(){
     load_more = false;
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2200,7 +2200,7 @@ function get_top_up_history(){
 
 function create_top_up(amount, unique_amount){ //DEPRECATED
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2307,7 +2307,7 @@ function top_up_payment(){
         }
     }
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2347,7 +2347,7 @@ function top_up_payment(){
 
 function get_merchant_info(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2372,7 +2372,7 @@ function get_merchant_info(){
 
 function request_va(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2397,7 +2397,7 @@ function request_va(){
 
 function request_inv_va(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2422,7 +2422,7 @@ function request_inv_va(){
 
 function get_voucher(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2458,7 +2458,7 @@ function change_language(val){
 //plugin passenger
 
 function add_passenger_cache(sequence){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2491,7 +2491,7 @@ function add_passenger_cache(sequence){
 }
 
 function del_passenger_cache(sequence){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -2560,7 +2560,7 @@ function del_passenger_cache(sequence){
 }
 
 function get_passenger_cache(){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -3053,7 +3053,7 @@ function add_phone_passenger_cache(){
 }
 
 function get_countries(){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/content",
@@ -3076,7 +3076,7 @@ function get_countries(){
 }
 
 function update_customer_cache_list(val){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",
@@ -3588,7 +3588,7 @@ function update_passenger_backend(){
         formData.append('signature', signature)
         console.log(formData);
         getToken();
-        CustomEvent_for_PreventDefault.isDefaultPrevented();
+        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/content",
@@ -3663,7 +3663,7 @@ function update_passenger_backend(){
                         'seq_id': passenger_data_cache[passenger_cache_pick].seq_id
                     }
                     console.log(JSON.stringify(update_passenger_dict));
-                    CustomEvent_for_PreventDefault.isDefaultPrevented();
+                    // CustomEvent_for_PreventDefault.isDefaultPrevented();
                     $.ajax({
                        type: "POST",
                        url: "/webservice/agent",
@@ -3721,7 +3721,7 @@ function update_passenger_backend(){
 
 function update_cache_version_func(){
     document.getElementById('update_cache_version').disabled = true;
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/agent",

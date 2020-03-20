@@ -1,5 +1,5 @@
 function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/payment",
@@ -86,6 +86,28 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
               type: 'error',
               title: 'Oops!',
               html: '<span style="color: red;">Error payment acq </span>' + errorThrown,
+            })
+       },timeout: 60000
+    });
+}
+//testing webhook
+function payment(){
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/payment",
+       headers:{
+            'action': 'payment',
+       },
+       data: {},
+       success: function(msg) {
+            console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error payment </span>' + errorThrown,
             })
        },timeout: 60000
     });
