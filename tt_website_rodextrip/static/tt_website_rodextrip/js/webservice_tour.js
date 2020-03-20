@@ -7,7 +7,7 @@ step_slider = 0;
 function tour_login(data){
     //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -50,7 +50,7 @@ function tour_login(data){
 }
 
 function get_tour_auto_complete(type){
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -76,7 +76,7 @@ function get_tour_auto_complete(type){
 
 function get_tour_config(type, val){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -174,7 +174,7 @@ function tour_search(){
     }
     get_new = false;
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -597,7 +597,7 @@ function tour_search(){
 
 function tour_get_details(tour_code, tour_provider){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -875,7 +875,7 @@ function tour_get_details(tour_code, tour_provider){
 
 function update_sell_tour(val){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -924,7 +924,7 @@ function update_sell_tour(val){
 
 function update_contact_tour(val){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -984,7 +984,7 @@ function update_passengers_tour(val){
         room_choice_dict[temp_pax_id] = temp_dict;
     }
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1074,7 +1074,7 @@ function commit_booking_tour(val)
     }catch(err){
     }
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1129,7 +1129,7 @@ function commit_booking_tour(val)
 function get_payment_rules(tour_code)
 {
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1192,7 +1192,7 @@ function tour_issued_booking(order_number)
         }
     }
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1341,7 +1341,7 @@ function update_service_charge(type){
                 });
         }
     }
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1391,7 +1391,7 @@ function tour_get_booking(order_number)
 {
     price_arr_repricing = {};
     get_balance('false');
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1910,7 +1910,7 @@ function tour_get_booking(order_number)
 }
 
 function get_price_itinerary(request,type) {
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -2224,7 +2224,7 @@ function table_price_update(msg,type){
 }
 
 function get_price_itinerary_cache(type) {
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -2258,7 +2258,7 @@ function tour_search_autocomplete(term,suggest){
 
     getToken();
     tourAutoCompleteVar = setTimeout(function() {
-
+        CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/tour",

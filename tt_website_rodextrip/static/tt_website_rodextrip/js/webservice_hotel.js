@@ -22,7 +22,7 @@ step_slider = 0;
 
 function get_hotel_config(){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -53,7 +53,7 @@ function get_auto_complete(term,suggest){
 
     getToken();
     hotelAutoCompleteVar = setTimeout(function() {
-
+        CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/hotel",
@@ -82,7 +82,7 @@ function get_auto_complete(term,suggest){
 
 function hotel_signin(data){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -134,7 +134,7 @@ function hotel_search(){
        if(i != parseInt($('#hotel_child').val())-1)
            child_age+=',';
     }
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -239,7 +239,7 @@ function hotel_search(){
 
 function get_top_facility(){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -296,7 +296,7 @@ function get_top_facility(){
 //Versi 1 dimana ambil icon facility dari backend
 function hotel_facility_request_1(hotel_facilities){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
         type: "POST",
         url: "/webservice/hotel",
@@ -396,7 +396,7 @@ function hotel_detail_request(checkin_date, checkout_date){
     // date_hotel
     document.getElementById('date_hotel').innerHTML = 'Date: ' + checkin_date + ' - ' + checkout_date;
     myVar = setTimeout(function() {
-
+        CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/hotel",
@@ -567,7 +567,7 @@ function hotel_detail_request(checkin_date, checkout_date){
 
 function hotel_get_cancellation_policy(price_code, provider, view_type){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -664,7 +664,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
 
 function hotel_provision(price_code, provider){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -895,7 +895,7 @@ function force_issued_hotel(){
 
 function hotel_issued_booking(){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -967,7 +967,7 @@ function hotel_issued_booking(){
 function hotel_get_booking(data){
     price_arr_repricing = {};
     get_balance('false');
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -1601,7 +1601,7 @@ function update_service_charge(type){
                 });
         }
     }
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",

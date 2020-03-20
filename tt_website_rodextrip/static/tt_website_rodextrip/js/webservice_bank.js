@@ -1,5 +1,5 @@
 function bank_get_balance(){
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/bank",
@@ -31,7 +31,7 @@ function bank_get_balance(){
 }
 
 function get_transaction(){
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/bank",
