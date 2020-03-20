@@ -393,6 +393,8 @@ def get_dynamic_page(request):
 
 def get_dynamic_page_detail(request):
     try:
+        if not os.path.exists("/var/log/django/page_dynamic"):
+            os.mkdir('/var/log/django/page_dynamic')
         file = open('/var/log/django/page_dynamic/' + request.POST['data'] + '.txt', "r")
         state = ''
         title = ''
