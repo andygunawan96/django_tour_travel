@@ -2,7 +2,7 @@ counter_passenger = 0;
 counter_regis_doc = 0;
 function submit_agent_registration(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -83,7 +83,7 @@ function toggle_benefit_fa(partner_idx, accor_idx)
 
 function agent_register_get_config(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -232,7 +232,7 @@ function onchange_agent_type(){
 
 function get_promotions(){
     data = '';
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",
@@ -340,7 +340,7 @@ function change_promotion(){
 
 function agent_register_get_requirement_list_doc(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/registration",

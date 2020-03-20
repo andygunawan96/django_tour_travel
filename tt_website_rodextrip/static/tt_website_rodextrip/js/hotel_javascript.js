@@ -473,7 +473,6 @@ function sort(response, check_filter){
             }
         }
 
-        // console.log('Lowest Price');
         for(var i = 0; i < response.hotel_ids.length-1; i++) {
             for(var j = i+1; j <= response.hotel_ids.length-1; j++) {
                 if(sorting == 'Lowest Price'){
@@ -595,7 +594,6 @@ function sort(response, check_filter){
                 }
             }
         }
-        //console.log('Done');
         document.getElementById("hotel_result_city").innerHTML = '';
         text = '';
         var node = document.createElement("div");
@@ -768,7 +766,7 @@ function sort(response, check_filter){
                             <div class="col-lg-7 col-md-7" style="padding-top:5px;">`;
                             detail = JSON.stringify(response.hotel_ids[i]);
                             detail = detail.replace(/'/g, "");
-                            text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+detail+`'/>`;
+                            text+=`<input type="hidden" id="hotel_detail`+i+`" name="hotel_detail" value='`+detail+`'/>`;
                             text+=`
                             <div style="padding-bottom:5px;">
                                 <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;

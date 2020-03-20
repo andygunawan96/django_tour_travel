@@ -86,7 +86,7 @@ function get_city(){
 
 function airline_signin(data){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -160,7 +160,7 @@ function airline_signin(data){
 
 function get_carrier_code_list(type, val){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -335,7 +335,7 @@ function get_carrier_code_list(type, val){
 
 function get_carrier_providers(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -376,7 +376,7 @@ function get_carrier_providers(){
 }
 
 function get_carriers(){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -397,7 +397,7 @@ function get_carriers(){
 }
 
 function get_provider_list(){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -568,7 +568,7 @@ function send_search_to_api(val){
 
 function get_airline_config(type, val){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -601,7 +601,7 @@ function airline_search(provider,carrier_codes){
     document.getElementById("airlines_ticket").innerHTML = '';
     getToken();
     count_progress_bar_airline++;
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1258,7 +1258,7 @@ function get_price_itinerary_request(){
     }
 
     document.getElementById("airlines_ticket").innerHTML = '';
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1869,7 +1869,7 @@ function get_price_itinerary_request(){
 
 function get_fare_rules(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1964,7 +1964,7 @@ function get_fare_rules(){
 function airline_sell_journeys(){
     $('.loader-rodextrip').fadeIn();
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2019,7 +2019,7 @@ function airline_sell_journeys(){
 //get seat map
 function get_seat_availability(type){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2057,7 +2057,7 @@ function get_seat_availability(type){
 }
 
 function get_seat_map_response(){
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2314,7 +2314,7 @@ function update_seat_passenger(segment, departure_date, row, column,seat_code,se
 //SSR
 function get_ssr_availabilty(type){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2351,7 +2351,7 @@ function get_ssr_availabilty(type){
 
 function airline_update_passenger(val){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2410,7 +2410,7 @@ function airline_update_passenger(val){
 
 function airline_update_contact_booker(val){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2470,7 +2470,7 @@ function airline_update_contact_booker(val){
 
 function airline_set_ssr(val){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2557,7 +2557,7 @@ function airline_set_ssr(val){
 
 function airline_assign_seats(val){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2671,7 +2671,7 @@ function airline_commit_booking(val){
         data['member'] = payment_acq2[payment_method][selected].method;
         data['voucher_code'] =  voucher_code;
     }catch(err){}
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2817,7 +2817,7 @@ function airline_force_commit_booking(val){
         data['bypass_psg_validator'] = true;
         data['voucher_code'] =  voucher_code;
     }catch(err){}
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2974,7 +2974,7 @@ function airline_hold_booking(val){
 function airline_get_booking(data){
     price_arr_repricing = {};
     get_balance('false');
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -3761,7 +3761,7 @@ function cancel_btn(){
         show_loading();
         please_wait_transaction();
         getToken();
-        CustomEvent_for_PreventDefault.isDefaultPrevented();
+        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -3854,7 +3854,7 @@ function airline_issued(data){
         show_loading();
         please_wait_transaction();
         getToken();
-        CustomEvent_for_PreventDefault.isDefaultPrevented();
+        // CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -4244,7 +4244,7 @@ function update_service_charge(type){
                 });
         }
     }
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -4332,7 +4332,7 @@ function sell_after_sales(){
 
 function sell_ssrs_after_sales(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -4375,7 +4375,7 @@ function sell_ssrs_after_sales(){
 
 function assign_seats_after_sales(){
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -4544,7 +4544,7 @@ function airline_reissued(){
 
     document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="airline_get_booking('`+airline_get_detail.result.response.order_number+`')" value="Cancel Reissued">`;
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -5228,7 +5228,7 @@ function sell_journey_reissue_construct(){
         if (result.value) {
             if (result.value == true){
                 document.getElementById('next_reissue').disabled = true;
-                CustomEvent_for_PreventDefault.isDefaultPrevented();
+                // CustomEvent_for_PreventDefault.isDefaultPrevented();
                 $.ajax({
                    type: "POST",
                    url: "/webservice/airline",
@@ -5248,7 +5248,7 @@ function sell_journey_reissue_construct(){
                    success: function(msg) {
                        console.log(msg);
                        if(msg == true){
-                            CustomEvent_for_PreventDefault.isDefaultPrevented();
+                            // CustomEvent_for_PreventDefault.isDefaultPrevented();
                             $.ajax({
                                type: "POST",
                                url: "/webservice/airline",
@@ -5319,7 +5319,7 @@ function reissue_airline_commit_booking(val){
     }catch(err){
     }
     getToken();
-    CustomEvent_for_PreventDefault.isDefaultPrevented();
+    // CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
