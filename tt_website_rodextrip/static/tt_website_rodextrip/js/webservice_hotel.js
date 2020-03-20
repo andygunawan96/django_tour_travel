@@ -22,6 +22,7 @@ step_slider = 0;
 
 function get_hotel_config(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -52,6 +53,7 @@ function get_auto_complete(term,suggest){
 
     getToken();
     hotelAutoCompleteVar = setTimeout(function() {
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/hotel",
@@ -80,6 +82,7 @@ function get_auto_complete(term,suggest){
 
 function hotel_signin(data){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -131,6 +134,7 @@ function hotel_search(){
        if(i != parseInt($('#hotel_child').val())-1)
            child_age+=',';
     }
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -235,6 +239,7 @@ function hotel_search(){
 
 function get_top_facility(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -291,6 +296,7 @@ function get_top_facility(){
 //Versi 1 dimana ambil icon facility dari backend
 function hotel_facility_request_1(hotel_facilities){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
         type: "POST",
         url: "/webservice/hotel",
@@ -390,6 +396,7 @@ function hotel_detail_request(checkin_date, checkout_date){
     // date_hotel
     document.getElementById('date_hotel').innerHTML = 'Date: ' + checkin_date + ' - ' + checkout_date;
     myVar = setTimeout(function() {
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/hotel",
@@ -560,6 +567,7 @@ function hotel_detail_request(checkin_date, checkout_date){
 
 function hotel_get_cancellation_policy(price_code, provider, view_type){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -656,6 +664,7 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
 
 function hotel_provision(price_code, provider){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -886,6 +895,7 @@ function force_issued_hotel(){
 
 function hotel_issued_booking(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -957,6 +967,7 @@ function hotel_issued_booking(){
 function hotel_get_booking(data){
     price_arr_repricing = {};
     get_balance('false');
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
@@ -1590,6 +1601,7 @@ function update_service_charge(type){
                 });
         }
     }
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",

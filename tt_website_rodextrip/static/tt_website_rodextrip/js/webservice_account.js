@@ -2,6 +2,7 @@ offset_transaction = 0;
 
 
 function signin_rodextrip(type){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -35,6 +36,7 @@ function get_balance(val){
     if(val != undefined)
         using_cache = val;
     if(typeof signature !== 'undefined'){
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -134,6 +136,7 @@ function get_balance(val){
 function get_account(){
     limit_transaction = 20;
     if(typeof variable !== 'undefined'){
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -175,6 +178,7 @@ function get_transactions_notification(val){
     if(signature != ''){
         if(val != undefined)
             using_cache = val;
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -429,6 +433,7 @@ function get_transactions(type){
     }else if(filter == 'state' && state == '')
         filter = '';
     limit_transaction = 20;
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -583,6 +588,7 @@ function get_transactions(type){
 }
 
 function get_top_up_quota(){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -659,6 +665,7 @@ function check_top_up_quota(){
 }
 
 function buy_quota_btbo2(){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -728,6 +735,7 @@ function change_top_up(){
 function submit_top_up(){
     currency_code = 'IDR';
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -788,6 +796,7 @@ function submit_top_up(){
 function commit_top_up(){
     document.getElementById('submit_top_up').disabled = true;
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -841,6 +850,7 @@ function cancel_top_up(name){
       if (result.value) {
         $('.loader-rodextrip').fadeIn();
         getToken();
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/account",
@@ -910,6 +920,7 @@ function get_top_up(){
         name = document.getElementById('name').value;
     }catch(err){}
     $('#loading-search-top-up').show();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -1022,7 +1033,8 @@ function confirm_top_up(name){
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes'
     }).then((result) => {
-      if (result.value)
+      if (result.value){
+            this['$']['Event']['preventDefault'];
             $.ajax({
                type: "POST",
                url: "/webservice/account",
@@ -1047,6 +1059,7 @@ function confirm_top_up(name){
                     })
                },timeout: 60000
             });
+        }
     })
 }
 
@@ -1054,6 +1067,7 @@ function request_top_up(val){
     console.log(val);
     console.log(top_up_history);
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/account",

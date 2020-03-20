@@ -1,4 +1,5 @@
 function bank_get_balance(){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/bank",
@@ -30,6 +31,7 @@ function bank_get_balance(){
 }
 
 function get_transaction(){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/bank",

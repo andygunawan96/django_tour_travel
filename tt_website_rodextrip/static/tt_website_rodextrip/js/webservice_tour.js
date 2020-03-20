@@ -7,6 +7,7 @@ step_slider = 0;
 function tour_login(data){
     //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -49,6 +50,7 @@ function tour_login(data){
 }
 
 function get_tour_auto_complete(type){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -74,6 +76,7 @@ function get_tour_auto_complete(type){
 
 function get_tour_config(type, val){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -171,6 +174,7 @@ function tour_search(){
     }
     get_new = false;
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -593,6 +597,7 @@ function tour_search(){
 
 function tour_get_details(tour_code, tour_provider){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -870,6 +875,7 @@ function tour_get_details(tour_code, tour_provider){
 
 function update_sell_tour(val){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -918,6 +924,7 @@ function update_sell_tour(val){
 
 function update_contact_tour(val){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -977,6 +984,7 @@ function update_passengers_tour(val){
         room_choice_dict[temp_pax_id] = temp_dict;
     }
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1066,6 +1074,7 @@ function commit_booking_tour(val)
     }catch(err){
     }
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1120,6 +1129,7 @@ function commit_booking_tour(val)
 function get_payment_rules(tour_code)
 {
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1182,6 +1192,7 @@ function tour_issued_booking(order_number)
         }
     }
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1330,6 +1341,7 @@ function update_service_charge(type){
                 });
         }
     }
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1379,6 +1391,7 @@ function tour_get_booking(order_number)
 {
     price_arr_repricing = {};
     get_balance('false');
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -1897,6 +1910,7 @@ function tour_get_booking(order_number)
 }
 
 function get_price_itinerary(request,type) {
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -2210,6 +2224,7 @@ function table_price_update(msg,type){
 }
 
 function get_price_itinerary_cache(type) {
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -2243,6 +2258,7 @@ function tour_search_autocomplete(term,suggest){
 
     getToken();
     tourAutoCompleteVar = setTimeout(function() {
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/tour",

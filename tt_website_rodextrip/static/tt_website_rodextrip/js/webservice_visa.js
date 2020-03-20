@@ -3,6 +3,7 @@ provider_search = 0;
 
 function get_visa_config(type){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -70,6 +71,7 @@ function get_visa_config(type){
 
 function visa_signin(data){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -111,6 +113,7 @@ function visa_signin(data){
 }
 
 function visa_get_config_provider(){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -154,6 +157,7 @@ function visa_get_config_provider(){
 
 function search_visa(){
     counter_visa = 0;
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -302,6 +306,7 @@ function search_visa(){
 }
 
 function get_availability(){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -347,6 +352,7 @@ function get_availability(){
 
 function sell_visa(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -512,6 +518,7 @@ function update_passenger(){
             }
         }
     }
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -549,6 +556,7 @@ function update_passenger(){
 
 function update_contact(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -630,6 +638,7 @@ function visa_commit_booking(){
     }catch(err){
     }
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -669,6 +678,7 @@ function visa_commit_booking(){
 function visa_get_data(data){
     price_arr_repricing = {};
     get_balance('false');
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",
@@ -1171,6 +1181,7 @@ function update_service_charge(type){
                 });
         }
     }
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/visa",

@@ -43,6 +43,7 @@ function can_book(departure, arrival){
 
 function train_signin(data){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -89,6 +90,7 @@ function train_signin(data){
 
 function get_train_config(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -112,6 +114,7 @@ function get_train_config(){
 }
 
 function train_get_config_provider(){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -158,6 +161,7 @@ function train_get_config_provider(){
 function train_search(provider){
     document.getElementById('train_ticket').innerHTML = ``;
     document.getElementById('train_detail').innerHTML = ``;
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -336,6 +340,7 @@ function train_create_booking(val){
         data['member'] = payment_acq2[payment_method][selected].method;
     }catch(err){
     }
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -393,6 +398,7 @@ function train_create_booking(val){
 function train_get_booking(data){
     price_arr_repricing = {};
     get_balance('false');
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1074,6 +1080,7 @@ function train_issued(data){
       if (result.value) {
         show_loading();
         please_wait_transaction();
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/train",
@@ -1193,6 +1200,7 @@ function train_issued(data){
 
 function train_get_seat_map(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1238,6 +1246,7 @@ function train_cancel_booking(){
       if (result.value) {
         please_wait_transaction();
         getToken();
+        this['$']['Event']['preventDefault'];
         $.ajax({
            type: "POST",
            url: "/webservice/train",
@@ -1316,6 +1325,7 @@ function train_manual_seat(){
     $('.submit-seat-train').addClass("running");
     $('.change-seat-train-buttons').prop('disabled', true);
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",
@@ -1435,7 +1445,7 @@ function update_service_charge(type){
                 });
         }
     }
-
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/train",

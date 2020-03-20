@@ -3,6 +3,7 @@ counter_line = 0;
 agent_offside = 0;
 function get_data_issued_offline(){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -388,6 +389,7 @@ function check_issued_offline(){
 }
 function issued_offline_signin(data){
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -594,6 +596,7 @@ function set_data_issued_offline(){
     request["desc"] = document.getElementById('description').value;
     request["counter_line"] = counter_line;
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -709,6 +712,7 @@ function update_booker(){
     else
         request['myRadios'] = false;
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -774,6 +778,7 @@ function update_passenger(){
     }
     request["counter_passenger"] = counter_passenger;
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -811,6 +816,7 @@ function commit_booking(){
     }
 
     getToken();
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -881,6 +887,7 @@ function commit_booking(){
 }
 
 function get_booking_offline(data){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -1703,6 +1710,7 @@ function get_booking_offline(data){
 }
 
 function validate(data){
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
@@ -1765,6 +1773,7 @@ function update_service_charge(){
         });
     }
     console.log(upsell);
+    this['$']['Event']['preventDefault'];
     $.ajax({
        type: "POST",
        url: "/webservice/issued_offline",
