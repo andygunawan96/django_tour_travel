@@ -10,7 +10,7 @@ pricing_days = 1;
 high_price_slider = 0;
 low_price_slider = 99999999;
 step_slider = 0;
-
+CustomEvent_for_PreventDefault = new CustomEvent("close", { "cancelable": true });
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -41,7 +41,7 @@ var month = {
 function activity_login(data){
     getToken();
     //document.getElementById('activity_category').value.split(' - ')[1]
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -84,7 +84,7 @@ function activity_login(data){
 
 function get_activity_config(type, val){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -276,7 +276,7 @@ function activity_search(){
     get_new = false;
     getToken();
     //document.getElementById('activity_category').value.split(' - ')[1]
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -517,7 +517,7 @@ function activity_search(){
 function activity_get_detail(uuid){
     getToken();
     //document.getElementById('activity_category').value.split(' - ')[1]
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -705,7 +705,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
     startingDate = document.getElementById('activity_date').value;
     document.getElementById("activity_date").disabled = true;
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1013,7 +1013,7 @@ function activity_get_price_date(activity_type_pick, pricing_days){
 
 function update_sell_activity(){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1061,7 +1061,7 @@ function update_sell_activity(){
 
 function update_contact_activity(){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1109,7 +1109,7 @@ function update_contact_activity(){
 
 function update_passengers_activity(){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1157,7 +1157,7 @@ function update_passengers_activity(){
 
 function update_options_activity(){
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1251,7 +1251,7 @@ function activity_commit_booking(val){
     }catch(err){
     }
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1305,7 +1305,7 @@ function activity_commit_booking(val){
 function activity_issued_booking(order_number)
 {
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1471,7 +1471,7 @@ function update_service_charge(type){
         }
 
     }
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -1520,7 +1520,7 @@ function update_service_charge(type){
 function activity_get_booking(data){
     price_arr_repricing = {};
     get_balance('false');
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -2193,7 +2193,7 @@ function activity_get_voucher(order_number){
     $('.next-loading-ticket').addClass("running");
     $('.next-loading-ticket').prop('disabled', true);
     getToken();
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/activity",
@@ -2237,7 +2237,7 @@ function activity_search_autocomplete(term,suggest){
 
     getToken();
     activityAutoCompleteVar = setTimeout(function() {
-
+        CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/activity",

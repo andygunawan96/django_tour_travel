@@ -15,7 +15,7 @@ function get_printout(order_number,type,provider_type){
         try{
             additional_information = document.getElementById('additional_information').value;
         }catch(err){}
-
+        CustomEvent_for_PreventDefault.isDefaultPrevented();
         $.ajax({
            type: "POST",
            url: "/webservice/printout",

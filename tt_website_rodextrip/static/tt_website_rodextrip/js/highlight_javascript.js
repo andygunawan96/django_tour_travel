@@ -39,7 +39,7 @@ function delete_table_of_highlight(val){
 }
 
 function get_highlight(type){
-
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/account",
@@ -82,7 +82,7 @@ function save_highlight(){
         }catch(err){}
     }
     console.log(data);
-    this['$']['Event']['preventDefault'];
+    CustomEvent_for_PreventDefault.isDefaultPrevented();
     $.ajax({
        type: "POST",
        url: "/webservice/account",
