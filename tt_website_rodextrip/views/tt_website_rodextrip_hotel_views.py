@@ -41,6 +41,7 @@ def search(request):
                 request.session['hotel_request'] = {
                     'destination': request.POST['hotel_id_destination'],
                     'guest_nationality': request.POST['hotel_id_nationality'],
+                    'nationality': request.POST['hotel_id_nationality'].split(' - ')[0],
                     'business_trip': request.POST.get('business_trip'), #Checkbox klo disi baru di POST
                     'checkin_date': request.POST['hotel_checkin_checkout'].split(' - ')[0],
                     'checkout_date': request.POST['hotel_checkin_checkout'].split(' - ')[1],

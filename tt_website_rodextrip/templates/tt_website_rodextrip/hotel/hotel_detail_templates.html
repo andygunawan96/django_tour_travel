@@ -77,10 +77,16 @@
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                <div class="input-container-search-ticket">
-                                    <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
-                                    <datalist id="hotel_country_nationality"/>
-                                </div>
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                {% for country in countries %}
+                                    {% if country.code == hotel_search.nationality %}
+                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                    {% else %}
+                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                                <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                             </div>
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
@@ -223,12 +229,18 @@
                                     </div>
                                 </div>
 
-                                <div class="col-lg-6 col-md-6">
-                                    <span style="color:{{text_color}};"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                    <div class="input-container-search-ticket">
-                                        <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
-                                        <datalist id="hotel_country_nationality"/>
-                                    </div>
+                                <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                    <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
+                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                    {% for country in countries %}
+                                        {% if country.code == hotel_search.nationality %}
+                                        <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                        {% else %}
+                                        <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </select>
+                                    <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
@@ -373,12 +385,18 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-6">
+                            <div class="col-lg-6 col-md-6" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                <div class="form-group">
-                                    <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
-                                    <datalist id="hotel_country_nationality"/>
-                                </div>
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                {% for country in countries %}
+                                    {% if country.code == hotel_search.nationality %}
+                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                    {% else %}
+                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                                <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                             </div>
 
                             <div class="col-lg-6 col-md-6">
@@ -523,13 +541,18 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket">Guest Nationality</span>
-                            <div class="input-container-search-ticket">
-                                <i class="fas fa-globe-asia" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
-                                <datalist id="hotel_country_nationality"/>
-                            </div>
+                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
+                            <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                            {% for country in countries %}
+                                {% if country.code == hotel_search.nationality %}
+                                <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                {% else %}
+                                <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                {% endif %}
+                            {% endfor %}
+                            </select>
+                            <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                         </div>
 
                         <div class="col-lg-6 col-md-6">
@@ -675,12 +698,18 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6 col-md-6">
+                            <div class="col-lg-6 col-md-6" style="padding:0px;">
                                 <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                <div class="input-container-search-ticket">
-                                    <input list="hotel_country_nationality" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" value="{{hotel_search.guest_nationality}}" onkeyup="search_hotel('nationality');" placeholder="Guest Nationality " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Guest Nationality '" autocomplete="off"/>
-                                    <datalist id="hotel_country_nationality"/>
-                                </div>
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                {% for country in countries %}
+                                    {% if country.code == hotel_search.nationality %}
+                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
+                                    {% else %}
+                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
+                                    {% endif %}
+                                {% endfor %}
+                                </select>
+                                <input type="hidden" value="{{hotel_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
                             </div>
 
                             <div class="col-lg-6 col-md-6">
