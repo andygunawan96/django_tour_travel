@@ -51,24 +51,24 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
+                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                         {% if username.co_user_login != ''%}
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
+                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
-                        <li class="menu-has-children pt5"><a href="#">Top Up</a>
+                        <li class="menu-has-children pt5"><a href="#">{% trans 'Top Up' %}</a>
                             <ul>
-                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
                                 {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
                             </ul>
                         </li>
                         {% endif%}
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
+                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                         {% endif %}
-                        <li class="menu-has-children pt5"><a href="#">Highlight</a>
-                            <ul id="highlight_header_div" style="text-align:center;">
+                        <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
+                            <ul id="highlight_header_div">
                             </ul>
                         </li>
                         {% if username.co_user_login != '' %}
@@ -81,7 +81,7 @@
                             <ul>
                                 <li class="menu-has-children pt5"><a href="#">{% trans 'Language' %}</a>
                                     <ul>
-                                        <form action="{% url 'set_language' %}" method="post" id="form_language" style="padding: 15px 0px 0px 5px;">
+                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
                                             {% csrf_token %}
                                             <input name="next" type="hidden" value="" >
                                             <input type="hidden" id="selection_language" name="language"/>
@@ -100,15 +100,14 @@
                                 <!--                                        <li><a href="#">USD</a></li>-->
                                 <!--                                    </ul>-->
                                 <!--                                </li>-->
-
                             </ul>
                         </li>
 
                         <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}}</a>
                             <ul>
-                                <li class="menu-has-children pt5"><a href="#">Partnership</a>
+                                <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul>
-                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                     </ul>
                                 </li>
                                 {% if "admin" in username.co_agent_frontend_security %}
@@ -118,22 +117,22 @@
 
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="menu-has-children notification-pc pt5 guide_h1" style="padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
                             <ul>
-                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
                             <ul>
-                                <li class="menu-has-children pt5"><a href="#">Partnership</a>
+                                <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul>
-                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                     </ul>
                                 </li>
                                 {% if "admin" in username.co_agent_frontend_security %}
@@ -142,14 +141,14 @@
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
+                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
                             <ul>
-                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
@@ -158,7 +157,7 @@
                         </li>
                         {% else %}
                         <li style="font-size:12px;color:black;">
-                            <button onclick="location.href='{% url 'tt_website_rodextrip:login'%}';" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
+                            <button onclick="location.href='{% url 'tt_website_rodextrip:login'%}';" class="primary-btn-custom">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                         </li>
                         {% endif %}
                     </ul>
@@ -238,23 +237,23 @@
 
                         <div class="classynav">
                             <ul id="nav">
-                                <li class="active"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
+                                <li class="active"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                                 {% if username.co_user_login != '' %}
-                                <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
                                 {% if "top_up" in username.co_agent_frontend_security %}
-                                <li><a href="#">Top Up</a>
+                                <li><a href="#">{% trans 'Top Up' %}</a>
                                     <ul class="dropdown">
-                                        <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                        <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
                                         {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                        <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                        <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
                                         {% endif %}
-                                        <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
+                                        <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
                                     </ul>
                                 </li>
                                 {% endif%}
-                                <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                                 {% endif %}
-                                <li class="menu-has-children pt5"><a href="#">Highlight</a>
+                                <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
                                     <ul id="highlight_header_div" class="dropdown">
                                     </ul>
                                 </li>
@@ -268,8 +267,17 @@
                                     <ul class="dropdown">
                                         <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
                                             <ul class="dropdown">
-                                                <li><a href="#"><img src="{{static_path}}images/lang-global.png" style="height:21px; width:21px;"/> Global (English)</a></li>
-                                                <li><a href="#"><img src="{{static_path}}images/lang-indonesia.png" style="height:20px; width:20px;"/> Bahasa Indonesia</a></li>
+                                                <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                                    {% csrf_token %}
+                                                    <input name="next" type="hidden" value="" >
+                                                    <input type="hidden" id="selection_language" name="language"/>
+                                                    {% get_current_language as LANGUAGE_CODE %}
+                                                    {% get_available_languages as LANGUAGES %}
+                                                    {% get_language_info_list for LANGUAGES as languages %}
+                                                    {% for language in languages %}
+                                                    <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                                    {% endfor %}
+                                                </form>
                                             </ul>
                                         </li>
                                         <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
@@ -284,9 +292,9 @@
                                 {% if username.co_user_login != '' %}
                                 <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                                     <ul class="dropdown" style="margin-top:10px;">
-                                        <li><a href="#">Partnership</a>
+                                        <li><a href="#">{% trans 'Partnership' %}</a>
                                             <ul class="dropdown">
-                                                <li><a href="/registration">Register Agent</a></li>
+                                                <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                             </ul>
                                         </li>
                                         {% if "admin" in username.co_agent_frontend_security %}
@@ -295,7 +303,7 @@
                                         <li><a href="" id="backend_btn">Backend</a></li>
                                         <li style="z-index:5;">
                                             <a>
-                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Sign Out</button>
+                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                             </a>
                                         </li>
                                     </ul>
@@ -304,9 +312,9 @@
                                 <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                                     <ul class="dropdown">
                                         <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                        <li><a href="#">Partnership</a>
+                                        <li><a href="#">{% trans 'Partnership' %}</a>
                                             <ul class="dropdown">
-                                                <li><a href="/registration">Register Agent</a></li>
+                                                <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                             </ul>
                                         </li>
                                         {% if "admin" in username.co_agent_frontend_security %}
@@ -315,20 +323,20 @@
                                         <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
                                         <li style="z-index:5;">
                                             <a>
-                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Sign Out</button>
+                                                <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                             </a>
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
+                                <li class="notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
                                     <ul class="dropdown">
-                                        <li><a href="#">Guidelines</a></li>
+                                        <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                         <li><a href="#">FAQ</a></li>
                                     </ul>
                                 </li>
                                 <li class="notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
                                     <ul class="dropdown">
-                                        <li><a href="#">Guidelines</a></li>
+                                        <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                         <li><a href="#">FAQ</a></li>
                                     </ul>
                                 </li>
@@ -342,7 +350,7 @@
 
                             {% if username.co_user_login == '' %}
                             <div class="book-now-btn ml-3 ml-lg-5">
-                                <a href="{% url 'tt_website_rodextrip:login'%}">Sign In <i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
+                                <a href="{% url 'tt_website_rodextrip:login'%}">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
                             </div>
                             {% endif %}
                         </div>
@@ -371,23 +379,23 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li class="menu-active"><a href="index.html">Home</a></li>
+                        <li class="menu-active"><a href="index.html">{% trans 'Home' %}</a></li>
                         {% if username.co_user_login != '' %}
-                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
+                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
-                        <li class="menu-has-children"><a href="#">Top Up</a>
+                        <li class="menu-has-children"><a href="#">{% trans 'Top Up' %}</a>
                             <ul>
-                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
                                 {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
                             </ul>
                         </li>
                         {% endif%}
-                        <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
+                        <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                         {% endif %}
-                        <li class="menu-has-children"><a href="#">Highlight</a>
+                        <li class="menu-has-children"><a href="#">{% trans 'Highlight' %}</a>
                             <ul id="highlight_header_div">
                             </ul>
                         </li>
@@ -401,8 +409,17 @@
                             <ul>
                                 <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
                                     <ul style="width:100%;">
-                                        <li><a href="#"><img src="{{static_path}}images/lang-global.png" style="height:21px; width:21px;"/> Global (English)</a></li>
-                                        <li><a href="#"><img src="{{static_path}}images/lang-indonesia.png" style="height:20px; width:20px;"/> Bahasa Indonesia</a></li>
+                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                            {% csrf_token %}
+                                            <input name="next" type="hidden" value="" >
+                                            <input type="hidden" id="selection_language" name="language"/>
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                            <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                            {% endfor %}
+                                        </form>
                                     </ul>
                                 </li>
                                 <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
@@ -417,9 +434,9 @@
                         {% if username.co_user_login != '' %}
                         <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                             <ul>
-                                <li class="menu-has-children"><a href="#">Partnership</a>
+                                <li class="menu-has-children"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul style="width:100%;">
-                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                     </ul>
                                 </li>
                                 {% if "admin" in username.co_agent_frontend_security %}
@@ -429,7 +446,7 @@
                                 <li>
                                     <center>
                                         <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
+                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                         </a>
                                     </center>
                                 </li>
@@ -438,9 +455,9 @@
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul>
                                 <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                <li class="menu-has-children"><a href="#">Partnership</a>
+                                <li class="menu-has-children"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul style="width:100%;">
-                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                     </ul>
                                 </li>
                                 {% if "admin" in username.co_agent_frontend_security %}
@@ -449,20 +466,20 @@
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="menu-has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:24px;"></i></a>
                             <ul>
-                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
+                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
                             <ul>
-                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
@@ -519,23 +536,23 @@
                 <div class="col-xs-12 col-md-10 d-none d-xl-block">
                     <nav class="site-navigation position-relative text-right" role="navigation">
                         <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block">
-                            <li><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
+                            <li><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                             {% if username.co_user_login != '' %}
-                            <li><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
+                            <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
                             {% if "top_up" in username.co_agent_frontend_security %}
-                            <li class="has-children"><a href="#">Top Up</a>
+                            <li class="has-children"><a href="#">{% trans 'Top Up' %}</a>
                                 <ul class="dropdown">
-                                    <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                    <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
                                     {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                    <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
                                     {% endif %}
-                                    <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
+                                    <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
                                 </ul>
                             </li>
                             {% endif%}
-                            <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
+                            <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                             {% endif %}
-                            <li class="has-children"><a href="#">Highlight</a>
+                            <li class="has-children"><a href="#">{% trans 'Highlight' %}</a>
                                 <ul id="highlight_header_div" class="dropdown">
                                 </ul>
                             </li>
@@ -546,12 +563,21 @@
                             <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
                             {% endif %}
 
-                            <li class="has-children"><a href="#">Setting</a>
+                            <li class="has-children"><a href="#">{% trans 'Setting' %}</a>
                                 <ul class="dropdown">
-                                    <li class="has-children"><a href="#">Language</a>
+                                    <li class="has-children"><a href="#">{% trans 'Language' %}</a>
                                         <ul class="dropdown">
-                                            <li><a href="#"><img src="{{static_path}}images/lang-global.png" style="height:21px; width:21px;"/> Global (English)</a></li>
-                                            <li><a href="#"><img src="{{static_path}}images/lang-indonesia.png" style="height:20px; width:20px;"/> Bahasa Indonesia</a></li>
+                                            <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                                {% csrf_token %}
+                                                <input name="next" type="hidden" value="" >
+                                                <input type="hidden" id="selection_language" name="language"/>
+                                                {% get_current_language as LANGUAGE_CODE %}
+                                                {% get_available_languages as LANGUAGES %}
+                                                {% get_language_info_list for LANGUAGES as languages %}
+                                                {% for language in languages %}
+                                                <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                                {% endfor %}
+                                            </form>
                                         </ul>
                                     </li>
                                     <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
@@ -566,9 +592,9 @@
                             {% if username.co_user_login != '' %}
                             <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
                                 <ul class="dropdown">
-                                    <li class="has-children"><a href="#">Partnership</a>
+                                    <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
                                         <ul class="dropdown">
-                                            <li><a href="/registration">Register Agent</a></li>
+                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                         </ul>
                                     </li>
                                     {% if "admin" in username.co_agent_frontend_security %}
@@ -577,7 +603,7 @@
                                     <li><a href="" id="backend_btn">Backend</a></li>
                                     <li>
                                         <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
+                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                         </a>
                                     </li>
                                 </ul>
@@ -585,9 +611,9 @@
                             <li class="has-children notification-mobile" style="display:none;"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                                 <ul class="dropdown">
                                     <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                    <li class="has-children"><a href="#">Partnership</a>
+                                    <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
                                         <ul class="dropdown">
-                                            <li><a href="/registration">Register Agent</a></li>
+                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                         </ul>
                                     </li>
                                     {% if "admin" in username.co_agent_frontend_security %}
@@ -596,7 +622,7 @@
                                     <li><a href="" id="backend_btn2">Backend</a></li>
                                     <li>
                                         <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">Sign Out</button>
+                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                         </a>
                                     </li>
                                 </ul>
@@ -604,20 +630,20 @@
 
                             <li class="has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
                                 <ul class="dropdown">
-                                    <li><a href="#">Guidelines</a></li>
+                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                     <li><a href="#">FAQ</a></li>
                                 </ul>
                             </li>
-                            <li class="has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
+                            <li class="has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
                                 <ul>
-                                    <li><a href="#">Guidelines</a></li>
+                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                     <li><a href="#">FAQ</a></li>
                                 </ul>
                             </li>
 
                             <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                             {% else %}
-                            <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">Sign in</span></a></li>
+                            <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">{% trans 'Sign In' %}</span></a></li>
                             {% endif %}
                         </ul>
                     </nav>
@@ -669,23 +695,23 @@
 
                 <nav id="nav-menu-container">
                     <ul class="nav-menu">
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:index'%}">Home</a></li>
+                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                         {% if username.co_user_login != '' %}
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">My Reservation</a></li>
+                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
                         {% if "top_up" in username.co_agent_frontend_security %}
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">Top Up <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul style="top:65%;">
-                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">Request</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
                                 {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">PNR Quota</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
                                 {% endif %}
-                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">History</a></li>
+                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
                             </ul>
                         </li>
                         {% endif%}
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">Issued Offline</a></li>
+                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
                         {% endif %}
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">Highlight</a>
+                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %}</a>
                             <ul id="highlight_header_div" style="top:65%;">
                             </ul>
                         </li>
@@ -697,12 +723,21 @@
                         <li class="balance_mobile" style="margin-top:8px;"><a id="balance" style="color:black;"></a></li>
                         {% endif %}
 
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">Setting <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
                             <ul style="top:65%;">
-                                <li class="menu-has-children"><a href="#">Language <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
+                                <li class="menu-has-children"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
                                     <ul class="dropdown">
-                                        <li><a href="#"><img src="{{static_path}}images/lang-global.png" style="height:21px; width:21px;"/> Global (English)</a></li>
-                                        <li><a href="#"><img src="{{static_path}}images/lang-indonesia.png" style="height:20px; width:20px;"/> Bahasa Indonesia</a></li>
+                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                            {% csrf_token %}
+                                            <input name="next" type="hidden" value="" >
+                                            <input type="hidden" id="selection_language" name="language"/>
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                            <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                            {% endfor %}
+                                        </form>
                                     </ul>
                                 </li>
                                 <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
@@ -716,9 +751,9 @@
 
                         <li class="menu-has-children notification-pc" style="cursor:pointer; margin-top:8px;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}}</a>
                             <ul style="top:65%;">
-                                <li class="menu-has-children"><a href="#">Partnership <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
+                                <li class="menu-has-children"><a href="#">{% trans 'Partnership' %} <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
                                     <ul>
-                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                     </ul>
                                 </li>
                                 {% if "admin" in username.co_agent_frontend_security %}
@@ -727,23 +762,23 @@
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="menu-has-children notification-pc" style="padding-top:25px; padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
                             <ul>
-                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
 
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
                             <ul>
-                                <li class="menu-has-children pt5"><a href="#">Partnership</a>
+                                <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul>
-                                        <li><a href="/registration">Register Agent</a></li>
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
                                     </ul>
                                 </li>
                                 {% if "admin" in username.co_agent_frontend_security %}
@@ -752,21 +787,21 @@
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 <li>
                                     <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">Logout</button>
+                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">Help </a>
+                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
                             <ul>
-                                <li><a href="#">Guidelines</a></li>
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
 
                         <li title="Click to show your notification" class="menu-has-children notification-pc" style="color:{{color}}; padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                         {% else %}
-                        <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">Sign in <i class="fas fa-sign-in-alt"></i></span></a></li>
+                        <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></span></a></li>
                         {% endif %}
                     </ul>
                 </nav>

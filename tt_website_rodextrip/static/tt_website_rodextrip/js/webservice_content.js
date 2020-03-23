@@ -142,8 +142,10 @@ function get_banner(type,page){
                         text+=`<div class="owl-carousel-banner owl-theme">`;
                         for(i in msg.result.response){
                             text+=`
-                            <div class="item dark-img">
-                                <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-height:360px;"/>
+                            <div class="item">
+                                <center>
+                                    <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:360px;"/>
+                                </center>
                             </div>`;
                         }
                         text+=`</div>`;
@@ -322,7 +324,7 @@ function get_banner(type,page){
                                                 text+=`
                                                 <div class="item">
                                                     <center>
-                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-height:360px; width:auto;"/>
+                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:720px;"/>
                                                     </center>
                                                 </div>`;
                                             }
@@ -370,17 +372,17 @@ function get_banner(type,page){
                     if(msg.result.response.length > 0){
                         if(type == 'big_banner'){
                             $('.owl-carousel-banner').owlCarousel({
-                                loop:true,
+                                loop:false,
                                 nav: true,
                                 rewind: true,
                                 margin: 20,
                                 responsiveClass:true,
-                                dots: false,
+                                dots: true,
                                 lazyLoad:true,
-                                merge: false,
+                                merge: true,
                                 smartSpeed:500,
                                 center: true,
-                                autoHeight: true,
+                                autoHeight: false,
                                 autoWidth: false,
                                 autoplay: false,
                                 autoplayTimeout:8000,
@@ -400,7 +402,7 @@ function get_banner(type,page){
                                         autoWidth: false,
                                     },
                                     1000:{
-                                        items:2,
+                                        items:1,
                                         nav:true,
                                     }
                                 }
@@ -646,7 +648,9 @@ function get_dynamic_page(type){
                         if(msg.result.response[i].state == true){
                             text+=`
                             <div class="item" style="text-align:center;" onclick="window.location.href='/page/`+msg.result.response[i].title.split(' ').join('')+`'">
-                                <img class="img-fluid" style="height:300px;" src="`+msg.result.response[i].image_carousel+`" alt="">
+                                <center>
+                                    <img class="img-fluid" style="height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`" alt="">
+                                </center>
                                 <span style="background-color:`+color+`; padding:5px 15px 15px 15px; width:100%; font-size:16px; color:`+text_color+`">`+msg.result.response[i].title+`</span>
                             </div>`;
                         }
@@ -682,11 +686,11 @@ function get_dynamic_page(type){
                                 nav:false
                             },
                             768:{
-                                items:2,
+                                items:1,
                                 nav:true
                             },
                             961:{
-                                items:3,
+                                items:1,
                                 nav:true,
                             }
                         }

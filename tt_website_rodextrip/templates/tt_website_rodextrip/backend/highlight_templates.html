@@ -12,7 +12,7 @@
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
 </script>
-<title>{{name}} - Highlight Setting</title>
+<title>{{name}} - {% trans 'Highlight Setting' %}</title>
 
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
@@ -25,16 +25,16 @@
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                        <h3 style="color:white;">Highlight Setting</h3>
+                        <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                     </div>
                     <div class="col-lg-12" style="text-align:left;">
-                        <h4 style="color:white;">Highlight Url</h4>
+                        <h4 style="color:white;">{% trans 'Highlight URL' %}</h4>
                     </div>
                     <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                     </div>
                     <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                     </div>
                     <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                     </div>
@@ -53,16 +53,16 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                            <h3 style="color:white;">Highlight Setting</h3>
+                            <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                         </div>
                         <div class="col-lg-12" style="text-align:left;">
-                            <h4 style="color:white;">Highlight Url</h4>
+                            <h4 style="color:white;">{% trans 'Highlight URL' %}</h4>
                         </div>
                         <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                         </div>
                         <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                            <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                            <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                         </div>
                         <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                         </div>
@@ -80,16 +80,16 @@
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                        <h3 style="color:white;">Highlight Setting</h3>
+                        <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                     </div>
                     <div class="col-lg-12" style="text-align:left;">
-                        <h4 style="color:white;">Highlight Url</h4>
+                        <h4 style="color:white;">{% trans 'Highlight URL' %}</h4>
                     </div>
                     <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                     </div>
                     <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                     </div>
                     <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                     </div>
@@ -107,16 +107,16 @@
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                        <h3 style="color:white;">Highlight Setting</h3>
+                        <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                     </div>
                     <div class="col-lg-12" style="text-align:left;">
-                        <h4 style="color:white;">Highlight Url</h4>
+                        <h4 style="color:white;">{% trans 'Highlight URL' %}</h4>
                     </div>
                     <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                     </div>
                     <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                     </div>
                     <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                     </div>
@@ -135,16 +135,16 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                            <h3 style="color:white;">Highlight Setting</h3>
+                            <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                         </div>
                         <div class="col-lg-12" style="text-align:left;">
-                            <h4 style="color:white;">Highlight Url</h4>
+                            <h4 style="color:white;">{% trans 'Highlight URL' %}</h4>
                         </div>
                         <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                         </div>
                         <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                            <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                            <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                         </div>
                         <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                         </div>
