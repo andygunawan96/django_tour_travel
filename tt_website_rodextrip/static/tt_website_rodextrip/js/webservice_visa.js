@@ -60,12 +60,10 @@ function get_visa_config(type){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error visa config </span>' + errorThrown,
+                  html: '<span style="color: red;">Error visa get_config </span>' + errorThrown,
                 })
-                try{
-                    $("#show_loading_booking_airline").hide();
-                }catch(err){}
-       },timeout: 120000
+            }
+       },timeout: 60000
     });
 }
 
