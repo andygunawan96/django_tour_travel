@@ -276,7 +276,6 @@ function get_transactions_notification(val){
                                         text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
                                         text+=`<hr/></form>`;
                                         text+=`</div>`;
-                                        console.log(text);
                                         document.getElementById('notification_detail').innerHTML += text;
 //                                        document.getElementById('notification_detail2').innerHTML += text;
                                     }
