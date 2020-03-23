@@ -151,7 +151,8 @@ function hotel_search(){
         'room': $('#hotel_room').val(),
         'adult': $('#hotel_adult').val(),
         'child': $('#hotel_child').val(),
-        'child_age': child_age
+        'child_age': child_age,
+        'business_trip': $('#business_trip').val()
        },
        success: function(msg) {
            $('#loading-search-hotel').hide();
@@ -372,23 +373,32 @@ function hotel_facility_request_1(hotel_facilities){
 function hotel_facility_request(hotel_facilities){
     getToken();
     var facility_image_html = '';
-    hotel_facilities = $.parseJSON(hotel_facilities);
-    for (rec in hotel_facilities){
-        //console.log(hotel_facilities[rec].facility_name);
-        if (hotel_facilities[rec].facility_name != undefined){
-            var fac_name = hotel_facilities[rec].facility_name;
-        } else {
-            // Error handling untuk KNB
-            // Hapus jika data dari KNB sdah di update
-            var fac_name = hotel_facilities[rec];
+    try{
+        hotel_facilities = $.parseJSON(hotel_facilities);
+        for (rec in hotel_facilities){
+            //console.log(hotel_facilities[rec].facility_name);
+            if (hotel_facilities[rec].facility_name != undefined){
+                var fac_name = hotel_facilities[rec].facility_name;
+            } else {
+                // Error handling untuk KNB
+                // Hapus jika data dari KNB sdah di update
+                var fac_name = hotel_facilities[rec];
+            }
+            facility_image_html += `
+                    <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
+                        <i class="fas fa-circle" style="font-size:9px;"></i>
+                        <span style="font-weight:500;"> `+ fac_name +`</span>
+                    </div>`;
         }
+        document.getElementById("js_image_facility").innerHTML = facility_image_html;
+    }catch(err){
         facility_image_html += `
-                <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
-                    <i class="fas fa-circle" style="font-size:9px;"></i>
-                    <span style="font-weight:500;"> `+ fac_name +`</span>
-                </div>`;
+        <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
+            <i class="fas fa-circle" style="font-size:9px;"></i>
+            <span style="font-weight:500;">No Facility to show right now</span>
+        </div>`;
+        document.getElementById("js_image_facility").innerHTML = facility_image_html;
     }
-    document.getElementById("js_image_facility").innerHTML = facility_image_html;
 }
 
 function hotel_detail_request(checkin_date, checkout_date){

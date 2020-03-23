@@ -859,7 +859,7 @@ function sort(response, check_filter){
                                             }
                                         //IVAN
                                          for(j in arr){
-                                            if(arr.length < 4){
+                                            if(j < 2 || (j == 2 && arr.length == 3) ){
                                                 text+=`
                                                 <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
                                                 if(j == 0){
@@ -888,11 +888,12 @@ function sort(response, check_filter){
                                                         text+=`
                                                         <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">`;
                                                         if(j == 0){
-                                                            text += `<i class="fas fa-thumbs-up" style="color:`+color+`;"></i>`;
+                                                            text += `<i class="fas fa-thumbs-up" style="padding-left: 5px; color:`+color+`;"></i>`;
                                                             text += `<span class="price_hotel" hidden>IDR ` + getrupiah(arr[j][1]['price']) + `</span>`;
-                                                        }else if(j > 2){
-                                                            text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
                                                         }
+                                                        // else if(j > 2){
+                                                        //     text += `<i class="fas fa-thumbs-down" style="color:`+color+`;"></i>`;
+                                                        // }
                                                         text +=`
                                                         </div>
                                                         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
