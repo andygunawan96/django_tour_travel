@@ -203,6 +203,8 @@ function get_transactions_notification(val){
            },
            success: function(msg) {
            console.log(msg);
+            document.getElementById('notification_detail').innerHTML = '';
+//            document.getElementById('notification_detail2').innerHTML = '';
             if(msg.result.error_code == 0){
                 text = '';
                 var hold_date = '';
@@ -237,7 +239,7 @@ function get_transactions_notification(val){
                             hold_date = '';
                             if(check_notif == 5)
                                 break;
-                            if(msg.result.response[i].hold_date != ''){
+                            if(msg.result.response[i][j].hold_date != ''){
                                 date = moment.utc(msg.result.response[i][j].hold_date).format('YYYY-MM-DD HH:mm:ss');
                                 var localTime  = moment.utc(date).toDate();
                                 if(today >= moment(localTime) && msg.result.response[i][j].state_description == 'Expired'){
@@ -246,7 +248,7 @@ function get_transactions_notification(val){
                                     hold_date = 'Issued';
                                 }else{
                                     hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == "" && check_notif < 5){
+                                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
                                         document.getElementById('notification_div').innerHTML +=`
                                             <div class="row" id="alert`+check_notif+`">
                                                 <div class="col-sm-6">
@@ -270,11 +272,13 @@ function get_transactions_notification(val){
                                                 <span style="font-weight:500;"> `+hold_date+`</span>`;
                                         text+=` </div>
                                                </div>`;
-                                        text+=`<input type="hidden" id="order_number" name="order_number" value="`+msg.result.response[i][j].order_number+`">`;
+                                        text+=`<input type="hidden" id="order_number`+check_notif+`" name="order_number`+check_notif+`" value="`+msg.result.response[i][j].order_number+`">`;
+                                        text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
                                         text+=`<hr/></form>`;
                                         text+=`</div>`;
+                                        console.log(text);
                                         document.getElementById('notification_detail').innerHTML += text;
-                                        document.getElementById('notification_detail2').innerHTML += text;
+//                                        document.getElementById('notification_detail2').innerHTML += text;
                                     }
                                 }
                             }else{
