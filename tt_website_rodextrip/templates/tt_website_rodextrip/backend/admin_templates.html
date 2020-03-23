@@ -9,6 +9,7 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/jscolor.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}ckeditor/ckeditor.js"></script>
 <script>
@@ -56,23 +57,28 @@
                 <div class="col-lg-12" >
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}};">
                         <ul class="create_tabs" id="identity">
-                            <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
+                            {% if "edit_appearance" in username.co_agent_frontend_security %}
+                            <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                             <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                             <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                            {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                             {% endif %}
                             {% if "create_page" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
+                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                             {% endif %}
+                            {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                            {% endif %}
                         </ul>
                     </div>
 
                     <div class="banner-right" style="color:white;">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
                         <div class="tab-content" id="myTabContent">
-                            <div id="website-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                            <div id="website-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                     <div class="col-lg-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -313,8 +319,15 @@
                             </div>
                             <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                    <div class="col-lg-12 col-md-12 col-xs-12" id="page_choose" style="padding:0px; text-align:left;" onchange="change_dynamic_page();">
+                                    <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                        <span class="control-label" for="city_id">Page</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
                                         <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
@@ -348,6 +361,25 @@
                                     <div class="col-lg-12" style="text-align:center;">
                                         <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
                                     </div>
+                                </div>
+                            </div>
+                            <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                <div class="row">
+                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                        <h3 style="color:white;">Highlight Setting</h3>
+                                    </div>
+                                    <div class="col-lg-12" style="text-align:left;">
+                                        <h4 style="color:white;">Highlight Url</h4>
+                                    </div>
+                                    <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                    </div>
+                                    <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                    </div>
+                                    <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
+                                    </div>
+                                    <input type="hidden" id="counter_highlight" value="0"/>
                                 </div>
                             </div>
                             <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
@@ -606,16 +638,21 @@
                     <div class="col-lg-12">
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                             <ul class="create_tabs" id="identity">
+                                {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                                 <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                                {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                                 {% endif %}
+                                {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                                {% endif %}
                             </ul>
                         </div>
 
@@ -858,8 +895,15 @@
                         </div>
                         <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-12 col-md-12 col-xs-12" id="page_choose" style="padding:0px; text-align:left;" onchange="change_dynamic_page();">
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                    <span class="control-label" for="city_id">Page</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
                                     <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
@@ -892,6 +936,24 @@
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                    <h3 style="color:white;">Highlight Setting</h3>
+                                </div>
+                                <div class="col-lg-12" style="text-align:left;">
+                                    <h4 style="color:white;">Highlight Url</h4>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                </div>
+                                <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                                 </div>
                             </div>
                         </div>
@@ -1147,16 +1209,21 @@
                     <div class="col-lg-12">
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                             <ul class="create_tabs" id="identity">
+                                {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                                 <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                                {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                                 {% endif %}
+                                {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                                {% endif %}
                             </ul>
                         </div>
 
@@ -1400,8 +1467,17 @@
                         </div>
                         <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-12 col-md-12 col-xs-12" id="page_choose" style="padding:0px; text-align:left;" onchange="change_dynamic_page();">
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;" onchange="change_dynamic_page();">
+                                    <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                        <span class="control-label" for="city_id">Page</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
                                     <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
@@ -1435,6 +1511,25 @@
                                 <div class="col-lg-12" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
                                 </div>
+                            </div>
+                        </div>
+                        <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                    <h3 style="color:white;">Highlight Setting</h3>
+                                </div>
+                                <div class="col-lg-12" style="text-align:left;">
+                                    <h4 style="color:white;">Highlight Url</h4>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                </div>
+                                <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
+                                </div>
+                                <input type="hidden" id="counter_highlight" value="0"/>
                             </div>
                         </div>
                         <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
@@ -1689,16 +1784,21 @@
                 <div class="col-lg-12">
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                         <ul class="create_tabs" id="identity">
-                            <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
-                            <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                            <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                            {% if "edit_appearance" in username.co_agent_frontend_security %}
+                                <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
+                                <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
+                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                            {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                             {% endif %}
                             {% if "create_page" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
+                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                             {% endif %}
+                            {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                            {% endif %}
                         </ul>
                     </div>
 
@@ -1944,8 +2044,17 @@
                     </div>
                     <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                            <div class="col-lg-12 col-md-12 col-xs-12" id="page_choose" style="padding:0px; text-align:left;" onchange="change_dynamic_page();">
+                            <div class="col-lg-12 col-md-12 col-xs-12"style="padding:0px; text-align:left;">
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                    <span class="control-label" for="city_id">Page</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
                                 <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
@@ -1979,6 +2088,25 @@
                             <div class="col-lg-12" style="text-align:center;">
                                 <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
                             </div>
+                        </div>
+                    </div>
+                    <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                <h3 style="color:white;">Highlight Setting</h3>
+                            </div>
+                            <div class="col-lg-12" style="text-align:left;">
+                                <h4 style="color:white;">Highlight Url</h4>
+                            </div>
+                            <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                            </div>
+                            <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                            </div>
+                            <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
+                            </div>
+                            <input type="hidden" id="counter_highlight" value="0"/>
                         </div>
                     </div>
                     <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
@@ -2234,16 +2362,21 @@
                     <div class="col-lg-12">
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                             <ul class="create_tabs" id="identity">
+                                {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                                 <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                                {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                                 {% endif %}
+                                {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                                {% endif %}
                             </ul>
                         </div>
 
@@ -2486,8 +2619,17 @@
                         </div>
                         <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-12 col-md-12 col-xs-12" id="page_choose" style="padding:0px; text-align:left;" onchange="change_dynamic_page();">
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                    <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                        <span class="control-label" for="city_id">Page</span>
+                                        <div class="input-container-search-ticket">
+                                            <div class="form-select">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
                                     <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
@@ -2521,6 +2663,25 @@
                                 <div class="col-lg-12" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
                                 </div>
+                            </div>
+                        </div>
+                        <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <div class="row">
+                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                    <h3 style="color:white;">Highlight Setting</h3>
+                                </div>
+                                <div class="col-lg-12" style="text-align:left;">
+                                    <h4 style="color:white;">Highlight Url</h4>
+                                </div>
+                                <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                </div>
+                                <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                </div>
+                                <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
+                                </div>
+                                <input type="hidden" id="counter_highlight" value="0"/>
                             </div>
                         </div>
                         <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
@@ -2776,7 +2937,9 @@
 	var selDiv_bigbanner = "";
 	var selDiv_smallbanner = "";
 	var selDiv_promotionbanner = "";
-
+    {% if "create_page" in username.co_agent_frontend_security %}
+        get_highlight('setting');
+    {% endif %}
 	document.addEventListener("DOMContentLoaded", init, false);
 
 	function init() {
