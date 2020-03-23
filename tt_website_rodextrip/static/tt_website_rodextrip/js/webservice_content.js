@@ -627,28 +627,15 @@ function get_dynamic_page(type){
             console.log(msg);
             if(type == 'admin'){
             text = '';
-                counter = 1;
-                text +=`<div class="col-lg-12" >
-                            <label class="radio-button-custom">
-                                <span style="font-size:14px; color:`+text_color+`;">Create New</span>
-                                <input type="radio" checked name="page" value="create_new">
-                                <span class="checkmark-radio"></span>
-                            </label>`;
+                counter = 0;
+                text = `<option value=`+counter+` select>Create New</option>`;
             }
             if(msg.result.error_code == 0){
                 if(type == 'admin'){
                     dynamic_page = msg.result.response;
                     for(i in msg.result.response){
-                        text+=`<label class="radio-button-custom">
-                                    <span style="font-size:14px; color:`+text_color+`;">`+msg.result.response[i].title+`</span>
-                                    <input type="radio" name="page" value="`+msg.result.response[i].title+`">
-                                    <span class="checkmark-radio"></span>
-                                </label>`;
                         counter++;
-                        if(counter == 4){
-                            text+=`</div><div class="col-lg-12" >`;
-                            counter=0;
-                        }
+                        text += `<option value=`+counter+` select>`+msg.result.response[i].title+`</option>`;
                     }
                 }
                 else if(type == 'login'){
@@ -707,9 +694,8 @@ function get_dynamic_page(type){
                 }
             }
             if(type == 'admin'){
-                if(counter != 0)
-                    text+=`</div>`;
                 document.getElementById('page_choose').innerHTML = text;
+                $('#page_choose').niceSelect("update");
             }
 
        },
@@ -726,15 +712,7 @@ function get_dynamic_page(type){
 }
 
 function change_dynamic_page(){
-    var radios = document.getElementsByName('page');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            page_number = j-1;
-            // only one radio can be logically checked, don't check the rest
-            break;
-        }
-    }
+    page_number = parseInt(document.getElementById('page_choose').value)-1;
     if(page_number != -1){
         document.getElementById('page_active').checked = dynamic_page[page_number].state;
         document.getElementById('title_dynamic_page').value = dynamic_page[page_number].title;
