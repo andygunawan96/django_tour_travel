@@ -69,14 +69,16 @@
 {%if template == 1%}
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
     <div class="overlay overlay-bg"></div>
-    <div id="big_banner" style="padding-bottom:15px;">
-
-    </div>
     <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
                 {% if username.co_user_login != '' %}
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
+                <div class="col-lg-12">
+                    <div id="big_banner" style="padding-bottom:15px;">
+
+                    </div>
+                </div>
                 <div class="col-lg-12">
                     <h4 style="color:{{text_color}}; padding-bottom:20px;">
                         Hello, {{username.co_user_name}}!

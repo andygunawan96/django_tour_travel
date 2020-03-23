@@ -63,7 +63,7 @@
     position: relative;
     z-index: 10; }
     .classynav ul li.cn-dropdown-item ul li {
-      position: relative;
+      position: initial;
       z-index: 10; }
   .classynav ul li ul li {
     display: block; }
