@@ -2875,7 +2875,7 @@ function airline_force_commit_booking(val){
                           html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
                         }).then((result) => {
                           if (result.value) {
-                            $("#waitingTransaction").modal('hide');
+                            window.location.href='/';
                           }
                         })
                         $("#waitingTransaction").modal('hide');
@@ -2895,7 +2895,7 @@ function airline_force_commit_booking(val){
                           html: '<span style="color: #ff9900;">Error airline commit booking </span>' + msg.result.error_msg,
                         }).then((result) => {
                           if (result.value) {
-                            $("#waitingTransaction").modal('hide');
+                            window.location.href='/';
                           }
                         })
                         $("#waitingTransaction").modal('hide');
@@ -3073,8 +3073,14 @@ function airline_get_booking(data){
 //                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
 //                document.getElementById('reissued').hidden = false;
 //                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
-//                document.getElementById('cancel').hidden = false;
-//                document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                provider_list = [];
+                for(i in msg.result.response.provider_bookings){
+                    provider_list.push(msg.result.response.provider_bookings[i].provider);
+                }
+                if(provider_list.includes("traveloka") == true){
+                    document.getElementById('cancel').hidden = false;
+                    document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                }
             }
             check_provider_booking = 0;
             if(msg.result.response.state == 'booked'){
@@ -3828,7 +3834,7 @@ function cancel_btn(){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    airline_get_booking(airline_get_detail.result.response.order_number);
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -3851,7 +3857,7 @@ function cancel_btn(){
                     document.getElementById("overlay-div-box").style.display = "none";
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    airline_get_booking(airline_get_detail.result.response.order_number);
                 }
            },timeout: 300000
         });
