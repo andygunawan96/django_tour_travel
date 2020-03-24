@@ -2438,8 +2438,10 @@ function sort(){
                                                                if(airline_request.origin.length == airline_pick_list.length + 1 && airline_recommendations_list.length != 0){
                                                                     check = 0;
                                                                     for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs){
-                                                                        if(airline[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs[l].fare_ref_id)
-                                                                            check = 1;
+                                                                        try{
+                                                                            if(airline[i].segments[l].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].journey_flight_refs[airline_pick_list.length].fare_flight_refs[l].fare_ref_id)
+                                                                                check = 1;
+                                                                        }catch(err){}
                                                                     }
                                                                     if(check == 1){
                                                                         for(l in airline_recommendations_journey[airline_recommendations_list.indexOf(airline[i].journey_ref_id)].service_charge_summary){
