@@ -2135,27 +2135,31 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/airline';", "location.href='/airline/passenger';", "", ""];
     }
-    if(breadcrumbs_type == "airline_new"){
+    else if(breadcrumbs_type == "airline_new"){
         var breadcrumbs = ["Home", "Search", "Passenger", "SSR", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "", "", "", "", ""];
     }
-    if(breadcrumbs_type == "activity"){
+    else if(breadcrumbs_type == "activity"){
         var breadcrumbs = ["Home", "Search", "Detail", "Passenger", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/activity';", "location.href='/activity/detail';", "location.href='/activity/passenger';", ""];
     }
-    if(breadcrumbs_type == "hotel"){
+    else if(breadcrumbs_type == "hotel"){
         var breadcrumbs = ["Home", "Search", "Rooms", "Guest", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/hotel';", "location.href='/hotel/detail';", "location.href='/hotel/passenger';", "", ""];
     }
-    if(breadcrumbs_type == "tour"){
+    else if(breadcrumbs_type == "tour"){
         var breadcrumbs = ["Home", "Search", "Detail", "Passenger", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/tour';", "location.href='/tour/detail';", "location.href='/tour/passenger';", "", ""];
     }
-    if(breadcrumbs_type == "visa"){
+    else if(breadcrumbs_type == "visa"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/visa';", "location.href='/visa/passenger';", "", ""];
     }
-    if(breadcrumbs_type == "train"){
+    else if(breadcrumbs_type == "passport"){
+        var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/visa';", "location.href='/visa/passenger';", "", ""];
+    }
+    else if(breadcrumbs_type == "train"){
         var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/train';", "location.href='/train/passenger';", "", ""];
     }

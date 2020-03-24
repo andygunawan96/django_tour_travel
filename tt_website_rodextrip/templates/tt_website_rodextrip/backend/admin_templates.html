@@ -319,7 +319,7 @@
                             </div>
                             <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                    <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                    <div class="col-lg-12 col-md-12 col-xs-12">
                                         <span class="control-label" for="city_id">Page</span>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
@@ -329,17 +329,17 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
+                                    <div class="col-lg-12 col-md-12 col-xs-12">
                                         <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
                                         <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>Delete</button>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-6 col-md-6 col-xs-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Title</h6>
                                         <div class="form-select">
                                             <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
                                         </div>
                                     </div>
-                                    <div class="col-lg-6 col-md-6">
+                                    <div class="col-lg-6 col-md-6 col-xs-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="image_carousel" id="image_carousel"/>
@@ -364,12 +364,9 @@
                                 </div>
                             </div>
                             <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
-                                <div class="row">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
                                         <h3 style="color:white;">Highlight Setting</h3>
-                                    </div>
-                                    <div class="col-lg-12" style="text-align:left;">
-                                        <h4 style="color:white;">Highlight Url</h4>
                                     </div>
                                     <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
                                         <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
@@ -639,7 +636,7 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                             <ul class="create_tabs" id="identity">
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
+                                <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                                 <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
                                 {% endif %}
@@ -657,7 +654,7 @@
                         </div>
 
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
-                        <div id="website-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                        <div id="website-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -895,7 +892,7 @@
                         </div>
                         <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                <div class="col-lg-12 col-md-12 col-xs-12">
                                     <span class="control-label" for="city_id">Page</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
@@ -905,17 +902,17 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px; text-align:right;">
                                     <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
                                     <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>Delete</button>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-lg-6 col-md-6 col-xs-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Title</h6>
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6">
+                                <div class="col-lg-6 col-md-6 col-xs-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="image_carousel" id="image_carousel"/>
@@ -1210,7 +1207,7 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                             <ul class="create_tabs" id="identity">
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
+                                <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                                 <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
                                 {% endif %}
@@ -1228,7 +1225,7 @@
                         </div>
 
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
-                        <div id="website-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                        <div id="website-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -1467,7 +1464,7 @@
                         </div>
                         <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;" onchange="change_dynamic_page();">
+                                <div class="col-lg-12 col-md-12 col-xs-12">
                                     <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
                                         <span class="control-label" for="city_id">Page</span>
                                         <div class="input-container-search-ticket">
@@ -1785,7 +1782,7 @@
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                         <ul class="create_tabs" id="identity">
                             {% if "edit_appearance" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
+                                <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                                 <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
                             {% endif %}
@@ -1803,7 +1800,7 @@
                     </div>
 
                     <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
-                    <div id="website-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                    <div id="website-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                             <div class="col-lg-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -2044,7 +2041,7 @@
                     </div>
                     <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                            <div class="col-lg-12 col-md-12 col-xs-12"style="padding:0px; text-align:left;">
+                            <div class="col-lg-12 col-md-12 col-xs-12">
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
                                     <span class="control-label" for="city_id">Page</span>
                                     <div class="input-container-search-ticket">
@@ -2363,7 +2360,7 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
                             <ul class="create_tabs" id="identity">
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link current" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
+                                <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
                                 <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
                                 {% endif %}
@@ -2381,7 +2378,7 @@
                         </div>
 
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
-                        <div id="website-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                        <div id="website-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Template Website</h6>
@@ -2619,7 +2616,7 @@
                         </div>
                         <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
+                                <div class="col-lg-12 col-md-12 col-xs-12">
                                     <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
                                         <span class="control-label" for="city_id">Page</span>
                                         <div class="input-container-search-ticket">
