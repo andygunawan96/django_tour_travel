@@ -203,6 +203,7 @@ function get_transactions_notification(val){
            },
            success: function(msg) {
            console.log(msg);
+           try{
             document.getElementById('notification_detail').innerHTML = '';
 //            document.getElementById('notification_detail2').innerHTML = '';
             if(msg.result.error_code == 0){
@@ -333,6 +334,7 @@ function get_transactions_notification(val){
                text+=`</div>`;
                document.getElementById('notification_detail').innerHTML = text;
             }
+            }catch(err){}
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 if(XMLHttpRequest.status == 500){

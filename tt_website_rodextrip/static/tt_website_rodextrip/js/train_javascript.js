@@ -694,7 +694,7 @@ function train_get_detail(){
                             </div>`;
                         $text += passengers.adult+`x Adult Fare @`+price['currency']+' '+price['fare']+`\n`;
                     }
-                    if(parseInt(passengers.infant) > 0){
+                    else if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'INF' && parseInt(passengers.infant) > 0){
                         train_detail_text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
                                 <span style="font-size:13px;">`+parseInt(passengers.adult)+` Infant(s) x `+price['currency']+` `+getrupiah(0)+`</span>
@@ -931,7 +931,7 @@ function train_detail(){
                         </div>`;
                     $text += adult+`x Adult Fare @`+price['currency']+' '+getrupiah(price['fare'])+`\n`;
                 }
-                if(parseInt(infant) > 0){
+                else if(train_data[i].fares[j].service_charge_summary[k].pax_type == 'INF' && parseInt(infant) > 0){
                     text+=`
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
                             <span style="font-size:13px;">`+parseInt(infant)+` Infant(s) x `+price['currency']+` `+getrupiah(0)+`</span>
@@ -1468,6 +1468,16 @@ function filtering(type){
             });
             data = temp_data;
             temp_data = [];
+        }
+        if(journeys.length > 0){
+            if(train_request.departure[0] == train_request.departure[1]){
+                temp_data = [];
+                for(i in data){
+                    if(parseInt(journeys[0].arrival_date[1].split(':')[0])*60 + parseInt(journeys[0].arrival_date[1].split(':')[1]) < parseInt(data[i].departure_date[1].split(':')[0])*60 + parseInt(data[i].departure_date[1].split(':')[1]))
+                        temp_data.push(data[i]);
+                }
+                data = temp_data;
+            }
         }
 
     }
