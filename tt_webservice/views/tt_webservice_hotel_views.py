@@ -191,6 +191,8 @@ def search(request):
             'adult': int(request.POST['adult']),
             'destination_id': destination_id,
             'child_ages': child_age,
+            'nationality': request.POST['nationality'].split(' - ')[0],
+            'is_bussiness_trip': request.POST['nationality'],
         }
         try:
             request.session['hotel_request_data']['hotel_id'] = ''
