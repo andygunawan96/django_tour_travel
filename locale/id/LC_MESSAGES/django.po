@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-23 02:24+0000\n"
+"POT-Creation-Date: 2020-03-26 04:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,10 +39,8 @@ msgid "Train Station"
 msgstr ""
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:55
-#, fuzzy
-#| msgid "Setting"
 msgid "Admin Setting"
-msgstr "Pengaturan"
+msgstr "Pengaturan Admin"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:15
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:28
@@ -82,6 +80,7 @@ msgstr "Simpan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:382
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:539
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:698
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:63
 msgid "Home"
 msgstr "Beranda"
 
@@ -224,6 +223,274 @@ msgstr "Bantuan"
 msgid "Sign In"
 msgstr "Masuk"
 
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:119
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1587
+msgid "AIRLINE"
+msgstr "PESAWAT"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:127
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1590
+msgid "TOUR"
+msgstr "TOUR"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:151
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1599
+msgid "TRAIN"
+msgstr "KERETA"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:195
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:386
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1614
+msgid "One Way"
+msgstr "Sekali Jalan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:200
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:391
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1619
+msgid "Round Trip"
+msgstr "Pulang Pergi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:205
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1624
+msgid "Multi City"
+msgstr "Multi Kota"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:213
+msgid "Is Combo Price"
+msgstr "Harga Paket"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:224
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:399
+msgid "From"
+msgstr "Dari"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:227
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:401
+msgid "Origin"
+msgstr "Asal"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:242
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:412
+msgid "To"
+msgstr "Ke"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:245
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:414
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:725
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:803
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:806
+msgid "Destination"
+msgstr "Tujuan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:256
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:420
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:814
+msgid "Departure"
+msgstr "Keberangkatan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:258
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:422
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:816
+msgid "Departure Date"
+msgstr "Tanggal Keberangkatan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:262
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:426
+msgid "Passenger"
+msgstr "Penumpang"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:265
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:272
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:434
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:550
+msgid "Adult"
+msgstr "Dewasa"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:265
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:292
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:570
+msgid "Child"
+msgstr "Anak"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:265
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:312
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:454
+msgid "Infant"
+msgstr "Bayi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:273
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:293
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:313
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:435
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:455
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:551
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:571
+msgid "Age"
+msgstr "Umur"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:333
+msgid "Airline"
+msgstr "Pesawat"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:335
+msgid "Choose Airline"
+msgstr "Pilih Pesawat"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:343
+msgid "Class"
+msgstr "Kelas"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:366
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:481
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:609
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:696
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:790
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:835
+msgid "Search"
+msgstr "Cari"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:494
+msgid "Destination or Hotel"
+msgstr "Tujuan atau Hotel"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:496
+msgid "Select Destination City or Hotel Name"
+msgstr "Pilih Kota Tujuan atau Nama Hotel"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:500
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:501
+msgid "Guest Nationality"
+msgstr "Kebangsaan Tamu"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:513
+msgid "Check-in - Check-out"
+msgstr "Check-in - Check-out"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:515
+msgid "Check-in - Check-out Date"
+msgstr "Tanggal Check-in - Check-out"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:522
+msgid "Guest"
+msgstr "Meminta"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:530
+msgid "Room"
+msgstr "Kamar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:598
+msgid "Business Trip"
+msgstr "Perjalanan Bisnis"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:623
+msgid "Search for Activities, Theme Parks, etc"
+msgstr "Cari Activities, Theme Parks, dll"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:629
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:630
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:717
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:718
+msgid "Advanced"
+msgstr "Lanjutan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:637
+msgid "Location"
+msgstr "Lokasi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:643
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:731
+msgid "All Countries"
+msgstr "Semua Negara"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:651
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:739
+msgid "All Cities"
+msgstr "Semua Kota"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:662
+msgid "Category / Type"
+msgstr "Kategori / Tipe"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:669
+msgid "All Types"
+msgstr "Semua Tipe"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:676
+msgid "All Categories"
+msgstr "Semua Kategori"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:684
+msgid "All Sub Categories"
+msgstr "Semua Sub Kategori"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:709
+msgid "Tour"
+msgstr "Tour"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:711
+msgid "Search for Tour"
+msgstr "Cari Tour"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:750
+msgid "Departure Time"
+msgstr "Waktu Keberangkatan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:758
+msgid "All Months"
+msgstr "Semua bulan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:759
+msgid "January"
+msgstr "Januari"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:760
+msgid "February"
+msgstr "Februari"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:761
+msgid "March"
+msgstr "Maret"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:762
+msgid "April"
+msgstr "April"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:763
+msgid "May"
+msgstr "Mei"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:764
+msgid "June"
+msgstr "Juni"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:765
+msgid "July"
+msgstr "Juli"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:766
+msgid "August"
+msgstr "Agustus"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:767
+msgid "September"
+msgstr "September"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:768
+msgid "October"
+msgstr "Oktober"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:769
+msgid "November"
+msgstr "November"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:770
+msgid "December"
+msgstr "Desember"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:820
+msgid "Consulate"
+msgstr "Konsulat"
+
 #: tt_website_rodextrip/templates/tt_website_rodextrip/login_templates.html:42
 #: tt_website_rodextrip/templates/tt_website_rodextrip/login_templates.html:81
 #: tt_website_rodextrip/templates/tt_website_rodextrip/login_templates.html:181
@@ -257,6 +524,18 @@ msgstr "Ikuti Kami"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/login_templates.html:186
 msgid "Forgot Password"
 msgstr "Lupa Password"
+
+#~ msgid "Check-in Date"
+#~ msgstr "Tanggal Check-in"
+
+#~ msgid "Check-out Date"
+#~ msgstr "Tanggal Check-out"
+
+#~ msgid "Check-In - Check-Out"
+#~ msgstr "Check-in - Check-out"
+
+#~ msgid "Check-In - Check-Out Date"
+#~ msgstr "Tanggal Check-In - Check-Out"
 
 #, fuzzy
 #~| msgid "Sign In"
