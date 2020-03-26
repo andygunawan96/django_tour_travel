@@ -76,6 +76,8 @@ def get_payment_acquirer(request):
         url_post = 'session/agent_registration'
     elif request.POST['type'] == 'visa':
         url_post = 'booking/visa'
+    elif request.POST['type'] == 'passport':
+        url_post = 'booking/passport'
     elif request.POST['type'] == 'top_up':
         url_post = 'account'
     elif request.POST['type'] == 'issued_offline':

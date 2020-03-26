@@ -9,6 +9,7 @@ from ..views import tt_webservice_tour_views as TourWebserviceView
 from ..views import tt_webservice_payment_views as PaymentWebserviceView
 from ..views import tt_webservice_hotel_views as HotelWebserviceView
 from ..views import tt_webservice_visa_views as VisaWebserviceView
+from ..views import tt_webservice_passport_views as PassportWebserviceView
 from ..views import tt_webservice_registration_views as RegisterWebserviceView
 from ..views import tt_webservice_bank_views as BankWebserviceView
 from ..views import tt_webservice_testing_views as TestWebserviceView
@@ -30,6 +31,7 @@ urlpatterns = [
     re_path('hotel', HotelWebserviceView.api_models, name="hotel"),
     re_path('registration', RegisterWebserviceView.api_models, name="registration"),
     re_path('visa', VisaWebserviceView.api_models, name="visa"),
+    re_path('passport', PassportWebserviceView.api_models, name="passport"),
     re_path('bank', BankWebserviceView.api_models, name="bank"),
     re_path('content', ContentWebserviceView.api_models, name="content"),
     re_path('voucher', VoucherWebserviceView.api_models, name="voucher"),

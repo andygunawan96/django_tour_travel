@@ -300,6 +300,33 @@ def get_new_cache(signature):
             pass
         #
 
+        # passport odoo12
+        data = {
+            'provider': 'rodextrip_passport'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_config",
+            "signature": signature
+        }
+
+        res_config_passport = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST',
+                                            timeout=60)
+        try:
+            if res_config_passport['result']['error_code'] == 0:
+                pass
+            else:
+                logging.getLogger("info_logger").info(
+                    "ERROR GET CACHE FROM PASSPORT AUTOCOMPLETE" + res_config_passport['result'][
+                        'error_msg'] + '\n' + traceback.format_exc())
+        except Exception as e:
+            logging.getLogger("info_logger").info(
+                "ERROR GET CACHE FROM VISA AUTOCOMPLETE" + json.dumps(res_config_passport) + '\n' + str(
+                    e) + '\n' + traceback.format_exc())
+            pass
+        #
+
         # issuedoffline
         data = {
             'provider': 'rodextrip_issued_offline'
@@ -431,6 +458,7 @@ def get_new_cache(signature):
             'result': {
                 'response': {
                     'visa': res_config_visa.get('result') and res_config_visa['result']['response'] or False,
+                    'passport': res_config_passport.get('result') and res_config_passport['result']['response'] or False,
                 # belum di install
                     'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False,  # belum di install
                     # 'train': res_origin_train['result']['response'],

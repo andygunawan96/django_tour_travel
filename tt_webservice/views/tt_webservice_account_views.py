@@ -244,7 +244,7 @@ def get_balance(request):
             }
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-        time.sleep(1)
+        time.sleep(0.5)
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         request.session['get_balance_session'] = res
         logging.getLogger("info_logger").info(json.dumps(request.session['get_balance_session']))

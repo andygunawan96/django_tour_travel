@@ -2001,6 +2001,14 @@ function check_word(value){
     }
 }
 
+function alert_message_swal(msg){
+    Swal.fire({
+      type: 'error',
+      title: 'Oops!',
+      text: msg,
+    });
+}
+
 function check_name_airline(first_name, last_name){
     if(check_word(last_name) == true){
         log = '';

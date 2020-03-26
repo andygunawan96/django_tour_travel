@@ -1,0 +1,526 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_passport.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/passport_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+    passport_request = `{{passport_request}}`;
+    signature = `{{signature}}`;
+    passport_request = JSON.parse(passport_request.replace(/&#39;/g, '"'));
+
+    time_limit = {{time_limit}};
+    session_time_limit();
+</script>
+{% if template == 1%}
+<style>
+    ol {
+     padding-left: 15px!important;
+     text-align:left !important;
+     list-style: disc outside none!important;
+     list-style-type: decimal!important;
+    }
+</style>
+{% endif %}
+{% include 'tt_website_rodextrip/header.html' %}
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+{% include 'tt_website_rodextrip/logout.html' %}
+<title id="title_search">{{name}} Passport - {{passport_request.passport_type}}</title>
+<div id="overlay-search-box" onclick="off_overlay()"></div>
+
+{%if template == 1%}
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12" style="padding:0;">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_type" id="passport_type" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="consulate" id="consulate" />
+                            </div>
+                        </div>
+                        <br/>
+                        <center>
+                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                Search
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% elif template == 2 %}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="bg-img bg-overlay jarallax" id="change_search_box" style="padding-top:40px; padding-bottom:20px; z-index:5; position:relative; display:none;">
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
+                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
+                        <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="passport_type" id="passport_type" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                    <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                    <div class="input-container-search-ticket">
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="consulate" id="consulate" />
+                                </div>
+                            </div>
+                            <br/>
+                            <center>
+                                <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    Search
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </button>
+                            </center>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% elif template == 3 %}
+<section class="change_search_area" style="padding:10px 0px 10px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="banner-area relative" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="header-right" style="background:unset; border:unset;">
+                    <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_type" id="passport_type" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="consulate" id="consulate" />
+                            </div>
+                        </div>
+                        <br/>
+                        <center>
+                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                Search
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% elif template == 4 %}
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:2px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="passport_type" id="passport_type" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                            <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+
+                                    </select>
+                                </div>
+                            </div>
+                            <input type="hidden" name="consulate" id="consulate" />
+                        </div>
+                    </div>
+                    <br/>
+                    <center>
+                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            Search
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
+                    </center>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% elif template == 5 %}
+<section class="destinations-area change_search_area" style="padding:14px 0px 14px 0px; background:white; border-bottom:1px solid #cdcdcd; border-top:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+    <div id="hotel_search_params" class="container">
+        <div class="row">
+            <div class="col-lg-6 col-md-6" style="text-align:left;">
+                <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+            </div>
+
+            <div class="col-lg-6 col-md-6" style="text-align:right;">
+                <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
+                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                    <span id="change_search_text">Change Search</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:35px; padding-bottom:35px; background-color: black; z-index:3; position:relative; display:none">
+    <div class="overlay overlay-bg"></div>
+    <div class="container" id="div-search-overlay">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="banner-right">
+                    <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_type" id="passport_type" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="consulate" id="consulate" />
+                            </div>
+                        </div>
+                        <br/>
+                        <center>
+                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                Search
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{%endif%}
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
+    <div class="container">
+        <div class="row" style="padding-bottom:10px;">
+            <div class="col-lg-12" id="breadcrumbs_create">
+
+            </div>
+        </div>
+
+        <div class="row" id="info_user_search" style="padding-bottom:5px; position: sticky; top: 67px; z-index: 2;">
+            <div class="col-lg-12">
+                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
+                    <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
+                    <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+                    <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-bottom:15px;">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
+                <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+            </div>
+        </div>
+        <form action="{% url 'tt_website_rodextrip:passport_passenger'%}" method="POST" id="passport_passenger">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="loading-search-visa">
+                        <div class="sk-circle">
+                            <div class="sk-circle1 sk-child"></div>
+                            <div class="sk-circle2 sk-child"></div>
+                            <div class="sk-circle3 sk-child"></div>
+                            <div class="sk-circle4 sk-child"></div>
+                            <div class="sk-circle5 sk-child"></div>
+                            <div class="sk-circle6 sk-child"></div>
+                            <div class="sk-circle7 sk-child"></div>
+                            <div class="sk-circle8 sk-child"></div>
+                            <div class="sk-circle9 sk-child"></div>
+                            <div class="sk-circle10 sk-child"></div>
+                            <div class="sk-circle11 sk-child"></div>
+                            <div class="sk-circle12 sk-child"></div>
+                        </div>
+                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                    </div>
+                </div>
+                <div class="col-lg-12" id="show-visa-search">
+                </div>
+
+                <div class="col-lg-8 col-md-8" style="margin-top:10px;">
+                    <div class="row" id="show-search-train">
+                        {%if template == 3%}
+                        <div class="col-lg-12 header-right" id="passport_ticket" style="background:unset; border:unset;">
+
+                        </div>
+                        {% else %}
+                        <div class="col-lg-12" id="passport_ticket">
+
+                        </div>
+                        {%endif%}
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="detail">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" id="time_limit_input" name="time_limit_input" />
+                <input type="hidden" id="passport_list" name="passport_list" />
+            </div>
+        </form>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+
+<script>
+    $( document ).ready(function() {
+        breadcrumb_create("passport", 2, 0);
+        $('.js-example-basic-single').select2();
+
+        try{
+            document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+        }catch(err){}
+        try{
+            document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+        }catch(err){}
+        $(window).scroll(function() {
+            if ($(this).scrollTop() >= 66) {
+                if ($(window).width() >= 992){
+                   document.getElementById("info_user_search").style.display = "block";
+                   try{
+                       document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
+                   }catch(err){}
+                   try{
+                       document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
+                   }catch(err){}
+                }else{
+                   document.getElementById("info_user_search").style.display = "none";
+                }
+            }else{
+                document.getElementById("info_user_search").style.display = "none";
+            }
+        });
+        get_passport_config('search');
+
+    });
+</script>
+{% endblock %}

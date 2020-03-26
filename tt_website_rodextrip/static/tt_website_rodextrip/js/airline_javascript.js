@@ -1788,6 +1788,22 @@ function filtering(type){
            data = temp_data;
            temp_data = [];
        }
+       //filter arrival departure
+       if(airline_pick_list.length > 0){
+            copy_data = JSON.parse(JSON.stringify(data));
+            if(airline_request.departure[journey.length-1] == airline_request.departure[journey.length]){
+                temp_data = [];
+                for(i in copy_data){
+                    if(parseInt(airline_pick_list[airline_pick_list.length-1].arrival_date.split(' - ')[1].split(':')[0])*60 + parseInt(airline_pick_list[airline_pick_list.length-1].arrival_date.split(' - ')[1].split(':')[1]) > parseInt(copy_data[i].departure_date.split(' - ')[1].split(':')[0])*60 + parseInt(copy_data[i].departure_date.split(' - ')[1].split(':')[1])){
+                        copy_data[i].can_book = false;
+                    }
+                    temp_data.push(copy_data[i]);
+                }
+                console.log(temp_data);
+                data = temp_data;
+                temp_data = [];
+            }
+       }
        sort();
    }else if(type == 'sort'){
        sort();
@@ -2239,6 +2255,8 @@ function sort(){
                                        if(airline[i].can_book == true){
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="get_price_itinerary(`+i+`)" sequence_id="0"/>`;
                                        }
+                                       else if(airline[i].available_count > parseInt(airline_request.adult) && airline[i].can_book == false)
+                                           text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Choose" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');" sequence_id="0"/>`;
                                        else{
                                            text+=`<input type='button' style="margin:5px 0px 0px 0px;" id="departjourney`+i+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Sold Out" onclick="" disabled sequence_id="0"/>`;
                                        }

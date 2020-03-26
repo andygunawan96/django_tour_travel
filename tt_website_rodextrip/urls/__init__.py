@@ -2,6 +2,7 @@ from .tt_website_rodextrip_train_urls import *
 from .tt_website_rodextrip_airline_urls import *
 from .tt_website_rodextrip_registration_urls import *
 from .tt_website_rodextrip_visa_url import *
+from .tt_website_rodextrip_passport_url import *
 from .tt_website_rodextrip_issued_offline_urls import *
 from .tt_website_rodextrip_activity_urls import *
 from .tt_website_rodextrip_tour_urls import *

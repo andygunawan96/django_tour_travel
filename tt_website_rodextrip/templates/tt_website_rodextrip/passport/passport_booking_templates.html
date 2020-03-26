@@ -1,0 +1,161 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<!--<script src="{{ static_path }}js/webservice_token.js"></script>-->
+<!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/pricing_javascript.js"></script>-->
+<script>
+    static_path_url_server = '{{static_path_url_server}}'
+</script>
+{% include 'tt_website_rodextrip/logout.html' %}
+{% include 'tt_website_rodextrip/loading_screen.html' %}
+{% include 'tt_website_rodextrip/check_connection.html' %}
+<title id="title_search">{{name}} Visa - Booking</title>
+{%if template == 1%}
+<header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% elif template == 2 or template == 3 or template == 4 or template == 5 %}
+<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd;">
+    <div class="main-menu">
+        <div class="container">
+            <div class="row align-items-center justify-content-between d-flex">
+                <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" id="breadcrumbs_create">
+
+                </div>
+            </div>
+            <div class="row">
+                {% include 'tt_website_rodextrip/balance_credit.html' %}
+            </div>
+        </div>
+    </div>
+</header>
+{% endif %}
+
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
+    <div class="container">
+        <form method="POST" action="{% url 'tt_website_rodextrip:airline_booking'%}">
+            {% csrf_token %}
+            <div class="row" style="padding-top:10px;">
+                <div class="col-lg-12">
+                    <h3 id="order_state"></h3>
+                </div>
+                <div class="col-lg-8" style="margin-top:10px; margin-bottom:15px;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="visa_booking">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4" style="margin-top:10px;">
+                    <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="detail">
+
+                    </div>
+                    <!--<div id="pricing">-->
+
+                    <!--</div>-->
+                </div>
+                <div class="modal fade" id="myModalRepricing" role="dialog">
+                    <div class="modal-dialog" style="width:100% !important; height:100% !important; max-width:1200px;padding: 0;">
+
+                        <!-- Modal content-->
+                        <div class="modal-content" style="border-radius: 0;">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-lg-8">
+                                        <div class="row" id="pricing" style="padding:15px;">
+                                            <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
+                                                <div class="row">
+                                                    <div class="col-lg-12">
+                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <hr/>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:right;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_equation();"><i class="fas fa-plus-circle"></i></button>
+                                                        <button class="primary-btn-ticket" type="button" onclick="delete_table_of_equation();"><i class="fas fa-trash-alt"></i></button>
+                                                        <br/>
+                                                    </div>
+                                                    <div class="col-lg-12">
+                                                        <div style="padding:10px;" id="table_of_equation">
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12" style="margin-bottom:15px; margin-top:15px;">
+                                                        <hr/>
+                                                        <center>
+                                                            <input class="primary-btn-ticket" type="button" onclick="calculate('airline');" value="Calculate">
+                                                        </center>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div class="row" style="padding:15px;">
+                                            <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
+                                                <h4>Result Pricing</h4>
+                                                <hr/>
+                                                <div class="row" id="repricing_div">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+<script>
+    visa_signin('{{order_number}}');
+
+    $( document ).ready(function() {
+        breadcrumb_create("visa", 5, 1);
+    });
+//    history.pushState(null, null, document.URL);
+//    window.addEventListener('popstate', function () {
+//        history.pushState(null, null, document.URL);
+//    });
+</script>
+
+{% endblock %}
