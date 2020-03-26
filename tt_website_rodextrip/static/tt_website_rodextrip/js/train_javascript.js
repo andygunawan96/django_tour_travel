@@ -1469,17 +1469,20 @@ function filtering(type){
             data = temp_data;
             temp_data = [];
         }
+        //filter arrival departure
         if(journeys.length > 0){
-            if(train_request.departure[0] == train_request.departure[1]){
+            copy_data = JSON.parse(JSON.stringify(data));
+            if(train_request.departure[journeys.length-1] == train_request.departure[journeys.length]){
                 temp_data = [];
-                for(i in data){
-                    if(parseInt(journeys[0].arrival_date[1].split(':')[0])*60 + parseInt(journeys[0].arrival_date[1].split(':')[1]) < parseInt(data[i].departure_date[1].split(':')[0])*60 + parseInt(data[i].departure_date[1].split(':')[1]))
-                        temp_data.push(data[i]);
+                for(i in copy_data){
+                    if(parseInt(journeys[journeys.length-1].arrival_date[1].split(':')[0])*60 + parseInt(journeys[journeys.length-1].arrival_date[1].split(':')[1]) > parseInt(copy_data[i].departure_date[1].split(':')[0])*60 + parseInt(copy_data[i].departure_date[1].split(':')[1]))
+                        copy_data[i].can_book = false;
+                    temp_data.push(copy_data[i]);
                 }
                 data = temp_data;
+                temp_data = [];
             }
         }
-
     }
     sort(data);
 }
@@ -1660,7 +1663,7 @@ function sort(value){
                     </div>
 
                     <div class="col-lg-4">
-                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <i class="fas fa-clock"></i><span class="copy_duration" style="font-weight:500;"> `+data_filter[i].elapsed_time.split(':')[0]+`h `+data_filter[i].elapsed_time.split(':')[1]+`m</span><br><span class="copy_transit" style="font-weight:500;">Duration</span>
                         </div>
                         <div style="float:right; margin-top:20px; margin-bottom:10px;">`;
@@ -1678,10 +1681,14 @@ function sort(value){
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
                                 <input class="primary-btn-custom" type="button" onclick="choose_train(`+i+`,`+data_filter[i].sequence+`)"  id="train_choose`+i+`" value="Choose">`;
-                            else if(data_filter[i].available_count > parseInt(passengers.adult)  && data_filter[i].can_book == false)
+                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false && data_filter[i].departure_date[0] == moment().format('DD MMM YYYY'))
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
-                                <input class="primary-btn-custom" type="button" onclick="alert('Sorry, you can choose 3 or more hours from now!')"  id="train_choose`+i+`" value="Choose">`;
+                                <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, you can choose 3 or more hours from now!');"  id="train_choose`+i+`" value="Choose">`;
+                            else if(data_filter[i].available_count > parseInt(passengers.adult) && data_filter[i].can_book == false)
+                                response+=`
+                                <span class="copy_price" style="font-size:16px; margin-right:10px; font-weight: bold; color:#505050;">IDR `+getrupiah(data_filter[i].price)+`</span>
+                                <input class="primary-btn-custom" type="button" onclick="alert_message_swal('Sorry, arrival time you pick does not match with this journey!');"  id="train_choose`+i+`" value="Choose">`;
                             else if(data_filter[i].can_book == false)
                                 response+=`
                                 <span class="copy_price" style="font-size:16px; margin-right:10px;">IDR `+getrupiah(data_filter[i].price)+`</span>
@@ -1713,7 +1720,7 @@ function train_ticket_pick(){
         response+=`
         <div style="background-color:`+color+`; padding:10px;">
             <h6 style="color:`+text_color+`;">`;
-        if(journeys[i].sequence == 0)
+        if(journeys[i].train_sequence == "0")
             response += 'Departure';
         else
             response += 'Return';

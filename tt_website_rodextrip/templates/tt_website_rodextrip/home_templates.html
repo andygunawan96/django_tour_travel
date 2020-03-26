@@ -11,6 +11,7 @@
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_passport.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
@@ -156,6 +157,14 @@
                                 <a class="nav-link" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
                                     <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> VISA </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if "passport" in provider %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> PASSPORT </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -817,6 +826,57 @@
                                                 </div>
                                             </div>
                                             <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            Search
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                            </div>
+                            {% endif %}
+
+                            {% if "passport" in provider %}
+                            <div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">
+                                <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="passport_type" id="passport_type" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="consulate" id="consulate" />
                                         </div>
                                     </div>
                                     <br/>
@@ -5186,6 +5246,9 @@
             {% endif %}
             {% if "visa" in provider %}
             get_visa_config('home');
+            {% endif %}
+            {% if "passport" in provider %}
+                get_passport_config('home');
             {% endif %}
             {% if "hotel" in provider %}
             var hotel_autocomplete = new autoComplete({
