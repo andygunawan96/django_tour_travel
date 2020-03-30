@@ -2,9 +2,10 @@ from .tt_website_rodextrip_header_urls import *
 from ..views import tt_website_rodextrip_views as view
 
 urlpatterns.append(path(r'page/<slug:data>', view.page, name="dynamic_page"))
+urlpatterns.append(path('payment', view.payment, name="payment"))
+urlpatterns.append(path('payment/<slug:provider>/<slug:product_type>.<slug:order_number>', view.payment_method, name="payment_embed_espay"))
 urlpatterns.append(re_path('reservation', view.reservation, name="reservation"))
 urlpatterns.append(re_path('page_admin', view.admin, name="admin"))
-urlpatterns.append(re_path('payment', view.payment, name="payment"))
 urlpatterns.append(re_path('testing', view.testing, name="testing"))
 urlpatterns.append(re_path('highlight_setting', view.highlight_setting, name="highlight_setting"))
 urlpatterns.append(re_path('top_up/history', view.top_up_history, name="top_up_history"))

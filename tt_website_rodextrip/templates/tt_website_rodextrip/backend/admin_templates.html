@@ -70,7 +70,7 @@
                             <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -379,8 +379,11 @@
                                     <input type="hidden" id="counter_highlight" value="0"/>
                                 </div>
                             </div>
-                            <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <div id="third_party-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-12">
+                                        <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
+                                    </div>
                                     <div class="col-lg-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
                                         <div class="form-select" id="default-select">
@@ -395,6 +398,30 @@
                                         <div class="form-select">
                                             <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                         </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h5 style="margin-bottom:10px;color:{{text_color}};">Espay</h5>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Key</h6>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Callback URL</h6>
+                                    </div>
+                                    <div class="col-lg-6" style="text-align:center;">
+                                        <input type="text" class="form-control" name="espay_key" id="espay_key" placeholder="Espay API Key " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay API KEY '" value="{{espay_api_key}}">
+                                    </div>
+                                    <div class="col-lg-6" style="text-align:center;">
+                                        <input type="text" class="form-control" name="espay_key_callback_url" id="espay_key_callback_url" placeholder="Espay Callback URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay Callback URL '" value="{{espay_api_key_callback_url}}">
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h5 style="margin-bottom:10px;color:{{text_color}};">Backend</h5>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">URL</h6>
+                                    </div>
+                                    <div class="col-lg-12" style="text-align:center;">
+                                        <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
                                         <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
@@ -648,7 +675,7 @@
                                 <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -954,12 +981,35 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                        <div id="third_party-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <!--<div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">-->
+                                <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>-->
+                                    <!--<div class="form-select" id="default-select">-->
+                                        <!--<select class="form-control" id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                            <!--<option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>-->
+                                            <!--<option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>-->
+                                    <!--<div class="form-select">-->
+                                        <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-lg-12" style="text-align:center;">-->
+                                    <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
+                                </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
                                     <div class="form-select" id="default-select">
-                                        <select class="form-control" id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
+                                        <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
                                             <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
                                         </select>
@@ -970,6 +1020,30 @@
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                     </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Espay</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Key</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Callback URL</h6>
+                                </div>
+                                <div class="col-lg-6" style="text-align:center;">
+                                    <input type="text" class="form-control" name="espay_key" id="espay_key" placeholder="Espay API Key " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay API KEY '" value="{{espay_api_key}}">
+                                </div>
+                                <div class="col-lg-6" style="text-align:center;">
+                                    <input type="text" class="form-control" name="espay_key_callback_url" id="espay_key_callback_url" placeholder="Espay Callback URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay Callback URL '" value="{{espay_api_key_callback_url}}">
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Backend</h5>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">URL</h6>
+                                </div>
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
@@ -1219,7 +1293,7 @@
                                 <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -1529,11 +1603,35 @@
                                 <input type="hidden" id="counter_highlight" value="0"/>
                             </div>
                         </div>
-                        <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                        <div id="third_party-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <!--<div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">-->
+                                <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>-->
+                                    <!--<div class="default-select">-->
+                                        <!--<select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                            <!--<option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>-->
+                                            <!--<option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>-->
+                                    <!--<div class="form-select">-->
+                                        <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-lg-12" style="text-align:center;">-->
+                                    <!--<hr/>-->
+                                    <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
+                                </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
-                                    <div class="default-select">
+                                    <div class="form-select" id="default-select">
                                         <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
                                             <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
@@ -1546,8 +1644,31 @@
                                         <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                     </div>
                                 </div>
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Espay</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Key</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Callback URL</h6>
+                                </div>
+                                <div class="col-lg-6" style="text-align:center;">
+                                    <input type="text" class="form-control" name="espay_key" id="espay_key" placeholder="Espay API Key " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay API KEY '" value="{{espay_api_key}}">
+                                </div>
+                                <div class="col-lg-6" style="text-align:center;">
+                                    <input type="text" class="form-control" name="espay_key_callback_url" id="espay_key_callback_url" placeholder="Espay Callback URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay Callback URL '" value="{{espay_api_key_callback_url}}">
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Backend</h5>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">URL</h6>
+                                </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <hr/>
+                                    <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
+                                </div>
+                                <div class="col-lg-12" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
                                 </div>
                             </div>
@@ -1794,7 +1915,7 @@
                             <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -2106,8 +2227,32 @@
                             <input type="hidden" id="counter_highlight" value="0"/>
                         </div>
                     </div>
-                    <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                    <div id="third_party-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                        <!--<div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>-->
+                                <!--<div class="form-select" id="default-select">-->
+                                    <!--<select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                        <!--<option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>-->
+                                        <!--<option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-6">-->
+                                <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>-->
+                                <!--<div class="form-select">-->
+                                    <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-lg-12" style="text-align:center;">-->
+                                <!--<hr/>-->
+                                <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                            <div class="col-lg-12">
+                                <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
+                            </div>
                             <div class="col-lg-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
                                 <div class="form-select" id="default-select">
@@ -2123,8 +2268,31 @@
                                     <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                 </div>
                             </div>
+                            <div class="col-lg-12">
+                                <h5 style="margin-bottom:10px;color:{{text_color}};">Espay</h5>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Key</h6>
+                            </div>
+                            <div class="col-lg-6">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">Callback URL</h6>
+                            </div>
+                            <div class="col-lg-6" style="text-align:center;">
+                                <input type="text" class="form-control" name="espay_key" id="espay_key" placeholder="Espay API Key " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay API KEY '" value="{{espay_api_key}}">
+                            </div>
+                            <div class="col-lg-6" style="text-align:center;">
+                                <input type="text" class="form-control" name="espay_key_callback_url" id="espay_key_callback_url" placeholder="Espay Callback URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay Callback URL '" value="{{espay_api_key_callback_url}}">
+                            </div>
+                            <div class="col-lg-12">
+                                <h5 style="margin-bottom:10px;color:{{text_color}};">Backend</h5>
+                            </div>
+                            <div class="col-lg-12">
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">URL</h6>
+                            </div>
                             <div class="col-lg-12" style="text-align:center;">
-                                <hr/>
+                                <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
+                            </div>
+                            <div class="col-lg-12" style="text-align:center;">
                                 <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
                             </div>
                         </div>
@@ -2372,7 +2540,7 @@
                                 <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="tawk-tab"><label style="color:white; font-size:15px;">Tawk Setting</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -2681,8 +2849,31 @@
                                 <input type="hidden" id="counter_highlight" value="0"/>
                             </div>
                         </div>
-                        <div id="tawk-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                        <div id="third_party-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <!--<div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">-->
+                                <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>-->
+                                    <!--<div class="form-select" id="default-select">-->
+                                        <!--<select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">-->
+                                            <!--<option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>-->
+                                            <!--<option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>-->
+                                        <!--</select>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>-->
+                                    <!--<div class="form-select">-->
+                                        <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                                <!--<div class="col-lg-12" style="text-align:center;">-->
+                                    <!--<button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>-->
+                                <!--</div>-->
+                            <!--</div>-->
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
+                                </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
                                     <div class="form-select" id="default-select">
@@ -2697,6 +2888,30 @@
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                     </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Espay</h5>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Key</h6>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Callback URL</h6>
+                                </div>
+                                <div class="col-lg-6" style="text-align:center;">
+                                    <input type="text" class="form-control" name="espay_key" id="espay_key" placeholder="Espay API Key " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay API KEY '" value="{{espay_api_key}}">
+                                </div>
+                                <div class="col-lg-6" style="text-align:center;">
+                                    <input type="text" class="form-control" name="espay_key_callback_url" id="espay_key_callback_url" placeholder="Espay Callback URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Espay Callback URL '" value="{{espay_api_key_callback_url}}">
+                                </div>
+                                <div class="col-lg-12">
+                                    <h5 style="margin-bottom:10px;color:{{text_color}};">Backend</h5>
+                                </div>
+                                <div class="col-lg-12">
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">URL</h6>
+                                </div>
+                                <div class="col-lg-12" style="text-align:center;">
+                                    <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>

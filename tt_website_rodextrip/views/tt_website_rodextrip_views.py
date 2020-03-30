@@ -268,6 +268,19 @@ def page(request, data):
     })
     return render(request, MODEL_NAME + '/page.html', values)
 
+def payment_method(request, provider, product_type, order_number):
+    javascript_version = get_javascript_version()
+    values = get_data_template(request, 'login')
+    values.update({
+        'static_path': path_util.get_static_path(MODEL_NAME),
+        'javascript_version': javascript_version,
+        'static_path_url_server': get_url_static_path(),
+        'username': {'co_user_login': ''},
+        'order_number': product_type+'.'+order_number,
+        'provider': provider,
+    })
+    return render(request, MODEL_NAME + '/payment_method_embed.html', values)
+
 def login(request):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
@@ -450,6 +463,9 @@ def admin(request):
                             pass
                         if check == 0:
                             text += '\n'
+                    text += request.POST['espay_key'] + '\n'
+                    text += request.POST['espay_key_callback_url'] + '\n'
+                    text += request.POST['backend_url'] + '\n'
                     file = open(var_log_path()+'data_cache_template.txt', "w+")
                     file.write(text)
                     file.close()
@@ -772,6 +788,9 @@ def get_data_template(request, type='home'):
     instagram = ''
     tab_color = '#333333'
     text_color = '#FFFFFF'
+    espay_api_key = ''
+    espay_api_key_callback_url = ''
+    backend_url = ''
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
 
 We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
@@ -837,6 +856,21 @@ We build this application for our existing partner and public users who register
                     background = line.split('\n')[0]
                 else:
                     background = 'https://www.skytors.id/web/image/28381'
+            elif idx == 16:
+                if line == '\n':
+                    espay_api_key = ''
+                else:
+                    espay_api_key = line.split('\n')[0]
+            elif idx == 17:
+                if line == '\n':
+                    espay_api_key_callback_url = ''
+                else:
+                    espay_api_key_callback_url = line.split('\n')[0]
+            elif idx == 18:
+                if line == '\n':
+                    backend_url = ''
+                else:
+                    backend_url = line.split('\n')[0]
         if color == '':
             color = '#f15a22'
         file.close()
@@ -858,7 +892,10 @@ We build this application for our existing partner and public users who register
         'instagram_url': instagram,
         'text_color': text_color,
         'tab_color': tab_color,
-        'update_data': ''
+        'update_data': '',
+        'espay_api_key': espay_api_key,
+        'espay_api_key_callback_url': espay_api_key_callback_url,
+        'backend_url': backend_url
     }
 
 # @api_view(['GET'])

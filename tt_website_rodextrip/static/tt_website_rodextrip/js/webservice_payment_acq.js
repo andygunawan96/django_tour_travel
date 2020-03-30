@@ -1,4 +1,5 @@
 function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signature,type,agent_seq_id,top_up_name){
+    order_number_id = order_number;
     $.ajax({
        type: "POST",
        url: "/webservice/payment",
@@ -885,7 +886,9 @@ function set_price(val, type, product_type){
         }
     }catch(err){}
 
-    if(type == 'visa')
+    if(payment_method == 'payment_gateway')
+        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="goto_embed_payment_method('espay','`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+    else if(type == 'visa')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_visa(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'passport')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_passport(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
@@ -914,3 +917,6 @@ function set_price(val, type, product_type){
     document.getElementById('set_price').innerHTML = text;
 }
 
+function goto_embed_payment_method(provider, order_number){
+    window.location.href = '/payment/' + provider + '/' + order_number;
+}

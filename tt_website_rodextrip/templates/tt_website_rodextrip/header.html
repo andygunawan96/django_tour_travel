@@ -4,11 +4,7 @@
 <script>
     agent_security = `{{username.co_agent_frontend_security}}`;
     agent_security = JSON.parse(agent_security.replace(/&#39;/g, '"'));
-    url = document.URL;
-    url = url.split('/');
-
-    url = url[0] + '//backend.' + url[2];
-    console.log(url)
+    url = '{{backend_url}}';
 </script>
 <div id="status" class="status on" style="display:none; top:0px; z-index:1000;"></div>
 {%if template == 1%}
