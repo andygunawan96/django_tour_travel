@@ -88,6 +88,8 @@ def api_models(request):
             res = set_dynamic_page(request)
         elif req_data['action'] == 'get_dynamic_page_detail':
             res = get_dynamic_page_detail(request)
+        elif req_data['action'] == 'testing_espay_close':
+            res = testing_espay_close(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -316,6 +318,25 @@ def set_inactive_delete_banner(request):
         # elif func == 'register':
         #     register(request)
     except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def testing_espay_close(request):
+    try:
+        headers = {
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
+        data = "rq_uuid=b9e04730-19c0-436b-bd72-1c2781fbcce8&rq_datetime=2020-03-27 14:50:25&sender_id=SGOPLUS&receiver_id=SGWRODEXDY&password=SZUWPWRT&comm_code=SGWRODEXDY&member_code=1234521260592585&member_cust_id=SYSTEM&member_cust_name=SYSTEM&ccy=IDR&amount=1887300&debit_from=1234521260592585&debit_from_name=1234521260592585&debit_from_bank=014&credit_to=22222222&credit_to_name=ESPAY&credit_to_bank=014&payment_datetime=2020-03-27 14:50:25&payment_ref=ESP15852925062WFVU&payment_remark=2020-03-27 14:44:17&order_id=AL.20033043065&product_code=BCAATM&product_value=1234521260592585&status=0&total_amount=1887300&tx_key=ESP1585295062WFVU&fee_type=S&tx_fee=0.00&member_id=1234521260592585&approval_code_full_bca=1234521260592585&signature=21e4ad5962820cd5551e861b61ed06d27afa350158dac6fd0e8a7cb348e34056"
+
+        res = util.send_request(url=url + "webhook/payment/espay/notification", data=data, headers=headers, method='POST')
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 

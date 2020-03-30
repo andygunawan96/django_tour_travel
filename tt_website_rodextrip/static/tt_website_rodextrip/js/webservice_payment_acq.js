@@ -887,7 +887,7 @@ function set_price(val, type, product_type){
     }catch(err){}
 
     if(payment_method == 'payment_gateway')
-        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="goto_embed_payment_method('espay','`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="get_payment_order_number('espay','`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'visa')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_visa(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'passport')
@@ -919,4 +919,34 @@ function set_price(val, type, product_type){
 
 function goto_embed_payment_method(provider, order_number){
     window.location.href = '/payment/' + provider + '/' + order_number;
+}
+
+function get_payment_order_number(provider, order_number){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/payment",
+       headers:{
+            'action': 'get_order_number',
+       },
+       data: {
+            'order_number': order_number,
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                window.location.href = '/payment/' + provider + '/' + order_number;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
+                })
+            }
+       },timeout: 60000
+    });
+
 }
