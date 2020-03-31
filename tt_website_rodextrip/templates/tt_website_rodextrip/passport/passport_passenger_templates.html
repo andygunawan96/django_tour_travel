@@ -584,7 +584,7 @@
     <div class="container">
         <div class="hotel-search-form-area" style="padding:unset; position:unset;">
             <div class="hotel-search-form" style="background-color:unset; box-shadow:unset; padding:unset;">
-                <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:visa_review'%}" method="POST" style="padding:0; text-align:unset;">
+                <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:passport_review'%}" method="POST" style="padding:0; text-align:unset;">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-8" style="margin-top:10px;">
@@ -1347,7 +1347,7 @@
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4"></div>
                                 <div class="col-lg-4">
-                                    <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}}, {{passengers.child}}, {{passengers.infant}});">
+                                    <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}});">
                                         Next
                                         <div class="ld ld-ring ld-cycle"></div>
                                     </button>
@@ -1432,7 +1432,7 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="header-right" style="background:unset; border:unset;">
-            <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:visa_review'%}" method="POST" style="padding:0; text-align:unset;">
+            <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:passport_review'%}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
@@ -2217,7 +2217,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}}, {{passengers.child}}, {{passengers.infant}});">
+                                <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}});">
                                     Next
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
@@ -2300,7 +2300,7 @@
 </header>
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
-        <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:visa_review'%}" method="POST" style="padding:0; text-align:unset;">
+        <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:passport_review'%}" method="POST" style="padding:0; text-align:unset;">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-8" style="margin-top:10px;">
@@ -3085,7 +3085,7 @@
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
-                            <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}}, {{passengers.child}}, {{passengers.infant}});">
+                            <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}});">
                                 Next
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -3168,7 +3168,7 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7;">
     <div class="container">
         <div class="banner-right">
-            <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:visa_review'%}" method="POST" style="padding:0; text-align:unset;">
+            <form id="visa_review" class="form-wrap" action="{% url 'tt_website_rodextrip:passport_review'%}" method="POST" style="padding:0; text-align:unset;">
                 {% csrf_token %}
                 <div class="row">
                     <div class="col-lg-8" style="margin-top:10px;">
@@ -3951,7 +3951,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
-                                <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}}, {{passengers.child}}, {{passengers.infant}});">
+                                <button class="primary-btn-ticket next-loading ld-ext-right" style="width:100%;" type="button" value="Next" onclick="show_loading();check_passenger({{passengers.adult}});">
                                     Next
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
