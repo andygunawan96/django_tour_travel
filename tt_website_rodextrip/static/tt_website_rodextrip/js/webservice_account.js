@@ -1225,6 +1225,9 @@ function total_price_top_up(evt){
 //            break;
 //        }
 //    }
+    var check = 0;
+    if(document.getElementById('amount').value == '')
+        check = 1;
     var amount = document.getElementById('amount').value.split(',');
     amount = amount.join('');
     document.getElementById('amount').value = getrupiah(amount);
@@ -1234,7 +1237,12 @@ function total_price_top_up(evt){
         document.getElementById('payment_method_grand_total').innerHTML = payment_acq2[payment_method][selected].currency+` `+getrupiah(document.getElementById('amount').value + payment_acq2[payment_method][selected].price_component.unique_amount);
     }catch(err){
     }
-
+    if(document.getElementById('amount').value == '' && check ==0)
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: #ff9900;">Please input numeric only </span>' ,
+        })
 //    $('#amount').niceSelect('update');
 }
 

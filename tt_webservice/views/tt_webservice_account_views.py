@@ -97,6 +97,8 @@ def api_models(request):
             res = set_highlight_url(request)
         elif req_data['action'] == 'get_highlight_url':
             res = get_highlight_url(request)
+        elif req_data['action'] == 'get_va_number':
+            res = get_va_number(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -644,6 +646,28 @@ def get_highlight_url(request):
     except:
         pass
     return data
+
+def get_va_number(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_va_number",
+            "signature": request.POST['signature'],
+        }
+        data = {}
+
+        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
 
 #DEPRECATED
 def request_top_up(request):
