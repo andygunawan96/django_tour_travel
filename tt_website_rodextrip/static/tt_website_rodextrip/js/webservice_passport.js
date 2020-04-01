@@ -598,7 +598,7 @@ function passport_commit_booking(){
 //                document.getElementById('order_number').value = msg.result.response.journey.name;
 //                document.getElementById('visa_booking').submit();
                 document.getElementById('order_number').value = msg.result.response.journey.name;
-                document.getElementById('issued').action = '/visa/booking';
+                document.getElementById('issued').action = '/passport/booking';
                 document.getElementById('issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
@@ -639,19 +639,19 @@ function passport_get_data(data){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                visa = msg.result.response;
+                passport = msg.result.response;
                 var cur_state = msg.result.response.journey.state;
-                var cur_state_visa = msg.result.response.journey.state_visa;
+                var cur_state_passport= msg.result.response.journey.state_passport;
                 if(cur_state == 'booked'){
                     conv_status = 'Booked';
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
                 }
                 else if(cur_state == 'issued'){
                     conv_status = 'Issued';
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
                 }
                 else if(cur_state == 'cancel'){
                     conv_status = 'Cancelled';
@@ -695,7 +695,7 @@ function passport_get_data(data){
                     document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
                 }
 
-                conv_status_visa = {
+                conv_status_passport = {
                     'confirm': 'Confirm to HO',
                     'validate': 'Validated bo HO',
                     'to_vendor': 'Sent to Vendor',
@@ -713,15 +713,15 @@ function passport_get_data(data){
 
                 text= `<div class="row">
                         <div class="col-lg-12">
-                            <div id="visa_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
-                                <h6>Order Number : `+visa.journey.name+`</h6><br/>
+                            <div id="passport_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
+                                <h6>Order Number : `+passport.journey.name+`</h6><br/>
                                  <table style="width:100%;">
                                     <tr>
-                                        <th>Visa Status</th>
+                                        <th>Passport Status</th>
                                         <th>Order Status</th>
                                     </tr>
                                     <tr>
-                                        <td>`+visa.journey.state_visa+`</td>
+                                        <td>`+passport.journey.state_passport+`</td>
                                         <td>`+conv_status+`</td>
                                     </tr>
                                  </table>
@@ -733,15 +733,15 @@ function passport_get_data(data){
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="tour_booking_info" style="padding:10px; margin-top: 10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> Visa Information </h4>
+                                <h4> Passport Information </h4>
                                 <hr/>
-                                <h4>`+visa.journey.country+`</h4>
+                                <h4>Process Date</h4>
                                 <span><i class="fa fa-calendar" aria-hidden="true"></i>
-                                `+visa.journey.departure_date+`
+                                `+passport.journey.in_process_date+`
                                 </span>
                                 <br/>
                                 <br/>
-                                <span>Payment Status: `+visa.journey.payment_status+`</span>
+                                <span>Payment Status: `+passport.journey.payment_status+`</span>
                                 <br/>
                             </div>
                         </div>
@@ -781,15 +781,15 @@ function passport_get_data(data){
                             type_amount_repricing = ['Repricing'];
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
                             for(i in msg.result.response.passengers){
-                                for(j in msg.result.response.passengers[i].visa.price){
+                                for(j in msg.result.response.passengers[i].passport.price){
                                     if(j == 'TOTAL'){
-                                        price['FARE'] += msg.result.response.passengers[i].visa.price[j].amount;
-                                        price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                        price['FARE'] += msg.result.response.passengers[i].passport.price[j].amount;
+                                        price['currency'] += msg.result.response.passengers[i].passport.price[j].currency;
                                     }else if(j == 'RAC'){
-                                        price[j] += msg.result.response.passengers[i].visa.price[j].amount;
-                                        price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
+                                        price[j] += msg.result.response.passengers[i].passport.price[j].amount;
+                                        price['currency'] += msg.result.response.passengers[i].passport.price[j].currency;
                                     }else if(j == 'CSC'){
-                                        price['CSC'] = msg.result.response.passengers[i].visa.price[j].amount;
+                                        price['CSC'] = msg.result.response.passengers[i].passport.price[j].amount;
 
                                     }
                                 }
@@ -852,105 +852,110 @@ function passport_get_data(data){
                                      text+=`</div>
                                             <div class="col-lg-6" style="text-align:right;">
                                                 <h6>Package</h6>
-                                                <span>`+msg.result.response.passengers[i].visa.visa_type+`/`+msg.result.response.passengers[i].visa.entry_type+`/`+msg.result.response.passengers[i].visa.process+`</span>
+                                                <span>`+msg.result.response.passengers[i].passport.passport_type+`/`+msg.result.response.passengers[i].passport.apply_type+`/`+msg.result.response.passengers[i].passport.process_type+`</span>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row" style="margin-top:10px;">
-                                    <div class="col-lg-12">
-                                        <div class="row" id="adult_required{{counter}}">
-                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:10px;">
-                                                <h6>Required</h6>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
-                                                <h6>Original</h6>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
-                                                <h6>Copy</h6>
-                                            </div>`;
-                                        for(j in msg.result.response.passengers[i].visa.requirement){
-                                            if(template == 1){
-                                                text+=`
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
-                                            }else if(template == 2 || template == 3){
-                                                text+=`
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
-                                            }else if(template == 4 || template == 5){
-                                                text+=`
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
-                                            }
-                                            text+=`
-                                                <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].visa.requirement[j].name+`</b></label><br/>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                                if(msg.result.response.passengers[i].visa.requirement[j].is_original == false){
-                                                    text+=`
-                                                    <label class="check_box_custom">
-                                                        <span style="font-size:13px;"></span>
-                                                        <input type="checkbox" disabled/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label>`;
-                                                }else if(msg.result.response.passengers[i].visa.requirement[j].is_original == true){
-                                                    text+=`
-                                                    <label class="check_box_custom">
-                                                        <span style="font-size:13px;"></span>
-                                                        <input type="checkbox" disabled checked/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label>`;
-                                                }
-                                            text+=`
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                                if(msg.result.response.passengers[i].visa.requirement[j].is_copy == false){
-                                                    text+=`
-                                                    <label class="check_box_custom">
-                                                        <span style="font-size:13px;"></span>
-                                                        <input type="checkbox" disabled/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label>`;
-                                                }else if(msg.result.response.passengers[i].visa.requirement[j].is_copy == true){
-                                                    text+=`
-                                                    <label class="check_box_custom">
-                                                        <span style="font-size:13px;"></span>
-                                                        <input type="checkbox" disabled checked/>
-                                                        <span class="check_box_span_custom"></span>
-                                                    </label>`;
-                                                }
-                                            text+=`
-                                            </div>`;
-                                        }
-                                        text+=`
-                                        </div>
-                                    </div>`;
-                                    if(msg.result.response.passengers[i].visa.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
+                                </div>`;
+                                if(msg.result.response.passengers[i].passport.requirement.length > 0){
                                     text+=`
-                                    <div class="col-lg-12" style="margin-top:15px;">
-                                        <h6>Interview</h6>
-                                        <table style="width:100%;" id="list-of-passenger">
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Location</th>
-                                                <th>Meeting Point</th>
-                                                <th>Employee</th>
-                                                <th>Date time</th>
-                                                <th>Required</th>
-                                            </tr>`;
-                                            for(j in msg.result.response.passengers[i].visa.interview.interview_list){
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-lg-12">
+                                            <div class="row" id="adult_required{{counter}}">
+                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:10px;">
+                                                    <h6>Required</h6>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                    <h6>Original</h6>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                    <h6>Copy</h6>
+                                                </div>`;
+                                            for(j in msg.result.response.passengers[i].passport.requirement){
+                                                if(template == 1){
+                                                    text+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
+                                                }else if(template == 2 || template == 3){
+                                                    text+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                                                }else if(template == 4 || template == 5){
+                                                    text+=`
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
+                                                }
                                                 text+=`
-                                            <tr>
-                                                <td>`+parseInt(parseInt(j)+1)+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].location+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].meeting_point+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].ho_employee+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.interview.interview_list[j].datetime+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.interview.needs+`</td>
-                                            </tr>`;
+                                                    <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].passport.requirement[j].name+`</b></label><br/>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                    if(msg.result.response.passengers[i].passport.requirement[j].is_original == false){
+                                                        text+=`
+                                                        <label class="check_box_custom">
+                                                            <span style="font-size:13px;"></span>
+                                                            <input type="checkbox" disabled/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>`;
+                                                    }else if(msg.result.response.passengers[i].passport.requirement[j].is_original == true){
+                                                        text+=`
+                                                        <label class="check_box_custom">
+                                                            <span style="font-size:13px;"></span>
+                                                            <input type="checkbox" disabled checked/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>`;
+                                                    }
+                                                text+=`
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                    if(msg.result.response.passengers[i].passport.requirement[j].is_copy == false){
+                                                        text+=`
+                                                        <label class="check_box_custom">
+                                                            <span style="font-size:13px;"></span>
+                                                            <input type="checkbox" disabled/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>`;
+                                                    }else if(msg.result.response.passengers[i].passport.requirement[j].is_copy == true){
+                                                        text+=`
+                                                        <label class="check_box_custom">
+                                                            <span style="font-size:13px;"></span>
+                                                            <input type="checkbox" disabled checked/>
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>`;
+                                                    }
+                                                text+=`
+                                                </div>`;
                                             }
-                                        text+=`</table>
+                                            text+=`
+                                            </div>
                                         </div>`;
                                     }
-                                    if(msg.result.response.passengers[i].visa.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].visa.biometrics.biometrics_list.length > 0 ){
+                                    try{
+                                        if(msg.result.response.passengers[i].passport.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
+                                        text+=`
+                                        <div class="col-lg-12" style="margin-top:15px;">
+                                            <h6>Interview</h6>
+                                            <table style="width:100%;" id="list-of-passenger">
+                                                <tr>
+                                                    <th>No</th>
+                                                    <th>Location</th>
+                                                    <th>Meeting Point</th>
+                                                    <th>Employee</th>
+                                                    <th>Date time</th>
+                                                    <th>Required</th>
+                                                </tr>`;
+                                                for(j in msg.result.response.passengers[i].passport.interview.interview_list){
+                                                    text+=`
+                                                <tr>
+                                                    <td>`+parseInt(parseInt(j)+1)+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].location+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].meeting_point+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].ho_employee+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].datetime+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.interview.needs+`</td>
+                                                </tr>`;
+                                                }
+                                            text+=`</table>
+                                            </div>`;
+                                        }
+                                    }catch(err){}
+                                    if(msg.result.response.passengers[i].passport.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].passport.biometrics.biometrics_list.length > 0 ){
                                     text+=`
                                     <div class="col-lg-12" style="margin-top:15px;">
                                         <h6>Biometrics</h6>
@@ -963,15 +968,15 @@ function passport_get_data(data){
                                                 <th>Date time</th>
                                                 <th>Required</th>
                                             </tr>`;
-                                            for(j in msg.result.response.passengers[i].visa.biometrics.biometrics_list){
+                                            for(j in msg.result.response.passengers[i].passport.biometrics.biometrics_list){
                                                 text+=`
                                             <tr>
                                                 <td>`+parseInt(parseInt(j)+1)+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].location+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].meeting_point+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].ho_employee+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.biometrics.biometrics_list[j].datetime+`</td>
-                                                <td>`+msg.result.response.passengers[i].visa.biometrics.needs+`</td>
+                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].location+`</td>
+                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].meeting_point+`</td>
+                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].ho_employee+`</td>
+                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].datetime+`</td>
+                                                <td>`+msg.result.response.passengers[i].passport.biometrics.needs+`</td>
                                             </tr>`
                                             }
                                         text+=`</table>
@@ -981,7 +986,7 @@ function passport_get_data(data){
                                 </div>
                                 <div class="row" style="margin-top:10px;">
                                     <div class="col-lg-4">`;
-                                    if(visa.journey.state == 'booked' || visa.journey.state == 'issued')
+                                    if(passport.journey.state == 'booked' || passport.journey.state == 'issued')
                                     text+=`
                                         <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
                                             <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Visa Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'visa_cust','visa');" />
@@ -989,16 +994,16 @@ function passport_get_data(data){
                                         </a>`;
                                     text+=`</div>
                                     <div class="col-lg-4">`;
-                                    if(visa.journey.state == 'booked')
+                                    if(passport.journey.state == 'booked')
                                     text+=`
                                         <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                            <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','visa');" />
+                                            <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','passport');" />
                                             <div class="ld ld-ring ld-cycle"></div>
                                         </a>`;
                                         text+=`
                                     </div>
                                     <div class="col-lg-4">`;
-                                    if(visa.journey.state == 'issued')
+                                    if(passport.journey.state == 'issued')
                                         text+=`
                                         <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
                                             <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
@@ -1039,7 +1044,7 @@ function passport_get_data(data){
                                                         <div style="text-align:right;">
                                                             <span>Don't want to edit? just submit</span>
                                                             <br/>
-                                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','visa');"/>
+                                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','passport');"/>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -1057,7 +1062,7 @@ function passport_get_data(data){
                         </div>
                     </div>
                 </div>`;
-                document.getElementById('visa_booking').innerHTML = text;
+                document.getElementById('passport_booking').innerHTML = text;
                 update_table('booking');
             }
        },
@@ -1067,7 +1072,7 @@ function passport_get_data(data){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error visa data </span>' + errorThrown,
+                  html: '<span style="color: red;">Error passport data </span>' + errorThrown,
                 }).then((result) => {
                   if (result.value) {
                     $("#waitingTransaction").modal('hide');
@@ -1088,7 +1093,7 @@ function update_service_charge(type){
             }
             list_price = []
             for(j in list){
-                if(passport.passengers[i].first_name + ' ' + visa.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
+                if(passport.passengers[i].first_name + ' ' + passport.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
                     list_price.push({
                         'amount': list[j],
                         'currency_code': currency

@@ -534,6 +534,8 @@
             document.getElementById('gotobooking'+key).action = '/tour/booking';
         }else if(data_search[key].provider_type == 'offline'){
             document.getElementById('gotobooking'+key).action = '/issued_offline/booking';
+        }else if(data_search[key].provider_type == 'passport'){
+            document.getElementById('gotobooking'+key).action = '/passport/booking';
         }
         document.getElementById('gotobooking'+key).submit();
 
