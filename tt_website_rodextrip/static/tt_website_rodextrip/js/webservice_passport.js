@@ -14,32 +14,42 @@ function get_passport_config(type){
         console.log(msg);
         if(type == 'search')
             passport_signin('');
-        visa_config = msg;
+        passport_config = msg;
         text = '';
         for(i in msg.passport_type_list)
-            text += `<option>`+msg.passport_type_list[i][1]+`</option>`;
+            if(typeof(passport_request) !== 'undefined')
+                if(passport_request.passport_type != msg.passport_type_list[i][1])
+                    text += `<option>`+msg.passport_type_list[i][1]+`</option>`;
+                else
+                    text += `<option selected>`+msg.passport_type_list[i][1]+`</option>`;
+            else
+                text += `<option>`+msg.passport_type_list[i][1]+`</option>`;
         document.getElementById('passport_type_id').innerHTML = text;
         text= '';
         for(i in msg.apply_type_list)
-            text += `<option>`+msg.apply_type_list[i][1]+`</option>`;
+            if(typeof(passport_request) !== 'undefined')
+                if(passport_request.passport_apply_type != msg.apply_type_list[i][1])
+                    text += `<option>`+msg.apply_type_list[i][1]+`</option>`;
+                else
+                    text += `<option selected>`+msg.apply_type_list[i][1]+`</option>`;
+            else
+                text += `<option>`+msg.apply_type_list[i][1]+`</option>`;
         document.getElementById('passport_apply_type_id').innerHTML = text;
 
         text= '';
         for(i in msg.immigration_consulate_list)
-            text += `<option>`+msg.immigration_consulate_list[i]+`</option>`;
+            if(typeof(passport_request) !== 'undefined')
+                if(passport_request.consulate != msg.immigration_consulate_list[i])
+                    text += `<option>`+msg.immigration_consulate_list[i]+`</option>`;
+                else
+                    text += `<option selected>`+msg.immigration_consulate_list[i]+`</option>`;
+            else
+                text += `<option>`+msg.immigration_consulate_list[i]+`</option>`;
         document.getElementById('consulate_id').innerHTML = text;
 
-        $('#passport_type_id').niceSelect("update");
-        $('#passport_apply_type_id').niceSelect("update");
-        $('#consulate_id').niceSelect("update");
         document.getElementById('passport_type').value = document.getElementById('passport_type_id').value;
         document.getElementById('passport_apply_type').value = document.getElementById('passport_apply_type_id').value;
         document.getElementById('consulate').value = document.getElementById('consulate_id').value;
-//        visa_config = msg.destinations;
-//        var destination = document.getElementById("visa_destination_id");
-//        for(i in msg.destinations){
-//
-//        }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){

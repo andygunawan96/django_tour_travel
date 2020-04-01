@@ -1260,6 +1260,7 @@ function set_value(pax_type,number){
             if(document.getElementById('adult_passport'+number).value != '')
                 passport.list_of_passport[parseInt(document.getElementById('adult_passport'+number).value)].total_pax--;
         }
+        text_requirements = '';
         if(document.getElementById('adult_passport'+number).value != ''){
             document.getElementById('adult_check'+number).value = document.getElementById('adult_passport'+number).value;
             document.getElementById('adult_price'+number).innerHTML = passport.list_of_passport[parseInt(document.getElementById('adult_passport'+number).value)].sale_price.currency + ' ' + getrupiah(passport.list_of_passport[parseInt(document.getElementById('adult_passport'+number).value)].sale_price.total_price);
@@ -1268,6 +1269,45 @@ function set_value(pax_type,number){
             list_of_name.shift();
             list_of_name.shift();
             list_of_name = list_of_name.join(' ');
+                text_requirements+=`<div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"><h6>Document</h6><br/></div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Original</h6><br/></div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3"><h6>Copy</h6><br/></div>`;
+                for(j in passport.list_of_passport[parseInt(document.getElementById('adult_passport'+number).value)].requirements){
+//                    if(visa.list_of_visa[i].requirements[j].required == true){
+                        if(template == 1){
+                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
+                        }else if(template == 2 || template == 3){
+                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
+                        }else if(template == 4 || template == 5){
+                            text_requirements += `<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                        }
+                        text_requirements += `
+                            <label class="check_box_custom" style="padding-left:unset;">
+                                <span style="font-size:13px;">`+passport.list_of_passport[parseInt(document.getElementById('adult_passport'+number).value)].requirements[j].name+` </span>`;
+                                    if(passport.list_of_passport[parseInt(document.getElementById('adult_passport'+number).value)].requirements[j].required == true){
+                                        text_requirements +=`<span style="color:red; font-weight:500; font-size:16px;">*</span>`;
+                                    }
+                                text_requirements +=`
+                            </label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label class="check_box_custom">
+                                <span style="font-size:13px;"></span>
+                                <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_original"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                            <label class="check_box_custom">
+                                <span style="font-size:13px;"></span>
+                                <input type="checkbox" id="`+pax_type+`_required`+number+`_`+j+`_copy"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>`;
+//                    }
+                }
+                text_requirements+=`</div>`;
         }else{
             name = document.getElementById('adult_name'+number).innerHTML;
             document.getElementById('adult_check'+number).value = 'false';
@@ -1282,6 +1322,9 @@ function set_value(pax_type,number){
                 }
             }
         }
+        pax_required = document.getElementById('adult_required'+number);
+        pax_required_up = document.getElementById('adult_required_up'+number);
+        pax_required_down = document.getElementById('adult_required_down'+number);
         if(document.getElementById('adult_passport'+number).value != ''){
             check = 0;
             for(i in list_passenger){
@@ -1296,6 +1339,12 @@ function set_value(pax_type,number){
                     'commission':passport.list_of_passport[parseInt(document.getElementById('adult_passport'+number).value)].sale_price.commission,
                 });
         }
+        if(text_requirements == '')
+            text_requirements = `Please select passport type!`;
+        pax_required.innerHTML = text_requirements;
+        pax_required.style.display = "block";
+        pax_required_up.style.display = "block";
+        pax_required_down.style.display = "none";
         update_table('review');
     }
 }

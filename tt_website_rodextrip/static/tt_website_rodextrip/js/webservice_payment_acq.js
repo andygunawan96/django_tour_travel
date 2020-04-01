@@ -950,3 +950,501 @@ function get_payment_order_number(provider, order_number){
     });
 
 }
+
+function get_va_number(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'get_va_number',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+
+            text = '';
+            text += `
+                <div class="col-lg-12" id="radio_top_up" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="change_top_up_method();">
+                    <label class="radio-button-custom" style="margin-bottom:0px;">
+                        <span style="font-size:13px; color:`+color+`;"> `+name+` Gateway</span>
+                        <input type="radio" checked="checked" name="top_up_radio" value="`+name+`">
+                        <span class="checkmark-radio"></span>
+                    </label>`;
+                    try{
+                        if(msg.result.response.va.length != 0)
+                        text+=`
+                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                            <span style="font-size:13px; color:`+color+`;"> Online Payment</span>
+                            <input type="radio" name="top_up_radio" value="online_payment">
+                            <span class="checkmark-radio"></span>
+                        </label>`;
+                        va_number = msg.result.response.va;
+                    }catch(err){}
+                    text+=`
+                </div>`;
+            document.getElementById('top_up_method_div').innerHTML = text + document.getElementById('top_up_method_div').innerHTML;
+            change_top_up_method();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+                })
+            }
+       }
+    });
+}
+
+function change_top_up_method(){
+    var top_up_select = '';
+    var radios = document.getElementsByName('top_up_radio');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            top_up_select = radios[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    console.log(top_up_select);
+    if(top_up_select == 'online_payment'){
+        text = `<div class="col-sm-12" data-id="253" data-token="">`;
+        for(i in va_number){
+            text += `
+                    <div class="row">
+                        <div class="col-sm-3">
+                            `+va_number[i].name+`
+                        </div>
+                        <div class="col-sm-3">
+                            <strong>`+va_number[i].account_number+`</strong>
+                        </div>
+                    </div>
+            `;
+        }
+
+        text+=`<div>
+            <div id="mandiri_va_acquirer">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    <p><strong>Transfer Instruction</strong></p>
+                    <div class="panel panel-default">
+                        <div class="panel-heading-sgo" role="tab" id="headingFive">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    MANDIRI Mobile Banking
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseFive" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFive" style="height: 0px;">
+                            <div class="panel-body">
+                                <div style="margin:0px auto;max-width:600px;">
+                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                    <!--[if mso | IE]>
+                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+                                            <![endif]-->
+                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                            <tbody>
+
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            1. Buka Aplikasi&nbsp;<strong>Mandiri Mobile Banking</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            2. Lakukan&nbsp;<strong>log in</strong>&nbsp;dengan akun Mandiri Mobile Banking,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            3. Pilih menu&nbsp;<strong>Bayar &gt; Lainnya</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            4. Pilih penyedia layanan&nbsp;<strong>Transferpay</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            5. Masukkan 16 digit&nbsp;<strong>Nomor Virtual Account</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            6. Pada layar konfirmasi, pastikan tagihan Anda sudah sesuai,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            7. Jika sudah sesuai, masukkan&nbsp;<strong>OTP</strong>&nbsp;dan&nbsp;<strong>Pin SMS Banking</strong>, lalu klik&nbsp;<strong>OK</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            8. Transaksi Selesai.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--[if mso | IE]>
+                                            </td></tr></table>
+                                            <![endif]-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading-sgo" role="tab" id="headingThree">
+                            <h4 class="panel-title">
+                                <a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    ATM MANDIRI
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" style="height: auto;">
+                            <div class="panel-body" style="margin-top:10px;">
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-4 col-lg-4" style=>
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-2.png">
+                                        <p>Masukkan kartu ATM Mandiri dan PIN Anda,</p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-3.png">
+                                        <p>Pada ATM Mandiri, pilih menu <strong>Bayar/Beli &gt; Lainnya &gt; Lainnya</strong>,</p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-6.png">
+                                        <p>Pilih&nbsp;<strong>Multi Payment</strong>,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-7.png">
+                                        <p>Masukkan <strong>kode&nbsp;perusahaan</strong>&nbsp;lalu tekan&nbsp;<strong>Benar</strong>,</p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-8.png">
+                                        <p>Masukkan 16 digit&nbsp;<strong>Nomor Virtual Account</strong>,</p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-9.png">
+                                        <p>Pada layar konfirmasi, pastikan tagihan Anda sudah sesuai,</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-10.png">
+                                        <p>Jika sudah sesuai, tekan&nbsp;<strong>1</strong>, lanjutkan dengan menekan&nbsp;<strong>Ya</strong>,</p>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-12.png">
+                                        <p>Transaksi Selesai.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading-sgo" role="tab" id="headingFour">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                    MANDIRI Internet Banking
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseFour" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour" style="height: 0px;">
+                            <div class="panel-body">
+                                <div style="margin:0px auto;max-width:600px;">
+                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                    <!--[if mso | IE]>
+                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+                                            <![endif]-->
+                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                            <tbody>
+
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            1. Masuk ke situs <a href="https://ib.bankmandiri.co.id">https://ib.bankmandiri.co.id</a>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            2. Lakukan&nbsp;<strong>log in</strong>&nbsp;dengan akun&nbsp;<strong>Mandiri Internet Banking</strong>&nbsp;Anda,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            3. Klik menu&nbsp;<strong>Bayar &gt; Multi Payment</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            4. Pada kolom&nbsp;<strong>penyedia jasa</strong>&nbsp;pilih&nbsp;<strong>Transferpay</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            5. Masukan 16 digit&nbsp;<strong>Nomor Virtual Account</strong>&nbsp;pada kolom&nbsp;<strong>Kode Bayar</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            6. Pada layar konfirmasi, pastikan tagihan Anda sudah sesuai,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            7. Jika sudah sesuai,&nbsp;<strong>checklist kotak tagihan</strong>&nbsp;dan klik&nbsp;<strong>Lanjutkan</strong>,
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            8. Transaksi Selesai.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--[if mso | IE]>
+                                            </td></tr></table>
+                                            <![endif]-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                <button type="submit" width="100px" class="btn btn-primary pull-right">
+
+                    <span>Selesai (HOME) <span class="fas fa-arrow-right"></span></span>
+                </button>
+
+
+                <script type="text/javascript" src="/tt_payment_gw_edc/static/src/js/jquery.payment.js"></script>
+            </div>
+        </div>
+    </div>`;
+    }else{
+        text = `
+            <div class="col-lg-12">
+                <h3>TOP UP SALDO</h3>
+            </div>
+
+            <div class="col-lg-12">
+                <span>Amount</span><br/>
+                <div class="input-container-search-ticket">
+                    <input min="50000" step="50000" name="amount" id="amount" class="form-control" required="required" onkeyup="`;
+        text+=`total_price_top_up();`;
+        text+=`" placeholder="Min IDR 50,000">
+                </div>
+            </div>
+
+            <div class="col-lg-12">
+                <span>Total</span><br/>
+                <div class="input-container-search-ticket">
+                    <input type="text" style="background-color:#eee;" class="form-control" id="total_amount" name="total_amount" tabindex="1" readonly="readonly"/>
+                </div>
+            </div>
+
+            <!--<div class="col-lg-12">-->
+            <!--<span>Payment Method</span><br/>-->
+            <!--<div class="input-container-search-ticket btn-group">-->
+            <!--<div class="form-select" id="default-select">-->
+            <!--<select id="payment_method" name="payment_method" required="required">-->
+            <!--<option id="rodex_gateway" value="rodex_gateway">Rodex Gateway (8AM - 8PM)</option>-->
+            <!--&lt;!&ndash;<option id="online_payment" value="online_payment">Online Payment</option>&ndash;&gt;-->
+            <!--</select>-->
+            <!--</div>-->
+            <!--</div>-->
+            <!--</div>-->
+
+
+            <div class="col-lg-12" style="margin-top:15px;">
+                <div id="footer-info" class="footer-info">
+                    <label class="check_box_custom">
+                        <span class="span-search-ticket" style="color:black;margin-bottom:20px;">I've read and accept the <a class="highlight" data-toggle="modal" data-target="#tacModal" style="text-decoration: underline; color:blue;">Terms &amp; Conditions</a> of Rodextrip top up</span>
+                        <input type="checkbox" name="tac_checkbox" id="tac_checkbox" required="required">
+                        <span class="check_box_span_custom"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-12" style="margin-top:15px;">
+                <button type="button" id="submit_name" class="payment_acq_btn primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="check_top_up();" style="width:100%;">
+                    Submit
+                    <div class="ld ld-ring ld-cycle"></div>
+                </button>
+            </div>
+
+            <div class="modal fade" id="tacModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" style="color:{{text_color}};">Term & Condition </h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="modal-body">
+                                <ol id="topup_tac">
+                                    <h6>BANK TRANSFER / CASH</h6>
+                                    <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
+                                    <li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
+                                    <h6>National Holiday included</h6>
+                                    <h6>For CASH you have to send money to RODEX HO (Jl. Raya Darmo 177 B Surabaya)</h6><br/>
+                                    <h6>VIRTUAL ACCOUNT</h6>
+
+                                    <li>1. Top Up Transaction from ATM / LLG open for 24 hours. Balance will be added automatically (REAL TIME) after payment. Top up fee will be charged to user and if there's other charge for LLG it will be charged to user too. LLG will be added ± 2 hours from payment.<br><br></li>
+                                    <h6>MANDIRI INTERNET BANKING</h6>
+                                    <li>1. Transaction Top up from internet banking mandiri open for 24 hours. Balance will be added automatically (REAL TIME) after payment with additional admin Top Up.<br><br></li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    }
+    document.getElementById('top_up_div').innerHTML = text;
+}
