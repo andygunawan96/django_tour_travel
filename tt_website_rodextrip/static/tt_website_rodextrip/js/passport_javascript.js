@@ -546,57 +546,61 @@ function update_table(type){
         currency = '';
 
         $text = '';
-        $text += 'Order Number: '+ visa.journey.name+'\n';
-        $text += visa.journey.country + ' ' + visa.journey.departure_date + ' ' + visa.journey.state_visa + '\n';
-        $text += visa.journey.state_visa + '\n'
+        $text += 'Order Number: '+ passport.journey.name+'\n';
+        $text += passport.journey.country + ' ' + passport.journey.departure_date + ' ' + passport.journey.state_visa + '\n';
+        $text += passport.journey.state_passport + '\n'
 
-        for(i in visa.passengers){
+        for(i in passport.passengers){
             if(i == 0)
                 $text += '\nPassengers\n';
-            $text += visa.passengers[i].sequence + ' ' + visa.passengers[i].title + ' ' + visa.passengers[i].first_name + ' ' + visa.passengers[i].last_name + '\n';
-            if(visa.passengers[i].passport_number != '')
-                $text += visa.passengers[i].passport_number + ' ' + visa.passengers[i].passport_expdate + '\n';
-            $text += visa.passengers[i].visa.entry_type + ' ' + visa.passengers[i].visa.visa_type + ' ' + visa.passengers[i].visa.process + '\n';
-            $text += 'Consulate: '+ visa.passengers[i].visa.immigration_consulate + '\n';
-            $text += 'Process: ' + visa.passengers[i].visa.duration + ' Days';
-            if(visa.journey.in_process_date != '')
-                $text += ' from '+ visa.journey.in_process_date + '\n';
+            $text += passport.passengers[i].sequence + ' ' + passport.passengers[i].title + ' ' + passport.passengers[i].first_name + ' ' + passport.passengers[i].last_name + '\n';
+            if(passport.passengers[i].passport_number != '')
+                $text += passport.passengers[i].passport_number + ' ' + passport.passengers[i].passport_expdate + '\n';
+            $text += passport.passengers[i].passport.passport_type + ' ' + passport.passengers[i].passport.apply_type + ' ' + passport.passengers[i].passport.process_type + '\n';
+            $text += 'Consulate: '+ passport.passengers[i].passport.immigration_consulate + '\n';
+            $text += 'Process: ' + passport.passengers[i].passport.duration + ' Days';
+            if(passport.journey.in_process_date != '')
+                $text += ' from '+ passport.journey.in_process_date + '\n';
             else
                 $text == '\n';
-            for(j in visa.passengers[i].visa.requirements){
+            for(j in passport.passengers[i].passport.requirements){
                 if(j == 0)
                     $text += '\nRequirements\n';
-                $text += visa.passengers[i].visa.requirements[j].name + '\n';
+                $text += passport.passengers[i].passport.requirements[j].name + '\n';
             }
-            if(visa.passengers[i].visa.interview.needs == true){
-                $text += '\nInterview\b'
-                for(j in visa.passengers[i].visa.interview.interview_list){
-                    $text += visa.passengers[i].visa.interview.interview_list[j].location + ' ' + visa.passengers[i].visa.interview.interview_list[j].datetime + '\n';
+            try{
+                if(passport.passengers[i].passport.interview.needs == true){
+                    $text += '\nInterview\b'
+                    for(j in passport.passengers[i].passport.interview.interview_list){
+                        $text += passport.passengers[i].passport.interview.interview_list[j].location + ' ' + passport.passengers[i].passport.interview.interview_list[j].datetime + '\n';
+                    }
                 }
-            }
-            if(visa.passengers[i].visa.biometrics.needs == true){
-                $text += '\nInterview\b'
-                for(j in visa.passengers[i].visa.biometrics.biometrics_list){
-                    $text += visa.passengers[i].visa.biometrics.biometrics_list[j].location + ' ' + visa.passengers[i].visa.biometrics.biometrics_list[j].datetime + '\n';
+            }catch(err){}
+            try{
+                if(passport.passengers[i].passport.biometrics.needs == true){
+                    $text += '\nInterview\b'
+                    for(j in passport.passengers[i].passport.biometrics.biometrics_list){
+                        $text += passport.passengers[i].passport.biometrics.biometrics_list[j].location + ' ' + passport.passengers[i].passport.biometrics.biometrics_list[j].datetime + '\n';
+                    }
                 }
-            }
+            }catch(err){}
             price_pax = 0;
-            for(j in visa.passengers[i].visa.price){
-                if(visa.passengers[i].visa.price[j].charge_code == 'total'){
-                    price += visa.passengers[i].visa.price[j].amount;
-                    price_pax += visa.passengers[i].visa.price[j].amount;
-                    currency = visa.passengers[i].visa.price[j].currency;
-                }else if(visa.passengers[i].visa.price[j].charge_code == 'rac'){
-                    commission += (visa.passengers[i].visa.price[j].amount) *-1;
-                }else if(visa.passengers[i].visa.price[j].charge_code == 'csc'){
-                    price += visa.passengers[i].visa.price[j].amount;
-                    price_pax += visa.passengers[i].visa.price[j].amount;
+            for(j in passport.passengers[i].passport.price){
+                if(passport.passengers[i].passport.price[j].charge_code == 'total'){
+                    price += passport.passengers[i].passport.price[j].amount;
+                    price_pax += passport.passengers[i].passport.price[j].amount;
+                    currency = passport.passengers[i].passport.price[j].currency;
+                }else if(passport.passengers[i].passport.price[j].charge_code == 'rac'){
+                    commission += (passport.passengers[i].passport.price[j].amount) *-1;
+                }else if(passport.passengers[i].passport.price[j].charge_code == 'csc'){
+                    price += passport.passengers[i].passport.price[j].amount;
+                    price_pax += passport.passengers[i].passport.price[j].amount;
                 }
             }
-            $text += 'Price '+ visa.passengers[i].visa.price[j].currency + ' ' + getrupiah(price_pax) + '\n';
+            $text += 'Price '+ passport.passengers[i].passport.price[j].currency + ' ' + getrupiah(price_pax) + '\n';
             text+=`
                     <tr>
-                        <td>`+visa.passengers[i].title+` `+visa.passengers[i].first_name+` `+visa.passengers[i].last_name+`</td>
+                        <td>`+passport.passengers[i].title+` `+passport.passengers[i].first_name+` `+passport.passengers[i].last_name+`</td>
                         <td style="text-align:right;">`+currency+` `+getrupiah(price_pax)+`</td>
                     </tr>`;
 
@@ -622,7 +626,7 @@ function update_table(type){
         }catch(err){
             display = 'none';
         }
-        if(visa.journey.state == 'booked')
+        if(passport.journey.state == 'booked')
             text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;"/></i></div>`;
         text+=`
         <div class="row" id="show_commission" style="display: `+display+`;">

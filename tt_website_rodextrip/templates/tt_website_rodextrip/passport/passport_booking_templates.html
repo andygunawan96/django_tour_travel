@@ -6,9 +6,9 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/passport_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_passport.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
@@ -19,7 +19,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title id="title_search">{{name}} Visa - Booking</title>
+<title id="title_search">{{name}} Passport - Booking</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -69,7 +69,7 @@
                 <div class="col-lg-8" style="margin-top:10px; margin-bottom:15px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <div id="visa_booking">
+                            <div id="passport_booking">
 
                             </div>
                         </div>
@@ -147,7 +147,7 @@
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
-    visa_signin('{{order_number}}');
+    passport_signin('{{order_number}}');
 
     $( document ).ready(function() {
         breadcrumb_create("visa", 5, 1);
