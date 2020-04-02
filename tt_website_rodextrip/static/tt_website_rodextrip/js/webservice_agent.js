@@ -249,6 +249,56 @@ function signin_btc(){
             })
            },timeout: 60000
         });
+    }else{
+        error_log = '';
+        if($('#username').val() == '')
+            error_log += 'Please Fill Username';
+        if($('#password').val() == '')
+            if(error_log == '')
+                error_log += 'Please Fill Password';
+            else
+                error_log += ' and Fill Password\n';
+        if(error_log != '')
+            alert_message_swal(error_log);
+    }
+}
+
+function reset_password_btc(){
+    if($('#username').val() != ''){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'reset_password',
+           },
+           data: {
+                'email': $('#username').val(),
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    signature = msg.result.response.signature;
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Yeah!',
+                      html: '<span>Reset Password Success, If Your Already Have an Account Please Check Your Email</span>'
+                    })
+                }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error reset password </span>' + errorThrown,
+                })
+           },timeout: 60000
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: '<span style="color: red;">Error please input email! </span>',
+        })
     }
 }
 

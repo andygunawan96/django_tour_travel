@@ -336,48 +336,17 @@ def review(request):
         return no_session_logout(request)
 
 def booking(request, order_number):
-    if 'user_account' in request.session._session:
-        try:
-            javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-
-            values = get_data_template(request)
-            request.session['train_order_number'] = base64.b64decode(order_number).decode('ascii')
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'id_types': id_type,
-                'cabin_class_types': cabin_class_type,
-                'order_number': request.session['train_order_number'],
-                'username': request.session['user_account'],
-                'signature': request.session['signature'],
-                # 'cookies': json.dumps(res['result']['cookies']),
-                'javascript_version': javascript_version,
-                'static_path_url_server': get_url_static_path(),
-            })
-        except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
-    else:
-        return no_session_logout(request)
-
-def seat_map(request):
     try:
         javascript_version = get_javascript_version()
         values = get_data_template(request)
-        try:
-            request.session['train_seat_map_request'] = json.loads(request.POST['seat_map_request_input'])
-            request.session['train_passenger_request'] = json.loads(request.POST['passenger_input'])
-        except:
-            pass
-
+        request.session['train_order_number'] = base64.b64decode(order_number).decode('ascii')
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'paxs': request.session['train_passenger_request'],
+            'id_types': id_type,
+            'cabin_class_types': cabin_class_type,
             'order_number': request.session['train_order_number'],
             'username': request.session['user_account'] or {'co_user_login': ''},
-            'signature': request.session['train_signature'],
-            # 'co_uid': request.session['co_uid'],
+            'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,
             'static_path_url_server': get_url_static_path(),
@@ -385,4 +354,33 @@ def seat_map(request):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
-    return render(request, MODEL_NAME+'/train/train_seat_map_templates.html', values)
+    return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
+
+def seat_map(request):
+    if 'user_account' in request.session._session:
+        try:
+            javascript_version = get_javascript_version()
+            values = get_data_template(request)
+            try:
+                request.session['train_seat_map_request'] = json.loads(request.POST['seat_map_request_input'])
+                request.session['train_passenger_request'] = json.loads(request.POST['passenger_input'])
+            except:
+                pass
+
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'paxs': request.session['train_passenger_request'],
+                'order_number': request.session['train_order_number'],
+                'username': request.session['user_account'],
+                'signature': request.session['train_signature'],
+                # 'co_uid': request.session['co_uid'],
+                # 'cookies': json.dumps(res['result']['cookies']),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+            })
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/train/train_seat_map_templates.html', values)
+    else:
+        return no_session_logout(request)
