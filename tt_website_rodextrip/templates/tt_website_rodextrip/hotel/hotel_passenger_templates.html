@@ -1644,7 +1644,7 @@
                                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
-                                            {% endif %]
+                                            {% endif %}
                                             <div class="modal fade" id="myModal_adult{{forloop.counter}}" role="dialog">
                                                 <div class="modal-dialog">
                                                     <!-- Modal content-->
