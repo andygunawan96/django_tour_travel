@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-01 01:22+0000\n"
+"POT-Creation-Date: 2020-04-02 07:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,9 +39,39 @@ msgid "Train Station"
 msgstr ""
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:55
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:681
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1313
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1955
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2597
 msgid "Admin Setting"
 msgstr "Pengaturan Admin"
 
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:63
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:689
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1321
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1963
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2605
+msgid "Social Media"
+msgstr "Media Sosial"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:69
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:695
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1327
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1969
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2611
+msgid "Dynamic Page"
+msgstr "Halaman Dynamic"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:70
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:390
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:696
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1007
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1328
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1648
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1970
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2289
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2612
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2931
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:15
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:28
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:56
@@ -51,14 +81,261 @@ msgstr "Pengaturan Admin"
 msgid "Highlight Setting"
 msgstr "Pengaturan Sorotan"
 
-#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:31
-#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:59
-#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:86
-#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:113
-#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:141
-msgid "Highlight URL"
-msgstr "Sorotan URL"
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:73
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:699
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1331
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1973
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2615
+msgid "Third Party Key Setting"
+msgstr "Pengaturan Third Party Key"
 
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:96
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:720
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1352
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1996
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2636
+msgid "Tab Background Color"
+msgstr "Warna Background Tab"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:107
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:728
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1360
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2004
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2644
+msgid "Button Color"
+msgstr "Warna Button"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:113
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:734
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1366
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2010
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2650
+msgid "Text Color"
+msgstr "Warna Teks"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:120
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:122
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:741
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1373
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1375
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2017
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2019
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2657
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2659
+msgid "Website Name"
+msgstr "Nama Website"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:126
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:747
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1379
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2023
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2663
+msgid "Website Description"
+msgstr "Deskripsi Website"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:147
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:770
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1402
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2044
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2685
+msgid "Background Image Home"
+msgstr "Gambar Background Beranda"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:155
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:778
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1410
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2052
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2694
+msgid "Background Image Login"
+msgstr "Gambar Background Login"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:163
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:786
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1418
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2060
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2703
+msgid "Background Image Search"
+msgstr "Gambar Background Pencarian"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:171
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:794
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1426
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2068
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2711
+msgid "Registration Banner"
+msgstr "Banner Registrasi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:180
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:295
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:320
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:334
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:383
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:448
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:803
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:917
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:942
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:956
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1000
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1084
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1435
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1551
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1577
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1591
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1641
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2077
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2192
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2218
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2232
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2282
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2720
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2835
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2860
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2874
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2924
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:3009
+msgid "Save Change"
+msgstr "Simpan Perubahan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:188
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:199
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:811
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:821
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1443
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1455
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2085
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2096
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2728
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2739
+msgid "Big Banner"
+msgstr "Banner Besar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:191
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:227
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:263
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:814
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:849
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:885
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1447
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1483
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1519
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2088
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2124
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2160
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2731
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2803
+msgid "Upload Image"
+msgstr "Unggah Gambar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:210
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:246
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:282
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:832
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:868
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:904
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1466
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1502
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1538
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2107
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2143
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2179
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2750
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2786
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2822
+msgid "Close"
+msgstr "Tutup"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:216
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:838
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1472
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2113
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2756
+msgid "Image Big Banner"
+msgstr "Gambar Banner Besar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:224
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:235
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:846
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:857
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1480
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1491
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2121
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2132
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2764
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2775
+msgid "Small Banner"
+msgstr "Banner Kecil"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:252
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:874
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1508
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2149
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2792
+msgid "Image Small Banner"
+msgstr "Gambar Banner Kecil"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:260
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:271
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:882
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:893
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1516
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1527
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2157
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2168
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2800
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2811
+msgid "Promotion Banner"
+msgstr "Banner Promosi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:288
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:910
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1544
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2185
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2828
+msgid "Image Promotion Banner"
+msgstr "Gambar Banner Promosi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:341
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:963
+msgid "Page"
+msgstr "Halaman"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:351
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:969
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1610
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2251
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2893
+msgid "Run"
+msgstr "Jalankan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:352
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:970
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2252
+msgid "Delete"
+msgstr "Hapus"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:355
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:357
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:973
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1614
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2255
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2257
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2897
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2899
+msgid "Title"
+msgstr "Judul"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:377
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:994
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2276
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2918
+msgid "Active"
+msgstr "Aktif"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:393
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1010
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1651
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2292
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2934
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:34
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:62
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:89
@@ -67,6 +344,11 @@ msgstr "Sorotan URL"
 msgid "Add"
 msgstr "Tambah"
 
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:396
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1013
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1654
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2295
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2937
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:37
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:65
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:92
@@ -74,6 +356,36 @@ msgstr "Tambah"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:147
 msgid "Save"
 msgstr "Simpan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:409
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1045
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1688
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2329
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2970
+msgid "Visible Chat"
+msgstr "Chat Terlihat"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:418
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1054
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:1697
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2338
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2979
+msgid "Code"
+msgstr "Kode"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2767
+#, fuzzy
+#| msgid "Upload Image"
+msgid "Upload Banner"
+msgstr "Unggah Gambar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:31
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:59
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:86
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:113
+#: tt_website_rodextrip/templates/tt_website_rodextrip/backend/highlight_templates.html:141
+msgid "Highlight URL"
+msgstr "Sorotan URL"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:50
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:236
@@ -227,7 +539,7 @@ msgstr "Masuk"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1586
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2560
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3550
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4563
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4566
 msgid "AIRLINE"
 msgstr "PESAWAT"
 
@@ -235,7 +547,7 @@ msgstr "PESAWAT"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1589
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2563
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3553
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4566
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4569
 msgid "TOUR"
 msgstr "TOUR"
 
@@ -243,7 +555,7 @@ msgstr "TOUR"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1598
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2572
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3562
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4575
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4578
 msgid "TRAIN"
 msgstr "KERETA"
 
@@ -255,8 +567,8 @@ msgstr "KERETA"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2772
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3597
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3765
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4603
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4784
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4606
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4787
 msgid "One Way"
 msgstr "Sekali Jalan"
 
@@ -268,8 +580,8 @@ msgstr "Sekali Jalan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2777
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3602
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3770
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4608
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4789
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4611
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4792
 msgid "Round Trip"
 msgstr "Pulang Pergi"
 
@@ -277,7 +589,7 @@ msgstr "Pulang Pergi"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1626
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2605
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3607
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4613
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4616
 msgid "Multi City"
 msgstr "Multi Kota"
 
@@ -285,7 +597,7 @@ msgstr "Multi Kota"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1634
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2613
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3615
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4621
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4624
 msgid "Is Combo Price"
 msgstr "Harga Paket"
 
@@ -297,8 +609,8 @@ msgstr "Harga Paket"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2783
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3626
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3778
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4632
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4797
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4635
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4800
 msgid "From"
 msgstr "Dari"
 
@@ -310,8 +622,8 @@ msgstr "Dari"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2785
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3629
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3781
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4634
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4799
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4637
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4802
 msgid "Origin"
 msgstr "Asal"
 
@@ -323,8 +635,8 @@ msgstr "Asal"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2791
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3636
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3787
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4648
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4810
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4651
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4813
 msgid "To"
 msgstr "Ke"
 
@@ -354,20 +666,20 @@ msgstr "Ke"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3246
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3639
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3790
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4109
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4184
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4188
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4236
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4248
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4260
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4650
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4812
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5121
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5198
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4112
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4187
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4191
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4239
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4251
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4263
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4653
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4815
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5124
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5201
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5245
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5254
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5263
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5204
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5248
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5257
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5266
 msgid "Destination"
 msgstr "Tujuan"
 
@@ -380,11 +692,11 @@ msgstr "Tujuan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2649
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2797
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3796
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4196
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4199
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4660
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4818
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5209
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4202
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4663
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4821
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5212
 msgid "Departure"
 msgstr "Keberangkatan"
 
@@ -399,9 +711,9 @@ msgstr "Keberangkatan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3192
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3194
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3799
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4662
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4820
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5211
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4665
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4823
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5214
 msgid "Departure Date"
 msgstr "Tanggal Keberangkatan"
 
@@ -413,8 +725,8 @@ msgstr "Tanggal Keberangkatan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2803
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3646
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3803
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4666
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4824
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4669
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4827
 msgid "Passenger"
 msgstr "Penumpang"
 
@@ -433,11 +745,11 @@ msgstr "Penumpang"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3650
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3657
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3812
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3931
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4669
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4676
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4832
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4948
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3934
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4672
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4679
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4835
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4951
 msgid "Adult"
 msgstr "Dewasa"
 
@@ -452,10 +764,10 @@ msgstr "Dewasa"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2949
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3650
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3677
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3951
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4669
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4696
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4968
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3954
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4672
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4699
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4971
 msgid "Child"
 msgstr "Anak"
 
@@ -471,9 +783,9 @@ msgstr "Anak"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3650
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3697
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3832
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4669
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4716
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4852
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4672
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4719
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4855
 msgid "Infant"
 msgstr "Bayi"
 
@@ -503,15 +815,15 @@ msgstr "Bayi"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3698
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3813
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3833
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3932
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3952
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4677
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4697
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4717
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4833
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4853
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4949
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4969
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3935
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3955
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4680
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4700
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4720
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4836
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4856
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4952
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4972
 msgid "Age"
 msgstr "Umur"
 
@@ -519,14 +831,14 @@ msgstr "Umur"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1748
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2726
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3718
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4737
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4740
 msgid "Airline"
 msgstr "Pesawat"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:335
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1749
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3721
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4739
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4742
 msgid "Choose Airline"
 msgstr "Pilih Pesawat"
 
@@ -534,7 +846,7 @@ msgstr "Pilih Pesawat"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1756
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2736
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3729
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4747
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4750
 msgid "Class"
 msgstr "Kelas"
 
@@ -561,18 +873,18 @@ msgstr "Kelas"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3257
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3751
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3859
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3990
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4080
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4171
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4219
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4272
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4770
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4879
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5007
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5093
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5185
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5230
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5274
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3993
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4083
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4174
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4222
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4275
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4773
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4882
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5010
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5096
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5188
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5233
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5277
 msgid "Search"
 msgstr "Cari"
 
@@ -580,7 +892,7 @@ msgstr "Cari"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1893
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2873
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3872
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4892
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4895
 msgid "Destination or Hotel"
 msgstr "Tujuan atau Hotel"
 
@@ -588,7 +900,7 @@ msgstr "Tujuan atau Hotel"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1895
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2875
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3875
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4894
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4897
 msgid "Select Destination City or Hotel Name"
 msgstr "Pilih Kota Tujuan atau Nama Hotel"
 
@@ -599,8 +911,8 @@ msgstr "Pilih Kota Tujuan atau Nama Hotel"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2879
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2880
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3879
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4898
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4899
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4901
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4902
 msgid "Guest Nationality"
 msgstr "Kebangsaan Tamu"
 
@@ -615,32 +927,32 @@ msgstr "Tanggal Check-in - Check-out"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:522
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1921
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2901
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3902
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4920
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3905
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4923
 msgid "Guest"
 msgstr "Tamu"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:530
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1928
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2909
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3911
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4928
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3914
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4931
 msgid "Room"
 msgstr "Kamar"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:598
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1995
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2978
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3979
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4996
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3982
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4999
 msgid "Business Trip"
 msgstr "Perjalanan Bisnis"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:623
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2019
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3007
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4006
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5022
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4009
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5025
 msgid "Search for Activities, Theme Parks, etc"
 msgstr "Cari Activities, Theme Parks, dll"
 
@@ -656,22 +968,22 @@ msgstr "Cari Activities, Theme Parks, dll"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3014
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3096
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3097
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4012
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4013
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4102
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4103
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5028
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5029
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5114
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5115
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4015
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4016
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4105
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4106
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5031
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5032
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5117
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5118
 msgid "Advanced"
 msgstr "Lanjutan"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:637
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2034
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3020
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4020
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5035
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4023
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5038
 msgid "Location"
 msgstr "Lokasi"
 
@@ -681,10 +993,10 @@ msgstr "Lokasi"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2131
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3025
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3108
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4025
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4114
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5040
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5126
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4028
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4117
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5043
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5129
 msgid "All Countries"
 msgstr "Semua Negara"
 
@@ -694,168 +1006,168 @@ msgstr "Semua Negara"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2139
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3033
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3116
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4033
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4122
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5048
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5134
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4036
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4125
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5051
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5137
 msgid "All Cities"
 msgstr "Semua Kota"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:662
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2060
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3042
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5059
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5062
 msgid "Category / Type"
 msgstr "Kategori / Tipe"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:669
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2067
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3047
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4051
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5066
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4054
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5069
 msgid "All Types"
 msgstr "Semua Tipe"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:676
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2074
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3054
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4058
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5073
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5081
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4061
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5076
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5084
 msgid "All Categories"
 msgstr "Semua Kategori"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:684
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2082
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3062
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4066
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4069
 msgid "All Sub Categories"
 msgstr "Semua Sub Kategori"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:709
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2107
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4093
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5106
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4096
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5109
 msgid "Tour"
 msgstr "Tour"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:711
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2109
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3090
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4096
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5108
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4099
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5111
 msgid "Search for Tour"
 msgstr "Cari Tour"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:750
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2150
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3127
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4133
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5145
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4136
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5148
 msgid "Departure Time"
 msgstr "Waktu Keberangkatan"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:758
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2157
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3135
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4140
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5153
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4143
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5156
 msgid "All Months"
 msgstr "Semua bulan"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:759
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2158
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3136
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4141
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5154
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4144
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5157
 msgid "January"
 msgstr "Januari"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:760
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2159
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3137
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4142
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5155
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4145
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5158
 msgid "February"
 msgstr "Februari"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:761
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2160
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3138
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4143
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5156
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4146
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5159
 msgid "March"
 msgstr "Maret"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:762
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2161
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3139
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4144
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5157
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4147
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5160
 msgid "April"
 msgstr "April"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:763
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2162
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3140
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4145
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5158
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4148
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5161
 msgid "May"
 msgstr "Mei"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:764
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2163
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3141
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4146
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5159
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4149
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5162
 msgid "June"
 msgstr "Juni"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:765
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2164
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3142
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4147
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5160
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4150
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5163
 msgid "July"
 msgstr "Juli"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:766
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2165
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3143
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4148
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5161
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4151
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5164
 msgid "August"
 msgstr "Agustus"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:767
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2166
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3144
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4149
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5162
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4152
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5165
 msgid "September"
 msgstr "September"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:768
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2167
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3145
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4150
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5163
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4153
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5166
 msgid "October"
 msgstr "Oktober"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:769
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2168
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3146
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4151
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5164
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4154
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5167
 msgid "November"
 msgstr "November"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:770
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2169
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3147
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4152
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5165
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4155
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5168
 msgid "December"
 msgstr "Desember"
 
@@ -866,42 +1178,42 @@ msgstr "Desember"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3198
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3200
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3244
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4203
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4207
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4256
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5215
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4206
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4210
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4259
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5218
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5261
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5221
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5264
 msgid "Consulate"
 msgstr "Konsulat"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:848
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2241
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3226
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4232
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5243
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4235
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5246
 msgid "Passport Type"
 msgstr "Tipe Passport"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:859
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2250
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3235
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4244
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5252
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4247
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5255
 msgid "Apply Type"
 msgstr "Tipe Apply"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1912
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2892
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3892
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4911
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3895
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4914
 msgid "Check-In - Check-Out"
 msgstr "Check-in - Check-out"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:1914
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2894
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3895
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4913
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3898
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4916
 msgid "Check-In - Check-Out Date"
 msgstr "Tanggal Check-In - Check-Out"
 
@@ -933,7 +1245,7 @@ msgstr "Pesan Visa Kamu"
 msgid "Book Your Passport"
 msgstr "Pesan Passport Kamu"
 
-#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4044
+#: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4047
 #, fuzzy
 #| msgid "Category / Type"
 msgid "Category Type"
@@ -972,6 +1284,11 @@ msgstr "Ikuti Kami"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/login_templates.html:186
 msgid "Forgot Password"
 msgstr "Lupa Password"
+
+#, fuzzy
+#~| msgid "Highlight URL"
+#~ msgid "Highlight Url"
+#~ msgstr "Sorotan URL"
 
 #~ msgid "Check-in Date"
 #~ msgstr "Tanggal Check-in"

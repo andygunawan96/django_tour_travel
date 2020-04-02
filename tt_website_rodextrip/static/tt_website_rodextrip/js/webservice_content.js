@@ -324,7 +324,7 @@ function get_banner(type,page){
                                                 text+=`
                                                 <div class="item">
                                                     <center>
-                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:720px;"/>
+                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;"/>
                                                     </center>
                                                 </div>`;
                                             }
@@ -744,7 +744,11 @@ function get_dynamic_page(type){
             }
             if(type == 'admin'){
                 document.getElementById('page_choose').innerHTML = text;
-                $('#page_choose').niceSelect("update");
+                if(template == 2){
+                    $('#page_choose').niceSelect();
+                }else {
+                    $('#page_choose').niceSelect("update");
+                }
             }
 
        },
