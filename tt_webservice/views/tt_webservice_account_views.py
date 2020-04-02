@@ -8,10 +8,9 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
-import time
 _logger = logging.getLogger(__name__)
 from .tt_webservice_views import *
-
+import time
 month = {
     'Jan': '01',
     'Feb': '02',
@@ -99,6 +98,8 @@ def api_models(request):
             res = get_highlight_url(request)
         elif req_data['action'] == 'get_va_number':
             res = get_va_number(request)
+        elif req_data['action'] == 'send_url_booking':
+            res = send_url_booking(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -118,10 +119,8 @@ def signin(request):
         "password": password_global,
         "api_key":  api_key,
 
-        "co_user": request.POST['username'],
-        "co_password": request.POST['password'],
-        # "co_user": user_default,  # request.POST['username'],
-        # "co_password": password_default, #request.POST['password'],
+        "co_user": request.POST.get('username') or user_default,
+        "co_password": request.POST.get('password') or password_default,
         "co_uid": ""
     }
 
@@ -656,6 +655,33 @@ def get_va_number(request):
             "signature": request.POST['signature'],
         }
         data = {}
+
+        res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def send_url_booking(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "send_url_booking",
+            "signature": request.POST['signature'],
+        }
+        data = {
+            "provider_type": request.POST['provider_type'],
+            "url_booking": request.POST['url_booking'],
+            "order_number": request.POST['order_number'],
+            "type": request.POST['type']
+        }
 
         res = util.send_request(url=url + "account", data=data, headers=headers, method='POST')
     except Exception as e:

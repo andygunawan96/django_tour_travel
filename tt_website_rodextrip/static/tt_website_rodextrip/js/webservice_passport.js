@@ -597,8 +597,10 @@ function passport_commit_booking(){
             if(msg.result.error_code == 0){
 //                document.getElementById('order_number').value = msg.result.response.journey.name;
 //                document.getElementById('visa_booking').submit();
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                    send_url_booking('passport', btoa(msg.result.response.journey.name), msg.result.response.journey.name);
                 document.getElementById('order_number').value = msg.result.response.journey.name;
-                document.getElementById('issued').action = '/passport/booking';
+                document.getElementById('issued').action = '/passport/booking/' + btoa(msg.result.response.journey.name);
                 document.getElementById('issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');

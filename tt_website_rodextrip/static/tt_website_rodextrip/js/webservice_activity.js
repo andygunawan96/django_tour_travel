@@ -1270,11 +1270,16 @@ function activity_commit_booking(val){
         console.log(msg);
         if(msg.result.error_code == 0){
             if(val == 0){
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                    send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
                 document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
                 document.getElementById('activity_booking').submit();
             }else{
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                    send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
                 document.getElementById('order_number').value = msg.result.response.order_number;
-                document.getElementById('issued').action = '/activity/booking';
+                document.getElementById('issued').action = '/activity/booking/' + btoa(msg.result.response.order_number);
                 document.getElementById('issued').submit();
             }
         }else{
@@ -1681,8 +1686,13 @@ function activity_get_booking(data){
                                             <th>Hold Date</th>
                                             <th>Status</th>
                                         </tr>
-                                        <tr>
-                                            <td>`+msg.result.response.pnr+`</td>
+                                        <tr>`;
+                                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                                            text+=`
+                                            <td>`+msg.result.response.pnr+`</td>`;
+                                        else
+                                            text+=`<td> - </td>`
+                                        text+=`
                                             <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+`</td>
                                             <td>`+conv_status+`</td>
                                         </tr>
@@ -2146,26 +2156,29 @@ function activity_get_booking(data){
 
                 price_text+=`
                 </div>
-             </div>
-             <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
+             </div>`;
+             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                 price_text+=`
+                 <div class="row" id="show_commission" style="display:none;">
+                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                        </div>
                     </div>
-                </div>
-             </div>
-
+                 </div>`;
+             price_text+=`
              <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                     <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
-             </div>
-             <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
-               </div>
-             </div>
-           `;
+             </div>`;
+             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                 price_text+=`
+                 <div class="row" style="margin-top:10px; text-align:center;">
+                   <div class="col-xs-12">
+                        <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                   </div>
+                 </div>`;
             $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
             document.getElementById('activity_detail_table').innerHTML = price_text;
             add_repricing();

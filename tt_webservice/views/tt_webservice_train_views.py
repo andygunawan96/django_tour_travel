@@ -80,8 +80,10 @@ def login(request):
             "user": user_global,
             "password": password_global,
             "api_key": api_key,
-            "co_user": request.session['username'],
-            "co_password": request.session['password'],
+            # "co_user": request.session['username'],
+            # "co_password": request.session['password'],
+            "co_user": request.POST.get('username') or user_default,
+            "co_password": request.POST.get('password') or password_default,
             "co_uid": ""
         }
         headers = {
@@ -175,7 +177,7 @@ def search(request):
             "adult": int(request.session['train_request']['adult']),
             "infant": int(request.session['train_request']['infant']),
             "provider": request.POST['provider'],
-            # "provider": provider_kai
+            # "provider": "rodextrip_train"
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

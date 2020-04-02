@@ -521,21 +521,21 @@
         document.getElementById('gotobooking'+key).innerHTML += `<input type=hidden name="order_number" value="`+data_search[key].order_number+`" />`;
 
         if(data_search[key].provider_type == 'airline'){
-            document.getElementById('gotobooking'+key).action = '/airline/booking';
+            document.getElementById('gotobooking'+key).action = '/airline/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'train'){
-            document.getElementById('gotobooking'+key).action = '/train/booking';
+            document.getElementById('gotobooking'+key).action = '/train/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'activity'){
-            document.getElementById('gotobooking'+key).action = '/activity/booking';
+            document.getElementById('gotobooking'+key).action = '/activity/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'hotel'){
-            document.getElementById('gotobooking'+key).action = '/hotel/booking';
+            document.getElementById('gotobooking'+key).action = '/hotel/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'visa'){
-            document.getElementById('gotobooking'+key).action = '/visa/booking';
+            document.getElementById('gotobooking'+key).action = '/visa/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'tour'){
-            document.getElementById('gotobooking'+key).action = '/tour/booking';
+            document.getElementById('gotobooking'+key).action = '/tour/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'offline'){
-            document.getElementById('gotobooking'+key).action = '/issued_offline/booking';
+            document.getElementById('gotobooking'+key).action = '/issued_offline/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'passport'){
-            document.getElementById('gotobooking'+key).action = '/passport/booking';
+            document.getElementById('gotobooking'+key).action = '/passport/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
 

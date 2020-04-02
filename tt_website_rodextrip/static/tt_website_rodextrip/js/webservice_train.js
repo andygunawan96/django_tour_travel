@@ -358,11 +358,16 @@ function train_create_booking(val){
             if(val == 0){
                 $('.hold-seat-booking-train').removeClass("running");
                 $('.hold-seat-booking-train').attr("disabled", false);
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                    send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
                 document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
                 document.getElementById('train_booking').submit();
             }else{
-                document.getElementById('order_number').value = msg.result.response.order_number;
-                document.getElementById('issued').action = '/train/booking';
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                    document.getElementById('order_number').value = msg.result.response.order_number;
+                send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                document.getElementById('issued').action = '/train/booking/' + btoa(msg.result.response.order_number);
                 document.getElementById('issued').submit();
             }
 //            gotoForm();
@@ -462,8 +467,12 @@ function train_get_booking(data){
                             $text +=' ('+msg.result.response.provider_bookings[i].hold_date+')\n';
                         else
                             $text += '\n';
-                        text+=`<tr>
+                        text+=`<tr>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                        text+=`
                             <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
+                        else
+                            text+=`<td> - </td>`;
                         if(msg.result.response.state == 'booked')
                         text +=`
                             <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>`;
@@ -952,24 +961,28 @@ function train_get_booking(data){
                 text_detail+=`
                     </div>
                 </div>`;
-                text_detail+=`
-                <div class="row" id="show_commission" style="display:none;">
-                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text_detail+=`
+                    <div class="row" id="show_commission" style="display:none;">
+                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                            <div class="alert alert-success">
+                                <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                            </div>
                         </div>
-                    </div>
-                </div>`;
+                    </div>`;
                 text_detail+=`<center>
 
                 <div style="padding-bottom:10px;">
                     <center>
                         <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
                     </center>
-                </div>
-                <div style="margin-bottom:5px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
-                </div>
+                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text_detail+=`
+                    <div style="margin-bottom:5px;">
+                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                    </div>`;
+                text_detail+=`
             </div>`;
             }catch(err){
                 console.log(err);

@@ -11,6 +11,7 @@ from .tt_website_rodextrip_views import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from django.utils import translation
 import json
+import base64
 from datetime import *
 
 MODEL_NAME = 'tt_website_rodextrip'
@@ -338,25 +339,23 @@ def review(request):
     else:
         return no_session_logout(request)
 
-def booking(request):
-    if 'user_account' in request.session._session:
-        try:
-            values = get_data_template(request)
-            javascript_version = get_javascript_version()
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'username': request.session['user_account'],
-                'order_number': request.POST['order_number'],
-                'javascript_version': javascript_version,
-                'static_path_url_server': get_url_static_path(),
-                # 'order_number': 'VS.19072500003',
-                # 'cookies': json.dumps(res['result']['cookies']),
-            })
-        except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/passport/passport_booking_templates.html', values)
-    else:
-        return no_session_logout(request)
+def booking(request, order_number):
+    try:
+        values = get_data_template(request)
+        javascript_version = get_javascript_version()
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        request.session['passport_order_number'] = base64.b64decode(order_number).decode('ascii')
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session['user_account'] or {'co_user_login': ''},
+            'order_number': request.session['passport_order_number'],
+            'javascript_version': javascript_version,
+            'static_path_url_server': get_url_static_path(),
+            # 'order_number': 'VS.19072500003',
+            # 'cookies': json.dumps(res['result']['cookies']),
+        })
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/passport/passport_booking_templates.html', values)

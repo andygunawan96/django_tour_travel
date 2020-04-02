@@ -1094,11 +1094,16 @@ function commit_booking_tour(val)
            if(msg.result.error_code == 0){
                var booking_num = msg.result.response.order_number;
                if(val == 1){
-                    document.getElementById('order_number').value = msg.result.response.order_number;
-                    document.getElementById('issued').action = '/tour/booking';
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        document.getElementById('order_number').value = msg.result.response.order_number;
+                    send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    document.getElementById('issued').action = '/tour/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('issued').submit();
                }else{
-                    document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+                    send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('tour_booking').submit();
                }
            }else{
@@ -1497,8 +1502,13 @@ function tour_get_booking(order_number)
                                         <th>Hold Date</th>
                                         <th>Status</th>
                                     </tr>
-                                    <tr>
-                                        <td>`+book_obj.pnr+`</td>
+                                    <tr>`;
+                                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                        text+=`
+                                        <td>`+book_obj.pnr+`</td>`;
+                                    else
+                                        text+=`<td> - </td>`;
+                                    text+=`
                                         <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+`</td>
                                         <td>`+conv_status+`</td>
                                     </tr>
@@ -1867,26 +1877,30 @@ function tour_get_booking(order_number)
 
                 price_text+=`
                 </div>
-             </div>
-             <div class="row" id="show_commission" style="display:none;">
-                <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
+             </div>`;
+             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                price_text+=`
+                 <div class="row" id="show_commission" style="display:none;">
+                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                        </div>
                     </div>
-                </div>
-             </div>
+                 </div>`;
+             price_text+=`
 
              <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
                     <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
-             </div>
-             <div class="row" style="margin-top:10px; text-align:center;">
-               <div class="col-xs-12" style="padding-bottom:10px;">
-                    <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
-               </div>
-             </div>
-           `;
+             </div>`;
+             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                 price_text+=`
+                 <div class="row" style="margin-top:10px; text-align:center;">
+                   <div class="col-xs-12" style="padding-bottom:10px;">
+                        <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                   </div>
+                 </div>`;
             $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';
             document.getElementById('tour_detail_table').innerHTML = price_text;
             add_repricing();
@@ -2184,25 +2198,29 @@ function table_price_update(msg,type){
 
                         price_txt+=`
                         </div>
-                   </div>
-                   <div class="row" id="show_commission" style="display:none;">
-                        <div class="col-lg-12" style="margin-top:10px; text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
+                   </div>`;
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                       price_txt+=`
+                       <div class="row" id="show_commission" style="display:none;">
+                            <div class="col-lg-12" style="margin-top:10px; text-align:center;">
+                                <div class="alert alert-success">
+                                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(grand_commission)+`</span><br>
+                                </div>
                             </div>
-                        </div>
-                   </div>
-
+                       </div>`;
+                   price_txt+=`
                    <div class="row" style="margin-top:10px; text-align:center;">
                        <div class="col-lg-12">
                            <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
                        </div>
-                   </div>
-                   <div class="row" style="margin-top:10px; text-align:center;">
-                       <div class="col-lg-12" style="padding-bottom:10px;">
-                            <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
-                       </div>
                    </div>`;
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                       price_txt+=`
+                       <div class="row" style="margin-top:10px; text-align:center;">
+                           <div class="col-lg-12" style="padding-bottom:10px;">
+                                <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                           </div>
+                       </div>`;
 
 
     document.getElementById('tour_detail_table').innerHTML = price_txt;

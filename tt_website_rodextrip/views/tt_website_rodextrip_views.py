@@ -27,7 +27,12 @@ MODEL_NAME = 'tt_website_rodextrip'
 # Create your views here.
 def index(request):
     try:
+
         values = get_data_template(request)
+        if not request.session.get('user_account') and values['website_mode'] == 'btc':
+            signin_btc(request)
+        elif not request.session.get('user_account') and values['website_mode'] == 'btb':
+            return no_session_logout(request)
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
@@ -39,6 +44,10 @@ def index(request):
         phone_code = sorted(phone_code)
 
         if request.POST.get('logout'):
+            if request.session._session:
+                for key in reversed(list(request.session._session.keys())):
+                    del request.session[key]
+                request.session.modified = True
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
@@ -281,14 +290,39 @@ def payment_method(request, provider, product_type, order_number):
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
 
+def login_btc(request):
+    javascript_version = get_javascript_version()
+    values = get_data_template(request, 'login')
+    try:
+        if request.session['user_account']['co_user_login'] == 'agent_b2c' or request.POST['logout'] == 'true':
+            if request.session._session:
+                for key in reversed(list(request.session._session.keys())):
+                    del request.session[key]
+                request.session.modified = True
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'javascript_version': javascript_version,
+                'static_path_url_server': get_url_static_path(),
+            })
+            if request.session['user_account']['co_user_login'] == 'agent_b2c':
+                return render(request, MODEL_NAME + '/login_templates.html', values)
+            else:
+                return goto_dashboard()
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return goto_dashboard()
+
 def login(request):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
     if request.POST.get('logout') == 'true':
-        try:
-            request.session.delete()
-        except:
-            pass
+        if request.session._session:
+            for key in reversed(list(request.session._session.keys())):
+                del request.session[key]
+            request.session.modified = True
         try:
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -300,10 +334,15 @@ def login(request):
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         # return goto_dashboard()
-        return render(request, MODEL_NAME+'/login_templates.html', values)
+        if values['website_mode'] == 'btb':
+            return render(request, MODEL_NAME+'/login_templates.html', values)
+        else:
+            return login_btc(request)
     else:
         # if 'session' in request:
         if request.session.get('user_account') and 'login' in request.session.get('user_account')['co_agent_frontend_security']:
+            return goto_dashboard()
+        elif values['website_mode'] == 'btc':
             return goto_dashboard()
         else:
             request.session.delete()
@@ -466,6 +505,7 @@ def admin(request):
                     text += request.POST['espay_key'] + '\n'
                     text += request.POST['espay_key_callback_url'] + '\n'
                     text += request.POST['backend_url'] + '\n'
+                    text += request.POST['website_mode'] + '\n'
                     file = open(var_log_path()+'data_cache_template.txt', "w+")
                     file.write(text)
                     file.close()
@@ -783,6 +823,7 @@ def get_data_template(request, type='home'):
     color = '#f15a22'
     website_name = 'Rodextrip'
     tawk_chat = 0
+    website_mode = 'btb'
     tawk_code = ''
     facebook = ''
     instagram = ''
@@ -816,7 +857,7 @@ We build this application for our existing partner and public users who register
                     website_description = '\n'.join(line.split('<br>')[:-1])
                 else:
                     website_description = '\n'.join(line.split('<br>'))
-            elif idx == 5 and type == 'home':
+            elif idx == 5 and type == 'home' or type == 'admin' and idx == 5:
                 if line != '\n':
                     background = line.split('\n')[0]
             elif idx == 6 and type == 'login':
@@ -871,6 +912,11 @@ We build this application for our existing partner and public users who register
                     backend_url = ''
                 else:
                     backend_url = line.split('\n')[0]
+            elif idx == 19:
+                if line == '\n':
+                    pass
+                else:
+                    website_mode = line.split('\n')[0]
         if color == '':
             color = '#f15a22'
         file.close()
@@ -880,6 +926,7 @@ We build this application for our existing partner and public users who register
         pass
     return {
         'logo': logo,
+        'website_mode': website_mode,
         'logo_icon': logo_icon,
         'template': template,
         'color': color,
