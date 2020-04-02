@@ -119,8 +119,8 @@ def signin(request):
         "password": password_global,
         "api_key":  api_key,
 
-        "co_user": request.POST.get('username') or user_default,
-        "co_password": request.POST.get('password') or password_default,
+        "co_user": request.session['username'] or user_default,
+        "co_password": request.session['password'] or password_default,
         "co_uid": ""
     }
 
