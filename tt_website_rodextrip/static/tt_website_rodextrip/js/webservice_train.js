@@ -365,8 +365,8 @@ function train_create_booking(val){
                 document.getElementById('train_booking').submit();
             }else{
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
-                    document.getElementById('order_number').value = msg.result.response.order_number;
-                send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                document.getElementById('order_number').value = msg.result.response.order_number;
                 document.getElementById('issued').action = '/train/booking/' + btoa(msg.result.response.order_number);
                 document.getElementById('issued').submit();
             }
