@@ -855,12 +855,14 @@
         if(document.URL.split('/')[document.URL.split('/').length-1] != 'ssr' || document.URL.split('/')[document.URL.split('/').length-1] != 'seat'){
             time = 300;
             console.log(`{{username}}`);
+            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
             if('{{username.co_user_login}}' != ''){
                 triggered_balance({{update_data}});
                 setTimeout(function() {
                     get_balance({{update_data}});
                 }, 2000);
             }
+            {% endif %}
         }
         function set_csrf_notification(number){
             document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
