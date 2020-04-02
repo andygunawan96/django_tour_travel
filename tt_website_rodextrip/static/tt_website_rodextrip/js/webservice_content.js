@@ -626,7 +626,7 @@ function test_ledger(val){
            },
            data: {
                 'signature': signature,
-                'value': parseInt(10000+parseInt(i))
+                'value': parseInt(100000+parseInt(i)+ new Date().toString().split(' ')[4].split(':')[2]*1000)
            },
            success: function(msg) {
             console.log(msg);
