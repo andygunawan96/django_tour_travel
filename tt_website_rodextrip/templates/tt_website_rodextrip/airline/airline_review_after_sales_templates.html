@@ -145,7 +145,7 @@
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
-        <form method="POST" id="airline_booking" action="{% url 'tt_website_rodextrip:airline_booking'%}">
+        <form method="POST" id="airline_booking" action="">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12" style="padding-bottom:15px;">
