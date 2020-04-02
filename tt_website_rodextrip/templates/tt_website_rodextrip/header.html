@@ -869,4 +869,22 @@
             document.getElementById('notification_'+number).submit();
         }
     {% endif %}
+    {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+    try{
+        document.getElementById("password").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                signin_btc();
+          }
+        });
+        document.getElementById("username").addEventListener("keyup", function(event) {
+          // Number 13 is the "Enter" key on the keyboard
+          if (event.keyCode === 13) {
+                event.preventDefault();
+                signin_btc();
+          }
+        });
+    }catch(err){}
+    {% endif %}
 </script>
