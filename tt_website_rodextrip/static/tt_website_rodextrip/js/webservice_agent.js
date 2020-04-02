@@ -344,7 +344,7 @@ function send_url_booking(provider_type, url, order_number, type='reservation'){
             'signature': signature,
             'provider_type': provider_type,
             'url_booking': create_url,
-            'order_number': order_number.
+            'order_number': order_number,
             'type': type
        },
        success: function(msg) {

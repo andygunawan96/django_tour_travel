@@ -31,8 +31,8 @@ def index(request):
         values = get_data_template(request)
         if not request.session.get('user_account') and values['website_mode'] == 'btc':
             signin_btc(request)
-        elif not request.session.get('user_account') and values['website_mode'] == 'btb':
-            return no_session_logout(request)
+        # elif not request.session.get('user_account') and values['website_mode'] == 'btb':
+        #     return no_session_logout(request)
         javascript_version = get_javascript_version()
         cache_version = get_cache_version()
         response = get_cache_data(cache_version)
