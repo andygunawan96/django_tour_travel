@@ -138,7 +138,7 @@
                                             <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -360,7 +360,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -587,7 +587,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -781,7 +781,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -1090,7 +1090,7 @@
                                                     <!--                                            </label>-->
                                                 </div>
                                                 <div class="col-lg-6" style="text-align:right;">
-                                                    {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> Clear <i class="fas fa-times"></i></button>
                                                     {% endif %}
@@ -1303,7 +1303,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
-                                                    {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                                     {% endif %}
@@ -1481,7 +1481,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
-                                                    {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                                     {% endif %}
@@ -1629,7 +1629,7 @@
                                             <div class="row">
                                                 <div class="col-lg-6" style="text-align:left;"></div>
                                                 <div class="col-lg-6" style="text-align:right;">
-                                                    {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                                    {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                                     <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                                     <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                                     {% endif %}
@@ -1876,7 +1876,7 @@
                                             <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -2100,7 +2100,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -2329,7 +2329,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -2525,7 +2525,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -2836,7 +2836,7 @@
                                         <!--                                            </label>-->
                                     </div>
                                     <div class="col-lg-6" style="text-align:right;">
-                                        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         {% endif %}
@@ -3058,7 +3058,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
-                                        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         {% endif %}
@@ -3285,7 +3285,7 @@
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">
-                                        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         {% endif %}
@@ -3479,7 +3479,7 @@
                                 <div class="row">
                                     <div class="col-lg-6" style="text-align:left;"></div>
                                     <div class="col-lg-6" style="text-align:right;">
-                                        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                         <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                         {% endif %}
@@ -3799,7 +3799,7 @@
                                             <!--                                            </label>-->
                                         </div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal" onclick="loadingPaxHide();"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="booker_clear" onclick="clear_passenger('Booker', 0);" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -4019,7 +4019,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_adult{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="adult_clear{{forloop.counter}}" onclick="clear_passenger('Adult', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -4246,7 +4246,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_child{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="child_clear{{forloop.counter}}" onclick="clear_passenger('Child', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
@@ -4440,7 +4440,7 @@
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left;"></div>
                                         <div class="col-lg-6" style="text-align:right;">
-                                            {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+                                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModal_infant{{forloop.counter}}" onclick="loadingPaxHide();set_passenger_number({{forloop.counter}});"> Search <i class="fas fa-search"></i></button>
                                             <button type="button" class="primary-btn" id="infant_clear{{forloop.counter}}" onclick="clear_passenger('Infant', {{forloop.counter}});" value="clear"> Clear <i class="fas fa-times"></i></button>
                                             {% endif %}
