@@ -327,7 +327,7 @@ function get_path_url_server(){ //DEPRECATED
     });
 }
 
-function send_url_booking(provider_type, url, order_number, type='reservation'){
+function send_url_booking(provider_type, url, order_number, type='book'){
     create_url = '';
     data = document.URL;
     for(i=0;i<data.split('/').length-1;i++){
