@@ -264,7 +264,7 @@ function get_transactions_notification(val){
                                         check_notif++;
                                         text = '';
                                         text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                                        text+=`<form action="airline/booking" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
+                                        text+=`<form action="airline/booking/`+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
                                         text+=`<div class="row">
                                                 <div class="col-sm-6">`;
                                         text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;

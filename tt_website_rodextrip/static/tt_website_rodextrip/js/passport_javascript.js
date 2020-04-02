@@ -173,6 +173,7 @@ function update_table(type){
             }catch(err){
                 display = 'none';
             }
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text+=`
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
@@ -180,7 +181,8 @@ function update_table(type){
                             <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
-                </div>
+                </div>`;
+            text+=`
                 <div class="row">
                     <div class="col-lg-12" style="padding-bottom:15px;">
                         <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
@@ -201,19 +203,24 @@ function update_table(type){
                     }
                     text +=`</div>
 
-                </div>
+                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                text+=`
                 <div class="row" id="show_commission" style="display: `+display+`;">
                     <div class="col-lg-12" style="text-align:center;">
                         <div class="alert alert-success">
                             <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                         </div>
                     </div>
-                </div>
+                </div>`;
+                text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
                         <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
                    </div>
-                </div>
+                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
                         <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
@@ -325,19 +332,24 @@ function update_table(type){
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 }
                 text +=`</div>
-            </div>
+            </div>`;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
             <div class="row" id="show_commission" style="display: `+display+`;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
                         <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport.list_of_passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                     </div>
                 </div>
-            </div>
+            </div>`;
+            text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
                     <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
-            </div>
+            </div>`;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
@@ -518,19 +530,24 @@ function update_table(type){
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 }
                 text +=`</div>
-            </div>
+            </div>`;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
             <div class="row" id="show_commission" style="display: `+display+`;">
                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                     <div class="alert alert-success">
                         <span style="font-size:13px; font-weight:bold;">Your Commission: `+passport.list_of_passport[0].sale_price.currency+` `+getrupiah(commission)+`</span><br>
                     </div>
                 </div>
-            </div>
+            </div>`;
+            text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
                     <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
-            </div>
+            </div>`;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
@@ -628,6 +645,7 @@ function update_table(type){
         }
         if(passport.journey.state == 'booked')
             text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;"/></i></div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text+=`
         <div class="row" id="show_commission" style="display: `+display+`;">
             <div class="col-lg-12" style="text-align:center;">
@@ -641,7 +659,9 @@ function update_table(type){
            <div class="col-lg-12">
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('review');" value="Copy">
            </div>
-        </div>
+        </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text+=`
         <div class="row" style="margin-top:10px; text-align:center;">
            <div class="col-lg-12" style="padding-bottom:10px;">
                 <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>

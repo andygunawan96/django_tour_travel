@@ -1758,18 +1758,20 @@ function get_price_itinerary_request(){
                         <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
                         <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 }
-
-                text+=`
-                    </div>
-                    <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
-                        </div>
-                    </div>`;
+                text+=`</div>`
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text+=`
+                        <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission">
+                            <div class="alert alert-success">
+                                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
+                            </div>
+                        </div>`;
                 text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-                    </div>
+                    </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                   text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
                     </div>`;
@@ -2697,11 +2699,16 @@ function airline_commit_booking(val){
            if(msg.result.error_code == 0){
                //send order number
                if(val == 0){
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
                    document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                   document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
                    document.getElementById('airline_booking').submit();
                }else{
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
                    document.getElementById('order_number').value = msg.result.response.order_number;
-                   document.getElementById('issued').action = '/airline/booking';
+                   document.getElementById('issued').action = '/airline/booking/' + btoa(msg.result.response.order_number);
                    document.getElementById('issued').submit();
                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -2765,8 +2772,10 @@ function airline_commit_booking(val){
                     }
                 }else{
                     if(msg.result.response.order_number != ''){
+                       if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                            send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
                        document.getElementById('order_number').value = msg.result.response.order_number;
-                       document.getElementById('issued').action = '/airline/booking';
+                       document.getElementById('issued').action = '/airline/booking/' + btoa(msg.result.response.order_number);
                        document.getElementById('issued').submit();
                     }else{
                         Swal.fire({
@@ -2844,11 +2853,16 @@ function airline_force_commit_booking(val){
            if(msg.result.error_code == 0){
                //send order number
                if(val == 0){
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
                    document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                   document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
                    document.getElementById('airline_booking').submit();
                }else{
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
                    document.getElementById('order_number').value = msg.result.response.order_number;
-                   document.getElementById('issued').action = '/airline/booking';
+                   document.getElementById('issued').action = '/airline/booking/' + btoa(msg.result.response.order_number);
                    document.getElementById('issued').submit();
                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -2885,8 +2899,10 @@ function airline_force_commit_booking(val){
                     }
                 }else{
                     if(msg.result.response.order_number != ''){
+                       if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                            send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
                        document.getElementById('order_number').value = msg.result.response.order_number;
-                       document.getElementById('issued').action = '/airline/booking';
+                       document.getElementById('issued').action = '/airline/booking/' + btoa(msg.result.response.order_number);
                        document.getElementById('issued').submit();
                     }else{
                         Swal.fire({
@@ -3128,8 +3144,13 @@ function airline_get_booking(data){
                         localTime  = moment.utc(tes).toDate();
                         msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                         //
-                        text+=`<tr>
-                            <td>`+msg.result.response.provider_bookings[i].pnr+`</td>
+                        text+=`<tr>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                            text+=`
+                                <td>`+msg.result.response.provider_bookings[i].pnr+`</td>`;
+                        else
+                            text += `<td> - </td>`;
+                        text+=`
                             <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>
                             <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
@@ -3615,21 +3636,24 @@ function airline_get_booking(data){
                 text_detail+=`
                     </div>
                 </div>`;
-                text_detail+=`
-                <div class="row" id="show_commission" style="display:none;">
-                    <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                        <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text_detail+=`
+                    <div class="row" id="show_commission" style="display:none;">
+                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                            <div class="alert alert-success">
+                                <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                            </div>
                         </div>
-                    </div>
-                </div>`;
+                    </div>`;
                 text_detail+=`<center>
 
                 <div style="padding-bottom:10px;">
                     <center>
                         <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
                     </center>
-                </div>
+                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                text_detail+=`
                 <div style="margin-bottom:5px;">
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                 </div>
@@ -4046,8 +4070,9 @@ function airline_issued(data){
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
-                    </div>
-
+                    </div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text+=`
                     <div class="row" id="show_commission_old" style="display:none;">
                         <div class="col-lg-12 col-xs-12" style="text-align:center;">
                             <div class="alert alert-success">
@@ -4055,7 +4080,9 @@ function airline_issued(data){
                             </div>
                         </div>
                     </div>`;
-                    text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show Commission"/></div></div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_old" style="width:100%;" type="button" onclick="show_commission('old');" value="Show Commission"/></div>`;
+                    text+=`</div>`;
                     document.getElementById('old_price').innerHTML = text;
 
                     airline_get_detail = msg;
@@ -4149,8 +4176,9 @@ function airline_issued(data){
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px; font-weight: bold;">`+price.currency+` `+getrupiah(total_price_show)+`</span>
                         </div>
-                    </div>
-
+                    </div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text+=`
                     <div class="row" id="show_commission_new" style="display:none;">
                         <div class="col-lg-12 col-xs-12" style="text-align:center;">
                             <div class="alert alert-success">
@@ -4158,7 +4186,9 @@ function airline_issued(data){
                             </div>
                         </div>
                     </div>`;
-                    text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show Commission"/></div></div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        text+=`<center><div style="margin-bottom:5px;"><input class="primary-btn-ticket" id="show_commission_button_new" style="width:100%;" type="button" onclick="show_commission('new');" value="Show Commission"/></div>`;
+                    text+=`</div>`;
                     document.getElementById('new_price').innerHTML = text;
 
                    $("#myModal").modal();

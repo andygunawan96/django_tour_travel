@@ -177,6 +177,81 @@ function signin(){
     }
 }
 
+function signin_btc(){
+    if($('#username').val() != '' && $('#password').val() != ''){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'signin_btc',
+           },
+           data: {
+            'username':$('#username').val(),
+            'password':$('#password').val()
+           },
+           success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                //gotoForm();
+                console.log($('#username').val());
+                document.getElementById('nav-menu-container_no_login').style.display = 'none';
+                document.getElementById('nav-menu-container_login').style.display = 'block';
+                document.getElementById('user_login').innerHTML = $('#username').val();
+                document.getElementById('user_login2').innerHTML = $('#username').val();
+                user_login = msg.result.response;
+                signature = msg.result.response.signature;
+                triggered_balance(false);
+                get_balance(false);
+//                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
+                    window.location.href = '/';
+                let timerInterval;
+                Swal.fire({
+                  type: 'success',
+                  title: 'Login Success!',
+                  html: 'Please Wait ...',
+                  timer: 1000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+
+                  }
+                })
+            }else{
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: 'Please input correct username or password',
+                })
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.button-login').prop('disabled', false);
+            $('.button-login').removeClass("running");
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error signin </span>' + errorThrown,
+            })
+           },timeout: 60000
+        });
+    }
+}
+
 function reset_password(){
     username = '';
     if( $(window).width() > 767){
@@ -239,6 +314,41 @@ function get_path_url_server(){ //DEPRECATED
        success: function(msg) {
         console.log(msg);
         static_path_url_server = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error url server </span>' + errorThrown,
+                })
+            }
+       },timeout: 60000
+    });
+}
+
+function send_url_booking(provider_type, url, order_number, type='reservation'){
+    create_url = '';
+    data = document.URL;
+    for(i=0;i<data.split('/').length-1;i++){
+      create_url += data.split('/')[i] + '/';
+    }
+    create_url += 'booking/'+ url;
+    $.ajax({
+       type: "POST",
+       url: "/webservice/account",
+       headers:{
+            'action': 'send_url_booking',
+       },
+       data: {
+            'signature': signature,
+            'provider_type': provider_type,
+            'url_booking': create_url,
+            'order_number': order_number.
+            'type': type
+       },
+       success: function(msg) {
+        console.log(msg);
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){

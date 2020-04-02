@@ -45,8 +45,9 @@
                 <div id="logo">
                     <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
                 </div>
-                <nav id="nav-menu-container">
-                    <ul class="nav-menu">
+
+                <nav id="nav-menu-container" >
+                    <ul class="nav-menu" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
                         {% if username.co_user_login != ''%}
                         <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
@@ -99,7 +100,7 @@
                             </ul>
                         </li>
 
-                        <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}}</a>
+                        <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}" id="user_login2">{{username.co_user_login}}</a>
                             <ul>
                                 <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul>
@@ -110,6 +111,7 @@
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
+                                <li><a href="javascript:test_ledger(10);">Test Ledger</a></li>
 
                                 <li>
                                     <a>
@@ -124,7 +126,7 @@
                                 <li><a href="#">FAQ</a></li>
                             </ul>
                         </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
+                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
                             <ul>
                                 <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul>
@@ -135,6 +137,7 @@
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
+                                <li><a href="javascript:test_ledger(10);">Test Ledger</a></li>
                                 <li>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
@@ -156,6 +159,26 @@
                             <button onclick="location.href='{% url 'tt_website_rodextrip:login'%}';" class="primary-btn-custom">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
                         </li>
                         {% endif %}
+                    </ul>
+
+                    <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
+                        <li style="padding-right:5px;">
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" style="padding:4px;" id="username" placeholder="Username"/>
+                            </div>
+                        </li>
+                        <li style="padding-right:5px;">
+                            <div class="input-container-search-ticket">
+                                <input type="password" class="form-control" style="padding:4px;" id="password" placeholder="Password"/>
+                            </div>
+                        </li>
+                        <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
+                        <li style="font-size:12px;color:black;">
+                            <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
+                        </li>
+                        <li style="font-size:12px;color:black;padding-left:5px">
+                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                        </li>
                     </ul>
                 </nav>
                 <nav class="notification-mobile" style="display:none;">
@@ -831,28 +854,16 @@
         get_highlight('header');
         if(document.URL.split('/')[document.URL.split('/').length-1] != 'ssr' || document.URL.split('/')[document.URL.split('/').length-1] != 'seat'){
             time = 300;
-            triggered_balance({{update_data}});
-            setTimeout(function() {
-                get_balance({{update_data}});
-            }, 2000);
+            console.log(`{{username}}`);
+            if('{{username.co_user_login}}' != ''){
+                triggered_balance({{update_data}});
+                setTimeout(function() {
+                    get_balance({{update_data}});
+                }, 2000);
+            }
         }
         function set_csrf_notification(number){
             document.getElementById('notification_'+number).innerHTML += `{% csrf_token %}`;
-            if(document.getElementById('type_reservation'+number).value == 'airline'){
-                document.getElementById('notification_'+number).action = '/airline/booking';
-            }else if(document.getElementById('type_reservation'+number).value == 'train'){
-                document.getElementById('notification_'+number).action = '/train/booking';
-            }else if(document.getElementById('type_reservation'+number).value == 'activity'){
-                document.getElementById('notification_'+number).action = '/activity/booking';
-            }else if(document.getElementById('type_reservation'+number).value == 'hotel'){
-                document.getElementById('notification_'+number).action = '/hotel/booking';
-            }else if(document.getElementById('type_reservation'+number).value == 'visa'){
-                document.getElementById('notification_'+number).action = '/visa/booking';
-            }else if(document.getElementById('type_reservation'+number).value == 'tour'){
-                document.getElementById('notification_'+number).action = '/tour/booking';
-            }else if(document.getElementById('type_reservation'+number).value == 'offline'){
-                document.getElementById('notification_'+number).action = '/issued_offline/booking';
-            }
             document.getElementById('notification_'+number).submit();
         }
     {% endif %}

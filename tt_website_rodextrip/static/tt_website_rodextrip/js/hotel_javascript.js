@@ -1441,12 +1441,14 @@ function hotel_room_pick(key){
         <div class="col-lg-6" style="text-align:right;">
             <span style="font-weight:bold;">IDR `+ getrupiah(parseInt(hotel_room.rooms[i].price_total)) +`</span><br/>
             <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
-        </div>
-        <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
-            <div class="alert alert-success">
-                <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)) +`</span><br>
-            </div>
         </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
+            <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
+                <div class="alert alert-success">
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)) +`</span><br>
+                </div>
+            </div>`;
         text += `</div>`;
 
         $text2 += 'Total: IDR '+getrupiah(parseInt(hotel_room.rooms[i].price_total)) + ' ';
@@ -1481,9 +1483,10 @@ function hotel_room_pick_button(){
                 <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
         }
     text +=`</div>`;
-    text += `<div class="col-lg-12">
-        <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
-    </div>`;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text += `<div class="col-lg-12">
+            <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+        </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
         <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
@@ -1857,12 +1860,14 @@ function hotel_detail(){
         </div>
         <div class="col-lg-6" style="text-align:right;">
             <span style="font-weight:bold;">IDR `+ getrupiah(grand_total_price) +`</span>
-        </div>
-        <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
-            <div class="alert alert-success">
-                <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
-            </div>
         </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
+            <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
+                <div class="alert alert-success">
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
+                </div>
+            </div>`;
         try{
             if(adult.length > 0){
                 $text2 += '\nPassengers\n'
@@ -1895,9 +1900,10 @@ function hotel_detail(){
                     <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
             }
         text +=`</div>`;
-        text += `<div class="col-lg-12">
-            <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
-        </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text += `<div class="col-lg-12">
+                <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+            </div>`;
         text += `
         <div class="col-lg-12" style="padding-top:10px;">
             <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">

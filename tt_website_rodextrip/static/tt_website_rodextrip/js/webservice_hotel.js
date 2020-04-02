@@ -787,15 +787,18 @@ function hotel_issued_alert(){
                 </div>
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(grand_total_price) +`</span>
-                </div>
-                <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
-                    </div>
                 </div>`;
-                text += `<div class="col-lg-12">
-                    <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Show Commission"/>
-                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text+=`
+                    <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
+                        </div>
+                    </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text += `<div class="col-lg-12">
+                        <input class="primary-btn" id="show_commission_button_hotel_old" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('old');" value="Show Commission"/>
+                    </div>`;
                 text += `</div>`;
             }
             document.getElementById('old_price').innerHTML = text;
@@ -845,15 +848,18 @@ function hotel_issued_alert(){
                 </div>
                 <div class="col-lg-6" style="text-align:right;">
                     <span style="font-weight:bold;">`+temporary.rooms[i].currency+` `+ getrupiah(grand_total_price) +`</span>
-                </div>
-                <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
-                    <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.rooms[i].commission)) +`</span><br>
-                    </div>
                 </div>`;
-                text += `<div class="col-lg-12">
-                    <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Show Commission"/>
-                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text+=`
+                    <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_new">
+                        <div class="alert alert-success">
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+temporary.rooms[i].currency+` `+ getrupiah(parseInt(temporary.rooms[i].commission)) +`</span><br>
+                        </div>
+                    </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text += `<div class="col-lg-12">
+                        <input class="primary-btn" id="show_commission_button_hotel_new" style="width:100%;" type="button" onclick="show_commission_hotel_price_change('new');" value="Show Commission"/>
+                    </div>`;
                 text += `</div>`;
             }
 
@@ -932,7 +938,9 @@ function hotel_issued_booking(){
             try{
                 if(msg.result.error_code == 0){
                     document.getElementById('order_number').value = msg.result.response.os_res_no;
-                    document.getElementById('issued').action = '/hotel/booking';
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        send_url_booking('hotel', btoa(msg.result.response.os_res_no), msg.result.response.os_res_no);
+                    document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.os_res_no);
                     document.getElementById('issued').submit();
     //                var form = document.getElementById('hotel_booking');
     //                var input = document.createElement('input');//prepare a new input DOM element
@@ -1015,8 +1023,13 @@ function hotel_get_booking(data){
                             </tr>`;
                             for(i in msg.result.response.hotel_rooms){
                                 text+=`
-                                    <tr>
-                                        <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>
+                                    <tr>`;
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                                    text+=`
+                                        <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
+                                else
+                                    text+= `<td> - </td>`;
+                                text+=`
                                         <td>`+msg.result.response.status.charAt(0).toUpperCase()+msg.result.response.status.slice(1).toLowerCase()+`</td>
                                     </tr>
                                 `;
@@ -1314,24 +1327,28 @@ function hotel_get_booking(data){
                         text_detail+=`
                             </div>
                         </div>`;
-                        text_detail+=`
-                        <div class="row" id="show_commission" style="display:none;">
-                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                                <div class="alert alert-success">
-                                    <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                            text_detail+=`
+                            <div class="row" id="show_commission" style="display:none;">
+                                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                    <div class="alert alert-success">
+                                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
                         text_detail+=`<center>
 
                         <div style="padding-bottom:10px;">
                             <center>
                                 <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
-                        </div>
-                        <div style="margin-bottom:5px;">
-                            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
-                        </div>
+                        </div>`;
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                            text_detail+=`
+                            <div style="margin-bottom:5px;">
+                                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                            </div>`;
+                        text_detail+=`
                     </div>`;
                 }catch(err){console.log(err)}
                 document.getElementById('hotel_detail').innerHTML = text_detail;

@@ -45,6 +45,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = signin(request)
+        elif req_data['action'] == 'signin_btc':
+            res = signin_btc(request)
         elif req_data['action'] == 'static_path_url_server':
             res = get_url_static_path()
         elif req_data['action'] == 'get_agent_booker':
@@ -100,8 +102,8 @@ def signin(request):
         "password": password_global,
         "api_key":  api_key,
 
-        "co_user": request.POST['username'],
-        "co_password": request.POST['password'],
+        "co_user": request.POST.get('username') or user_default,
+        "co_password": request.POST.get('password') or password_default,
         # "co_user": user_default,  # request.POST['username'],
         # "co_password": password_default, #request.POST['password'],
         # "co_uid": ""
@@ -111,8 +113,8 @@ def signin(request):
     try:
         if res['result']['error_code'] == 0:
             request.session['signature'] = res['result']['response']['signature']
-            request.session['username'] = request.POST['username']
-            request.session['password'] = request.POST['password']
+            request.session['username'] = request.POST.get('username') or user_default
+            request.session['password'] = request.POST.get('password') or password_default
             data = {}
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -186,6 +188,101 @@ def signin(request):
             return res
         else:
             return res
+
+def signin_btc(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signin",
+        "signature": ''
+    }
+
+    data = {
+        "user": user_global,
+        "password": password_global,
+        "api_key":  api_key,
+
+        "co_user": request.POST.get('username') or user_default,
+        "co_password": request.POST.get('password') or password_default,
+        # "co_user": user_default,  # request.POST['username'],
+        # "co_password": password_default, #request.POST['password'],
+        # "co_uid": ""
+    }
+
+    res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
+    try:
+        if res['result']['error_code'] == 0:
+            request.session['signature'] = res['result']['response']['signature']
+            request.session['username'] = request.POST.get('username') or user_default
+            request.session['password'] = request.POST.get('password') or password_default
+            data = {}
+            headers = {
+                "Accept": "application/json,text/html,application/xml",
+                "Content-Type": "application/json",
+                "action": "get_account",
+                "signature": res['result']['response']['signature']
+            }
+
+            res_user = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+            # pakai kalo template PER USER
+            # user_template = UserTemplate().get_data_by_id(request.POST['username'], True) #true buat rodextrip false buat tors
+            # res_user['result']['response'].update({
+            #     'logo_url': user_template.logo_url,
+            #     'name': user_template.name,
+            #     'template': user_template.template_id,
+            #     'desc': user_template.desc
+            # })
+            res_user['result']['response']['signature'] = res['result']['response']['signature']
+            request.session['user_account'] = res_user['result']['response']
+            try:
+                if res['result']['error_code'] == 0:
+                    data = {}
+                    headers = {
+                        "Accept": "application/json,text/html,application/xml",
+                        "Content-Type": "application/json",
+                        "action": "get_provider_type_list",
+                        "signature": res['result']['response']['signature']
+                    }
+                    provider_type = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+                    try:
+                        if provider_type['result']['error_code'] == 0:
+                            provider_type_list = []
+                            for provider in provider_type['result']['response']['provider_type_list']:
+                                provider_type_list.append(provider['code'])
+                            request.session['provider'] = provider_type_list
+                        else:
+                            # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
+                            request.session['provider'] = []
+                    except:
+                        request.session['provider'] = []
+                    logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
+                    javascript_version = get_cache_version()
+                    response = get_cache_data(javascript_version)
+
+                    res['result']['response'].update({
+                        # 'visa': response['result']['response']['visa'],
+                        # 'issued_offline': response['result']['response']['issued_offline'],
+                        # 'train': response['result']['response']['train'],
+                        'activity': response['result']['response']['activity'],
+                        'tour': response['result']['response']['tour'],
+                        'airline': response['result']['response']['airline'],
+                        # 'hotel_config': response['result']['response']['hotel_config'],
+                    })
+                    logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
+            except:
+                get_new_cache(res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
+
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        # pass
+        # # logging.getLogger("error logger").error('testing')
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    try:
+        return res_user
+    except:
+        return res
 
 def get_new_cache(signature):
     try:

@@ -117,8 +117,8 @@ def get_transaction(request):
         data = {
             'account_number': '511.01.50000',
             'provider': 'bca',
-            'startdate': '2019-11-01',
-            'enddate': '2019-11-05',
+            'startdate': '2020-02-19',
+            'enddate': '2020-02-19',
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

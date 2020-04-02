@@ -616,6 +616,51 @@ function get_page(data){
     });
 }
 
+function test_ledger(val){
+    for(i=0;i<val;i++){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'test_ledger',
+           },
+           data: {
+                'signature': signature,
+                'value': parseInt(10000+parseInt(i))
+           },
+           success: function(msg) {
+            console.log(msg);
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+           },timeout: 60000
+        });
+    }
+}
+
+function testing_espay_close(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/content",
+       headers:{
+            'action': 'testing_espay_close',
+       },
+       data: {},
+       success: function(msg) {
+            console.log(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error update banner </span>' + errorThrown,
+                })
+            }
+       }
+    });
+}
+
 function get_dynamic_page(type){
     console.log(type);
     $.ajax({

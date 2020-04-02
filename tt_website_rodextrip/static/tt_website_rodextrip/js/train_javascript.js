@@ -749,22 +749,26 @@ function train_get_detail(){
             }
         train_detail_text +=`
             </div>
-        </div>
-        <div class="row" id="show_commission" style="display:none;">
-            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
+        </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            train_detail_text+=`
+            <div class="row" id="show_commission" style="display:none;">
+                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
+                    </div>
                 </div>
-            </div>
-        </div>
-
+            </div>`;
+        train_detail_text+=`
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
-            </div>
-            <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
             </div>`;
+            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                train_detail_text+=`
+                <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+                </div>`;
             if(agent_security.includes('book_reservation') == true)
             train_detail_text+=`
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
@@ -981,15 +985,16 @@ function train_detail(){
         <div class="col-lg-6 col-xs-6" style="text-align:right;">
             <span style="font-size:13px;"><b>`+price['currency']+` `+getrupiah(grand_total_price)+`</b></span><br>
         </div>
-    </div>
-
-    <div class="row" id="show_commission" style="display:none;">
-        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-            <div class="alert alert-success">
-                <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
-            </div>
-        </div>
     </div>`;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text+=`
+        <div class="row" id="show_commission" style="display:none;">
+            <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                <div class="alert alert-success">
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+getrupiah(total_commission)+`</span><br>
+                </div>
+            </div>
+        </div>`;
 
     $text += '1x Convenience fee '+price['currency']+' '+ getrupiah(total_tax) + '\n\n';
     try{
@@ -1032,10 +1037,13 @@ function train_detail(){
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
             <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
-        </div>
-        <div class="col-lg-12" style="padding-bottom:5px;">
-            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
-        </div>
+        </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
+            <div class="col-lg-12" style="padding-bottom:5px;">
+                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+            </div>`;
+        text+=`
     </div>`;
 
     document.getElementById('train_detail').innerHTML = text;

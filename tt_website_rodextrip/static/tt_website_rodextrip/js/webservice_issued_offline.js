@@ -1571,24 +1571,28 @@ function get_booking_offline(data){
                     text_detail+=`
                         </div>
                     </div>`;
-                    text_detail+=`
-                    <div class="row" id="show_commission" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(msg.result.response.commission)*-1)+`</span><br>
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        text_detail+=`
+                        <div class="row" id="show_commission" style="display:none;">
+                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                <div class="alert alert-success">
+                                    <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(msg.result.response.commission)*-1)+`</span><br>
+                                </div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
                     text_detail+=`<center>
 
                     <div style="padding-bottom:10px;">
                         <center>
                             <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
                         </center>
-                    </div>
-                    <div style="margin-bottom:5px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
-                    </div>
+                    </div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        text_detail+=`
+                        <div style="margin-bottom:5px;">
+                            <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                        </div>`;
+                    text_detail+=`
                 </div>`;
                 }catch(err){}
                 document.getElementById('offline_detail').innerHTML = text_detail;

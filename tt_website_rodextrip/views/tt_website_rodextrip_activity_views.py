@@ -1291,26 +1291,27 @@ def review(request):
         return no_session_logout(request)
 
 
-def booking(request):
-    if 'user_account' in request.session._session:
+def booking(request, order_number):
+    try:
+        javascript_version = get_javascript_version()
+
+        values = get_data_template(request)
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            javascript_version = get_javascript_version()
-
-            values = get_data_template(request)
-
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'order_number': request.POST['order_number'],
-                'username': request.session['user_account'],
-                'javascript_version': javascript_version,
-                'signature': request.session['signature'],
-                'static_path_url_server': get_url_static_path(),
-            })
-        except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/activity/activity_booking_templates.html', values)
-    else:
-        return no_session_logout(request)
+            request.session['activity_order_number'] = base64.b64decode(order_number).decode('ascii')
+        except:
+            request.session['activity_order_number'] = order_number
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'order_number': request.session['activity_order_number'],
+            'username': request.session.get('user_account') or {'co_user_login': ''},
+            'javascript_version': javascript_version,
+            'signature': request.session['signature'],
+            'static_path_url_server': get_url_static_path(),
+        })
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME + '/activity/activity_booking_templates.html', values)

@@ -3717,26 +3717,29 @@ function airline_detail(type){
 
             text+=`
             </div>
-        </div>
-
-        <div class="row" id="show_commission" style="display:none;">
-            <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
+        </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
+            <div class="row" id="show_commission" style="display:none;">
+                <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                    <div class="alert alert-success">
+                        <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission_price*-1)+`</span><br>
+                    </div>
                 </div>
-            </div>
-        </div>
-
+            </div>`;
+        text+=`
         <div style="padding-bottom:10px;">
             <center>
                 <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
             </center>
-        </div>
-        <div style="padding-bottom:10px;">
-            <center>
-                <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
-            </center>
         </div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`
+            <div style="padding-bottom:10px;">
+                <center>
+                    <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
+                </center>
+            </div>`;
     }else if(type == 'request_new'){
         $text = '';
         text += `

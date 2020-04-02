@@ -74,6 +74,8 @@ def api_models(request):
             res = add_banner(request)
         elif req_data['action'] == 'get_banner':
             res = get_banner(request)
+        elif req_data['action'] == 'test_ledger':
+            res = create_legder(request)
         elif req_data['action'] == 'set_inactive_delete_banner':
             res = set_inactive_delete_banner(request)
         elif req_data['action'] == 'get_country':
@@ -318,6 +320,30 @@ def set_inactive_delete_banner(request):
         # elif func == 'register':
         #     register(request)
     except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def create_legder(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "test_ledger",
+            "signature": request.POST['signature'],
+        }
+        data = {
+            'value': int(request.POST['value'])
+        }
+
+        res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': -1,
+                'error_msg': str(e),
+                'response': ''
+            }
+        }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
