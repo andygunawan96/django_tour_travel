@@ -1095,14 +1095,15 @@ function commit_booking_tour(val)
                var booking_num = msg.result.response.order_number;
                if(val == 1){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
-                        document.getElementById('order_number').value = msg.result.response.order_number;
-                    send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    document.getElementById('order_number').value = msg.result.response.order_number;
                     document.getElementById('issued').action = '/tour/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('issued').submit();
                }else{
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
-                        document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
-                    send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+
                     document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('tour_booking').submit();
                }
