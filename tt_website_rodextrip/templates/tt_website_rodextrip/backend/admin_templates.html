@@ -60,17 +60,17 @@
                             {% if "edit_appearance" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                             <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                            <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                            <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                             {% endif %}
                             {% if "create_page" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
-                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
+                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
+                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -93,7 +93,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Tab Background Color</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
                                                 <input class="jscolor nice-select-default" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
@@ -102,22 +102,22 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Button Color</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Button Color' %}</h6>
                                         <div class="form-select">
                                             <input class="jscolor nice-select-default" value="{{color}}" name="color_pick">
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Text Color</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                         <div class="form-select">
                                             <input class="jscolor nice-select-default" value="{{text_color}}" name="text_pick">
                                         </div>
                                     </div>
                                     <div class="col-lg-12"><hr/></div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Website Name</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Name' %}</h6>
                                         <div class="form-select">
-                                            <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
+                                            <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                         </div>
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                         <div class="form-select">
@@ -128,49 +128,61 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Website Description</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
                                         <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                     </div>
                                     <div class="col-lg-12"><hr/></div>
                                     <div class="col-lg-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileToUpload" id="fileToUpload"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="filelogoicon" id="filelogoicon"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Home</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Login</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Search</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Registration Banner</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                         </div>
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
                                         <hr/>
-                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -178,8 +190,10 @@
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                     <div class="col-lg-12"><hr/></div>
                                     <div class="col-lg-12">
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Big Banner</h6>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Big Banner' %}</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Width: 1110px, Height: 360px</span><br/>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">{% trans 'Upload Image' %}</button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
                                             <div class="modal-dialog">
@@ -187,7 +201,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Big Banner</h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -198,13 +212,13 @@
 
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <br/><br/>
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Image Big Banner</h6><br/>
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Big Banner' %}</h6><br/>
                                         <div class="row" id="big_banner" style="padding:15px;">
 
                                         </div>
@@ -212,8 +226,10 @@
                                     </div>
 
                                     <div class="col-lg-12">
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Small Banner</h6>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Small Banner' %}</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">{% trans 'Upload Image' %}</button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
                                             <div class="modal-dialog">
@@ -221,7 +237,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Small Banner</h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Small Banner' %}</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -232,13 +248,13 @@
 
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <br/><br/>
-                                        <h6 style="color:{{text_color}};">Image Small Banner</h6><br/>
+                                        <h6 style="color:{{text_color}};">{% trans 'Image Small Banner' %}</h6><br/>
                                         <div id="small_banner">
 
                                         </div>
@@ -246,8 +262,10 @@
                                     </div>
 
                                     <div class="col-lg-12">
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Promotion Banner</h6>
-                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Promotion Banner' %}</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                        <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">{% trans 'Upload Image' %}</button>
                                         <!-- Modal -->
                                         <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
                                             <div class="modal-dialog">
@@ -255,7 +273,7 @@
                                                 <!-- Modal content-->
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:{{text_color}};">Promotion Banner</h4>
+                                                        <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Promotion Banner' %}</h4>
                                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                     </div>
                                                     <div class="modal-body">
@@ -266,20 +284,20 @@
 
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <br/><br/>
-                                        <h6 style="color:{{text_color}};margin-bottom:10px;">Image Promotion Banner</h6>
+                                        <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}r</h6>
                                         <div id="promotion">
 
                                         </div>
                                         <hr/>
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -304,7 +322,7 @@
                                     <!--</div>-->
                                     <!--</div>-->
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -318,34 +336,37 @@
                                     <hr/>
                                     {% endif %}
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
                             <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                     <div class="col-lg-12 col-md-12 col-xs-12">
-                                        <span class="control-label" for="city_id">Page</span>
+                                        <span class="control-label" for="city_id">{% trans 'Page' %}</span>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
+                                                <select class="nice-select-default" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-12 col-md-12 col-xs-12">
-                                        <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
-                                        <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>Delete</button>
+                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                        <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">{% trans 'Run' %}</button>
+                                        <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-xs-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Title</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
                                         <div class="form-select">
-                                            <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                            <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-xs-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                        <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
+
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="image_carousel" id="image_carousel"/>
                                         </div>
@@ -358,26 +379,26 @@
                                     </div>
                                     <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                         <label class="check_box_custom">
-                                            <span class="span-search-ticket" style="color:{{text_color}};">Active</span>
+                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
                                             <input type="checkbox" id="page_active" />
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
+                                        <button type="button" class="primary-btn" onclick="update_dynamic_page();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
                             <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                                        <h3 style="color:white;">Highlight Setting</h3>
+                                        <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                                     </div>
                                     <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                                     </div>
                                     <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                        <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                                     </div>
                                     <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                                     </div>
@@ -390,7 +411,7 @@
                                         <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
                                         <div class="form-select" id="default-select">
                                             <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                                 <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
@@ -399,7 +420,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Code' %}</h6>
                                         <div class="form-select">
                                             <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                         </div>
@@ -429,7 +450,7 @@
                                         <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                     </div>
                                 </div>
                             </div>
@@ -662,7 +683,7 @@
                 <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                        <h3 style="color:white; padding:15px;">Admin Setting</h3>
+                        <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
                     </div>
                     <div class="col-lg-12">
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
@@ -670,17 +691,17 @@
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
-                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
+                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -701,7 +722,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Tab Background Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
                                     <div class="input-container-search-ticket form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
                                         <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
@@ -709,20 +730,20 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Button Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Button Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor form-control" value="{{color}}" name="color_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Text Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor form-control" value="{{text_color}}" name="text_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Website Name</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Name' %}</h6>
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                     </div>
@@ -735,49 +756,63 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Website Description</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
+
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileToUpload" id="fileToUpload"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
+
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="filelogoicon" id="filelogoicon"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Home</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Login</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Search</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Registration Banner</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -785,16 +820,17 @@
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Big Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Big Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1110px, Height: 360px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
-
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Big Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -805,13 +841,13 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Image Big Banner</h6><br/>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Big Banner' %}</h6><br/>
                                     <div class="row" id="big_banner">
 
                                     </div>
@@ -819,8 +855,10 @@
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Small Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Small Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -828,7 +866,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Small Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Small Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -839,13 +877,13 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6 style="color:{{text_color}};">Image Small Banner</h6><br/>
+                                    <h6 style="color:{{text_color}};">{% trans 'Image Small Banner' %}</h6><br/>
                                     <div id="small_banner">
 
                                     </div>
@@ -853,8 +891,10 @@
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Promotion Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Promotion Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -862,7 +902,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Promotion Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Promotion Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -873,20 +913,20 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Image Promotion Banner</h6>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                     <div id="promotion">
 
                                     </div>
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -911,7 +951,7 @@
                                 <!--</div>-->
                                 <!--</div>-->
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -925,39 +965,37 @@
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
                         <div id="dynamic_page-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-12 col-md-12 col-xs-12">
-                                    <span class="control-label" for="city_id">Page</span>
-                                    <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
+                                    <span class="control-label" for="city_id">{% trans 'Page' %}</span>
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
-                                            </select>
-                                        </div>
-                                    </div>
+                                    </select>
                                 </div>
-                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px; text-align:right;">
-                                    <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
-                                    <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>Delete</button>
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                    <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">{% trans 'Run' %}</button>
+                                    <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-xs-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Title</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-xs-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="image_carousel" id="image_carousel"/>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px; margin-top:15px;">
                                     <textarea class="ckeditor" name="editor" id="editor"></textarea>
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;border-width:1px;" id="editor_test">
@@ -965,29 +1003,26 @@
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:{{text_color}};">Active</span>
+                                        <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
                                         <input type="checkbox" id="page_active" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_dynamic_page();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
                         <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row">
                                 <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                                    <h3 style="color:white;">Highlight Setting</h3>
-                                </div>
-                                <div class="col-lg-12" style="text-align:left;">
-                                    <h4 style="color:white;">Highlight Url</h4>
+                                    <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                                 </div>
                                 <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                                 </div>
                                 <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                                 </div>
                                 <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                                 </div>
@@ -1019,7 +1054,7 @@
                                     <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
                                     <div class="form-select" id="default-select">
                                         <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
@@ -1028,7 +1063,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Code' %}</h6>
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                     </div>
@@ -1058,7 +1093,7 @@
                                     <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1287,7 +1322,7 @@
             <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                        <h3 style="color:white; padding:15px;">Admin Setting</h3>
+                        <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
                     </div>
                     <div class="col-lg-12">
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
@@ -1295,17 +1330,17 @@
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
-                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
+                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -1326,7 +1361,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Tab Background Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
                                     <div class="input-container-search-ticket form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
                                         <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
@@ -1334,22 +1369,22 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Button Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Button Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{color}}" name="color_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Text Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Website Name</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Name' %}</h6>
                                     <div class="form-select">
-                                        <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
+                                        <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                     </div>
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                     <div class="form-select">
@@ -1360,49 +1395,63 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Website Description</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
+
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileToUpload" id="fileToUpload"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
+
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="filelogoicon" id="filelogoicon"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Home</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Login</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Search</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Registration Banner</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1410,8 +1459,11 @@
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Big Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Big Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1110px, Height: 360px</span><br/>
+
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -1419,7 +1471,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Big Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -1430,13 +1482,13 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Image Big Banner</h6><br/>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Big Banner' %}</h6><br/>
                                     <div class="row" id="big_banner">
 
                                     </div>
@@ -1444,8 +1496,10 @@
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Small Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Small Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -1453,7 +1507,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Small Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Small Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -1464,13 +1518,13 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6>Image Small Banner</h6><br/>
+                                    <h6>{% trans 'Image Small Banner' %}</h6><br/>
                                     <div id="small_banner">
 
                                     </div>
@@ -1478,8 +1532,10 @@
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Promotion Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Promotion Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -1487,7 +1543,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Promotion Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Promotion Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -1498,20 +1554,20 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Image Promotion Banner</h6>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                     <div id="promotion">
 
                                     </div>
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1537,7 +1593,7 @@
                                 <!--</div>-->
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1551,7 +1607,7 @@
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -1559,28 +1615,30 @@
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-12 col-md-12 col-xs-12">
                                     <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
-                                        <span class="control-label" for="city_id">Page</span>
-                                        <div class="input-container-search-ticket">
-                                            <div class="form-select">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
+                                        <span class="control-label" for="city_id" style="color:{{text_color}};">{% trans 'Page' %}</span>
+                                        <div class="form-group">
+                                            <div class="default-select">
+                                                <select style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
-                                    <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">{% trans 'Run' %}</button>
                                     <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>Delete</button>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Title</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="image_carousel" id="image_carousel"/>
                                     </div>
@@ -1599,23 +1657,20 @@
                                     </label>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_dynamic_page();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
                         <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row">
                                 <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                                    <h3 style="color:white;">Highlight Setting</h3>
-                                </div>
-                                <div class="col-lg-12" style="text-align:left;">
-                                    <h4 style="color:white;">Highlight Url</h4>
+                                    <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                                 </div>
                                 <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                                 </div>
                                 <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                                 </div>
                                 <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                                 </div>
@@ -1649,7 +1704,7 @@
                                     <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
                                     <div class="form-select" id="default-select">
                                         <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
@@ -1658,7 +1713,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Code' %}</h6>
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                     </div>
@@ -1916,7 +1971,7 @@
             <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                    <h3 style="color:white; padding:15px;">Admin Setting</h3>
+                    <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
                 </div>
                 <div class="col-lg-12">
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
@@ -1924,17 +1979,17 @@
                             {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                             {% endif %}
                             {% if "create_page" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
-                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
+                            <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                            <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
-                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
+                            <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -1957,7 +2012,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Tab Background Color</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
                                 <div class="input-container-search-ticket form-select">
                                     <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
                                     <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
@@ -1965,22 +2020,22 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Button Color</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Button Color' %}</h6>
                                 <div class="form-select">
                                     <input class="jscolor nice-select-default form-control" value="{{color}}" name="color_pick">
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Text Color</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                 <div class="form-select">
                                     <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
                                 </div>
                             </div>
                             <div class="col-lg-12"><hr/></div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Website Name</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Name' %}</h6>
                                 <div class="form-select">
-                                    <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
+                                    <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                 </div>
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                 <div class="form-select">
@@ -1991,49 +2046,61 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Website Description</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
                                 <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                             </div>
                             <div class="col-lg-12"><hr/></div>
                             <div class="col-lg-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileToUpload" id="fileToUpload"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="filelogoicon" id="filelogoicon"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Home</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Login</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Search</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Registration Banner</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                 </div>
                             </div>
                             <div class="col-lg-12" style="text-align:center;">
                                 <hr/>
-                                <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
@@ -2041,8 +2108,10 @@
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                             <div class="col-lg-12"><hr/></div>
                             <div class="col-lg-12">
-                                <h6 style="color:{{text_color}};margin-bottom:10px;">Big Banner</h6>
-                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
+                                <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Big Banner' %}</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Width: 1110px, Height: 360px</span><br/>
+                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
                                     <div class="modal-dialog">
@@ -2050,7 +2119,7 @@
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" style="color:{{text_color}};">Big Banner</h4>
+                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
@@ -2061,13 +2130,13 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <br/><br/>
-                                <h6 style="color:{{text_color}};margin-bottom:10px;">Image Big Banner</h6><br/>
+                                <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Big Banner' %}</h6><br/>
                                 <div class="row" id="big_banner">
 
                                 </div>
@@ -2075,8 +2144,10 @@
                             </div>
 
                             <div class="col-lg-12">
-                                <h6 style="color:{{text_color}};margin-bottom:10px;">Small Banner</h6>
-                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
+                                <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Small Banner' %}</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
                                     <div class="modal-dialog">
@@ -2084,7 +2155,7 @@
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" style="color:{{text_color}};">Small Banner</h4>
+                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Small Banner' %}</h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
@@ -2095,13 +2166,13 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <br/><br/>
-                                <h6>Image Small Banner</h6><br/>
+                                <h6>{% trans 'Image Small Banner' %}</h6><br/>
                                 <div id="small_banner">
 
                                 </div>
@@ -2109,8 +2180,10 @@
                             </div>
 
                             <div class="col-lg-12">
-                                <h6 style="color:{{text_color}};margin-bottom:10px;">Promotion Banner</h6>
-                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
+                                <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Promotion Banner' %}</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">{% trans 'Upload Image' %}</button>
                                 <!-- Modal -->
                                 <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
                                     <div class="modal-dialog">
@@ -2118,7 +2191,7 @@
                                         <!-- Modal content-->
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" style="color:{{text_color}};">Promotion Banner</h4>
+                                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Promotion Banner' %}</h4>
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
@@ -2129,20 +2202,20 @@
 
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <br/><br/>
-                                <h6 style="color:{{text_color}};margin-bottom:10px;">Image Promotion Banner</h6>
+                                <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                 <div id="promotion">
 
                                 </div>
                                 <hr/>
                             </div>
                             <div class="col-lg-12" style="text-align:center;">
-                                <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
@@ -2168,7 +2241,7 @@
                             <!--</div>-->
                             <div class="col-lg-12" style="text-align:center;">
                                 <hr/>
-                                <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
@@ -2182,7 +2255,7 @@
                             <hr/>
                             {% endif %}
                             <div class="col-lg-12" style="text-align:center;">
-                                <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
@@ -2190,28 +2263,30 @@
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                             <div class="col-lg-12 col-md-12 col-xs-12">
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
-                                    <span class="control-label" for="city_id">Page</span>
+                                    <span class="control-label" for="city_id" style="color:{{text_color}};">{% trans 'Page' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
+                                        <div class="form-select" id="default-select">
+                                            <select class="nice-select-default" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
 
                                             </select>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
-                                <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
-                                <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>Delete</button>
+                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">{% trans 'Run' %}</button>
+                                <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
                             </div>
                             <div class="col-lg-6 col-md-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Title</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
                                 <div class="form-select">
-                                    <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                    <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="image_carousel" id="image_carousel"/>
                                 </div>
@@ -2224,29 +2299,26 @@
                             </div>
                             <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:{{text_color}};">Active</span>
+                                    <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
                                     <input type="checkbox" id="page_active" />
                                     <span class="check_box_span_custom"></span>
                                 </label>
                             </div>
                             <div class="col-lg-12" style="text-align:center;">
-                                <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
+                                <button type="button" class="primary-btn" onclick="update_dynamic_page();">{% trans 'Save Change' %}</button>
                             </div>
                         </div>
                     </div>
                     <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                         <div class="row">
                             <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                                <h3 style="color:white;">Highlight Setting</h3>
-                            </div>
-                            <div class="col-lg-12" style="text-align:left;">
-                                <h4 style="color:white;">Highlight Url</h4>
+                                <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                             </div>
                             <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                             </div>
                             <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                                <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                             </div>
                             <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                             </div>
@@ -2280,7 +2352,7 @@
                                 <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
                                 <div class="form-select" id="default-select">
                                     <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                         <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
@@ -2289,7 +2361,7 @@
                                 </div>
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Code' %}</h6>
                                 <div class="form-select">
                                     <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                 </div>
@@ -2548,7 +2620,7 @@
                 <form action="" method="POST" class="form-wrap" id="form_admin" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                        <h3 style="color:white; padding:15px;">Admin Setting</h3>
+                        <h3 style="color:white; padding:15px;">{% trans 'Admin Setting' %}</h3>
                     </div>
                     <div class="col-lg-12">
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
@@ -2556,17 +2628,17 @@
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">Social Media</label></li>
+                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
                                 {% if "create_page" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">Dynamic Page</label></li>
-                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">Highlight Setting</label></li>
+                                <li class="create_tab-link" data-tab="dynamic_page-tab"><label style="color:white; font-size:15px;">{% trans 'Dynamic Page' %}</label></li>
+                                <li class="create_tab-link" data-tab="highlight_setting-tab"><label style="color:white; font-size:15px;">{% trans 'Highlight Setting' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
-                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">Third Party Key Setting</label></li>
+                                <li class="create_tab-link" data-tab="third_party-tab"><label style="color:white; font-size:15px;">{% trans 'Third Party Key Setting' %}</label></li>
                                 {% endif %}
                             </ul>
                         </div>
@@ -2587,7 +2659,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Tab Background Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Tab Background Color' %}</h6>
                                     <div class="input-container-search-ticket form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{bg_tab_color}}" name="bg_tab_pick" id="bg_tab_pick">
                                         <input type="hidden" class="form-control" name="rgba_tab_pick" id="rgba_tab_pick">
@@ -2595,22 +2667,22 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Button Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Button Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{color}}" name="color_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Text Color</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Text Color' %}</h6>
                                     <div class="form-select">
                                         <input class="jscolor nice-select-default form-control" value="{{text_color}}" name="text_pick">
                                     </div>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Website Name</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Name' %}</h6>
                                     <div class="form-select">
-                                        <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
+                                        <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                     </div>
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                     <div class="form-select">
@@ -2621,49 +2693,64 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Website Description</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileToUpload" id="fileToUpload"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
+
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="filelogoicon" id="filelogoicon"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Home</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
+
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Login</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
+
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Background Image Search</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Registration Banner</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -2671,8 +2758,10 @@
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Big Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Big Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 1110px, Height: 360px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalBigBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalBigBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -2680,7 +2769,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Big Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Big Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -2691,13 +2780,13 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Image Big Banner</h6><br/>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Big Banner' %}</h6><br/>
                                     <div class="row" id="big_banner">
 
                                     </div>
@@ -2705,8 +2794,10 @@
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Small Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Small Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalSmallBanner">{% trans 'Upload Banner' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalSmallBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -2714,7 +2805,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Small Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Small Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -2725,13 +2816,13 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6>Image Small Banner</h6><br/>
+                                    <h6>{% trans 'Image Small Banner' %}</h6><br/>
                                     <div id="small_banner">
 
                                     </div>
@@ -2739,8 +2830,10 @@
                                 </div>
 
                                 <div class="col-lg-12">
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Promotion Banner</h6>
-                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">Upload Image</button>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Promotion Banner' %}</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Width: 500px, Height: 500px</span><br/>
+                                    <button type="button" class="primary-btn" data-toggle="modal" data-target="#myModalPromotionBanner">{% trans 'Upload Image' %}</button>
                                     <!-- Modal -->
                                     <div class="modal fade" id="myModalPromotionBanner" role="dialog" data-keyboard="false">
                                         <div class="modal-dialog">
@@ -2748,7 +2841,7 @@
                                             <!-- Modal content-->
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h4 class="modal-title" style="color:{{text_color}};">Promotion Banner</h4>
+                                                    <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Promotion Banner' %}</h4>
                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                 </div>
                                                 <div class="modal-body">
@@ -2759,20 +2852,20 @@
 
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <br/><br/>
-                                    <h6 style="color:{{text_color}};margin-bottom:10px;">Image Promotion Banner</h6>
+                                    <h6 style="color:{{text_color}};margin-bottom:10px;">{% trans 'Image Promotion Banner' %}</h6>
                                     <div id="promotion">
 
                                     </div>
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -2797,7 +2890,7 @@
                                 <!--</div>-->
                                 <!--</div>-->
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -2811,7 +2904,7 @@
                                 <hr/>
                                 {% endif %}
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -2819,7 +2912,7 @@
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 <div class="col-lg-12 col-md-12 col-xs-12">
                                     <div class="col-lg-12 col-md-12 col-xs-12" style="padding:0px; text-align:left;">
-                                        <span class="control-label" for="city_id">Page</span>
+                                        <span class="control-label" for="city_id" style="color:{{text_color}};">{% trans 'Page' %}</span>
                                         <div class="input-container-search-ticket">
                                             <div class="form-select">
                                                 <select class="form-control js-example-basic-single" style="width:100%;" id="page_choose" onchange="change_dynamic_page();">
@@ -2829,18 +2922,20 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="margin-bottom:15px; text-align:right;">
-                                    <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">Run</button>
+                                <div class="col-lg-12" style="margin-bottom:15px;">
+                                    <button type="button" class="primary-btn-ticket" onclick="run_dynamic_page();">{% trans 'Run' %}</button>
                                     <button id="delete_page" type="button" class="primary-btn-cancel" onclick="delete_page();" style="margin-left:10px;" hidden>Delete</button>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Title</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
                                     <div class="form-select">
-                                        <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="Title " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                        <input type="text" class="form-control" name="title_dynamic_page" id="title_dynamic_page" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                    <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="image_carousel" id="image_carousel"/>
                                     </div>
@@ -2853,29 +2948,26 @@
                                 </div>
                                 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:{{text_color}};">Active</span>
+                                        <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
                                         <input type="checkbox" id="page_active" />
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_dynamic_page();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_dynamic_page();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
                         <div id="highlight_setting-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row">
                                 <div class="col-lg-12" style="margin-bottom:15px;color:white;">
-                                    <h3 style="color:white;">Highlight Setting</h3>
-                                </div>
-                                <div class="col-lg-12" style="text-align:left;">
-                                    <h4 style="color:white;">Highlight Url</h4>
+                                    <h3 style="color:white;">{% trans 'Highlight Setting' %}</h3>
                                 </div>
                                 <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> Add</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_highlight(['','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
                                 </div>
                                 <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
-                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> Save</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="save_highlight();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
                                 </div>
                                 <div class="col-lg-12" id="highlight_div" style="margin-top:15px;">
                                 </div>
@@ -2908,7 +3000,7 @@
                                     <h5 style="margin-bottom:10px;color:{{text_color}};">Tawk.to</h5>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Visible Chat</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
                                     <div class="form-select" id="default-select">
                                         <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
@@ -2917,7 +3009,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Code</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Code' %}</h6>
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">
                                     </div>
@@ -2947,7 +3039,7 @@
                                     <input type="text" class="form-control" name="backend_url" id="backend_url" placeholder="Backend URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Backend URL '" value="{{backend_url}}">
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">Save Change</button>
+                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
                                 </div>
                             </div>
                         </div>
