@@ -23,6 +23,10 @@
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
+<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script>
     signature = `{{signature}}`;
     static_path_url_server = '{{static_path_url_server}}'
@@ -943,6 +947,17 @@
     <div id="small_banner" style="padding: 0px 0px 15px 0px;">
 
     </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2" style="padding: 0px 0px 15px 0px;">
+
+        </div>
+    </div>
+    {% endif %}
     {% if username.co_user_login != '' %}
 
 <!--    <section class="destinations-area section-gap">-->
@@ -2302,13 +2317,29 @@
             <div class="row">
                 <!-- Section Heading -->
                 <div class="col-lg-12">
-                    <div id="small_banner">
+                    <div id="owl-login2">
 
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    {% if website_mode == 'btc'%}
+    <section class="roberto-blog-area" style="padding-bottom:100px;">
+        <div class="container">
+            <div class="row">
+                <!-- Section Heading -->
+                <div class="col-lg-12">
+                    <div class="owl-carousel-login owl-theme form-box-login" style="display:none;">
+                        <div id="other_information">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
 
 <!--    <div class="roberto&#45;&#45;video&#45;&#45;area bg-img bg-overlay jarallax section-padding-0-100" style="background-image: url({{static_path}}images2/fancy.jpg);">-->
 <!--        <div class="container h-100">-->
@@ -2329,6 +2360,17 @@
     <div id="small_banner" style="z-index:2; margin-top:-5px; margin-bottom:50px">
 
     </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2" style="z-index:2; margin-top:-5px; margin-bottom:50px">
+
+        </div>
+    </div>
+    {% endif %}
 <!--    <section class="roberto-service-area section-padding-100-0">-->
 <!--        <div class="container">-->
 <!--            <div class="row">-->
@@ -3292,6 +3334,18 @@
     <div id="small_banner">
 
     </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+
+        <div id="owl-login2">
+
+        </div>
+    </div>
+    {% endif %}
 
 <!--    <section class="feature-area section-gap" id="service">-->
 <!--        <div class="container">-->
@@ -4305,6 +4359,17 @@
     <div id="small_banner">
 
     </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2">
+
+        </div>
+    </div>
+    {% endif %}
 
 <!--    <div class="site-section bg-light">-->
 <!--        <div class="container">-->
@@ -5306,6 +5371,19 @@
 
         </div>
     </section>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <section class="testomial-area section-gap" style="background:white;">
+        <div class="owl-carousel-login owl-theme form-box-login">
+            <div id="owl-login2">
+
+            </div>
+        </div>
+    </section>
+    {% endif %}
 
 <!--    <section class="testomial-area section-gap">-->
 <!--        <div class="container">-->
@@ -5783,6 +5861,9 @@
     get_banner('big_banner','home');
     //get_voucher();
     get_banner('small_banner','home');
+    {% if website_mode == 'btc'%}
+    get_dynamic_page('home');
+    {% endif %}
     get_banner('promotion','home');
 </script>
 
