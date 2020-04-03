@@ -1208,6 +1208,8 @@ def booking(request, order_number):
         javascript_version = get_javascript_version()
         if 'airline_create_passengers' in request.session:
             del request.session['airline_create_passengers']
+        if 'user_account' not in request.session:
+            signin_btc(request)
         file = open(var_log_path()+"get_airline_carriers.txt", "r")
         for line in file:
             airline_carriers = json.loads(line)
@@ -1223,7 +1225,7 @@ def booking(request, order_number):
             request.session['airline_order_number'] = order_number
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['user_account'] or {'co_user_login': ''},
+            'username': request.session.get('user_account') or {'co_user_login': ''},
             'airline_carriers': airline_carriers,
             'order_number': request.session['airline_order_number'],
             'static_path_url_server': get_url_static_path(),
