@@ -41,8 +41,6 @@
     hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""');
     hotel_pick_provider = `{{hotel_room_detail_pick}}`;
     hotel_pick_provider = JSON.parse(hotel_pick_provider.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""'));
-    //console.log(hotel);
-    hotel_facility_request(facilities);
     upsell_price = {{upsell}};
     hotel_price = `{{hotel_room_detail_pick}}`;
     hotel_price = hotel_price.replace(/&#39;/g, '"');
@@ -381,6 +379,7 @@
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
     hotel_detail();
+    hotel_facility_request(facilities);
     hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {

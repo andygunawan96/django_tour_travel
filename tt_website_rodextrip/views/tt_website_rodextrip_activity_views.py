@@ -1296,7 +1296,8 @@ def booking(request, order_number):
         javascript_version = get_javascript_version()
 
         values = get_data_template(request)
-
+        if 'user_account' not in request.session:
+            signin_btc(request)
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:

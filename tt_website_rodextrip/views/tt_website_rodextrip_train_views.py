@@ -339,13 +339,15 @@ def booking(request, order_number):
     try:
         javascript_version = get_javascript_version()
         values = get_data_template(request)
+        if 'user_account' not in request.session:
+            signin_btc(request)
         request.session['train_order_number'] = base64.b64decode(order_number).decode('ascii')
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
             'cabin_class_types': cabin_class_type,
             'order_number': request.session['train_order_number'],
-            'username': request.session['user_account'] or {'co_user_login': ''},
+            'username': request.session.get('user_account') or {'co_user_login': ''},
             'signature': request.session['signature'],
             # 'cookies': json.dumps(res['result']['cookies']),
             'javascript_version': javascript_version,

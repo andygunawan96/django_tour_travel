@@ -634,13 +634,14 @@ def booking(request, order_number):
     try:
         javascript_version = get_javascript_version()
         values = get_data_template(request)
-
+        if 'user_account' not in request.session:
+            signin_btc(request)
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         request.session['tour_order_number'] = base64.b64decode(order_number).decode('ascii')
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
-            'username': request.session['user_account'] or {'co_user_login': ''},
+            'username': request.session.get('user_account') or {'co_user_login': ''},
             'order_number': request.session['tour_order_number'],
             'javascript_version': javascript_version,
             'signature': request.session['signature'],
