@@ -685,8 +685,7 @@ function get_dynamic_page(type){
                         text += `<option value=`+counter+` select>`+msg.result.response[i].title+`</option>`;
                     }
                 }
-                else if(type == 'login'){
-                    console.log('lala');
+                else if(type == 'login' || type == 'home'){
                     text = `
                     <div class="owl-carousel-login owl-theme">`;
                     for(i in msg.result.response){
@@ -702,9 +701,13 @@ function get_dynamic_page(type){
                     }
                     text+=`
                     </div>`;
-
-                    document.getElementById('owl-login').innerHTML = text;
-                    document.getElementById('owl-login2').innerHTML = text;
+                    if(type == 'login'){
+                        document.getElementById('owl-login').innerHTML = text;
+                        document.getElementById('owl-login2').innerHTML = text;
+                    }else if(type == 'home'){
+                        document.getElementById('dynamic_page').innerHTML = `<h2>Other Information</h2>`;
+                        document.getElementById('owl-login2').innerHTML = text;
+                    }
                     $('.owl-carousel-login').owlCarousel({
                         loop:false,
                         nav: false,
