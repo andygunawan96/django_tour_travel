@@ -26,12 +26,13 @@ def issued_offline(request):
             response = get_cache_data(cache_version)
 
             values = get_data_template(request)
-
-            file = open(var_log_path()+"airline_destination.txt", "r")
-            for line in file:
-                airline_destinations = json.loads(line)
-            file.close()
-
+            try:
+                file = open(var_log_path()+"airline_destination.txt", "r")
+                for line in file:
+                    airline_destinations = json.loads(line)
+                file.close()
+            except Exception as e:
+                logging.getLogger("error_logger").error('ERROR get_destination airline file\n' + str(e) + '\n' + traceback.format_exc())
             # train_destination = response['result']['response']['train']
 
             airline_country = response['result']['response']['airline']['country']

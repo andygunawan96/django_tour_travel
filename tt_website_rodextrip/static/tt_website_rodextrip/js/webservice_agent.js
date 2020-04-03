@@ -384,32 +384,33 @@ function send_url_booking(provider_type, url, order_number, type='book'){
       create_url += data.split('/')[i] + '/';
     }
     create_url += 'booking/'+ url;
-    $.ajax({
-       type: "POST",
-       url: "/webservice/account",
-       headers:{
-            'action': 'send_url_booking',
-       },
-       data: {
-            'signature': signature,
-            'provider_type': provider_type,
-            'url_booking': create_url,
-            'order_number': order_number,
-            'type': type
-       },
-       success: function(msg) {
-        console.log(msg);
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error url server </span>' + errorThrown,
-                })
-            }
-       },timeout: 60000
-    });
+    console.log('use to be used '+ create_url)
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/account",
+//       headers:{
+//            'action': 'send_url_booking',
+//       },
+//       data: {
+//            'signature': signature,
+//            'provider_type': provider_type,
+//            'url_booking': create_url,
+//            'order_number': order_number,
+//            'type': type
+//       },
+//       success: function(msg) {
+//        console.log(msg);
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//            if(XMLHttpRequest.status == 500){
+//                Swal.fire({
+//                  type: 'error',
+//                  title: 'Oops!',
+//                  html: '<span style="color: red;">Error url server </span>' + errorThrown,
+//                })
+//            }
+//       },timeout: 60000
+//    });
 }
 
 function create_new_passenger(){

@@ -285,16 +285,22 @@ def get_carrier_code_list(request):
                     })
 
                 res = fav
-                file = open(var_log_path()+"get_airline_active_carriers" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
-                logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                try:
+                    file = open(var_log_path()+"get_airline_active_carriers" + ".txt", "w+")
+                    file.write(json.dumps(res))
+                    file.close()
+                    logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    logging.getLogger("error_logger").error('ERROR get_airline_active_carriers file \n' + str(e) + '\n' + traceback.format_exc())
             else:
-                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-                for line in file:
-                    res = json.loads(line)
-                file.close()
-                logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                try:
+                    file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+                    for line in file:
+                        res = json.loads(line)
+                    file.close()
+                    logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    logging.getLogger("error_logger").error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -304,8 +310,7 @@ def get_carrier_code_list(request):
                 res = json.loads(line)
             file.close()
         except Exception as e:
-            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-
+            logging.getLogger("error_logger").error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_carrier_providers(request):
@@ -334,11 +339,14 @@ def get_carrier_providers(request):
                 file.close()
                 logging.getLogger("info_logger").info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = open(var_log_path()+"get_list_provider.txt", "r")
-                for line in file:
-                    res = line
-                file.close()
-                logging.getLogger("info_logger").info("get_carrier_providers ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                try:
+                    file = open(var_log_path()+"get_list_provider.txt", "r")
+                    for line in file:
+                        res = line
+                    file.close()
+                    logging.getLogger("info_logger").info("get_carrier_providers ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    logging.getLogger("error_logger").error('ERROR get_carrier_provider file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -348,8 +356,7 @@ def get_carrier_providers(request):
                 res = line
             file.close()
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
+            logging.getLogger("error_logger").error('ERROR get_list_provider file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_carriers(request):
@@ -378,11 +385,14 @@ def get_carriers(request):
                 file.close()
                 logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-                for line in file:
-                    res = json.loads(line)
-                file.close()
-                logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                try:
+                    file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+                    for line in file:
+                        res = json.loads(line)
+                    file.close()
+                    logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    logging.getLogger("error_logger").error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -392,7 +402,7 @@ def get_carriers(request):
                 res = json.loads(line)
             file.close()
         except Exception as e:
-            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+            logging.getLogger("error_logger").error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -487,11 +497,14 @@ def get_carriers_search(request):
                 file.close()
                 logging.getLogger("info_logger").info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-                for line in file:
-                    res = json.loads(line)
-                file.close()
-                logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                try:
+                    file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+                    for line in file:
+                        res = json.loads(line)
+                    file.close()
+                    logging.getLogger("info_logger").info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    logging.getLogger("error_logger").error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -501,7 +514,7 @@ def get_carriers_search(request):
                 res = json.loads(line)
             file.close()
         except Exception as e:
-            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+            logging.getLogger("error_logger").error('ERROR get_airline_active_carrier file\n' + str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -531,11 +544,14 @@ def get_provider_description(request):
                 file.close()
                 logging.getLogger("info_logger").info("get_provider_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
-                file = open(var_log_path()+"get_list_provider_data.txt", "r")
-                for line in file:
-                    res = line
-                file.close()
-                logging.getLogger("info_logger").info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                try:
+                    file = open(var_log_path()+"get_list_provider_data.txt", "r")
+                    for line in file:
+                        res = line
+                    file.close()
+                    logging.getLogger("info_logger").info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    logging.getLogger("error_logger").error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     else:
@@ -545,8 +561,7 @@ def get_provider_description(request):
                 res = line
             file.close()
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
+            logging.getLogger("error_logger").error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def search2(request):
@@ -739,8 +754,7 @@ def get_data(request):
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data AIRLINE SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
+        logging.getLogger("error_logger").error('ERROR airline_destination file\n' + str(e) + '\n' + traceback.format_exc())
     return response
 
 def get_price_itinerary(request, boolean, counter):
