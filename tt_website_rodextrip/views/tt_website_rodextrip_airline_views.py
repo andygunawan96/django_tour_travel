@@ -44,12 +44,13 @@ def search(request):
                 airline_destinations = json.loads(line)
             file.close()
             airline_destinations = []
-
-            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-            for line in file:
-                response = json.loads(line)
-            file.close()
-
+            try:
+                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
+                for line in file:
+                    response = json.loads(line)
+                file.close()
+            except Exception as e:
+                logging.getLogger("error_logger").error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
             values = get_data_template(request, 'search')
 
             airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
@@ -1210,11 +1211,13 @@ def booking(request, order_number):
             del request.session['airline_create_passengers']
         if 'user_account' not in request.session:
             signin_btc(request)
-        file = open(var_log_path()+"get_airline_carriers.txt", "r")
-        for line in file:
-            airline_carriers = json.loads(line)
-        file.close()
-
+        try:
+            file = open(var_log_path()+"get_airline_carriers.txt", "r")
+            for line in file:
+                airline_carriers = json.loads(line)
+            file.close()
+        except Exception as e:
+            logging.getLogger("error_logger").error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:

@@ -290,31 +290,6 @@ def payment_method(request, provider, product_type, order_number):
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
 
-def login_btc(request):
-    javascript_version = get_javascript_version()
-    values = get_data_template(request, 'login')
-    try:
-        if request.session['user_account']['co_user_login'] == 'agent_b2c' or request.POST['logout'] == 'true':
-            if request.session._session:
-                for key in reversed(list(request.session._session.keys())):
-                    del request.session[key]
-                request.session.modified = True
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                'javascript_version': javascript_version,
-                'static_path_url_server': get_url_static_path(),
-            })
-            if request.session['user_account']['co_user_login'] == 'agent_b2c':
-                return render(request, MODEL_NAME + '/login_templates.html', values)
-            else:
-                return goto_dashboard()
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-    return goto_dashboard()
-
 def login(request):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
@@ -337,10 +312,10 @@ def login(request):
         if values['website_mode'] == 'btb':
             return render(request, MODEL_NAME+'/login_templates.html', values)
         else:
-            return login_btc(request)
+            return goto_dashboard()
     else:
         # if 'session' in request:
-        if request.session.get('user_account') and 'login' in request.session.get('user_account')['co_agent_frontend_security']:
+        if request.session.get('user_account') and 'login' in request.session['user_account'].get('co_agent_frontend_security', []):
             return goto_dashboard()
         elif values['website_mode'] == 'btc':
             return goto_dashboard()
@@ -791,22 +766,31 @@ def top_up_history(request):
         return no_session_logout(request)
 
 def get_javascript_version():
-    file = open(var_log_path()+"javascript_version.txt", "r")
-    javascript_version = int(file.read())
-    file.close()
+    try:
+        file = open(var_log_path()+"javascript_version.txt", "r")
+        javascript_version = int(file.read())
+        file.close()
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
     return javascript_version
 
 def get_cache_version():
-    file = open(var_log_path()+"cache_version.txt", "r")
-    cache_version = int(file.read())
-    file.close()
+    try:
+        file = open(var_log_path()+"cache_version.txt", "r")
+        cache_version = int(file.read())
+        file.close()
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR cache_version file\n' + str(e) + '\n' + traceback.format_exc())
     return cache_version
 
 def get_cache_data(javascript_version):
-    file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "r")
-    for line in file:
-        response = json.loads(line)
-    file.close()
+    try:
+        file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "r")
+        for line in file:
+            response = json.loads(line)
+        file.close()
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR version cache file\n' + str(e) + '\n' + traceback.format_exc())
     return response
 
 def get_data_template(request, type='home'):
@@ -922,8 +906,8 @@ We build this application for our existing partner and public users who register
         file.close()
         if len(background.split('\n')) > 1:
             background = background.split('\n')[0]
-    except:
-        pass
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR GET CACHE TEMPLATE DJANGO RUN USING DEFAULT\n' + str(e) + '\n' + traceback.format_exc())
     return {
         'logo': logo,
         'website_mode': website_mode,

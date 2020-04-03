@@ -140,7 +140,7 @@ def get_data(request):
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data TRAIN SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error('ERROR get train_cache_data file\n' + str(e) + '\n' + traceback.format_exc())
 
     return response
 

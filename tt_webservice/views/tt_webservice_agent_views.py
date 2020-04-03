@@ -197,17 +197,20 @@ def signin_btc(request):
         "signature": ''
     }
 
-    data = {
-        "user": user_global,
-        "password": password_global,
-        "api_key":  api_key,
+    try:
+        data = {
+            "user": user_global,
+            "password": password_global,
+            "api_key":  api_key,
 
-        "co_user": request.POST.get('username') or user_default,
-        "co_password": request.POST.get('password') or password_default,
-        # "co_user": user_default,  # request.POST['username'],
-        # "co_password": password_default, #request.POST['password'],
-        # "co_uid": ""
-    }
+            "co_user": request.POST.get('username') or user_default,
+            "co_password": request.POST.get('password') or password_default,
+            # "co_user": user_default,  # request.POST['username'],
+            # "co_password": password_default, #request.POST['password'],
+            # "co_uid": ""
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
     try:
