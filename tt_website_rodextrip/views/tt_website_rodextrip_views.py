@@ -277,7 +277,7 @@ def page(request, data):
     })
     return render(request, MODEL_NAME + '/page.html', values)
 
-def payment_method(request, provider, product_type, order_number):
+def payment_method(request, provider, order_number):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
     values.update({
@@ -285,7 +285,7 @@ def payment_method(request, provider, product_type, order_number):
         'javascript_version': javascript_version,
         'static_path_url_server': get_url_static_path(),
         'username': {'co_user_login': ''},
-        'order_number': product_type+'.'+order_number,
+        'order_number': order_number,
         'provider': provider,
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
