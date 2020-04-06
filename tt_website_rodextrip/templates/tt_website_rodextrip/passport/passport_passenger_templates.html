@@ -18,6 +18,8 @@
     passenger = `{{passengers}}`;
     passenger = JSON.parse(passenger.replace(/&#39;/g, '"'));
     adult = passenger.adult;
+    child = 0;
+    infant = 0;
     passport = `{{passport}}`;
     passport = passport.replace(/True/g, 'true');
     passport = passport.replace(/False/g, 'false');
