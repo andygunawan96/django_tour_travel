@@ -234,10 +234,12 @@
                         </table>
                     </div>
                     {% if 'issued_reservation' in username.co_agent_frontend_security %}
-                    {% include 'tt_website_rodextrip/voucher_code.html'  %}
-                    <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="check_hold_booking();">
-                        Request Booking
-                    </button>
+                    {% include 'tt_website_rodextrip/voucher_code.html' %}
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="check_hold_booking();">
+                            Request Booking
+                        </button>
+                        {% endif %}
                     {% endif %}
                     <div class="payment_acq" style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:15px; position:relative;" id="payment_acq" hidden>
 

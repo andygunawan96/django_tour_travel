@@ -1769,12 +1769,13 @@ function get_price_itinerary_request(){
                 text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-                    </div>`;
+                    </div>
+                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                    text+=`
-                    <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
                         <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
-                    </div>`;
+                    `;
+                text += `</div>`;
                 if(agent_security.includes('book_reservation') == true)
                 text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">

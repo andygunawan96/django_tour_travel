@@ -935,7 +935,7 @@ function get_payment_order_number(provider, order_number){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                window.location.href = '/payment/' + provider + '/' + order_number;
+                window.location.href = '/payment/' + provider + '/' + msg.result.response.order_number;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
