@@ -156,7 +156,7 @@
                                 </a>
                             </li>
                             {% endif %}
-                            {% if "visa" in provider %}
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li class="nav-item">
                                 <a class="nav-link" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
@@ -164,7 +164,7 @@
                                 </a>
                             </li>
                             {% endif %}
-                            {% if "passport" in provider %}
+                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <li class="nav-item">
                                 <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
@@ -798,7 +798,7 @@
                                 </form>
                             </div>
                             {% endif %}
-                            {% if "visa" in provider %}
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                             <div class="tab-pane fade" id="visa" role="tabpanel" aria-labelledby="visa-tab">
                                 <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                     {% csrf_token %}
@@ -843,7 +843,7 @@
                                 </form>
                             </div>
                             {% endif %}
-                            {% if "passport" in provider %}
+                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">
                                 <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                     {% csrf_token %}
@@ -1612,10 +1612,10 @@
                             {% if "train" in provider %}
                             <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
                             {% endif %}
-                            {% if "visa" in provider %}
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                             <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
                             {% endif %}
-                            {% if "passport" in provider %}
+                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                             <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">PASSPORT</label></li>
                             {% endif %}
                         </ul>
@@ -2207,7 +2207,7 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "visa" in provider %}
+                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                         <div id="tab-visa" class="tab-content">
                             <form action="{% url 'tt_website_rodextrip:visa_search'%}" id="visa_searchForm" method="post">
                                 {% csrf_token %}
@@ -2247,7 +2247,7 @@
                             </form>
                         </div>
                         {% endif %}
-                        {% if "passport" in provider %}
+                        {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                         <div id="tab-passport" class="tab-content">
                             <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                 {% csrf_token %}
@@ -2613,10 +2613,10 @@
                                     {% if "train" in provider %}
                                     <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
                                     {% endif %}
-                                    {% if "visa" in provider %}
+                                    {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
                                     {% endif %}
-                                    {% if "passport" in provider %}
+                                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">PASSPORT</label></li>
                                     {% endif %}
                                     {% if "group" in provider %}
@@ -3213,7 +3213,7 @@
                                 </form>
                             </div>
                             {% endif %}
-                            {% if "visa" in provider %}
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <div id="tab-visa" class="tab-content">
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Visa' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
@@ -3258,7 +3258,7 @@
                                 </form>
                             </div>
                             {% endif %}
-                            {% if "passport" in provider %}
+                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <div id="tab-passport" class="tab-content">
                                 <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Passport' %}</h4>
                                 <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
@@ -3615,10 +3615,10 @@
                                         {% if "train" in provider %}
                                         <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
                                         {% endif %}
-                                        {% if "visa" in provider %}
+                                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i> <label class="btn-txt-color">VISA</label></li>
                                         {% endif %}
-                                        {% if "passport" in provider %}
+                                        {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i> <label class="btn-txt-color">PASSPORT</label></li>
                                         {% endif %}
                                         {% if "group" in provider %}
@@ -4232,7 +4232,7 @@
                                     </form>
                                 </div>
                                 {% endif %}
-                                {% if "visa" in provider %}
+                                {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content" id="tab-visa" data-aos="fade-up" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                         {% csrf_token %}
@@ -4280,7 +4280,7 @@
                                     </form>
                                 </div>
                                 {% endif %}
-                                {% if "passport" in provider %}
+                                {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 <div class="form-search-wrap tab-content" id="tab-passport" data-aos-delay="200">
                                     <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                         {% csrf_token %}
@@ -4642,10 +4642,10 @@
                                             {% if "train" in provider %}
                                             <li class="tab-link" data-tab="tab-train"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TRAIN' %}</label></li>
                                             {% endif %}
-                                            {% if "visa" in provider %}
+                                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <li class="tab-link" data-tab="tab-visa"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">VISA</label></li>
                                             {% endif %}
-                                            {% if "passport" in provider %}
+                                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <li class="tab-link" data-tab="tab-passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">PASSPORT</label></li>
                                             {% endif %}
                                             {% if "group" in provider %}
@@ -5257,7 +5257,7 @@
                                         </form>
                                     </div>
                                     {% endif %}
-                                    {% if "visa" in provider %}
+                                    {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <div id="tab-visa" class="tab-content">
                                         <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
                                             {% csrf_token %}
@@ -5302,7 +5302,7 @@
                                         </form>
                                     </div>
                                     {% endif %}
-                                    {% if "passport" in provider %}
+                                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <div id="tab-passport" class="tab-content">
                                         <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                             {% csrf_token %}
@@ -5516,10 +5516,10 @@
                 }
             });
             {% endif %}
-            {% if "visa" in provider %}
+            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
             get_visa_config('home');
             {% endif %}
-            {% if "passport" in provider %}
+            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                 get_passport_config('home');
             {% endif %}
             {% if "hotel" in provider %}
@@ -5809,7 +5809,7 @@
                 $("#total_night_search").text(diffDays);
             });
         {% endif %}
-        {% if "visa" in provider %}
+        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
             try{
                 visa_date = cache.visa.date;
             }catch(err){
