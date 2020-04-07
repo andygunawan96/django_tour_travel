@@ -22,7 +22,15 @@ import copy
 
 MODEL_NAME = 'tt_website_rodextrip'
 # _dest_env = TtDestinations()
-
+provider_type = {
+    'AL': 'airline',
+    'TN': 'train',
+    'PS': 'passport',
+    'VS': 'visa',
+    'AT': 'activity',
+    'TR': 'tour',
+    'RESV': 'hotel'
+}
 
 # Create your views here.
 def index(request):
@@ -286,6 +294,7 @@ def payment_method(request, provider, order_number):
         'static_path_url_server': get_url_static_path(),
         'username': {'co_user_login': ''},
         'order_number': order_number,
+        'provider_type': provider_type[order_number.split('.')[0]],
         'provider': provider,
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)

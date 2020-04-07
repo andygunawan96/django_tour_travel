@@ -362,7 +362,7 @@
 
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-4" style="margin-bottom:10px;">
-                            {% if 'issued_reservation' in username.co_agent_frontend_security and response.can_hold_booking %}
+                            {% if 'book_reservation' in username.co_agent_frontend_security and response.can_hold_booking %}
                             <button class="next-loading primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="activity_pre_create_booking(0);" style="width:100%;">
                                 Hold Booking <div class="ld ld-ring ld-cycle"></div>
                             </button>

@@ -297,10 +297,12 @@
                         </form>
 
                         <div class="col-lg-4" style="margin-top:10px;">
+                            {% if 'book_reservation' in username.co_agent_frontend_security %}
                             <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
+                            {% endif %}
                         </div>
                         <div class="col-lg-4">
                         </div>
@@ -347,10 +349,13 @@
                     </form>
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-12" style="padding-bottom:15px;">
+
+                            {% if 'book_reservation' in username.co_agent_frontend_security %}
                             <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
+                            {% endif %}
                         </div>
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
                         {% include 'tt_website_rodextrip/voucher_code.html'  %}

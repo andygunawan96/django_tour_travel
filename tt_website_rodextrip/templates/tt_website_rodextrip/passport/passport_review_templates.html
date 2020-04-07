@@ -233,7 +233,7 @@
                         <table style="width:100%; margin-bottom:10px;">
                         </table>
                     </div>
-                    {% if 'issued_reservation' in username.co_agent_frontend_security %}
+                    {% if 'book_reservation' in username.co_agent_frontend_security %}
                     {% include 'tt_website_rodextrip/voucher_code.html' %}
                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                         <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="check_hold_booking();">
