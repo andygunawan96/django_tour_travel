@@ -26,7 +26,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title>{{name}} Airline - Booking</title>
+<title>{{name}} {% trans 'Airline' %} - {% trans 'Booking' %}</title>
 <div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
     <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
         <!-- Modal content-->
@@ -143,7 +143,7 @@
         <div class="row">
             <div class="col-lg-12" style="margin-top:20px; display:none;" id="success-issued">
                 <div class="alert alert-success">
-                    <h4>Your Booking has been Issued</h4>
+                    <h4>{% trans 'Your Booking has been Issued' %}</h4>
                 </div>
             </div>
         </div>
@@ -153,8 +153,8 @@
             <div class="row" style="padding-top:20px;">
                 <div class="col-lg-12">
                     <div id="show_title_airline" hidden>
-                        <h3>Please Review Your Booking</h3>
-                        <h4>Prices may changes at any time</h4>
+                        <h3>{% trans 'Please Review Your Booking' %}</h3>
+                        <h4>{% trans 'Prices may changes at any time' %}</h4>
                         <br/>
                     </div>
 
@@ -165,11 +165,11 @@
                             </div>
                         </div>
                         <div style="text-align:center">
-                            <span style="font-size:18px; font-weight:bold;">PLEASE WAIT ... </span>
+                            <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
                         </div>
                     </div>
                     <div class="alert alert-warning" id="show_error_booking_airline" style="display:none;">
-                        <h5>Oops! Something went wrong, please try again or check your connection internet.</h5>
+                        <h5>{% trans 'Oops! Something went wrong, please try again or check your connection internet.' %}</h5>
                     </div>
                 </div>
                 <div class="col-lg-8" style="padding-bottom:20px;">
@@ -190,7 +190,7 @@
                     {% include 'tt_website_rodextrip/voucher_code.html'  %} <br/>
                     </div>
                     <button class="primary-btn issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
-                         Issued Booking
+                         {% trans 'Issued Booking' %}
                     </button>
                     {% endif %}
 
@@ -213,7 +213,7 @@
                         <!-- Modal content-->
                         <div class="modal-content" style="border-radius: 0;">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -223,7 +223,7 @@
                                             <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
                                                         <hr/>
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
@@ -249,7 +249,7 @@
                                     <div class="col-lg-4">
                                         <div class="row" style="padding:15px;">
                                             <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                <h4>Result Pricing</h4>
+                                                <h4>{% trans 'Result Pricing' %}</h4>
                                                 <hr/>
                                                 <div class="row" id="repricing_div">
 
@@ -260,7 +260,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                             </div>
                         </div>
                     </div>

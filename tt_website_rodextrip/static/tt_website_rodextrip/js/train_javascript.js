@@ -769,7 +769,7 @@ function train_get_detail(){
                 train_detail_text+=`
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
                 `;
-            text_detail_texxt += `</div>`;
+            train_detail_text += `</div>`;
             if(agent_security.includes('book_reservation') == true)
             train_detail_text+=`
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
