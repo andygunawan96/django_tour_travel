@@ -1041,7 +1041,16 @@ function get_price_itinerary(val){
         //get farecode
 //        document.getElementById('airline_searchForm').
     }
-    if(airline_pick_list.length != 0 && airline_recommendations_combo_list[airline_recommendations_list.indexOf(airline_data_filter[val].journey_ref_id)] == false){
+    auto_combo_price_flag = true;
+    filter_recommendation = [];
+    airline_recommendations_list.map(function (str,i) {if(str.includes(airline_data_filter[val].journey_ref_id) == true) return (filter_recommendation.push(i)) });
+    for(i in filter_recommendation){
+        if(airline_recommendations_combo_list[filter_recommendation[i]] == true){
+            auto_combo_price_flag = false;
+            break;
+        }
+    }
+    if(airline_pick_list.length != 0 && auto_combo_price_flag == true){
         for(i in airline_pick_list){
             for(j in airline_pick_list[i].segments){
                 for(k in airline_pick_list[i].segments[j].fares){
