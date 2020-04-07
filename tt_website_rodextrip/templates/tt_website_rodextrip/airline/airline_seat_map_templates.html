@@ -106,7 +106,7 @@ img {vertical-align: middle;}
 }
 </style>
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title>{{name}} Airline - Seat Map</title>
+<title>{{name}} {% trans 'Airline' %} - {% trans 'Seat Map' %}</title>
 {% include 'tt_website_rodextrip/logout.html' %}
     {%if template == 1%}
     <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
@@ -145,10 +145,10 @@ img {vertical-align: middle;}
                 <div class="col-lg-12" id="div_4" hidden>
                     <div class="row">
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                            <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                            <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
                         </div>
                         <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                            <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                            <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
                         </div>
                         {% include 'tt_website_rodextrip/balance_credit.html' %}
                     </div>
@@ -174,7 +174,7 @@ img {vertical-align: middle;}
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12" style="padding-bottom:15px;">
-                    <h3>Seat Map</h3>
+                    <h3>{% trans 'Seat Map' %}</h3>
                 </div>
                 <div class="col-lg-8" style="padding-bottom:20px;">
                     <div class="row">
@@ -182,13 +182,13 @@ img {vertical-align: middle;}
                             <div id="airline_review" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <h5 style="padding-top:10px; padding-bottom:10px;">Airline Route</h5>
+                                        <h5 style="padding-top:10px; padding-bottom:10px;">{% trans 'Airline Route' %}</h5>
                                         <div class="row" id="airline_seat_map" style="padding-bottom:15px;">
 
                                         </div>
                                     </div>
                                     <div class="col-lg-12"> <!--pax-->
-                                        <h5 style="padding-top:10px; padding-bottom:10px;">Passenger</h5>
+                                        <h5 style="padding-top:10px; padding-bottom:10px;">{% trans 'Passenger' %}</h5>
                                         <div class="row">
                                             {% for pax in passengers%}
                                             <div class="col-lg-4 col-md-6 col-sm-6 col-xs-6">
@@ -207,21 +207,21 @@ img {vertical-align: middle;}
                                                 <div style="text-align:center">
                                                     <span class="button-seat-map2" style="background-color:{{color}}"></span>
                                                     <br/>
-                                                    <h6>Selected</h6>
+                                                    <h6>{% trans 'Selected' %}</h6>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                                                 <div style="text-align:center">
                                                     <span class="button-seat-map2" style="background-color:#656565"></span>
                                                     <br/>
-                                                    <h6>Not Available</h6>
+                                                    <h6>{% trans 'Not Available' %}</h6>
                                                 </div>
                                             </div>
                                             <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4">
                                                 <div style="text-align:center">
                                                     <span class="button-seat-map2" style="background-color:#CACACA"></span>
                                                     <br/>
-                                                    <h6>Available</h6>
+                                                    <h6>{% trans 'Available' %}</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -236,7 +236,7 @@ img {vertical-align: middle;}
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4">
                             <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" style="width:100%; margin-top:15px;" value="Next" onclick="next_disabled();next_seat_map();">
-                                Next
+                                {% trans 'Next' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
@@ -253,7 +253,7 @@ img {vertical-align: middle;}
                 </div>
                 <div class="col-lg-12">
                     <button class="btn-next for-show-mobile primary-btn next-passenger-train ld-ext-right" style="width:100%;" value="Next" onclick="next_disabled();next_seat_map();">
-                        Next
+                        {% trans 'Next' %}
                         <div class="ld ld-ring ld-cycle"></div>
                     </button>
                 </div>
