@@ -144,7 +144,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="activity-tab" data-toggle="tab" href="#activity" role="tab" aria-controls="activity" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> ACTIVITY </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'ACTIVITY' %} </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -622,7 +622,7 @@
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                             </div>
@@ -1607,7 +1607,7 @@
                             <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
                             {% endif %}
                             {% if "activity" in provider %}
-                            <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i><label class="btn-txt-color">ACTIVITY</label></li>
+                            <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
                             {% endif %}
                             {% if "train" in provider %}
                             <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
@@ -2029,7 +2029,7 @@
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                        <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                        <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                         <div class="input-container-search-ticket">
                                             <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                         </div>
@@ -2608,7 +2608,7 @@
                                     <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
                                     {% endif %}
                                     {% if "activity" in provider %}
-                                    <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i><label class="btn-txt-color">ACTIVITY</label></li>
+                                    <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
                                     {% endif %}
                                     {% if "train" in provider %}
                                     <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
@@ -3044,7 +3044,7 @@
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-9 col-md-7 col-sm-6 col-xs-6">
-                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                             </div>
@@ -3610,7 +3610,7 @@
                                         <li class="tab-link" data-tab="tab-hotel"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i> <label class="btn-txt-color">HOTEL</label></li>
                                         {% endif %}
                                         {% if "activity" in provider %}
-                                        <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i> <label class="btn-txt-color">ACTIVITY</label></li>
+                                        <li class="tab-link" data-tab="tab-activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
                                         {% endif %}
                                         {% if "train" in provider %}
                                         <li class="tab-link" data-tab="tab-train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
@@ -4057,7 +4057,7 @@
                                         {% csrf_token %}
                                         <div class="row justify-content-between align-items-end">
                                             <div class="col-lg-9 col-md-9 col-sm-8">
-                                                <span class="span-search-ticket">Activity</span>
+                                                <span class="span-search-ticket">{% trans 'Activity' %}</span>
                                                 <div class="input-container-search-ticket">
                                                     <i class="fas fa-umbrella-beach" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                                     <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
@@ -4637,7 +4637,7 @@
                                             <li class="tab-link" data-tab="tab-hotel"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">HOTEL</label></li>
                                             {% endif %}
                                             {% if "activity" in provider %}
-                                            <li class="tab-link" data-tab="tab-activity"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">ACTIVITY</label></li>
+                                            <li class="tab-link" data-tab="tab-activity"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'ACTIVITY' %}</label></li>
                                             {% endif %}
                                             {% if "train" in provider %}
                                             <li class="tab-link" data-tab="tab-train"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TRAIN' %}</label></li>
@@ -5085,7 +5085,7 @@
                                             {% csrf_token %}
                                             <div class="row">
                                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                                    <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                                    <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" class="form-control" name="activity_query" id="activity_query" placeholder="{% trans 'Search for Activities, Theme Parks, etc' %}" autocomplete="off"/>
                                                     </div>

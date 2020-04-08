@@ -82,7 +82,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
-<title id="title_search">{{name}} Activity - {{response.name}}</title>
+<title id="title_search">{{name}} {% trans 'Activity' %} - {{response.name}}</title>
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 
 {%if template == 1%}
@@ -90,24 +90,24 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">Activity Search: {% if query %}{{query}}{% else %}All Activities{% endif %}</span><br/>
+                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
                 <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
                     <span id="search_country_name">
-                        All Countries
+                        {% trans 'All Countries' %}
                     </span>,
                     <span id="search_city_name">
-                        All Cities
+                        {% trans 'All Cities' %}
                     </span>
                 </span>
                 <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
                     <span id="search_type_name">
-                        All Types
+                        {% trans 'All Types' %}
                     </span>,
                     <span id="search_category_name">
-                        All Categories
+                        {% trans 'All Categories' %}
                     </span>,
                     <span id="search_sub_category_name">
-                        All Sub Categories
+                        {% trans 'All Sub Categories' %}
                     </span>
                 </span>
                 <br/>
@@ -115,7 +115,7 @@
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -131,7 +131,7 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                 <div class="form-group">
                                     <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
                                 </div>
@@ -139,21 +139,21 @@
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4" style="padding:0px;">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="row" id="activity_advanced_search" style="display:none;">
                             <div class="col-lg-6">
                                 <div class="row">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="padding:0px;">
                                         <div class="form-select" id="default-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                <option value="" selected="">All Countries</option>
+                                                <option value="" selected="">{% trans 'All Countries' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -161,7 +161,7 @@
                                         <div class="form-select">
                                             <div id="temp_activity_cities">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                    <option value="" selected="">All Cities</option>
+                                                    <option value="" selected="">{% trans 'All Cities' %}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -172,21 +172,21 @@
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="col-lg-12 search_type">
-                                        <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                        <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                <option value="0" selected="">All Types</option>
+                                                <option value="0" selected="">{% trans 'All Types' %}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                <option value="0" selected="">All Categories</option>
+                                                <option value="0" selected="">{% trans 'All Categories' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -194,7 +194,7 @@
                                         <div class="form-select">
                                             <div id="temp_activity_sub_category">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                    <option value="0" selected="">All Sub Categories</option>
+                                                    <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -205,7 +205,7 @@
                         <br/>
                         <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </form>
@@ -219,24 +219,24 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">Activity Search: {% if query %}{{query}}{% else %}All Activities{% endif %}</span><br/>
+                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
                 <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
                     <span id="search_country_name">
-                        All Countries
+                        {% trans 'All Countries' %}
                     </span>,
                     <span id="search_city_name">
-                        All Cities
+                        {% trans 'All Cities' %}
                     </span>
                 </span>
                 <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
                     <span id="search_type_name">
-                        All Types
+                        {% trans 'All Types' %}
                     </span>,
                     <span id="search_category_name">
-                        All Categories
+                        {% trans 'All Categories' %}
                     </span>,
                     <span id="search_sub_category_name">
-                        All Sub Categories
+                        {% trans 'All Sub Categories' %}
                     </span>
                 </span>
                 <br/>
@@ -244,7 +244,7 @@
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -260,7 +260,7 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                    <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                    <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                     <div class="form-group">
                                         <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
                                     </div>
@@ -268,19 +268,19 @@
                                 <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                                     <span class="span-search-ticket">&nbsp;</span>
                                     <div class="input-container-search-ticket">
-                                        <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                        <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                        <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                        <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                     </div>
                                 </div>
                             </div>
                             <div class="row" id="activity_advanced_search" style="display:none;">
                                 <div class="col-lg-6">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                             <div class="form-select" id="default-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                    <option value="" selected="">All Countries</option>
+                                                    <option value="" selected="">{% trans 'All Countries' %}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -288,7 +288,7 @@
                                             <div class="form-select">
                                                 <div id="temp_activity_cities">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                        <option value="" selected="">All Cities</option>
+                                                        <option value="" selected="">{% trans 'All Cities' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -299,21 +299,21 @@
                                 <div class="col-lg-6">
                                     <div class="row">
                                         <div class="col-lg-12 search_type">
-                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 search_type">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                    <option value="0" selected="">All Types</option>
+                                                    <option value="0" selected="">{% trans 'All Types' %}</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                             <div class="form-select">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                    <option value="0" selected="">All Categories</option>
+                                                    <option value="0" selected="">{% trans 'All Categories' %}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -321,7 +321,7 @@
                                             <div class="form-select">
                                                 <div id="temp_activity_sub_category">
                                                     <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                        <option value="0" selected="">All Sub Categories</option>
+                                                        <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -333,7 +333,7 @@
                             <center>
                                 <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    Search
+                                    {% trans 'Search' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </center>
@@ -349,24 +349,24 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">Activity Search: {% if query %}{{query}}{% else %}All Activities{% endif %}</span><br/>
+                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
                 <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
                     <span id="search_country_name">
-                        All Countries
+                        {% trans 'All Countries' %}
                     </span>,
                     <span id="search_city_name">
-                        All Cities
+                        {% trans 'All Cities' %}
                     </span>
                 </span>
                 <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
                     <span id="search_type_name">
-                        All Types
+                        {% trans 'All Types' %}
                     </span>,
                     <span id="search_category_name">
-                        All Categories
+                        {% trans 'All Categories' %}
                     </span>,
                     <span id="search_sub_category_name">
-                        All Sub Categories
+                        {% trans 'All Sub Categories' %}
                     </span>
                 </span>
                 <br/>
@@ -374,7 +374,7 @@
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -389,7 +389,7 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                            <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                             <div class="form-group">
                                 <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
                             </div>
@@ -397,19 +397,19 @@
                         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                             <span class="span-search-ticket">&nbsp;</span>
                             <div class="input-container-search-ticket">
-                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                             </div>
                         </div>
                     </div>
                     <div class="row" id="activity_advanced_search" style="display:none;">
                         <div class="col-lg-6">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-select" id="default-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                            <option value="" selected="">All Countries</option>
+                                            <option value="" selected="">{% trans 'All Countries' %}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -417,7 +417,7 @@
                                     <div class="form-select">
                                         <div id="temp_activity_cities">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                <option value="" selected="">All Cities</option>
+                                                <option value="" selected="">{% trans 'All Cities' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -426,19 +426,19 @@
                         </div>
 
                         <div class="col-lg-6">
-                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                            <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                            <option value="0" selected="">All Types</option>
+                                            <option value="0" selected="">{% trans 'All Types' %}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                            <option value="0" selected="">All Categories</option>
+                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -446,7 +446,7 @@
                                     <div class="form-select">
                                         <div id="temp_activity_sub_category">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                <option value="0" selected="">All Sub Categories</option>
+                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -458,7 +458,7 @@
                     <center>
                         <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </center>
@@ -472,24 +472,24 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">Activity Search: {% if query %}{{query}}{% else %}All Activities{% endif %}</span><br/>
+                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
                 <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
                     <span id="search_country_name">
-                        All Countries
+                        {% trans 'All Countries' %}
                     </span>,
                     <span id="search_city_name">
-                        All Cities
+                        {% trans 'All Cities' %}
                     </span>
                 </span>
                 <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
                     <span id="search_type_name">
-                        All Types
+                        {% trans 'All Types' %}
                     </span>,
                     <span id="search_category_name">
-                        All Categories
+                        {% trans 'All Categories' %}
                     </span>,
                     <span id="search_sub_category_name">
-                        All Sub Categories
+                        {% trans 'All Sub Categories' %}
                     </span>
                 </span>
                 <br/>
@@ -497,7 +497,7 @@
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -512,7 +512,7 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                            <span class="span-search-ticket">Activity</span>
+                            <span class="span-search-ticket">{% trans 'Activity' %}</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-umbrella-beach" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
@@ -521,19 +521,19 @@
                         <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                             <span class="span-search-ticket">&nbsp;</span>
                             <div class="input-container-search-ticket">
-                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                             </div>
                         </div>
                     </div>
                     <div class="row" id="activity_advanced_search" style="display:none;">
                         <div class="col-lg-6">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                     <div class="form-select" id="default-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                            <option value="" selected="">All Countries</option>
+                                            <option value="" selected="">{% trans 'All Countries' %}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -541,7 +541,7 @@
                                     <div class="form-select">
                                         <div id="temp_activity_cities">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                <option value="" selected="">All Cities</option>
+                                                <option value="" selected="">{% trans 'All Cities' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -552,21 +552,21 @@
                         <div class="col-lg-6">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                    <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                            <option value="0" selected="">All Types</option>
+                                            <option value="0" selected="">{% trans 'All Types' %}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                     <div class="form-select">
                                         <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                            <option value="0" selected="">All Categories</option>
+                                            <option value="0" selected="">{% trans 'All Categories' %}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -574,7 +574,7 @@
                                     <div class="form-select">
                                         <div id="temp_activity_sub_category">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                <option value="0" selected="">All Sub Categories</option>
+                                                <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -586,7 +586,7 @@
                     <center>
                         <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </center>
@@ -600,24 +600,24 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8" style="text-align:left;">
-                <span style="text-transform: capitalize;">Activity Search: {% if query %}{{query}}{% else %}All Activities{% endif %}</span><br/>
+                <span style="text-transform: capitalize;">{% trans 'Activity Search' %}: {% if query %}{{query}}{% else %}{% trans 'All Activities' %}{% endif %}</span><br/>
                 <span style="text-transform: capitalize; padding-right:10px;"><i class="fas fa-map-marker-alt"></i>
                     <span id="search_country_name">
-                        All Countries
+                        {% trans 'All Countries' %}
                     </span>,
                     <span id="search_city_name">
-                        All Cities
+                        {% trans 'All Cities' %}
                     </span>
                 </span>
                 <span style="text-transform: capitalize;"><i class="fa fa-folder-open"></i>
                     <span id="search_type_name">
-                        All Types
+                        {% trans 'All Types' %}
                     </span>,
                     <span id="search_category_name">
-                        All Categories
+                        {% trans 'All Categories' %}
                     </span>,
                     <span id="search_sub_category_name">
-                        All Sub Categories
+                        {% trans 'All Sub Categories' %}
                     </span>
                 </span>
                 <br/>
@@ -625,7 +625,7 @@
             <div class="col-lg-4" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -641,7 +641,7 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-10 col-md-9 col-sm-8 col-xs-8">
-                                <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> Activity</span>
+                                <span class="span-search-ticket"><i class="fas fa-umbrella-beach"></i> {% trans 'Activity' %}</span>
                                 <div class="form-group">
                                     <input onClick="this.setSelectionRange(0, this.value.length);" type="text" class="form-control" name="activity_query" id="activity_query" placeholder="Search for Activities, Theme Parks, etc" value="{{query}}"/>
                                 </div>
@@ -649,19 +649,19 @@
                             <div class="col-lg-2 col-md-3 col-sm-4 col-xs-4">
                                 <span class="span-search-ticket">&nbsp;</span>
                                 <div class="input-container-search-ticket">
-                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-down"></i></button>
-                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>Advanced</strong> <i class="fas fa-caret-up"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_down" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-down"></i></button>
+                                    <button type="button" class="form-control" id="activity_advanced_up" onclick="show_hide_advanced('activity');" style="background:{{color}}; color:#ffffff; cursor:pointer; display:none;"><i class="fas fa-cog"></i> <strong>{% trans 'Advanced' %}</strong> <i class="fas fa-caret-up"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="row" id="activity_advanced_search" style="display:none;">
                             <div class="col-lg-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Search by Location </span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Search by Location' %} </span>
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                                         <div class="form-select" id="default-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_countries" size="5" data-live-search="true" name="activity_countries">
-                                                <option value="" selected="">All Countries</option>
+                                                <option value="" selected="">{% trans 'All Countries' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -669,7 +669,7 @@
                                         <div class="form-select">
                                             <div id="temp_activity_cities">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_cities" name="activity_cities" size="5">
-                                                    <option value="" selected="">All Cities</option>
+                                                    <option value="" selected="">{% trans 'All Cities' %}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -680,21 +680,21 @@
                             <div class="col-lg-6">
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <span class="span-search-ticket"><i class="fa fa-folder-open"></i> Search by Category / Type </span>
+                                        <span class="span-search-ticket"><i class="fa fa-folder-open"></i> {% trans 'Search by Category / Type' %} </span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_type" name="activity_type" data-live-search="true" size="5">
-                                                <option value="0" selected="">All Types</option>
+                                                <option value="0" selected="">{% trans 'All Types' %}</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                         <div class="form-select">
                                             <select class="js-example-basic-single" style="width:100%;" id="activity_category" name="activity_category" size="5">
-                                                <option value="0" selected="">All Categories</option>
+                                                <option value="0" selected="">{% trans 'All Categories' %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -702,7 +702,7 @@
                                         <div class="form-select">
                                             <div id="temp_activity_sub_category">
                                                 <select class="js-example-basic-single" style="width:100%;" id="activity_sub_category" name="activity_sub_category" size="5">
-                                                    <option value="0" selected="">All Sub Categories</option>
+                                                    <option value="0" selected="">{% trans 'All Sub Categories' %}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -713,7 +713,7 @@
                         <br/>
                         <button class="button-search primary-btn ld-ext-right" onclick="activity_search_form_submit();" type="submit" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </form>
@@ -733,10 +733,10 @@
         </div>
         <div class="row" style="padding-bottom:15px;">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
         <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 0px; z-index: 2;">
