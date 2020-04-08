@@ -498,6 +498,12 @@ function hotel_detail_request(checkin_date, checkout_date){
                         text+= '<h5 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].description + '>' + result.prices[i].rooms[j].description + '</h5><span class="qty_room">'+ result.prices[i].rooms[j].qty +' Room(s)</span><br/>';
                         text+= '<span class="meal_room">Meal Type: ' + result.prices[i].meal_type+'</span><br/>';
                         if(result.prices[i].rooms[j].notes != undefined)
+                            text+= '<span class="suplement">Suplement(s): <br/><ul>';
+                            for(j in result.prices[i].rooms[j].supplements){
+                                text+= '<li>'+ j.name + ': '+ j.price + ' ' + j.currency + '(' + j.type +  ')' + '</li>'
+                            }
+                            text+= '</ul></span>'
+                        if(result.prices[i].rooms[j].notes != undefined)
                             text+= '<span class="note">Notes: ' + result.prices[i].rooms[j].notes+'</span><br/>';
                         text+= '<span style="font-weight:500; padding-top:10px;">Cancellation: </span><ul><li id="js_cancellation_button'+i+'" style="color:'+color+'; font-weight:400;"><span class="carrier_code_template" onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');"><i class="fas fa-question-circle"></i> Show Cancellation Policy</span></li></ul>';
                         text+=`</div>`;
