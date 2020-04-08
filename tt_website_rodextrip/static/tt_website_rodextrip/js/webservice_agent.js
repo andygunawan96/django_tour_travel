@@ -3964,7 +3964,13 @@ function auto_logout(msg){
     try{
         error_logger = msg.result.error_msg;
         clearInterval(timeInterval);
-    }catch(err){error_logger = 'Please login again!'}
+    }catch(err){
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            error_logger = 'Please login again!';
+        else{
+            error_logger = 'Session has been expired!';
+        }
+    }
 
     Swal.fire({
       title: error_logger,
