@@ -856,13 +856,13 @@ function set_price(val, type, product_type){
                     <div class='col-sm-6' style='text-align:right;'>
                         <span>`+discount_voucher['currency']+` `+getrupiah(discount_voucher['discount'])+`</span>
                     </div>`;
-                payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount) - discount_voucher['discount'];
+                payment_total = payment_acq2[payment_method][selected].total_amount - discount_voucher['discount'];
             }else{
-                payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
+                payment_total = payment_acq2[payment_method][selected].total_amount;
             }
         }catch(err){
             try{
-                payment_total = parseInt(payment_acq2[payment_method][selected].price_component.amount) + parseInt(payment_acq2[payment_method][selected].price_component.fee) + parseInt(payment_acq2[payment_method][selected].price_component.unique_amount);
+                payment_total = payment_acq2[payment_method][selected].total_amount;
             }catch(err){}
         }
     //    grand total
@@ -887,7 +887,7 @@ function set_price(val, type, product_type){
     }catch(err){}
 
     if(payment_method == 'payment_gateway')
-        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="get_payment_order_number('espay','`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="get_payment_order_number('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'visa')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_visa(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'passport')
@@ -921,7 +921,7 @@ function goto_embed_payment_method(provider, order_number){
     window.location.href = '/payment/' + provider + '/' + order_number;
 }
 
-function get_payment_order_number(provider, order_number){
+function get_payment_order_number(order_number){
     $.ajax({
        type: "POST",
        url: "/webservice/payment",
@@ -930,12 +930,17 @@ function get_payment_order_number(provider, order_number){
        },
        data: {
             'order_number': order_number,
-            'signature': signature
+            'signature': signature,
+            'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
+            'amount': payment_acq2[payment_method][selected].price_component.amount
        },
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                window.location.href = '/payment/' + provider + '/' + msg.result.response.order_number;
+                if(payment_acq2[payment_method][selected].name == "Payment Gateway")
+                    window.location.href = '/payment/espay/' + msg.result.response.order_number;
+                else
+                    window.location.href = '/payment/'+name+'/' + msg.result.response.order_number;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
