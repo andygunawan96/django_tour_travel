@@ -289,7 +289,7 @@ def page(request, data):
 def payment_method(request, provider, order_number):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
-    if request.session.get('signature') == False:
+    if not request.session.get('signature'):
         signin_btc(request)
     data = {
         'signature': request.session['signature'],

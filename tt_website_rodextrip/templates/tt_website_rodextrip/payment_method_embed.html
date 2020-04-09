@@ -38,11 +38,14 @@
     }
 </style>
 <title>{{name}} - Payment Method</title>
+<script>
+    order_number = `{{order_number}}`;
+    order_number = order_number.split('.')[0] + '.' + order_number.split('.')[1];
+</script>
 {% if provider == 'espay'%}
 <script type="text/javascript" src="https://sandbox-kit.espay.id/public/signature/js"></script>
 <script type="text/javascript">
-order_number = `{{order_number}}`;
-order_number = order_number.split('.')[0] + '.' + order_number.split('.')[1]
+
 window.onload = function () {
 var data = {
     paymentId: '{{order_number}}',
@@ -156,10 +159,13 @@ SGOSignature.receiveForm();
                 </div>
             </div>
             <div class="text-center" style="margin-top:10px;">
-                <button class="btn btn-lg btn-default" onclick="window.location.assign('https://frontendinternal.rodextrip.com/train/booking/K29yZGVyX251bWJlcis=')">Selesai</button>
+                <button class="btn btn-lg btn-default" id="btn_done" onclick="">Selesai</button>
             </div><br>
         </div>
-
+        <script>
+            url_callback = '{{espay_api_key_callback_url}}'+'{{provider_type}}'+'/booking/'+btoa(order_number);
+            document.getElementById("btn_done").onclick = function() {window.location.assign(url_callback); }
+        </script>
 
     </div>
 </section>

@@ -932,7 +932,8 @@ function get_payment_order_number(order_number){
             'order_number': order_number,
             'signature': signature,
             'unique_amount': payment_acq2[payment_method][selected].price_component.unique_amount,
-            'amount': payment_acq2[payment_method][selected].price_component.amount
+            'amount': payment_acq2[payment_method][selected].price_component.amount,
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
        },
        success: function(msg) {
             console.log(msg);
