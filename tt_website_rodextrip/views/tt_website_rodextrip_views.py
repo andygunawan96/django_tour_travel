@@ -7,6 +7,7 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework import authentication, permissions
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice_payment_views import *
 from tt_webservice.views.tt_webservice_views import *
 import logging
 import traceback
@@ -280,7 +281,7 @@ def page(request, data):
         'static_path': path_util.get_static_path(MODEL_NAME),
         'javascript_version': javascript_version,
         'static_path_url_server': get_url_static_path(),
-        'username': {'co_user_login': ''},
+        'username': request.session.get('user_account') or {'co_user_login': ''},
         'data': data
     })
     return render(request, MODEL_NAME + '/page.html', values)
@@ -288,14 +289,34 @@ def page(request, data):
 def payment_method(request, provider, order_number):
     javascript_version = get_javascript_version()
     values = get_data_template(request, 'login')
+    if request.session.get('signature') == False:
+        signin_btc(request)
+    data = {
+        'signature': request.session['signature'],
+        'order_number': order_number
+    }
+    time_limit = ''
+    nomor_rekening = ''
+    amount = ''
+    create_date = ''
+    data = get_order_number_frontend(data)
+    if data['result']['error_code'] == 0:
+        time_limit = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['time_limit']))
+        nomor_rekening = data['result']['response']['nomor_rekening']
+        amount = data['result']['response']['amount']
+        create_date = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['create_date']))
     values.update({
         'static_path': path_util.get_static_path(MODEL_NAME),
         'javascript_version': javascript_version,
         'static_path_url_server': get_url_static_path(),
-        'username': {'co_user_login': ''},
+        'username': request.session.get('user_account') or {'co_user_login': ''},
         'order_number': order_number,
         'provider_type': provider_type[order_number.split('.')[0]],
         'provider': provider,
+        'time_limit': time_limit,
+        'nomor_rekening': nomor_rekening,
+        'amount': amount,
+        'create_date': create_date
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
 
