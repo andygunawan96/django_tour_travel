@@ -511,6 +511,7 @@ def admin(request):
                     text += request.POST['espay_key_callback_url'] + '\n'
                     text += request.POST['backend_url'] + '\n'
                     text += request.POST['website_mode'] + '\n'
+                    text += request.POST['espay_script'] + '\n'
                     file = open(var_log_path()+'data_cache_template.txt', "w+")
                     file.write(text)
                     file.close()
@@ -846,6 +847,7 @@ def get_data_template(request, type='home'):
     espay_api_key = ''
     espay_api_key_callback_url = ''
     backend_url = ''
+    script_espay = ''
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
 
 We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
@@ -931,6 +933,11 @@ We build this application for our existing partner and public users who register
                     pass
                 else:
                     website_mode = line.split('\n')[0]
+            elif idx == 20:
+                if line == '\n':
+                    pass
+                else:
+                    script_espay = line.split('\n')[0]
         if color == '':
             color = '#f15a22'
         file.close()
@@ -956,7 +963,8 @@ We build this application for our existing partner and public users who register
         'update_data': '',
         'espay_api_key': espay_api_key,
         'espay_api_key_callback_url': espay_api_key_callback_url,
-        'backend_url': backend_url
+        'backend_url': backend_url,
+        'espay_script': script_espay
     }
 
 # @api_view(['GET'])
