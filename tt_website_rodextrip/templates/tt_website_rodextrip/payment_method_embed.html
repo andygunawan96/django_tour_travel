@@ -45,12 +45,11 @@
 {% if provider == 'espay'%}
 <script type="text/javascript" src="{{espay_script}}"></script>
 <script type="text/javascript">
-
 window.onload = function () {
 var data = {
     paymentId: '{{order_number}}',
     key: '{{espay_api_key}}',
-    backUrl: encodeURIComponent ('{{espay_api_key_callback_url}}'+'{{provider_type}}/booking/'+btoa("+order_number+")),
+    backUrl: encodeURIComponent ('{{espay_api_key_callback_url}}{{provider_type}}/booking/'+btoa(order_number)),
     display : 'tab'
 },
 sgoPlusIframe = document.getElementById("sgoplus-iframe");
