@@ -123,8 +123,6 @@ def get_order_number(request):
     try:
         data = {
             'order_number': request.POST['order_number'],
-            'amount': request.POST['amount'],
-            'unique_amount': request.POST['unique_amount'],
             'seq_id': request.POST['seq_id']
         }
         headers = {
