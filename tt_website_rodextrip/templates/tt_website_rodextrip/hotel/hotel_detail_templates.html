@@ -1148,7 +1148,7 @@
                                         {% endfor %}
                                     </span><br/>
                                     <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span><br/>
-                                    <span id="date_hotel"n>Date: {{check_in}} - {{check_out}}</span>
+                                    <span id="date_hotel">Date: {{check_in}} - {{check_out}}</span>
                                     <hr/>
                                     <div style="padding-top:10px;" id="hotel_detail_table">
 
@@ -1315,7 +1315,6 @@
               format: 'DD MMM YYYY',
           },
       });
-      //hotel_detail_request(`{{response.external_code}}`);
       $('input[name="hotel_checkin_checkout2"]').on('apply.daterangepicker', function(ev, picker) {
           $(this).val(picker.startDate.format('DD MMM YYYY') + ' - ' + picker.endDate.format('DD MMM YYYY'));
             var oneDay = 24*60*60*1000;
@@ -1345,10 +1344,10 @@
         $('#loading-detail-hotel').show();
         if(type == 'checkin'){
             change_date_hotel('checkin');
-            hotel_detail(`{{response.external_code}}`);
+            hotel_detail(``);
         }else{
             change_date_hotel('checkout');
-            hotel_detail(`{{response.external_code}}`);
+            hotel_detail(``);
         }
     }
 
