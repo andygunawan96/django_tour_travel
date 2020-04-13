@@ -33,7 +33,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title id="title_search">{{name}} Tour - Booking</title>
+<title id="title_search">{{name}} {% trans 'Tour' %} - {% trans 'Booking' %}</title>
 
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
@@ -159,14 +159,14 @@
                                 <div class="sk-circle11 sk-child"></div>
                                 <div class="sk-circle12 sk-child"></div>
                             </div>
-                            <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                            <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4" style="margin-top:10px;">
                     <div class="row">
                         <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="tour_detail">
-                            <h4> Price Detail </h4>
+                            <h4> {% trans 'Price Detail' %} </h4>
                             <hr/>
                             <span id="product_title" style="font-weight: bold;"></span>
                             <br/><span id="product_type_title"></span>
@@ -180,7 +180,7 @@
                         {% if 'issued_reservation' in username.co_agent_frontend_security %}
                         {% include 'tt_website_rodextrip/voucher_code.html'  %}
                         <button id="final_issued_btn" class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right issued_booking_btn" type="button" style="width:100%; margin-top:15px; display:none;" onclick="focus_box('payment_acq');">
-                            Issued Booking
+                            {% trans 'Issued Booking' %}
                         </button>
                         {% endif %}
                     </div>
@@ -196,7 +196,7 @@
                         <!-- Modal content-->
                         <div class="modal-content" style="border-radius: 0;">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:white;">Reprice Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title" style="color:white;">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -206,7 +206,7 @@
                                             <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
                                                         <hr/>
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
@@ -232,7 +232,7 @@
                                     <div class="col-lg-4">
                                         <div class="row" style="padding:15px;">
                                             <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                <h4>Result Pricing</h4>
+                                                <h4>{% trans 'Result Pricing' %}</h4>
                                                 <hr/>
                                                 <div class="row" id="repricing_div">
 
@@ -243,7 +243,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                             </div>
                         </div>
                     </div>
@@ -252,17 +252,17 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4>Payment Option</h4>
+                                <h4>{% trans 'Payment Option' %}</h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
                                 <label class="radio-button-custom">
-                                    <input type="radio" name="payment_opt" value="full" checked=""/> Full Payment (<span id="full_payment_amt"></span>)
+                                    <input type="radio" name="payment_opt" value="full" checked=""/> {% trans 'Full Payment' %} (<span id="full_payment_amt"></span>)
                                     <span class="checkmark-radio"></span>
                                 </label>
                                 <br/>
                                 <label class="radio-button-custom">
-                                    <input type="radio" name="payment_opt" value="installment"/> Installment
+                                    <input type="radio" name="payment_opt" value="installment"/> {% trans 'Installment' %}
                                     <span class="checkmark-radio"></span>
                                 </label>
                                 <!--<input type="hidden" name="installment_count" t-att-value="len(payment_rules)"/>-->
@@ -270,8 +270,8 @@
                                     <thead>
                                     <tr>
                                         <th></th>
-                                        <th>Amount</th>
-                                        <th>Due Date</th>
+                                        <th>{% trans 'Amount' %}</th>
+                                        <th>{% trans 'Due Date' %}</th>
                                     </tr>
                                     </thead>
                                     <tbody id="tour_payment_rules">
@@ -281,7 +281,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" onclick="tour_pre_issued_booking('{{order_number}}');" style="width:100%;">
-                                    Confirm <div class="ld ld-ring ld-cycle"></div>
+                                    {% trans 'Confirm' %} <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </div>
                         </div>

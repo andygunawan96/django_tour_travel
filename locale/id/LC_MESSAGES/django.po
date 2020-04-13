@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-08 07:45+0000\n"
+"POT-Creation-Date: 2020-04-13 03:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,16 +18,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: config/settings.py:120
+#: config/settings.py:109
 msgid "English"
 msgstr ""
 
-#: config/settings.py:121
+#: config/settings.py:110
 msgid "Indonesia"
-msgstr ""
-
-#: config/settings.py:122
-msgid "Finnish"
 msgstr ""
 
 #: readme.txt:25
@@ -68,6 +64,7 @@ msgstr "Aktivitas"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_booking_templates.html:36
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_booking_templates.html:29
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:36
 msgid "Booking"
 msgstr "Pemesanan"
 
@@ -120,20 +117,59 @@ msgstr "Pemesanan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4476
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:1384
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:1422
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:162
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:1004
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:133
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:353
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:569
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:752
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:919
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1063
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1279
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1489
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1666
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1826
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1970
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2192
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2410
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2595
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2764
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2907
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3127
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3342
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3525
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3692
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3835
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4053
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4269
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4452
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4619
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:440
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:838
 msgid "PLEASE WAIT"
 msgstr "MOHON TUNGGU"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_booking_templates.html:160
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:392
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:169
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:983
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:898
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1805
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2743
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3671
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4598
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:419
 msgid "Price Detail"
-msgstr ""
+msgstr "Detail Harga"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_booking_templates.html:175
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:382
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_booking_templates.html:193
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:312
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:365
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:183
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:383
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:534
 msgid "Issued Booking"
 msgstr "Pembayaran Pemesanan"
 
@@ -141,6 +177,8 @@ msgstr "Pembayaran Pemesanan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:422
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_booking_templates.html:216
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:386
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:199
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:463
 msgid "Reprice Change"
 msgstr "Ubah Harga"
 
@@ -148,6 +186,8 @@ msgstr "Ubah Harga"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:432
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_booking_templates.html:226
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:396
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:209
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:473
 msgid "Pricing"
 msgstr "Kalkulasi Harga"
 
@@ -155,6 +195,8 @@ msgstr "Kalkulasi Harga"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:458
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_booking_templates.html:252
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:422
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:235
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:499
 msgid "Result Pricing"
 msgstr "Hasil Kalkulasi Harga"
 
@@ -263,6 +305,48 @@ msgstr "Hasil Kalkulasi Harga"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2783
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2819
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2855
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:246
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:142
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:185
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:362
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:403
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:578
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:618
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:761
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:801
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1072
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1113
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1288
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1327
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1498
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1536
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1675
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1713
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1979
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2025
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2201
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2244
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2419
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2461
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2604
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2646
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2916
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2959
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3136
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3179
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3351
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3393
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3534
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3576
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3844
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3886
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4062
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4103
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4278
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4318
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4461
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4501
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:510
 msgid "Close"
 msgstr "Tutup"
 
@@ -323,6 +407,16 @@ msgstr "Semua Aktivitas"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4171
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5108
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5194
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:56
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:126
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:195
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:267
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:336
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:407
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:474
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:542
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:610
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:677
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:46
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:116
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:184
@@ -366,6 +460,16 @@ msgstr "Semua Negara"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4179
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5116
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5202
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:59
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:134
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:198
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:275
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:339
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:415
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:477
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:550
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:613
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:685
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:49
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:124
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:187
@@ -478,6 +582,11 @@ msgstr "Semua Sub Kategori"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:580
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:816
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:1038
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:88
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:227
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:368
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:506
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:642
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:78
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:216
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:357
@@ -526,6 +635,16 @@ msgstr "Ubah Pencarian"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5097
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5182
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5183
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:112
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:113
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:251
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:252
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:391
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:392
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:530
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:531
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:665
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:666
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:102
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:103
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:240
@@ -731,6 +850,71 @@ msgstr "Cari berdasarkan Kategori / Tipe"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5253
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5298
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5342
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:178
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:317
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:457
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:592
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:729
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:100
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:117
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:120
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:322
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:337
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:340
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:538
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:553
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:556
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:720
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:736
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:739
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1030
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1047
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1050
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1248
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1263
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1266
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1458
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1473
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1476
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1634
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1650
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1653
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1937
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1954
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1957
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2161
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2176
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2179
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2379
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2394
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2397
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2563
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2579
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2582
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2874
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2891
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2894
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3096
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3111
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3114
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3311
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3326
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3329
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3493
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3509
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3512
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3802
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3819
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3822
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4022
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4037
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4040
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4238
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4253
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4256
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4420
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4436
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4439
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:167
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:306
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:446
@@ -763,6 +947,17 @@ msgstr "Cari"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:1308
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_seat_map_templates.html:148
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_ssr_templates.html:123
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:749
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:59
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:988
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1896
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2833
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3761
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:73
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:99
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:129
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:157
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:183
 msgid "Session Time"
 msgstr "Waktu Sesi"
 
@@ -790,6 +985,17 @@ msgstr "Waktu Sesi"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:1310
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_seat_map_templates.html:151
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_ssr_templates.html:126
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:752
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:62
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:991
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1899
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2836
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3764
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:76
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:102
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:132
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:160
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:186
 msgid "Elapsed Time"
 msgstr "Waktu Berlalu"
 
@@ -823,6 +1029,7 @@ msgstr "Waktu Berlalu"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3857
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4734
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4892
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:43
 msgid "Passenger"
 msgstr "Penumpang"
 
@@ -836,6 +1043,11 @@ msgstr "Penumpang"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:1862
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2822
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3785
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:82
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1012
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1919
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2856
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3784
 msgid "Booker Information"
 msgstr "Informasi Pemesan"
 
@@ -883,6 +1095,26 @@ msgstr "Informasi Pemesan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4024
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4251
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4445
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:101
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:323
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:539
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:721
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1031
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1249
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1459
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1635
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1938
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2162
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2380
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2564
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2875
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3097
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3312
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3494
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3803
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4023
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4239
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4421
 msgid "Clear"
 msgstr "Bersihkan"
 
@@ -896,6 +1128,11 @@ msgstr "Bersihkan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:1891
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2851
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3814
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:111
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1041
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1948
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2885
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3813
 msgid "Booker List"
 msgstr "Daftar Pemesan"
 
@@ -944,6 +1181,26 @@ msgstr "Daftar Pemesan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4046
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4274
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4469
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:126
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:346
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:562
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:745
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1056
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1272
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1482
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1659
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1963
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2185
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2403
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2588
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2900
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3120
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3335
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3518
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3828
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4046
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4262
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4445
 msgid "Using this means you can't change title, first name, and last name"
 msgstr ""
 "Menggunakan ini berarti Anda tidak dapat mengubah titel, nama depan, dan "
@@ -1002,6 +1259,26 @@ msgstr ""
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2283
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2930
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2932
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:150
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:370
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:585
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:768
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1080
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1296
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1505
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1682
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1987
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2209
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2426
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2611
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2924
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3144
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3358
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3541
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3852
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4070
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4285
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4468
 msgid "Title"
 msgstr "Titel"
 
@@ -1052,6 +1329,26 @@ msgstr "Titel"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:499
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:656
 #: tt_website_rodextrip/templates/tt_website_rodextrip/header.html:814
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:171
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:389
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:604
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:787
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1099
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1313
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1522
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1699
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2011
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2230
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2447
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2632
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2945
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3165
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3379
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3562
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3872
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4089
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4304
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4487
 msgid "Help"
 msgstr "Bantuan"
 
@@ -1097,6 +1394,26 @@ msgstr "Bantuan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4097
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4324
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4519
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:179
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:397
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:612
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:795
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1107
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1321
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1530
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1707
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2019
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2238
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2455
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2640
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2953
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3173
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3387
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3570
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3880
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4097
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4312
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4495
 msgid ""
 "1. Please fill passenger name as written in your ID card, including "
 "characters such as \",\" or \".\" or foreign characters (i.e: Chinese/"
@@ -1148,6 +1465,26 @@ msgstr ""
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4098
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4325
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4520
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:180
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:398
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:613
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:796
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1108
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1322
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1531
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1708
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2020
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2239
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2456
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2641
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2954
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3174
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3388
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3571
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3881
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4098
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4313
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4496
 msgid ""
 "2. Maximum total characters for title, first name, and last name is 30. If "
 "your title, first name, and last name exceeds 30 characters, you can put "
@@ -1198,6 +1535,26 @@ msgstr ""
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4099
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4326
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4521
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:181
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:399
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:614
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:797
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1109
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1323
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1532
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1709
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2021
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2240
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2457
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2642
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2955
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3175
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3389
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3572
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3882
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4099
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4314
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4497
 msgid ""
 "3. Passenger last name cannot be more than 1 word and must contain at least "
 "2 characters."
@@ -1250,6 +1607,26 @@ msgstr ""
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4112
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4339
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4534
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:195
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:412
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:627
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:810
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1123
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1336
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1545
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1722
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2034
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2253
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2470
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2655
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2969
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3188
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3402
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3585
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3895
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4112
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4327
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4510
 msgid "First name and middle name (if any)"
 msgstr "Nama depan dan nama tengah (jika ada)"
 
@@ -1343,6 +1720,46 @@ msgstr "Nama depan dan nama tengah (jika ada)"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4352
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4539
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4547
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:204
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:213
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:417
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:425
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:632
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:640
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:815
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:823
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1132
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1141
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1341
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1349
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1550
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1558
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1727
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1735
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2043
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2052
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2258
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2266
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2475
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2483
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2660
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2668
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2978
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2987
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3193
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3201
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3407
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3415
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3590
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3598
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3904
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3913
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4117
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4125
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4332
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4340
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4515
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4523
 msgid "As on Identity Card or Passport without title and punctuation"
 msgstr "Seperti pada Kartu Identitas atau Paspor tanpa titel dan tanda baca"
 
@@ -1464,6 +1881,46 @@ msgstr "Nama Belakang"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4359
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4551
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4554
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:218
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:221
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:429
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:432
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:644
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:647
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:827
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:830
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1146
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1148
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1353
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1355
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1562
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1564
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1739
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1741
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2057
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2060
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2270
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2273
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2487
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2490
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2672
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2675
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2992
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2995
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3205
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3208
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3419
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3422
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3602
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3605
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3918
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3921
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4129
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4132
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4344
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4347
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4527
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4530
 msgid "Nationality"
 msgstr "Kebangsaan"
 
@@ -1492,6 +1949,16 @@ msgstr "Kebangsaan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3227
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3935
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4188
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:234
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:480
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1160
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1400
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2073
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2321
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3008
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3253
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3934
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4180
 msgid "Contact Email Address"
 msgstr "Kontak Alamat Email"
 
@@ -1520,6 +1987,16 @@ msgstr "Kontak Alamat Email"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3229
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3937
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4190
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:236
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:482
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1162
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1402
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2075
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2323
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3010
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3255
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3936
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4182
 msgid "Email Address"
 msgstr "Alamat Email"
 
@@ -1573,6 +2050,26 @@ msgstr "Alamat Email"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3962
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4192
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4218
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:238
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:261
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:484
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:510
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1164
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1187
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1404
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1430
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2077
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2100
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2325
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2351
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3012
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3035
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3257
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3283
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3938
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3961
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4184
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4210
 msgid "Example"
 msgstr "Contoh"
 
@@ -1601,6 +2098,16 @@ msgstr "Contoh"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3235
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3944
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4196
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:243
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:488
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1169
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1408
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2082
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2329
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3017
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3261
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3943
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4188
 msgid "Contact Person for Urgent Situation"
 msgstr "Kontak yang dapat Dihubungi untuk Situasi Penting"
 
@@ -1629,6 +2136,16 @@ msgstr "Kontak yang dapat Dihubungi untuk Situasi Penting"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3236
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3945
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4197
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:244
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:489
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1170
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1409
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2083
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2330
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3018
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3262
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3944
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4189
 msgid "Must be filled with booker's mobile on first registration"
 msgstr "Harus diisi dengan ponsel pemesan pada pendaftaran pertama"
 
@@ -1650,6 +2167,11 @@ msgstr "Apakah Anda memesan tiket ini untuk Anda?"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2056
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3014
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3975
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:274
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1200
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2113
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3048
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3974
 msgid "Yes"
 msgstr "Ya"
 
@@ -1663,6 +2185,11 @@ msgstr "Ya"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2062
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3020
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3981
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:280
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1206
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2119
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3054
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3980
 msgid "No"
 msgstr "Tidak"
 
@@ -1718,6 +2245,21 @@ msgstr "2. Data tamu tidak dapat diubah setelah melewati halaman ini"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2943
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3959
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4988
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:301
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:525
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:706
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1227
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1445
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1620
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2140
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2366
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2549
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3075
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3298
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3479
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4001
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4225
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4406
 msgid "Guest"
 msgstr "Tamu"
 
@@ -1767,6 +2309,16 @@ msgstr "Tamu"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4744
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4900
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5016
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:301
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:331
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1227
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1257
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2140
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2170
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3075
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3105
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4001
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4031
 msgid "Adult"
 msgstr "Dewasa"
 
@@ -1780,6 +2332,11 @@ msgstr "Dewasa"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2096
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3054
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4015
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:314
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1240
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2153
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3088
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4014
 msgid "Make this to Contact Person"
 msgstr "Jadikan ini sebagai Kontak"
 
@@ -1854,6 +2411,36 @@ msgstr "Jadikan ini sebagai Kontak"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4372
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4566
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4568
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:443
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:445
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:658
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:660
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:842
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:844
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1365
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1367
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1574
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1576
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1751
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1753
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2284
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2286
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2501
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2503
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2687
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2689
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3219
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3221
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3433
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3435
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3617
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3619
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4143
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4145
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4358
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4360
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4542
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4544
 msgid "Birth Date"
 msgstr "Tanggal Lahir"
 
@@ -1927,6 +2514,36 @@ msgstr "Tanggal Lahir"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4382
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4575
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4577
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:450
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:452
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:665
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:667
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:849
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:851
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1372
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1374
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1581
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1583
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1758
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1760
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2291
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2293
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2508
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2510
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2694
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2696
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3226
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3228
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3440
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3442
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3624
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3626
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4150
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4152
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4365
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4367
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4549
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4551
 msgid "Passport Number"
 msgstr "Nomor Paspor"
 
@@ -2000,6 +2617,36 @@ msgstr "Nomor Paspor"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4391
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4584
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4586
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:456
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:458
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:671
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:673
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:855
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:857
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1378
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1380
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1587
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1589
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1764
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1766
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2297
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2299
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2514
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2516
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2700
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2702
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3232
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3234
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3446
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3448
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3630
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3632
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4156
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4158
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4371
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4373
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4555
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4557
 msgid "Passport Expired Date"
 msgstr "Tanggal Kadaluarsa Paspor"
 
@@ -2068,6 +2715,51 @@ msgstr "Tanggal Kadaluarsa Paspor"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4594
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4597
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4598
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:464
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:467
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:468
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:678
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:681
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:682
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:862
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:865
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:866
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1386
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1388
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1389
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1594
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1596
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1597
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1771
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1773
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1774
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2305
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2308
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2309
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2521
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2524
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2525
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2707
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2710
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2711
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3239
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3241
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3242
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3453
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3455
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3456
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3637
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3639
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3640
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4164
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4167
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4168
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4378
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4381
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4382
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4562
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4565
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4566
 msgid "Country of Issued"
 msgstr "Negara yang Issued"
 
@@ -2077,7 +2769,7 @@ msgstr "Negara yang Issued"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_passenger_templates.html:4581
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_passenger_templates.html:5894
 msgid "Senior"
-msgstr ""
+msgstr "Senior"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_passenger_templates.html:921
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_passenger_templates.html:2218
@@ -2119,6 +2811,16 @@ msgstr ""
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4737
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4764
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5036
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:525
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:547
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1445
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1467
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2366
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2388
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3298
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3320
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4225
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4247
 msgid "Child"
 msgstr "Anak"
 
@@ -2159,11 +2861,22 @@ msgstr "Anak"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4737
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4784
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4920
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:706
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:730
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1620
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1644
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2549
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2573
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3479
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3503
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4406
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4430
 msgid "Infant"
 msgstr "Bayi"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:104
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:105
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:44
 msgid "Review"
 msgstr "Ulasan"
 
@@ -2185,14 +2898,16 @@ msgstr "Informasi"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:282
 msgid "Value"
-msgstr ""
+msgstr "Nilai"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:302
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:272
 msgid "Contact Information"
 msgstr "Informasi Kontak"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:307
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:343
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:277
 msgid "Full Name"
 msgstr "Nama Lengkap"
 
@@ -2201,14 +2916,17 @@ msgid "Email"
 msgstr "Email"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:309
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:279
 msgid "Mobile Phone"
 msgstr "Nomor Handphone"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:338
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:308
 msgid "List of Guest(s)"
 msgstr "Daftar Tamu"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:344
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:238
 msgid "Type"
 msgstr "Tipe"
 
@@ -2219,12 +2937,16 @@ msgstr "Tiket"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:367
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:302
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:355
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:371
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:522
 msgid "Hold Booking"
 msgstr "Pesan Dahulu"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_review_templates.html:376
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:377
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:528
 msgid "Print Itinerary Form"
-msgstr ""
+msgstr "Cetak Formulir Rencana Perjalanan"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/activity/activity_search_templates.html:40
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_search_templates.html:1264
@@ -2284,11 +3006,13 @@ msgstr "Pemesanan Anda telah Terbayar"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_booking_templates.html:156
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:270
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:205
 msgid "Please Review Your Booking"
 msgstr "Harap Tinjau Pemesanan Anda"
 
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_booking_templates.html:157
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_review_templates.html:271
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:206
 msgid "Prices may changes at any time"
 msgstr "Harga dapat berubah sewaktu-waktu"
 
@@ -2304,6 +3028,11 @@ msgstr ""
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:1945
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2904
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3866
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:164
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1092
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2002
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2938
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3865
 msgid "Corporate Booker"
 msgstr "Perusahaan Pemesan"
 
@@ -2327,6 +3056,26 @@ msgstr "Perusahaan Pemesan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4114
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4341
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4536
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:197
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:414
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:629
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:812
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1125
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1338
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1547
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1724
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2036
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2255
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2472
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2657
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2971
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3190
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3404
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3587
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3897
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4114
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4329
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4512
 msgid "First Name"
 msgstr "Nama Depan"
 
@@ -2370,6 +3119,46 @@ msgstr "Nama Depan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4350
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4543
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4545
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:209
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:211
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:421
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:423
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:636
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:638
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:819
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:821
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1137
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1139
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1345
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1347
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1554
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1556
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1731
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1733
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2048
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2050
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2262
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2264
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2479
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2481
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2664
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2666
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2983
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2985
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3197
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3199
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3411
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3413
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3594
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3596
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3909
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3911
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4121
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4123
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4336
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4338
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4519
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4521
 msgid "Last Name"
 msgstr "Nama Belakang"
 
@@ -2383,6 +3172,16 @@ msgstr "Nama Belakang"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3253
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3958
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4214
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:257
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:506
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1183
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1426
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2096
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2347
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3031
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3279
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3957
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4206
 msgid "Phone Number"
 msgstr "Nomor Telepon"
 
@@ -2391,6 +3190,11 @@ msgstr "Nomor Telepon"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2054
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3012
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3973
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:272
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1198
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2111
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3046
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3972
 msgid "Do you book this trip for you?"
 msgstr "Apakah Anda memesan perjalanan ini untuk Anda?"
 
@@ -2399,6 +3203,11 @@ msgstr "Apakah Anda memesan perjalanan ini untuk Anda?"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2068
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3026
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3987
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:286
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1212
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2125
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3060
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3986
 msgid "Passenger Data"
 msgstr "Data Penumpang"
 
@@ -2419,6 +3228,11 @@ msgstr ""
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2071
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3029
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3990
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:289
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1215
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2128
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3063
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3989
 msgid "2. Passenger data can't be changed after the passing of this page"
 msgstr "2. Data penumpang tidak dapat diubah setelah melewati halaman ini"
 
@@ -2450,6 +3264,7 @@ msgstr "Diperlukan paspor untuk lion air, wings air, or batik air"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_seat_map_templates.html:239
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_seat_map_templates.html:256
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_ssr_templates.html:248
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:1016
 msgid "Next"
 msgstr "Lanjut"
 
@@ -2458,6 +3273,12 @@ msgstr "Lanjut"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2739
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3691
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4652
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:935
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1842
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2780
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3708
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4635
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:393
 msgid "Oops! Please check your details"
 msgstr "Oops! Tolong cek detail Anda"
 
@@ -2466,6 +3287,12 @@ msgstr "Oops! Tolong cek detail Anda"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:2746
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:3698
 #: tt_website_rodextrip/templates/tt_website_rodextrip/airline/airline_passenger_templates.html:4659
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:942
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1849
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2787
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3715
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:4642
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:400
 msgid "We found a mistake in your data."
 msgstr "Kami menemukan kesalahan di data Anda"
 
@@ -2673,6 +3500,11 @@ msgstr "Ke"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5313
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5322
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5331
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:120
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:260
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:400
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:537
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:672
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:110
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:249
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:389
@@ -3051,6 +3883,7 @@ msgstr "Jalankan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:357
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:982
 #: tt_website_rodextrip/templates/tt_website_rodextrip/backend/admin_templates.html:2278
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:976
 msgid "Delete"
 msgstr "Hapus"
 
@@ -3356,6 +4189,10 @@ msgstr "Tanggal Check-in - Check-out"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2951
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3968
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4996
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:1047
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:348
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:350
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:352
 msgid "Room"
 msgstr "Kamar"
 
@@ -3386,6 +4223,15 @@ msgstr "Kategori / Tipe"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:2122
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4150
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5174
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:36
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:46
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:104
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:243
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:383
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:522
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:657
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:43
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:44
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:33
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:35
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:94
@@ -3401,6 +4247,11 @@ msgstr "Tour"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3132
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4153
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5176
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:106
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:245
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:385
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:524
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:659
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:96
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:234
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:374
@@ -3414,6 +4265,11 @@ msgstr "Cari Tour"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3169
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4190
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5213
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:144
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:285
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:425
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:560
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:695
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:134
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:274
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:414
@@ -3427,6 +4283,11 @@ msgstr "Waktu Keberangkatan"
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:3177
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:4197
 #: tt_website_rodextrip/templates/tt_website_rodextrip/home_templates.html:5221
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:65
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:204
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:345
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:483
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:619
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:55
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:193
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:334
@@ -3643,14 +4504,39 @@ msgstr "Ikuti Kami"
 msgid "Forgot Password"
 msgstr "Lupa Password"
 
-#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:35
-msgid "All"
-msgstr "Semua"
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:255
+msgid "Payment Option"
+msgstr "Pilihan Pembayaran"
 
-#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:35
-msgid "Tours"
-msgstr "Tours"
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:260
+msgid "Full Payment"
+msgstr "Pembayaran Penuh"
 
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:265
+msgid "Installment"
+msgstr "Cicilan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:273
+msgid "Amount"
+msgstr "Jumlah"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:274
+msgid "Due Date"
+msgstr "Batas Waktu"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_booking_templates.html:284
+msgid "Confirm"
+msgstr "Konfirmasi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:46
+msgid "Detail"
+msgstr "Detail"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:53
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:192
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:333
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:471
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:607
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:43
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:181
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:322
@@ -3659,10 +4545,122 @@ msgstr "Tours"
 msgid "Tour Search"
 msgstr "Pencarian Tour"
 
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:53
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:192
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:333
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:471
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:607
+msgid "All Tours"
+msgstr "Semua Tour"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:76
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:215
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:356
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:494
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:630
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:66
 #: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:204
 msgid "All Years"
 msgstr "Semua Tahun"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:780
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:1048
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:240
+msgid "Description"
+msgstr "Deskripsi"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:781
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:957
+msgid "Book Now"
+msgstr "Pesan Sekarang"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:811
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:838
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:867
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:896
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:925
+msgid "Itinerary"
+msgstr "Rencana Perjalanan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:815
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:840
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:869
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:898
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:927
+msgid "Flight Details"
+msgstr "Detail Penerbangan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:819
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:842
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:871
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:900
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:929
+msgid "Tour Info"
+msgstr "Informasi Tour"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:964
+msgid "Room Setting"
+msgstr "Pengaturan Kamar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:973
+msgid "Add Room"
+msgstr "Tambah Kamar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:1037
+msgid "Room Available"
+msgstr "Kamar Tersedia"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_detail_templates.html:1049
+msgid "Action"
+msgstr "Tindakan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:288
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:1214
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:2127
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3062
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_passenger_templates.html:3988
+msgid ""
+"1. Caution: the name of the passenger must be right and appropriate with "
+"international passsport, and domestic route can match with KTP/Passport/SIM"
+msgstr ""
+"1. Perhatian: nama penumpang harus benar dan sesuai dengan paspor "
+"internasional, dan rute domestik dapat cocok dengan KTP / Paspor / SIM"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:213
+msgid "Tour Information"
+msgstr "Informasi Tour"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:220
+msgid "Days"
+msgstr "Hari"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:222
+msgid "Flight"
+msgstr "Penerbangan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:232
+msgid "List of Room(s)"
+msgstr "Daftar Kamar"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:237
+msgid "Name"
+msgstr "Nama"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:241
+msgid "Notes"
+msgstr "Catatan"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_review_templates.html:345
+msgid "Please select a room!"
+msgstr "Silakan pilih kamar!"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:35
+msgid "All"
+msgstr "Semua"
+
+#: tt_website_rodextrip/templates/tt_website_rodextrip/tour/tour_search_templates.html:35
+msgid "Tours"
+msgstr "Tours"
 
 #~ msgid ""
 #~ "3. Please use character such as \",\" or \".\" same like in your id card."
