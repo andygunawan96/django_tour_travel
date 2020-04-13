@@ -137,3 +137,19 @@ def get_order_number(request):
     except:
         res = 0
     return res
+
+def get_order_number_frontend(req):
+    try:
+        data = {
+            'order_number': req['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_payment_acquirer_payment_gateway_frontend",
+            "signature": req['signature']
+        }
+        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+    except:
+        res = 0
+    return res
