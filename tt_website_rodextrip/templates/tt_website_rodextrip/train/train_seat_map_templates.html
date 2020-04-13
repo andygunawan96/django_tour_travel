@@ -89,7 +89,7 @@ img {vertical-align: middle;}
     <div class="container">
         <div class="row" style="padding:30px 0px 30px 0px;">
             <div class="col-lg-12">
-                <form method="POST" id="train_booking" action="{% url 'tt_website_rodextrip:train_booking'%}">
+                <form method="POST" id="train_booking" action="">
                     {% csrf_token %}
                     <div class="row">
                         <input type="text" id="order_number" name="order_number" hidden value="{{order_number}}"/>
@@ -122,7 +122,7 @@ img {vertical-align: middle;}
                                             {% endfor %}
                                         </div>
                                         <div class="col-lg-12">
-                                            <button class="primary-btn-cancel change-seat-train-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="document.getElementById('train_booking').submit();;" value="Submit Seat">
+                                            <button class="primary-btn-cancel change-seat-train-buttons" style="width:100%;padding:5px;text-align:center; margin-bottom:10px; margin-top:10px; border-radius:7px;" type="button" onclick="document.getElementById('train_booking').submit();" value="Submit Seat">
                                                 Cancel All Change Seat
                                             </button>
                                             <button class="primary-btn-ticket submit-seat-train change-seat-train-buttons ld-ext-right" style="width:100%;padding:5px;text-align:center; margin-bottom:30px; margin-top:10px; border-radius:7px;" type="button" onclick="train_manual_seat();" value="Submit Seat">
@@ -191,6 +191,7 @@ img {vertical-align: middle;}
 
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    document.getElementById('train_booking').action = '/train/booking/' + btoa(order_number);
     select_passenger(1);
     select_journey(1);
     train_get_seat_map();
