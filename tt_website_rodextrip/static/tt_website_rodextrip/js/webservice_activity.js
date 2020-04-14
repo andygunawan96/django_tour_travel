@@ -2186,9 +2186,9 @@ function activity_get_booking(data){
             if(msg.result.response.status == 'booked')
             {
                 try{
-                    check_payment_payment_method(activity_order_number, 'Issued', msg.result.response.booker_seq_id, 'billing', 'activity', signature);
+                    check_payment_payment_method(activity_order_number, 'Issued', msg.result.response.booker_seq_id, 'billing', 'activity', signature, msg.result.response.payment_acquirer_number);
 //                    get_payment_acq('Issued', msg.result.response.booker_seq_id, activity_order_number, 'billing',signature,'activity', signature);
-
+                    document.getElementById("final_issued_btn").style.display = "block";
                 }catch(err){}
             }
             else

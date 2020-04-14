@@ -954,38 +954,86 @@ function get_payment_order_number(order_number){
     });
 }
 
-function check_payment_payment_method(order_number,btn_name,booker,type,provider_type,signature){
-    $.ajax({
-       type: "POST",
-       url: "/webservice/payment",
-       headers:{
-            'action': 'check_payment_payment_method',
-       },
-       data: {
-            'order_number': order_number,
-            'signature': signature,
-       },
-       success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code != 0){
-                get_payment_acq(btn_name, booker, order_number, type, signature, provider_type);
-                if(provider_type == 'airline')
-                    $(".issued_booking_btn").show();
-                else if(provider_type == 'activity' || provider_type == 'tour')
-                    document.getElementById("final_issued_btn").style.display = "block";
-
-            }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
-                })
-            }
-       },timeout: 60000
-    });
+function check_payment_payment_method(order_number,btn_name,booker,type,provider_type,signature, payment_acq_booking){
+    if(Object.keys(payment_acq_booking).length == 0)
+        get_payment_acq(btn_name, booker, order_number, type, signature, provider_type);
+    else{
+        //print
+        tes = moment.utc(payment_acq_booking.time_limit).format('YYYY-MM-DD HH:mm:ss')
+        localTime  = moment.utc(tes).toDate();
+        payment_acq_booking.time_limit = moment(localTime).format('DD MMM YYYY HH:mm');
+        text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
+        text+=` <h6 style="padding-bottom:10px;">Payment Detail: </h6>`;
+        if(payment_acq_booking.nomor_rekening != ''){
+            text+=`<div class='row'>
+                    <div class="col-sm-5" style='text-align:left;'>
+                        <span style="font-size:13px;"> Account: </span><br>
+                    </div>
+                    <div class="col-sm-7" style='text-align:right;'>
+                        <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.nomor_rekening+`<br/>
+                    </div>
+                    <div class="col-sm-5" style='text-align:left;'>
+                        <span style="font-size:13px;;"> Account Name: </span>
+                    </div>
+                    <div class="col-sm-7" style='text-align:right;'>
+                        <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.account_name+`<br>
+                    </div>
+                    <div class="col-sm-5" style='text-align:left;'>
+                        <span style="font-size:13px;;"> Time Limit: </span>
+                    </div>
+                    <div class="col-sm-7" style='text-align:right;'>
+                        <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.time_limit+`<br>
+                    </div>
+                    <div class="col-sm-5" style='text-align:left;'>
+                        <span style="font-size:13px;;"> Grand Total: </span>
+                    </div>
+                    <div class="col-sm-7" style='text-align:right;'>
+                        <span style="font-size:14px; font-weight:500;">IDR `+getrupiah(payment_acq_booking.amount)+`<br>
+                    </div>
+                   </div>`;
+            text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+        }else{
+            text += `<div class='row'>
+                        <div class="col-sm-12">Please check your email</div>
+                     </div>`;
+        }
+        document.getElementById('payment_acq').innerHTML = text;
+    }
+//    if(provider_type == 'airline')
+//        $(".issued_booking_btn").show();
+//    else if(provider_type == 'activity' || provider_type == 'tour')
+//        document.getElementById("final_issued_btn").style.display = "block";
+//    $.ajax({
+//       type: "POST",
+//       url: "/webservice/payment",
+//       headers:{
+//            'action': 'check_payment_payment_method',
+//       },
+//       data: {
+//            'order_number': order_number,
+//            'signature': signature,
+//       },
+//       success: function(msg) {
+//            console.log(msg);
+//            if(msg.result.error_code != 0){
+//                get_payment_acq(btn_name, booker, order_number, type, signature, provider_type);
+//                if(provider_type == 'airline')
+//                    $(".issued_booking_btn").show();
+//                else if(provider_type == 'activity' || provider_type == 'tour')
+//                    document.getElementById("final_issued_btn").style.display = "block";
+//
+//            }
+//       },
+//       error: function(XMLHttpRequest, textStatus, errorThrown) {
+//            if(XMLHttpRequest.status == 500){
+//                Swal.fire({
+//                  type: 'error',
+//                  title: 'Oops!',
+//                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
+//                })
+//            }
+//       },timeout: 60000
+//    });
 }
 
 function get_va_number(){
