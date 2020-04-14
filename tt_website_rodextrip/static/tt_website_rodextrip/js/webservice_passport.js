@@ -323,10 +323,10 @@ function get_availability(){
                     document.getElementById('passport_btn_search').disabled = false;
                     document.getElementById("passport_btn_search").setAttribute( "onClick", "javascript: show_loading();passport_check_search();" );
                 }else{
-                    document.getElementById('visa_btn_search').disabled = false;
+                    document.getElementById('passport_btn_search').disabled = false;
                 }
             }else{
-                document.getElementById('visa_btn_search').disabled = false;
+                document.getElementById('passport_btn_search').disabled = false;
             }
             $('.next-loading').removeClass("running");
        },
