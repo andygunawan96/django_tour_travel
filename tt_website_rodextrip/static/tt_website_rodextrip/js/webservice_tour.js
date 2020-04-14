@@ -1916,9 +1916,9 @@ function tour_get_booking(order_number)
                }
                print_payment_rules(payment);
                try{
-                   check_payment_payment_method(order_number, 'Issued', book_obj.booker_seq_id, 'billing', 'tour', signature)
+                   check_payment_payment_method(order_number, 'Issued', book_obj.booker_seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
 //                   get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
-//                   document.getElementById("final_issued_btn").style.display = "block";
+                   document.getElementById("final_issued_btn").style.display = "block";
                }catch(err){}
            }
            else
