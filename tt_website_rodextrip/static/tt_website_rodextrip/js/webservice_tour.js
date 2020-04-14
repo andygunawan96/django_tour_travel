@@ -1916,8 +1916,9 @@ function tour_get_booking(order_number)
                }
                print_payment_rules(payment);
                try{
-                   get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
-                   document.getElementById("final_issued_btn").style.display = "block";
+                   check_payment_payment_method(order_number, 'Issued', book_obj.booker_seq_id, 'billing', 'tour', signature)
+//                   get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
+//                   document.getElementById("final_issued_btn").style.display = "block";
                }catch(err){}
            }
            else

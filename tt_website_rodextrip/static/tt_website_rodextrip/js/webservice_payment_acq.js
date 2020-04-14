@@ -952,7 +952,40 @@ function get_payment_order_number(order_number){
             }
        },timeout: 60000
     });
+}
 
+function check_payment_payment_method(order_number,btn_name,booker,type,provider_type,signature){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/payment",
+       headers:{
+            'action': 'check_payment_payment_method',
+       },
+       data: {
+            'order_number': order_number,
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code != 0){
+                get_payment_acq(btn_name, booker, order_number, type, signature, provider_type);
+                if(provider_type == 'airline')
+                    $(".issued_booking_btn").show();
+                else if(provider_type == 'activity' || provider_type == 'tour')
+                    document.getElementById("final_issued_btn").style.display = "block";
+
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
+                })
+            }
+       },timeout: 60000
+    });
 }
 
 function get_va_number(){
