@@ -3029,6 +3029,7 @@ function airline_get_booking(data){
        success: function(msg) {
            console.log(msg);
            airline_get_detail = msg;
+           get_payment = false;
            //get booking view edit here
            if(msg.result.error_code == 0){
             var text = '';
@@ -3062,7 +3063,9 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
             }else if(msg.result.response.state == 'booked'){
                try{
-                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
+                   get_payment = true;
+//                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                    document.getElementById('voucher_div').style.display = '';
                    //document.getElementById('issued-breadcrumb').classList.remove("active");
                    //document.getElementById('issued-breadcrumb').classList.add("current");
@@ -3110,7 +3113,7 @@ function airline_get_booking(data){
             }
             check_provider_booking = 0;
             if(msg.result.response.state == 'booked'){
-                $(".issued_booking_btn").show();
+//                $(".issued_booking_btn").show();
                 check_provider_booking++;
             }
             else{
@@ -3138,9 +3141,11 @@ function airline_get_booking(data){
                     printed_hold_date = false;
                     for(i in msg.result.response.provider_bookings){
                         if(msg.result.response.provider_bookings[i].state == 'booked' && printed_hold_date == false){
-                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                            if(get_payment == false)
+                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
+//                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                             $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
-                            $(".issued_booking_btn").show();
+//                            $(".issued_booking_btn").show();
                             check_provider_booking++;
                             printed_hold_date = true;
                         }

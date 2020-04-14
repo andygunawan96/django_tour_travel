@@ -1231,7 +1231,7 @@ function check_on_off_radio(pax_type,number,value){
                 pax_required_down.style.display = "none";
 
                 visa.list_of_visa[i].total_pax = visa.list_of_visa[i].total_pax - 1;
-                pax_check.value = visa.list_of_visa[i].id;
+                pax_check.value = visa.list_of_visa[i].sequence;
                 list_of_name = name.split(' ');
                 list_of_name.shift();
                 list_of_name.shift();
