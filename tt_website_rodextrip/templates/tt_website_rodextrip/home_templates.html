@@ -168,7 +168,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> PASSPORT </span>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -1616,7 +1616,7 @@
                             <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
                             {% endif %}
                             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
-                            <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">PASSPORT</label></li>
+                            <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -2617,7 +2617,7 @@
                                     <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
                                     {% endif %}
                                     {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                    <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">PASSPORT</label></li>
+                                    <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
                                     {% endif %}
                                     {% if "group" in provider %}
                                     <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i><label class="btn-txt-color">GROUP BOOKING</label></li>
@@ -3619,7 +3619,7 @@
                                         <li class="tab-link" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i> <label class="btn-txt-color">VISA</label></li>
                                         {% endif %}
                                         {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                        <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i> <label class="btn-txt-color">PASSPORT</label></li>
+                                        <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
                                         {% endif %}
                                         {% if "group" in provider %}
                                         <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i> <label class="btn-txt-color">GROUP BOOKING</label></li>
@@ -4646,7 +4646,7 @@
                                             <li class="tab-link" data-tab="tab-visa"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">VISA</label></li>
                                             {% endif %}
                                             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <li class="tab-link" data-tab="tab-passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">PASSPORT</label></li>
+                                            <li class="tab-link" data-tab="tab-passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PASSPORT' %}</label></li>
                                             {% endif %}
                                             {% if "group" in provider %}
                                             <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">GROUP BOOKING</label></li>
