@@ -39,7 +39,7 @@
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title id="title_search">{{name}} Visa - Review</title>
+<title id="title_search">{{name}} Visa - {% trans 'Review' %}</title>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 
 {%if template == 1%}
@@ -56,10 +56,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
                 </div>
                 {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
@@ -80,10 +80,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
                 </div>
                 {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
@@ -111,8 +111,8 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>Please Review Your Booking</h3>
-                    <h4>Prices may changes at any time</h4>
+                    <h3>{% trans 'Please Review Your Booking' %}</h3>
+                    <h4>{% trans 'Prices may changes at any time' %}</h4>
                     <br/>
                 </div>
                 <div class="col-lg-8" style="padding-bottom:10px;">
@@ -121,14 +121,14 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
-                                        <h4>Booker</h4>
+                                        <h4>{% trans 'Booker' %}</h4>
                                         <hr/>
                                         <div style="overflow:auto;">
                                             <table style="width:100%;" id="list-of-passenger">
                                                 <tr>
-                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:28%;">{% trans 'Name' %}</th>
                                                     <th style="width:7%;">Email</th>
-                                                    <th style="width:18%;">Phone Number</th>
+                                                    <th style="width:18%;">{% trans 'Phone Number' %}</th>
                                                 </tr>
                                                 <tr>
                                                     <td>{{passengers.booker.title}} {{passengers.booker.first_name}} {{passengers.booker.last_name}}</td>
@@ -142,15 +142,15 @@
 
                                 <div class="col-lg-12" style="padding-top:20px;">
                                     <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
-                                        <h4>List of Contact(s)</h4>
+                                        <h4>{% trans 'List of Contact(s)' %}</h4>
                                         <hr/>
                                         <div style="overflow:auto;">
                                             <table style="width:100%;" id="list-of-passenger">
                                                 <tr>
                                                     <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                                    <th style="width:28%;">Name</th>
+                                                    <th style="width:28%;">{% trans 'Name' %}</th>
                                                     <th style="width:7%;">Email</th>
-                                                    <th style="width:18%;">Phone Number</th>
+                                                    <th style="width:18%;">{% trans 'Phone Number' %}</th>
                                                 </tr>
                                                 {% for cp in passengers.contact %}
                                                 <tr>
@@ -169,14 +169,14 @@
                             <div class="row" style="padding-top:20px;">
                                 <div class="col-lg-12">
                                     <div style="border:1px solid #cdcdcd; background-color:white; padding:15px;">
-                                        <h4>List of Passenger(s)</h4>
+                                        <h4>{% trans 'List of Passenger(s)' %}</h4>
                                         <hr/>
                                         {% for person in passengers.adult %}
                                         {% with forloop.counter as counter%}
                                         <div class="row">
                                             <div class="col-lg-7" style="margin-bottom:10px;">
                                                 <h5 id="adult_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h5>
-                                                <span style="font-size:14px;">Adult - Birth Date: {{person.birth_date}}</span>
+                                                <span style="font-size:14px;">{% trans 'Adult' %} - {% trans 'Birth Date' %}: {{person.birth_date}}</span>
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
                                                 <h6>Price <span id="adult_price{{counter}}"></span></h6>
@@ -185,16 +185,16 @@
                                                 <input type="hidden" id="adult_check{{counter}}" value="false"/>
                                             </div>
                                             <div class="col-lg-12" style="margin-bottom:15px;">
-                                                <h6 id="adult_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('adult',{{counter}});">Required <i class="fas fa-chevron-up"></i></h6>
-                                                <h6 id="adult_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('adult',{{counter}});">Required <i class="fas fa-chevron-down"></i></h6>
+                                                <h6 id="adult_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-up"></i></h6>
+                                                <h6 id="adult_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('adult',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-down"></i></h6>
                                                 <div id="adult_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
-                                                    Please select visa, entry and process!
+                                                    {% trans 'Please select visa, entry and process!' %}
                                                 </div>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        <h6 style="margin-bottom:5px;">Visa Type</h6>
+                                                        <h6 style="margin-bottom:5px;">{% trans 'Visa Type' %}</h6>
                                                         {% for visa_type in type.visa_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
@@ -204,7 +204,7 @@
                                                         {% endfor %}
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <h6 style="margin-bottom:5px;">Entry Type</h6>
+                                                        <h6 style="margin-bottom:5px;">{% trans 'Entry Type' %}</h6>
                                                         {% for entry_type in type.entry_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
@@ -214,7 +214,7 @@
                                                         {% endfor %}
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <h6 style="margin-bottom:5px;">Process Type</h6>
+                                                        <h6 style="margin-bottom:5px;">{% trans 'Process Type' %}</h6>
                                                         {% for process_type in type.process_type.adult %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
@@ -226,7 +226,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-5">
-                                                <h6 style="margin-bottom:5px;">Notes</h6>
+                                                <h6 style="margin-bottom:5px;">{% trans 'Notes' %}</h6>
                                                 <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_adult{{counter}}" name="notes_adult{{counter}}"></textarea>
                                             </div>
                                         </div>
@@ -240,25 +240,25 @@
                                         <div class="row">
                                             <div class="col-lg-7" style="margin-bottom:10px;">
                                                 <h6 id="child_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
-                                                <span>Child - Birth Date: {{person.birth_date}}</span>
+                                                <span>{% trans 'Child' %} - {% trans 'Birth Date' %}: {{person.birth_date}}</span>
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
-                                                <h6>Price <span id="child_price{{counter}}"></span></h6>
+                                                <h6>{% trans 'Price' %} <span id="child_price{{counter}}"></span></h6>
 
-                                                <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('child',{{counter}})">Reset <i class="fas fa-sync-alt"></i></h6>
+                                                <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('child',{{counter}})">{% trans 'Reset' %} <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="child_check{{counter}}" value="false"/>
                                             </div>
                                             <div class="col-lg-12" style="margin-bottom:15px;">
-                                                <h6 id="child_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('child',{{counter}});">Required <i class="fas fa-chevron-up"></i></h6>
-                                                <h6 id="child_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('child',{{counter}});">Required <i class="fas fa-chevron-down"></i></h6>
+                                                <h6 id="child_required_up{{counter}}" class="filter_general" style="margin-bottom:5px; display:block;" onclick="show_hide_required('child',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-up"></i></h6>
+                                                <h6 id="child_required_down{{counter}}" class="filter_general" style="margin-bottom:5px; display:none;" onclick="show_hide_required('child',{{counter}});">{% trans 'Required' %} <i class="fas fa-chevron-down"></i></h6>
                                                 <div id="child_required{{counter}}" style="max-height:200px; overflow-y:auto; border:1px solid #cdcdcd; padding:10px; display:block;">
-                                                    Please select visa, entry and process!
+                                                    {% trans 'Please select visa, entry and process!' %}
                                                 </div>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        <h6>Visa Type</h6>
+                                                        <h6>{% trans 'Visa Type' %}</h6>
                                                         {% for visa_type in type.visa_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
@@ -268,7 +268,7 @@
                                                         {% endfor %}
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <h6>Entry Type</h6>
+                                                        <h6>{% trans 'Entry Type' %}</h6>
                                                         {% for entry_type in type.entry_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
@@ -278,7 +278,7 @@
                                                         {% endfor %}
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <h6>Process Type</h6>
+                                                        <h6>{% trans 'Process Type' %}</h6>
                                                         {% for process_type in type.process_type.child %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
@@ -290,7 +290,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-5">
-                                                <h6 style="margin-bottom:5px;">Notes</h6>
+                                                <h6 style="margin-bottom:5px;">{% trans 'Notes' %}</h6>
                                                 <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_child{{counter}}" name="notes_child{{counter}}"></textarea>
                                             </div>
                                         </div>
@@ -304,18 +304,18 @@
                                         <div class="row">
                                             <div class="col-lg-7" style="margin-bottom:10px;">
                                                 <h6 id="infant_name{{counter}}">{{person.number}}. {{person.title}} {{person.first_name}} {{person.last_name}}</h6>
-                                                <span>Infant - Birth Date: {{person.birth_date}}</span>
+                                                <span>{% trans 'Infant' %} - {% trans 'Birth Date' %}: {{person.birth_date}}</span>
                                             </div>
                                             <div class="col-lg-5" style="text-align:right; margin-bottom:10px;">
-                                                <h6>Price <span id="infant_price{{counter}}"></span></h6>
+                                                <h6>{% trans 'Price' %} <span id="infant_price{{counter}}"></span></h6>
 
-                                                <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('infant',{{counter}})">Reset <i class="fas fa-sync-alt"></i></h6>
+                                                <h6 style="cursor:pointer;color:{{color}};" onclick="set_value_radio_first('infant',{{counter}})">{% trans 'Reset' %} <i class="fas fa-sync-alt"></i></h6>
                                                 <input type="hidden" id="infant_check{{counter}}" value="false"/>
                                             </div>
                                             <div class="col-lg-7">
                                                 <div class="row">
                                                     <div class="col-lg-4">
-                                                        <h6>Visa Type</h6>
+                                                        <h6>{% trans 'Visa Type' %}</h6>
                                                         {% for visa_type in type.visa_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{visa_type.1}}</span>
@@ -325,7 +325,7 @@
                                                         {% endfor %}
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <h6>Entry Type</h6>
+                                                        <h6>{% trans 'Entry Type' %}</h6>
                                                         {% for entry_type in type.entry_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{entry_type.1}}</span>
@@ -335,7 +335,7 @@
                                                         {% endfor %}
                                                     </div>
                                                     <div class="col-lg-4">
-                                                        <h6>Process Type</h6>
+                                                        <h6>{% trans 'Process Type' %}</h6>
                                                         {% for process_type in type.process_type.infant %}
                                                         <label class="radio-button-custom">
                                                             <span>{{process_type.1}}</span>
@@ -347,11 +347,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-5">
-                                                <h6 style="margin-bottom:5px;">Notes</h6>
+                                                <h6 style="margin-bottom:5px;">{% trans 'Notes' %}</h6>
                                                 <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="notes_infant{{counter}}" name="notes_infant{{counter}}"></textarea>
                                             </div>
                                             <div class="col-lg-12">
-                                                <h6>Required</h6>
+                                                <h6>{% trans 'Required' %}</h6>
                                                 <div id="infant_required{{counter}}">
 
                                                 </div>
@@ -369,7 +369,7 @@
                 <div class="col-lg-4">
                     <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="detail">
                         <h4>Price detail</h4><hr/>
-                        <h6 id="select_visa_first">Select visa first!</h6>
+                        <h6 id="select_visa_first">{% trans 'Select visa first!' %}</h6>
                         <table style="width:100%; margin-bottom:10px;">
                         </table>
                     </div>
@@ -377,7 +377,7 @@
                     {% include 'tt_website_rodextrip/voucher_code.html'  %}
                         {% if 'b2c_limitation' not in username.co_agent_frontend_security%}
                         <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="check_hold_booking();">
-                            Request Booking
+                            {% trans 'Request Booking' %}
                         </button>
                         {% endif %}
                     {% endif %}
@@ -391,7 +391,7 @@
                         <!-- Modal content-->
                         <div class="modal-content" style="border-radius: 0;">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -401,7 +401,7 @@
                                             <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
                                                         <hr/>
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
@@ -427,7 +427,7 @@
                                     <div class="col-lg-4">
                                         <div class="row" style="padding:15px;">
                                             <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                <h4>Result Pricing</h4>
+                                                <h4>{% trans 'Result Pricing' %}</h4>
                                                 <hr/>
                                                 <div class="row" id="repricing_div">
 
@@ -438,7 +438,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                             </div>
                         </div>
                     </div>

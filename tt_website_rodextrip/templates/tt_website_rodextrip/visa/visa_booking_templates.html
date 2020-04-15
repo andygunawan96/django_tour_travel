@@ -19,7 +19,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title id="title_search">{{name}} Visa - Booking</title>
+<title id="title_search">{{name}} Visa - {% trans 'Booking' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -89,7 +89,7 @@
                         <!-- Modal content-->
                         <div class="modal-content" style="border-radius: 0;">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -99,7 +99,7 @@
                                             <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
                                                         <hr/>
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
@@ -125,7 +125,7 @@
                                     <div class="col-lg-4">
                                         <div class="row" style="padding:15px;">
                                             <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                <h4>Result Pricing</h4>
+                                                <h4>{% trans 'Result Pricing' %}</h4>
                                                 <hr/>
                                                 <div class="row" id="repricing_div">
 
@@ -136,7 +136,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                             </div>
                         </div>
                     </div>

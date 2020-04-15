@@ -30,7 +30,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
-<title id="title_search">{{name}} Passport - {{passport_request.passport_type}}</title>
+<title id="title_search">{{name}} {% trans 'Passport' %} - {{passport_request.passport_type}}</title>
 <div id="overlay-search-box" onclick="off_overlay()"></div>
 
 {%if template == 1%}
@@ -39,13 +39,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{passport_request.consulate}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -61,10 +61,10 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
 
                                         </select>
                                     </div>
@@ -72,10 +72,10 @@
                                 <input type="hidden" name="passport_type" id="passport_type" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
 
                                         </select>
                                     </div>
@@ -83,10 +83,10 @@
                                 <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
 
                                         </select>
                                     </div>
@@ -98,7 +98,7 @@
                         <center>
                             <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </center>
@@ -114,13 +114,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{passport_request.consulate}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -136,10 +136,10 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
 
                                             </select>
                                         </div>
@@ -147,10 +147,10 @@
                                     <input type="hidden" name="passport_type" id="passport_type" />
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
 
                                             </select>
                                         </div>
@@ -158,10 +158,10 @@
                                     <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                    <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
 
                                             </select>
                                         </div>
@@ -173,7 +173,7 @@
                             <center>
                                 <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    Search
+                                    {% trans 'Search' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </center>
@@ -190,13 +190,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{passport_request.consulate}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -212,10 +212,10 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
 
                                         </select>
                                     </div>
@@ -223,10 +223,10 @@
                                 <input type="hidden" name="passport_type" id="passport_type" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
 
                                         </select>
                                     </div>
@@ -234,10 +234,10 @@
                                 <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
 
                                         </select>
                                     </div>
@@ -249,7 +249,7 @@
                         <center>
                             <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </center>
@@ -265,13 +265,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{passport_request.consulate}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -286,10 +286,10 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                             <div class="input-container-search-ticket">
                                 <div class="form-select">
-                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
 
                                     </select>
                                 </div>
@@ -297,10 +297,10 @@
                             <input type="hidden" name="passport_type" id="passport_type" />
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                             <div class="input-container-search-ticket">
                                 <div class="form-select">
-                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
 
                                     </select>
                                 </div>
@@ -308,10 +308,10 @@
                             <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                            <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                             <div class="input-container-search-ticket">
                                 <div class="form-select">
-                                    <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
 
                                     </select>
                                 </div>
@@ -323,7 +323,7 @@
                     <center>
                         <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </center>
@@ -338,13 +338,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{passport_request.passport_type}} - {{passport_request.passport_apply_type}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{passport_request.consulate}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{passport_request.consulate}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -360,10 +360,10 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Passport Type</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="Destination" onchange="auto_complete('passport_type')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
 
                                         </select>
                                     </div>
@@ -371,10 +371,10 @@
                                 <input type="hidden" name="passport_type" id="passport_type" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Apply Type</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="Destination" onchange="auto_complete('passport_apply_type')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
 
                                         </select>
                                     </div>
@@ -382,10 +382,10 @@
                                 <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="Destination" onchange="auto_complete('consulate')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
 
                                         </select>
                                     </div>
@@ -397,7 +397,7 @@
                         <center>
                             <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </center>
@@ -429,10 +429,10 @@
 
         <div class="row" style="padding-bottom:15px;">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
         <form action="{% url 'tt_website_rodextrip:passport_passenger'%}" method="POST" id="passport_passenger">
@@ -454,7 +454,7 @@
                             <div class="sk-circle11 sk-child"></div>
                             <div class="sk-circle12 sk-child"></div>
                         </div>
-                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
                     </div>
                 </div>
                 <div class="col-lg-12" id="show-visa-search">

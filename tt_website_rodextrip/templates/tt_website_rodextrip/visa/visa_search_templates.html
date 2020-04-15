@@ -40,13 +40,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{visa_request.destination}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{visa_request.consulate}} | Departure: {{visa_request.departure}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{visa_request.consulate}} | {% trans 'Departure' %}: {{visa_request.departure}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -62,10 +62,10 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','search')">
 
                                         </select>
                                     </div>
@@ -73,18 +73,18 @@
                                 <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                 <div class="form-group">
                                     <div class="input-container-search-ticket">
-                                        <input type="text" style="cursor:pointer;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        <input type="text" style="cursor:pointer;" class="form-control" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','search')">
 
                                         </select>
                                     </div>
@@ -96,7 +96,7 @@
 
                         <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </form>
@@ -111,13 +111,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{visa_request.destination}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{visa_request.consulate}} | Departure: {{visa_request.departure}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{visa_request.consulate}} | {% trans 'Departure' %}: {{visa_request.departure}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -133,26 +133,26 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','search')">
 
                                         </select>
                                     </div>
                                     <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                     <div class="form-group">
                                         <div class="input-container-search-ticket">
-                                            <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                    <span style="color:{{text_color}};"><i class="fas fa-city"></i> Consulate</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','search')">
 
                                         </select>
                                     </div>
@@ -162,7 +162,7 @@
                             <center>
                                 <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                    Search
+                                    {% trans 'Search' %}
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
                             </center>
@@ -179,13 +179,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{visa_request.destination}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{visa_request.consulate}} | Departure: {{visa_request.departure}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{visa_request.consulate}} | {% trans 'Departure' %}: {{visa_request.departure}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -201,10 +201,10 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
                                 <div class="form-group">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','search')">
 
                                         </select>
                                     </div>
@@ -212,16 +212,16 @@
                                 <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                 <div class="form-group">
-                                    <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                    <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                 <div class="form-group">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','search')">
 
                                         </select>
                                     </div>
@@ -233,7 +233,7 @@
                         <center>
                             <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </center>
@@ -249,13 +249,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{visa_request.destination}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{visa_request.consulate}} | Departure: {{visa_request.departure}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{visa_request.consulate}} | {% trans 'Departure' %}: {{visa_request.departure}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -270,11 +270,11 @@
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span class="span-search-ticket">Destination</span>
+                            <span class="span-search-ticket">{% trans 'Destination' %}</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <div class="form-select">
-                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','search')">
 
                                     </select>
                                 </div>
@@ -282,20 +282,20 @@
                             <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span class="span-search-ticket">Departure</span>
+                            <span class="span-search-ticket">{% trans 'Departure' %}</span>
                             <div class="form-group">
                                 <div class="input-container-search-ticket">
                                     <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                    <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                    <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                            <span class="span-search-ticket">Consulate</span>
+                            <span class="span-search-ticket">{% trans 'Consulate' %}</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <div class="form-select">
-                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
+                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','search')">
 
                                     </select>
                                 </div>
@@ -306,7 +306,7 @@
                     <center>
                         <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </center>
@@ -321,13 +321,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{visa_request.destination}}</span><br/>
-                <span style="text-transform: capitalize; font-size:13px;">Consulate: {{visa_request.consulate}} | Departure: {{visa_request.departure}}</span><br/>
+                <span style="text-transform: capitalize; font-size:13px;">{% trans 'Consulate' %}: {{visa_request.consulate}} | {% trans 'Departure' %}: {{visa_request.departure}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -343,10 +343,10 @@
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="Destination" onchange="visa_autocomplete('destination','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','search')">
 
                                         </select>
                                     </div>
@@ -354,18 +354,18 @@
                                 <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Departure</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
                                 <div class="form-group">
                                     <div class="input-container-search-ticket">
-                                        <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="Departure Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        <input type="text" style="cursor:pointer; background:white;" class="form-control" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                <span class="span-search-ticket"><i class="fas fa-city"></i> Consulate</span>
+                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
                                 <div class="input-container-search-ticket">
                                     <div class="form-select">
-                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','search')">
+                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','search')">
 
                                         </select>
                                     </div>
@@ -377,7 +377,7 @@
                         <center>
                             <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </center>
@@ -409,10 +409,10 @@
 
         <div class="row" style="padding-bottom:15px;">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
         <form action="{% url 'tt_website_rodextrip:visa_passenger'%}" method="POST" id="visa_passenger">
@@ -434,7 +434,7 @@
                             <div class="sk-circle11 sk-child"></div>
                             <div class="sk-circle12 sk-child"></div>
                         </div>
-                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
                     </div>
                 </div>
                 <div class="col-lg-12" id="show-visa-search">
