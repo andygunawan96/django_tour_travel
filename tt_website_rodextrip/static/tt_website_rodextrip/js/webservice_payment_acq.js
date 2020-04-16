@@ -994,7 +994,19 @@ function check_payment_payment_method(order_number,btn_name,booker,type,provider
             text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="window.location.href = '/payment/`+name+`/`+payment_acq_booking.order_number+`'" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
         }else{
             text += `<div class='row'>
-                        <div class="col-sm-12">Please check your email</div>
+                        <div class="col-sm-5" style='text-align:left;'>
+                            <span style="font-size:13px;;"> Time Limit: </span>
+                        </div>
+                        <div class="col-sm-7" style='text-align:right;'>
+                            <span style="font-size:14px; font-weight:500;">`+payment_acq_booking.time_limit+`<br>
+                        </div>
+                        <div class="col-sm-5" style='text-align:left;'>
+                            <span style="font-size:13px;;"> Grand Total: </span>
+                        </div>
+                        <div class="col-sm-7" style='text-align:right;'>
+                            <span style="font-size:14px; font-weight:500;">IDR `+getrupiah(payment_acq_booking.amount)+`<br>
+                        </div>
+                        <div class="col-sm-12">Please check VA number in your email</div>
                      </div>`;
         }
         document.getElementById('payment_acq').innerHTML = text;
