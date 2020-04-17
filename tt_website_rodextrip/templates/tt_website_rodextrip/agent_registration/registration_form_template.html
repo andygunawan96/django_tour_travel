@@ -21,7 +21,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 
-<title id="title_search">{{name}} - Registration Agent</title>
+<title id="title_search">{{name}} - {% trans 'Registration Agent' %}</title>
 
 {% if template == 1 %}
 <div class="destinations-area" style="padding-top:30px; padding-bottom:20px; background: #f7f7f7;">
@@ -33,7 +33,7 @@
                     <div id="logo">
                         <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
                     </div>
-                    <h6 style="margin-left:5px;padding-top:23px;">Registration</h6>
+                    <h6 style="margin-left:5px;padding-top:23px;">{% trans 'Registration' %}</h6>
                 </div>
                 <hr/>
             </div>
@@ -43,15 +43,15 @@
             </div>
             <div class="col-lg-12" style="position:sticky;top: 0px;z-index: 89;">
                 <div class="box-sticky-hotel">
-                    <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">About Partnership</button>
-                    <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">Register Now</button>
+                    <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
+                    <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">{% trans 'Register Now' %}</button>
                 </div>
             </div>
 
             <div class="col-lg-12 div-about-partnership">
                 <hr/>
                 <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                    <h3>About Partnership</h3>
+                    <h3>{% trans 'About Partnership' %}</h3>
                     <br/>
                     <div class="banner-right scrollmenu style-scrollbar" style="overflow:auto; white-space:nowrap;">
                         <ul class="create_tabs" id="partnership_tab">
@@ -75,7 +75,7 @@
                 <div class="row">
                     <div class="col-lg-12 div-register-partnership" style="margin-bottom:15px;">
                         <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
-                            <h3 style="margin-bottom:15px;">Register</h3>
+                            <h3 style="margin-bottom:15px;">{% trans 'Register' %}</h3>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="company_type">
 
@@ -86,10 +86,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="city_id">Agent Type<span class="required-txt" style="color:red;">* </span></span>
+                                    <span class="control-label" for="city_id">{% trans 'Agent Type' %}<span class="required-txt" style="color:red;">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="Destination" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
 
                                             </select>
                                         </div>
@@ -106,7 +106,7 @@
                                     <!--</div>-->
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="comp_name">Agent Name</span>
+                                    <span class="control-label" for="comp_name">{% trans 'Agent Name' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name"/>
                                     </div>
@@ -116,10 +116,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> Country<span class="required-txt" style="color:red;">* </span></span>
+                                    <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> {% trans 'Country' %}<span class="required-txt" style="color:red;">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('country')">
                                                 {% for country in countries %}
                                                 <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                 {% endfor %}
@@ -156,13 +156,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="street">Street<span class="required-txt" style="color:red;">* </span></span>
+                                    <span class="control-label" for="street">{% trans 'Street' %}<span class="required-txt" style="color:red;">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="street" name="street" required="1"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="street2">Street #2</span>
+                                    <span class="control-label" for="street2">{% trans 'Street' %} #2</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="street2" name="street2"/>
                                     </div>
@@ -170,17 +170,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="zip">ZIP</span>
+                                    <span class="control-label" for="zip">{% trans 'ZIP' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="socmed_id">Know us From?</span>
+                                    <span class="control-label" for="socmed_id">{% trans 'Know us From' %}?</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="Destination" onchange="auto_complete('social_media')">
-                                                <option value="">Social Media</option>
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('social_media')">
+                                                <option value="">{% trans 'Social Media' %}</option>
                                                 {% for social_media in social_medias %}
                                                 <option value="{{social_media.name}}">{{social_media.name}}</option>
                                                 {% endfor %}
@@ -202,7 +202,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                    <h4>Promotion</h4><hr/>
+                                    <h4>{% trans 'Promotion' %}</h4><hr/>
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select">
                                             <select id="promotion" name="promotion" onchange="change_promotion();">
@@ -216,16 +216,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                    <h4>List of Person In Charge</h4><hr/>
-                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> Add</button>
-                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    <h4>{% trans 'List of Person In Charge' %}</h4><hr/>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
                                     <div style="margin-top:15px;">
                                         <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
                                             <tr>
                                                 <th style="width:5%;">No.</th>
-                                                <th style="width:40%;">Name</th>
-                                                <th style="width:20%;">Mobile</th>
-                                                <th style="width:20%;">Job Position</th>
+                                                <th style="width:40%;">{% trans 'Name' %}</th>
+                                                <th style="width:20%;">{% trans 'Mobile' %}</th>
+                                                <th style="width:20%;">{% trans 'Job Position' %}</th>
                                                 <th style="width:20%;"></th>
                                             </tr>
                                         </table>
@@ -240,7 +240,7 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">I agree to the <a href="#" data-toggle="modal" data-target="#termModal">Terms and Conditions</a> of Agent Registration</span>
+                                        <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
                                         <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
@@ -249,7 +249,7 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px !important; text-align: center;">
                                     <button class="primary-btn" type="button" value="Submit" onclick="check_registration();">
-                                        Submit
+                                        {% trans 'Submit' %}
                                     </button>
                                 </div>
                             </div>
@@ -258,16 +258,16 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Terms and Conditions</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">{% trans 'Terms and Conditions' %}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body" id="term_condition_modal" style="max-height: 600px; overflow-y: scroll;">
-                                            <strong>Please select an agent type first!</strong>
+                                            <strong>{% trans 'Please select an agent type first!' %}</strong>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="primary-btn" data-dismiss="modal">Close</button>
+                                            <button type="button" class="primary-btn" data-dismiss="modal">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -295,8 +295,8 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="box-sticky-hotel">
-                            <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">About Partnership</button>
-                            <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">Register Now</button>
+                            <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
+                            <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">{% trans 'Register Now' %}</button>
                         </div>
                         <hr/>
                     </div>
@@ -304,7 +304,7 @@
                     <div class="col-lg-12 div-about-partnership">
                         <hr/>
                         <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                            <h3>About Partnership</h3>
+                            <h3>{% trans 'About Partnership' %}</h3>
                             <br/>
                             <div class="banner-right scrollmenu style-scrollbar" style="overflow:auto; white-space:nowrap;">
                                 <ul class="create_tabs" id="partnership_tab">
@@ -328,7 +328,7 @@
                         <div class="row">
                             <div class="col-lg-12 div-register-partnership" style="margin-bottom:15px;">
                                 <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
-                                    <h3 style="margin-bottom:15px;">Register</h3>
+                                    <h3 style="margin-bottom:15px;">{% trans 'Register' %}</h3>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="company_type">
 
@@ -339,9 +339,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="city_id">Agent Type<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="city_id">{% trans 'Agent Type' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="Destination" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
 
                                                 </select>
                                             </div>
@@ -357,7 +357,7 @@
                                             <!--</div>-->
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="comp_name">Agent Name</span>
+                                            <span class="control-label" for="comp_name">{% trans 'Agent Name' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name"/>
                                             </div>
@@ -367,9 +367,9 @@
                                     </div>
                                     <div class="row" style="margin-bottom:15px;">
                                         <div class="col-lg-6">
-                                            <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> Country<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> {% trans 'Country' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('country')">
                                                     {% for country in countries %}
                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -405,13 +405,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="street">Street<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="street">{% trans 'Street' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="street" name="street" required="1"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="street2">Street #2</span>
+                                            <span class="control-label" for="street2">{% trans 'Street' %} #2</span>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="street2" name="street2"/>
                                             </div>
@@ -419,16 +419,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="zip">ZIP</span>
+                                            <span class="control-label" for="zip">{% trans 'ZIP' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="socmed_id">Know us From?</span>
+                                            <span class="control-label" for="socmed_id">{% trans 'Know us From' %}?</span>
                                             <div class="form-select">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="Destination" onchange="auto_complete('social_media')">
-                                                    <option value="">Social Media</option>
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('social_media')">
+                                                    <option value="">{% trans 'Social Media' %}</option>
                                                     {% for social_media in social_medias %}
                                                     <option value="{{social_media.name}}">{{social_media.name}}</option>
                                                     {% endfor %}
@@ -449,7 +449,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                            <h4>Promotion</h4><hr/>
+                                            <h4>{% trans 'Promotion' %}</h4><hr/>
                                             <select class="form-control" id="promotion" name="promotion" onchange="change_promotion();" data-live-search="true" size="4">
 
                                             </select>
@@ -459,16 +459,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                            <h4>List of Person In Charge</h4><hr/>
-                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> Add</button>
-                                            <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>
+                                            <h4>{% trans 'List of Person In Charge' %}</h4><hr/>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                            <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
                                             <div style="margin-top:15px;">
                                                 <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
                                                     <tr>
                                                         <th style="width:5%;">No.</th>
-                                                        <th style="width:40%;">Name</th>
-                                                        <th style="width:20%;">Mobile</th>
-                                                        <th style="width:20%;">Job Position</th>
+                                                        <th style="width:40%;">{% trans 'Name' %}</th>
+                                                        <th style="width:20%;">{% trans 'Mobile' %}</th>
+                                                        <th style="width:20%;">{% trans 'Job Position' %}</th>
                                                         <th style="width:20%;"></th>
                                                     </tr>
                                                 </table>
@@ -483,7 +483,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
                                             <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">I agree to the <a href="#" data-toggle="modal" data-target="#termModal">Terms and Conditions</a> of Agent Registration</span>
+                                                <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
                                                 <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -492,7 +492,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px !important; text-align: center;">
                                             <button class="primary-btn" type="button" value="Submit" onclick="check_registration();">
-                                                Submit
+                                                {% trans 'Submit' %}
                                             </button>
                                         </div>
                                     </div>
@@ -501,16 +501,16 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Terms and Conditions</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">{% trans 'Terms and Conditions' %}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body" id="term_condition_modal" style="max-height: 600px; overflow-y: scroll;">
-                                                    <strong>Please select an agent type first!</strong>
+                                                    <strong>{% trans 'Please select an agent type first!' %}</strong>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="primary-btn" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="primary-btn" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -540,15 +540,15 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="box-sticky-hotel">
-                            <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">About Partnership</button>
-                            <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">Register Now</button>
+                            <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
+                            <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">{% trans 'Register Now' %}</button>
                         </div>
                         <hr/>
                     </div>
                     <div class="col-lg-12 div-about-partnership">
                         <hr/>
                         <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                            <h3>About Partnership</h3>
+                            <h3>{% trans 'About Partnership' %}</h3>
                             <br/>
                             <div class="banner-right scrollmenu style-scrollbar" style="overflow:auto; white-space:nowrap;">
                                 <ul class="create_tabs" id="partnership_tab">
@@ -571,7 +571,7 @@
                         <div class="row">
                             <div class="col-lg-12 div-register-partnership" style="margin-bottom:15px;">
                                 <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
-                                    <h3 style="margin-bottom:15px;">Register</h3>
+                                    <h3 style="margin-bottom:15px;">{% trans 'Register' %}</h3>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="company_type">
 
@@ -582,9 +582,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="city_id">Agent Type<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="city_id">{% trans 'Agent Type' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-group">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="Destination" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
 
                                                 </select>
                                             </div>
@@ -600,7 +600,7 @@
                                             <!--</div>-->
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="comp_name">Agent Name</span>
+                                            <span class="control-label" for="comp_name">{% trans 'Agent Name' %}</span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name"/>
                                             </div>
@@ -610,9 +610,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> Country<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> {% trans 'Country' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-group">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('country')">
                                                     {% for country in countries %}
                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -648,13 +648,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="street">Street<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="street">{% trans 'Street' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="street" name="street" required="1"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="street2">Street #2</span>
+                                            <span class="control-label" for="street2">{% trans 'Street' %} #2</span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="street2" name="street2"/>
                                             </div>
@@ -662,16 +662,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="zip">ZIP</span>
+                                            <span class="control-label" for="zip">{% trans 'ZIP' %}</span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="socmed_id">Know us From?</span>
+                                            <span class="control-label" for="socmed_id">{% trans 'Know us From' %}?</span>
                                             <div class="form-group">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="Destination" onchange="auto_complete('social_media')">
-                                                    <option value="">Social Media</option>
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('social_media')">
+                                                    <option value="">{% trans 'Social Media' %}</option>
                                                     {% for social_media in social_medias %}
                                                     <option value="{{social_media.name}}">{{social_media.name}}</option>
                                                     {% endfor %}
@@ -692,7 +692,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                            <h4>Promotion</h4><hr/>
+                                            <h4>{% trans 'Promotion' %}</h4><hr/>
                                             <div class="default-select">
                                                 <select id="promotion" name="promotion" onchange="change_promotion();" data-live-search="true" size="4">
 
@@ -704,16 +704,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                            <h4>List of Person In Charge</h4><hr/>
-                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> Add</button>
-                                            <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>
+                                            <h4>{% trans 'List of Person In Charge' %}</h4><hr/>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                            <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
                                             <div style="margin-top:15px;">
                                                 <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
                                                     <tr>
                                                         <th style="width:5%;">No.</th>
-                                                        <th style="width:40%;">Name</th>
-                                                        <th style="width:20%;">Mobile</th>
-                                                        <th style="width:20%;">Job Position</th>
+                                                        <th style="width:40%;">{% trans 'Name' %}</th>
+                                                        <th style="width:20%;">{% trans 'Mobile' %}</th>
+                                                        <th style="width:20%;">{% trans 'Job Position' %}</th>
                                                         <th style="width:20%;"></th>
                                                     </tr>
                                                 </table>
@@ -728,7 +728,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
                                             <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">I agree to the <a href="#" data-toggle="modal" data-target="#termModal">Terms and Conditions</a> of Agent Registration</span>
+                                                <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
                                                 <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -737,7 +737,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px !important; text-align: center;">
                                             <button class="primary-btn" type="button" value="Submit" onclick="check_registration();">
-                                                Submit
+                                                {% trans 'Submit' %}
                                             </button>
                                         </div>
                                     </div>
@@ -746,16 +746,16 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Terms and Conditions</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">{% trans 'Terms and Conditions' %}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body" id="term_condition_modal" style="max-height: 600px; overflow-y: scroll;">
-                                                    <strong>Please select an agent type first!</strong>
+                                                    <strong>{% trans 'Please select an agent type first!' %}</strong>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="primary-btn" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="primary-btn" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -785,15 +785,15 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="box-sticky-hotel">
-                            <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">About Partnership</button>
-                            <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">Register Now</button>
+                            <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
+                            <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">{% trans 'Register Now' %}</button>
                         </div>
                         <hr/>
                     </div>
                     <div class="col-lg-12 div-about-partnership">
                         <hr/>
                         <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                            <h3>About Partnership</h3>
+                            <h3>{% trans 'About Partnership' %}</h3>
                             <br/>
                             <div class="banner-right scrollmenu style-scrollbar" style="overflow:auto; white-space:nowrap;">
                                 <ul class="create_tabs" id="partnership_tab">
@@ -816,7 +816,7 @@
                         <div class="row">
                             <div class="col-lg-12 div-register-partnership" style="margin-bottom:15px;">
                                 <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
-                                    <h3 style="margin-bottom:15px;">Register</h3>
+                                    <h3 style="margin-bottom:15px;">{% trans 'Register' %}</h3>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="company_type">
 
@@ -827,9 +827,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="city_id">Agent Type<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="city_id">{% trans 'Agent Type' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-group">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="Destination" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
 
                                                 </select>
                                             </div>
@@ -845,7 +845,7 @@
                                             <!--</div>-->
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="comp_name">Agent Name</span>
+                                            <span class="control-label" for="comp_name">{% trans 'Agent Name' %}</span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name"/>
                                             </div>
@@ -855,9 +855,9 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6">
-                                            <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> Country<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> {% trans 'Country' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-group">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('country')">
                                                     {% for country in countries %}
                                                     <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                     {% endfor %}
@@ -893,13 +893,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="street">Street<span class="required-txt" style="color:red;">* </span></span>
+                                            <span class="control-label" for="street">{% trans 'Street' %}<span class="required-txt" style="color:red;">* </span></span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="street" name="street" required="1"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="street2">Street #2</span>
+                                            <span class="control-label" for="street2">{% trans 'Street' %} #2</span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="street2" name="street2"/>
                                             </div>
@@ -907,16 +907,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="zip">ZIP</span>
+                                            <span class="control-label" for="zip">{% trans 'ZIP' %}</span>
                                             <div class="form-group">
                                                 <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                            <span class="control-label" for="socmed_id">Know us From?</span>
+                                            <span class="control-label" for="socmed_id">{% trans 'Know us From' %}?</span>
                                             <div class="form-group">
-                                                <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="Destination" onchange="auto_complete('social_media')">
-                                                    <option value="">Social Media</option>
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('social_media')">
+                                                    <option value="">{% trans 'Social Media' %}</option>
                                                     {% for social_media in social_medias %}
                                                     <option value="{{social_media.name}}">{{social_media.name}}</option>
                                                     {% endfor %}
@@ -937,7 +937,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                            <h4>Promotion</h4><hr/>
+                                            <h4>{% trans 'Promotion' %}</h4><hr/>
                                             <div class="input-container-search-ticket btn-group">
                                                 <div class="form-select">
                                                     <select class="nice-select-default" id="promotion" name="promotion" onchange="change_promotion();">
@@ -951,16 +951,16 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                            <h4>List of Person In Charge</h4><hr/>
-                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> Add</button>
-                                            <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>
+                                            <h4>{% trans 'List of Person In Charge' %}</h4><hr/>
+                                            <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                            <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
                                             <div style="margin-top:15px;">
                                                 <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
                                                     <tr>
                                                         <th style="width:5%;">No.</th>
-                                                        <th style="width:40%;">Name</th>
-                                                        <th style="width:20%;">Mobile</th>
-                                                        <th style="width:20%;">Job Position</th>
+                                                        <th style="width:40%;">{% trans 'Name' %}</th>
+                                                        <th style="width:20%;">{% trans 'Mobile' %}</th>
+                                                        <th style="width:20%;">{% trans 'Job Position' %}</th>
                                                         <th style="width:20%;"></th>
                                                     </tr>
                                                 </table>
@@ -975,7 +975,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
                                             <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="color:black;">I agree to the <a href="#" data-toggle="modal" data-target="#termModal">Terms and Conditions</a> of Agent Registration</span>
+                                                <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
                                                 <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
                                                 <span class="check_box_span_custom"></span>
                                             </label>
@@ -984,7 +984,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px !important; text-align: center;">
                                             <button class="primary-btn" type="button" value="Submit" onclick="check_registration();">
-                                                Submit
+                                                {% trans 'Submit' %}
                                             </button>
                                         </div>
                                     </div>
@@ -993,16 +993,16 @@
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                                 <div class="modal-header">
-                                                    <h5 class="modal-title" id="exampleModalLabel">Terms and Conditions</h5>
+                                                    <h5 class="modal-title" id="exampleModalLabel">{% trans 'Terms and Conditions' %}</h5>
                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
                                                 <div class="modal-body" id="term_condition_modal" style="max-height: 600px; overflow-y: scroll;">
-                                                    <strong>Please select an agent type first!</strong>
+                                                    <strong>{% trans 'Please select an agent type first!' %}</strong>
                                                 </div>
                                                 <div class="modal-footer">
-                                                    <button type="button" class="primary-btn" data-dismiss="modal">Close</button>
+                                                    <button type="button" class="primary-btn" data-dismiss="modal">{% trans 'Close' %}</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -1030,8 +1030,8 @@
             </div>
             <div class="col-lg-12">
                 <div class="box-sticky-hotel">
-                    <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">About Partnership</button>
-                    <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">Register Now</button>
+                    <button class="primary-btn-sticky-hotel" type="button" id="about-partnership">{% trans 'About Partnership' %}</button>
+                    <button class="primary-btn-sticky-hotel" type="button" id="register-partnership">{% trans 'Register Now' %}</button>
                 </div>
                 <hr/>
             </div>
@@ -1039,7 +1039,7 @@
             <div class="col-lg-12 div-about-partnership">
                 <hr/>
                 <div style="background:white; border:1px solid #cdcdcd; padding:15px;">
-                    <h3>About Partnership</h3>
+                    <h3>{% trans 'About Partnership' %}</h3>
                     <br/>
                     <div class="banner-right scrollmenu style-scrollbar" style="overflow:auto; white-space:nowrap;">
                         <ul class="create_tabs" id="partnership_tab">
@@ -1063,7 +1063,7 @@
                 <div class="row">
                     <div class="col-lg-12 div-register-partnership" style="margin-bottom:15px;">
                         <div style="background-color:white; padding:15px; border:1px solid #cdcdcd;">
-                            <h3 style="margin-bottom:15px;">Register</h3>
+                            <h3 style="margin-bottom:15px;">{% trans 'Register' %}</h3>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12" id="company_type">
 
@@ -1074,10 +1074,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="city_id">Agent Type<span class="required-txt" style="color:red;">* </span></span>
+                                    <span class="control-label" for="city_id">{% trans 'Agent Type' %}<span class="required-txt" style="color:red;">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="Destination" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="agent_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('agent_type');set_document_requirement();onchange_agent_type();">
 
                                             </select>
                                         </div>
@@ -1094,7 +1094,7 @@
                                     <!--</div>-->
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="comp_name">Agent Name</span>
+                                    <span class="control-label" for="comp_name">{% trans 'Agent Name' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="comp_name" name="comp_name"/>
                                     </div>
@@ -1104,10 +1104,10 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6">
-                                    <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> Country<span class="required-txt" style="color:red;">* </span></span>
+                                    <span class="control-label" for="city_id"><i class="fas fa-map-marker-alt"></i> {% trans 'Country' %}<span class="required-txt" style="color:red;">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="Destination" onchange="auto_complete('country')">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="country_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('country')">
                                                 {% for country in countries %}
                                                 <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                 {% endfor %}
@@ -1144,13 +1144,13 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="street">Street<span class="required-txt" style="color:red;">* </span></span>
+                                    <span class="control-label" for="street">{% trans 'Street' %}<span class="required-txt" style="color:red;">* </span></span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="street" name="street" required="1"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="street2">Street #2</span>
+                                    <span class="control-label" for="street2">{% trans 'Street' %} #2</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="street2" name="street2"/>
                                     </div>
@@ -1158,17 +1158,17 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="zip">ZIP</span>
+                                    <span class="control-label" for="zip">{% trans 'ZIP' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input type="text" class="form-control o_website_form_input" id="zip" name="zip"/>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                    <span class="control-label" for="socmed_id">Know us From?</span>
+                                    <span class="control-label" for="socmed_id">{% trans 'Know us From' %}?</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select">
-                                            <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="Destination" onchange="auto_complete('social_media')">
-                                                <option value="">Social Media</option>
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="social_media_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('social_media')">
+                                                <option value="">{% trans 'Social Media' %}</option>
                                                 {% for social_media in social_medias %}
                                                 <option value="{{social_media.name}}">{{social_media.name}}</option>
                                                 {% endfor %}
@@ -1190,7 +1190,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                    <h4>Promotion</h4><hr/>
+                                    <h4>{% trans 'Promotion' %}</h4><hr/>
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select">
                                             <select class="nice-select-default" id="promotion" name="promotion" onchange="change_promotion();">
@@ -1204,16 +1204,16 @@
                             </div>
                             <div class="row">
                                 <div class="col-lg-12" style="text-align:left; margin-top:20px; margin-bottom:15px;">
-                                    <h4>List of Person In Charge</h4><hr/>
-                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> Add</button>
-                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> Delete</button>
+                                    <h4>{% trans 'List of Person In Charge' %}</h4><hr/>
+                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_passenger();"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                    <button class="primary-btn-ticket" type="button" onclick="delete_table_of_passenger();"><i class="fas fa-trash-alt"></i> {% trans 'Delete' %}</button>
                                     <div style="margin-top:15px;">
                                         <table id="table_of_passenger" name="table_of_passenger" style="width:100%;" class="list-of-table">
                                             <tr>
                                                 <th style="width:5%;">No.</th>
-                                                <th style="width:40%;">Name</th>
-                                                <th style="width:20%;">Mobile</th>
-                                                <th style="width:20%;">Job Position</th>
+                                                <th style="width:40%;">{% trans 'Name' %}</th>
+                                                <th style="width:20%;">{% trans 'Mobile' %}</th>
+                                                <th style="width:20%;">{% trans 'Job Position' %}</th>
                                                 <th style="width:20%;"></th>
                                             </tr>
                                         </table>
@@ -1228,7 +1228,7 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:20px !important; margin-bottom:20px;">
                                     <label class="check_box_custom">
-                                        <span class="span-search-ticket" style="color:black;">I agree to the <a href="#" data-toggle="modal" data-target="#termModal">Terms and Conditions</a> of Agent Registration</span>
+                                        <span class="span-search-ticket" style="color:black;">{% trans 'I agree to the' %} <a href="#" data-toggle="modal" data-target="#termModal">{% trans 'Terms and Conditions' %}</a> {% trans 'of Agent Registration' %}</span>
                                         <input type="checkbox" value="" name="tacagree" id="tacagree" required="1" style="margin-right: 5px;"/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
@@ -1237,7 +1237,7 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top:10px !important; text-align: center;">
                                     <button class="primary-btn" type="button" value="Submit" onclick="check_registration();">
-                                        Submit
+                                        {% trans 'Submit' %}
                                     </button>
                                 </div>
                             </div>
@@ -1246,16 +1246,16 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Terms and Conditions</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">{% trans 'Terms and Conditions' %}</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body" id="term_condition_modal" style="max-height: 600px; overflow-y: scroll;">
-                                            <strong>Please select an agent type first!</strong>
+                                            <strong>{% trans 'Please select an agent type first!' %}</strong>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="primary-btn" data-dismiss="modal">Close</button>
+                                            <button type="button" class="primary-btn" data-dismiss="modal">{% trans 'Close' %}</button>
                                         </div>
                                     </div>
                                 </div>

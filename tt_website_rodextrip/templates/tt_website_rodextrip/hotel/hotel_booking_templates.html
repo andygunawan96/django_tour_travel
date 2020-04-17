@@ -18,7 +18,7 @@
     order_number = '{{order_number}}';
 </script>
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title id="title_search">{{name}} Hotel - Booking</title>
+<title id="title_search">{{name}} Hotel - {% trans 'Booking' %}</title>
 {%if template == 1%}
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
@@ -62,7 +62,7 @@
         <div class="row">
             <div class="col-lg-12">
                 {% if error_msg == '' %}
-                <h4>Your Order Has Been Proceed!</h4>
+                <h4>{% trans 'Your Order Has Been Proceed!' %}</h4>
                 {% elif error_msg != '' %}
                 <h4> {{ error_msg }} </h4>
                 {% endif %}
@@ -82,7 +82,7 @@
                     <div class="sk-circle11 sk-child"></div>
                     <div class="sk-circle12 sk-child"></div>
                 </div>
-                <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
             </div>
             <div class="col-lg-8" id="hotel_resv_left">
                 <div class="row review-header" style="padding:15px; margin-bottom:15px;">
@@ -117,7 +117,7 @@
                     <!-- Modal content-->
                     <div class="modal-content" style="border-radius: 0;">
                         <div class="modal-header">
-                            <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                            <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -127,7 +127,7 @@
                                         <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                             <div class="row">
                                                 <div class="col-lg-12">
-                                                    <h4 style="padding-top:10px;">Pricing</h4>
+                                                    <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
                                                     <hr/>
                                                 </div>
                                                 <div class="col-lg-12" style="text-align:right;">
@@ -153,7 +153,7 @@
                                 <div class="col-lg-4">
                                     <div class="row" style="padding:15px;">
                                         <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                            <h4>Result Pricing</h4>
+                                            <h4>{% trans 'Result Pricing' %}</h4>
                                             <hr/>
                                             <div class="row" id="repricing_div">
 
@@ -164,7 +164,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                         </div>
                     </div>
                 </div>
