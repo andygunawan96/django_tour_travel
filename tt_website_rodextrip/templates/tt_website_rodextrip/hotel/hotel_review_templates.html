@@ -56,7 +56,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title id="title_search">{{name}} Hotel - Review</title>
+<title id="title_search">{{name}} Hotel - {% trans 'Review' %}</title>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 
 {%if template == 1%}
@@ -73,10 +73,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
                 </div>
                 {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
@@ -97,10 +97,10 @@
             </div>
             <div class="row">
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
-                    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+                    <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
                 </div>
                 {% include 'tt_website_rodextrip/balance_credit.html' %}
             </div>
@@ -114,14 +114,14 @@
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
-                    <h3>Please Review Your Booking</h3>
-                    <h5>Prices may changes at any time</h5><br/>
+                    <h3>{% trans 'Please Review Your Booking' %}</h3>
+                    <h5>{% trans 'Prices may changes at any time' %}</h5><br/>
                 </div>
                 <div class="col-lg-8">
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="hotel_review" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> Hotel Detail </h4>
+                                <h4> {% trans 'Hotel Detail' %} </h4>
                                 <hr/>
                                 <span style="font-size:20px; font-weight:bold; color:black;">{{hotel_pick.name}}</span>
                                 <span>
@@ -155,8 +155,8 @@
                                     <!-- - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{hotel_pick.lat}}, {{hotel_pick.long}})</a> -->
                                 </span>
                                 <br/>
-                                <span style="text-align:justify; font-weight:bold;">Date: </span>{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}<br/>
-                                <span style="text-align:justify; font-weight:bold;">Room: </span>
+                                <span style="text-align:justify; font-weight:bold;">{% trans 'Date' %}: </span>{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}<br/>
+                                <span style="text-align:justify; font-weight:bold;">{% trans 'Room' %}: </span>
                                 {% for room in hotel_room_detail_pick.rooms %}
                                 {% with forloop.counter as counter_room %}
                                 <span>{{room.type}} - {{room.description}}</span>
@@ -167,13 +167,13 @@
                                 {% endfor %}
                                 <br/>
                                 <span>
-                                    <span style="text-align:justify; font-weight:bold;">Facilities:</span><br/>
+                                    <span style="text-align:justify; font-weight:bold;">{% trans 'Facilities' %}:</span><br/>
                                     <div id="js_image_facility" class="row">
 
                                     </div>
                                 </span>
                                 <br/>
-                                <span style="text-align:justify; font-weight:bold;">Customer Notes: </span><br/>
+                                <span style="text-align:justify; font-weight:bold;">{% trans 'Customer Notes' %}: </span><br/>
                                 {{special_request}}{% if special_request == '' %} No Special Request {% endif %}<br/>
                             </div>
                         </div>
@@ -182,14 +182,14 @@
                             <div class="row">
                                 <div class="col-lg-12" style="padding-bottom:20px;">
                                     <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
-                                        <h4> List of Guest <i class="fas fa-users"></i></h4>
+                                        <h4> {% trans 'List of Guest' %} <i class="fas fa-users"></i></h4>
                                         <hr/>
-                                        <h5>Booker</h5>
+                                        <h5>{% trans 'Booker' %}</h5>
                                         <table style="width:100%; margin-top:10px;" id="list-of-passenger">
                                             <tr>
-                                                <th style="width:40%;">Name</th>
+                                                <th style="width:40%;">{% trans 'Name' %}</th>
                                                 <th style="width:30%;">Email</th>
-                                                <th style="width:30%;">Phone Number</th>
+                                                <th style="width:30%;">{% trans 'Phone Number' %}</th>
                                             </tr>
                                             <tr>
                                                 <td>{{booker.title}} {{booker.first_name}} {{booker.last_name}}</td>
@@ -201,8 +201,8 @@
                                         <h5>Guest</h5>
                                         <table style="width:100%; margin-top:10px;" id="list-of-passenger">
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Birth Date</th>
+                                                <th>{% trans 'Name' %}</th>
+                                                <th>{% trans 'Birth Date' %}</th>
                                             </tr>
                                             {% for adult in adults %}
                                             <tr>
@@ -231,7 +231,7 @@
                                 <!--Print Itinerary Form-->
                             <!--</button>-->
                             <button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('','itinerary','hotel');" style="width:100%;">
-                                Print Itinerary Form
+                                {% trans 'Print Itinerary Form' %}
                             </button>
                         </div>
                         <div class="col-lg-4" style="padding-bottom:10px;">
@@ -250,7 +250,7 @@
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security%}
                                 <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert();">
-                                    Issued Booking
+                                    {% trans 'Issued Booking' %}
                                 </button>
                                 {% endif %}
                             {% endif %}
@@ -266,7 +266,7 @@
                         <!-- Modal content-->
                         <div class="modal-content" style="border-radius: 0;">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};">Reprice Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title" style="color:{{text_color}};">{% trans 'Reprice Change' %} <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -276,7 +276,7 @@
                                             <div class="col-lg-12" style="max-height:500px; overflow-y:auto; border:1px solid #cdcdcd; background-color:white; margin-top:15px;">
                                                 <div class="row">
                                                     <div class="col-lg-12">
-                                                        <h4 style="padding-top:10px;">Pricing</h4>
+                                                        <h4 style="padding-top:10px;">{% trans 'Pricing' %}</h4>
                                                         <hr/>
                                                     </div>
                                                     <div class="col-lg-12" style="text-align:right;">
@@ -302,7 +302,7 @@
                                     <div class="col-lg-4">
                                         <div class="row" style="padding:15px;">
                                             <div class="col-lg-12" style="padding:10px; background-color:white; border:1px solid #cdcdcd; margin-top:15px;">
-                                                <h4>Result Pricing</h4>
+                                                <h4>{% trans 'Result Pricing' %}</h4>
                                                 <hr/>
                                                 <div class="row" id="repricing_div">
 
@@ -313,7 +313,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                             </div>
                         </div>
                     </div>
@@ -324,7 +324,7 @@
                         <!-- Modal content-->
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
+                                <h4 class="modal-title" style="color:`+text_color+`;">{% trans 'Price Change' %} <i class="fas fa-money"></i></h4>
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
@@ -345,7 +345,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="hotel_force_issued_alert();">Continue with new price</button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                             </div>
                         </div>
                     </div>

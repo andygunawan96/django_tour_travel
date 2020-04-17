@@ -67,10 +67,10 @@
 <title id="title_search">{{name}} Hotel - {{hotel_search.destination}}</title>
 
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="left:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalSort">
-    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">Sort</span>  </span>
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-sort" style="font-size:20px;"></i> <span class="span_icon_fixed">{% trans 'Sort' %}</span>  </span>
 </button>
 <button class="primary-btn-ticket btn_icon_fixed my_sticky_button" style="right:51%; width:20vw; height:50px; bottom:55px; position:fixed; z-index:99;" data-toggle="modal" data-target="#myModalFilter">
-    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">Filter</span>  </span>
+    <span style="color:{{text_color}}; font-size:12px;"> <i class="fas fa-filter"></i> <span class="span_icon_fixed">{% trans 'Filter' %}</span>  </span>
 </button>
 
 <div id="overlay-search-box" onclick="off_overlay()"></div>
@@ -81,13 +81,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} {% trans 'Room' %}, {{hotel_search.adult}} {% trans 'Adult' %}, {{hotel_search.child}} {% trans 'Child' %}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -104,15 +104,15 @@
                         <div class="row">
                             <input type="hidden" id="response" name="response">
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                                 {% for country in countries %}
                                     {% if country.code == hotel_search.nationality %}
                                     <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
@@ -125,9 +125,9 @@
                             </div>
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                    <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                     <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
                                 </div>
                                 <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
@@ -135,7 +135,7 @@
                             </div>
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> Guest</span>
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                 <div class="input-container-search-ticket btn-group">
                                     <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                     <ul class="dropdown-menu" role="menu" style="z-index:5;">
@@ -144,7 +144,7 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Room<br/></span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
                                                             <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
                                                         </label>
                                                     </div>
@@ -164,8 +164,8 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -183,8 +183,8 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Child<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -212,7 +212,7 @@
 
                             <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -221,7 +221,7 @@
 
                         <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                            Search
+                            {% trans 'Search' %}
                         </button>
                     </form>
                 </div>
@@ -235,13 +235,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} {% trans 'Room' %}, {{hotel_search.adult}} {% trans 'Adult' %}, {{hotel_search.child}} {% trans 'Child' %}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -258,15 +258,15 @@
                             <div class="row">
                                 <input type="hidden" id="response" name="response">
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
+                                        <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                    <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                                     {% for country in countries %}
                                         {% if country.code == hotel_search.nationality %}
                                         <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
@@ -279,9 +279,9 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input style="background:white;" class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                        <input style="background:white;" class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                         <i class="fas fa-moon" id="total_night_search" style="padding-left:15px; padding-top:15px;">1</i>
                                     </div>
                                     <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
@@ -289,7 +289,7 @@
                                 </div>
 
                                 <div class="col-lg-6 col-md-6">
-                                    <span style="color:{{text_color}};"><i class="fas fa-users"></i> Guest</span>
+                                    <span style="color:{{text_color}};"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                         <ul class="dropdown-menu" role="menu" style="z-index:5;">
@@ -298,7 +298,7 @@
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                         <div style="float:left;">
                                                             <label>
-                                                                <span style="color:black; font-size:13px;">Room<br/></span>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
                                                                 <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
                                                             </label>
                                                         </div>
@@ -318,8 +318,8 @@
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                         <div style="float:left;">
                                                             <label>
-                                                                <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
                                                             </label>
                                                         </div>
                                                     </div>
@@ -337,8 +337,8 @@
                                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                         <div style="float:left;">
                                                             <label>
-                                                                <span style="color:black; font-size:13px;">Child<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                                <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
                                                             </label>
                                                         </div>
                                                     </div>
@@ -366,7 +366,7 @@
 
                                 <div class="col-lg-12" style="margin-top:5px;float:left;">
                                     <label class="check_box_custom">
-                                        <span style="font-size:13px; color:{{text_color}};">Business Trip</span>
+                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Business Trip' %}</span>
                                         <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
@@ -376,7 +376,7 @@
                             <center>
                             <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                             </button>
                             </center>
                         </form>
@@ -392,13 +392,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} {% trans 'Room' %}, {{hotel_search.adult}} {% trans 'Adult' %}, {{hotel_search.child}} {% trans 'Child' %}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -415,15 +415,15 @@
                         <div class="row">
                             <input type="hidden" id="response" name="response">
                             <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
                                 <div class="form-group">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                                 {% for country in countries %}
                                     {% if country.code == hotel_search.nationality %}
                                     <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
@@ -436,9 +436,9 @@
                             </div>
 
                             <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                     <i class="fas fa-moon" id="total_night_search" style="color:{{text_color}}; padding-left:15px; padding-top:15px;">1</i>
                                 </div>
                                 <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
@@ -446,7 +446,7 @@
                             </div>
 
                             <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> Guest</span>
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                 <div class="form-group">
                                     <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                     <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset;">
@@ -455,7 +455,7 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Room<br/></span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
                                                             <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
                                                         </label>
                                                     </div>
@@ -475,8 +475,8 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -494,8 +494,8 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Child<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -523,7 +523,7 @@
 
                             <div class="col-lg-12" style="margin-top:5px;float:left;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -533,7 +533,7 @@
                         <center>
                             <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                             </button>
                         </center>
                     </form>
@@ -548,13 +548,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} {% trans 'Room' %}, {{hotel_search.adult}} {% trans 'Adult' %}, {{hotel_search.child}} {% trans 'Child' %}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -570,16 +570,16 @@
                     <div class="row">
                         <input type="hidden" id="response" name="response">
                         <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket">Destination or Hotel Name</span>
+                            <span class="span-search-ticket">{% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
+                                <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                             </div>
                         </div>
 
                         <div class="col-lg-6 col-md-6" style="padding:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                            <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                            <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                             {% for country in countries %}
                                 {% if country.code == hotel_search.nationality %}
                                 <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
@@ -592,10 +592,10 @@
                         </div>
 
                         <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket">Check-in</span>
+                            <span class="span-search-ticket">{% trans 'Check-In - Check-Out' %}</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                 <i class="fas fa-moon" id="total_night_search" style="padding-left:10px;padding-top:15px; color:{{text_color}};">1</i>
                             </div>
                             <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
@@ -603,7 +603,7 @@
                         </div>
 
                         <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket">Guest</span>
+                            <span class="span-search-ticket">{% trans 'Guest' %}</span>
                             <div class="input-container-search-ticket btn-group">
                                 <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
                                 <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
@@ -613,7 +613,7 @@
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <div style="float:left;">
                                                     <label>
-                                                        <span style="color:black; font-size:13px;">Room<br/></span>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
                                                         <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
                                                     </label>
                                                 </div>
@@ -633,8 +633,8 @@
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <div style="float:left;">
                                                     <label>
-                                                        <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                        <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -652,8 +652,8 @@
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <div style="float:left;">
                                                     <label>
-                                                        <span style="color:black; font-size:13px;">Child<br/></span>
-                                                        <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                        <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
                                                     </label>
                                                 </div>
                                             </div>
@@ -681,7 +681,7 @@
 
                         <div class="col-lg-12" style="margin-top:5px;float:left;">
                             <label class="check_box_custom">
-                                <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                 <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
                                 <span class="check_box_span_custom"></span>
                             </label>
@@ -690,7 +690,7 @@
                         <div class="col-lg-12" style="text-align:center; margin-top:15px;">
                             <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                             </button>
                         </div>
                     </div>
@@ -705,13 +705,13 @@
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{hotel_search.destination}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} room, {{hotel_search.adult}} adult, {{hotel_search.child}} child</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{hotel_search.checkin_date}} - {{hotel_search.checkout_date}} | {{hotel_search.room}} {% trans 'Room' %}, {{hotel_search.adult}} {% trans 'Adult' %}, {{hotel_search.child}} {% trans 'Child' %}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
                 <button class="primary-btn-custom" type="button" onclick="show_hide_change_search();">
                     <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                    <span id="change_search_text">Change Search</span>
+                    <span id="change_search_text">{% trans 'Change Search' %}</span>
                 </button>
             </div>
         </div>
@@ -728,15 +728,15 @@
                         <div class="row">
                             <input type="hidden" id="response" name="response">
                             <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> Destination or Hotel Name</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="Origin" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="hotel_id_destination" name="hotel_id_destination" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{hotel_search.destination}}"/>
                                 </div>
                             </div>
 
                             <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> Guest Nationality</span>
-                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="Guest Nationality" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
+                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
+                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
                                 {% for country in countries %}
                                     {% if country.code == hotel_search.nationality %}
                                     <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
@@ -749,9 +749,9 @@
                             </div>
 
                             <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Check-in</span>
+                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
                                 <div class="input-container-search-ticket">
-                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="Check-In - Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
+                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
                                     <i class="fas fa-moon" id="total_night_search" style="padding-top:15px; padding-left:15px; font-size:15px; color:{{text_color}};">1</i>
                                 </div>
                                 <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{hotel_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
@@ -759,7 +759,7 @@
                             </div>
 
                             <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> Guest</span>
+                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
                                 <div class="input-container-search-ticket btn-group">
                                     <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
                                     <ul class="dropdown-menu" role="menu" style="z-index:5; overflow:unset;">
@@ -768,7 +768,7 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Room<br/></span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
                                                             <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
                                                         </label>
                                                     </div>
@@ -788,8 +788,8 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Adult<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age 12+)</span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
+                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -807,8 +807,8 @@
                                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                     <div style="float:left;">
                                                         <label>
-                                                            <span style="color:black; font-size:13px;">Child<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Age <12)</span>
+                                                            <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
+                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
                                                         </label>
                                                     </div>
                                                 </div>
@@ -836,7 +836,7 @@
 
                             <div class="col-lg-12" style="margin-top:5px;float:left;">
                                 <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">Business Trip</span>
+                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
                                     <input type="checkbox" name="business_trip" id="business_trip" {% if hotel_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
                                     <span class="check_box_span_custom"></span>
                                 </label>
@@ -846,7 +846,7 @@
                         <center>
                             <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                Search
+                                {% trans 'Search' %}
                             </button>
                         </center>
                     </form>

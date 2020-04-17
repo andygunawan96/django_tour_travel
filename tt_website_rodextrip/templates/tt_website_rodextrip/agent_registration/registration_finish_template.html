@@ -20,7 +20,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
-<title id="title_search">{{name}} Registration Agent Finish</title>
+<title id="title_search">{{name}} {% trans 'Registration Agent' %} {% trans 'Finish' %}</title>
 <div class="destinations-area" style="padding-top:30px; padding-bottom:40px; min-height: 40vh; background: #f7f7f7;">
     <div class="container">
         <div class="row">
@@ -37,7 +37,7 @@
             {% endif %}
             <div class="col-lg-12">
                 <div class="alert alert-success" role="alert">
-                    <strong>Your Agent Registration has been submitted!</strong>
+                    <strong>{% trans 'Your Agent Registration has been submitted!' %}</strong>
                 </div>
                 <div id="result_data_id" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom: 20px;">
 

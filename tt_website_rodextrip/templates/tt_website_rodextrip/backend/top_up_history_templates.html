@@ -158,7 +158,7 @@
         document.getElementById('state').value = 'all';
     }
 </script>
-<title>{{name}} - Top up History</title>
+<title>{{name}} - {% trans 'Top Up History' %}</title>
 
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/header.html' %}
@@ -167,7 +167,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="form-wrap" style="margin-bottom:25px;">
-                    <h4>Search by</h4>
+                    <h4>{% trans 'Search by' %}</h4>
                     <div class="row banner-right" style="margin-top:15px;">
                         <div class="col-lg-12" id="type">
                         </div>
@@ -177,11 +177,11 @@
                         <div class="col-lg-12 form-wrap" style="padding:15px; text-align:left;" id="search">
                             <div class="row">
                                 <div class="col-lg-3 col-md-6">
-                                    <span>Top Up. Number</span>
-                                    <input type="text" id="name" class="form-control enter_topup" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                                    <span>{% trans 'Top Up Number' %}</span>
+                                    <input type="text" id="name" class="form-control enter_topup" placeholder="{% trans 'Top Up Number' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span>State</span>
+                                    <span>{% trans 'State' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select" id="default-select">
                                             <select id="state">
@@ -197,20 +197,20 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> Start Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Start Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> End Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="End Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> RESET</a>
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <input type="button" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
@@ -223,11 +223,11 @@
                         <div class="col-lg-12 hotel-search-form" style="background-color:unset; padding:15px; box-shadow:unset;" id="search">
                             <div class="row">
                                 <div class="col-lg-3 col-md-6">
-                                    <span>Top Up. Number</span>
-                                    <input type="text" id="name" class="form-control enter_topup" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                                    <span>{% trans 'Top Up Number' %}</span>
+                                    <input type="text" id="name" class="form-control enter_topup" placeholder="{% trans 'Top Up Number' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span>State</span>
+                                    <span>{% trans 'State' %}</span>
                                     <div class="form-select" id="default-select">
                                         <select id="state">
                                             <option value="all">All</option>
@@ -241,20 +241,20 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> Start Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Start Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> End Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="End Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> RESET</a>
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <input type="button" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
@@ -267,11 +267,11 @@
                         <div class="col-lg-12 header-right" style="background-color:unset; padding:15px; box-shadow:unset; border:unset;" id="search">
                             <div class="row">
                                 <div class="col-lg-3 col-md-6">
-                                    <span>Top Up. Number</span>
-                                    <input type="text" id="name" class="form-control enter_topup" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                                    <span>{% trans 'Top Up Number' %}</span>
+                                    <input type="text" id="name" class="form-control enter_topup" placeholder="{% trans 'Top Up Number' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span>State</span>
+                                    <span>{% trans 'State' %}</span>
                                     <div class="form-group">
                                         <div class="default-select" id="default-select">
                                             <select id="state">
@@ -287,20 +287,20 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> Start Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="Start Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                        <input type="text" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> End Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="End Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                        <input type="text" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> RESET</a>
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <input type="button" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
@@ -313,11 +313,11 @@
                         <div class="banner-content col-xl-12 search-field">
                             <div class="row">
                                 <div class="col-lg-3 col-md-6">
-                                    <span>Top Up. Number</span>
-                                    <input type="text" id="name" class="form-control enter_topup" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                                    <span>{% trans 'Top Up Number' %}</span>
+                                    <input type="text" id="name" class="form-control enter_topup" placeholder="{% trans 'Top Up Number' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span>State</span>
+                                    <span>{% trans 'State' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select" id="default-select">
                                             <select class="nice-select-default rounded" id="state">
@@ -333,20 +333,20 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> Start Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="Start Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> End Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="End Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> RESET</a>
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <input type="button" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
@@ -360,11 +360,11 @@
                             <br/>
                             <div class="row">
                                 <div class="col-lg-3 col-md-6">
-                                    <span>Top Up. Number</span>
-                                    <input type="text" id="name" class="form-control enter_topup" placeholder="Top Up. Number" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
+                                    <span>{% trans 'Top Up Number' %}</span>
+                                    <input type="text" id="name" class="form-control enter_topup" placeholder="{% trans 'Top Up Number' %}" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Top Up. Number'" autocomplete="off"/>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span>State</span>
+                                    <span>{% trans 'State' %}</span>
                                     <div class="input-container-search-ticket btn-group">
                                         <div class="form-select" id="default-select">
                                             <select class="nice-select-default rounded" id="state">
@@ -380,20 +380,20 @@
                                 </div>
 
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> Start Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'Start Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="Start Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
+                                        <input type="text" style="background:white;" class="form-control" name="start_date" id="start_date" placeholder="{% trans 'Start Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Start Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
                                 <div class="col-lg-3 col-md-6">
-                                    <span><i class="fas fa-calendar-alt"></i> End Date</span>
+                                    <span><i class="fas fa-calendar-alt"></i> {% trans 'End Date' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="End Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
+                                        <input type="text" style="background:white;" class="form-control" name="end_date" id="end_date" placeholder="{% trans 'End Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'End Date '" autocomplete="off" readonly>
                                     </div>
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:right;">
-                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> RESET</a>
+                                    <a href="#" style="font-size:14px; font-weight:600; text-decoration:underline;" onclick="reset_filter();"><i class="fas fa-redo"></i> {% trans 'RESET' %}</a>
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <input type="button" class="primary-btn-custom" value="Search" onclick="get_top_up();" id="button"/>
@@ -406,13 +406,13 @@
                 <table style="width:100%; background:white;" id="table_top_up_history" class="list-of-reservation">
                     <tr>
                         <th style="width:5%;">No.</th>
-                        <th style="width:20%;">Top Up Number</th>
-                        <th style="width:20%;">Due Date</th>
-                        <th style="width:15%;">Amount</th>
+                        <th style="width:20%;">{% trans 'Top Up Number' %}</th>
+                        <th style="width:20%;">{% trans 'Due Date' %}</th>
+                        <th style="width:15%;">{% trans 'Amount' %}</th>
                         <th style="width:15%;">Status</th>
-                        <th style="width:15%;">Payment Method</th>
-                        <th style="width:15%;">Help By</th>
-                        <th style="width:10%;">Action</th>
+                        <th style="width:15%;">{% trans 'Payment Method' %}</th>
+                        <th style="width:15%;">{% trans 'Help By' %}</th>
+                        <th style="width:10%;">{% trans 'Action' %}</th>
                     </tr>
                 </table>
                 <div id="loading-search-top-up" style="margin-bottom:20px;">
@@ -431,10 +431,10 @@
                             <div class="sk-circle11 sk-child"></div>
                             <div class="sk-circle12 sk-child"></div>
                         </div>
-                        <div style="text-align:center"><h6>PLEASE WAIT</h6></div>
+                        <div style="text-align:center"><h6>{% trans 'PLEASE WAIT' %}</h6></div>
                     </div>
                 </div>
-                <center><div class="alert alert-danger" id="top_up_found" role="alert" style="margin-top:10px; display:none;"><h6><i class="fas fa-search-minus"></i> Oops! Data top up not found!</h6></div></center>
+                <center><div class="alert alert-danger" id="top_up_found" role="alert" style="margin-top:10px; display:none;"><h6><i class="fas fa-search-minus"></i> {% trans 'Oops! Data top up not found!' %}</h6></div></center>
             </div>
         </div>
     </div>
