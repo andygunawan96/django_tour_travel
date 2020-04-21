@@ -488,7 +488,7 @@ def create_booking(request):
             "contact": contacts,
             "booker": booker,
             'kwargs': {
-                'force_issued': 'False'
+                'force_issued': request.POST['force_issued']
             },
             'special_request': request.session['hotel_request']['special_request'],
             'resv_name': '',
@@ -497,22 +497,23 @@ def create_booking(request):
         }
 
         # payment
-        try:
-            if request.POST['member'] == 'non_member':
-                member = False
-            else:
-                member = True
-            data.update({
-                'member': member,
-                'seq_id': request.POST['seq_id'],
-                'voucher': {}
-            })
-            if request.POST['voucher_code'] != '':
+        if request.POST['force_issued'] == True:
+            try:
+                if request.POST['member'] == 'non_member':
+                    member = False
+                else:
+                    member = True
                 data.update({
-                    'voucher': data_voucher(request.POST['voucher_code'], 'hotel', []),
+                    'member': member,
+                    'seq_id': request.POST['seq_id'],
+                    'voucher': {}
                 })
-        except:
-            pass
+                if request.POST['voucher_code'] != '':
+                    data.update({
+                        'voucher': data_voucher(request.POST['voucher_code'], 'hotel', []),
+                    })
+            except:
+                pass
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

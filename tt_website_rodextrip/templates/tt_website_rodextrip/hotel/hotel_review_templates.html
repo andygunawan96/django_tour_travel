@@ -110,7 +110,7 @@
 {% endif %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
-        <form method="POST" id="hotel_booking">
+        <form method="POST" id="issued">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
@@ -249,10 +249,15 @@
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security%}
-                                <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert();">
+                                <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert(1);">
                                     {% trans 'Issued Booking' %}
                                 </button>
                                 {% endif %}
+                            {% endif %}
+                            {% if 'b2c_limitation' in username.co_agent_frontend_security%}
+                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert(0);">
+                                {% trans 'Hold Booking' %}
+                            </button>
                             {% endif %}
                         </div>
                     </div>

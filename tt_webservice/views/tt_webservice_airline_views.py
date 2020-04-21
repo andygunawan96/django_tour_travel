@@ -651,10 +651,7 @@ def search2(request):
         if res['result']['error_code'] == 0:
             for journey_list in res['result']['response']['schedules']:
                 for journey in journey_list['journeys']:
-                    if len(journey_list['journey_list']) > 1:
-                        journey['is_combo_price'] = True
-                    else:
-                        journey['is_combo_price'] = False
+                    journey['is_combo_price'] = False
                     journey.update({
                         'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),
                         'arrival_date': parse_date_time_front_end(string_to_datetime(journey['arrival_date']))
@@ -840,7 +837,7 @@ def get_price_itinerary(request, boolean, counter):
         if res['result']['error_code'] == 0:
             try:
                 for price_itinerary_provider in res['result']['response']['price_itinerary_provider']:
-                    for journey in price_itinerary_provider['price_itinerary']:
+                    for journey in price_itinerary_provider['journeys']:
                         journey.update({
                             'rules': [],
                             'departure_date': parse_date_time_front_end(string_to_datetime(journey['departure_date'])),

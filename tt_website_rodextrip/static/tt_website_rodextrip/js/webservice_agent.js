@@ -191,7 +191,7 @@ function signin_btc(){
            },
            success: function(msg) {
             console.log(msg);
-            if(msg.result.error_code == 0){
+            if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
                 //gotoForm();
                 console.log($('#username').val());
                 document.getElementById('nav-menu-container_no_login').style.display = 'none';
