@@ -1691,7 +1691,7 @@ function activity_get_booking(data){
                                             text+=`
                                             <td>`+msg.result.response.pnr+`</td>`;
                                         else
-                                            text+=`<td> - </td>`
+                                            text+=`<td> - </td>`;
                                         text+=`
                                             <td>`+moment(localTime).format('DD MMM YYYY HH:mm')+`</td>
                                             <td>`+conv_status+`</td>
@@ -2018,10 +2018,11 @@ function activity_get_booking(data){
             counter_service_charge = 0;
             $test += '\nPrice:\n';
             for(i in msg.result.response.passengers[0].sale_service_charges){
-                price_text+=`
-                    <div style="text-align:left">
-                        <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
-                    </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                    price_text+=`
+                        <div style="text-align:left">
+                            <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
+                        </div>`;
                 for(j in msg.result.response.passengers){
                     price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'DISC': 0};
                     for(k in msg.result.response.passengers[j].sale_service_charges[i]){

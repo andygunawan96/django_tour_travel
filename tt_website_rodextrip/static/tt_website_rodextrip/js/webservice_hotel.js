@@ -724,9 +724,13 @@ function gotoForm(){
     document.getElementById('hotel_searchForm').submit();
 }
 
-function hotel_issued_alert(){
+function hotel_issued_alert(val){
+    if(val == 1)
+        text = "Are you sure you want to Force Issued this booking?";
+    else
+        text = "Are you sure you want to Hold Booking this booking?";
     Swal.fire({
-      title: 'Are you sure you want to Force Issued this booking?',
+      title: text,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -747,7 +751,10 @@ function hotel_issued_alert(){
             document.getElementById("voucher_code").value = voucher_code;
             document.getElementById("discount").value = JSON.stringify(discount_voucher);
             document.getElementById("session_time_input").value = time_limit;
-            document.getElementById('hotel_issued').submit();
+            if(val == 1)
+                document.getElementById('hotel_issued').submit();
+            else
+                hotel_issued_booking(0);
         }else if(provision.result.error_code == 4006){
             text = '';
             text += `
@@ -904,7 +911,7 @@ function hotel_force_issued_alert(){
     })
 }
 
-function force_issued_hotel(){
+function force_issued_hotel(val){
     Swal.fire({
       title: 'Are you sure you want to Force Issued this booking?',
       type: 'warning',
@@ -919,25 +926,35 @@ function force_issued_hotel(){
         $('.next-loading-booking').prop('disabled', true);
         $('.next-loading-issued').prop('disabled', true);
         $('.issued_booking_btn').prop('disabled', true);
-        hotel_issued_booking();
+        hotel_issued_booking(val);
       }
     })
 }
 
-function hotel_issued_booking(){
-    getToken();
+function hotel_issued_booking(val){
+    force_issued = false;
+    if(val == 1)
+        data = {
+            'signature': signature,
+            'force_issued': true,
+            'seq_id': payment_acq2[payment_method][selected].seq_id,
+            'member': payment_acq2[payment_method][selected].method,
+            'voucher_code': voucher_code
+        }
+    else
+        data = {
+            'signature': signature,
+            'force_issued': false
+        }
+
+
     $.ajax({
        type: "POST",
        url: "/webservice/hotel",
        headers:{
             'action': 'issued',
        },
-       data: {
-            'seq_id': payment_acq2[payment_method][selected].seq_id,
-            'member': payment_acq2[payment_method][selected].method,
-            'voucher_code': voucher_code,
-            'signature': signature
-       },
+       data: data,
        success: function(msg) {
             console.log('Result');
             console.log(msg);
@@ -957,6 +974,9 @@ function hotel_issued_booking(){
     //                form.submit();
                 }else{
                     //swal
+                    try{
+                        $('.loader-rodextrip').fadeOut();
+                    }catch(err){}
                     $("#waitingTransaction").modal('hide');
                     Swal.fire({
                       type: 'error',
@@ -969,6 +989,9 @@ function hotel_issued_booking(){
                     })
                 }
             }catch(err){
+                try{
+                    $('.loader-rodextrip').fadeOut();
+                }catch(err){}
                 $("#waitingTransaction").modal('hide');
                 Swal.fire({
                   type: 'error',
@@ -1071,6 +1094,10 @@ function hotel_get_booking(data){
                             </div>
                           </div>`;
                    document.getElementById('hotel_booking').innerHTML = text;
+                   if(msg.result.response.status == 'booked'){
+                       check_payment_payment_method(msg.result.response.booking_name, 'Issued', '', 'billing', 'hotel', signature, {});
+                       $(".issued_booking_btn").show();
+                   }
                    text = `
                         <h4>List of Room(s)</h4>
                         <hr/>
@@ -1215,10 +1242,11 @@ function hotel_get_booking(data){
                     $text += '\nPrice:\n';
                     for(i in msg.result.response.hotel_rooms){
                         try{
-                            text_detail+=`
-                                <div style="text-align:left">
-                                    <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.hotel_rooms[i].prov_issued_code+` </span>
-                                </div>`;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                                text_detail+=`
+                                    <div style="text-align:left">
+                                        <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.hotel_rooms[i].prov_issued_code+` </span>
+                                    </div>`;
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0};
                             price['FARE'] = msg.result.response.hotel_rooms[i].room_rate;
                             price['currency'] = msg.result.response.hotel_rooms[i].currency;

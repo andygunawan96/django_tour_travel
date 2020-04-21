@@ -13,7 +13,9 @@
 <script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_passport.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_bill.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/bill_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
@@ -169,6 +171,14 @@
                                 <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
                                     <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if "bills" in provider %}
+                            <li class="nav-item">
+                                <a class="nav-link" id="bills-tab" data-toggle="tab" href="#bills" role="tab" aria-controls="bills" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'BILLS' %} </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -883,6 +893,41 @@
                                         </div>
                                     </div>
                                     <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                            </div>
+                            {% endif %}
+                            {% if "bills" in provider %}
+                            <div class="tab-pane fade" id="bills" role="tabpanel" aria-labelledby="bills-tab">
+                                <form action="{% url 'tt_website_rodextrip:train_search'%}" method="POST" class="form-wrap" id="bill_searchForm" onsubmit="return search_train_validation()">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:{{text_color}};">BPJS</span>
+                                                <input type="radio" checked="checked" name="bills_type" value="bpjs">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:{{text_color}};">PLN</span>
+                                                <input type="radio"  name="bills_type" value="pln">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="row" id="bill_div">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+
                                     <center>
                                         <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
                                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
@@ -1618,6 +1663,9 @@
                             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                             <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
                             {% endif %}
+                            {% if "bills" in provider %}
+                            <li class="tab-link" data-tab="tab-bill"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS' %}</label></li>
+                            {% endif %}
                         </ul>
                     </div>
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
@@ -2291,6 +2339,40 @@
                             </form>
                         </div>
                         {% endif %}
+                        {% if "bills" in provider %}
+                        <div id="tab-bill" class="tab-content">
+                            <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px; color:{{text_color}};">BPJS</span>
+                                            <input type="radio" checked="checked" name="bills_type" value="bpjs">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px; color:{{text_color}};">PLN</span>
+                                            <input type="radio"  name="bills_type" value="pln">
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="row" id="bill_div">
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
                     </div>
                     {% endif %}
                     {% else %}
@@ -2618,6 +2700,9 @@
                                     {% endif %}
                                     {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
+                                    {% endif %}
+                                    {% if "bills" in provider %}
+                                    <li class="tab-link" data-tab="tab-bill"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS' %}</label></li>
                                     {% endif %}
                                     {% if "group" in provider %}
                                     <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i><label class="btn-txt-color">GROUP BOOKING</label></li>
@@ -3303,6 +3388,41 @@
                                 </form>
                             </div>
                             {% endif %}
+                            {% if "bills" in provider %}
+                            <div id="tab-bill" class="tab-content">
+                                <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Pay Your Bills' %}</h4>
+                                <form action="" class="form-wrap" id="bill_searchForm" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:{{text_color}};">BPJS</span>
+                                                <input type="radio" checked="checked" name="bills_type" value="bpjs">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                            <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                <span style="font-size:13px; color:{{text_color}};">PLN</span>
+                                                <input type="radio"  name="bills_type" value="pln">
+                                                <span class="checkmark-radio"></span>
+                                            </label>
+                                        </div>
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="row" id="bill_div">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                            </div>
+                            {% endif %}
                         </div>
                         {% endif %}
                         {% else %}
@@ -3620,6 +3740,9 @@
                                         {% endif %}
                                         {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <li class="tab-link" data-tab="tab-passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
+                                        {% endif %}
+                                        {% if "bills" in provider %}
+                                        <li class="tab-link" data-tab="tab-bill"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i> <label class="btn-txt-color">{% trans 'BILLS' %}</label></li>
                                         {% endif %}
                                         {% if "group" in provider %}
                                         <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:18px;" src="{{static_path}}images/icon/group-booking.png"/></i> <label class="btn-txt-color">GROUP BOOKING</label></li>
@@ -4333,6 +4456,40 @@
                                     </form>
                                 </div>
                                 {% endif %}
+                                {% if "bills" in provider %}
+                                <div class="form-search-wrap tab-content" id="tab-bill" data-aos-delay="200">
+                                    <form action="" class="form-wrap" id="bill_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                                <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                    <span style="font-size:13px; color:{{text_color}};">BPJS</span>
+                                                    <input type="radio" checked="checked" name="bills_type" value="bpjs">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                                <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                    <span style="font-size:13px; color:{{text_color}};">PLN</span>
+                                                    <input type="radio"  name="bills_type" value="pln">
+                                                    <span class="checkmark-radio"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="row" id="bill_div">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
                             </div>
                             {% else %}
                             <div class="col-xl-12" style="text-align:center; box-shadow:0 2px 15px 1px rgba(0, 0, 0, 0.35); padding: 15px 0px;">
@@ -4647,6 +4804,9 @@
                                             {% endif %}
                                             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <li class="tab-link" data-tab="tab-passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PASSPORT' %}</label></li>
+                                            {% endif %}
+                                            {% if "bills" in provider %}
+                                            <li class="tab-link" data-tab="tab-bill"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'BILLS' %}</label></li>
                                             {% endif %}
                                             {% if "group" in provider %}
                                             <li class="tab-link" data-tab="tab-group-booking"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/></i><label class="btn-txt-color" style="font-weight:bold; padding:0px;">GROUP BOOKING</label></li>
@@ -5346,6 +5506,40 @@
                                         </form>
                                     </div>
                                     {% endif %}
+                                    {% if "bills" in provider %}
+                                    <div id="tab-bill" class="tab-content">
+                                        <form action="" class="form-wrap" id="bill_searchForm" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                                    <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                        <span style="font-size:13px; color:{{text_color}};">BPJS</span>
+                                                        <input type="radio" checked="checked" name="bills_type" value="bpjs">
+                                                        <span class="checkmark-radio"></span>
+                                                    </label>
+                                                    <label class="radio-button-custom" style="margin-bottom:0px;">
+                                                        <span style="font-size:13px; color:{{text_color}};">PLN</span>
+                                                        <input type="radio"  name="bills_type" value="pln">
+                                                        <span class="checkmark-radio"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="row" id="bill_div">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <center>
+                                                <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </center>
+                                        </form>
+                                    </div>
+                                    {% endif %}
                                 </div>
                                 {% else %}
                                 <div class="col-xl-12" style="text-align:left;">
@@ -5478,6 +5672,9 @@
     {% if username.co_user_login != '' %}
         try{
             //hotel_signin('home');
+            {% if "bills" in provider %}
+            set_container_bill();
+            {% endif %}
             {% if "airline" in provider %}
             get_airline_config('home');
             airline_search_value = 'false';

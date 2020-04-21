@@ -814,10 +814,11 @@ function train_get_booking(data){
             $text += '\nPrice:\n';
             for(i in msg.result.response.provider_bookings){
                 try{
-                    text_detail+=`
-                        <div style="text-align:left">
-                            <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
-                        </div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                        text_detail+=`
+                            <div style="text-align:left">
+                                <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_bookings[i].pnr+` </span>
+                            </div>`;
                     for(j in msg.result.response.passengers){
                         price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
                         for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr]){
