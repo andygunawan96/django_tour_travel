@@ -178,127 +178,254 @@ function signin(){
 }
 
 function signin_btc(){
-    if($('#username').val() != '' && $('#password').val() != ''){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
-                'action': 'signin_btc',
-           },
-           data: {
-            'username':$('#username').val(),
-            'password':$('#password').val()
-           },
-           success: function(msg) {
-            console.log(msg);
-            if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
-                //gotoForm();
-                console.log($('#username').val());
-                document.getElementById('nav-menu-container_no_login').style.display = 'none';
-                document.getElementById('nav-menu-container_login').style.display = 'block';
-                document.getElementById('user_login').innerHTML = $('#username').val();
-                document.getElementById('user_login2').innerHTML = $('#username').val();
-                user_login = msg.result.response;
-                signature = msg.result.response.signature;
-                triggered_balance(false);
-                get_balance(false);
-//                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
-                    window.location.href = '/';
-                let timerInterval;
-                Swal.fire({
-                  type: 'success',
-                  title: 'Login Success!',
-                  html: 'Please Wait ...',
-                  timer: 1000,
-                  onBeforeOpen: () => {
-                    Swal.showLoading()
-                    timerInterval = setInterval(() => {
-                      Swal.getContent().querySelector('strong')
-                        .textContent = Swal.getTimerLeft()
-                    }, 100)
-                  },
-                  onClose: () => {
-                    clearInterval(timerInterval)
-                  }
-                }).then((result) => {
-                  if (
-                    /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.timer
-                  ) {
+    if( $(window).width() > 767){
+        if($('#username').val() != '' && $('#password').val() != ''){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'signin_btc',
+               },
+               data: {
+                'username':$('#username').val(),
+                'password':$('#password').val()
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    //gotoForm();
+                    console.log($('#username').val());
+                    document.getElementById('nav-menu-container_no_login').style.display = 'none';
+                    document.getElementById('nav-menu-container_login').style.display = 'block';
+                    document.getElementById('user_login').innerHTML = $('#username').val();
+                    document.getElementById('user_login2').innerHTML = $('#username').val();
+                    user_login = msg.result.response;
+                    signature = msg.result.response.signature;
+                    triggered_balance(false);
+                    get_balance(false);
+    //                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
+                        window.location.href = '/';
+                    let timerInterval;
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Login Success!',
+                      html: 'Please Wait ...',
+                      timer: 1000,
+                      onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                          Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                        }, 100)
+                      },
+                      onClose: () => {
+                        clearInterval(timerInterval)
+                      }
+                    }).then((result) => {
+                      if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.timer
+                      ) {
 
-                  }
-                })
-            }else{
+                      }
+                    })
+                }else{
+                    $('.button-login').prop('disabled', false);
+                    $('.button-login').removeClass("running");
+
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      text: 'Please input correct username or password',
+                    })
+                }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
-
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  text: 'Please input correct username or password',
+                  html: '<span style="color: red;">Error signin </span>' + errorThrown,
                 })
-            }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('.button-login').prop('disabled', false);
-            $('.button-login').removeClass("running");
-            Swal.fire({
-              type: 'error',
-              title: 'Oops!',
-              html: '<span style="color: red;">Error signin </span>' + errorThrown,
-            })
-           },timeout: 60000
-        });
-    }else{
-        error_log = '';
-        if($('#username').val() == '')
-            error_log += 'Please Fill Username';
-        if($('#password').val() == '')
-            if(error_log == '')
-                error_log += 'Please Fill Password';
-            else
-                error_log += ' and Fill Password\n';
-        if(error_log != '')
-            alert_message_swal(error_log);
+               },timeout: 60000
+            });
+        }else{
+            error_log = '';
+            if($('#username').val() == '')
+                error_log += 'Please Fill Username';
+            if($('#password').val() == '')
+                if(error_log == '')
+                    error_log += 'Please Fill Password';
+                else
+                    error_log += ' and Fill Password\n';
+            if(error_log != '')
+                alert_message_swal(error_log);
+        }
+    }
+    else{
+        if($('#username2').val() != '' && $('#password2').val() != ''){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/agent",
+               headers:{
+                    'action': 'signin_btc',
+               },
+               data: {
+                'username':$('#username2').val(),
+                'password':$('#password2').val()
+               },
+               success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    //gotoForm();
+                    console.log($('#username').val());
+                    document.getElementById('nav-menu-container_no_login').style.display = 'none';
+                    document.getElementById('nav-menu-container_login').style.display = 'block';
+                    document.getElementById('user_login').innerHTML = $('#username2').val();
+                    document.getElementById('user_login2').innerHTML = $('#username2').val();
+                    user_login = msg.result.response;
+                    signature = msg.result.response.signature;
+                    triggered_balance(false);
+                    get_balance(false);
+        //                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
+                        window.location.href = '/';
+                    let timerInterval;
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Login Success!',
+                      html: 'Please Wait ...',
+                      timer: 1000,
+                      onBeforeOpen: () => {
+                        Swal.showLoading()
+                        timerInterval = setInterval(() => {
+                          Swal.getContent().querySelector('strong')
+                            .textContent = Swal.getTimerLeft()
+                        }, 100)
+                      },
+                      onClose: () => {
+                        clearInterval(timerInterval)
+                      }
+                    }).then((result) => {
+                      if (
+                        /* Read more about handling dismissals below */
+                        result.dismiss === Swal.DismissReason.timer
+                      ) {
+
+                      }
+                    })
+                }else{
+                    $('.button-login').prop('disabled', false);
+                    $('.button-login').removeClass("running");
+
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      text: 'Please input correct username or password',
+                    })
+                }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error signin </span>' + errorThrown,
+                })
+               },timeout: 60000
+            });
+        }else{
+            error_log = '';
+            if($('#username2').val() == '')
+                error_log += 'Please Fill Username';
+            if($('#password2').val() == '')
+                if(error_log == '')
+                    error_log += 'Please Fill Password';
+                else
+                    error_log += ' and Fill Password\n';
+            if(error_log != '')
+                alert_message_swal(error_log);
+        }
     }
 }
 
 function reset_password_btc(){
-    if($('#username').val() != ''){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/account",
-           headers:{
-                'action': 'reset_password',
-           },
-           data: {
-                'email': $('#username').val(),
-           },
-           success: function(msg) {
-                console.log(msg);
-                if(msg.result.error_code == 0){
-                    signature = msg.result.response.signature;
+    if( $(window).width() > 767){
+        if($('#username').val() != ''){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/account",
+               headers:{
+                    'action': 'reset_password',
+               },
+               data: {
+                    'email': $('#username').val(),
+               },
+               success: function(msg) {
+                    console.log(msg);
+                    if(msg.result.error_code == 0){
+                        signature = msg.result.response.signature;
+                        Swal.fire({
+                          type: 'success',
+                          title: 'Yeah!',
+                          html: '<span>Reset Password Success, If Your Already Have an Account Please Check Your Email</span>'
+                        })
+                    }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
                     Swal.fire({
-                      type: 'success',
-                      title: 'Yeah!',
-                      html: '<span>Reset Password Success, If Your Already Have an Account Please Check Your Email</span>'
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error reset password </span>' + errorThrown,
                     })
-                }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error reset password </span>' + errorThrown,
-                })
-           },timeout: 60000
-        });
-    }else{
-        Swal.fire({
-          type: 'error',
-          title: 'Oops!',
-          html: '<span style="color: red;">Error please input email! </span>',
-        })
+               },timeout: 60000
+            });
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error please input email! </span>',
+            })
+        }
+    }
+    else{
+        if($('#username2').val() != ''){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/account",
+               headers:{
+                    'action': 'reset_password',
+               },
+               data: {
+                    'email': $('#username2').val(),
+               },
+               success: function(msg) {
+                    console.log(msg);
+                    if(msg.result.error_code == 0){
+                        signature = msg.result.response.signature;
+                        Swal.fire({
+                          type: 'success',
+                          title: 'Yeah!',
+                          html: '<span>Reset Password Success, If Your Already Have an Account Please Check Your Email</span>'
+                        })
+                    }
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error reset password </span>' + errorThrown,
+                    })
+               },timeout: 60000
+            });
+        }else{
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error please input email! </span>',
+            })
+        }
     }
 }
 
