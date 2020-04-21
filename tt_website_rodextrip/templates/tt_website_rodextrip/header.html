@@ -162,21 +162,21 @@
                     </ul>
 
                     <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li style="padding-right:5px;">
+                        <li class="username_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" style="padding:4px;" id="username" placeholder="Username"/>
+                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                             </div>
                         </li>
-                        <li style="padding-right:5px;">
+                        <li class="password_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
-                                <input type="password" class="form-control" style="padding:4px;" id="password" placeholder="Password"/>
+                                <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                             </div>
                         </li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                        <li style="font-size:12px;color:black;">
+                        <li style="font-size:12px;color:black; margin:5px;">
                             <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
                         </li>
-                        <li style="font-size:12px;color:black;padding-left:5px">
+                        <li style="font-size:12px;color:black;">
                             <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
                         </li>
                     </ul>
