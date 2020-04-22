@@ -936,7 +936,7 @@ function hotel_issued_booking(val){
     if(val == 1)
         data = {
             'signature': signature,
-            'force_issued': true,
+            'force_issued': val,
             'seq_id': payment_acq2[payment_method][selected].seq_id,
             'member': payment_acq2[payment_method][selected].method,
             'voucher_code': voucher_code
@@ -944,7 +944,7 @@ function hotel_issued_booking(val){
     else
         data = {
             'signature': signature,
-            'force_issued': false
+            'force_issued': val
         }
 
 
