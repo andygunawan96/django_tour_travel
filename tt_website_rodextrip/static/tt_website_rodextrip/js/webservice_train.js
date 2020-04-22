@@ -421,11 +421,20 @@ function train_get_booking(data){
        console.log(msg);
         if(msg.result.error_code == 0){
             train_get_detail = msg;
+            if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
+                tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                var localTime  = moment.utc(tes).toDate();
+                msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                var now = moment();
+                var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
+            }
             if(msg.result.response.state != 'issued' && msg.result.response.state != 'fail_booked'  && msg.result.response.state != 'fail_issued' && msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
                 try{
-                    check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
-//                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
-                    document.getElementById('voucher_discount').style.display = '';
+                    if(now.diff(hold_date_time, 'minutes')<0){
+                        check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'train', signature, msg.result.response.payment_acquirer_number);
+    //                    get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'train');
+                        document.getElementById('voucher_discount').style.display = '';
+                    }
                 }catch(err){}
             }else{
                 try{
@@ -724,7 +733,10 @@ function train_get_booking(data){
                                 <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
-                            $(".issued_booking_btn").show();
+                            try{
+                                if(now.diff(hold_date_time, 'minutes')<0)
+                                    $(".issued_booking_btn").show();
+                            }catch(err){}
                         }
                         else if(msg.result.response.state == 'issued'){
 //                            text+=`

@@ -517,7 +517,7 @@ def create_booking(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "issued",
+            "action": "booked",
             "signature": request.session['hotel_signature'],
         }
     except Exception as e:

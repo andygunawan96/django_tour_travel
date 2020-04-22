@@ -1907,20 +1907,18 @@ function get_fare_rules(){
                 for(i in msg.result.response.fare_rule_provider){
                     if(msg.result.response.fare_rule_provider[i].hasOwnProperty('journeys') == true){
                         if(msg.result.response.fare_rule_provider[i].status != 'FAILED'){
-                            for(j in msg.result.response.fare_rule_provider[i]){
-                                text_fare+=`
+                            text_fare+=`
                                 <span id="span-tac-up`+count_fare+`" class="carrier_code_template" style="display:none; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Show Term and Condition <i class="fas fa-chevron-down"></i></span>
                                 <span id="span-tac-down`+count_fare+`" class="carrier_code_template" style="display:block; cursor:pointer;" onclick="show_hide_tac(`+count_fare+`);"> Hide Term and Condition <i class="fas fa-chevron-up"></i></span>
                                 <div id="div-tac`+count_fare+`" style="display:block;">`;
-                                for(k in msg.result.response.fare_rule_provider[i].rules){
-                                    if(msg.result.response.fare_rule_provider[i].rules[k] != ""){
-                                        text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> `+msg.result.response.fare_rule_provider[i].rules[k]+`</span><br/>`;
-                                    }
+                            for(k in msg.result.response.fare_rule_provider[i].rules){
+                                if(msg.result.response.fare_rule_provider[i].rules[k] != ""){
+                                    text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> `+msg.result.response.fare_rule_provider[i].rules[k]+`</span><br/>`;
                                 }
-                                if(msg.result.response.fare_rule_provider[i].rules.length == 0)
-                                    text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
-                                text_fare+=`</div>`;
                             }
+                            if(msg.result.response.fare_rule_provider[i].rules.length == 0)
+                                text_fare += `<span style="font-weight:400;"><i class="fas fa-circle" style="font-size:9px;"></i> No fare rules</span><br/>`;
+                            text_fare+=`</div>`;
                         }else{
                             text_fare += 'No fare rules';
                         }
@@ -3038,6 +3036,14 @@ function airline_get_booking(data){
            if(msg.result.error_code == 0){
             var text = '';
             $text = '';
+            check_provider_booking = 0;
+            if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
+                tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                localTime  = moment.utc(tes).toDate();
+                msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                var now = moment();
+                var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
+            }
             if(msg.result.response.state == 'cancel'){
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -3067,7 +3073,8 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
             }else if(msg.result.response.state == 'booked'){
                try{
-                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
+                   if(now.diff(hold_date_time, 'minutes')<0)
+                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature, msg.result.response.payment_acquirer_number);
                    get_payment = true;
 //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                    document.getElementById('voucher_div').style.display = '';
@@ -3115,9 +3122,11 @@ function airline_get_booking(data){
                     document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
                 }
             }
-            check_provider_booking = 0;
             if(msg.result.response.state == 'booked'){
-                $(".issued_booking_btn").show();
+                try{
+                    if(now.diff(hold_date_time, 'minutes')<0)
+                        $(".issued_booking_btn").show();
+                }catch(err){}
                 check_provider_booking++;
             }
             else{
@@ -3127,9 +3136,7 @@ function airline_get_booking(data){
             }
 
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
-            localTime  = moment.utc(tes).toDate();
-            msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+
             //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
             $text += msg.result.response.state_description + '\n';
             var localTime;
@@ -3152,7 +3159,10 @@ function airline_get_booking(data){
 //                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
 //                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                             $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
-                            $(".issued_booking_btn").show();
+                            try{
+                                if(now.diff(hold_date_time, 'minutes')<0)
+                                    $(".issued_booking_btn").show();
+                            }catch(err){}
                             check_provider_booking++;
                             printed_hold_date = true;
                         }
@@ -3162,9 +3172,11 @@ function airline_get_booking(data){
                                 `+msg.result.response.provider_bookings[i].error_msg+`
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
                             </div>`;
-                        tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
-                        localTime  = moment.utc(tes).toDate();
-                        msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        if(msg.result.response.provider_bookings[i].hold_date != '' && msg.result.response.provider_bookings[i].hold_date != false){
+                            tes = moment.utc(msg.result.response.provider_bookings[i].hold_date).format('YYYY-MM-DD HH:mm:ss')
+                            localTime  = moment.utc(tes).toDate();
+                            msg.result.response.provider_bookings[i].hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                        }
                         //
                         text+=`<tr>`;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -3173,7 +3185,7 @@ function airline_get_booking(data){
                         else
                             text += `<td> - </td>`;
                         text+=`
-                            <td>`+msg.result.response.provider_bookings[i].hold_date+`</td>
+                            <td>`+msg.result.response.hold_date+`</td>
                             <td id='pnr'>`+msg.result.response.provider_bookings[i].state_description+`</td>
                         </tr>`;
                     }

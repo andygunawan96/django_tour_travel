@@ -1434,6 +1434,8 @@ function tour_get_booking(order_number)
 
            tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
            localTime  = moment.utc(tes).toDate();
+           var now = moment();
+           var hold_date_time = moment(localTime, "DD MMM YYYY HH:mm");
            if(cur_state == 'booked'){
                 conv_status = 'Booked';
                 document.getElementById('voucher_discount').style.display = '';
@@ -1917,9 +1919,11 @@ function tour_get_booking(order_number)
                }
                print_payment_rules(payment);
                try{
-                   check_payment_payment_method(order_number, 'Issued', book_obj.booker_seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
-//                   get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
-                   document.getElementById("final_issued_btn").style.display = "block";
+                   if(now.diff(hold_date_time, 'minutes')<0){
+                       check_payment_payment_method(order_number, 'Issued', book_obj.booker_seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
+    //                   get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
+                       document.getElementById("final_issued_btn").style.display = "block";
+                   }
                }catch(err){}
            }
            else
