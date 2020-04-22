@@ -5,81 +5,16 @@ passenger_number = 0;
 agent_offside = 0;
 load_more = true;
 function signin(){
+    username = '';
+    password = '';
+    check = 0;
     if( $(window).width() > 767){
         if($('#username2').val() != '' && $('#password2').val() != ''){
+            username = $('#username2').val();
+            password = $('#password2').val();
+            check = 1;
             $('.button-login').addClass("running");
             $('.button-login').prop('disabled', true);
-            getToken();
-            $.ajax({
-               type: "POST",
-               url: "/webservice/agent",
-               headers:{
-                    'action': 'signin',
-               },
-               data: {
-                'username':$('#username2').val(),
-                'password':$('#password2').val()
-               },
-               success: function(msg) {
-                console.log(msg);
-                if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
-                    gotoForm();
-                    let timerInterval
-                    Swal.fire({
-                      type: 'success',
-                      title: 'Login Success!',
-                      html: 'Please Wait ...',
-                      timer: 50000,
-                      onBeforeOpen: () => {
-                        Swal.showLoading()
-                        timerInterval = setInterval(() => {
-                          Swal.getContent().querySelector('strong')
-                            .textContent = Swal.getTimerLeft()
-                        }, 100)
-                      },
-                      onClose: () => {
-                        clearInterval(timerInterval)
-                      }
-                    }).then((result) => {
-                      if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.timer
-                      ) {
-
-                      }
-                    })
-                }else if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == false){
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "It looks like you don't have permission to login!",
-                    })
-                }else{
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: msg.result.error_msg,
-                    })
-                }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    if(XMLHttpRequest.status == 500){
-                        $('.button-login').prop('disabled', false);
-                        $('.button-login').removeClass("running");
-                        Swal.fire({
-                          type: 'error',
-                          title: 'Oops!',
-                          html: '<span style="color: red;">Error signin </span>' + errorThrown,
-                        })
-                    }
-               },timeout: 10000
-            });
         }else{
             $('.button-login').prop('disabled', false);
             $('.button-login').removeClass("running");
@@ -92,79 +27,13 @@ function signin(){
     }
     else{
         if($('#username').val() != '' && $('#password').val() != ''){
+            username = $('#username').val();
+            password = $('#password').val();
+            check = 1;
             $('.button-login').addClass("running");
             $('.button-login').prop('disabled', true);
 
-            getToken();
-            $.ajax({
-               type: "POST",
-               url: "/webservice/agent",
-               headers:{
-                    'action': 'signin',
-               },
-               data: {
-                'username':$('#username').val(),
-                'password':$('#password').val()
-               },
-               success: function(msg) {
-                if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
-                    gotoForm();
-                    let timerInterval
-                    Swal.fire({
-                      type: 'success',
-                      title: 'Login Success!',
-                      html: 'Please Wait ...',
-                      timer: 50000,
-                      onBeforeOpen: () => {
-                        Swal.showLoading()
-                        timerInterval = setInterval(() => {
-                          Swal.getContent().querySelector('strong')
-                            .textContent = Swal.getTimerLeft()
-                        }, 100)
-                      },
-                      onClose: () => {
-                        clearInterval(timerInterval)
-                      }
-                    }).then((result) => {
-                      if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.timer
-                      ) {
 
-                      }
-                    })
-                }else if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == false){
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: "It looks like you don't have permission to login!",
-                    })
-                }else{
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: msg.result.error_msg,
-                    })
-                }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-               if(XMLHttpRequest.status == 500){
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error signin </span>' + errorThrown,
-                    })
-                }
-               },timeout: 10000
-            });
         }else{
             $('.button-login').prop('disabled', false);
             $('.button-login').removeClass("running");
@@ -175,81 +44,89 @@ function signin(){
             })
         }
     }
-}
+    if(check == 1){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'signin',
+           },
+           data: {
+            'username':$('#username2').val(),
+            'password':$('#password2').val()
+           },
+           success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
+                gotoForm();
+                let timerInterval
+                Swal.fire({
+                  type: 'success',
+                  title: 'Login Success!',
+                  html: 'Please Wait ...',
+                  timer: 50000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
 
-function signin_btc(){
-    if( $(window).width() > 767){
-        if($('#username').val() != '' && $('#password').val() != ''){
-            $.ajax({
-               type: "POST",
-               url: "/webservice/agent",
-               headers:{
-                    'action': 'signin_btc',
-               },
-               data: {
-                'username':$('#username').val(),
-                'password':$('#password').val()
-               },
-               success: function(msg) {
-                console.log(msg);
-                if(msg.result.error_code == 0){
-                    //gotoForm();
-                    console.log($('#username').val());
-                    document.getElementById('nav-menu-container_no_login').style.display = 'none';
-                    document.getElementById('nav-menu-container_login').style.display = 'block';
-                    document.getElementById('user_login').innerHTML = $('#username').val();
-                    document.getElementById('user_login2').innerHTML = $('#username').val();
-                    user_login = msg.result.response;
-                    signature = msg.result.response.signature;
-                    triggered_balance(false);
-                    get_balance(false);
-    //                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
-                        window.location.href = '/';
-                    let timerInterval;
-                    Swal.fire({
-                      type: 'success',
-                      title: 'Login Success!',
-                      html: 'Please Wait ...',
-                      timer: 1000,
-                      onBeforeOpen: () => {
-                        Swal.showLoading()
-                        timerInterval = setInterval(() => {
-                          Swal.getContent().querySelector('strong')
-                            .textContent = Swal.getTimerLeft()
-                        }, 100)
-                      },
-                      onClose: () => {
-                        clearInterval(timerInterval)
-                      }
-                    }).then((result) => {
-                      if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.timer
-                      ) {
-
-                      }
-                    })
-                }else{
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: 'Please input correct username or password',
-                    })
-                }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  }
+                })
+            }else if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == false){
                 $('.button-login').prop('disabled', false);
                 $('.button-login').removeClass("running");
+
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error signin </span>' + errorThrown,
+                  text: "It looks like you don't have permission to login!",
                 })
-               },timeout: 60000
-            });
+            }else{
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: msg.result.error_msg,
+                })
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(XMLHttpRequest.status == 500){
+                    $('.button-login').prop('disabled', false);
+                    $('.button-login').removeClass("running");
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error signin </span>' + errorThrown,
+                    })
+                }
+           },timeout: 10000
+        });
+    }
+}
+
+function signin_btc(){
+    username = '';
+    password = '';
+    check = 0;
+    if( $(window).width() > 767){
+        if($('#username').val() != '' && $('#password').val() != ''){
+            username = $('#username').val();
+            password = $('#password').val();
+            check = 1;
         }else{
             error_log = '';
             if($('#username').val() == '')
@@ -262,79 +139,11 @@ function signin_btc(){
             if(error_log != '')
                 alert_message_swal(error_log);
         }
-    }
-    else{
+    }else{
         if($('#username2').val() != '' && $('#password2').val() != ''){
-            $.ajax({
-               type: "POST",
-               url: "/webservice/agent",
-               headers:{
-                    'action': 'signin_btc',
-               },
-               data: {
-                'username':$('#username2').val(),
-                'password':$('#password2').val()
-               },
-               success: function(msg) {
-                console.log(msg);
-                if(msg.result.error_code == 0){
-                    //gotoForm();
-                    console.log($('#username').val());
-                    document.getElementById('nav-menu-container_no_login').style.display = 'none';
-                    document.getElementById('nav-menu-container_login').style.display = 'block';
-                    document.getElementById('user_login').innerHTML = $('#username2').val();
-                    document.getElementById('user_login2').innerHTML = $('#username2').val();
-                    user_login = msg.result.response;
-                    signature = msg.result.response.signature;
-                    triggered_balance(false);
-                    get_balance(false);
-        //                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
-                        window.location.href = '/';
-                    let timerInterval;
-                    Swal.fire({
-                      type: 'success',
-                      title: 'Login Success!',
-                      html: 'Please Wait ...',
-                      timer: 1000,
-                      onBeforeOpen: () => {
-                        Swal.showLoading()
-                        timerInterval = setInterval(() => {
-                          Swal.getContent().querySelector('strong')
-                            .textContent = Swal.getTimerLeft()
-                        }, 100)
-                      },
-                      onClose: () => {
-                        clearInterval(timerInterval)
-                      }
-                    }).then((result) => {
-                      if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.timer
-                      ) {
-
-                      }
-                    })
-                }else{
-                    $('.button-login').prop('disabled', false);
-                    $('.button-login').removeClass("running");
-
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      text: 'Please input correct username or password',
-                    })
-                }
-               },
-               error: function(XMLHttpRequest, textStatus, errorThrown) {
-                $('.button-login').prop('disabled', false);
-                $('.button-login').removeClass("running");
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error signin </span>' + errorThrown,
-                })
-               },timeout: 60000
-            });
+            username = $('#username2').val();
+            password = $('#password2').val();
+            check = 1;
         }else{
             error_log = '';
             if($('#username2').val() == '')
@@ -347,6 +156,78 @@ function signin_btc(){
             if(error_log != '')
                 alert_message_swal(error_log);
         }
+    }
+    if(check == 1){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'signin_btc',
+           },
+           data: {
+            'username':$('#username').val(),
+            'password':$('#password').val()
+           },
+           success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                //gotoForm();
+                console.log($('#username').val());
+                document.getElementById('nav-menu-container_no_login').style.display = 'none';
+                document.getElementById('nav-menu-container_login').style.display = 'block';
+                document.getElementById('user_login').innerHTML = $('#username').val();
+                document.getElementById('user_login2').innerHTML = $('#username').val();
+                user_login = msg.result.response;
+                signature = msg.result.response.signature;
+                triggered_balance(false);
+                get_balance(false);
+//                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
+                    window.location.href = '/';
+                let timerInterval;
+                Swal.fire({
+                  type: 'success',
+                  title: 'Login Success!',
+                  html: 'Please Wait ...',
+                  timer: 1000,
+                  onBeforeOpen: () => {
+                    Swal.showLoading()
+                    timerInterval = setInterval(() => {
+                      Swal.getContent().querySelector('strong')
+                        .textContent = Swal.getTimerLeft()
+                    }, 100)
+                  },
+                  onClose: () => {
+                    clearInterval(timerInterval)
+                  }
+                }).then((result) => {
+                  if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.timer
+                  ) {
+
+                  }
+                })
+            }else{
+                $('.button-login').prop('disabled', false);
+                $('.button-login').removeClass("running");
+
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  text: 'Please input correct username or password',
+                })
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+            $('.button-login').prop('disabled', false);
+            $('.button-login').removeClass("running");
+            Swal.fire({
+              type: 'error',
+              title: 'Oops!',
+              html: '<span style="color: red;">Error signin </span>' + errorThrown,
+            })
+           },timeout: 60000
+        });
     }
 }
 
