@@ -743,6 +743,7 @@ def payment(request):
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
                 'signature': signature,
                 'passengers': passengers,
+                'order_number': request.POST['order_number'] or '',
                 'provider': provider,
                 'type': type,
                 'payment': payment,
