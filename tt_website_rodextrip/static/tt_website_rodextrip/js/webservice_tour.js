@@ -1439,7 +1439,7 @@ function tour_get_booking(order_number)
            var tour_package = msg.result.response.tour_details;
            var passengers = msg.result.response.passengers;
            var rooms = msg.result.response.rooms;
-           var contact = msg.result.response.contacts;
+           var contact = msg.result.response.contact;
            var payment = msg.result.response.payment_rules;
            var cur_state = msg.result.response.state;
 
@@ -1587,19 +1587,6 @@ function tour_get_booking(order_number)
                     </div>
                 </div>`;
 
-            if(contact.gender == 'female' && contact.marital_status == 'married')
-               {
-                    title = 'MRS';
-               }
-               else if(contact.gender == 'female' && contact.marital_status != 'married')
-               {
-                    title = 'MS';
-               }
-               else
-               {
-                    title = 'MR';
-               }
-
                text += `
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
@@ -1616,7 +1603,7 @@ function tour_get_booking(order_number)
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>`+title+`. `+contact.name+`</td>
+                                            <td>`+contact.title+`. `+contact.name+`</td>
                                             <td>`+contact.email+`</td>
                                             <td>`+contact.phone+`</td>
                                         </tr>
@@ -1931,8 +1918,8 @@ function tour_get_booking(order_number)
                print_payment_rules(payment);
                try{
                    if(now.diff(hold_date_time, 'minutes')<0){
-                       check_payment_payment_method(order_number, 'Issued', book_obj.booker_seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
-    //                   get_payment_acq('Issued', book_obj.booker_seq_id, order_number, 'billing',signature,'tour');
+                       check_payment_payment_method(order_number, 'Issued', book_obj.booker.seq_id, 'billing', 'tour', signature, msg.result.response.payment_acquirer_number);
+    //                   get_payment_acq('Issued', book_obj.booker.seq_id, order_number, 'billing',signature,'tour');
                        document.getElementById("final_issued_btn").style.display = "block";
                    }
                }catch(err){}
