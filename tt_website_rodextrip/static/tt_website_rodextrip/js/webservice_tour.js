@@ -1004,9 +1004,17 @@ function update_passengers_tour(val){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            if(val == 0)
+            if(val == 0){
+                document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+                document.getElementById("signature").value = signature;
+                document.getElementById("provider").value = 'tour';
+                document.getElementById("type").value = 'tour';
+                document.getElementById("voucher_code").value = voucher_code;
+                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+                document.getElementById("session_time_input").value = time_limit;
+                document.getElementById("payment").value = JSON.stringify(payment);
                 commit_booking_tour(val);
-            else if(val == 1){
+            }else if(val == 1){
                 document.getElementById("passengers").value = JSON.stringify({'booker':booker});
                 document.getElementById("signature").value = signature;
                 document.getElementById("provider").value = 'tour';
@@ -1100,12 +1108,15 @@ function commit_booking_tour(val)
                     document.getElementById('issued').action = '/tour/booking/' + btoa(msg.result.response.order_number);
                     document.getElementById('issued').submit();
                }else{
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                         send_url_booking('tour', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                    document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
-
-                    document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
-                    document.getElementById('tour_booking').submit();
+                        document.getElementById('order_number').value = msg.result.response.order_number;
+                        document.getElementById('tour_issued').submit();
+                    }else{
+                        document.getElementById('tour_booking').innerHTML+= '<input type="hidden" name="order_number" value='+booking_num+'>';
+                        document.getElementById('tour_booking').action = '/tour/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('tour_booking').submit();
+                    }
                }
            }else{
                Swal.fire({

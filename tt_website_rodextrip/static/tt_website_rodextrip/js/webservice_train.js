@@ -288,9 +288,16 @@ function train_pre_create_booking(val){
         $('.hold-seat-booking-train').addClass("running");
         $('.hold-seat-booking-train').attr("disabled", true);
         please_wait_transaction();
-        if(val == 0)
-            train_create_booking(val)
-        else{
+        if(val == 0){
+            document.getElementById("passengers").value = JSON.stringify(passenger_with_booker);
+            document.getElementById("signature").value = signature;
+            document.getElementById("provider").value = 'train';
+            document.getElementById("type").value = 'train';
+            document.getElementById("voucher_code").value = voucher_code;
+            document.getElementById("discount").value = JSON.stringify({});
+            document.getElementById("session_time_input").value = time_limit;
+            train_create_booking(val);
+        }else{
             document.getElementById("passengers").value = JSON.stringify(passengers);
             document.getElementById("signature").value = signature;
             document.getElementById("provider").value = 'train';
@@ -358,11 +365,15 @@ function train_create_booking(val){
             if(val == 0){
                 $('.hold-seat-booking-train').removeClass("running");
                 $('.hold-seat-booking-train').attr("disabled", false);
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                     send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
-                document.getElementById('train_booking').submit();
+                    document.getElementById('order_number').value = msg.result.response.order_number;
+                    document.getElementById('train_issued').submit();
+                }else{
+                    document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                    document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
+                    document.getElementById('train_booking').submit();
+                }
             }else{
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                     send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);

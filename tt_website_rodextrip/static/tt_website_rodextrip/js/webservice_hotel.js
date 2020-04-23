@@ -960,11 +960,15 @@ function hotel_issued_booking(val){
             console.log(msg);
             try{
                 if(msg.result.error_code == 0){
-                    document.getElementById('order_number').value = msg.result.response.os_res_no;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
-                        send_url_booking('hotel', btoa(msg.result.response.os_res_no), msg.result.response.os_res_no);
-                    document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.os_res_no);
-                    document.getElementById('issued').submit();
+                    if(val == 0){
+                        document.getElementById('order_number').value = msg.result.response.os_res_no;
+                        document.getElementById('hotel_issued').submit();
+                    }else{
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                            send_url_booking('hotel', btoa(msg.result.response.os_res_no), msg.result.response.os_res_no);
+                        document.getElementById('issued').action = '/hotel/booking/' + btoa(msg.result.response.os_res_no);
+                        document.getElementById('issued').submit();
+                    }
     //                var form = document.getElementById('hotel_booking');
     //                var input = document.createElement('input');//prepare a new input DOM element
     //                input.setAttribute('name', 'result');//set the param name

@@ -2711,13 +2711,15 @@ function airline_commit_booking(val){
            if(msg.result.error_code == 0){
                //send order number
                if(val == 0){
-                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                   if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                         send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
-//                   document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-//                   document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
-//                   document.getElementById('airline_booking').submit();
-                    document.getElementById('order_number').value = msg.result.response.order_number;
-                    document.getElementById('airline_issued').submit();
+                        document.getElementById('order_number').value = msg.result.response.order_number;
+                        document.getElementById('airline_issued').submit();
+                   }else{
+                       document.getElementById('airline_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                       document.getElementById('airline_booking').action = '/airline/booking/' + btoa(msg.result.response.order_number);
+                       document.getElementById('airline_booking').submit();
+                   }
                }else{
                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                         send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
