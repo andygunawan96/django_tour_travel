@@ -587,7 +587,7 @@ def issued_booking(request):
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "issued_booking",
+            "action": "issued",
             "signature": request.POST['signature'],
         }
     except Exception as e:
