@@ -1564,7 +1564,7 @@ function activity_get_booking(data){
                 voucher_text = ``;
             }
             else{
-                if(msg.result.response.status == 'issued'){
+                if(msg.result.response.state == 'issued'){
                     try{
                         document.getElementById('voucher_discount').style.display = 'none';
                     }catch(err){}
@@ -1574,7 +1574,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
                 }
-                else if(msg.result.response.status == 'booked'){
+                else if(msg.result.response.state == 'booked'){
                     document.getElementById('voucher_discount').style.display = '';
                     conv_status = 'Booked';
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -1583,7 +1583,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Booked`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Booked`;
                 }
-                else if(msg.result.response.status == 'rejected'){
+                else if(msg.result.response.state == 'rejected'){
                     conv_status = 'Rejected';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -1593,7 +1593,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Rejected`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Rejected`;
                 }
-                else if(msg.result.response.status == 'cancel'){
+                else if(msg.result.response.state == 'cancel'){
                     conv_status = 'Cancelled';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -1603,7 +1603,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Cancelled`;
                 }
-                else if(msg.result.response.status == 'cancel2'){
+                else if(msg.result.response.state == 'cancel2'){
                     conv_status = 'Expired';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -1613,7 +1613,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
                 }
-                else if(msg.result.response.status == 'fail_issued'){
+                else if(msg.result.response.state == 'fail_issued'){
                     conv_status = 'Failed (Issue)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -1623,7 +1623,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
                 }
-                else if(msg.result.response.status == 'fail_booked'){
+                else if(msg.result.response.state == 'fail_booked'){
                     conv_status = 'Failed (Book)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -1633,7 +1633,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
                 }
-                else if(msg.result.response.status == 'fail_refunded'){
+                else if(msg.result.response.state == 'fail_refunded'){
                     conv_status = 'Failed (Refunded)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -1643,7 +1643,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
                 }
-                else if(msg.result.response.status == 'refund'){
+                else if(msg.result.response.state == 'refund'){
                     conv_status = 'Refunded';
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
@@ -1651,7 +1651,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
                 }
-                else if(msg.result.response.status == 'reissue'){
+                else if(msg.result.response.state == 'reissue'){
                     conv_status = 'Reissued';
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
@@ -1659,7 +1659,7 @@ function activity_get_booking(data){
                     document.getElementById('issued-breadcrumb-span').innerHTML = `Reissued`;
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Reissued`;
                 }
-                else if(msg.result.response.status == 'paid' || msg.result.response.status == 'pending'){
+                else if(msg.result.response.state == 'paid' || msg.result.response.state == 'pending'){
                     conv_status = 'On Request (max 3 working days)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-pending");
@@ -1670,7 +1670,7 @@ function activity_get_booking(data){
                     document.getElementById('display_state').innerHTML = `Your Order Has Been Requested`;
                 }
                 else{
-                    console.log(msg.result.response.status);
+                    console.log(msg.result.response.state);
                     conv_status = 'On Request (max 3 working days)';
                     document.getElementById('issued-breadcrumb').classList.remove("br-active");
                     document.getElementById('issued-breadcrumb').classList.add("br-pending");
@@ -1693,7 +1693,7 @@ function activity_get_booking(data){
                                             <th>Status</th>
                                         </tr>
                                         <tr>`;
-                                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                                             text+=`
                                             <td>`+msg.result.response.pnr+`</td>`;
                                         else
@@ -1770,19 +1770,6 @@ function activity_get_booking(data){
                     `;
                }
 
-               if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status == 'married')
-               {
-                    title = 'MRS';
-               }
-               else if(msg.result.response.contacts.gender == 'female' && msg.result.response.contacts.marital_status != 'married')
-               {
-                    title = 'MS';
-               }
-               else
-               {
-                    title = 'MR';
-               }
-
                text += `
                     <div class="row" style="margin-top: 15px;">
                         <div class="col-lg-12">
@@ -1799,9 +1786,9 @@ function activity_get_booking(data){
                                         </tr>
                                         <tr>
                                             <td>1</td>
-                                            <td>`+title+`. `+msg.result.response.contacts.name+`</td>
-                                            <td>`+msg.result.response.contacts.email+`</td>
-                                            <td>`+msg.result.response.contacts.phone+`</td>
+                                            <td>`+msg.result.response.contact.title+`. `+msg.result.response.contact.name+`</td>
+                                            <td>`+msg.result.response.contact.email+`</td>
+                                            <td>`+msg.result.response.contact.phone+`</td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1850,7 +1837,7 @@ function activity_get_booking(data){
                     </div>
                     <div class="row" style="margin-top: 20px;">
                         <div class="col-lg-4" id="voucher" style="padding-bottom:10px;">`;
-               if(msg.result.response.status == 'issued'){
+               if(msg.result.response.state == 'issued'){
                     if (msg.result.response.voucher_url.length > 0)
                     {
                         text += `<button class="primary-btn hold-seat-booking-train next-loading-ticket ld-ext-right" type="button" onclick="window.open('`+msg.result.response.voucher_url[0]+`');" style="width:100%;">
@@ -1866,7 +1853,7 @@ function activity_get_booking(data){
                }
                text += `</div>
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
-               if(msg.result.response.status == 'pending' || msg.result.response.status == 'paid')
+               if(msg.result.response.state == 'pending' || msg.result.response.state == 'paid')
                {
 //                   text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.order_number+`/4')" style="width:100%;">
 //                                Print Invoice
@@ -1928,7 +1915,7 @@ function activity_get_booking(data){
                text += `</div>
                         <div class="col-lg-4" style="padding-bottom:10px;">`;
 
-               if(msg.result.response.status == 'issued'){
+               if(msg.result.response.state == 'issued'){
 //                    text += `<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.open('https://backend.rodextrip.com/rodextrip/report/pdf/tt.reservation.activity/`+msg.result.response.order_number+`/4')" style="width:100%;">
 //                                Print Invoice
 //                             </button>`;
@@ -2024,7 +2011,7 @@ function activity_get_booking(data){
             counter_service_charge = 0;
             $test += '\nPrice:\n';
             for(i in msg.result.response.passengers[0].sale_service_charges){
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                     price_text+=`
                         <div style="text-align:left">
                             <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
@@ -2138,7 +2125,7 @@ function activity_get_booking(data){
                        <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                   </div>
              </div>`;
-             if(msg.result.response.status == 'booked')
+             if(msg.result.response.state == 'booked')
              price_text+=`
              <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
              price_text+=`<div class="row">
@@ -2190,12 +2177,12 @@ function activity_get_booking(data){
             document.getElementById('activity_detail_table').innerHTML = price_text;
             add_repricing();
 
-            if(msg.result.response.status == 'booked')
+            if(msg.result.response.state == 'booked')
             {
                 try{
                     if(now.diff(hold_date_time, 'minutes')<0){
-                        check_payment_payment_method(activity_order_number, 'Issued', msg.result.response.booker_seq_id, 'billing', 'activity', signature, msg.result.response.payment_acquirer_number);
-    //                    get_payment_acq('Issued', msg.result.response.booker_seq_id, activity_order_number, 'billing',signature,'activity', signature);
+                        check_payment_payment_method(activity_order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'activity', signature, msg.result.response.payment_acquirer_number);
+    //                    get_payment_acq('Issued', msg.result.response.booker.seq_id, activity_order_number, 'billing',signature,'activity', signature);
                         document.getElementById("final_issued_btn").style.display = "block";
                     }
                 }catch(err){}
