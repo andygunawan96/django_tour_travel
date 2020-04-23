@@ -3341,7 +3341,7 @@ function airline_detail(type){
                         for(m in price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary){
                             price_type['fare'] = price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_fare / price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                             price_type['tax'] = price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_tax / price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
-                            price_type['rac'] = price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_rac / price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
+                            price_type['rac'] = price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].total_commission / price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_count;
                             price_type['currency'] = price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].service_charges[0].currency;
                             price_type['roc'] = 0;
                             airline_price[airline_price.length-1][price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].fares[l].service_charge_summary[m].pax_type] = price_type;
