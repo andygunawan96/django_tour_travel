@@ -1270,11 +1270,15 @@ function activity_commit_booking(val){
         console.log(msg);
         if(msg.result.error_code == 0){
             if(val == 0){
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
                     send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
-                document.getElementById('activity_booking').submit();
+                    document.getElementById('order_number').value = msg.result.response.order_number;
+                    document.getElementById('activity_issued').submit();
+                }else{
+                    document.getElementById('activity_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                    document.getElementById('activity_booking').action = '/activity/booking/' + btoa(msg.result.response.order_number);
+                    document.getElementById('activity_booking').submit();
+                }
             }else{
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                     send_url_booking('activity', btoa(msg.result.response.order_number), msg.result.response.order_number);

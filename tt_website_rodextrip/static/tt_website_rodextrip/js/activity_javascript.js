@@ -2289,9 +2289,16 @@ function activity_pre_create_booking(value){
       if (result.value) {
         show_loading();
         please_wait_transaction();
-        if(value == 0)
+        if(value == 0){
+            document.getElementById("passengers").value = JSON.stringify({'booker':booker});
+            document.getElementById("signature").value = signature;
+            document.getElementById("provider").value = 'activity';
+            document.getElementById("type").value = 'activity';
+            document.getElementById("voucher_code").value = voucher_code;
+            document.getElementById("discount").value = JSON.stringify(discount_voucher);
+            document.getElementById("session_time_input").value = time_limit;
             activity_commit_booking(value);
-        else{
+        }else{
             document.getElementById("passengers").value = JSON.stringify({'booker':booker});
             document.getElementById("signature").value = signature;
             document.getElementById("provider").value = 'activity';
