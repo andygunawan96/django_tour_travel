@@ -173,14 +173,16 @@ function signin_btc(){
             if(msg.result.error_code == 0){
                 //gotoForm();
                 console.log($('#username').val());
-                document.getElementById('nav-menu-container_no_login').style.display = 'none';
-                document.getElementById('nav-menu-container_login').style.display = 'block';
-                document.getElementById('user_login').innerHTML = $('#username').val();
-                document.getElementById('user_login2').innerHTML = $('#username').val();
-                user_login = msg.result.response;
-                signature = msg.result.response.signature;
-                triggered_balance(false);
-                get_balance(false);
+                try{
+                    document.getElementById('nav-menu-container_no_login').style.display = 'none';
+                    document.getElementById('nav-menu-container_login').style.display = 'block';
+                    document.getElementById('user_login').innerHTML = $('#username').val();
+                    document.getElementById('user_login2').innerHTML = $('#username').val();
+                    user_login = msg.result.response;
+                    signature = msg.result.response.signature;
+                    triggered_balance(false);
+                    get_balance(false);
+                }catch(err){}
 //                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
                     window.location.href = '/';
                 let timerInterval;

@@ -310,7 +310,7 @@
                                     </li>
 
                                     {% if username.co_user_login != '' %}
-                                    <li class="notification-pc"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
+                                    <li class="notification-pc"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
                                         <ul class="dropdown" style="margin-top:10px;">
                                             <li><a href="#">{% trans 'Partnership' %}</a>
                                                 <ul class="dropdown">
@@ -494,7 +494,7 @@
                         </li>
                         <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul>
-                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
                                 <li class="menu-has-children"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul style="width:100%;">
                                         <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
@@ -649,7 +649,7 @@
                             </li>
 
                             {% if username.co_user_login != '' %}
-                            <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" id="username" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
+                            <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
                                 <ul class="dropdown">
                                     <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
                                         <ul class="dropdown">
@@ -667,7 +667,7 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="has-children notification-mobile" style="display:none;"><a href="#" id="username" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                            <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                                 <ul class="dropdown">
                                     <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
                                     <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
