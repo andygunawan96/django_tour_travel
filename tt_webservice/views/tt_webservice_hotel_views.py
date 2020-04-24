@@ -488,7 +488,7 @@ def create_booking(request):
             "contact": contacts,
             "booker": booker,
             'kwargs': {
-                'force_issued': bool(int(request.POST['force_issued']))
+                'force_issued': isinstance(request.POST['force_issued'], int) and bool(int(request.POST['force_issued'])) or request.POST['force_issued']
             },
             'special_request': request.session['hotel_request']['special_request'],
             'resv_name': '',
