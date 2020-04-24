@@ -884,9 +884,14 @@ function hotel_issued_alert(val){
     })
 }
 
-function hotel_force_issued_alert(){
+function hotel_force_issued_alert(force_issued){
+    console.log(force_issued);
+    if(force_issued == "1")
+        var msg_str = 'Are you sure you want to Force Issued this booking?'
+     else
+        var msg_str = 'Are you sure you want to Hold this booking?'
     Swal.fire({
-      title: 'Are you sure you want to Force Issued this booking?',
+      title: msg_str,
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -906,7 +911,10 @@ function hotel_force_issued_alert(){
         document.getElementById("voucher_code").value = voucher_code;
         document.getElementById("discount").value = JSON.stringify(discount_voucher);
         document.getElementById("session_time_input").value = time_limit;
-        document.getElementById('hotel_issued').submit();
+        if(force_issued == "1")
+            document.getElementById('hotel_issued').submit();
+        else
+            hotel_issued_booking(0);
       }
     })
 }
