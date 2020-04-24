@@ -8,6 +8,9 @@ month_list = [
     ['07', 'Jul'],
     ['08', 'Aug'],
     ['09', 'Sep'],
+    ['10', 'Oct'],
+    ['11', 'Nov'],
+    ['12', 'Dec'],
 ]
 
 function set_container_bill(){
