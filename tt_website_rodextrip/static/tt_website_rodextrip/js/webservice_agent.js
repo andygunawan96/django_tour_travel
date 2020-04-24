@@ -52,8 +52,8 @@ function signin(){
                 'action': 'signin',
            },
            data: {
-            'username':$('#username2').val(),
-            'password':$('#password2').val()
+            'username':username,
+            'password':password
            },
            success: function(msg) {
             console.log(msg);
@@ -165,8 +165,8 @@ function signin_btc(){
                 'action': 'signin_btc',
            },
            data: {
-            'username':$('#username').val(),
-            'password':$('#password').val()
+            'username':username,
+            'password':password
            },
            success: function(msg) {
             console.log(msg);
