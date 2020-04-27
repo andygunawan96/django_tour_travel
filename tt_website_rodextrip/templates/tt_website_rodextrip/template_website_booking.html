@@ -1298,6 +1298,7 @@ Licence URI: http://www.os-templates.com/template-terms
 <script type="text/javascript">
     // Broad cast that your're opening a page.
     localStorage.openpages = Date.now();
+    page_open = 1;
     var onLocalStorageEvent = function(e){
 
         if(e.key == "openpages"){
@@ -1310,8 +1311,10 @@ Licence URI: http://www.os-templates.com/template-terms
                 if(window.location.href.split('/').length > 3)
                     if(window.location.href.split('/')[3] != 'payment')
                         alert("One more page already open");
-                else
+                else{
                     alert("One more page already open");
+                    page_open = 0;
+                }
             }catch(err){}
             //self.close();
             //open(location, '_self').close();

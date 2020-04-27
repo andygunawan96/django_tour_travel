@@ -4,6 +4,28 @@ booker_pick_passenger = {};
 passenger_number = 0;
 agent_offside = 0;
 load_more = true;
+
+
+$(window).unload(function() {
+    //do something
+    if(page_open == 1){
+        $.ajax({
+           type: "POST",
+           url: "/webservice/agent",
+           headers:{
+                'action': 'delete_session',
+           },
+           data: {},
+           success: function(msg) {
+
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+           }
+        });
+    }
+});
+
 function signin(){
     username = '';
     password = '';

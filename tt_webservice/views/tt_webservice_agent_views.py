@@ -47,6 +47,8 @@ def api_models(request):
             res = signin(request)
         elif req_data['action'] == 'signin_btc':
             res = signin_btc(request)
+        elif req_data['action'] == 'delete_session':
+            res = delete_session(request)
         elif req_data['action'] == 'static_path_url_server':
             res = get_url_static_path()
         elif req_data['action'] == 'get_agent_booker':
@@ -188,6 +190,14 @@ def signin(request):
             return res
         else:
             return res
+
+def delete_session(request):
+    request.session.set_expiry(0)
+    request.session.modified = True
+    if request.session._session:
+        for key in reversed(list(request.session._session.keys())):
+            del request.session[key]
+    return 0
 
 def signin_btc(request):
     headers = {
