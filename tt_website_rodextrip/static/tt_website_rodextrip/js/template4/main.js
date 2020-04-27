@@ -30,13 +30,41 @@ jQuery(document).ready(function($) {
     var check_video_play = 0;
     var check_video_slider = 0;
 
+    if( $(window).width() > 992){
+        $('#username_pc').show();
+        $('#password_pc').show();
+        $('#username_mb').hide();
+        $('#password_mb').hide();
+    }
+    else {
+        $('#username_pc').hide();
+        $('#password_pc').hide();
+        $('#username_mb').show();
+        $('#password_mb').show();
+    }
+
+    $(window).resize(function() {
+        if ($(window).width() >= 992) {
+            $('#username_pc').show();
+            $('#password_pc').show();
+            $('#username_mb').hide();
+            $('#password_mb').hide();
+        }
+        else {
+            $('#username_pc').hide();
+            $('#password_pc').hide();
+            $('#username_mb').show();
+            $('#password_mb').show();
+        }
+    });
+
+
 	var siteMenuClone = function() {
 
 		$('.js-clone-nav').each(function() {
 
 			var $this = $(this);
 			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
-
             $this.find('.balance_mobile').replaceWith('<li><a style="color:black;"><span id="balance_mob"></span></a></li>');
             $this.find('.credit_mobile').replaceWith('<li><a style="color:black;"><span id="credit_mob"></span></a></li>');
             try{

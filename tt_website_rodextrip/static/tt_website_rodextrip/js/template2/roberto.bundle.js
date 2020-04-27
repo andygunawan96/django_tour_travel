@@ -26,6 +26,35 @@
 // **********************************************
 
 (function ($) {
+
+    if( $(window).width() > 992){
+        $('#username_pc').show();
+        $('#password_pc').show();
+        $('#username_mb').hide();
+        $('#password_mb').hide();
+    }
+    else {
+        $('#username_pc').hide();
+        $('#password_pc').hide();
+        $('#username_mb').show();
+        $('#password_mb').show();
+    }
+
+    $(window).resize(function() {
+        if ($(window).width() >= 992) {
+            $('#username_pc').show();
+            $('#password_pc').show();
+            $('#username_mb').hide();
+            $('#password_mb').hide();
+        }
+        else {
+            $('#username_pc').hide();
+            $('#password_pc').hide();
+            $('#username_mb').show();
+            $('#password_mb').show();
+        }
+    });
+
     $.fn.classyNav = function (options) {
 
         // Variables
