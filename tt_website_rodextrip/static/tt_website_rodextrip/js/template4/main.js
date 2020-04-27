@@ -58,11 +58,9 @@ jQuery(document).ready(function($) {
         }
     });
 
-
 	var siteMenuClone = function() {
 
 		$('.js-clone-nav').each(function() {
-
 			var $this = $(this);
 			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
             $this.find('.balance_mobile').replaceWith('<li><a style="color:black;"><span id="balance_mob"></span></a></li>');
@@ -73,6 +71,13 @@ jQuery(document).ready(function($) {
             try{
                 document.getElementById("credit_mob").innerHTML = document.getElementById("credit_limit").innerHTML;
             }catch(err){}
+		});
+
+		$('.js-clone-nav2').each(function() {
+			var $this = $(this);
+			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
+            $this.find('.username_mobile').replaceWith('<li style="padding-right:5px; margin-bottom:15px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/></div></li>');
+            $this.find('.password_mobile').replaceWith('<li style="padding-right:5px; margin-bottom:15px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/></div></li>');
 		});
 
 
