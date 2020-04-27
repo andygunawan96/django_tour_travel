@@ -679,7 +679,7 @@
                         </li>
                         <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul class="dropdown">
-                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
                                 <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
                                     <ul class="dropdown">
                                         <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
@@ -715,19 +715,13 @@
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">{% trans 'Sign In' %}</span></a></li>
                         {% endif %}
                         </ul>
-                        <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none !important;" {% endif %}>
-                            <li id="username_pc" style="padding-right:5px; display:inline-block; margin-bottom:15px;">
-                                <input type="text" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
-                            </li>
-                            <li id="password_pc" style="padding-right:5px; display:inline-block; margin-bottom:15px;">
-                                <input type="password" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
-                            </li>
-                            <li id="username_mb" style="padding-right:5px; display:none;">
+                        <ul class="site-menu js-clone-nav2 mr-auto d-none d-lg-block" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none !important;" {% endif %}>
+                            <li class="username_mobile" style="padding-right:5px;">
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/>
                                 </div>
                             </li>
-                            <li id="password_mb" style="padding-right:5px; display:none;">
+                            <li class="password_mobile" style="padding-right:5px;">
                                 <div class="input-container-search-ticket">
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
                                 </div>
