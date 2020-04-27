@@ -367,6 +367,8 @@ def login(request):
             # return goto_dashboard()
             return render(request, MODEL_NAME + '/login_templates.html', values)
 
+def detector(request):
+    return render(request, MODEL_NAME + '/refresh-close-detector.html', {})
 
 def admin(request):
     if 'user_account' in request.session._session:
