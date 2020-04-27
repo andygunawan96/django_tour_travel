@@ -6,25 +6,93 @@ agent_offside = 0;
 load_more = true;
 
 
-$(window).unload(function() {
-    //do something
-    if(page_open == 1){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/agent",
-           headers:{
-                'action': 'delete_session',
-           },
-           data: {},
-           success: function(msg) {
+window.addEventListener('unload', () => {
+  open('/detector', '', 'width=100,height=100');
+})
 
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
+//function goodbye(e) {
+//	console.log(e);
+//    if(!e) e = window.event;
+//    //e.cancelBubble is supported by IE - this will kill the bubbling process.
+//    e.cancelBubble = true;
+//    e.returnValue = 'You sure you want to leave?'; //This is displayed on the dialog
+//
+//    //e.stopPropagation works in Firefox.
+//    if (e.stopPropagation) {
+//        e.stopPropagation();
+//        e.preventDefault();
+//    }
+//    if(page_open == 1){
+//        $.ajax({
+//           type: "POST",
+//           url: "/webservice/agent",
+//           headers:{
+//                'action': 'delete_session',
+//           },
+//           data: {
+//                "data": e.returnValue
+//           },
+//           success: function(msg) {
+//
+//           },
+//           error: function(XMLHttpRequest, textStatus, errorThrown) {
+//
+//           }
+//        });
+//    }
+//}
+//window.onclose=goodbye;
 
-           }
-        });
-    }
-});
+//$(window).on('beforeunload', function(e) {
+//    e = e || window.event;
+//    var localStorageTime = localStorage.getItem('storagetime')
+//    if(localStorageTime!=null && localStorageTime!=undefined){
+//        var currentTime = new Date().getTime(),
+//        timeDifference = currentTime - localStorageTime;
+//
+//        if(timeDifference<25){//Browser Closed
+//            localStorage.removeItem('storagetime');
+//            if(page_open == 1){
+//                $.ajax({
+//                   type: "POST",
+//                   url: "/webservice/agent",
+//                   headers:{
+//                        'action': 'delete_session',
+//                   },
+//                   data: {},
+//                   success: function(msg) {
+//
+//                   },
+//                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+//
+//                   }
+//                });
+//            }
+//        }else{//Browser Tab Closed
+//            if(page_open == 1){
+//                $.ajax({
+//                   type: "POST",
+//                   url: "/webservice/agent",
+//                   headers:{
+//                        'action': 'delete_session',
+//                   },
+//                   data: {},
+//                   success: function(msg) {
+//
+//                   },
+//                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+//
+//                   }
+//                });
+//            }
+//            localStorage.setItem('storagetime',new Date().getTime());
+//        }
+//
+//    }else{
+//        localStorage.setItem('storagetime',new Date().getTime());
+//    }
+//
+//});
 
 function signin(){
     username = '';

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Processing...</title>
+</head>
+<body>
+
+<script>
+  if (this.opener) {
+    // the opener was refreshed, do something if you want
+    alert('lalala');
+  } else {
+    alert('lilili);
+        if(page_open == 1){
+            $.ajax({
+                type: "POST",
+                   url: "/webservice/agent",
+                   headers:{
+                        'action': 'delete_session',
+                   },
+                   data: {},
+                   success: function(msg) {
+
+                   },
+                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+                   }
+            });
+    // the opener was closed, do something if you want
+  }
+
+  // you may want to close the pop up
+  this.close()
+</script>
+</body>
+</html>
