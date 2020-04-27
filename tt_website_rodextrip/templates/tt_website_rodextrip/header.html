@@ -48,117 +48,117 @@
 
                 <nav id="nav-menu-container" >
                     <ul class="nav-menu" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
-                        {% if username.co_user_login != ''%}
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
-                        {% if "top_up" in username.co_agent_frontend_security %}
-                        <li class="menu-has-children pt5"><a href="#">{% trans 'Top Up' %}</a>
-                            <ul>
-                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
-                                {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
-                            </ul>
-                        </li>
-                        {% endif%}
-                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
-                        {% endif %}
-                        <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
-                            <ul id="highlight_header_div">
-                            </ul>
-                        </li>
-                        {% if username.co_user_login != '' %}
-                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                        <li class="credit_mobile pt5"><a id="credit_limit" style="color:black;"></a></li>
-                        {% else %}
-                        <li class="balance_mobile pt5"><a id="balance" style="color:black;"></a></li>
-                        {% endif %}
-                        <li class="menu-has-children pt5"><a href="#">{% trans 'Setting' %}</a>
-                            <ul>
-                                <li class="menu-has-children pt5"><a href="#">{% trans 'Language' %}</a>
-                                    <ul>
-                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
-                                            {% csrf_token %}
-                                            <input name="next" type="hidden" value="" >
-                                            <input type="hidden" id="selection_language" name="language"/>
-                                            {% get_current_language as LANGUAGE_CODE %}
-                                            {% get_available_languages as LANGUAGES %}
-                                            {% get_language_info_list for LANGUAGES as languages %}
-                                            {% for language in languages %}
-                                            <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
-                                            {% endfor %}
-                                        </form>
-                                    </ul>
-                                </li>
-                                <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
-                                <!--                                    <ul>-->
-                                <!--                                        <li><a href="#">IDR</a></li>-->
-                                <!--                                        <li><a href="#">USD</a></li>-->
-                                <!--                                    </ul>-->
-                                <!--                                </li>-->
-                            </ul>
-                        </li>
+                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
+                    {% if username.co_user_login != ''%}
+                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                    {% if "top_up" in username.co_agent_frontend_security %}
+                    <li class="menu-has-children pt5"><a href="#">{% trans 'Top Up' %}</a>
+                        <ul>
+                            <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
+                            {% if "pnr_quota" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
+                        </ul>
+                    </li>
+                    {% endif%}
+                    <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
+                    {% endif %}
+                    <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
+                        <ul id="highlight_header_div">
+                        </ul>
+                    </li>
+                    {% if username.co_user_login != '' %}
+                    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                    <li class="credit_mobile pt5"><a id="credit_limit" style="color:black;"></a></li>
+                    {% else %}
+                    <li class="balance_mobile pt5"><a id="balance" style="color:black;"></a></li>
+                    {% endif %}
+                    <li class="menu-has-children pt5"><a href="#">{% trans 'Setting' %}</a>
+                        <ul>
+                            <li class="menu-has-children pt5"><a href="#">{% trans 'Language' %}</a>
+                                <ul>
+                                    <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="" >
+                                        <input type="hidden" id="selection_language" name="language"/>
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% get_available_languages as LANGUAGES %}
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                        {% endfor %}
+                                    </form>
+                                </ul>
+                            </li>
+                            <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
+                            <!--                                    <ul>-->
+                            <!--                                        <li><a href="#">IDR</a></li>-->
+                            <!--                                        <li><a href="#">USD</a></li>-->
+                            <!--                                    </ul>-->
+                            <!--                                </li>-->
+                        </ul>
+                    </li>
 
-                        <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}" id="user_login2">{{username.co_user_login}}</a>
-                            <ul>
-                                <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
-                                    <ul>
-                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                    </ul>
-                                </li>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li><a href="" id="backend_btn">Backend</a></li>
-                                <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
+                    <li class="menu-has-children notification-pc pt5" style="cursor:pointer;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}" id="user_login2">{{username.co_user_login}}</a>
+                        <ul>
+                            <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
+                                <ul>
+                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                </ul>
+                            </li>
+                            {% if "admin" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            <li><a href="" id="backend_btn">Backend</a></li>
+                            <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
 
-                                <li>
-                                    <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-pc pt5 guide_h1" style="padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
-                            <ul>
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
-                            <ul>
-                                <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
-                                    <ul>
-                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                    </ul>
-                                </li>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li><a href="" id="backend_btn2">Backend</a></li>
-                                <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
-                                <li>
-                                    <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                            <ul>
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-                        <li title="Click to show your notification" class="notification-pc pt5" style="color:{{color}}; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:24px;"></i>
+                            <li>
+                                <a>
+                                    <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-pc pt5 guide_h1" style="padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
+                        <ul>
+                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
+                        <ul>
+                            <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
+                                <ul>
+                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                </ul>
+                            </li>
+                            {% if "admin" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            <li><a href="" id="backend_btn2">Backend</a></li>
+                            <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
+                            <li>
+                                <a>
+                                    <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
+                        <ul>
+                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li title="Click to show your notification" class="notification-pc pt5" style="color:{{color}}; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:24px;"></i>
 
-                        </li>
-                        {% else %}
-                        <li style="font-size:12px;color:black;">
-                            <button onclick="location.href='{% url 'tt_website_rodextrip:login'%}';" class="primary-btn-custom">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
-                        </li>
-                        {% endif %}
+                    </li>
+                    {% else %}
+                    <li style="font-size:12px;color:black;">
+                        <button onclick="location.href='{% url 'tt_website_rodextrip:login'%}';" class="primary-btn-custom">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></button>
+                    </li>
+                    {% endif %}
                     </ul>
 
                     <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
@@ -240,165 +240,175 @@
     <div class="main-header-area">
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
-                <ul class="classy-navbar justify-content-between" id="robertoNav">
-                    <ul id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
-                        <div style="display:flex;">
-                            <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:{{color}};"></i>
-                            <div class="classy-navbar-toggler">
-                                <span class="navbarToggler"><span></span><span></span><span></span></span>
-                            </div>
+                <nav class="classy-navbar justify-content-between" id="robertoNav">
+                    <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
+                    <div style="display:flex;">
+                        <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:{{color}};"></i>
+                        <div class="classy-navbar-toggler">
+                            <span class="navbarToggler"><span></span><span></span><span></span></span>
+                        </div>
+                    </div>
+
+                    <div class="classy-menu">
+                        <div class="classycloseIcon">
+                            <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
                         </div>
 
-                        <div class="classy-menu">
-                            <div class="classycloseIcon">
-                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
-                            </div>
-
-                            <div class="classynav">
-                                <ul id="nav">
-                                    <li class="active"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
-                                    {% if username.co_user_login != '' %}
-                                    <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
-                                    {% if "top_up" in username.co_agent_frontend_security %}
-                                    <li><a href="#">{% trans 'Top Up' %}</a>
-                                        <ul class="dropdown">
-                                            <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
-                                            {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                            <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
-                                            {% endif %}
-                                            <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
-                                        </ul>
-                                    </li>
-                                    {% endif%}
-                                    <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
+                        <div class="classynav" id="nav-menu-container_no_login" id="nav-menu-container_no_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
+                        <ul id="nav">
+                            <li class="active"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
+                            {% if username.co_user_login != '' %}
+                            <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                            {% if "top_up" in username.co_agent_frontend_security %}
+                            <li><a href="#">{% trans 'Top Up' %}</a>
+                                <ul class="dropdown">
+                                    <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
+                                    {% if "pnr_quota" in username.co_agent_frontend_security %}
+                                    <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
                                     {% endif %}
-                                    <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
-                                        <ul id="highlight_header_div" class="dropdown">
-                                        </ul>
-                                    </li>
-                                    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                                    <li class="credit_mobile"><a id="credit_limit"></a></li>
-                                    {% else %}
-                                    <li class="balance_mobile"><a id="balance"></a></li>
-                                    {% endif %}
-
-                                    <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
-                                        <ul class="dropdown">
-                                            <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
-                                                <ul class="dropdown">
-                                                    <form action="{% url 'set_language' %}" method="post" id="form_language">
-                                                        {% csrf_token %}
-                                                        <input name="next" type="hidden" value="" >
-                                                        <input type="hidden" id="selection_language" name="language"/>
-                                                        {% get_current_language as LANGUAGE_CODE %}
-                                                        {% get_available_languages as LANGUAGES %}
-                                                        {% get_language_info_list for LANGUAGES as languages %}
-                                                        {% for language in languages %}
-                                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
-                                                        {% endfor %}
-                                                    </form>
-                                                </ul>
-                                            </li>
-                                            <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
-                                            <!--                                    <ul>-->
-                                            <!--                                        <li><a href="#">IDR</a></li>-->
-                                            <!--                                        <li><a href="#">USD</a></li>-->
-                                            <!--                                    </ul>-->
-                                            <!--                                </li>-->
-                                        </ul>
-                                    </li>
-
-                                    {% if username.co_user_login != '' %}
-                                    <li class="notification-pc"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
-                                        <ul class="dropdown" style="margin-top:10px;">
-                                            <li><a href="#">{% trans 'Partnership' %}</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                                </ul>
-                                            </li>
-                                            {% if "admin" in username.co_agent_frontend_security %}
-                                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                            {% endif %}
-                                            <li><a href="" id="backend_btn">Backend</a></li>
-                                            <li style="z-index:5;">
-                                                <a>
-                                                    <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-
-                                    <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
-                                        <ul class="dropdown">
-                                            <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                            <li><a href="#">{% trans 'Partnership' %}</a>
-                                                <ul class="dropdown">
-                                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                                </ul>
-                                            </li>
-                                            {% if "admin" in username.co_agent_frontend_security %}
-                                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                            {% endif %}
-                                            <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
-                                            <li style="z-index:5;">
-                                                <a>
-                                                    <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                            <li><a href="#">FAQ</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
-                                        <ul class="dropdown">
-                                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                            <li><a href="#">FAQ</a></li>
-                                        </ul>
-                                    </li>
-                                    <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; color:{{color}}; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
-                                    {% endif %}
+                                    <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
                                 </ul>
-                                <!-- Search -->
-                                <!--                            <div class="search-btn ml-4">-->
-                                <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
-                                <!--                            </div>-->
+                            </li>
+                            {% endif%}
+                            <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
+                            {% endif %}
+                            <li class="menu-has-children pt5"><a href="#">{% trans 'Highlight' %}</a>
+                                <ul id="highlight_header_div" class="dropdown">
+                                </ul>
+                            </li>
+                            {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                            <li class="credit_mobile"><a id="credit_limit"></a></li>
+                            {% else %}
+                            <li class="balance_mobile"><a id="balance"></a></li>
+                            {% endif %}
 
-                                {% if username.co_user_login == '' %}
-                                <div class="book-now-btn ml-3 ml-lg-5">
-                                    <a href="{% url 'tt_website_rodextrip:login'%}">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
-                                </div>
+                            <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
+                                <ul class="dropdown">
+                                    <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
+                                        <ul class="dropdown">
+                                            <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                                {% csrf_token %}
+                                                <input name="next" type="hidden" value="" >
+                                                <input type="hidden" id="selection_language" name="language"/>
+                                                {% get_current_language as LANGUAGE_CODE %}
+                                                {% get_available_languages as LANGUAGES %}
+                                                {% get_language_info_list for LANGUAGES as languages %}
+                                                {% for language in languages %}
+                                                <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                                {% endfor %}
+                                            </form>
+                                        </ul>
+                                    </li>
+                                    <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
+                                    <!--                                    <ul>-->
+                                    <!--                                        <li><a href="#">IDR</a></li>-->
+                                    <!--                                        <li><a href="#">USD</a></li>-->
+                                    <!--                                    </ul>-->
+                                    <!--                                </li>-->
+                                </ul>
+                            </li>
+
+                            {% if username.co_user_login != '' %}
+                            <li class="notification-pc"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
+                                <ul class="dropdown" style="margin-top:10px;">
+                                    <li><a href="#">{% trans 'Partnership' %}</a>
+                                        <ul class="dropdown">
+                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                        </ul>
+                                    </li>
+                                    {% if "admin" in username.co_agent_frontend_security %}
+                                    <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                    {% endif %}
+                                    <li><a href="" id="backend_btn">Backend</a></li>
+                                    <li style="z-index:5;">
+                                        <a>
+                                            <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                                <ul class="dropdown">
+                                    <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                    <li><a href="#">{% trans 'Partnership' %}</a>
+                                        <ul class="dropdown">
+                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                        </ul>
+                                    </li>
+                                    {% if "admin" in username.co_agent_frontend_security %}
+                                    <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                    {% endif %}
+                                    <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
+                                    <li style="z-index:5;">
+                                        <a>
+                                            <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
+                                <ul class="dropdown">
+                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li class="notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
+                                <ul class="dropdown">
+                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                                    <li><a href="#">FAQ</a></li>
+                                </ul>
+                            </li>
+                            <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; color:{{color}}; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                                 {% endif %}
-                            </div>
-                            <!-- Nav End -->
+                        </ul>
+                        <!-- Search -->
+                        <!--                            <div class="search-btn ml-4">-->
+                        <!--                                <i class="fa fa-search" aria-hidden="true"></i>-->
+                        <!--                            </div>-->
+
+                        {% if username.co_user_login == '' %}
+                        <div class="book-now-btn ml-3 ml-lg-5">
+                            <a href="{% url 'tt_website_rodextrip:login'%}">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt" aria-hidden="true"></i></a>
                         </div>
-                    </ul>
-                    <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li class="username_mobile" style="padding-right:5px;">
-                            <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
-                            </div>
-                        </li>
-                        <li class="password_mobile" style="padding-right:5px;">
-                            <div class="input-container-search-ticket">
-                                <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
-                            </div>
-                        </li>
-                        <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                        <li style="font-size:12px;color:black; margin:5px;">
-                            <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
-                        </li>
-                        <li style="font-size:12px;color:black;">
-                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
-                        </li>
-                    </ul>
-                </nav>
+                        {% endif %}
+                    </div>
+                    <div class="classynav" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
+                        <ul class="nav">
+                            <li id="username_pc" style="padding-right:5px; display:block;">
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
+                                </div>
+                            </li>
+                            <li id="password_pc" style="padding-right:5px; display:block;">
+                                <div class="input-container-search-ticket">
+                                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
+                                </div>
+                            </li>
+                            <li id="username_mb" style="padding-right:5px; display:none;">
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/>
+                                </div>
+                            </li>
+                            <li id="password_mb" style="padding-right:5px; display:none;">
+                                <div class="input-container-search-ticket">
+                                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
+                                </div>
+                            </li>
+                            <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
+                            <li style="font-size:12px;color:black; margin:5px;">
+                                <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
+                            </li>
+                            <li style="font-size:12px;color:black;margin-top:10px;">
+                                <a style="cursor:pointer; background-color:unset;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- Nav End -->
             </div>
+            </nav>
         </div>
+    </div>
     </div>
 </header>
 {% elif template == 3%}
@@ -419,133 +429,133 @@
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li class="menu-active"><a href="index.html">{% trans 'Home' %}</a></li>
-                        {% if username.co_user_login != '' %}
-                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
-                        {% if "top_up" in username.co_agent_frontend_security %}
-                        <li class="menu-has-children"><a href="#">{% trans 'Top Up' %}</a>
-                            <ul>
-                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
-                                {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
-                            </ul>
-                        </li>
-                        {% endif%}
-                        <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
-                        {% endif %}
-                        <li class="menu-has-children"><a href="#">{% trans 'Highlight' %}</a>
-                            <ul id="highlight_header_div">
-                            </ul>
-                        </li>
-                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                        <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
-                        {% else %}
-                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
-                        {% endif %}
+                    <li class="menu-active"><a href="index.html">{% trans 'Home' %}</a></li>
+                    {% if username.co_user_login != '' %}
+                    <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                    {% if "top_up" in username.co_agent_frontend_security %}
+                    <li class="menu-has-children"><a href="#">{% trans 'Top Up' %}</a>
+                        <ul>
+                            <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
+                            {% if "pnr_quota" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
+                        </ul>
+                    </li>
+                    {% endif%}
+                    <li><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
+                    {% endif %}
+                    <li class="menu-has-children"><a href="#">{% trans 'Highlight' %}</a>
+                        <ul id="highlight_header_div">
+                        </ul>
+                    </li>
+                    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                    <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
+                    {% else %}
+                    <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
+                    {% endif %}
 
-                        <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
-                            <ul>
-                                <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
-                                    <ul style="width:100%;">
-                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
-                                            {% csrf_token %}
-                                            <input name="next" type="hidden" value="" >
-                                            <input type="hidden" id="selection_language" name="language"/>
-                                            {% get_current_language as LANGUAGE_CODE %}
-                                            {% get_available_languages as LANGUAGES %}
-                                            {% get_language_info_list for LANGUAGES as languages %}
-                                            {% for language in languages %}
-                                            <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
-                                            {% endfor %}
-                                        </form>
-                                    </ul>
-                                </li>
-                                <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
-                                <!--                                    <ul>-->
-                                <!--                                        <li><a href="#">IDR</a></li>-->
-                                <!--                                        <li><a href="#">USD</a></li>-->
-                                <!--                                    </ul>-->
-                                <!--                                </li>-->
-                            </ul>
-                        </li>
+                    <li class="menu-has-children"><a href="#">{% trans 'Setting' %}</a>
+                        <ul>
+                            <li class="menu-has-children"><a href="#">{% trans 'Language' %}</a>
+                                <ul style="width:100%;">
+                                    <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="" >
+                                        <input type="hidden" id="selection_language" name="language"/>
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% get_available_languages as LANGUAGES %}
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                        {% endfor %}
+                                    </form>
+                                </ul>
+                            </li>
+                            <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
+                            <!--                                    <ul>-->
+                            <!--                                        <li><a href="#">IDR</a></li>-->
+                            <!--                                        <li><a href="#">USD</a></li>-->
+                            <!--                                    </ul>-->
+                            <!--                                </li>-->
+                        </ul>
+                    </li>
 
-                        {% if username.co_user_login != '' %}
-                        <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
-                            <ul>
-                                <li class="menu-has-children"><a href="#">{% trans 'Partnership' %}</a>
-                                    <ul style="width:100%;">
-                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                    </ul>
-                                </li>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li><a href="" id="backend_btn">Backend</a></li>
-                                <li>
-                                    <center>
-                                        <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                        </a>
-                                    </center>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
-                            <ul>
-                                <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                <li class="menu-has-children"><a href="#">{% trans 'Partnership' %}</a>
-                                    <ul style="width:100%;">
-                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                    </ul>
-                                </li>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li><a href="" id="backend_btn2">Backend</a></li>
-                                <li>
+                    {% if username.co_user_login != '' %}
+                    <li class="menu-has-children notification-pc" style="cursor:pointer;"><a title="{{username.co_user_login}}" style="font-weight:700; color:white; top:10px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;">{{username.co_user_login}}</a>
+                        <ul>
+                            <li class="menu-has-children"><a href="#">{% trans 'Partnership' %}</a>
+                                <ul style="width:100%;">
+                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                </ul>
+                            </li>
+                            {% if "admin" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            <li><a href="" id="backend_btn">Backend</a></li>
+                            <li>
+                                <center>
                                     <a>
                                         <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                     </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:24px;"></i></a>
-                            <ul>
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                            <ul>
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
+                                </center>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                        <ul>
+                            <li><a title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                            <li class="menu-has-children"><a href="#">{% trans 'Partnership' %}</a>
+                                <ul style="width:100%;">
+                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                </ul>
+                            </li>
+                            {% if "admin" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            <li><a href="" id="backend_btn2">Backend</a></li>
+                            <li>
+                                <a>
+                                    <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:24px;"></i></a>
+                        <ul>
+                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
+                        <ul>
+                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </li>
 
-                        <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
+                    <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i></li>
                         {% endif %}
-                    </ul>
-                    <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li class="username_mobile" style="padding-right:5px;">
-                            <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
-                            </div>
-                        </li>
-                        <li class="password_mobile" style="padding-right:5px;">
-                            <div class="input-container-search-ticket">
-                                <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
-                            </div>
-                        </li>
-                        <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                        <li style="font-size:12px;color:black; margin:5px;">
-                            <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
-                        </li>
-                        <li style="font-size:12px;color:black;">
-                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
-                        </li>
-                    </ul>
+                        </ul>
+                        <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
+                            <li class="username_mobile" style="padding-right:5px;">
+                                <div class="input-container-search-ticket">
+                                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
+                                </div>
+                            </li>
+                            <li class="password_mobile" style="padding-right:5px;">
+                                <div class="input-container-search-ticket">
+                                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
+                                </div>
+                            </li>
+                            <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
+                            <li style="font-size:12px;color:black; margin:5px;">
+                                <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
+                            </li>
+                            <li style="font-size:12px;color:white;">
+                                <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                            </li>
+                        </ul>
                 </nav>
                 <nav class="notification-mobile mobile-nav" style="display:none; padding:15px 15px 15px 0px;">
                     <ul class="nav-menu" style="display:inline;">
@@ -568,154 +578,161 @@
 <header class="site-navbar py-0" role="banner">
     <div class="main-menu" style="background:rgba(255, 255, 255, 1);">
         <div class="container">
-        <!--        <div class="row" style="border-radius: 4px;">-->
-        <!--            <div class="col-5" id="with-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
-        <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i> <span>(031) 5662000</span></a>-->
-        <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i> <span>rodextravel@tours</span></a>-->
-        <!--            </div>-->
-        <!--            <div class="col-5" id="no-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
-        <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i></a>-->
-        <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i></a>-->
-        <!--            </div>-->
-        <!--            <div class="col-7" style="text-align:right; padding:0px;">-->
-        <!--                <div class="dropdown-custom">-->
-        <!--                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
-        <!--                    <div class="dropdown-content-custom">-->
-        <!--                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>-->
-        <!--                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
-        <!--                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </div>-->
-        <!--        </div>-->
+            <!--        <div class="row" style="border-radius: 4px;">-->
+            <!--            <div class="col-5" id="with-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
+            <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i> <span>(031) 5662000</span></a>-->
+            <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i> <span>rodextravel@tours</span></a>-->
+            <!--            </div>-->
+            <!--            <div class="col-5" id="no-detail" style="text-align:left; padding:0px 0px 5px 0px;">-->
+            <!--                <a href="tel:0315662000" style="padding-right:15px; font-size:13px;"><i class="fas fa-phone"></i></a>-->
+            <!--                <a href="mailto:rodextravel@tours" style="font-size:13px;"><i class="fas fa-envelope"></i></a>-->
+            <!--            </div>-->
+            <!--            <div class="col-7" style="text-align:right; padding:0px;">-->
+            <!--                <div class="dropdown-custom">-->
+            <!--                    <button class="dropbtn-custom">Language <i class="fas fa-chevron-down"></i></button>-->
+            <!--                    <div class="dropdown-content-custom">-->
+            <!--                        <a href="javascript:change_template(1);" style="line-height:10px !important; margin-top:20px;">ID</a><br/>-->
+            <!--                        <a href="javascript:change_template(2);" style="line-height:10px !important;">JP</a><br/>-->
+            <!--                        <a href="javascript:change_template(3);" style="line-height:10px !important;">ENG</a><br/>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
             <div class="row align-items-center">
                 <div class="col-xs-6 col-xl-2">
                     <h1 class="mb-0 site-logo"><a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;" alt="" title="" /></a></h1>
                 </div>
                 <div class="col-xs-12 col-md-10 d-none d-xl-block">
                     <nav class="site-navigation position-relative text-right" role="navigation">
-                        <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
-                            <li><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
-                            {% if username.co_user_login != '' %}
-                            <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
-                            {% if "top_up" in username.co_agent_frontend_security %}
-                            <li class="has-children"><a href="#">{% trans 'Top Up' %}</a>
-                                <ul class="dropdown">
-                                    <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
-                                    {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
-                                    {% endif %}
-                                    <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
-                                </ul>
-                            </li>
-                            {% endif%}
-                            <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
-                            {% endif %}
-                            <li class="has-children"><a href="#">{% trans 'Highlight' %}</a>
-                                <ul id="highlight_header_div" class="dropdown">
-                                </ul>
-                            </li>
+                        <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none !important;" {% endif %}>
+                        <li><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
+                        {% if username.co_user_login != '' %}
+                        <li><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                        {% if "top_up" in username.co_agent_frontend_security %}
+                        <li class="has-children"><a href="#">{% trans 'Top Up' %}</a>
+                            <ul class="dropdown">
+                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
+                                {% if "pnr_quota" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
+                                {% endif %}
+                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
+                            </ul>
+                        </li>
+                        {% endif%}
+                        <li class="pt5"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
+                        {% endif %}
+                        <li class="has-children"><a href="#">{% trans 'Highlight' %}</a>
+                            <ul id="highlight_header_div" class="dropdown">
+                            </ul>
+                        </li>
 
-                            {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                            <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
+                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                        <li class="credit_mobile" style="color:white;"><a id="credit_limit"></a></li>
+                        {% else %}
+                        <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
+                        {% endif %}
+
+                        <li class="has-children"><a href="#">{% trans 'Setting' %}</a>
+                            <ul class="dropdown">
+                                <li class="has-children"><a href="#">{% trans 'Language' %}</a>
+                                    <ul class="dropdown">
+                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                            {% csrf_token %}
+                                            <input name="next" type="hidden" value="" >
+                                            <input type="hidden" id="selection_language" name="language"/>
+                                            {% get_current_language as LANGUAGE_CODE %}
+                                            {% get_available_languages as LANGUAGES %}
+                                            {% get_language_info_list for LANGUAGES as languages %}
+                                            {% for language in languages %}
+                                            <li style="padding:15px;"><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                            {% endfor %}
+                                        </form>
+                                    </ul>
+                                </li>
+                                <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
+                                <!--                                    <ul>-->
+                                <!--                                        <li><a href="#">IDR</a></li>-->
+                                <!--                                        <li><a href="#">USD</a></li>-->
+                                <!--                                    </ul>-->
+                                <!--                                </li>-->
+                            </ul>
+                        </li>
+
+                        {% if username.co_user_login != '' %}
+                        <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
+                            <ul class="dropdown">
+                                <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                    </ul>
+                                </li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="" id="backend_btn">Backend</a></li>
+                                <li>
+                                    <a>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                            <ul class="dropdown">
+                                <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
+                                <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
+                                    <ul class="dropdown">
+                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                    </ul>
+                                </li>
+                                {% if "admin" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                <li><a href="" id="backend_btn2">Backend</a></li>
+                                <li>
+                                    <a>
+                                        <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
+                            <ul class="dropdown">
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
+                        <li class="has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
+                            <ul>
+                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </li>
+
+                        <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                             {% else %}
-                            <li class="balance_mobile" style="color:white;"><a id="balance"></a></li>
-                            {% endif %}
-
-                            <li class="has-children"><a href="#">{% trans 'Setting' %}</a>
-                                <ul class="dropdown">
-                                    <li class="has-children"><a href="#">{% trans 'Language' %}</a>
-                                        <ul class="dropdown">
-                                            <form action="{% url 'set_language' %}" method="post" id="form_language">
-                                                {% csrf_token %}
-                                                <input name="next" type="hidden" value="" >
-                                                <input type="hidden" id="selection_language" name="language"/>
-                                                {% get_current_language as LANGUAGE_CODE %}
-                                                {% get_available_languages as LANGUAGES %}
-                                                {% get_language_info_list for LANGUAGES as languages %}
-                                                {% for language in languages %}
-                                                <li style="padding:15px;"><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
-                                                {% endfor %}
-                                            </form>
-                                        </ul>
-                                    </li>
-                                    <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
-                                    <!--                                    <ul>-->
-                                    <!--                                        <li><a href="#">IDR</a></li>-->
-                                    <!--                                        <li><a href="#">USD</a></li>-->
-                                    <!--                                    </ul>-->
-                                    <!--                                </li>-->
-                                </ul>
-                            </li>
-
-                            {% if username.co_user_login != '' %}
-                            <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
-                                <ul class="dropdown">
-                                    <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
-                                        <ul class="dropdown">
-                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                        </ul>
-                                    </li>
-                                    {% if "admin" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                    {% endif %}
-                                    <li><a href="" id="backend_btn">Backend</a></li>
-                                    <li>
-                                        <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
-                                <ul class="dropdown">
-                                    <li><a id="username" title="{{username.co_user_login}}">{{username.co_user_login}}</a></li>
-                                    <li class="has-children"><a href="#">{% trans 'Partnership' %}</a>
-                                        <ul class="dropdown">
-                                            <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                        </ul>
-                                    </li>
-                                    {% if "admin" in username.co_agent_frontend_security %}
-                                    <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                    {% endif %}
-                                    <li><a href="" id="backend_btn2">Backend</a></li>
-                                    <li>
-                                        <a>
-                                            <button type="button" onclick="logout();" class="primary-btn-ticket" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-
-                            <li class="has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
-                                <ul class="dropdown">
-                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
-                            <li class="has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                                <ul>
-                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
-
-                            <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
-                            {% else %}
-                            <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">{% trans 'Sign In' %}</span></a></li>
-                            {% endif %}
+                        <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">{% trans 'Sign In' %}</span></a></li>
+                        {% endif %}
                         </ul>
-                        <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                            <li class="username_mobile" style="padding-right:5px;">
+                        <ul class="site-menu js-clone-nav mr-auto d-none d-lg-block" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none !important;" {% endif %}>
+                            <li id="username_pc" style="padding-right:5px; display:inline-block; margin-bottom:15px;">
+                                <input type="text" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
+                            </li>
+                            <li id="password_pc" style="padding-right:5px; display:inline-block; margin-bottom:15px;">
+                                <input type="password" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
+                            </li>
+                            <li id="username_mb" style="padding-right:5px; display:none;">
                                 <div class="input-container-search-ticket">
-                                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
+                                    <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username2" placeholder="Username"/>
                                 </div>
                             </li>
-                            <li class="password_mobile" style="padding-right:5px;">
+                            <li id="password_mb" style="padding-right:5px; display:none;">
                                 <div class="input-container-search-ticket">
-                                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
+                                    <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
                                 </div>
                             </li>
+
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                             <li style="font-size:12px;color:black; margin:5px;">
                                 <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
@@ -726,7 +743,6 @@
                         </ul>
                     </nav>
                 </div>
-
 
                 <div class="d-inline-block d-xl-none ml-auto py-3 col-6 text-right" style="position: relative; top: 3px; padding-right:15px;">
                     <div class="dropdown-custom" style="bottom:3px;">
@@ -773,132 +789,132 @@
 
                 <nav id="nav-menu-container">
                     <ul class="nav-menu" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
-                        {% if username.co_user_login != '' %}
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
-                        {% if "top_up" in username.co_agent_frontend_security %}
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
-                            <ul style="top:65%;">
-                                <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
-                                {% if "pnr_quota" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
-                                {% endif %}
-                                <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
-                            </ul>
-                        </li>
-                        {% endif%}
-                        <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
-                        {% endif %}
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %}</a>
-                            <ul id="highlight_header_div" style="top:65%;">
-                            </ul>
-                        </li>
+                    <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:index'%}">{% trans 'Home' %}</a></li>
+                    {% if username.co_user_login != '' %}
+                    <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:reservation'%}">{% trans 'My Reservation' %}</a></li>
+                    {% if "top_up" in username.co_agent_frontend_security %}
+                    <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Top Up' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                        <ul style="top:65%;">
+                            <li><a href="{% url 'tt_website_rodextrip:top_up'%}">{% trans 'Request' %}</a></li>
+                            {% if "pnr_quota" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:quota_pnr'%}">{% trans 'PNR Quota' %}</a></li>
+                            {% endif %}
+                            <li><a href="{% url 'tt_website_rodextrip:top_up_history'%}">{% trans 'History' %}</a></li>
+                        </ul>
+                    </li>
+                    {% endif%}
+                    <li style="margin-top:8px;"><a href="{% url 'tt_website_rodextrip:issued_offline'%}">{% trans 'Issued Offline' %}</a></li>
+                    {% endif %}
+                    <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Highlight' %}</a>
+                        <ul id="highlight_header_div" style="top:65%;">
+                        </ul>
+                    </li>
 
-                        {% if username.co_user_login != '' %}
-                        {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
-                        <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit" style="color:black;"></a></li>
+                    {% if username.co_user_login != '' %}
+                    {% if username.co_agent_type_name == "Customer COR" or username.co_agent_type_name == "Customer POR" %}
+                    <li class="credit_mobile" style="margin-top:8px;"><a id="credit_limit" style="color:black;"></a></li>
+                    {% else %}
+                    <li class="balance_mobile" style="margin-top:8px;"><a id="balance" style="color:black;"></a></li>
+                    {% endif %}
+
+                    <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
+                        <ul style="top:65%;">
+                            <li class="menu-has-children"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
+                                <ul class="dropdown">
+                                    <form action="{% url 'set_language' %}" method="post" id="form_language">
+                                        {% csrf_token %}
+                                        <input name="next" type="hidden" value="" >
+                                        <input type="hidden" id="selection_language" name="language"/>
+                                        {% get_current_language as LANGUAGE_CODE %}
+                                        {% get_available_languages as LANGUAGES %}
+                                        {% get_language_info_list for LANGUAGES as languages %}
+                                        {% for language in languages %}
+                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                        {% endfor %}
+                                    </form>
+                                </ul>
+                            </li>
+                            <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
+                            <!--                                    <ul>-->
+                            <!--                                        <li><a href="#">IDR</a></li>-->
+                            <!--                                        <li><a href="#">USD</a></li>-->
+                            <!--                                    </ul>-->
+                            <!--                                </li>-->
+                        </ul>
+                    </li>
+
+                    <li class="menu-has-children notification-pc" style="cursor:pointer; margin-top:8px;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}}</a>
+                        <ul style="top:65%;">
+                            <li class="menu-has-children"><a href="#">{% trans 'Partnership' %} <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
+                                <ul>
+                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                </ul>
+                            </li>
+                            {% if "admin" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            <li><a href="" id="backend_btn">Backend</a></li>
+                            <li>
+                                <a>
+                                    <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-pc" style="padding-top:25px; padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
+                        <ul>
+                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
+                        <ul>
+                            <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
+                                <ul>
+                                    <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
+                                </ul>
+                            </li>
+                            {% if "admin" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            <li><a href="" id="backend_btn2">Backend</a></li>
+                            <li>
+                                <a>
+                                    <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
+                        <ul>
+                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
+                            <li><a href="#">FAQ</a></li>
+                        </ul>
+                    </li>
+
+                    <li title="Click to show your notification" class="menu-has-children notification-pc" style="color:{{color}}; padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
                         {% else %}
-                        <li class="balance_mobile" style="margin-top:8px;"><a id="balance" style="color:black;"></a></li>
-                        {% endif %}
-
-                        <li class="menu-has-children" style="margin-top:8px;"><a href="#">{% trans 'Setting' %} <i class="fas fa-chevron-down fat-dh" style="display:inline-block;"></i></a>
-                            <ul style="top:65%;">
-                                <li class="menu-has-children"><a href="#">{% trans 'Language' %} <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
-                                    <ul class="dropdown">
-                                        <form action="{% url 'set_language' %}" method="post" id="form_language">
-                                            {% csrf_token %}
-                                            <input name="next" type="hidden" value="" >
-                                            <input type="hidden" id="selection_language" name="language"/>
-                                            {% get_current_language as LANGUAGE_CODE %}
-                                            {% get_available_languages as LANGUAGES %}
-                                            {% get_language_info_list for LANGUAGES as languages %}
-                                            {% for language in languages %}
-                                            <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
-                                            {% endfor %}
-                                        </form>
-                                    </ul>
-                                </li>
-                                <!--                                <li class="menu-has-children pt5"><a href="#">Currency</a>-->
-                                <!--                                    <ul>-->
-                                <!--                                        <li><a href="#">IDR</a></li>-->
-                                <!--                                        <li><a href="#">USD</a></li>-->
-                                <!--                                    </ul>-->
-                                <!--                                </li>-->
-                            </ul>
-                        </li>
-
-                        <li class="menu-has-children notification-pc" style="cursor:pointer; margin-top:8px;"><a style="font-weight:700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;" title="{{username.co_user_login}}">{{username.co_user_login}}</a>
-                            <ul style="top:65%;">
-                                <li class="menu-has-children"><a href="#">{% trans 'Partnership' %} <i class="fas fa-chevron-right fat-dh" style="display:inline-block;"></i></a>
-                                    <ul>
-                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                    </ul>
-                                </li>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li><a href="" id="backend_btn">Backend</a></li>
-                                <li>
-                                    <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-pc" style="padding-top:25px; padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
-                            <ul>
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
-                            <ul>
-                                <li class="menu-has-children pt5"><a href="#">{% trans 'Partnership' %}</a>
-                                    <ul>
-                                        <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                    </ul>
-                                </li>
-                                {% if "admin" in username.co_agent_frontend_security %}
-                                <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
-                                {% endif %}
-                                <li><a href="" id="backend_btn2">Backend</a></li>
-                                <li>
-                                    <a>
-                                        <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                            <ul>
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-
-                        <li title="Click to show your notification" class="menu-has-children notification-pc" style="color:{{color}}; padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover" style="font-size:20px;"></i>
-                        {% else %}
-                        <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></span></a></li>
-                        {% endif %}
+                    <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></span></a></li>
+                    {% endif %}
                     </ul>
                     <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li class="username_mobile" style="padding-right:5px;">
+                        <li class="username_mobile" style="padding-right:5px; margin-top:13px;">
                             <div class="input-container-search-ticket">
                                 <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                             </div>
                         </li>
-                        <li class="password_mobile" style="padding-right:5px;">
+                        <li class="password_mobile" style="padding-right:5px; margin-top:13px;">
                             <div class="input-container-search-ticket">
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                             </div>
                         </li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                        <li style="font-size:12px;color:black; margin:5px;">
+                        <li style="font-size:12px;color:black; margin-top:18px; padding-left:5px;">
                             <button onclick="signin_btc();" class="primary-btn-custom">Sign in <i class="fas fa-sign-in-alt"></i></button>
                         </li>
                         <li style="font-size:12px;color:black;">
-                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 5px;"></i></a>
                         </li>
                     </ul>
                 </nav>
