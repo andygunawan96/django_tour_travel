@@ -164,12 +164,17 @@
                     <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
                         <li class="username_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
-                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
+                                <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username" tabindex="1" />
                             </div>
+                            <label class="check_box_custom" style="margin-bottom:0px;">
+                                <span style="font-size:13px; color:{{color}};">{% trans 'Keep Me Signin' %}</span>
+                                <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                <span class="check_box_span_custom"></span>
+                            </label>
                         </li>
                         <li class="password_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
-                                <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
+                                <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password" tabindex="2" />
                             </div>
                         </li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->

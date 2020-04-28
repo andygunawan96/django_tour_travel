@@ -114,9 +114,15 @@ def signin(request):
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
     try:
         if res['result']['error_code'] == 0:
+            for key in reversed(list(request.session._session.keys())):
+                del request.session[key]
             request.session['signature'] = res['result']['response']['signature']
             request.session['username'] = request.POST.get('username') or user_default
             request.session['password'] = request.POST.get('password') or password_default
+            if request.POST.get('keep_me_signin') == 'true':
+                request.session['keep_me_signin'] = True
+            else:
+                request.session['keep_me_signin'] = False
             data = {}
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -225,9 +231,15 @@ def signin_btc(request):
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
     try:
         if res['result']['error_code'] == 0:
+            for key in reversed(list(request.session._session.keys())):
+                del request.session[key]
             request.session['signature'] = res['result']['response']['signature']
             request.session['username'] = request.POST.get('username') or user_default
             request.session['password'] = request.POST.get('password') or password_default
+            if request.POST.get('keep_me_signin') == 'true':
+                request.session['keep_me_signin'] = True
+            else:
+                request.session['keep_me_signin'] = False
             data = {}
             headers = {
                 "Accept": "application/json,text/html,application/xml",
