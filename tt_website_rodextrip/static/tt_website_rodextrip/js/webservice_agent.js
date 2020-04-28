@@ -212,6 +212,9 @@ function signin_btc(){
     username = '';
     password = '';
     check = 0;
+    $('.loading-button').prop('disabled', true);
+    $('.loading-button').addClass("running");
+
     if( $(window).width() > 767){
         if($('#username').val() != '' && $('#password').val() != ''){
             username = $('#username').val();
@@ -228,6 +231,9 @@ function signin_btc(){
                     error_log += ' and Fill Password\n';
             if(error_log != '')
                 alert_message_swal(error_log);
+
+            $('.loading-button').prop('disabled', false);
+            $('.loading-button').removeClass("running");
         }
     }else{
         if($('#username2').val() != '' && $('#password2').val() != ''){
@@ -245,6 +251,9 @@ function signin_btc(){
                     error_log += ' and Fill Password\n';
             if(error_log != '')
                 alert_message_swal(error_log);
+
+            $('.loading-button').prop('disabled', false);
+            $('.loading-button').removeClass("running");
         }
     }
     if(check == 1){
@@ -300,8 +309,8 @@ function signin_btc(){
                   }
                 })
             }else{
-                $('.button-login').prop('disabled', false);
-                $('.button-login').removeClass("running");
+                $('.loading-button').prop('disabled', false);
+                $('.loading-button').removeClass("running");
 
                 Swal.fire({
                   type: 'error',
@@ -311,8 +320,8 @@ function signin_btc(){
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
-            $('.button-login').prop('disabled', false);
-            $('.button-login').removeClass("running");
+            $('.loading-button').prop('disabled', false);
+            $('.loading-button').removeClass("running");
             Swal.fire({
               type: 'error',
               title: 'Oops!',
@@ -2267,6 +2276,11 @@ function alert_message_swal(msg){
       type: 'error',
       title: 'Oops!',
       text: msg,
+    }).then((result) => {
+      if (result.value) {
+        $('.loading-button').prop('disabled', false);
+        $('.loading-button').removeClass("running");
+      }
     });
 }
 
