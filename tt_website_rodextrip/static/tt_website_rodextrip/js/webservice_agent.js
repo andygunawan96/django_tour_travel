@@ -488,6 +488,70 @@ function get_path_url_server(){ //DEPRECATED
     });
 }
 
+function signup_b2c(){
+    error_log = '';
+    auto_complete('b2c_nationality');
+    auto_complete('b2c_phone_code');
+    if(document.getElementById('b2c_title').value == '')
+        error_log += 'Please fill title<br/>';
+    if(document.getElementById('b2c_first_name').value == '')
+        error_log += 'Please fill first name<br/>';
+    if(document.getElementById('b2c_nationality').value == '')
+        error_log += 'Please fill nationality<br/>';
+    if(check_phone_number(document.getElementById('b2c_phone').value) == false)
+        error_log+= 'Phone number only contain number 8 - 12 digits!<br/>';
+    if(check_email(document.getElementById('b2c_email').value)==false)
+        error_log += 'Please fill email<br/>';
+    if(error_log == '')
+        $.ajax({
+           type: "POST",
+           url: "/webservice/account",
+           headers:{
+                'action': 'signup_user',
+           },
+           data: {
+                'signature': signature,
+                "phone": document.getElementById('b2c_phone_code').value + document.getElementById('b2c_phone').value,
+                "email": document.getElementById('b2c_email').value,
+                "first_name": document.getElementById('b2c_first_name').value,
+                "last_name": document.getElementById('b2c_last_name').value,
+                "nationality_code": document.getElementById('b2c_nationality').value,
+           },
+           success: function(msg) {
+                console.log(msg);
+                if(msg.result.error_code == 0){
+                    document.getElementById('b2c_first_name').value = '';
+                    document.getElementById('b2c_last_name').value = '';
+                    document.getElementById('b2c_email').value = '';
+                    document.getElementById('b2c_phone').value = '';
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Create User!',
+                      text: 'Please check your email',
+                    });
+                }
+
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error url server </span>' + errorThrown,
+                    })
+                }
+           },timeout: 60000
+        });
+    else{
+        console.log(error_log);
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: error_log,
+        });
+    }
+}
+
 function send_url_booking(provider_type, url, order_number, type='book'){
     create_url = '';
     data = document.URL;

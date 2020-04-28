@@ -64,6 +64,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = signin(request)
+        elif req_data['action'] == 'signup_user':
+            res = signup_user(request)
         elif req_data['action'] == 'get_balance':
             res = get_balance(request)
         elif req_data['action'] == 'get_account':
@@ -133,6 +135,38 @@ def signin(request):
 
     except Exception as e:
         logging.getLogger("error_logger").error('ERROR RESIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        # pass
+        # # logging.getLogger("error logger").error('testing')
+        # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+def signup_user(request):
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "signup_user",
+        "signature": request.POST['signature']
+    }
+
+    data = {
+        "phone": request.POST['phone'],
+        "email": request.POST['email'],
+        "first_name": request.POST['first_name'],
+        "last_name": request.POST['last_name'],
+        "nationality_code": request.POST['nationality_code'],
+        "title": request.POST['title'],
+        "password": '',
+    }
+
+    res = util.send_request(url=url+'account', data=data, headers=headers, method='POST', timeout=10)
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("CREATE USER SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("info_logger").info(json.dumps(res))
+
+    except Exception as e:
+        logging.getLogger("error_logger").error('ERROR CREATE USER\n' + str(e) + '\n' + traceback.format_exc())
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
