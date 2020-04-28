@@ -238,8 +238,10 @@ def signin_btc(request):
             request.session['password'] = request.POST.get('password') or password_default
             if request.POST.get('keep_me_signin') == 'true':
                 request.session['keep_me_signin'] = True
-            else:
+            elif request.POST.get('keep_me_signin') == 'false':
                 request.session['keep_me_signin'] = False
+            else:
+                request.session['keep_me_signin'] = True #default b2c
             data = {}
             headers = {
                 "Accept": "application/json,text/html,application/xml",
