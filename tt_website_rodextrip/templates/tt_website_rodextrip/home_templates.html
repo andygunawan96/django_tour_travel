@@ -91,6 +91,8 @@
                         {% if username.co_user_login != 'agent_b2c' %}
                         Hello, {{username.co_user_name}}!
                         Grow your business with <span class="lamp">{{name}}</span>
+                        {% else %}
+                        Hello, dear customer, book your trip with us
                         {% endif %}
                     </h4>
 
@@ -1723,6 +1725,8 @@
                     {% if username.co_user_login != 'agent_b2c' %}
                     Hello, {{username.co_user_name}}!
                     Grow your business with <span class="lamp">{{name}}</span>
+                    {% else %}
+                    Hello, dear customer, book your trip with us
                     {% endif %}
                 </h3>
                 {% endif %}
@@ -2830,7 +2834,9 @@
                             <h4 class="text-white">
                                 {% if username.co_user_login != 'agent_b2c' %}
                                 Hello, {{username.co_user_name}}!<br/>
-                                Grow your business with <span class="lamp">RODEXTRIP</span>
+                                Grow your business with <span class="lamp">{{name}}</span>
+                                {% else %}
+                                Hello, dear customer, book your trip with us
                                 {% endif %}
                             </h4>
                             <br/>
@@ -3917,6 +3923,8 @@
                         {% if username.co_user_login != 'agent_b2c' %}
                         Hello, {{username.co_user_name}}!<br/>
                         Grow your business with <span class="lamp">{{name}}</span>
+                        {% else %}
+                        Hello, dear customer, book your trip with us
                         {% endif %}
                     </h3>
                 </div>
@@ -5072,6 +5080,8 @@
                                         Hello, {{username.co_user_name}}!
                                         <br/>
                                         Grow your business with <span class="lamp">{{name}}</span>
+                                        {% else %}
+                                        Hello, dear customer, book your trip with us
                                         {% endif %}
                                     </h4>
                                 </div>
