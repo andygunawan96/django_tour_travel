@@ -88,8 +88,10 @@
                 </div>
                 <div class="col-lg-12">
                     <h4 style="color:{{text_color}}; padding-bottom:20px;">
+                        {% if username.co_user_login != 'agent_b2c' %}
                         Hello, {{username.co_user_name}}!
                         Grow your business with <span class="lamp">{{name}}</span>
+                        {% endif %}
                     </h4>
 
                     <!--                <h4 style="padding-top:5px; padding-bottom:15px;">-->
@@ -1718,8 +1720,10 @@
             <div class="container-fluid">
                 {% if username.co_user_name != '' %}
                 <h3 style="color:{{text_color}}; padding-bottom:20px;">
+                    {% if username.co_user_login != 'agent_b2c' %}
                     Hello, {{username.co_user_name}}!
                     Grow your business with <span class="lamp">{{name}}</span>
+                    {% endif %}
                 </h3>
                 {% endif %}
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
@@ -2824,8 +2828,10 @@
                         {% if "ticketing" in username.co_agent_frontend_security %}
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
                             <h4 class="text-white">
+                                {% if username.co_user_login != 'agent_b2c' %}
                                 Hello, {{username.co_user_name}}!<br/>
                                 Grow your business with <span class="lamp">RODEXTRIP</span>
+                                {% endif %}
                             </h4>
                             <br/>
                             <div class="div-tabs style-scrollbar" style="margin-top:10px;">
@@ -3908,8 +3914,10 @@
                 {% if username.co_user_name != '' %}
                 <div class="col-xl-12" style="text-align:center;">
                     <h3 style="color:{{text_color}}; padding-bottom:20px;">
+                        {% if username.co_user_login != 'agent_b2c' %}
                         Hello, {{username.co_user_name}}!<br/>
                         Grow your business with <span class="lamp">{{name}}</span>
+                        {% endif %}
                     </h3>
                 </div>
                 {% else %}
@@ -5060,9 +5068,11 @@
                                 {% if username.co_user_name != '' %}
                                 <div class="col-xl-4" style="text-align:left; font-weight:bold;">
                                     <h4 style="color:{{text_color}};">
+                                        {% if username.co_user_login != 'agent_b2c' %}
                                         Hello, {{username.co_user_name}}!
                                         <br/>
                                         Grow your business with <span class="lamp">{{name}}</span>
+                                        {% endif %}
                                     </h4>
                                 </div>
                                 <div class="col-xl-8" style="text-align:left;">
