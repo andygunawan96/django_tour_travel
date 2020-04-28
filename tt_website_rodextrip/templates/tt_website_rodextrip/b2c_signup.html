@@ -1,0 +1,101 @@
+<div class="modal fade" id="myModalb2c" role="dialog" data-keyboard="false">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Sign Up User</h4>
+                <button type="button" class="close" data-dismiss="modal" onclick="update_contact('booker');">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="b2c_signup" style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                    <div class="row">
+                        <div class="col-lg-6 col-xs-6">
+                            <label style="color:red">*</label>
+                            <label>Title</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select-2" id="default-select">
+                                    <select id="b2c_title" name="b2c_title" class="nice-select-default">
+                                        <option value="MR">MR</option>
+                                        <option value="MRS">MRS</option>
+                                        <option value="MS">MS</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xs-6">
+                        </div>
+                        <div class="col-lg-6">
+                            <br/>
+                            <label style="color:red">*</label>
+                            <label>First name and middle name (if any)</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" onchange="capitalizeInput('b2c_first_name');" class="form-control" name="b2c_first_name" id="b2c_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                            </div>
+                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <br/>
+                            <label>Last name</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" onchange="capitalizeInput('b2c_last_name');" class="form-control" name="b2c_last_name" id="b2c_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                            </div>
+                            <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label style="color:red">*</label>
+                            <label>Nationality</label>
+                            <div class="input-container-search-ticket">
+                                <div class="form-select">
+                                    <select class="form-control js-example-basic-single" name="b2c_nationality_id" style="width:100%;" id="b2c_nationality_id" placeholder="Nationality" onchange="auto_complete('b2c_nationality');" class="nice-select-default">
+                                        {% for country in countries %}
+                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <input type="hidden" name="b2c_nationality" id="b2c_nationality" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-6">
+                            <label style="color:red">*</label>
+                            <label>Contact Email Address</label>
+                            <div class="input-container-search-ticket">
+                                <input type="text" class="form-control" name="b2c_email" id="b2c_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                            </div>
+                            <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <label style="color:red">*</label>
+                            <label style="margin:0;">Contact Person for Urgent Situation</label>
+                            <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                            <div class="row">
+                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                    <div class="form-select">
+                                        <select class="form-control js-example-basic-single" name="b2c_phone_code_id" style="width:100%;" id="b2c_phone_code_id" onchange="auto_complete('b2c_phone_code');" class="nice-select-default">
+                                            {% for phone in phone_code %}
+                                            <option value="{{phone}}" {% if phone == 62%} selected {%endif%}>{{phone}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <input type="hidden" name="b2c_phone_code" id="b2c_phone_code" />
+                                </div>
+                                <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                    <input type="text" class="form-control" name="b2c_phone" id="b2c_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                </div>
+                            </div>
+                            <label style="font-size:12px; padding:0;">Example: 812345678</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="signup_b2c();">Sign up</button>
+            </div>
+        </div>
+    </div>
+</div>
