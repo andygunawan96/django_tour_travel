@@ -6,10 +6,6 @@ agent_offside = 0;
 load_more = true;
 
 
-window.addEventListener('unload', () => {
-  open('/detector', '', 'width=100,height=100');
-})
-
 //function goodbye(e) {
 //	console.log(e);
 //    if(!e) e = window.event;
@@ -97,11 +93,13 @@ window.addEventListener('unload', () => {
 function signin(){
     username = '';
     password = '';
+    keep_me_signin = false;
     check = 0;
     if( $(window).width() > 767){
         if($('#username2').val() != '' && $('#password2').val() != ''){
             username = $('#username2').val();
             password = $('#password2').val();
+            keep_me_signin = $('#keep_me_signin2').is(':checked');
             check = 1;
             $('.button-login').addClass("running");
             $('.button-login').prop('disabled', true);
@@ -119,11 +117,10 @@ function signin(){
         if($('#username').val() != '' && $('#password').val() != ''){
             username = $('#username').val();
             password = $('#password').val();
+            keep_me_signin = $('#keep_me_signin').is(':checked');
             check = 1;
             $('.button-login').addClass("running");
             $('.button-login').prop('disabled', true);
-
-
         }else{
             $('.button-login').prop('disabled', false);
             $('.button-login').removeClass("running");
@@ -143,7 +140,8 @@ function signin(){
            },
            data: {
             'username':username,
-            'password':password
+            'password':password,
+            'keep_me_signin': keep_me_signin
            },
            success: function(msg) {
             console.log(msg);
@@ -211,6 +209,7 @@ function signin(){
 function signin_btc(){
     username = '';
     password = '';
+    keep_me_signin = false;
     check = 0;
     $('.loading-button').prop('disabled', true);
     $('.loading-button').addClass("running");
@@ -219,6 +218,7 @@ function signin_btc(){
         if($('#username').val() != '' && $('#password').val() != ''){
             username = $('#username').val();
             password = $('#password').val();
+            keep_me_signin = $('#keep_me_signin').is(':checked');
             check = 1;
         }else{
             error_log = '';
@@ -239,6 +239,7 @@ function signin_btc(){
         if($('#username2').val() != '' && $('#password2').val() != ''){
             username = $('#username2').val();
             password = $('#password2').val();
+            keep_me_signin = $('#keep_me_signin2').is(':checked');
             check = 1;
         }else{
             error_log = '';
@@ -265,7 +266,8 @@ function signin_btc(){
            },
            data: {
             'username':username,
-            'password':password
+            'password':password,
+            'keep_me_signin': keep_me_signin
            },
            success: function(msg) {
             console.log(msg);

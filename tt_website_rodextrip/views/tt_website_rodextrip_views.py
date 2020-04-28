@@ -367,8 +367,6 @@ def login(request):
             # return goto_dashboard()
             return render(request, MODEL_NAME + '/login_templates.html', values)
 
-def detector(request):
-    return render(request, MODEL_NAME + '/refresh-close-detector.html', {})
 
 def admin(request):
     if 'user_account' in request.session._session:
@@ -832,8 +830,9 @@ def get_cache_data(javascript_version):
 
 def get_data_template(request, type='home'):
     if type != 'login':
-        request.session.set_expiry(1200)
-        request.session.modified = True
+        if request.session.get('keep_me_signin') == True:
+            request.session.set_expiry(1200)
+            request.session.modified = True
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'

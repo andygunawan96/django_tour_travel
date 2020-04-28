@@ -72,6 +72,13 @@
 									<input type="password" class="form-login-control" id="password2" name="password" placeholder="{% trans 'Password' %}"/>
 								</div>
 								<div class="input-container-login" style="margin-top:5px;">
+									<div class="checkbox" id="checkbox_combo_price" style="margin-right:35vh;">
+										<label class="check_box_custom" style="margin-bottom:0px;">
+											<span style="font-size:13px; color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
+											<input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
+											<span class="check_box_span_custom"></span>
+										</label>
+									</div>
 									<span class="forgot-pass-login"><i class="fa fa-lock"></i><a style="cursor:pointer;" onclick="reset_password();"> {% trans 'Forget Password' %}</a></span>
 								</div>
 							</div>
@@ -176,6 +183,13 @@
 						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
 					</div>
 					<input type="hidden" id="response" name="response">
+					<div class="checkbox validate-input" id="checkbox_combo_price" style="text-align:center;">
+						<label class="check_box_custom" style="margin-bottom:0px;">
+							<span style="font-size:13px; color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
+							<input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+							<span class="check_box_span_custom"></span>
+						</label>
+					</div>
 					<div class="container-login100-form-btn m-t-32">
 						<button id="login-form-home" class="button-login login100-form-btn ld-ext-right">
 							{% trans 'Login' %}
