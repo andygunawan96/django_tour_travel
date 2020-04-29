@@ -4815,6 +4815,7 @@ display: block;
 .primary-btn-custom {
   background: #f15a22;
   line-height: 35px;
+  height:37px;
   padding-left: 20px;
   padding-right: 20px;
   margin-bottom:5px;

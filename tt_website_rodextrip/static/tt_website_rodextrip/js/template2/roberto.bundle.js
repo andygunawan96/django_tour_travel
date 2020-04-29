@@ -30,28 +30,36 @@
     if( $(window).width() > 992){
         $('#username_pc').show();
         $('#password_pc').show();
+        $('#forget_pc').show();
         $('#username_mb').hide();
         $('#password_mb').hide();
+        $('#forget_mb').hide();
     }
     else {
         $('#username_pc').hide();
         $('#password_pc').hide();
+        $('#forget_pc').hide();
         $('#username_mb').show();
         $('#password_mb').show();
+        $('#forget_mb').show();
     }
 
     $(window).resize(function() {
         if ($(window).width() >= 992) {
             $('#username_pc').show();
             $('#password_pc').show();
+            $('#forget_pc').show();
             $('#username_mb').hide();
             $('#password_mb').hide();
+            $('#forget_mb').hide();
         }
         else {
             $('#username_pc').hide();
             $('#password_pc').hide();
+            $('#forget_pc').hide();
             $('#username_mb').show();
             $('#password_mb').show();
+            $('#forget_mb').show();
         }
     });
 

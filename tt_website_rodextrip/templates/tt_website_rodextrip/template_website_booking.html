@@ -840,6 +840,12 @@ Licence URI: http://www.os-templates.com/template-terms
         }
 
         {% if template == 1%}
+        #mobile-nav ul li span:hover{
+            color:{{color}};
+        }
+        #mobile-nav ul li span{
+            color:{{text_color}};
+        }
         .btn-txt-color{
             color:{{text_color}};
         }
@@ -1231,6 +1237,15 @@ Licence URI: http://www.os-templates.com/template-terms
             opacity:0.8;
         }
         {% elif template == 5 %}
+        #mobile-nav .sign_up_login{
+            color:white;
+        }
+        #mobile-nav .sign_up_login:hover{
+            color: {{color}};
+        }
+        .sign_up_login:hover{
+            color: {{color}};
+        }
         .btn-txt-color{
             color: {{text_color}};
         }

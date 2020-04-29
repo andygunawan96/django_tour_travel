@@ -77,7 +77,8 @@ jQuery(document).ready(function($) {
 			var $this = $(this);
 			$this.clone().attr('class', 'site-nav-wrap').appendTo('.site-mobile-menu-body');
             $this.find('.username_mobile').replaceWith('<li style="padding-right:5px; margin-bottom:15px;"><div class="input-container-search-ticket"><input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/></div></li>');
-            $this.find('.password_mobile').replaceWith('<li style="padding-right:5px; margin-bottom:15px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/></div></li>');
+            $this.find('.password_mobile').replaceWith('<li style="padding-right:5px; margin-bottom:15px;"><div class="input-container-search-ticket"><input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/></div><label class="check_box_custom" style="margin:5px; float:right;"><span style="font-size:13px; color:`+color+`;">Keep Me Signin</span><input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked"><span class="check_box_span_custom"></span></label></li>');
+            $this.find('.forget_password_mobile').replaceWith('<li style="padding-right:5px;"><a style="cursor:pointer; text-transform: unset; padding:0px 5px;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i></a></li>');
 		});
 
 
