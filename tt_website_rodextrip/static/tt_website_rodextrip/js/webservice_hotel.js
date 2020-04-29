@@ -912,7 +912,7 @@ function hotel_force_issued_alert(force_issued){
         document.getElementById("discount").value = JSON.stringify(discount_voucher);
         document.getElementById("session_time_input").value = time_limit;
         if(force_issued == 1)
-            hotel_issued_booking(1);
+            document.getElementById("hotel_issued").submit();
         else
             hotel_issued_booking(0);
       }
