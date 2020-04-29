@@ -350,10 +350,10 @@
                             </div>
                             <div class="modal-footer">
                                 {% if 'b2c_limitation' in username.co_agent_frontend_security%}
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="hotel_force_issued_alert('0');">Continue with new price</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="hotel_force_issued_alert(0);">Continue with new price</button>
                                 {% endif %}
                                 {% if 'b2c_limitation' not in username.co_agent_frontend_security%}
-                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="hotel_force_issued_alert('1');">Continue with new price</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="hotel_force_issued_alert(1);">Continue with new price</button>
                                 {% endif %}
                                 <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                             </div>

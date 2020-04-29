@@ -886,7 +886,7 @@ function hotel_issued_alert(val){
 
 function hotel_force_issued_alert(force_issued){
     console.log(force_issued);
-    if(force_issued == "1")
+    if(force_issued == 1)
         var msg_str = 'Are you sure you want to Force Issued this booking?'
      else
         var msg_str = 'Are you sure you want to Hold this booking?'
@@ -911,8 +911,8 @@ function hotel_force_issued_alert(force_issued){
         document.getElementById("voucher_code").value = voucher_code;
         document.getElementById("discount").value = JSON.stringify(discount_voucher);
         document.getElementById("session_time_input").value = time_limit;
-        if(force_issued == "1")
-            document.getElementById('hotel_issued').submit();
+        if(force_issued == 1)
+            hotel_issued_booking(1);
         else
             hotel_issued_booking(0);
       }
