@@ -53,7 +53,7 @@ def search(request):
                 logging.getLogger("error_logger").error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
             values = get_data_template(request, 'search')
 
-            airline_carriers = {'All': {'name': 'All', 'code': 'all'}}
+            airline_carriers = {'All': {'name': 'All', 'code': 'all','is_excluded_from_b2c': False}}
             for i in response:
                 airline_carriers[i] = {
                     'name': response[i]['name'],
