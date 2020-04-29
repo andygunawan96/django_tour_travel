@@ -197,29 +197,30 @@ function get_carrier_code_list(type, val){
                     </li>
                `;
                for(i in msg){
-                    text+=`
-                        <li>
-                            <a class="small" data-value="option1" tabIndex="-1">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
-                                    if(val == undefined)
-                                    text+=`
-                                        <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
-                                    else{
-                                        if(document.getElementById('provider_box_'+i).checked == false)
-                                            text+=`
-                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
-                                        else
-                                            text+=`
-                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" checked="checked" onclick="check_provider('`+i+`',`+val+`)"/>`;
-                                    }
-                                    text+=`
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                            </a>
-                            <br/>
-                        </li>
-                    `;
+                    if(msg[i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                        text+=`
+                            <li>
+                                <a class="small" data-value="option1" tabIndex="-1">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">`+msg[i].display_name+`</span>`;
+                                        if(val == undefined)
+                                        text+=`
+                                            <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
+                                        else{
+                                            if(document.getElementById('provider_box_'+i).checked == false)
+                                                text+=`
+                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                            else
+                                                text+=`
+                                                    <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" checked="checked" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                        }
+                                        text+=`
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </a>
+                                <br/>
+                            </li>`;
+                    }
                }
            }else{
                try{
@@ -246,38 +247,40 @@ function get_carrier_code_list(type, val){
                         <br/>
                     </li>`;
                    for(i in airline_carriers[0]){
-                        if(i != 'All'){
-                            text+=`
-                                <li>
-                                    <a class="small" data-value="option1" tabIndex="-1">
-                                        <label class="check_box_custom">
-                                            <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][i].display_name+`</span>`;
-                                            if(val == undefined)
-                                            text+=`
-                                                <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
-                                            else{
-                                                try{
-                                                    if(document.getElementById('provider_box_'+i).checked == true)
-                                                        text+=`
-                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
-                                                    else
-                                                        text+=`
-                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
-                                                }catch(err){
-                                                    if(airline_carriers[val-1][i].bool == true)
-                                                        text+=`
-                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
-                                                    else
-                                                        text+=`
-                                                            <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                        if(airline_carriers[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                            if(i != 'All'){
+                                text+=`
+                                    <li>
+                                        <a class="small" data-value="option1" tabIndex="-1">
+                                            <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][i].display_name+`</span>`;
+                                                if(val == undefined)
+                                                text+=`
+                                                    <input type="checkbox" id="provider_box_`+i+`" name="provider_box_`+i+`" value="`+i+`" onclick="check_provider('`+i+`')"/>`;
+                                                else{
+                                                    try{
+                                                        if(document.getElementById('provider_box_'+i).checked == true)
+                                                            text+=`
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                        else
+                                                            text+=`
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                    }catch(err){
+                                                        if(airline_carriers[val-1][i].bool == true)
+                                                            text+=`
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)" checked="checked"/>`;
+                                                        else
+                                                            text+=`
+                                                                <input type="checkbox" id="provider_box_`+i+`_`+val+`" name="provider_box_`+i+`_`+val+`" value="`+i+`" onclick="check_provider('`+i+`',`+val+`)"/>`;
+                                                    }
                                                 }
-                                            }
-                                            text+=`
-                                            <span class="check_box_span_custom"></span>
-                                        </label>
-                                    </a>
-                                    <br/>
-                                </li>`;
+                                                text+=`
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
+                                        </a>
+                                        <br/>
+                                    </li>`;
+                            }
                         }
                    }
                }catch(err){
@@ -448,9 +451,11 @@ function carrier_to_provider(){
         for(j in airline_carriers[i]){
             if(airline_carriers[i][j].code == 'all' && airline_carriers[i][j].bool == true){
                 for(k in provider_list){
-                    airline[i][k] = [];
-                    for(l in provider_list[k]){
-                        airline[i][k].push(provider_list[k][l]);
+                    if(airline_carriers[i][j].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                        airline[i][k] = [];
+                        for(l in provider_list[k]){
+                            airline[i][k].push(provider_list[k][l]);
+                        }
                     }
                 }
                 break;
