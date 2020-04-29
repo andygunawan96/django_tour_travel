@@ -451,11 +451,9 @@ function carrier_to_provider(){
         for(j in airline_carriers[i]){
             if(airline_carriers[i][j].code == 'all' && airline_carriers[i][j].bool == true){
                 for(k in provider_list){
-                    if(airline_carriers[i][j].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
-                        airline[i][k] = [];
-                        for(l in provider_list[k]){
-                            airline[i][k].push(provider_list[k][l]);
-                        }
+                    airline[i][k] = [];
+                    for(l in provider_list[k]){
+                        airline[i][k].push(provider_list[k][l]);
                     }
                 }
                 break;
@@ -481,23 +479,24 @@ function carrier_to_provider(){
     provider_airline = []
     for(i in airline[0]){
         for(j in airline[0][i]){
-            check = 0;
-            try{
-                for(k in provider_airline){
-                    if(airline_carriers[0][i].is_favorite == true){
+            if(airline_carriers[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+                check = 0;
+                try{
+                    for(k in provider_airline){
+                        if(airline_carriers[0][i].is_favorite == true){
+                            provider_airline.push([airline[0][i][j],[i], airline_carriers[0][i].is_favorite])
+                            check = 1;
+                            break;
+                        }else if(provider_airline[k][0] == airline[0][i][j] && provider_airline[k][2] == false){
+                            provider_airline[k][1].push(i);
+                            check = 1;
+                            break;
+                        }
+                    }if(check == 0){
                         provider_airline.push([airline[0][i][j],[i], airline_carriers[0][i].is_favorite])
-                        check = 1;
-                        break;
-                    }else if(provider_airline[k][0] == airline[0][i][j] && provider_airline[k][2] == false){
-                        provider_airline[k][1].push(i);
-                        check = 1;
-                        break;
                     }
-
-                }if(check == 0){
-                    provider_airline.push([airline[0][i][j],[i], airline_carriers[0][i].is_favorite])
-                }
-            }catch(err){}
+                }catch(err){}
+            }
         }
     }
     airline_choose = 0;
