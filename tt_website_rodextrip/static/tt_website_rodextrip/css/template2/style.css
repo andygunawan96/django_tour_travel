@@ -476,7 +476,7 @@ input:focus {
   -webkit-transition-duration: 500ms;
   -o-transition-duration: 500ms;
   transition-duration: 500ms;
-  background-color: #1cc3b2; }
+  background-color: white; }
   .header-area .search-form {
     -webkit-transition-duration: 350ms;
     -o-transition-duration: 350ms;
@@ -576,7 +576,7 @@ input:focus {
     -webkit-transition-duration: 500ms;
     -o-transition-duration: 500ms;
     transition-duration: 500ms;
-    height: 60px;
+    height: 80px;
     padding: 0; }
     @media only screen and (min-width: 768px) and (max-width: 991px) {
       .classy-nav-container .classy-navbar {

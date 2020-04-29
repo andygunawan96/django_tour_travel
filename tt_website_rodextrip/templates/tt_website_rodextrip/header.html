@@ -166,34 +166,29 @@
                             <div class="input-container-search-ticket">
                                 <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username" tabindex="1" />
                             </div>
-                            <label class="check_box_custom" style="margin-bottom:0px;">
-                                <span style="font-size:13px; color:{{color}};">{% trans 'Keep Me Signin' %}</span>
-                                <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
-                                <span class="check_box_span_custom"></span>
-                            </label>
                         </li>
                         <li class="password_mobile" style="padding-right:5px;">
                             <div class="input-container-search-ticket">
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password" tabindex="2" />
                             </div>
+                            <label class="check_box_custom" style="margin-top:5px; margin-right:5px; float:right;">
+                                <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
+                                <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                <span class="check_box_span_custom"></span>
+                            </label>
                         </li>
+                        <li class="keep_me_mobile" style="padding-right:5px;"></li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                         <li style="font-size:12px;color:black; margin:5px;">
-                            <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
+                            <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right" style="margin-bottom:10px;">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
-                            </button>
+                            </button><br/>
+                            <span style="margin-top:5px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
                         </li>
-                        <li style="font-size:12px;color:black;">
-                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                        <li class="forget_password_mobile" style="font-size:12px;color:black;">
+                            <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 12px;"></i></a>
                         </li>
-                        <li class="menu-has-children pt5"><a href="#">{% trans 'Registration' %}</a>
-                            <ul>
-                                <li><a href="/registration">{% trans 'Register Agent' %}</a></li>
-                                <li><button type="button" style="width:95%;" class="primary-btn" data-toggle="modal" data-target="#myModalb2c">{% trans 'Register User' %}</button></li>
-                            </ul>
-                        </li>
-
                     </ul>
                 </nav>
                 <nav class="notification-mobile" style="display:none;">
@@ -389,7 +384,7 @@
                         {% endif %}
                     </div>
                     <div class="classynav" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <ul class="nav">
+                        <ul class="nav" style="display:inherit; margin-top:15px;">
                             <li id="username_pc" style="padding-right:5px; display:block;">
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
@@ -399,6 +394,11 @@
                                 <div class="input-container-search-ticket">
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                                 </div>
+                                <label class="check_box_custom" style="margin-right:5px; float:right;">
+                                    <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
+                                    <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </li>
                             <li id="username_mb" style="padding-right:5px; display:none;">
                                 <div class="input-container-search-ticket">
@@ -409,16 +409,26 @@
                                 <div class="input-container-search-ticket">
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
                                 </div>
+                                <label class="check_box_custom" style="margin-left:5px;">
+                                    <span style="font-size:13px;">{% trans 'Keep Me Signin' %}</span>
+                                    <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </li>
+
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                             <li style="font-size:12px;color:black; margin:5px;">
                                 <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
                                 </button>
+                                <a style="font-size:13px; background-color:unset; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
                             </li>
-                            <li style="font-size:12px;color:black;margin-top:10px;">
+                            <li id="forget_pc" style="font-size:12px;color:black;margin-top:10px;">
                                 <a style="cursor:pointer; background-color:unset;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                            </li>
+                            <li id="forget_mb" style="font-size:12px;color:black;display:none;">
+                                <a style="cursor:pointer; background-color:unset;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i> Forget Password</a>
                             </li>
                         </ul>
                     </div>
@@ -430,8 +440,8 @@
     </div>
 </header>
 {% elif template == 3%}
-<header id="header" id="home">
-    <div class="main-menu" style="background:rgba(30, 30, 30, 1);">
+<header id="header" id="home" style="background:rgba(30, 30, 30, 1);">
+    <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex mobile-menu">
                 <!--                <div class="col-lg-12" style="padding:0px 0px 0px 15px;">-->
@@ -556,25 +566,32 @@
                         {% endif %}
                         </ul>
                         <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                            <li class="username_mobile" style="padding-right:5px;">
+                            <li class="username_mobile" style="margin:15px 0px; padding-right:5px;">
                                 <div class="input-container-search-ticket">
                                     <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                                 </div>
                             </li>
-                            <li class="password_mobile" style="padding-right:5px;">
+                            <li class="password_mobile" style="margin:15px 0px; padding-right:5px;">
                                 <div class="input-container-search-ticket">
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                                 </div>
+                                <label class="check_box_custom" style="margin-right:5px; float:right;">
+                                    <span style="font-size:13px; color:{{text_color}};">{% trans 'Keep Me Signin' %}</span>
+                                    <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </li>
+                            <li class="keep_me_mobile" style="padding-right:5px;"></li>
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                            <li style="font-size:12px;color:black; margin:5px;">
+                            <li style="font-size:12px;color:black; padding-left:5px; margin:20px 0px;">
                                 <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                </button><br/>
+                                <a style="color:{{text_color}}; margin-top:5px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
                             </li>
-                            <li style="font-size:12px;color:white;">
-                                <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                            <li class="forget_password_mobile" style="font-size:12px;color:white;">
+                                <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-left:5px; padding-top: 20px;"></i></a>
                             </li>
                         </ul>
                 </nav>
@@ -746,17 +763,24 @@
                                 <div class="input-container-search-ticket">
                                     <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password2" placeholder="Password"/>
                                 </div>
+                                <label class="check_box_custom" style="margin-left:5px; float:left;">
+                                    <span style="font-size:13px; color:{{color}};">{% trans 'Keep Me Signin' %}</span>
+                                    <input type="checkbox" value="" id="keep_me_signin2" name="keep_me_signin" checked="checked">
+                                    <span class="check_box_span_custom"></span>
+                                </label>
                             </li>
+                            <li class="keep_me_mobile" style="padding-right:5px;"></li>
 
                             <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
-                            <li style="font-size:12px;color:black; margin:5px;">
+                            <li style="font-size:12px;color:black; margin:5px; display:inline-table;">
                                 <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                     Sign in <i class="fas fa-sign-in-alt"></i>
                                     <div class="ld ld-ring ld-cycle"></div>
-                                </button>
+                                </button><br/>
+                                <a style="margin-top:10px; font-size:13px; font-weight:600; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</a>
                             </li>
-                            <li style="font-size:12px;color:black;">
-                                <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 8px;"></i></a>
+                            <li class="forget_password_mobile" style="font-size:12px;color:black;padding:0px;">
+                                <a style="cursor:pointer; padding-left:7px; font-size:15px; font-weight:600;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 13px;padding-top: 8px;"></i> Forget Password</a>
                             </li>
                         </ul>
                     </nav>
@@ -917,24 +941,31 @@
                     {% endif %}
                     </ul>
                     <ul class="nav-menu" id="nav-menu-container_no_login" {% if username.co_user_login != 'agent_b2c' %} style="display:none;" {% endif %}>
-                        <li class="username_mobile" style="padding-right:5px; margin-top:13px;">
+                        <li class="username_mobile" style="padding-right:5px; margin-top:13px;margin-bottom:13px;">
                             <div class="input-container-search-ticket">
                                 <input type="text" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="username" placeholder="Username"/>
                             </div>
                         </li>
-                        <li class="password_mobile" style="padding-right:5px; margin-top:13px;">
+                        <li class="password_mobile" style="padding-right:5px; margin-top:13px; margin-bottom:13px;">
                             <div class="input-container-search-ticket">
                                 <input type="password" class="form-control" style="height:36px; border-radius:unset; font-size:13px; padding:10px; margin:5px;" id="password" placeholder="Password"/>
                             </div>
+                            <label class="check_box_custom" style="margin-left:5px; float:left;">
+                                <span style="font-size:13px; color:{{color}};">{% trans 'Keep Me Signin' %}</span>
+                                <input type="checkbox" value="" id="keep_me_signin" name="keep_me_signin" checked="checked">
+                                <span class="check_box_span_custom"></span>
+                            </label>
                         </li>
+                        <li class="keep_me_mobile" style="padding-right:5px;"></li>
                         <!--<li class="pt5"><input type="text" placeholder="Username"/><input type="text" placeholder="Password"/></li>-->
                         <li style="font-size:12px;color:black; margin-top:18px; padding-left:5px;">
                             <button onclick="signin_btc();" class="loading-button primary-btn-custom ld-ext-right">
                                 Sign in <i class="fas fa-sign-in-alt"></i>
                                 <div class="ld ld-ring ld-cycle"></div>
-                            </button>
+                            </button><br/>
+                            <span class="sign_up_login" style="margin-top:10px; font-size:13px; font-weight:500; cursor:pointer; text-transform: unset; padding:0px 2px;" data-toggle="modal" data-target="#myModalb2c"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</span>
                         </li>
-                        <li style="font-size:12px;color:black;">
+                        <li class="forget_password_mobile" style="font-size:12px;color:black;">
                             <a style="cursor:pointer;" onclick="reset_password_btc();"><i class="fa fa-lock" style="font-size: 20px;padding-top: 5px;"></i></a>
                         </li>
                     </ul>
