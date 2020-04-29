@@ -6,7 +6,7 @@
 <footer class="footer-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4">
+            <div class="col-xs-12 col-sm-6 col-lg-6">
                 <h6 style="color:black;">About {{name}}</h6>
                 <p>
                     {% for description in desc%}
@@ -15,40 +15,45 @@
                     {% endfor %}
                 </p>
             </div>
-            <div class="col-lg-4">
+            <div class="col-xs-12 col-sm-6 col-lg-6">
                 <h6 style="color:black;">Our Product</h6>
                 <div class="single-footer-widget">
                     <div class="row">
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Airlines</a></li>
-                                <li><a href="#">Tour</a></li>
-                                <li><a href="#">Hotel</a></li>
-                                <li><a href="#">Activity</a></li>
-                            </ul>
-                        </div>
-                        <div class="col">
-                            <ul>
-                                <li><a href="#">Train</a></li>
-                                <li><a href="#">Visa</a></li>
-                                <li><a href="#">Group</a></li>
-                            </ul>
-                        </div>
+                        {% for provider_type in provider %}
+                            {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
+                            <div class="col">
+                                <ul>
+                            {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% else %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% endif %}
+                            {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-4">
-                <!--<h6 style="color:black;">Payment Partner</h6>-->
-                <!--<div class="row">-->
-                    <!--<div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="padding-bottom:15px;">-->
-                        <!--<img src="/static/tt_website_rodextrip/images/bca.png" class="our-partner" title="BCA">-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" style="padding-bottom:15px;">-->
-                        <!--<img src="/static/tt_website_rodextrip/images/mandiri.png" class="our-partner" title="MANDIRI">-->
-                    <!--</div>-->
-                <!--</div>-->
                 {% if instagram_url != '' or facebook_url != '' %}
-                <h6 style="color:black">Follow us:</h6>
+                <h6 style="color:black">Follow us</h6>
                 {% if facebook_url != ''%}
                 <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
                 {% endif %}
@@ -126,7 +131,7 @@
                 <!--                </div>-->
 
                 <!-- Single Footer Widget Area -->
-                <div class="col-xs-12 col-sm-6 col-lg-4">
+                <div class="col-xs-12 col-sm-6 col-lg-6">
                     <div class="single-footer-widget mb-80">
                         <!-- Widget Title -->
                         <h5 class="widget-title" style="color:black;">About {{name}}</h5>
@@ -144,37 +149,50 @@
                 </div>
 
                 <!-- Single Footer Widget Area -->
-                <div class="col-xs-12 col-sm-6 col-lg-4">
+                <div class="col-xs-12 col-sm-6 col-lg-6">
                     <div class="single-footer-widget mb-80">
                         <!-- Widget Title -->
                         <h5 class="widget-title" style="color:black;">Our product</h5>
 
                         <!-- Footer Nav -->
                         <div class="row">
+                            {% for provider_type in provider %}
+                            {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
                             <div class="col-xs-12 col-sm-6 col-lg-6">
                                 <ul class="footer-nav">
-                                    <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Airline</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Train</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Hotel</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Activity</a></li>
+                            {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% else %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% endif %}
+                            {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                                 </ul>
                             </div>
-                            <div class="col-xs-12 col-sm-6 col-lg-6">
-                                <ul class="footer-nav">
-                                    <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Tour</a></li>
-                                    <li><a href="#"><i class="fa fa-caret-right" aria-hidden="true"></i> Visa</a></li>
-                                </ul>
-                            </div>
+                            {% endif %}
+                            {% endfor %}
                         </div>
                     </div>
-                </div>
-
-                <!-- Single Footer Widget Area -->
-                <div class="col-xs-12 col-sm-6 col-lg-4">
                     {% if instagram_url != '' or facebook_url != '' %}
                     <div class="single-footer-widget mb-80">
                         <!-- Widget Title -->
-                        <h5 class="widget-title" style="color:black;">Follow us:</h5>
+                        <h5 class="widget-title" style="color:black;">Follow us</h5>
                         {% if facebook_url != ''%}
                         <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
                         {% endif %}
@@ -208,7 +226,7 @@
 <footer class="footer-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-lg-4 col-md-4">
+            <div class="col-xs-12 col-sm-6 col-lg-6">
                 <div class="single-footer-widget">
                     <h6 style="color:black;">About {{name}}</h6>
                     <p>
@@ -219,32 +237,46 @@
                     </p>
                 </div>
             </div>
-            <div class="col-lg-4 col-md-4">
+            <div class="col-xs-12 col-sm-6 col-lg-6">
                 <div class="single-footer-widget">
                     <h6 style="color:black;">Our product</h6>
                     <div class="row">
+                        {% for provider_type in provider %}
+                        {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
                         <div class="col-xs-12 col-sm-6 col-lg-6">
-                            <ul>
-                                <li><a href="#">Airline</a></li>
-                                <li><a href="#">Train</a></li>
-                                <li><a href="#">Hotel</a></li>
-                                <li><a href="#">Activity</a></li>
+                            <ul class="footer-nav">
+                        {% endif %}
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            {% if provider_type != 'payment' %}
+                        <li><a href="#"><script>
+                        temp = `{{provider_type}}`;
+                        temp = temp.split('_');
+                        data = '';
+                        for(i in temp)
+                            data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                        document.write(data);</script></a></li>
+                            {% endif %}
+                        {% else %}
+                            {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' %}
+                        <li><a href="#"><script>
+                        temp = `{{provider_type}}`;
+                        temp = temp.split('_');
+                        data = '';
+                        for(i in temp)
+                            data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                        document.write(data);</script></a></li>
+                            {% endif %}
+                        {% endif %}
+                        {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
                             </ul>
                         </div>
-                        <div class="col-xs-12 col-sm-6 col-lg-6">
-                            <ul>
-                                <li><a href="#">Tour</a></li>
-                                <li><a href="#">Visa</a></li>
-                            </ul>
-                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
-            </div>
-
-            <div class="col-lg-4 col-md-4 social-widget">
                 {% if instagram_url != '' or facebook_url != '' %}
                 <div class="single-footer-widget">
-                    <h6 style="color:black;">Follow us:</h6>
+                    <h6 style="color:black;">Follow us</h6>
                     {% if facebook_url != ''%}
                     <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
                     {% endif %}
@@ -324,7 +356,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-xs-12 col-sm-6 col-lg-6">
                         <h2 class="footer-heading mb-4" style="color:black;">About {{name}}</h2>
                         <p>
                             {% for description in desc%}
@@ -343,7 +375,41 @@
                     <!--                            <li><a href="#">Contact Us</a></li>-->
                     <!--                        </ul>-->
                     <!--                    </div>-->
-                    <div class="col-md-4">
+                    <div class="col-xs-12 col-sm-6 col-lg-6">
+                        <h2 class="footer-heading mb-4" style="color:black;">Our Product</h2>
+                        <div class="row">
+                            {% for provider_type in provider %}
+                            {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <ul class="footer-nav">
+                            {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% else %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% endif %}
+                            {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
                         {% if instagram_url != '' or facebook_url != '' %}
                         <h2 class="footer-heading mb-4" style="color:black;">Follow Us</h2>
                         {% if facebook_url != ''%}
@@ -389,7 +455,7 @@
 <footer class="footer-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-lg-8">
+            <div class="col-xs-12 col-sm-6 col-lg-6">
                 <div class="single-footer-widget">
                     <h4 style="color:black;">About {{name}}</h4><br/>
                     <p>
@@ -436,7 +502,45 @@
             <!--                    </ul>-->
             <!--                </div>-->
             <!--            </div>-->
-            <div class="col-lg-4">
+            <div class="col-xs-12 col-sm-6 col-lg-6">
+                <div class="single-footer-widget">
+                    <h4 style="color:black;">Our products</h4><br/>
+                    <div class="footer-social d-flex align-items-center">
+                        <div class="row">
+                            {% for provider_type in provider %}
+                            {% if forloop.counter == 1 or forloop.counter == provider_divider_start %}
+                            <div class="col-xs-12 col-sm-6 col-lg-6">
+                                <ul class="footer-nav">
+                            {% endif %}
+                            {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                {% if provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% else %}
+                                {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' %}
+                            <li><a href="#"><script>
+                            temp = `{{provider_type}}`;
+                            temp = temp.split('_');
+                            data = '';
+                            for(i in temp)
+                                data += temp[i].charAt(0).toUpperCase() + temp[i].slice(1).toLowerCase() + ' ';
+                            document.write(data);</script></a></li>
+                                {% endif %}
+                            {% endif %}
+                            {% if forloop.counter == provider|length or forloop.counter == provider_divider_end %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
                 {% if instagram_url != '' or facebook_url != '' %}
                 <div class="single-footer-widget">
                     <h4 style="color:black;">Follow Us</h4><br/>

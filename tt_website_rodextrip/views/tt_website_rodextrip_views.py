@@ -20,6 +20,7 @@ import os
 from tools.parser import *
 from datetime import *
 import copy
+import math
 
 MODEL_NAME = 'tt_website_rodextrip'
 # _dest_env = TtDestinations()
@@ -81,7 +82,6 @@ def index(request):
                 elif bool(request.session._session):
                     #get_data_awal
                     try:
-                        provider_type = request.session['provider']
                         airline_cabin_class_list = [
                             {
                                 'name': 'Economy',
@@ -199,7 +199,7 @@ def index(request):
                                 'static_path': path_util.get_static_path(MODEL_NAME),
                                 'cache': json.dumps(cache),
                                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                                'provider': provider_type,
+
                                 'countries': airline_country,
                                 'phone_code': phone_code,
                                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
@@ -833,6 +833,15 @@ def get_data_template(request, type='home'):
         if request.session.get('keep_me_signin') == True:
             request.session.set_expiry(1200)
             request.session.modified = True
+    cache_version = get_cache_version()
+    response = get_cache_data(cache_version)
+    airline_country = response['result']['response']['airline']['country']
+    phone_code = []
+    for i in airline_country:
+        if i['phone_code'] not in phone_code:
+            phone_code.append(i['phone_code'])
+    phone_code = sorted(phone_code)
+    provider_type = request.session['provider']
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
@@ -969,7 +978,12 @@ We build this application for our existing partner and public users who register
         'espay_api_key': espay_api_key,
         'espay_api_key_callback_url': espay_api_key_callback_url,
         'backend_url': backend_url,
-        'espay_script': script_espay
+        'espay_script': script_espay,
+        'countries': airline_country,
+        'phone_code': phone_code,
+        'provider': provider_type,
+        'provider_divider_start': math.ceil(len(provider_type) / 2) + 1,
+        'provider_divider_end': math.ceil(len(provider_type) / 2),
     }
 
 # @api_view(['GET'])
