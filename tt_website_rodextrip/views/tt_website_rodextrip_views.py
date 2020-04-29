@@ -841,7 +841,7 @@ def get_data_template(request, type='home'):
         if i['phone_code'] not in phone_code:
             phone_code.append(i['phone_code'])
     phone_code = sorted(phone_code)
-    provider_type = request.session['provider']
+    provider_type = request.session.get('provider') and request.session.get('provider') or []
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'

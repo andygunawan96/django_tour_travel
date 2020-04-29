@@ -277,6 +277,7 @@ def signin_btc(request):
                             for provider in provider_type['result']['response']['provider_type_list']:
                                 provider_type_list.append(provider['code'])
                             request.session['provider'] = provider_type_list
+                            request.session.modified = True
                         else:
                             # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
                             request.session['provider'] = []
