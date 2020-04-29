@@ -40,7 +40,8 @@ def index(request):
 
         values = get_data_template(request)
         if not request.session.get('user_account') and values['website_mode'] == 'btc':
-            signin_btc(request)
+            provider = signin_btc(request)
+            values = get_data_template(request, provider['result']['response']['provider'])
         elif request.session.get('user_account').get('co_user_login') == user_default and values['website_mode'] == 'btb':
             for key in reversed(list(request.session._session.keys())):
                 del request.session[key]
@@ -515,6 +516,7 @@ def admin(request):
                     text += request.POST['backend_url'] + '\n'
                     text += request.POST['website_mode'] + '\n'
                     text += request.POST['espay_script'] + '\n'
+                    text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n'))
                     file = open(var_log_path()+'data_cache_template.txt', "w+")
                     file.write(text)
                     file.close()
@@ -828,7 +830,7 @@ def get_cache_data(javascript_version):
         logging.getLogger("error_logger").error('ERROR version cache file\n' + str(e) + '\n' + traceback.format_exc())
     return response
 
-def get_data_template(request, type='home'):
+def get_data_template(request, type='home', provider_type = []):
     if type != 'login':
         if request.session.get('keep_me_signin') == True:
             request.session.set_expiry(1200)
@@ -841,7 +843,13 @@ def get_data_template(request, type='home'):
         if i['phone_code'] not in phone_code:
             phone_code.append(i['phone_code'])
     phone_code = sorted(phone_code)
-    provider_type = request.session.get('provider') and request.session.get('provider') or []
+    if len(provider_type) != 0:
+        provider_type = provider_type
+    else:
+        try:
+            provider_type = request.session.get('provider') and request.session.get('provider') or []
+        except:
+            provider_type = []
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
@@ -862,6 +870,7 @@ def get_data_template(request, type='home'):
     espay_api_key_callback_url = ''
     backend_url = ''
     script_espay = ''
+    contact_us = ''
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
 
 We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
@@ -952,6 +961,11 @@ We build this application for our existing partner and public users who register
                     pass
                 else:
                     script_espay = line.split('\n')[0]
+            elif idx == 21:
+                if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
+                    contact_us = '\n'.join(line.split('<br>')[:-1])
+                else:
+                    contact_us = '\n'.join(line.split('<br>'))
         if color == '':
             color = '#f15a22'
         file.close()
@@ -984,6 +998,7 @@ We build this application for our existing partner and public users who register
         'provider': provider_type,
         'provider_divider_start': math.ceil(len(provider_type) / 2) + 1,
         'provider_divider_end': math.ceil(len(provider_type) / 2),
+        'contact_us': contact_us.split('\n')
     }
 
 # @api_view(['GET'])

@@ -308,6 +308,7 @@ def signin_btc(request):
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     try:
+        res_user['result']['response']['provider'] = provider_type_list
         return res_user
     except:
         return res
