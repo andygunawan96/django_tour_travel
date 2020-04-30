@@ -1,0 +1,2188 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_visa.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/visa_javascript.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
+<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script>
+    signature = `{{signature}}`;
+    static_path_url_server = '{{static_path_url_server}}'
+    name = '';
+    try{
+        cache = `{{cache}}`;
+        cache = cache.replace(/&quot;/g, '"');
+        cache = JSON.parse(cache);
+    }catch(err){
+
+    }
+</script>
+
+<style>
+    @media only screen and (min-width: 991px) {
+        #slider_home {
+            margin-top: 88px;
+        }
+    }
+    @media only screen and (max-width: 990px) {
+        #slider_home {
+            margin-top: 0px;
+        }
+        #logo_home {
+            padding-top:10px;
+        }
+    }
+</style>
+<title>{{name}} - {% trans 'Visa' %}</title>
+
+{% if username.co_user_login != '' %}
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+{% include 'tt_website_rodextrip/logout.html' %}
+{% endif %}
+{% include 'tt_website_rodextrip/header.html' %}
+{%if template == 1%}
+<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
+    <div class="overlay overlay-bg"></div>
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
+        <div class="container">
+            <div class="row">
+                {% if username.co_user_login != '' %}
+                <div id="overlay-search-box" onclick="off_overlay()"></div>
+                <div class="col-lg-12">
+                    <div id="big_banner" style="padding-bottom:15px;">
+
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <h4 style="color:{{text_color}}; padding-bottom:20px;">
+                        {% if username.co_user_login != 'agent_b2c' %}
+                        Hello, {{username.co_user_name}}!
+                        Grow your business with <span class="lamp">{{name}}</span>
+                        {% else %}
+                        Hello, dear customer, book your trip with us
+                        {% endif %}
+                    </h4>
+
+                    <!--                <h4 style="padding-top:5px; padding-bottom:15px;">-->
+                    <!--                    Get our product-->
+                    <!--                    <div class="animate"></div>-->
+                    <!--                </h4>-->
+                </div>
+                {% else %}
+                <div class="col-lg-12" style="text-align:center; padding-top: 20px;">
+                    <div style="background:rgba(20,20,20,0.7); padding:50px 0px 50px 0px; border-radius:7px;">
+                        <h3 style="color:{{text_color}};">Already a <span class="lamp">{{name}}</span> member?</h3>
+                        <h4 style="color:{{text_color}}; padding-top:5px;">Sign in to make booking easier!</h4>
+                        <button class="primary-btn" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                            Sign in <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
+                {% if username.co_user_login != '' %}
+                <input type="hidden" id="country_id"/>
+                <input type="hidden" id="start"/>
+                <input type="hidden" id="end"/>
+
+                <div class="col-lg-12" id="div-search-overlay">
+                    {% if "ticketing" in username.co_agent_frontend_security %}
+                    <div class="banner-right scrollmenu style-scrollbar">
+                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            <li class="nav-item">
+                                <a class="nav-link active" id="visa-tab" data-toggle="tab" href="#visa" role="tab" aria-controls="visa" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> VISA </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link" id="groupbooking-tab" data-toggle="tab" href="#groupbooking" role="tab" aria-controls="groupbooking" aria-selected="false">-->
+                                    <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-group.png"/></i>-->
+                                    <!--<span style="padding-left:5px; font-weight:bold;"> GROUP </span>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                            <!--<li class="nav-item">-->
+                                <!--<a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">-->
+                                    <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-passport.png"/></i>-->
+                                    <!--<span style="padding-left:5px; font-weight:bold;"> PASSPORT </span>-->
+                                <!--</a>-->
+                            <!--</li>-->
+                        </ul>
+                    </div>
+                    <div class="banner-right">
+                        <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
+                        <div class="tab-content" id="myTabContent">
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
+                            <div class="tab-pane fade show active" id="visa" role="tabpanel" aria-labelledby="visa-tab">
+                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','home')">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" style="cursor:pointer;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','home')">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
+                                </form>
+                            </div>
+                            {% endif %}
+                            <!--<div class="tab-pane fade" id="groupbooking" role="tabpanel" aria-labelledby="groupbooking-tab">-->
+                                <!--<center>-->
+                                    <!--<div style="padding:15px;">-->
+                                        <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                                        <!--<h1 style="color:{{text_color}} !important;">Group booking under construction</h1>-->
+                                    <!--</div>-->
+                                <!--</center>-->
+                            <!--</div>-->
+                            <!--<div class="tab-pane fade" id="passport" role="tabpanel" aria-labelledby="passport-tab">-->
+                                <!--<center>-->
+                                    <!--<div style="padding:15px;">-->
+                                        <!--<img style="width:auto; height:100px" src="{{static_path}}images/icon/sorry.png"/>-->
+                                        <!--<h1 style="color:{{text_color}} !important;">Passport under construction</h1>-->
+                                    <!--</div>-->
+                                <!--</center>-->
+                            <!--</div>-->
+                        </div>
+                        <!--<img src="{{static_path}}images/christmas-icon1.png" style="width:auto; height:110px; position:absolute; left:-20px; bottom:-20px;" alt="">-->
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <!--<section class="destinations-area" style="padding-top:15px; z-index:0; position:relative;">-->
+    <!--    <div class="container">-->
+    <!--        <div class="row">-->
+    <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
+    <!--                <div class="single-defination">-->
+    <!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Competitive Pricing</h4>-->
+    <!--                    <p>RODEXTRIP can save you more!.</p>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
+    <!--                <div class="single-defination">-->
+    <!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Trusted</h4>-->
+    <!--                    <p>RODEXTRIP have many customers and agents</p>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="col-lg-4 col-md-4 col-sm-4">-->
+    <!--                <div class="single-defination">-->
+    <!--                    <h4 class="mb-20" style="color:#f15a22;"><i class="fas fa-medal"></i> Easy and Safe</h4>-->
+    <!--                    <p>RODEXTRIP is very easy to use and data remains safe.</p>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</section>-->
+
+    <div id="small_banner" style="padding: 0px 0px 15px 0px;">
+
+    </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2" style="padding: 0px 0px 15px 0px;">
+
+        </div>
+    </div>
+    {% endif %}
+    {% if username.co_user_login != '' %}
+
+<!--    <section class="destinations-area section-gap">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-12">-->
+<!--                    <div class="menu-content">-->
+<!--                        <div class="title text-center">-->
+<!--                            <h2>POPULAR TOUR PACKAGE</h2>-->
+<!--                        </div>-->
+<!--                        <br/>-->
+<!--                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; text-align:center;">-->
+<!--                            <ul class="popular1_tabs">-->
+<!--                                <li class="popular1_tab-link current" data-tab="popular1_thailand"><label>Thailand</label></li>-->
+<!--                                <li class="popular1_tab-link" data-tab="popular1_japan"><label>Japan</label></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div id="popular1_thailand" class="popular1_tab-content current">-->
+<!--                    <div class="col-lg-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>5 Days - Thailand</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 13/25</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 5.750.000 </span><a href="#" class="btn btn-primary"> BOOK </a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>7 Days - Japan</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 20.500.000 </span> <a href="#" class="btn btn-primary"> BOOK</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>4 Days - Singapore</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 3.950.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour6.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>6 Days - Korean + Hongkong</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 8.990.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div id="popular1_japan" class="popular1_tab-content">-->
+<!--                    <div class="col-lg-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>5 Days - Thailand</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 13/25</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 5.750.000 </span><a href="#" class="btn btn-primary"> BOOK </a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>7 Days - Japan</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 20.500.000 </span> <a href="#" class="btn btn-primary"> BOOK</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>4 Days - Singapore</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 3.950.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="{{static_path}}img/bg/tour6.jpg" alt="">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6>6 Days - Korean + Hongkong</h6>-->
+<!--                                                        <span style="font-size:12px;">Date: 26 Nov 2019 - 1 Dec 2019</span><br/>-->
+<!--                                                        <span style="font-size:12px;">Qty: 10/20</span>-->
+<!--                                                    </div>-->
+<!--                                                    <div class="col-lg-12" style="text-align:right;">-->
+<!--                                                        <span style="font-weight:700; font-size:14px;">IDR 8.990.000 </span><a href="#" class="btn btn-primary">BOOK</a>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-12" style="padding-top:25px; text-align:right;">-->
+<!--                    <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
+<!--                        More <i class="fas fa-angle-right"></i>-->
+<!--                        <div class="ld ld-ring ld-cycle"></div>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+<!--    <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-12">-->
+<!--                    <div class="menu-content">-->
+<!--                        <div class="title text-center">-->
+<!--                            <h2>POPULAR ACTIVITIES</h2>-->
+<!--                        </div>-->
+<!--                        <br/>-->
+<!--                        <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; text-align:center;">-->
+<!--                            <ul class="popular2_tabs">-->
+<!--                                <li class="popular2_tab-link current" data-tab="popular2_thailand"><label>Thailand</label></li>-->
+<!--                                <li class="popular2_tab-link" data-tab="popular2_japan"><label>Japan</label></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div id="popular2_thailand" class="popular2_tab-content current">-->
+<!--                    <div class="col-lg-12">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                        <div class="overlay overlay-bg"></div>-->
+<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/027e6e75-a368-4c5e-8eb9-2d58d7794c93.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                    </div>-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <div class="row details">-->
+<!--                                                <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-Ticket (Senior Category)</h6>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Singapore Zoo with FREE and UNLIMITED Tram Ride">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                        <div class="overlay overlay-bg"></div>-->
+<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/114ba07f-0a32-4bf8-963a-36acfddbf653.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                    </div>-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <div class="row details">-->
+<!--                                                <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Singapore Zoo with FREE and UNLIMITED Tram Ride</h6>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 4.5 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (32 reviews)</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-ticket">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                        <div class="overlay overlay-bg"></div>-->
+<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7b15b4a0-c1a6-423f-9447-f6ae7be3bbea.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                    </div>-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <div class="row details">-->
+<!--                                                <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-ticket</h6>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 4.3 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (3 reviews)</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher ">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                        <div class="overlay overlay-bg"></div>-->
+<!--                                        <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/cff642df-7b4c-42ea-b0c0-0f7bc6e22c62.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                    </div>-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <div class="row details">-->
+<!--                                                <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                    <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher </h6>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                    <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                </div>-->
+<!--                <div id="popular2_japan" class="popular2_tab-content">-->
+<!--                    <div class="col-lg-12">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/027e6e75-a368-4c5e-8eb9-2d58d7794c93.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-Ticket (Senior Category)</h6>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item" title="Singapore Zoo with FREE and UNLIMITED Tram Ride">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/114ba07f-0a32-4bf8-963a-36acfddbf653.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Singapore Zoo with FREE and UNLIMITED Tram Ride</h6>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 4.5 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (32 reviews)</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item" title="Universal Studios Singapore E-ticket">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/7b15b4a0-c1a6-423f-9447-f6ae7be3bbea.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore E-ticket</h6>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 4.3 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (3 reviews)</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                                <div class="single-recent-blog-post item" title="Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher ">-->
+<!--                                    <div class="single-destination relative">-->
+<!--                                        <div class="thumb relative" style="margin: auto; width:100%; height:200px; background-image: url('../images/bg_7.jpg'); background-size: 100%; 100%;">-->
+<!--                                            <div class="overlay overlay-bg"></div>-->
+<!--                                            <img class="img-fluid" src="https://s3.amazonaws.com/playground.bemyguest.com.sg/images/content/680x325/cff642df-7b4c-42ea-b0c0-0f7bc6e22c62.jpg" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: cover;">-->
+<!--                                        </div>-->
+<!--                                        <div class="card card-effect-promotion">-->
+<!--                                            <div class="card-body">-->
+<!--                                                <div class="row details">-->
+<!--                                                    <div class="col-lg-12" style="text-align:left;">-->
+<!--                                                        <h6 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Universal Studios Singapore Adult One-day Ticket with SGD 5 Meal Voucher and SGD 5 Retail Voucher </h6>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> <i style="color:red !important;" class="fas fa-map-marker-alt"></i> Sentosa, Singapore </span><br/>-->
+<!--                                                        <span class="span-activity-desc" style="font-size:13px;"> 0.0 <i style="color:#FFC801 !important;" class="fas fa-star"></i> (0 reviews)</span>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-12" style="padding-top:25px; text-align:right;">-->
+<!--                    <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
+<!--                        More <i class="fas fa-angle-right"></i>-->
+<!--                        <div class="ld ld-ring ld-cycle"></div>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+<!--    <section class="popular-destination-area section-gap" style="z-index:0; position:relative;">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-12">-->
+<!--                    <div class="menu-content">-->
+<!--                        <div class="title text-center">-->
+<!--                            <h2>TOP FLIGHT DEALS</h2>-->
+<!--                        </div>-->
+<!--                        <br/>-->
+<!--                        <div class="text-center" style="padding-bottom:20px;">-->
+<!--                            <a class="link_popular popular_activities active">Surabaya</a>-->
+<!--                            <a class="link_popular popular_activities">Jakarta</a>-->
+<!--                            <a class="link_popular popular_activities">Bali</a>-->
+<!--                            <a class="link_popular popular_activities">Semarang</a>-->
+<!--                            <a class="link_popular popular_activities">Bandung</a>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-12">-->
+<!--                    <div class="row">-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                        <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6">-->
+<!--                            <div class="single-recent-blog-post item" title="Universal Studios Singapore E-Ticket (Senior Category)">-->
+<!--                                <div class="single-destination relative">-->
+<!--                                    <div class="card card-effect-promotion">-->
+<!--                                        <div class="card-body">-->
+<!--                                            <img src="https://static.rodextrip.com/public/airline_logo/GA.png" style="width:40px; height:40px;"/><br/>-->
+<!--                                            <h5>Surabaya <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:15px; height:15px;"/> Singapore</h5>-->
+<!--                                            <span style="font-weight:500;">Round Trip</span><br/>-->
+<!--                                            <span style="font-weight:300;">5 Nov 2019 - 8 Nov 2019</span>-->
+<!--                                            <span style="font-weight:700; font-size:14px; float:right">From: IDR 8.990.000 </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-12" style="padding-top:15px; text-align:right;">-->
+<!--                    <button class="button-search primary-btn-custom ld-ext-right" type="button" id="airline_button_search" onclick="airline_goto_search();" value="Submit">-->
+<!--                        More <i class="fas fa-angle-right"></i>-->
+<!--                        <div class="ld ld-ring ld-cycle"></div>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+    {% endif %}
+<!--    <section class="destinations-area">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-6">-->
+<!--                    <center>-->
+<!--                        <img src="{{static_path}}img/rodextrip.png" style="width:300px; height:400px;" alt="" title="" />-->
+<!--                    </center>-->
+<!--                </div>-->
+<!--                <div class="col-lg-6" style="padding-top:50px; padding-bottom:20px;">-->
+<!--                    <h4>Easy to use and easy to access with application RODEXTRIP!</h4>-->
+<!--                    <br/>-->
+<!--                    <a href="https://play.google.com/store/apps/details?id=com.skytors"><img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Android" /></a>-->
+<!--                    <a href="https://apps.apple.com/id/app/skytors/id1449434282?l=id"><img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Apple" /></a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+    {% elif template == 2 %}
+    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{background}}');">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+            </div>
+        </div>
+    </div>
+    <section class="welcome-area">
+        <div class="overlay overlay-bg"></div>
+        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
+        <div class="hotel-search-form-area" style="position:relative;">
+            <div class="container-fluid">
+                {% if username.co_user_name != '' %}
+                <h3 style="color:{{text_color}}; padding-bottom:20px;">
+                    {% if username.co_user_login != 'agent_b2c' %}
+                    Hello, {{username.co_user_name}}!
+                    Grow your business with <span class="lamp">{{name}}</span>
+                    {% else %}
+                    Hello, dear customer, book your trip with us
+                    {% endif %}
+                </h3>
+                {% endif %}
+                <div id="overlay-search-box" onclick="off_overlay()"></div>
+                <div class="hotel-search-form" id="div-search-overlay">
+                    {% if username.co_user_login != '' %}
+                    <input type="hidden" id="country_id"/>
+                    <input type="hidden" id="start"/>
+                    <input type="hidden" id="end"/>
+                    {% if "ticketing" in username.co_agent_frontend_security %}
+                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
+                        <ul class="tabs">
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
+                            <li class="tab-link current" data-tab="tab-visa"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="tab_body" style="border:2px solid #cdcdcd;">
+                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
+                        <div id="tab-visa" class="tab-content current">
+                            <form action="{% url 'tt_website_rodextrip:visa_search'%}" id="visa_searchForm" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                        <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
+                                        <div class="form-select" style="margin-bottom:15px;">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','home')">
+
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                        <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input type="text" class="form-control" style="cursor:pointer; background:white !important;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-4">
+                                        <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                        <div class="form-select">
+                                            <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="Consulate" onchange="visa_autocomplete('consulate','home')">
+
+                                            </select>
+                                        </div>
+                                        <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden"/>
+                                    </div>
+                                </div>
+                                <center>
+                                    <button class="primary-btn ld-ext-right" type="submit" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    {% else %}
+                    <div>
+                        <h4 style="padding-top:15px;">Already a RODEXTRIP member?</h4>
+                        <h5>Sign in to make booking easier!</h5>
+                        <br/>
+
+                        <button class="primary-btn" type="button" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                            Sign in <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                    </div>
+                    {% endif %}
+                    <div id="big_banner" style="margin-top:30px; padding-bottom:15px;">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="roberto-blog-area" style="padding-bottom:100px;">
+        <div class="container">
+            <div class="row">
+                <!-- Section Heading -->
+                <div class="col-lg-12">
+                    <div id="owl-login2">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if website_mode == 'btc'%}
+    <section class="roberto-blog-area" style="padding-bottom:100px;">
+        <div class="container">
+            <div class="row">
+                <!-- Section Heading -->
+                <div class="col-lg-12">
+                    <div class="owl-carousel-login owl-theme form-box-login" style="display:none;">
+                        <div id="other_information">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+<!--    <div class="roberto&#45;&#45;video&#45;&#45;area bg-img bg-overlay jarallax section-padding-0-100" style="background-image: url({{static_path}}images2/fancy.jpg);">-->
+<!--        <div class="container h-100">-->
+<!--            <div class="row h-100 align-items-center justify-content-center">-->
+<!--                <div class="col-xs-12 col-md-6">-->
+<!--                    &lt;!&ndash; Section Heading &ndash;&gt;-->
+<!--                    <div class="section-heading text-center white wow fadeInUp" data-wow-delay="100ms">-->
+<!--                        <h6>OUR SERVICE</h6>-->
+<!--                        <h2>TWICE - FANCY</h2>-->
+<!--                    </div>-->
+<!--                    <div class="video-content-area mt-100 wow fadeInUp" data-wow-delay="500ms">-->
+<!--                        <a href="https://www.youtube.com/watch?v=kOHB85vDuow" class="video-play-btn"><i class="fa fa-play"></i></a>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+    <div id="small_banner" style="z-index:2; margin-top:-5px; margin-bottom:50px">
+
+    </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2" style="z-index:2; margin-top:-5px; margin-bottom:50px">
+
+        </div>
+    </div>
+    {% endif %}
+<!--    <section class="roberto-service-area section-padding-100-0">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-xs-12">-->
+<!--                    &lt;!&ndash; Section Heading &ndash;&gt;-->
+<!--                    <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">-->
+<!--                        <h2>TOP DESTINATION</h2>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="row">-->
+<!--                &lt;!&ndash; Single Service Area &ndash;&gt;-->
+<!--                <div class="col-xs-12">-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+    <!--<section class="roberto-service-area">-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--<div class="col-xs-12">-->
+    <!--&lt;!&ndash; Section Heading &ndash;&gt;-->
+    <!--<div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms">-->
+    <!--<h2>RECOMMENDED HOTELS</h2>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+    <!--&lt;!&ndash; Single Service Area &ndash;&gt;-->
+    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
+    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="300ms">-->
+    <!--<img class="img-max-width" src="{{static_path}}images/hotel-1.jpg" alt="">-->
+    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
+    <!--<h5>Park Central Hotel NewYork</h5>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash; Single Service Area &ndash;&gt;-->
+    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
+    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="500ms">-->
+    <!--<img class="img-max-width" src="{{static_path}}images/hotel-6.jpg" alt="">-->
+    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
+    <!--<h5>New York Marriott Downtown</h5>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--&lt;!&ndash; Single Service Area &ndash;&gt;-->
+    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
+    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="700ms">-->
+    <!--<img class="img-max-width" src="{{static_path}}images/hotel-3.jpg" alt="">-->
+    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
+    <!--<h5>Boro Hotel</h5>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-lg-3 col-md-6 col-xs-6">-->
+    <!--<div class="single-service-area mb-100 wow fadeInUp" data-wow-delay="700ms">-->
+    <!--<img class="img-max-width" src="{{static_path}}images/hotel-5.jpg" alt="">-->
+    <!--<div class="service-title d-flex align-items-center justify-content-center">-->
+    <!--<h5>New York Hilton Midtown</h5>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</section>-->
+
+    <!--<section class="roberto-blog-area">-->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+    <!--&lt;!&ndash; Section Heading &ndash;&gt;-->
+    <!--<div class="col-lg-12">-->
+    <!--<div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="text-align:center;">-->
+    <!--<h6>Our Blog</h6>-->
+    <!--<h2>TOUR PACKAGE</h2>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row">-->
+    <!--&lt;!&ndash; Single Post Area &ndash;&gt;-->
+    <!--<div class="col-lg-3">-->
+    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
+    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt=""></a>-->
+    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
+    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
+    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
+    <!--</div>-->
+    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
+    <!--<a href="#" class="btn roberto-btn">Book</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-lg-3">-->
+    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
+    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour2.jpg" alt=""></a>-->
+    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
+    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
+    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
+    <!--</div>-->
+    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
+    <!--<a href="#" class="btn roberto-btn">Book</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-lg-3">-->
+    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
+    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour3.jpg" alt=""></a>-->
+    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
+    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
+    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
+    <!--</div>-->
+    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
+    <!--<a href="#" class="btn roberto-btn">Book</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-lg-3">-->
+    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
+    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt=""></a>-->
+    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
+    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
+    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
+    <!--</div>-->
+    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
+    <!--<a href="#" class="btn roberto-btn">Book</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-lg-3">-->
+    <!--<div class="single-post-area mb-30 wow fadeInUp" data-wow-delay="300ms">-->
+    <!--<a href="#" class="post-thumbnail"><img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt=""></a>-->
+    <!--<div class="col-lg-12" style="margin-bottom:10px;">-->
+    <!--<a href="#" class="post-title">5 Days - Thailand</a>-->
+    <!--<span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+    <!--<span style="font-size:12px;">Qty: 13/25</span>-->
+    <!--</div>-->
+    <!--<div class="col-lg-12" style="text-align:right;margin-bottom:10px;">-->
+    <!--<a href="#" class="btn roberto-btn">Book</a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</section>-->
+
+    <!--<section class="roberto-cta-area">-->
+    <!--<div class="container">-->
+    <!--<div class="cta-content bg-img bg-overlay jarallax" style="background-image: url({{static_path}}images2/bg-img/1.jpg);">-->
+    <!--<div class="row align-items-center">-->
+    <!--<div class="col-xs-12 col-md-7">-->
+    <!--<div class="cta-text">-->
+    <!--<center>-->
+    <!--<img src="{{static_path}}img/rodextrip.png" style="width:300px; height:400px;" alt="" title="" />-->
+    <!--</center>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--<div class="col-xs-12 col-md-5 text-right" style="padding-bottom:100px;">-->
+    <!--<h5 style="color:{{text_color}};">Easy to use and easy to access with application RODEXTRIP!</h5>-->
+    <!--<br/>-->
+    <!--<a href="https://play.google.com/store/apps/details?id=com.skytors"><img src="{{static_path}}img/playstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Android" /></a>-->
+    <!--<a href="https://apps.apple.com/id/app/skytors/id1449434282?l=id"><img src="{{static_path}}img/appstore.png" style="width:155px; height:50px;" alt="" title="Skytors.ID Apple" /></a>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</section>-->
+
+    <!--<div class="modal fade" id="myModalPopUp" role="dialog">-->
+    <!--<div class="modal-dialog">-->
+    <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+    <!--<div class="row">-->
+    <!--<div class="col-lg-12">-->
+    <!--<div class="row">-->
+    <!--<div class="col-lg-12">-->
+    <!--<center>-->
+    <!--<h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> HOT DEALS TODAY! </h2>-->
+    <!--</center>-->
+    <!--</div>-->
+    <!--<div class="col-lg-12">-->
+    <!--<center>-->
+    <!--<span data-dismiss="modal" style="color:#ffffff;font-weight:bold;">Click everywhere to close! X</span>-->
+    <!--</center>-->
+    <!--</div>-->
+    <!--<div class="col-lg-12">-->
+    <!--<center>-->
+    <!--<img src="{{static_path}}img/bg/bg1.png" style="width:300px; height:300px;" alt="">-->
+    <!--</center>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+    <!--</div>-->
+
+    {% elif template == 3 %}
+    <section class="banner-area relative" style="background: url('{{background}}') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
+        <div class="overlay overlay-bg"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="overlay-search-box" onclick="off_overlay()"></div>
+                    <div id="big_banner" style="margin-top:30px;">
+
+                    </div>
+                    <div class="row fullscreen d-flex" id="div-search-overlay" style="margin-top:40px; margin-bottom:40px; position:relative; padding:15px;">
+                        {% if username.co_user_name != '' %}
+                        {% if "ticketing" in username.co_agent_frontend_security %}
+                        <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
+                            <h4 class="text-white">
+                                {% if username.co_user_login != 'agent_b2c' %}
+                                Hello, {{username.co_user_name}}!<br/>
+                                Grow your business with <span class="lamp">{{name}}</span>
+                                {% else %}
+                                Hello, dear customer, book your trip with us
+                                {% endif %}
+                            </h4>
+                            <br/>
+                            <div class="div-tabs style-scrollbar" style="margin-top:10px;">
+                                <input type="hidden" id="country_id"/>
+                                <input type="hidden" id="start"/>
+                                <input type="hidden" id="end"/>
+                                <ul class="tabs">
+                                    {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    <li class="tab-link current" data-tab="tab-visa"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
+                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                            <div id="tab-visa" class="tab-content current">
+                                <h4 class="pb-30" style="color:{{text_color}};">{% trans 'Book Your Visa' %}</h4>
+                                <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %}</span>
+                                            <div class="form-group">
+                                                <div class="default-select">
+                                                    <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','home')">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4">
+                                            <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Departure Date' %}</span>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4" style="margin-bottom:15px;">
+                                            <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                            <div class="form-group">
+                                                <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','home')">
+
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <center>
+                                                <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        {% else %}
+                        <div class="col-lg-12 header-right" style="padding:50px 0px 50px 20px;">
+                            <h4>Already a RODEXTRIP member?</h4>
+                            <h5>Sign in to make booking easier!</h5>
+
+                            <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                                Sign in <i class="fas fa-sign-in-alt"></i>
+                            </button>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!--    <section class="model-area section-gap" id="cars">-->
+<!--        <div class="container">-->
+<!--            <div class="row d-flex justify-content-center pb-40">-->
+<!--                <div class="col-lg-12">-->
+
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+    <div id="small_banner">
+
+    </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+
+        <div id="owl-login2">
+
+        </div>
+    </div>
+    {% endif %}
+
+<!--    <section class="feature-area section-gap" id="service">-->
+<!--        <div class="container">-->
+<!--            <div class="row d-flex justify-content-center">-->
+<!--                <div class="col-md-8 pb-40 header-text">-->
+<!--                    <h1>What Services we offer to our clients</h1>-->
+<!--                    <p>-->
+<!--                        Who are in extremely love with eco friendly system.-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-4 col-md-6">-->
+<!--                    <div class="single-feature">-->
+<!--                        <h4><span class="lnr lnr-user"></span>Expert Technicians</h4>-->
+<!--                        <p>-->
+<!--                            Usage of the Internet is becoming more common due to rapid advancement of technology and power.-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-4 col-md-6">-->
+<!--                    <div class="single-feature">-->
+<!--                        <h4><span class="lnr lnr-license"></span>Professional Service</h4>-->
+<!--                        <p>-->
+<!--                            Usage of the Internet is becoming more common due to rapid advancement of technology and power.-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-4 col-md-6">-->
+<!--                    <div class="single-feature">-->
+<!--                        <h4><span class="lnr lnr-phone"></span>Great Support</h4>-->
+<!--                        <p>-->
+<!--                            Usage of the Internet is becoming more common due to rapid advancement of technology and power.-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+<!--    <section class="blog-area section-gap">-->
+<!--        <div class="container">-->
+<!--            <div class="row d-flex justify-content-center">-->
+<!--                <div class="menu-content pb-70 col-lg-8">-->
+<!--                    <div class="title text-center">-->
+<!--                        <h1 class="mb-10">POPULAR DESTINATION</h1>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/pop1.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>Japan</h4></a>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/pop2.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>Indonesian</h4></a>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/pop3.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>England</h4></a>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/pop4.jpeg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>Thailand</h4></a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+<!--    <section class="blog-area section-gap" style="background-color: white !important;">-->
+<!--        <div class="container">-->
+<!--            <div class="row d-flex justify-content-center">-->
+<!--                <div class="menu-content pb-70 col-lg-8">-->
+<!--                    <div class="title text-center">-->
+<!--                        <h1 class="mb-10">RECOMMENDED HOTEL</h1>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}images/hotel-1.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>Hotel 1</h4></a>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}images/hotel-2.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>Hotel 2</h4></a>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}images/hotel-3.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>Hotel 3</h4></a>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 col-sm-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}images/hotel-4.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <a href="#"><h4>Hotel 4</h4></a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+<!--    <section class="blog-area section-gap" id="blog">-->
+<!--        <div class="container">-->
+<!--            <div class="row d-flex justify-content-center">-->
+<!--                <div class="menu-content pb-70 col-lg-8">-->
+<!--                    <div class="title text-center">-->
+<!--                        <h1 class="mb-10">Tour Package</h1>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-lg-3 col-md-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/tour1.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <div class="row details">-->
+<!--                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                <h6>5 Days - Thailand</h6>-->
+<!--                                <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                <span style="font-size:12px;">Qty: 13/25</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-12" style="text-align:right;">-->
+<!--                                <a href="#" class="primary-btn-ticket">BOOK</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/tour2.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <div class="row details">-->
+<!--                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                <h6>5 Days - Thailand</h6>-->
+<!--                                <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                <span style="font-size:12px;">Qty: 13/25</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-12" style="text-align:right;">-->
+<!--                                <a href="#" class="primary-btn-ticket">BOOK</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/tour3.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <div class="row details">-->
+<!--                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                <h6>5 Days - Thailand</h6>-->
+<!--                                <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                <span style="font-size:12px;">Qty: 13/25</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-12" style="text-align:right;">-->
+<!--                                <a href="#" class="primary-btn-ticket">BOOK</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/tour4.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <div class="row details">-->
+<!--                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                <h6>5 Days - Thailand</h6>-->
+<!--                                <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                <span style="font-size:12px;">Qty: 13/25</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-12" style="text-align:right;">-->
+<!--                                <a href="#" class="primary-btn-ticket">BOOK</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-md-6 single-blog">-->
+<!--                    <div class="thumb">-->
+<!--                        <img class="img-fluid" src="{{static_path}}img/bg/tour5.jpg" alt="">-->
+<!--                    </div>-->
+<!--                    <div class="card-body">-->
+<!--                        <div class="row details">-->
+<!--                            <div class="col-lg-12" style="text-align:left;">-->
+<!--                                <h6>5 Days - Thailand</h6>-->
+<!--                                <span style="font-size:12px;">Date: 3 Jul 2018 - 7 Jul 2019</span><br/>-->
+<!--                                <span style="font-size:12px;">Qty: 13/25</span>-->
+<!--                            </div>-->
+<!--                            <div class="col-lg-12" style="text-align:right;">-->
+<!--                                <a href="#" class="primary-btn-ticket">BOOK</a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+    {% elif template == 4 %}
+    <div class="site-blocks-cover overlay" style="background-image: url('{{background}}');" data-aos="fade">
+        <div class="container">
+            <div class="row align-items-center justify-content-center" style="padding-top:100px;">
+                {% if username.co_user_name != '' %}
+                <div class="col-xl-12" style="text-align:center;">
+                    <h3 style="color:{{text_color}}; padding-bottom:20px;">
+                        {% if username.co_user_login != 'agent_b2c' %}
+                        Hello, {{username.co_user_name}}!<br/>
+                        Grow your business with <span class="lamp">{{name}}</span>
+                        {% else %}
+                        Hello, dear customer, book your trip with us
+                        {% endif %}
+                    </h3>
+                </div>
+                {% else %}
+                <div class="col-xl-12" style="text-align:center;">
+                    <h3 style="color:{{text_color}};">
+                        Hello, Guest !
+                    </h3>
+                    <h4 style="padding-top:5px; padding-bottom:15px; color:{{text_color}};">
+                        Enjoy your trip with RODEXTRIP
+                    </h4>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div id="overlay-search-box" onclick="off_overlay()"></div>
+
+    <div id="div-search-overlay" style="position:relative;">
+        <div style="position:relative; background:transparent; top:-50px; z-index:1;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-12">
+                        <div class="row">
+                            {% if username.co_user_login != '' %}
+                            <div class="col-xl-12" style="text-align:left;">
+                                <div class="div-tabs style-scrollbar">
+                                    <input type="hidden" id="country_id"/>
+                                    <input type="hidden" id="start"/>
+                                    <input type="hidden" id="end"/>
+                                    <ul class="tabs">
+                                        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                        <li class="tab-link current" data-tab="tab-visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i> <label class="btn-txt-color">VISA</label></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="position:relative; background:{{tab_color}}; top:-50px; z-index:1;">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-xl-12">
+                        <div class="row">
+                            {% if username.co_user_name != '' %}
+                            <div class="col-xl-12" style="text-align:left;">
+                                {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                <div class="form-search-wrap tab-content current" id="tab-visa" data-aos="fade-up" data-aos-delay="200">
+                                    <form action="{% url 'tt_website_rodextrip:visa_search'%}" class="form-wrap" id="visa_searchForm" method="post">
+                                        {% csrf_token %}
+                                        <div class="row">
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket">{% trans 'Destination' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_destination_id" placeholder="{% trans 'Destination' %}" onchange="visa_autocomplete('destination','home')">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="visa_destination_id" id="visa_destination_id_hidden" />
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket">{% trans 'Departure' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <input type="text" class="form-control" style="cursor:pointer; background:white;" name="visa_departure" id="visa_departure" placeholder="{% trans 'Departure' %} Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Departure Date '" autocomplete="off" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4 col-md-4 col-sm-4">
+                                                <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <i class="fas fa-city" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="visa_consulate_id" placeholder="{% trans 'Consulate' %}" onchange="visa_autocomplete('consulate','home')">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="visa_consulate_id" id="visa_consulate_id_hidden" />
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
+                                    </form>
+                                </div>
+                                {% endif %}
+                            </div>
+                            {% else %}
+                            <div class="col-xl-12" style="text-align:center; box-shadow:0 2px 15px 1px rgba(0, 0, 0, 0.35); padding: 15px 0px;">
+                                <h4>Already a RODEXTRIP member?</h4>
+                                <h5>Sign in to make booking easier!</h5>
+
+                                <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                                    Sign in <i class="fas fa-sign-in-alt"></i>
+                                </button>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="big_banner" style="margin-top:30px; padding-bottom:15px;">
+
+        </div>
+    </div>
+    <div id="small_banner">
+
+    </div>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <div class="owl-carousel-login owl-theme form-box-login">
+        <div id="owl-login2">
+
+        </div>
+    </div>
+    {% endif %}
+
+<!--    <div class="site-section bg-light">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-12">-->
+<!--                    <div class="row justify-content-center mb-5">-->
+<!--                        <div class="col-md-7 text-center border-primary">-->
+<!--                            <h2 class="font-weight-light text-primary">HOT DEAL</h2>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="col-12 block-13">-->
+<!--                    <div class="owl-carousel nonloop-block-13">-->
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour1.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Cars &amp; Vehicles</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">Red Luxury Car</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour2.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Real Estate</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">House with Swimming Pool</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour3.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Furniture</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">Wooden Chair &amp; Table</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour4.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Electronics</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">iPhone X gray</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour5.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Cars &amp; Vehicles</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">Red Luxury Car</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour6.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Real Estate</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">House with Swimming Pool</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour1.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Furniture</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">Wooden Chair &amp; Table</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+
+<!--                        <div class="d-block d-md-flex listing vertical">-->
+<!--                            <a href="listings-single.html" class="img d-block" style="background-image: url('{{static_path}}img/bg/tour2.jpg')"></a>-->
+<!--                            <div class="lh-content">-->
+<!--                                <span class="category">Electronics</span>-->
+<!--                                <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                                <h3><a href="listings-single.html">iPhone X gray</a></h3>-->
+<!--                                <address>Don St, Brooklyn, New York</address>-->
+<!--                                <p class="mb-0">-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-warning"></span>-->
+<!--                                    <span class="icon-star text-secondary"></span>-->
+<!--                                    <span class="review">(3 Reviews)</span>-->
+<!--                                </p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <div class="site-section" data-aos="fade">-->
+<!--        <div class="container">-->
+<!--            <div class="row justify-content-center mb-5">-->
+<!--                <div class="col-md-7 text-center border-primary">-->
+<!--                    <h2 class="font-weight-light text-primary">Popular Products</h2>-->
+<!--                    <p class="color-black-opacity-5">Lorem Ipsum Dolor Sit Amet</p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="row">-->
+<!--                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">-->
+<!--                    <div class="listing-item">-->
+<!--                        <div class="listing-image">-->
+<!--                            <img class="img-fluid" src="{{static_path}}img/bg/pop1.jpg" alt="">-->
+<!--                        </div>-->
+<!--                        <div class="listing-item-content">-->
+<!--                            <a href="#" class="bookmark" data-toggle="tooltip" data-placement="left" title="Bookmark"><span class="icon-heart"></span></a>-->
+<!--                            <a class="px-3 mb-3 category" href="#">Car &amp; Vehicles</a>-->
+<!--                            <h2 class="mb-1"><a href="#">Red Luxury Car</a></h2>-->
+<!--                            <span class="address">West Orange, New York</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">-->
+<!--                    <div class="listing-item">-->
+<!--                        <div class="listing-image">-->
+<!--                            <img class="img-fluid" src="{{static_path}}img/bg/pop2.jpg" alt="">-->
+<!--                        </div>-->
+<!--                        <div class="listing-item-content">-->
+<!--                            <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                            <a class="px-3 mb-3 category" href="#">Real Estate</a>-->
+<!--                            <h2 class="mb-1"><a href="#">House with Swimming Pool</a></h2>-->
+<!--                            <span class="address">West Orange, New York</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">-->
+<!--                    <div class="listing-item">-->
+<!--                        <div class="listing-image">-->
+<!--                            <img class="img-fluid" src="{{static_path}}img/bg/pop3.jpg" alt="">-->
+<!--                        </div>-->
+<!--                        <div class="listing-item-content">-->
+<!--                            <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                            <a class="px-3 mb-3 category" href="#">Furniture</a>-->
+<!--                            <h2 class="mb-1"><a href="#">Wooden Chair &amp; Table</a></h2>-->
+<!--                            <span class="address">West Orange, New York</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6">-->
+<!--                    <div class="listing-item">-->
+<!--                        <div class="listing-image">-->
+<!--                            <img class="img-fluid" src="{{static_path}}img/bg/pop4.jpeg" alt="">-->
+<!--                        </div>-->
+<!--                        <div class="listing-item-content">-->
+<!--                            <a href="#" class="bookmark"><span class="icon-heart"></span></a>-->
+<!--                            <a class="px-3 mb-3 category" href="#">Furniture</a>-->
+<!--                            <h2 class="mb-1"><a href="#">Wooden Chair &amp; Table</a></h2>-->
+<!--                            <span class="address">West Orange, New York</span>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+    {% elif template == 5 %}
+    <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;">
+        <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
+        <div class="container">
+            <div class="row fullscreen justify-content-center">
+                <div id="overlay-search-box" onclick="off_overlay()"></div>
+                <div class="col-xl-12" id="div-search-overlay">
+                    <div id="big_banner" style="padding-bottom:15px;">
+
+                    </div>
+                    <div class="row">
+                        <div class="banner-content col-xl-12" style="padding:0px; margin-bottom:15px;">
+                            <div class="row">
+                                {% if username.co_user_name != '' %}
+                                <div class="col-xl-4" style="text-align:left; font-weight:bold;">
+                                    <h4 style="color:{{text_color}};">
+                                        {% if username.co_user_login != 'agent_b2c' %}
+                                        Hello, {{username.co_user_name}}!
+                                        <br/>
+                                        Grow your business with <span class="lamp">{{name}}</span>
+                                        {% else %}
+                                        Hello, dear customer, book your trip with us
+                                        {% endif %}
+                                    </h4>
+                                </div>
+                                <div class="col-xl-8" style="text-align:left;">
+                                    <div class="div-tabs style-scrollbar">
+                                        <input type="hidden" id="country_id"/>
+                                        <input type="hidden" id="start"/>
+                                        <input type="hidden" id="end"/>
+                                        <ul class="tabs">
+                                            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                            <li class="tab-link current" data-tab="tab-visa"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">VISA</label></li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="banner-content col-xl-12 search-field" id="div-search-overlay">
+                            <div class="row">
+                                {% if username.co_user_login != '' %}
+                                <div class="col-xl-12" style="text-align:left;">
+                                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+                                    <div id="tab-passport" class="tab-content current">
+                                        <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Passport Type' %}</span>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_type')">
+
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="passport_type" id="passport_type" />
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Apply Type' %}</span>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="passport_apply_type_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('passport_apply_type')">
+
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="passport_apply_type" id="passport_apply_type" />
+                                                </div>
+                                                <div class="col-lg-4 col-md-4 col-sm-4">
+                                                    <span class="span-search-ticket"><i class="fas fa-city"></i> {% trans 'Consulate' %}</span>
+                                                    <div class="form-select">
+                                                        <select class="form-control js-example-basic-single" style="width:100%;" id="consulate_id" placeholder="{% trans 'Destination' %}" onchange="auto_complete('consulate')">
+
+                                                        </select>
+                                                    </div>
+                                                    <input type="hidden" name="consulate" id="consulate" />
+                                                </div>
+                                            </div>
+                                            <br/>
+                                            <center>
+                                                <button class="button-search primary-btn ld-ext-right" type="submit" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </center>
+                                        </form>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                                {% else %}
+                                <div class="col-xl-12" style="text-align:left;">
+                                    <h4>Already a RODEXTRIP member?</h4>
+                                    <h5>Sign in to make booking easier!</h5>
+                                    <br/>
+                                    <button class="primary-btn-ticket" type="button" style="margin-top:15px;" onclick="location.href='{% url 'tt_website_rodextrip:login'%}';">
+                                        Sign in <i class="fas fa-sign-in-alt"></i>
+                                    </button>
+                                </div>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testomial-area section-gap" style="background:white;">
+        <div id="small_banner">
+
+        </div>
+    </section>
+    {% if website_mode == 'btc'%}
+    <div class="title text-center" id="dynamic_page">
+
+    </div>
+    <br/>
+    <section class="testomial-area section-gap" style="background:white;">
+        <div class="owl-carousel-login owl-theme form-box-login">
+            <div id="owl-login2">
+
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+<!--    <section class="testomial-area section-gap">-->
+<!--        <div class="container">-->
+<!--            <div class="row d-flex justify-content-center">-->
+<!--                <div class="col-md-10 header-text">-->
+<!--                    <h1>Feedback from our real clients</h1>-->
+<!--                    <p>-->
+<!--                        It won’t be a bigger problem to find one video game lover in your neighbor. Since the introduction of Virtual Game,-->
+<!--                    </p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <div class="row">-->
+<!--                <div class="active-testimonial-carusel">-->
+<!--                    <div class="single-testimonial item">-->
+<!--                        <img class="mx-auto rounded-circle" src="img/t1.png" alt="">-->
+<!--                        <p class="desc">-->
+<!--                            Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector,-->
+<!--                            hardware and more. laptop-->
+<!--                        </p>-->
+<!--                        <h4>Helena Phillips</h4>-->
+<!--                        <p>-->
+<!--                            CEO at Facebook-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                    <div class="single-testimonial item">-->
+<!--                        <img class="mx-auto rounded-circle" src="img/t2.png" alt="">-->
+<!--                        <p class="desc">-->
+<!--                            It won’t be a bigger problem to find one video game lover in your neighbor. Since the introduction of Virtual Game, it has-->
+<!--                            been achieving great heights so far.-->
+<!--                        </p>-->
+<!--                        <h4>Cordelia Barton</h4>-->
+<!--                        <p>-->
+<!--                            CEO at Twitter-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                    <div class="single-testimonial item">-->
+<!--                        <img class="mx-auto rounded-circle" src="img/t3.png" alt="">-->
+<!--                        <p class="desc">-->
+<!--                            About 64% of all on-line teens say that do things online that they wouldn’t want their parents to know about. 11% of all-->
+<!--                            adult internet users visit dating websites.-->
+<!--                        </p>-->
+<!--                        <h4>Carrie Reese</h4>-->
+<!--                        <p>-->
+<!--                            CEO at Google-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                    <div class="single-testimonial item">-->
+<!--                        <img class="mx-auto rounded-circle" src="img/t1.png" alt="">-->
+<!--                        <p class="desc">-->
+<!--                            Accessories Here you can find the best computer accessory for your laptop, monitor, printer, scanner, speaker, projector,-->
+<!--                            hardware and more. laptop-->
+<!--                        </p>-->
+<!--                        <h4>Helena Phillips</h4>-->
+<!--                        <p>-->
+<!--                            CEO at Facebook-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                    <div class="single-testimonial item">-->
+<!--                        <img class="mx-auto rounded-circle" src="img/t2.png" alt="">-->
+<!--                        <p class="desc">-->
+<!--                            It won’t be a bigger problem to find one video game lover in your neighbor. Since the introduction of Virtual Game, it has-->
+<!--                            been achieving great heights so far.-->
+<!--                        </p>-->
+<!--                        <h4>Cordelia Barton</h4>-->
+<!--                        <p>-->
+<!--                            CEO at Twitter-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                    <div class="single-testimonial item">-->
+<!--                        <img class="mx-auto rounded-circle" src="img/t3.png" alt="">-->
+<!--                        <p class="desc">-->
+<!--                            About 64% of all on-line teens say that do things online that they wouldn’t want their parents to know about. 11% of all-->
+<!--                            adult internet users visit dating websites.-->
+<!--                        </p>-->
+<!--                        <h4>Carrie Reese</h4>-->
+<!--                        <p>-->
+<!--                            CEO at Google-->
+<!--                        </p>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+    {%endif%}
+
+    <div id="promotion">
+
+    </div>
+    {% include 'tt_website_rodextrip/footer.html' %}
+    <script>
+    {% if username.co_user_login != '' %}
+        try{
+            {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+            get_visa_config('home');
+            {% endif %}
+        }catch(err){
+
+        }
+    {% endif %}
+    {% if username.co_user_login != '' %}
+
+    $( document ).ready(function() {
+      $('.js-example-basic-single').select2();
+        {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
+            try{
+                visa_date = cache.visa.date;
+            }catch(err){
+                visa_date = now;
+            }
+            $('input[name="visa_departure"]').daterangepicker({
+                singleDatePicker: true,
+                autoUpdateInput: true,
+                startDate: visa_date,
+                minDate: moment(),
+                maxDate: moment().subtract(-365, 'days'),
+                showDropdowns: true,
+                opens: 'center',
+                locale: {
+                    format: 'DD MMM YYYY',
+                }
+            });
+        {% endif %}
+    });
+
+    {%endif%}
+    //bank_get_balance();
+    //get_transaction();
+    //get_banner('big_banner','home');
+    //get_banner('small_banner','home');
+    {% if website_mode == 'btc'%}
+    ///get_dynamic_page('home');
+    {% endif %}
+    //get_banner('promotion','home');
+</script>
+
+    {% endblock %}

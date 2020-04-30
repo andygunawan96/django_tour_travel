@@ -6,4 +6,5 @@ urlpatterns.append(path('train/booking/<path:order_number>', view.booking, name=
 urlpatterns.append(re_path('train/seat_map', view.seat_map, name="train_seat_map"))
 urlpatterns.append(re_path('train/review', view.review, name="train_review"))
 urlpatterns.append(re_path('train/passenger', view.passenger, name="train_passenger"))
-urlpatterns.append(re_path('train', view.search, name="train_search"))
+urlpatterns.append(re_path('train/search', view.search, name="train_search"))
+urlpatterns.append(re_path('train', view.train, name="train"))

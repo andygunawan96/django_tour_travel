@@ -8,4 +8,5 @@ urlpatterns.append(path(r'airline/public/<str:signature>', view.seat_map_public,
 urlpatterns.append(re_path('airline/seat_map', view.seat_map, name="airline_seat_map"))
 urlpatterns.append(re_path('airline/ssr', view.ssr, name="airline_ssr"))
 urlpatterns.append(re_path('airline/passenger', view.passenger, name="airline_passenger"))
-urlpatterns.append(re_path('airline', view.search, name="airline_search"))
+urlpatterns.append(re_path('airline/search', view.search, name="airline_search"))
+urlpatterns.append(re_path('airline', view.airline, name="airline"))
