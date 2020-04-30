@@ -416,7 +416,7 @@
 
             </div>
         </div>
-
+        {% if username.co_user_login != 'agent_b2c' %}
         <div class="row" id="info_user_search" style="padding-bottom:5px; position: sticky; top: 67px; z-index: 2;">
             <div class="col-lg-12">
                 <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
@@ -426,7 +426,7 @@
                 </div>
             </div>
         </div>
-
+        {% endif %}
         <div class="row" style="padding-bottom:15px;">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                 <span style="font-size:14px; font-weight:600;">{% trans 'Session Time' %} <span class="count_time" id="session_time"> </span></span>
@@ -504,7 +504,9 @@
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
+                   {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "block";
+                   {% endif %}
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
                    }catch(err){}
@@ -512,10 +514,14 @@
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
                    }catch(err){}
                 }else{
+                   {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "none";
+                   {% endif %}
                 }
             }else{
+                {% if username.co_user_login != 'agent_b2c' %}
                 document.getElementById("info_user_search").style.display = "none";
+                {% endif %}
             }
         });
         get_passport_config('search');
