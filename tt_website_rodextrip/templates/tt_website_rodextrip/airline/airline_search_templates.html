@@ -1292,6 +1292,7 @@
             </div>
 
             <div class="col-lg-3">
+                {% if username.co_user_login != 'agent_b2c' %}
                 <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; display:none; z-index: 2;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
@@ -1302,6 +1303,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 <div class="row" style="padding-top:15px; padding-bottom:10px;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
@@ -1529,7 +1531,9 @@
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
-                   document.getElementById("info_user_search").style.display = "block";
+                   {% if username.co_user_login != 'agent_b2c' %}
+                    document.getElementById("info_user_search").style.display = "block";
+                   {% endif %}
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
                    }catch(err){}
@@ -1537,10 +1541,14 @@
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
                    }catch(err){}
                 }else{
+                   {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "none";
+                   {% endif %}
                 }
             }else{
+                {% if username.co_user_login != 'agent_b2c' %}
                 document.getElementById("info_user_search").style.display = "none";
+                {% endif %}
             }
         });
 

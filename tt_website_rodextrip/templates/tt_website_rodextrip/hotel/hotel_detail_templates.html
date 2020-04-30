@@ -835,6 +835,7 @@
                 <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
+        {% if username.co_user_login != 'agent_b2c' %}
         <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 0px; z-index: 2;">
             <div class="col-lg-12">
                 <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
@@ -844,6 +845,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
 
         <div class="row nav-hotel" style="position:sticky;top: 40px;z-index: 24;">
             <div class="col-lg-12">
@@ -1244,7 +1246,9 @@
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
+                   {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "block";
+                   {% endif %}
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
                    }catch(err){}
@@ -1252,15 +1256,20 @@
                        document.getElementById("credit_search").innerHTML = document.getElementById("credit_limit").innerHTML;
                    }catch(err){}
                 }else{
+                   {% if username.co_user_login != 'agent_b2c' %}
                    document.getElementById("info_user_search").style.display = "none";
+                   {% endif %}
                 }
             }else{
+                {% if username.co_user_login != 'agent_b2c' %}
                 document.getElementById("info_user_search").style.display = "none";
+                {% endif %}
             }
         });
     });
 
     $(function() {
+      $('.js-example-basic-single').select2();
       breadcrumb_create("hotel", 3, 0);
       $(window).scroll(function() {
         if($(this).scrollTop()>=$('.div-information-hotel').position().top-95 && $(this).scrollTop()<$('.div-facility-hotel').position().top-95){
