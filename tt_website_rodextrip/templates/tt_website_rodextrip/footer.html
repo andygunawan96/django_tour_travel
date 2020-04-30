@@ -33,7 +33,7 @@
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 {% if provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -43,7 +43,7 @@
                                 {% endif %}
                             {% else %}
                                 {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -181,7 +181,7 @@
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 {% if provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -191,7 +191,7 @@
                                 {% endif %}
                             {% else %}
                                 {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -273,7 +273,7 @@
                         {% endif %}
                         {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                             {% if provider_type != 'payment' and  provider_type != 'bank' %}
-                        <li><a href="#"><script>
+                        <li><a href="/{{provider_type}}"><script>
                         temp = `{{provider_type}}`;
                         temp = temp.split('_');
                         data = '';
@@ -283,7 +283,7 @@
                             {% endif %}
                         {% else %}
                             {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
-                        <li><a href="#"><script>
+                        <li><a href="/{{provider_type}}"><script>
                         temp = `{{provider_type}}`;
                         temp = temp.split('_');
                         data = '';
@@ -417,7 +417,7 @@
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 {% if provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -427,7 +427,7 @@
                                 {% endif %}
                             {% else %}
                                 {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -555,7 +555,7 @@
                             {% endif %}
                             {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
                                 {% if provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';
@@ -565,7 +565,7 @@
                                 {% endif %}
                             {% else %}
                                 {% if provider_type != 'visa' and provider_type != 'passport' and provider_type != 'payment' and  provider_type != 'bank' %}
-                            <li><a href="#"><script>
+                            <li><a href="/{{provider_type}}"><script>
                             temp = `{{provider_type}}`;
                             temp = temp.split('_');
                             data = '';

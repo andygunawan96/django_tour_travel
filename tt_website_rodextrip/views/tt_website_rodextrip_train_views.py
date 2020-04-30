@@ -38,6 +38,70 @@ def elapse_time(dep, arr):
 def can_book(now, dep):
     return dep > now
 
+def train(request):
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+        try:
+            values = get_data_template(request)
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            airline_cabin_class_list = [
+                {
+                    'name': 'Economy',
+                    'value': 'Y',
+                }, {
+                    'name': 'Premium Economy',
+                    'value': 'W',
+                }, {
+                    'name': 'Business',
+                    'value': 'C',
+                }, {
+                    'name': 'First Class',
+                    'value': 'F',
+                }
+            ]
+            # get_data_awal
+            cache = {}
+            try:
+                cache['train'] = {
+                    'origin': request.session['train_request']['origin'][0],
+                    'destination': request.session['train_request']['destination'][0],
+                    'departure': request.session['train_request']['departure'][0],
+                }
+                if cache['train']['departure'] == 'Invalid date':
+                    cache['train']['departure'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
+            except:
+                pass
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'cache': json.dumps(cache),
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'username': request.session['user_account'],
+                # 'co_uid': request.session['co_uid'],
+                'airline_cabin_class_list': airline_cabin_class_list,
+                'javascript_version': javascript_version,
+                'update_data': 'false',
+                'static_path_url_server': get_url_static_path(),
+                'signature': request.session['signature'],
+
+            })
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME + '/train/train_templates.html', values)
+
+    else:
+        return no_session_logout(request)
+
 def search(request):
     if 'user_account' in request.session._session:
         try:

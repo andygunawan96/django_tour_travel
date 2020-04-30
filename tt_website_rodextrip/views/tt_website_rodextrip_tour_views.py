@@ -44,6 +44,60 @@ adult_title = ['MR', 'MRS', 'MS']
 
 infant_title = ['MSTR', 'MISS']
 
+def tour(request):
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+        try:
+            values = get_data_template(request)
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            # get_data_awal
+            cache = {}
+            try:
+                cache['tour'] = {
+                    'name': request.session['tour_request']['tour_query']
+                }
+            except:
+                pass
+
+                # tour
+                try:
+                    tour_countries = response['result']['response']['tour']['countries']
+                except Exception as e:
+                    tour_countries = []
+                    logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                # tour
+
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'cache': json.dumps(cache),
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'username': request.session['user_account'],
+                # 'co_uid': request.session['co_uid'],
+                'tour_countries': tour_countries,
+                'javascript_version': javascript_version,
+                'update_data': 'false',
+                'static_path_url_server': get_url_static_path(),
+                'signature': request.session['signature'],
+
+            })
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME + '/tour/tour_templates.html', values)
+
+    else:
+        return no_session_logout(request)
+
 def search(request):
     if 'user_account' in request.session._session:
         try:
