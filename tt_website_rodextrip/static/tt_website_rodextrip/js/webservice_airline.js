@@ -5488,64 +5488,65 @@ function reissue_airline_commit_booking(val){
 }
 
 function command_cryptic(){
-    var radios = document.getElementsByName('provider');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            provider = radios[j].value;
-            // only one radio can be logically checked, don't check the rest
-            break;
-        }
-    }
-    data = {
-        'text_string': document.getElementById('message').value,
-        'signature': signature,
-        'provider': provider
-    }
-    text = '<br/>> ' + document.getElementById('message').value
-    text = text.replace(/\n/g, '<br/>');
-    var node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("chat").appendChild(node);
-    $.ajax({
-       type: "POST",
-       url: "/webservice/airline",
-       headers:{
-            'action': 'command_cryptic',
-       },
-       data: data,
-       success: function(msg) {
-           console.log(msg);
-           if(msg.result.error_code == 0){
-               //send order number
-               text = msg.result.response.text_string_details
-               text = text.replace(/\n/g, '<br/>');
-               var node = document.createElement("div");
-               node.innerHTML = text;
-               document.getElementById("chat").appendChild(node);
-               document.getElementById('message').value = '';
-
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-           }else{
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline command_cryptic </span>' + msg.result.error_msg,
-                })
-                $('.loader-rodextrip').fadeOut();
-                window.location.href = "/";
-           }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error airline command_cryptic </span>' + errorThrown,
-                })
-                $('.loader-rodextrip').fadeOut();
+    if(document.getElementById('message').value != ''){
+        var radios = document.getElementsByName('provider');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                provider = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
             }
-       },timeout: 60000
-    });
+        }
+        data = {
+            'text_string': document.getElementById('message').value,
+            'signature': signature,
+            'provider': provider
+        }
+        text = '<br/>> ' + document.getElementById('message').value
+        text = text.replace(/\n/g, '<br/>');
+        var node = document.createElement("div");
+        node.innerHTML = text;
+        document.getElementById("chat").appendChild(node);
+        $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'command_cryptic',
+           },
+           data: data,
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   //send order number
+                   text = msg.result.response.text_string_details
+                   text = text.replace(/\n/g, '<br/>');
+                   var node = document.createElement("div");
+                   node.innerHTML = text;
+                   document.getElementById("chat").appendChild(node);
+                   document.getElementById('message').value = '';
+
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline command_cryptic </span>' + msg.result.error_msg,
+                    })
+                    $('.loader-rodextrip').fadeOut();
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error airline command_cryptic </span>' + errorThrown,
+                    })
+                    $('.loader-rodextrip').fadeOut();
+                }
+           },timeout: 60000
+        });
+    }
 }
