@@ -5502,7 +5502,7 @@ function command_cryptic(){
         'signature': signature,
         'provider': provider
     }
-    text = '<br/> ' + document.getElementById('message').value
+    text = '<br/>>' + document.getElementById('message').value
     text = text.replace(/\n/g, '<br/>');
     var node = document.createElement("div");
     node.innerHTML = text;
