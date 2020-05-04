@@ -49,12 +49,21 @@
             </div>
             <textarea style="width:100%;" rows="4" id="message"></textarea>
             <div>
-               <input type="button" class="primary-btn-ticket" onclick="command_cryptic();" value="Send" style="width:100%;"/>
+               <input type="button" id="send_command" class="primary-btn-ticket" onclick="command_cryptic();" value="Send" style="width:100%;"/>
            </div>
         </div>
     </div>
 </section>
 {% include 'tt_website_rodextrip/footer.html' %}
 <script>
+    document.getElementById("message").addEventListener("keyup", function(event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("send_command").click();
+      }
+    });
 </script>
 {% endblock %}
