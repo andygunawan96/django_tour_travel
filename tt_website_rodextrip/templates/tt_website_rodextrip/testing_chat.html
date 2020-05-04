@@ -4,9 +4,11 @@
 {% block content %}
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
 <script>
+    signin_rodextrip();
     signature = `{{signature}}`;
 </script>
 
@@ -65,5 +67,6 @@
         document.getElementById("send_command").click();
       }
     });
+    counter = 0;
 </script>
 {% endblock %}
