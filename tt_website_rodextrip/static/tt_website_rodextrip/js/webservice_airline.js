@@ -5489,6 +5489,7 @@ function reissue_airline_commit_booking(val){
 
 function command_cryptic(){
     if(document.getElementById('message').value != ''){
+        $('.loader-rodextrip').fadeIn();
         var radios = document.getElementsByName('provider');
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
@@ -5512,6 +5513,7 @@ function command_cryptic(){
         document.getElementById("chat").appendChild(node);
         document.getElementById('div_id'+counter).scrollIntoView(false);
         document.getElementById('message').value = '';
+        document.getElementById('message').disabled = true;
         $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -5542,8 +5544,9 @@ function command_cryptic(){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline command_cryptic </span>' + msg.result.error_msg,
                     })
-                    $('.loader-rodextrip').fadeOut();
                }
+               $('.loader-rodextrip').fadeOut();
+               document.getElementById('message').disabled = false;
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 if(XMLHttpRequest.status == 500){
