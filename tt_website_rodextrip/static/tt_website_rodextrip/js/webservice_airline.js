@@ -5549,6 +5549,7 @@ function command_cryptic(){
 //               $('.loader-rodextrip').fadeOut();
                $('.btn-next').removeClass("running");
                $('.btn-next').prop('disabled', false);
+               document.getElementById('message').disabled = false;
                document.getElementById("message").focus();
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
