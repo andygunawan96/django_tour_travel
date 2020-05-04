@@ -5529,7 +5529,7 @@ function command_cryptic(){
                    text = msg.result.response.text_string_details
                    text = text.replace(/\n/g, '<br/>');
                    counter++;
-                   var node = document.createElement("div");
+                   var node = document.createElement("pre");
                    node.id = 'div_id'+counter;
 
                    node.innerHTML = text;
