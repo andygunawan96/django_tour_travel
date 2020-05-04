@@ -5492,7 +5492,7 @@ function command_cryptic(){
     for (var j = 0, length = radios.length; j < length; j++) {
         if (radios[j].checked) {
             // do whatever you want with the checked radio
-            provider = radios.value;
+            provider = radios[j].value;
             // only one radio can be logically checked, don't check the rest
             break;
         }
