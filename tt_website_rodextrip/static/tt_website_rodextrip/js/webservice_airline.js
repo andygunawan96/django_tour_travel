@@ -5505,9 +5505,12 @@ function command_cryptic(){
         }
         text = '<br/>> ' + document.getElementById('message').value
         text = text.replace(/\n/g, '<br/>');
+        counter++;
         var node = document.createElement("div");
+        node.id = 'div_id'+counter;
         node.innerHTML = text;
         document.getElementById("chat").appendChild(node);
+        document.getElementById('div_id'+counter).scrollIntoView(false);
         document.getElementById('message').value = '';
         $.ajax({
            type: "POST",
@@ -5522,11 +5525,13 @@ function command_cryptic(){
                    //send order number
                    text = msg.result.response.text_string_details
                    text = text.replace(/\n/g, '<br/>');
+                   counter++;
                    var node = document.createElement("div");
+                   node.id = 'div_id'+counter;
+
                    node.innerHTML = text;
                    document.getElementById("chat").appendChild(node);
-                   $('div').animate({ scrollTop: $("#div_chat_user").height() }, 'slow');
-//                   document.getElementById('div_chat_user').scrollIntoView({ behavior: 'smooth', block: 'end' });
+                   document.getElementById('div_id'+counter).scrollIntoView(false);
 
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
