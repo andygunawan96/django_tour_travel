@@ -3901,7 +3901,7 @@ function cancel_btn(){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline issued </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error airline cancel </span>' + msg.result.error_msg,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];
