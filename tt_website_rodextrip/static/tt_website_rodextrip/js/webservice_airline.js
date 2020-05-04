@@ -5502,7 +5502,7 @@ function command_cryptic(){
         'signature': signature,
         'provider': provider
     }
-    text = '> ' + document.getElementById('message').value
+    text = '<br/> ' + document.getElementById('message').value
     text = text.replace(/\n/g, '<br/>');
     var node = document.createElement("div");
     node.innerHTML = text;
@@ -5523,7 +5523,7 @@ function command_cryptic(){
                var node = document.createElement("div");
                node.innerHTML = text;
                document.getElementById("chat").appendChild(node);
-
+               document.getElementById('message').value = '';
 
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
