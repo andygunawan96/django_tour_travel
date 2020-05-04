@@ -237,11 +237,12 @@ function hotel_search(){
                     $('#pagination-container').hide();
                     $('#pagination-container2').hide();
                     $('#hotel_error').show();
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error hotel search </span>' + msg.result.error_msg,
-                    })
+                    //tanya ko vincent
+//                    Swal.fire({
+//                      type: 'error',
+//                      title: 'Oops!',
+//                      html: '<span style="color: #ff9900;">Error hotel search </span>' + msg.result.error_msg,
+//                    })
                 }
            }catch(err){
                 $('#loading-search-hotel').hide();
