@@ -3141,10 +3141,10 @@ function airline_get_booking(data){
                 for(i in msg.result.response.provider_bookings){
                     provider_list.push(msg.result.response.provider_bookings[i].provider);
                 }
-//                if(provider_list.includes("traveloka") == true){
-//                    document.getElementById('cancel').hidden = false;
-//                    document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
-//                }
+                if(provider_list.includes("traveloka") == true){
+                    document.getElementById('cancel').hidden = false;
+                    document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                }
             }
             if(msg.result.response.state == 'booked'){
                 try{
@@ -5488,8 +5488,9 @@ function reissue_airline_commit_booking(val){
 }
 
 function command_cryptic(){
-    if(document.getElementById('message').value != ''){
-        $('.loader-rodextrip').fadeIn();
+    if(document.getElementById('message').value != '' && document.getElementById('message').value != '\n'){
+        $('.btn-next').addClass("running");
+        $('.btn-next').prop('disabled', true);
         var radios = document.getElementsByName('provider');
         for (var j = 0, length = radios.length; j < length; j++) {
             if (radios[j].checked) {
@@ -5545,8 +5546,10 @@ function command_cryptic(){
                       html: '<span style="color: #ff9900;">Error airline command_cryptic </span>' + msg.result.error_msg,
                     })
                }
-               $('.loader-rodextrip').fadeOut();
-               document.getElementById('message').disabled = false;
+//               $('.loader-rodextrip').fadeOut();
+               $('.btn-next').removeClass("running");
+               $('.btn-next').prop('disabled', false);
+               document.getElementById("message").focus();
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
                 if(XMLHttpRequest.status == 500){
@@ -5559,5 +5562,7 @@ function command_cryptic(){
                 }
            },timeout: 60000
         });
+    }else{
+        document.getElementById('message').value = '';
     }
 }

@@ -219,6 +219,29 @@ function hotel_search(){
                     filtering('filter', 0);
                 }else{
                     //kalau error belum
+                    document.getElementById("hotel_error").innerHTML = '';
+                    text = '';
+                    text += `
+                        <div style="padding:5px; margin:10px;">
+                            <div style="text-align:center">
+                                <img src="/static/tt_website_rodextrip/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="" title="" />
+                                <br/><br/>
+                                <span style="font-size:14px; font-weight:600;">Oops! Hotel not found. Please try another day or another hotel</span>
+                            </div>
+                        </div>
+                    `;
+                    var node = document.createElement("div");
+                    node.innerHTML = text;
+                    document.getElementById("hotel_error").appendChild(node);
+                    node = document.createElement("div");
+                    $('#pagination-container').hide();
+                    $('#pagination-container2').hide();
+                    $('#hotel_error').show();
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error hotel search </span>' + msg.result.error_msg,
+                    })
                 }
            }catch(err){
                 $('#loading-search-hotel').hide();
