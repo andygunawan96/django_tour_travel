@@ -5508,6 +5508,7 @@ function command_cryptic(){
         var node = document.createElement("div");
         node.innerHTML = text;
         document.getElementById("chat").appendChild(node);
+        document.getElementById('message').value = '';
         $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -5524,7 +5525,8 @@ function command_cryptic(){
                    var node = document.createElement("div");
                    node.innerHTML = text;
                    document.getElementById("chat").appendChild(node);
-                   document.getElementById('message').value = '';
+                   $('html, div').animate({ scrollTop: $("#div_chat_user").height() }, 'slow');
+//                   document.getElementById('div_chat_user').scrollIntoView({ behavior: 'smooth', block: 'end' });
 
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();

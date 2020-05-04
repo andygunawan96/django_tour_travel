@@ -292,14 +292,17 @@ def testing(request):
         return no_session_logout(request)
 
 def testing_chat(request):
-    values = get_data_template(request)
-    values.update({
-        'static_path_url_server': get_url_static_path(),
-        'static_path': path_util.get_static_path(MODEL_NAME),
-        'signature': request.session['signature'],
-        'username': request.session['user_account'],
-    })
-    return render(request, MODEL_NAME+'/testing_chat.html', values)
+    try:
+        values = get_data_template(request)
+        values.update({
+            'static_path_url_server': get_url_static_path(),
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'signature': request.session['signature'],
+            'username': request.session['user_account'],
+        })
+        return render(request, MODEL_NAME+'/testing_chat.html', values)
+    except:
+        return no_session_logout(request)
 
 def page(request, data):
     javascript_version = get_javascript_version()
