@@ -3141,10 +3141,10 @@ function airline_get_booking(data){
                 for(i in msg.result.response.provider_bookings){
                     provider_list.push(msg.result.response.provider_bookings[i].provider);
                 }
-                if(provider_list.includes("traveloka") == true){
-                    document.getElementById('cancel').hidden = false;
-                    document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
-                }
+//                if(provider_list.includes("traveloka") == true){
+//                    document.getElementById('cancel').hidden = false;
+//                    document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+//                }
             }
             if(msg.result.response.state == 'booked'){
                 try{
@@ -5480,6 +5480,69 @@ function reissue_airline_commit_booking(val){
                   type: 'error',
                   title: 'Oops!',
                   html: '<span style="color: red;">Error airline commit booking </span>' + errorThrown,
+                })
+                $('.loader-rodextrip').fadeOut();
+            }
+       },timeout: 60000
+    });
+}
+
+function command_cryptic(){
+    var radios = document.getElementsByName('provider');
+    for (var j = 0, length = radios.length; j < length; j++) {
+        if (radios[j].checked) {
+            // do whatever you want with the checked radio
+            provider = j;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+    data = {
+        'text_string': document.getElementById('message').value,
+        'signature': signature,
+        'provider': provider
+    }
+    text = '> ' + document.getElementById('message').value
+    text = text.replace(/\n/g, '<br/>');
+    var node = document.createElement("div");
+    node.innerHTML = text;
+    document.getElementById("chat").appendChild(node);
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'command_cryptic',
+       },
+       data: data,
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+               //send order number
+               text = msg.result.response.text_string_details
+               text = text.replace(/\n/g, '<br/>');
+               var node = document.createElement("div");
+               node.innerHTML = text;
+               document.getElementById("chat").appendChild(node);
+
+
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline command_cryptic </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+                window.location.href = "/";
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline command_cryptic </span>' + errorThrown,
                 })
                 $('.loader-rodextrip').fadeOut();
             }

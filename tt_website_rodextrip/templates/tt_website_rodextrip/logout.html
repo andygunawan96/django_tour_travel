@@ -1,4 +1,4 @@
-<form action="/" method="POST" id="form_logout">
+<form action="{% url 'tt_website_rodextrip:login'%}" method="POST" id="form_logout">
     {% csrf_token %}
     <input type="hidden" id="logout" name="logout" value=true>
 </form>
