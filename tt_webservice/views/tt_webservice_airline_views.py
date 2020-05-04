@@ -141,6 +141,8 @@ def api_models(request):
             res = reissue(request)
         elif req_data['action'] == 'sell_journey_reissue_construct':
             res = sell_journey_reissue_construct(request)
+        elif req_data['action'] == 'command_cryptic':
+            res = command_cryptic(request)
 
         # elif req_data['action'] == 'get_buy_information':
         #     res = get_buy_information(request)
@@ -1680,3 +1682,21 @@ def sell_journey_reissue_construct(request):
         return True
     except:
         return False
+
+def command_cryptic(request):
+    try:
+        data = {
+            'text_string': request.POST['text_string'],
+            'provider': request.POST['provider']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "command_cryptic",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    return res

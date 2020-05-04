@@ -115,7 +115,8 @@ def signin(request):
     try:
         if res['result']['error_code'] == 0:
             for key in reversed(list(request.session._session.keys())):
-                del request.session[key]
+                if key != '_language':
+                    del request.session[key]
             request.session['signature'] = res['result']['response']['signature']
             request.session['username'] = request.POST.get('username') or user_default
             request.session['password'] = request.POST.get('password') or password_default
@@ -202,7 +203,8 @@ def delete_session(request):
     request.session.modified = True
     if request.session._session:
         for key in reversed(list(request.session._session.keys())):
-            del request.session[key]
+            if key != '_language':
+                del request.session[key]
     return 0
 
 def signin_btc(request):
@@ -232,7 +234,8 @@ def signin_btc(request):
     try:
         if res['result']['error_code'] == 0:
             for key in reversed(list(request.session._session.keys())):
-                del request.session[key]
+                if key != '_language':
+                    del request.session[key]
             request.session['signature'] = res['result']['response']['signature']
             request.session['username'] = request.POST.get('username') or user_default
             request.session['password'] = request.POST.get('password') or password_default

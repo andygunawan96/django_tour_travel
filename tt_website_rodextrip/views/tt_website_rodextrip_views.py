@@ -37,14 +37,14 @@ provider_type = {
 # Create your views here.
 def index(request):
     try:
-
         values = get_data_template(request)
         if not request.session.get('user_account') and values['website_mode'] == 'btc':
             provider = signin_btc(request)
             values = get_data_template(request, provider['result']['response']['provider'])
         elif request.session.get('user_account').get('co_user_login') == user_default and values['website_mode'] == 'btb':
             for key in reversed(list(request.session._session.keys())):
-                del request.session[key]
+                if key != '_language':
+                    del request.session[key]
             request.session.modified = True
             return no_session_logout(request)
         javascript_version = get_javascript_version()
@@ -60,7 +60,8 @@ def index(request):
         if request.POST.get('logout'):
             if request.session._session:
                 for key in reversed(list(request.session._session.keys())):
-                    del request.session[key]
+                    if key != '_language':
+                        del request.session[key]
                 request.session.modified = True
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -228,7 +229,8 @@ def index(request):
                     except:
                         if request.session._session:
                             for key in reversed(list(request.session._session.keys())):
-                                del request.session[key]
+                                if key != '_language':
+                                    del request.session[key]
                             request.session.modified = True
                         values.update({
                             'static_path': path_util.get_static_path(MODEL_NAME),
@@ -266,17 +268,38 @@ def index(request):
     return no_session_logout(request)
 
 def no_session_logout(request):
-    return redirect('/')
+    try:
+        language = request.session['_language']
+    except:
+        language = ''
+    return redirect(language+'/')
 
-def goto_dashboard():
-    return redirect('/dashboard')
+def goto_dashboard(request):
+    try:
+        language = request.session['_language']
+    except:
+        language = ''
+    return redirect(language+'/dashboard')
 
 def testing(request):
-    values = {
+    if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
+        values = {
+            'static_path_url_server': get_url_static_path(),
+            'static_path': path_util.get_static_path(MODEL_NAME),
+        }
+        return render(request, MODEL_NAME+'/testing.html', values)
+    else:
+        return no_session_logout(request)
+
+def testing_chat(request):
+    values = get_data_template(request)
+    values.update({
         'static_path_url_server': get_url_static_path(),
         'static_path': path_util.get_static_path(MODEL_NAME),
-    }
-    return render(request, MODEL_NAME+'/testing.html', values)
+        'signature': request.session['signature'],
+        'username': request.session['user_account'],
+    })
+    return render(request, MODEL_NAME+'/testing_chat.html', values)
 
 def page(request, data):
     javascript_version = get_javascript_version()
@@ -330,7 +353,8 @@ def login(request):
     if request.POST.get('logout') == 'true':
         if request.session._session:
             for key in reversed(list(request.session._session.keys())):
-                del request.session[key]
+                if key != '_language':
+                    del request.session[key]
             request.session.modified = True
         try:
             values.update({
@@ -346,13 +370,25 @@ def login(request):
         if values['website_mode'] == 'btb':
             return render(request, MODEL_NAME+'/login_templates.html', values)
         else:
-            return goto_dashboard()
+            try:
+                language = request.session['_language']
+            except:
+                language = ''
+            return redirect(language + '/dashboard')
     else:
         # if 'session' in request:
         if request.session.get('user_account') and 'login' in request.session['user_account'].get('co_agent_frontend_security', []):
-            return goto_dashboard()
+            try:
+                language = request.session['_language']
+            except:
+                language = ''
+            return redirect(language + '/dashboard')
         elif values['website_mode'] == 'btc':
-            return goto_dashboard()
+            try:
+                language = request.session['_language']
+            except:
+                language = ''
+            return redirect(language + '/dashboard')
         else:
             request.session.delete()
             try:
