@@ -1092,6 +1092,11 @@ def review(request):
             additional_price = request.POST['additional_price_input'].split(',')
             for i in additional_price:
                 additional_price_input += i
+            force_issued = True
+            for airline in request.session['airline_price_itinerary']['price_itinerary_provider']:
+                if airline['provider'] == 'traveloka':
+                    force_issued = False
+
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -1111,6 +1116,7 @@ def review(request):
                 'username': request.session['user_account'],
                 'passengers': request.session['airline_create_passengers'],
                 'passengers_ssr': passenger,
+                'force_issued': force_issued,
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
