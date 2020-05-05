@@ -241,7 +241,7 @@ function get_banner(type,page){
                             </section>`;
                         }else if(template == 4){
                             text+=`
-                            <div class="site-section bg-light">
+                            <div class="site-section" style="background: #f7f7f7;">
                                 <div class="container">
                                     <div class="row">
                                         <div class="col-lg-12">
@@ -705,7 +705,7 @@ function get_dynamic_page(type){
                         document.getElementById('owl-login').innerHTML = text;
                         document.getElementById('owl-login2').innerHTML = text;
                     }else if(type == 'home'){
-                        document.getElementById('dynamic_page').innerHTML = `<h2>Other Information</h2>`;
+                        document.getElementById('dynamic_page').innerHTML = `<h2>OTHER INFORMATION</h2>`;
                         document.getElementById('owl-login2').innerHTML = text;
                     }
                     $('.owl-carousel-login').owlCarousel({
