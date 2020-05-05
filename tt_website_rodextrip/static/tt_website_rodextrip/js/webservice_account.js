@@ -17,6 +17,11 @@ function signin_rodextrip(type){
                 get_transactions('reset');
             }else if(type == 'top_up_history'){
                 get_top_up();
+            }else if(type == 'registration'){
+                agent_register_get_config();
+                get_promotions();
+                auto_complete('country')
+                auto_complete_registration('social_media');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
