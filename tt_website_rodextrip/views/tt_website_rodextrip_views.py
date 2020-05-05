@@ -38,7 +38,7 @@ provider_type = {
 def index(request):
     try:
         values = get_data_template(request)
-        if not request.session.get('user_account') and values['website_mode'] == 'btc':
+        if not request.session.get('user_account') and values['website_mode'] == 'btc' or not request.session.get('user_account') and values['website_mode'] == 'btc_btb':
             provider = signin_btc(request)
             values = get_data_template(request, provider['result']['response']['provider'])
         elif request.session.get('user_account').get('co_user_login') == user_default and values['website_mode'] == 'btb':
@@ -386,7 +386,7 @@ def login(request):
             except:
                 language = ''
             return redirect(language + '/dashboard')
-        elif values['website_mode'] == 'btc':
+        elif values['website_mode'] == 'btc' or values['website_mode'] == 'btc_btb':
             try:
                 language = request.session['_language']
             except:
