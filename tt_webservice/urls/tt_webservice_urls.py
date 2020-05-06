@@ -16,11 +16,13 @@ from ..views import tt_webservice_testing_views as TestWebserviceView
 from ..views import tt_webservice_content_views as ContentWebserviceView
 from ..views import tt_webservice_voucher_views as VoucherWebserviceView
 from ..views import tt_webservice_printout_views as PrintoutWebserviceView
+from ..views import tt_webservice_ppob_views as PPOBWebserviceView
 
 app_name = 'tt_webservice'
 
 urlpatterns = [
     re_path('agent', AgentWebserviceView.api_models, name="agent"),
+    re_path('ppob', PPOBWebserviceView.api_models, name="account"),
     re_path('account', AccountWebserviceView.api_models, name="account"),
     re_path('payment', PaymentWebserviceView.api_models, name="payment"),
     re_path('train', TrainWebserviceView.api_models, name="train"),

@@ -559,27 +559,43 @@ def get_new_cache(signature):
                     e) + '\n' + traceback.format_exc())
             pass
 
+        #ppob
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_config",
+            "signature": signature
+        }
+
+        data = {}
+
+        res_cache_ppob = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST',
+                                           timeout=120)
+
         # check sebelum masukkan ke cache
         try:
             if res_country_airline['result']['error_code'] == 0:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
 
-            if res_destination_airline['result']['error_code'] == 0:
+            if res_destination_airline['result']['error_code'] != 0:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
-            if res_config_visa['result']['error_code'] == 0:
+            if res_config_visa['result']['error_code'] != 0:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
-            if res_config_issued_offline['result']['error_code'] == 0:
+            if res_config_issued_offline['result']['error_code'] != 0:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
-            if res_config_activity['result']['error_code'] == 0:
+            if res_config_activity['result']['error_code'] != 0:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM ACTIVITY CONFIG GATEWAY" + json.dumps(res_config_activity))
-            if res_config_tour['result']['error_code'] == 0:
+            if res_config_tour['result']['error_code'] != 0:
                 logging.getLogger("info_logger").info(
                     "ERROR GET CACHE FROM TOUR CONFIG GATEWAY" + json.dumps(res_config_tour))
+            if res_cache_ppob['result']['error_code'] != 0:
+                logging.getLogger("info_logger").info(
+                    "ERROR GET CACHE FROM PPOB CONFIG GATEWAY" + json.dumps(res_cache_ppob))
         except Exception as e:
             logging.getLogger("info_logger").info(
                 "ERROR LOG CACHE \n" + str(e) + '\n' + traceback.format_exc())
@@ -597,6 +613,8 @@ def get_new_cache(signature):
                         'country': res_country_airline.get('result') and res_country_airline['result']['response'] or False,
                         'destination': res_destination_airline.get('result') and res_destination_airline['result']['response'] or False
                     },
+                    'ppob': res_cache_ppob.get('result') and res_cache_ppob['result']['response'] or False
+
                 }
             }
 
@@ -657,15 +675,23 @@ def get_new_cache(signature):
 
 def update_cache(request):
     try:
-        get_new_cache(request.POST['signature'])
-
-        res = {
-            'result': {
-                'error_code': 0,
-                'error_msg': 'Success update cache!',
-                'response': ''
+        res = get_new_cache(request.POST['signature'])
+        if res == True:
+            res = {
+                'result': {
+                    'error_code': 0,
+                    'error_msg': 'Success update cache!',
+                    'response': ''
+                }
             }
-        }
+        else:
+            res = {
+                'result': {
+                    'error_code': -1,
+                    'error_msg': 'Error update cache!',
+                    'response': ''
+                }
+            }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         res = {
