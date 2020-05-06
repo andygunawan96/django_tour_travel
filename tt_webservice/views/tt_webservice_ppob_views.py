@@ -172,6 +172,7 @@ def search(request):
     try:
         if res['result']['error_code'] == 0:
             request.session['ppob_search_response'] = res
+            request.session.modified = True
             pass
         else:
             logging.getLogger("error_logger").error("ERROR search BILLS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -240,7 +241,9 @@ def get_booking(request):
     res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
+            time.sleep(1)
             request.session['bills_get_booking_response'] = res
+            request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("ERROR get_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -264,13 +267,16 @@ def issued(request):
             'voucher': {}
         }
         provider = []
-        for provider_type in request.session['bills_get_booking_response']['result']['response']['provider_booking']:
-            if not provider_type['provider'] in provider:
-                provider.append(provider_type['provider'])
-        if request.POST['voucher_code'] != '':
-            data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'ppob', provider),
-            })
+        try:
+            for provider_type in request.session['bills_get_booking_response']['result']['response']['provider_booking']:
+                if not provider_type['provider'] in provider:
+                    provider.append(provider_type['provider'])
+            if request.POST['voucher_code'] != '':
+                data.update({
+                    'voucher': data_voucher(request.POST['voucher_code'], 'ppob', provider),
+                })
+        except:
+            pass
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",

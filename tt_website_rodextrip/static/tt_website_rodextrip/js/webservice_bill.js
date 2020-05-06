@@ -576,7 +576,7 @@ function bills_get_booking(data){
                         price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                         price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
                         if(rac != 0)
-                            price['RAC'] = rac / parseInt(msg.result.response.provider_booking[i].bill_details[j].length);
+                            price['RAC'] = rac / parseInt(msg.result.response.provider_booking[i].bill_details.length);
                         else
                             price['RAC'] = 0;
                         price['currency'] = currency;
