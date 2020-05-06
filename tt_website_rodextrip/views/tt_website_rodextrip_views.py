@@ -31,7 +31,8 @@ provider_type = {
     'VS': 'visa',
     'AT': 'activity',
     'TR': 'tour',
-    'RESV': 'hotel'
+    'RESV': 'hotel',
+    'BT': 'ppob'
 }
 
 # Create your views here.
@@ -1035,6 +1036,7 @@ We build this application for our existing partner and public users who register
         'countries': airline_country,
         'phone_code': phone_code,
         'provider': provider_type,
+        'provider_types': provider_type,
         'provider_divider_start': math.ceil(len(provider_type) / 2) + 1,
         'provider_divider_end': math.ceil(len(provider_type) / 2),
         'contact_us': contact_us.split('\n')
