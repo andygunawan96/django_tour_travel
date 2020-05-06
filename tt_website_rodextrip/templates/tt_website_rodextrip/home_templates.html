@@ -1113,12 +1113,19 @@
 
                     </div>
                     <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" type="button" value="Next">
-                            {% trans 'Next' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
+                    <div class="row">
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <div class="col-lg-6">
+                            <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission_ppob();"/>
+                        </div>
+                        {% endif %}
+                        <div class="{% if 'b2c_limitation' not in username.co_agent_frontend_security %}col-lg-6{% else %}col-lg-12{% endif %}">
+                            <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" style="width:100%;" type="button" value="Next">
+                                {% trans 'Next' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
 
             </div>
                 <div class="modal-footer">
@@ -2665,12 +2672,20 @@
 
                     </div>
                     <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" type="button" value="Next">
-                            {% trans 'Next' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
+                    <div class="row">
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <div class="col-lg-6">
+                            <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission_ppob();"/>
+                        </div>
+                        {% endif %}
+                        <div class="{% if 'b2c_limitation' not in username.co_agent_frontend_security %}col-lg-6{% else %}col-lg-12{% endif %}">
+                            <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" style="width:100%;" type="button" value="Next">
+                                {% trans 'Next' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
+
             </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -3791,12 +3806,20 @@
 
                     </div>
                     <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" type="button" value="Next">
-                            {% trans 'Next' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
+                    <div class="row">
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <div class="col-lg-6">
+                            <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission_ppob();"/>
+                        </div>
+                        {% endif %}
+                        <div class="{% if 'b2c_limitation' not in username.co_agent_frontend_security %}col-lg-6{% else %}col-lg-12{% endif %}">
+                            <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" style="width:100%;" type="button" value="Next">
+                                {% trans 'Next' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
+
             </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -4969,12 +4992,20 @@
 
                     </div>
                     <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" type="button" value="Next">
-                            {% trans 'Next' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
+                    <div class="row">
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <div class="col-lg-6">
+                            <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission_ppob();"/>
+                        </div>
+                        {% endif %}
+                        <div class="{% if 'b2c_limitation' not in username.co_agent_frontend_security %}col-lg-6{% else %}col-lg-12{% endif %}">
+                            <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" style="width:100%;" type="button" value="Next">
+                                {% trans 'Next' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
+
             </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -6128,12 +6159,20 @@
 
                     </div>
                     <br/>
-                    <center>
-                        <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" type="button" value="Next">
-                            {% trans 'Next' %}
-                            <div class="ld ld-ring ld-cycle"></div>
-                        </button>
-                    </center>
+                    <div class="row">
+                        {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+                        <div class="col-lg-6">
+                            <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission_ppob();"/>
+                        </div>
+                        {% endif %}
+                        <div class="{% if 'b2c_limitation' not in username.co_agent_frontend_security %}col-lg-6{% else %}col-lg-12{% endif %}">
+                            <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" style="width:100%;" type="button" value="Next">
+                                {% trans 'Next' %}
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>
+                        </div>
+                    </div>
+
             </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>

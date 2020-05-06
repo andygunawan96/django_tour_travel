@@ -109,6 +109,19 @@ function search_ppob(){
                 console.log(msg);
                 bill_response = msg;
                 if(msg.result.error_code == 0){
+                    currency = '';
+                    total_price = 0;
+                    commission = 0;
+                    for(i in msg.result.response.provider_booking){
+                        for(j in msg.result.response.provider_booking[i].service_charges){
+                            if(currency == '')
+                                currency = msg.result.response.provider_booking[0].service_charges[i].currency
+                            if(msg.result.response.provider_booking[i].service_charges[j].charge_type != 'RAC')
+                                total_price += msg.result.response.provider_booking[i].service_charges[j].amount;
+                            else
+                                commission += msg.result.response.provider_booking[i].service_charges[j].amount;
+                        }
+                    }
                     //open modal
                     document.getElementById('bills_response').innerHTML = `
                         <div class="col-sm-6 col-xs-6 col-lg-6">
@@ -119,8 +132,15 @@ function search_ppob(){
                         <div class="col-sm-6 col-xs-6 col-lg-6">
                             <div>`+msg.result.response.provider_booking[0].customer_number+`</div>
                             <div>`+msg.result.response.provider_booking[0].customer_name+`</div>
-                            <div>`+msg.result.response.provider_booking[0].balance_due+`</div>
+                            <div>`+currency+` `+getrupiah(total_price)+`</div>
                         </div>
+                        <div class="row" id="show_commission" style="display:none;">
+                            <div class="col-lg-12" style="margin-top:10px; text-align:center;">
+                                <div class="alert alert-success">
+                                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
+                                </div>
+                            </div>
+                       </div>
                     `;
                     $('#myModalBills').modal('show');
                 }else{
@@ -555,7 +575,10 @@ function bills_get_booking(data){
                     for(j in msg.result.response.provider_booking[i].bill_details){
                         price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                         price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
-                        price['RAC'] = rac / parseInt(msg.result.response.provider_booking[i].bill_details[j].length);
+                        if(rac != 0)
+                            price['RAC'] = rac / parseInt(msg.result.response.provider_booking[i].bill_details[j].length);
+                        else
+                            price['RAC'] = 0;
                         price['currency'] = currency;
                         //repricing
                         check = 0;
