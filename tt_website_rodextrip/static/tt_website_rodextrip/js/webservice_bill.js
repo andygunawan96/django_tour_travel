@@ -615,7 +615,7 @@ function bills_get_booking(data){
                         }else if (msg.result.response.state == 'issued'){
                             text+=`
                             <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','airline');"/>
+                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','ppob');"/>
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -627,14 +627,14 @@ function bills_get_booking(data){
                         if (msg.result.response.state  == 'booked'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','airline');" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','ppob');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
                         else if (msg.result.response.state == 'issued'){
                             text+=`
                             <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','airline');" />
+                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Ticket (with Price)" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket_price','ppob');" />
                                 <div class="ld ld-ring ld-cycle"></div>
                             </a>`;
                         }
@@ -693,7 +693,7 @@ function bills_get_booking(data){
                                                 <div style="text-align:right;">
                                                     <span>Don't want to edit? just submit</span>
                                                     <br/>
-                                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','airline');"/>
+                                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','ppob');"/>
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
