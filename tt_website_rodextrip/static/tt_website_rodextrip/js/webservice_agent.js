@@ -2249,7 +2249,7 @@ function clear_passenger(type, sequence){
 }
 
 function check_pln_non_tagihan(value){
-    var checknumber = "/^[1-5][0-9]{12}$";
+    var checknumber = "^[1-5][0-9]{12}$";
     if(value.match(checknumber)!=null){
         return true;
     }else{
@@ -2258,7 +2258,7 @@ function check_pln_non_tagihan(value){
 }
 
 function check_pln_prepaid(value){
-    var checknumber = "/^([1-5][0-9]|[0-9])[0-9]{10}$";
+    var checknumber = "^([1-5][0-9]|[0-9])[0-9]{10}$";
     if(value.match(checknumber)!=null){
         return true
     }else{
@@ -2267,34 +2267,7 @@ function check_pln_prepaid(value){
 }
 
 function check_pln_postpaid(value){
-    var checknumber = "/^[1-5][0-9]{11}$";
-    if(value.match(checknumber)!=null){
-        return true
-    }else{
-        return false;
-    }
-}
-
-function check_pln_non_tagihan(value){
-    var checknumber = "/^[1-5][0-9]{12}$";
-    if(value.match(checknumber)!=null){
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function check_pln_prepaid(value){
-    var checknumber = "/^([1-5][0-9]|[0-9])[0-9]{10}$";
-    if(value.match(checknumber)!=null){
-        return true
-    }else{
-        return false;
-    }
-}
-
-function check_pln_postpaid(value){
-    var checknumber = "/^[1-5][0-9]{11}$";
+    var checknumber = "^[1-5][0-9]{11}$";
     if(value.match(checknumber)!=null){
         return true
     }else{
