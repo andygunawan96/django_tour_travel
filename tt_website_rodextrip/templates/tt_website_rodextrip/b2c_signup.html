@@ -1,9 +1,11 @@
+{% load i18n %}
+
 <div class="modal fade" id="myModalb2c" role="dialog" data-keyboard="false">
     <div class="modal-dialog" style="max-width:1000px;">
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
-                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> Sign Up</h6>
+                <h6 class="modal-title" style="color:{{text_color}}"><i class="fas fa-user-plus"></i> {% trans 'Sign Up' %}</h6>
                 <button type="button" class="close" data-dismiss="modal" onclick="update_contact('booker');">&times;</button>
             </div>
             <div class="modal-body">
@@ -11,7 +13,7 @@
                     {% if website_mode == 'btb' or website_mode == 'btc_btb' %}
                     <div class="{% if website_mode == 'btc_btb' %} col-lg-4 {% else %} col-lg-12 {% endif %}" style="margin-bottom:15px;text-align:center;">
                         <div id="b2c_signup" style="background-color:white; padding:20px; border:2px solid #cdcdcd;">
-                            <h6 style="font-weight:bold; margin-bottom:15px;">Want to join us as an agent?</h6>
+                            <h6 style="font-weight:bold; margin-bottom:15px;">{% trans 'Want to join us as an agent?' %}</h6>
                             <button onclick="location.href='/registration'" type="button" class="primary-btn-ticket" style="color:{{text_color}}; font-size:15px; font-weight:700;"><i class="fas fa-user-plus"></i> Sign Up Agent Here</button>
                         </div>
                         <!--href="{% url 'tt_website_rodextrip:registration' %}-->
@@ -20,10 +22,10 @@
                     {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
                     <div class="{% if website_mode == 'btc_btb' %} col-lg-8 {% else %} col-lg-12 {% endif %}">
                         <div style="background-color:white; padding:10px; border:2px solid #cdcdcd;">
-                            <h6 style="font-weight:bold; color:{{color}};">Register User Form</h6><hr/>
+                            <h6 style="font-weight:bold; color:{{color}};">{% trans 'Register User Form' %}</h6><hr/>
                             <div class="row">
                                 <div class="col-lg-6 col-xs-6">
-                                    <span style="font-weight:600;"><span style="color:red">*</span> Title</span>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Title' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select-2" id="default-select" style="width:100%;">
                                             <select id="b2c_title" name="b2c_title" class="nice-select-default">
@@ -37,26 +39,26 @@
                                 <div class="col-lg-6 col-xs-6"></div>
                                 <div class="col-lg-6">
                                     <br/>
-                                    <span style="font-weight:600;"><span style="color:red">*</span> First name and middle name (if any)</span>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'First name and middle name (if any)' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" onchange="capitalizeInput('b2c_first_name');" class="form-control" name="b2c_first_name" id="b2c_first_name" placeholder="First Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
+                                        <input type="text" onchange="capitalizeInput('b2c_first_name');" class="form-control" name="b2c_first_name" id="b2c_first_name" placeholder="{% trans 'First Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'First Name '">
                                     </div>
-                                    <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                    <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                 </div>
                                 <div class="col-lg-6">
                                     <br/>
-                                    <span style="font-weight:600;">Last name</span>
+                                    <span style="font-weight:600;">{% trans 'Last name' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" onchange="capitalizeInput('b2c_last_name');" class="form-control" name="b2c_last_name" id="b2c_last_name" placeholder="Last Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
+                                        <input type="text" onchange="capitalizeInput('b2c_last_name');" class="form-control" name="b2c_last_name" id="b2c_last_name" placeholder="{% trans 'Last Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Last Name '">
                                     </div>
-                                    <label style="font-size:12px; padding:0;">As on Identity Card or Passport without title and punctuation</label>
+                                    <label style="font-size:12px; padding:0;">{% trans 'As on Identity Card or Passport without title and punctuation' %}</label>
                                 </div>
                                 <div class="col-lg-6">
                                     <br/>
-                                    <span style="font-weight:600;"><span style="color:red">*</span> Nationality</span>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Nationality' %}</span>
                                     <div class="input-container-search-ticket">
                                         <div class="form-select" style="width:100%; border-radius:unset;">
-                                            <select class="form-control js-example-basic-single" name="b2c_nationality_id" style="width:100%;" id="b2c_nationality_id" placeholder="Nationality" onchange="auto_complete('b2c_nationality');" class="nice-select-default">
+                                            <select class="form-control js-example-basic-single" name="b2c_nationality_id" style="width:100%;" id="b2c_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('b2c_nationality');" class="nice-select-default">
                                                 {% for country in countries %}
                                                 <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
                                                 {% endfor %}
@@ -67,16 +69,15 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <br/>
-                                    <span style="font-weight:600;"><span style="color:red">*</span> Contact Email Address</span>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Contact Email Address' %}</span>
                                     <div class="input-container-search-ticket">
-                                        <input type="text" class="form-control" name="b2c_email" id="b2c_email" placeholder="Email Address " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
+                                        <input type="text" class="form-control" name="b2c_email" id="b2c_email" placeholder="{% trans 'Email Address' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address '">
                                     </div>
-                                    <label style="font-size:12px; padding:0;">Example: email@example.com</label>
+                                    <label style="font-size:12px; padding:0;">{% trans 'Example' %}: email@example.com</label>
                                 </div>
                                 <div class="col-lg-6">
                                     <br/>
-                                    <span style="font-weight:600;"><span style="color:red">*</span> Contact Person for Urgent Situation</span>
-                                    <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
+                                    <span style="font-weight:600;"><span style="color:red">*</span> {% trans 'Phone Number' %}</span>
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                             <div class="form-select">
@@ -89,15 +90,15 @@
                                             <input type="hidden" name="b2c_phone_code" id="b2c_phone_code" />
                                         </div>
                                         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
-                                            <input type="text" class="form-control" name="b2c_phone" id="b2c_phone" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
+                                            <input type="text" class="form-control" name="b2c_phone" id="b2c_phone" placeholder="{% trans 'Phone Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                         </div>
                                     </div>
-                                    <label style="font-size:12px; padding:0;">Example: 812345678</label>
+                                    <label style="font-size:12px; padding:0;">{% trans 'Example' %}: 812345678</label>
                                 </div>
 
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
-                                    <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="signup_b2c();">Sign Up Now</button>
+                                    <button type="button" class="primary-btn-ticket" data-dismiss="modal" onclick="signup_b2c();">{% trans 'Sign Up Now' %}</button>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +107,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">Close</button>
+                <button type="button" class="primary-btn" style="background-color:#cdcdcd; color:black;" data-dismiss="modal">{% trans 'Close' %}</button>
             </div>
         </div>
     </div>
