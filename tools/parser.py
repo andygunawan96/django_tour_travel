@@ -3,6 +3,9 @@ from datetime import *
 def parse_date(date):
     return date.strftime("%a, %d-%m-%Y")
 
+def parse_date_ppob(date):
+    return datetime.strptime(date, "%Y-%m-%d").strftime('%b %Y')
+
 def parse_datetime(date):
     return date.strftime("%a, %d-%m-%Y %H:%M")
 
