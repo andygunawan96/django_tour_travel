@@ -266,25 +266,26 @@ function get_transactions_notification(val){
                                                     </div>
                                                 </div>
                                             </div>`;
-                                        check_notif++;
-                                        text = '';
-                                        text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                                        text+=`<form action="airline/booking/`+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
-                                        text+=`<div class="row">
-                                                <div class="col-sm-6">`;
-                                        text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
-                                        text+=` </div>
-                                                <div class="col-sm-6" style="text-align:right">
-                                                <span style="font-weight:500;"> `+hold_date+`</span>`;
-                                        text+=` </div>
-                                               </div>`;
-                                        text+=`<input type="hidden" id="order_number`+check_notif+`" name="order_number`+check_notif+`" value="`+msg.result.response[i][j].order_number+`">`;
-                                        text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
-                                        text+=`<hr/></form>`;
-                                        text+=`</div>`;
-                                        document.getElementById('notification_detail').innerHTML += text;
-//                                        document.getElementById('notification_detail2').innerHTML += text;
                                     }
+                                    check_notif++;
+                                    text = '';
+                                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                                    text+=`<form action="airline/booking/`+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
+                                    text+=`<div class="row">
+                                            <div class="col-sm-6">`;
+                                    text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
+                                    text+=` </div>
+                                            <div class="col-sm-6" style="text-align:right">
+                                            <span style="font-weight:500;"> `+hold_date+`</span>`;
+                                    text+=` </div>
+                                           </div>`;
+                                    text+=`<input type="hidden" id="order_number`+check_notif+`" name="order_number`+check_notif+`" value="`+msg.result.response[i][j].order_number+`">`;
+                                    text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
+                                    text+=`<hr/></form>`;
+                                    text+=`</div>`;
+                                    document.getElementById('notification_detail').innerHTML += text;
+//                                        document.getElementById('notification_detail2').innerHTML += text;
+
                                 }
                             }else{
                                 hold_date = 'Error booked';
