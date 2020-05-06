@@ -2301,7 +2301,7 @@
                                 {% if username.co_user_login != '' %}
                                 <div class="col-xl-12" style="text-align:left;">
                                     {% if "hotel" in provider %}
-                                    <div id="tab-hotel current" class="tab-content">
+                                    <div id="tab-hotel" class="tab-content current">
                                         <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
                                             {% csrf_token %}
                                             <div class="row">

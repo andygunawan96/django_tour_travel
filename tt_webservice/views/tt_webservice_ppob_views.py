@@ -61,6 +61,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_carriers':
+            res = get_carriers(request)
         elif req_data['action'] == 'get_config':
             res = get_config(request)
         elif req_data['action'] == 'search':
@@ -112,16 +114,16 @@ def login(request):
 
     return res
 
-def get_config_provider(request):
+def get_carriers(request):
     try:
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "get_provider_list",
+            "action": "get_carriers",
             "signature": request.POST['signature']
         }
         data = {
-            "provider_type": 'visa'
+            "provider_type": 'ppob'
         }
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -242,6 +244,10 @@ def get_booking(request):
     try:
         if res['result']['error_code'] == 0:
             time.sleep(1)
+            for rec in res['result']['response']['provider_booking']:
+                if len(rec['bill_data']):
+                    for rec1 in rec['bill_data']:
+                        rec1['period_date'] = parse_date_ppob(rec1['period_end_date'])
             request.session['bills_get_booking_response'] = res
             request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
