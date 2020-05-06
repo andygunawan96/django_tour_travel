@@ -134,13 +134,6 @@ function search_ppob(){
                             <div>`+msg.result.response.provider_booking[0].customer_name+`</div>
                             <div>`+currency+` `+getrupiah(total_price)+`</div>
                         </div>
-                        <div class="row" id="show_commission" style="display:none;">
-                            <div class="col-lg-12" style="margin-top:10px; text-align:center;">
-                                <div class="alert alert-success">
-                                    <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(commission)+`</span><br>
-                                </div>
-                            </div>
-                       </div>
                     `;
                     $('#myModalBills').modal('show');
                 }else{
