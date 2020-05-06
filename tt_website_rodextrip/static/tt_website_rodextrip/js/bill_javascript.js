@@ -139,7 +139,9 @@ function set_container_bill(){
 //        `;
     document.getElementById('bill_div').innerHTML = text;
     if(bill_type == 'bpjs'){
-        $('select').niceSelect('update');
+        $('#bpjs_type').niceSelect();
+        $('#bpjs_month').niceSelect();
+
     }else if(bill_type == 'pln'){
         set_pln_div();
     }
@@ -176,7 +178,8 @@ function set_pln_div(){
                     </div>
                 </div>`;
     document.getElementById('pln_div').innerHTML = text;
-    $('select').niceSelect('update');
+    $('#pln_type').niceSelect();
+    $('#pln_nominal').niceSelect();
 }
 
 function bills_detail(){
