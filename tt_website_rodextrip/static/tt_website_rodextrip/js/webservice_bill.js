@@ -125,7 +125,7 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('bpjs_type').options[document.getElementById('bpjs_type').selectedIndex].text){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -140,7 +140,7 @@ function search_ppob(){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('bpjs_type').options[document.getElementById('bpjs_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                 check_break = true;
                                 break;
                             }
@@ -160,7 +160,7 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -175,7 +175,7 @@ function search_ppob(){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                 check_break = true;
                                 break;
                             }
@@ -192,7 +192,7 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -207,7 +207,7 @@ function search_ppob(){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                 check_break = true;
                                 break;
                             }
@@ -224,7 +224,7 @@ function search_ppob(){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                     check_break = true;
                                     break;
                                 }
@@ -239,7 +239,7 @@ function search_ppob(){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
                             if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+carrier_ppob[i].min_cust_number+ ' to '+ carrier_ppob[i].max_cust_number+'\n';
+                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
                                 check_break = true;
                                 break;
                             }
