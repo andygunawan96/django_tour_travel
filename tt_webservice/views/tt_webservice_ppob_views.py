@@ -247,7 +247,7 @@ def get_booking(request):
             for rec in res['result']['response']['provider_booking']:
                 if len(rec['bill_data']):
                     for rec1 in rec['bill_data']:
-                        rec1['period_date'] = parse_date_ppob(rec1['period_end_date'])
+                        rec1['period_date'] = parse_date_ppob(rec1['period'])
             request.session['bills_get_booking_response'] = res
             request.session.modified = True
             logging.getLogger("info_logger").info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])

@@ -731,19 +731,26 @@ function bills_get_booking(data){
                                 <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_booking[i].pnr+` </span>
                             </div>`;
                     rac = 0;
-                    currency = ''
+                    currency = '';
+                    roc = 0;
+                    pax = msg.result.response.provider_booking[i].bill_details.length;
+                    if(pax == 0)
+                        pax = msg.result.response.provider_booking[i].bill_data.length;
                     for(j in msg.result.response.provider_booking[i].service_charges){
                         if(currency == '')
                             currency = msg.result.response.provider_booking[i].service_charges[j].currency;
                         if(msg.result.response.provider_booking[i].service_charges[j].charge_type == 'RAC')
                             rac += msg.result.response.provider_booking[i].service_charges[j].amount;
+                        if(msg.result.response.provider_booking[i].service_charges[j].charge_type == 'ROC')
+                            roc += msg.result.response.provider_booking[i].service_charges[j].amount;
                     }
                     if(msg.result.response.provider_booking[i].bill_details.length != 0){
                         for(j in msg.result.response.provider_booking[i].bill_details){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
+                            price['ROC'] = roc / pax;
                             if(rac != 0)
-                                price['RAC'] = rac / parseInt(msg.result.response.provider_booking[i].bill_details.length);
+                                price['RAC'] = rac / pax;
                             else
                                 price['RAC'] = 0;
                             price['currency'] = currency;
@@ -819,8 +826,9 @@ function bills_get_booking(data){
                         for(j in msg.result.response.provider_booking[i].bill_data){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             price['FARE'] = msg.result.response.provider_booking[i].bill_data[j].total;
+                            price['ROC'] = roc / pax;
                             if(rac != 0)
-                                price['RAC'] = rac / parseInt(msg.result.response.provider_booking[i].bill_data.length);
+                                price['RAC'] = rac / pax;
                             else
                                 price['RAC'] = 0;
                             price['currency'] = currency;
