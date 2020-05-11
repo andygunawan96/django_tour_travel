@@ -52,7 +52,7 @@
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
 {%if template == 1%}
-<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
+<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; min-height:400px; background-image:url('{{static_path}}images/bg_passport.jpg') !important">
     <div class="overlay overlay-bg"></div>
     <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
@@ -67,10 +67,10 @@
                 <div class="col-lg-12">
                     <h4 style="color:{{text_color}}; padding-bottom:20px;">
                         {% if username.co_user_login != 'agent_b2c' %}
-                        Hello, {{username.co_user_name}}!
-                        Grow your business with <span class="lamp">{{name}}</span>
+                        {% trans 'Hello' %}, {{username.co_user_name}}!
+                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                         {% else %}
-                        Hello, dear customer, book your trip with us
+                        {% trans 'Hello, dear customer, book your trip with us' %}
                         {% endif %}
                     </h4>
 
@@ -98,33 +98,9 @@
 
                 <div class="col-lg-12" id="div-search-overlay">
                     {% if "ticketing" in username.co_agent_frontend_security %}
-                    <div class="banner-right scrollmenu style-scrollbar">
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                            <li class="nav-item">
-                                <a class="nav-link active" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
-                                </a>
-                            </li>
-                            {% endif %}
-                            <!--<li class="nav-item">-->
-                                <!--<a class="nav-link" id="groupbooking-tab" data-toggle="tab" href="#groupbooking" role="tab" aria-controls="groupbooking" aria-selected="false">-->
-                                    <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-group.png"/></i>-->
-                                    <!--<span style="padding-left:5px; font-weight:bold;"> GROUP </span>-->
-                                <!--</a>-->
-                            <!--</li>-->
-                            <!--<li class="nav-item">-->
-                                <!--<a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">-->
-                                    <!--<i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-passport.png"/></i>-->
-                                    <!--<span style="padding-left:5px; font-weight:bold;"> PASSPORT </span>-->
-                                <!--</a>-->
-                            <!--</li>-->
-                        </ul>
-                    </div>
                     <div class="banner-right">
                         <!--<img src="{{static_path}}images/christmas-icon2.png" style="width:auto; height:90px; position:absolute; right:-35px; top:35px; float:right; z-index:200;" alt="">-->
-                        <div class="tab-content" id="myTabContent">
+                        <div class="tab-content" id="myTabContent" style="border-radius:7px;">
                             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                             <div class="tab-pane fade  show active" id="passport" role="tabpanel" aria-labelledby="passport-tab">
                                 <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
@@ -854,7 +830,7 @@
 <!--    </section>-->
 
     {% elif template == 2 %}
-    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{background}}');">
+    <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{static_path}}images/bg_passport.jpg') !important;">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
             </div>
@@ -868,10 +844,10 @@
                 {% if username.co_user_name != '' %}
                 <h3 style="color:{{text_color}}; padding-bottom:20px;">
                     {% if username.co_user_login != 'agent_b2c' %}
-                    Hello, {{username.co_user_name}}!
-                    Grow your business with <span class="lamp">{{name}}</span>
+                    {% trans 'Hello' %}, {{username.co_user_name}}!
+                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                     {% else %}
-                    Hello, dear customer, book your trip with us
+                    {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
                 </h3>
                 {% endif %}
@@ -882,13 +858,6 @@
                     <input type="hidden" id="start"/>
                     <input type="hidden" id="end"/>
                     {% if "ticketing" in username.co_agent_frontend_security %}
-                    <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
-                        <ul class="tabs">
-                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
-                            <li class="tab-link current" data-tab="tab-passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                            {% endif %}
-                        </ul>
-                    </div>
                     <div class="tab_body" style="border:2px solid #cdcdcd;">
                         {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                         <div id="tab-passport" class="tab-content current">
@@ -1218,9 +1187,8 @@
     <!--</div>-->
 
     {% elif template == 3 %}
-    <section class="banner-area relative" style="background: url('{{background}}') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
+    <section class="banner-area relative" style="background: url('{{static_path}}images/bg_passport.jpg') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
         <div class="overlay overlay-bg"></div>
-        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -1234,10 +1202,10 @@
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
                             <h4 class="text-white">
                                 {% if username.co_user_login != 'agent_b2c' %}
-                                Hello, {{username.co_user_name}}!<br/>
-                                Grow your business with <span class="lamp">{{name}}</span>
+                                {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                                {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                                 {% else %}
-                                Hello, dear customer, book your trip with us
+                                {% trans 'Hello, dear customer, book your trip with us' %}
                                 {% endif %}
                             </h4>
                             <br/>
@@ -1245,11 +1213,6 @@
                                 <input type="hidden" id="country_id"/>
                                 <input type="hidden" id="start"/>
                                 <input type="hidden" id="end"/>
-                                <ul class="tabs">
-                                    {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                    <li class="tab-link current" data-tab="tab-passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                                    {% endif %}
-                                </ul>
                             </div>
                         </div>
                         <div class="col-xl-8 col-lg-8 col-md-8 header-right" style="padding-left:0px;">
@@ -1557,17 +1520,17 @@
 <!--    </section>-->
 
     {% elif template == 4 %}
-    <div class="site-blocks-cover overlay" style="background-image: url('{{background}}');" data-aos="fade">
+    <div class="site-blocks-cover overlay" style="background-image: url('{{static_path}}images/bg_passport.jpg');" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center" style="padding-top:100px;">
                 {% if username.co_user_name != '' %}
                 <div class="col-xl-12" style="text-align:center;">
                     <h3 style="color:{{text_color}}; padding-bottom:20px;">
                         {% if username.co_user_login != 'agent_b2c' %}
-                        Hello, {{username.co_user_name}}!<br/>
-                        Grow your business with <span class="lamp">{{name}}</span>
+                        {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                         {% else %}
-                        Hello, dear customer, book your trip with us
+                        {% trans 'Hello, dear customer, book your trip with us' %}
                         {% endif %}
                     </h3>
                 </div>
@@ -1585,7 +1548,7 @@
         </div>
     </div>
     <div id="overlay-search-box" onclick="off_overlay()"></div>
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
+
     <div id="div-search-overlay" style="position:relative;">
         <div style="position:relative; background:transparent; top:-50px; z-index:1;">
             <div class="container">
@@ -1940,12 +1903,11 @@
 <!--    </div>-->
 
     {% elif template == 5 %}
-    <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;">
+    <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%; background-image: url('{{static_path}}images/bg_passport.jpg') !important;">
         <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
         <div class="container">
             <div class="row fullscreen justify-content-center">
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
-                <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
                 <div class="col-xl-12" id="div-search-overlay">
                     <div id="big_banner" style="padding-bottom:15px;">
 
@@ -1957,11 +1919,11 @@
                                 <div class="col-xl-4" style="text-align:left; font-weight:bold;">
                                     <h4 style="color:{{text_color}};">
                                         {% if username.co_user_login != 'agent_b2c' %}
-                                        Hello, {{username.co_user_name}}!
+                                        {% trans 'Hello' %}, {{username.co_user_name}}!
                                         <br/>
-                                        Grow your business with <span class="lamp">{{name}}</span>
+                                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                                         {% else %}
-                                        Hello, dear customer, book your trip with us
+                                        {% trans 'Hello, dear customer, book your trip with us' %}
                                         {% endif %}
                                     </h4>
                                 </div>
@@ -1970,11 +1932,6 @@
                                         <input type="hidden" id="country_id"/>
                                         <input type="hidden" id="start"/>
                                         <input type="hidden" id="end"/>
-                                        <ul class="tabs">
-                                            {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
-                                            <li class="tab-link current" data-tab="tab-passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PASSPORT' %}</label></li>
-                                            {% endif %}
-                                        </ul>
                                     </div>
                                 </div>
                                 {% endif %}

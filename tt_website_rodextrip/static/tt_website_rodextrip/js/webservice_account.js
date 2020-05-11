@@ -284,6 +284,8 @@ function get_transactions_notification(val){
                                     text+=`<hr/></form>`;
                                     text+=`</div>`;
                                     document.getElementById('notification_detail').innerHTML += text;
+                                    $(".bell_notif").addClass("infinite");
+                                    $(".bell_notif").css("color", color);
 //                                        document.getElementById('notification_detail2').innerHTML += text;
 
                                 }

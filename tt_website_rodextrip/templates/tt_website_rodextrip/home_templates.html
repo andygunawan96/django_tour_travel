@@ -74,9 +74,10 @@
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
 {%if template == 1%}
+<div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:999;margin-top:-50px;"></div>
+
 <section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative;">
     <div class="overlay overlay-bg"></div>
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
                 {% if username.co_user_login != '' %}
@@ -89,10 +90,10 @@
                 <div class="col-lg-12">
                     <h4 style="color:{{text_color}}; padding-bottom:20px;">
                         {% if username.co_user_login != 'agent_b2c' %}
-                        Hello, {{username.co_user_name}}!
-                        Grow your business with <span class="lamp">{{name}}</span>
+                        {% trans 'Hello' %}, {{username.co_user_name}}!
+                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                         {% else %}
-                        Hello, dear customer, book your trip with us
+                        {% trans 'Hello, dear customer, book your trip with us' %}
                         {% endif %}
                     </h4>
 
@@ -1763,24 +1764,26 @@
 <!--    </section>-->
 
     {% elif template == 2 %}
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:999;"></div>
+
     <div class="banner-area-rodex bg-img bg-overlay jarallax" style="background-image: url('{{background}}');">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
             </div>
         </div>
     </div>
+
     <section class="welcome-area">
         <div class="overlay overlay-bg"></div>
-        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="hotel-search-form-area" style="position:relative;">
             <div class="container-fluid">
                 {% if username.co_user_name != '' %}
                 <h3 style="color:{{text_color}}; padding-bottom:20px;">
                     {% if username.co_user_login != 'agent_b2c' %}
-                    Hello, {{username.co_user_name}}!
-                    Grow your business with <span class="lamp">{{name}}</span>
+                    {% trans 'Hello' %}, {{username.co_user_name}}!
+                    {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                     {% else %}
-                    Hello, dear customer, book your trip with us
+                    {% trans 'Hello, dear customer, book your trip with us' %}
                     {% endif %}
                 </h3>
                 {% endif %}
@@ -2908,9 +2911,9 @@
     <!--</div>-->
 
     {% elif template == 3 %}
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
     <section class="banner-area relative" style="background: url('{{background}}') center !important; background-repeat: no-repeat !important;background-position: center center !important; background-size: cover !important;">
         <div class="overlay overlay-bg"></div>
-        <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -2924,10 +2927,10 @@
                         <div class="banner-content col-xl-4 col-lg-4 col-md-4" style="padding:25px 15px 15px 20px; background-color: {{tab_color}}; border:1px solid #cdcdcd;">
                             <h4 class="text-white">
                                 {% if username.co_user_login != 'agent_b2c' %}
-                                Hello, {{username.co_user_name}}!<br/>
-                                Grow your business with <span class="lamp">{{name}}</span>
+                                {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                                {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                                 {% else %}
-                                Hello, dear customer, book your trip with us
+                                {% trans 'Hello, dear customer, book your trip with us' %}
                                 {% endif %}
                             </h4>
                             <br/>
@@ -4055,6 +4058,8 @@
 <!--    </section>-->
 
     {% elif template == 4 %}
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:9999;margin-top:-50px;"></div>
+
     <div class="site-blocks-cover overlay" style="background-image: url('{{background}}');" data-aos="fade">
         <div class="container">
             <div class="row align-items-center justify-content-center" style="padding-top:100px;">
@@ -4062,10 +4067,10 @@
                 <div class="col-xl-12" style="text-align:center;">
                     <h3 style="color:{{text_color}}; padding-bottom:20px;">
                         {% if username.co_user_login != 'agent_b2c' %}
-                        Hello, {{username.co_user_name}}!<br/>
-                        Grow your business with <span class="lamp">{{name}}</span>
+                        {% trans 'Hello' %}, {{username.co_user_name}}!<br/>
+                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                         {% else %}
-                        Hello, dear customer, book your trip with us
+                        {% trans 'Hello, dear customer, book your trip with us' %}
                         {% endif %}
                     </h3>
                 </div>
@@ -4083,7 +4088,6 @@
         </div>
     </div>
     <div id="overlay-search-box" onclick="off_overlay()"></div>
-    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
     <div id="div-search-overlay" style="position:relative;">
         <div style="position:relative; background:transparent; top:-50px; z-index:1;">
             <div class="container">
@@ -5246,12 +5250,13 @@
 <!--    </div>-->
 
     {% elif template == 5 %}
+    <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:999;"></div>
+
     <section class="home-banner-area relative" id="home" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;">
         <!--<div class="overlay overlay-bg" style="border-bottom-left-radius: 5%; border-bottom-right-radius: 5%;"></div>-->
         <div class="container">
             <div class="row fullscreen justify-content-center">
                 <div id="overlay-search-box" onclick="off_overlay()"></div>
-                <div id="notification_div" class="col-sm-12" style="position:fixed;align-items:right;z-index:100;margin-top:-50px;"></div>
                 <div class="col-xl-12" id="div-search-overlay">
                     <div id="big_banner" style="padding-bottom:15px;">
 
@@ -5263,11 +5268,11 @@
                                 <div class="col-xl-4" style="text-align:left; font-weight:bold;">
                                     <h4 style="color:{{text_color}};">
                                         {% if username.co_user_login != 'agent_b2c' %}
-                                        Hello, {{username.co_user_name}}!
+                                        {% trans 'Hello' %}, {{username.co_user_name}}!
                                         <br/>
-                                        Grow your business with <span class="lamp">{{name}}</span>
+                                        {% trans 'Grow your business with' %} <span class="lamp">{{name}}</span>
                                         {% else %}
-                                        Hello, dear customer, book your trip with us
+                                        {% trans 'Hello, dear customer, book your trip with us' %}
                                         {% endif %}
                                     </h4>
                                 </div>
