@@ -761,10 +761,14 @@ function bills_get_booking(data){
                             roc += msg.result.response.provider_booking[i].service_charges[j].amount;
                     }
                     if(msg.result.response.provider_booking[i].bill_details.length != 0){
+                        msg.result.response.provider_booking[i].bill_details.push({
+                            "customer_name": "Service Charges",
+                            "currency": currency,
+                            "total": roc
+                        })
                         for(j in msg.result.response.provider_booking[i].bill_details){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
-                            price['ROC'] = roc / pax;
                             if(rac != 0)
                                 price['RAC'] = rac / pax;
                             else
@@ -839,10 +843,14 @@ function bills_get_booking(data){
                             commission += parseInt(price.RAC);
                         }
                     }else{
+                        msg.result.response.provider_booking[i].bill_data.push({
+                            "period_date": "Service Charges",
+                            "currency": currency,
+                            "total": roc
+                        })
                         for(j in msg.result.response.provider_booking[i].bill_data){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             price['FARE'] = msg.result.response.provider_booking[i].bill_data[j].total;
-                            price['ROC'] = roc / pax;
                             if(rac != 0)
                                 price['RAC'] = rac / pax;
                             else

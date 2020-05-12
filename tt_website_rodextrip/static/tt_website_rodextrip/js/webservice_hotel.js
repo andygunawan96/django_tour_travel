@@ -524,7 +524,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                         if(result.prices[i].rooms[j].notes != undefined)
                             text+= '<span class="suplement">Suplement(s): <br/><ul>';
                             for(j in result.prices[i].rooms[j].supplements){
-                                text+= '<li>'+ j.name + ': '+ j.price + ' ' + j.currency + '(' + j.type +  ')' + '</li>'
+                                text+= '<li>'+ result.prices[i].rooms[j].supplements[j].name + ': '+ result.prices[i].rooms[j].supplements[j].price + ' ' + result.prices[i].rooms[j].supplements[j].currency + ' (' + result.prices[i].rooms[j].supplements[j].type +  ')' + '</li>'
                             }
                             text+= '</ul></span>'
                         if(result.prices[i].rooms[j].notes != undefined)

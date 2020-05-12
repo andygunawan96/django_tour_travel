@@ -49,24 +49,14 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
-        elif req_data['action'] == 'get_top_facility':
-            res = get_top_facility(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'detail':
             res = detail(request)
-        elif req_data['action'] == 'get_cancellation_policy':
-            res = get_cancellation_policy(request)
-        elif req_data['action'] == 'provision':
-            res = provision(request)
         elif req_data['action'] == 'issued':
             res = create_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
-        elif req_data['action'] == 'get_top_facility':
-            res = get_top_facility(request)
-        elif req_data['action'] == 'get_facility_img':
-            res = get_facility_img(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
         else:
@@ -74,6 +64,7 @@ def api_models(request):
     except Exception as e:
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
+
 
 def login(request):
     try:
@@ -152,11 +143,9 @@ def get_auto_complete(request):
 
     return record_json
 
+
 def search(request):
     try:
-        child_age = []
-        if request.POST['child_age'] != '':
-            request.POST['child_age'].split(',')
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         id = ''
@@ -192,7 +181,6 @@ def search(request):
             'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
             'adult': int(request.POST['adult']),
             'destination_id': destination_id,
-            'child_ages': child_age,
             'nationality': request.POST['nationality'].split(' - ')[0],
             'is_bussiness_trip': request.POST['nationality'],
         }
@@ -279,6 +267,7 @@ def search(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
 
+
 def detail(request):
     try:
         data = request.session['hotel_request_data']
@@ -313,128 +302,6 @@ def detail(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_cancellation_policy(request):
-    try:
-        data = {
-            # "hotel_code": request.session['hotel_detail']['external_code'][request.POST['provider']],
-            "hotel_code": request.session['hotel_detail']['id'],
-            "price_code": request.POST['price_code'],
-            "provider": request.POST['provider']
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_cancellation_policy",
-            "signature": request.session['hotel_signature'],
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
-    try:
-        if res['result']['error_code'] == 0:
-            for rec in res['result']['response']['policies']:
-                rec['date'] = convert_string_to_date_to_string_front_end(rec['date'])
-            request.session['hotel_cancellation_policy'] = res
-
-            signature = copy.deepcopy(request.session['hotel_signature'])
-            request.session['hotel_error'] = {
-                'error_code': res['result']['error_code'],
-                'signature': signature
-            }
-            logging.getLogger("info_logger").info(json.dumps(request.session['hotel_cancellation_policy']))
-            request.session.modified = True
-            logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
-        else:
-            logging.getLogger("error_logger").error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    return res
-
-def get_top_facility(request):
-    try:
-        data = {}
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_top_facility",
-            "signature": request.session['hotel_signature'],
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
-    try:
-        request.session['hotel_cancellation_policy'] = res
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_cancellation_policy']))
-        request.session.modified = True
-        if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_top_facility_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
-        else:
-            logging.getLogger("error_logger").error("get_top_facility_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    return res
-
-def get_facility_img(request):
-    try:
-        data = {}
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_facility_img",
-            "signature": request.session['hotel_signature'],
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
-    try:
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['hotel_error'] = {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        }
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_error']))
-        request.session.modified = True
-        if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_facility_img_hotel SUCCESS SIGNATURE " + request.session['hotel_signature'])
-        else:
-            logging.getLogger("error_logger").error("get_facility_img_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    return res
-
-def provision(request):
-    try:
-        data = {
-            'price_code': request.POST['price_code'],
-            'provider': request.POST['provider']
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "provision",
-            "signature": request.session['hotel_signature'],
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
-    try:
-        request.session['hotel_provision'] = res
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['hotel_error'] = {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        }
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_provision']))
-        request.session.modified = True
-        if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.session['hotel_signature'])
-        else:
-            logging.getLogger("error_logger").error("provision_hotel HOTEL ERROR SIGNATURE " + request.session['hotel_signature'])
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-
-    return res
 
 def create_booking(request):
     try:
