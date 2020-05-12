@@ -197,14 +197,14 @@
                             {% if "event" in provider %}
                             <li class="nav-item">
                                 <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i>
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i>
                                     <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
                                 </a>
                             </li>
                             {% else %}
                             <li class="nav-item">
                                 <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i>
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i>
                                     <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
                                 </a>
                             </li>
@@ -962,14 +962,12 @@
                                                 <span class="checkmark-radio"></span>
                                             </label>
                                         </div>
-                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="col-lg-12 col-md-12 col-sm-12" style="margin-bottom:15px;">
                                             <div class="row" id="bill_div">
 
                                             </div>
                                         </div>
                                     </div>
-
-                                    <br/>
 
                                     <center>
                                         {% if 'book_reservation' in username.co_agent_frontend_security or 'issued_reservation' in username.co_agent_frontend_security %}
@@ -1115,19 +1113,19 @@
                     <div id="bills_response" class="row">
 
                     </div>
-                    <br/>
                     <div class="row">
                         <div class="col-lg-12">
+                            <hr/>
+                        </div>
+                        <div class="col-lg-4"></div>
+                        <div class="col-lg-4">
                             <button class="button-search primary-btn ld-ext-right btn-next" onclick="bills_next();" style="width:100%;" type="button" value="Next">
                                 {% trans 'Next' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
+                        <div class="col-lg-4"></div>
                     </div>
-
-            </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                 </div>
             </div>
         </div>
@@ -1823,9 +1821,9 @@
                             <li class="tab-link" data-tab="tab-bills"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
                             {% endif %}
                             {% if "event" in provider %}
-                            <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                            <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                             {% else %}
-                            <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                            <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                             {% endif %}
                             {% if "deal" in provider %}
                             <li class="tab-link" data-tab="tab-deal"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">{% trans 'DEAL' %}</label></li>
@@ -2510,7 +2508,7 @@
                             <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
                                 {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                    <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
                                             <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                             <input type="radio" checked="checked" name="bills_type" value="bpjs">
@@ -2966,9 +2964,9 @@
                                     <li class="tab-link" data-tab="tab-bills"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
                                     {% endif %}
                                     {% if "event" in provider %}
-                                    <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                    <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                     {% else %}
-                                    <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                    <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                     {% endif %}
                                     {% if "deal" in provider %}
                                     <li class="tab-link" data-tab="tab-deal"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">{% trans 'DEAL' %}</label></li>
@@ -3667,7 +3665,7 @@
                                 <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                     {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                        <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
                                             <label class="radio-button-custom" style="margin-bottom:0px;">
                                                 <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                                 <input type="radio" checked="checked" name="bills_type" value="bpjs">
@@ -4129,9 +4127,9 @@
                                         {% endif %}
 
                                         {% if "event" in provider %}
-                                        <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                        <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                         {% else %}
-                                        <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                        <li class="tab-link" data-tab="tab-event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                         {% endif %}
                                         {% if "deal" in provider %}
                                         <li class="tab-link" data-tab="tab-deal"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">{% trans 'DEAL' %}</label></li>
@@ -4856,7 +4854,7 @@
                                     <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                         {% csrf_token %}
                                         <div class="row">
-                                            <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                            <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
                                                 <label class="radio-button-custom" style="margin-bottom:0px;">
                                                     <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                                     <input type="radio" checked="checked" name="bills_type" value="bpjs">
@@ -5310,9 +5308,9 @@
                                             {% endif %}
 
                                             {% if "event" in provider %}
-                                            <li class="tab-link" data-tab="tab-event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                            <li class="tab-link" data-tab="tab-event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                             {% else %}
-                                            <li class="tab-link" data-tab="tab-event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/seminar.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                            <li class="tab-link" data-tab="tab-event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                                             {% endif %}
                                             {% if "deal" in provider %}
                                             <li class="tab-link" data-tab="tab-deal"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">{% trans 'DEAL' %}</label></li>
@@ -6023,7 +6021,7 @@
                                         <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                             {% csrf_token %}
                                             <div class="row">
-                                                <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
+                                                <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
                                                     <label class="radio-button-custom" style="margin-bottom:0px;">
                                                         <span style="font-size:13px; color:{{text_color}};">BPJS</span>
                                                         <input type="radio" checked="checked" name="bills_type" value="bpjs">
@@ -6649,6 +6647,14 @@
         {% if "activity" in provider %}
             get_activity_config('home');
             $("#activity_search_form").bind("keypress", function(e) {
+                if (e.keyCode == 13) {
+                    return false;
+                }
+            });
+        {% endif %}
+        {% if "ppob" in provider %}
+            get_activity_config('home');
+            $("#bill_searchForm").bind("keypress", function(e) {
                 if (e.keyCode == 13) {
                     return false;
                 }

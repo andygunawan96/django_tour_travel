@@ -57,11 +57,84 @@ function set_container_bill(){
             break;
         }
     }
-    if(bill_type == 'bpjs'){
-        text = `
-            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket">Type</span>
-                <div class="input-container-search-ticket btn-group">
+
+    if(template == 1){
+        if(bill_type == 'bpjs'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12" style="padding:0px;" id="train_date_search">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                            print_month = false
+                            for(i in month_list){
+                                if(moment().format('MMM') == month_list[i][1]){
+                                    print_month = true;
+                                    month_counter = 1;
+                                }if(print_month == true){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                    month_counter++
+                                }
+                            }
+                text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-12" style="padding:0px;">
+                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pln'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="padding:0px; text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12" style="padding:0px; text-align:left;">
+                    <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+
+    else if(template == 2){
+        if(bill_type == 'bpjs'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
                     <div class="form-select" id="default-select">
                         <select id="bpjs_type" name="bpjs_type" class="nice-select-default">`;
                         for(i in ppob_data.product_data[bill_type])
@@ -73,39 +146,36 @@ function set_container_bill(){
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-6 col-sm-6" style="padding:0px;" id="train_date_search">
-                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
-                <div class="input-container-search-ticket btn-group">
-                    <div class="form-select" id="default-select">
-                        <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                        print_month = false
-                        for(i in month_list){
-                            if(moment().format('MMM') == month_list[i][1]){
-                                print_month = true;
-                                month_counter = 1;
-                            }if(print_month == true){
-                                text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                month_counter++
+                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                            print_month = false
+                            for(i in month_list){
+                                if(moment().format('MMM') == month_list[i][1]){
+                                    print_month = true;
+                                    month_counter = 1;
+                                }if(print_month == true){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                    month_counter++
+                                }
                             }
-                        }
-        text+=`
+                text+=`
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-9 col-md-6 col-sm-6" style="padding:0px;">
-                <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
-                <div class="input-container-search-ticket">
-                    <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                    </div>
                 </div>
-            </div>
-        `;
-    }else if(bill_type == 'pln'){
-        text = `
-            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
-                <span class="span-search-ticket">Type</span>
-                <div class="input-container-search-ticket btn-group">
+            `;
+        }
+        else if(bill_type == 'pln'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
                     <div class="form-select" id="default-select">
                         <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
                         for(i in ppob_data.product_data[bill_type])
@@ -117,13 +187,229 @@ function set_container_bill(){
                         </select>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
-                <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                <div class="col-lg-8 col-md-8 col-sm-12" style="text-align:left;">
+                    <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
                 </div>
-            </div>
-        `;
+            `;
+        }
     }
+
+    else if(template == 3){
+        if(bill_type == 'bpjs'){
+            text = `
+                <div class="col-lg-6 col-md-6 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="form-group">
+                        <div class="default-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12" id="train_date_search">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                    <div class="form-group">
+                        <div class="default-select">
+                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                            print_month = false
+                            for(i in month_list){
+                                if(moment().format('MMM') == month_list[i][1]){
+                                    print_month = true;
+                                    month_counter = 1;
+                                }if(print_month == true){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                    month_counter++
+                                }
+                            }
+                text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12" style="margin-top:15px;">
+                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pln'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="form-group">
+                        <div class="default-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12" style="text-align:left;">
+                    <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    else if(template == 4){
+        if(bill_type == 'bpjs'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                    <span class="span-search-ticket">Pay Until</span>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                            print_month = false
+                            for(i in month_list){
+                                if(moment().format('MMM') == month_list[i][1]){
+                                    print_month = true;
+                                    month_counter = 1;
+                                }if(print_month == true){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                    month_counter++
+                                }
+                            }
+                text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <span class="span-search-ticket">Nomor Virtual Account Keluarga / Perusahaan</span>
+                    <div class="input-container-search-ticket">
+                        <i class="fas fa-briefcase" style="padding:14px; height: 43px; width: 45px; background:`+color+`; color:`+text_color+`;"></i>
+                        <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pln'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12" style="text-align:left;">
+                    <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+    }
+
+    else if(template == 5){
+        if(bill_type == 'bpjs'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_type" name="bpjs_type" class="nice-select-default">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12" id="train_date_search">
+                    <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> Pay Until</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
+                            print_month = false
+                            for(i in month_list){
+                                if(moment().format('MMM') == month_list[i][1]){
+                                    print_month = true;
+                                    month_counter = 1;
+                                }if(print_month == true){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
+                                    month_counter++
+                                }
+                            }
+                text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Virtual Account Keluarga / Perusahaan</span>
+                    <div class="input-container-search-ticket">
+                        <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                    </div>
+                </div>
+            `;
+        }
+        else if(bill_type == 'pln'){
+            text = `
+                <div class="col-lg-4 col-md-4 col-sm-12" style="text-align:left;">
+                    <span class="span-search-ticket">Type</span>
+                    <div class="input-container-search-ticket btn-group">
+                        <div class="form-select" id="default-select">
+                            <select id="pln_type" name="pln_type" class="nice-select-default" onchange="set_pln_div();">`;
+                            for(i in ppob_data.product_data[bill_type])
+                                if(i == 0)
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`" selected>`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                                else
+                                    text+=`<option value="`+ppob_data.product_data[bill_type][i].code+`">`+ppob_data.product_data[bill_type][i].name+`</option>`;
+                            text+=`
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-12" style="text-align:left;">
+                    <div id="pln_div" class="row" style="margin-left:0px;margin-right:0px;">
+                    </div>
+                </div>
+            `;
+        }
+    }
+
 //    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
 //        text+=`
 //            <div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
@@ -141,23 +427,56 @@ function set_container_bill(){
     if(bill_type == 'bpjs'){
         $('#bpjs_type').niceSelect();
         $('#bpjs_month').niceSelect();
-
     }else if(bill_type == 'pln'){
+        $('#pln_type').niceSelect();
         set_pln_div();
     }
 }
 
 function set_pln_div(){
-    if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
-        text = `<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;margin-bottom:10px;">
-                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+    if(template == 1){
+        if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;margin-bottom:10px;">
-                    <span class="span-search-ticket">Type</span>
-                    <div class="input-container-search-ticket btn-group">
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="padding:0px; text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket">Type</span>
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select" id="default-select">
+                                <select id="pln_nominal" name="pln_nominal" class="nice-select-default">`;
+                                for(i in ppob_data.allowed_denominations)
+                                    if(i == 0)
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`" selected>`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+                                    else
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`">`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Postpaid' || document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Non Tagihan'){
+            text = `<div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
+                    </div>`;
+        }
+    }
+    else if (template == 2){
+        if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket">Type</span>
                         <div class="form-select" id="default-select">
                             <select id="pln_nominal" name="pln_nominal" class="nice-select-default">`;
                             for(i in ppob_data.allowed_denominations)
@@ -168,15 +487,117 @@ function set_pln_div(){
 
                             text+=`</select>
                         </div>
+                    </div>`;
+        }
+        else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Postpaid' || document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Non Tagihan'){
+            text = `<div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
+                    </div>`;
+        }
+    }
+    else if (template == 3){
+        if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
                     </div>
-                </div>`;
-    }else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Postpaid' || document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Non Tagihan')
-        text = `<div class="col-lg-12 col-md-12 col-sm-12" style="padding:0px; text-align:left;margin-bottom:10px;">
-                    <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
-                    <div class="input-container-search-ticket">
-                        <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket">Type</span>
+                        <div class="form-group">
+                            <div class="default-select">
+                                <select id="pln_nominal" name="pln_nominal" class="nice-select-default">`;
+                                for(i in ppob_data.allowed_denominations)
+                                    if(i == 0)
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`" selected>`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+                                    else
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`">`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Postpaid' || document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Non Tagihan'){
+            text = `<div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
+                    </div>`;
+        }
+    }
+    else if(template == 4){
+        if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
                     </div>
-                </div>`;
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket">Type</span>
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select" id="default-select">
+                                <select id="pln_nominal" name="pln_nominal" class="nice-select-default">`;
+                                for(i in ppob_data.allowed_denominations)
+                                    if(i == 0)
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`" selected>`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+                                    else
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`">`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Postpaid' || document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Non Tagihan'){
+            text = `<div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
+                    </div>`;
+        }
+    }
+    else if(template == 5){
+        if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
+            text = `<div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket">Type</span>
+                        <div class="input-container-search-ticket btn-group">
+                            <div class="form-select" id="default-select">
+                                <select id="pln_nominal" name="pln_nominal" class="nice-select-default">`;
+                                for(i in ppob_data.allowed_denominations)
+                                    if(i == 0)
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`" selected>`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+                                    else
+                                        text+=`<option value="`+ppob_data.allowed_denominations[i]+`">`+getrupiah(ppob_data.allowed_denominations[i])+`</option>`;
+
+                                text+=`</select>
+                            </div>
+                        </div>
+                    </div>`;
+        }
+        else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Postpaid' || document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Non Tagihan'){
+            text = `<div class="col-lg-12 col-md-12 col-sm-12" style="text-align:left;margin-bottom:10px;">
+                        <span class="span-search-ticket"><i class="fas fa-briefcase"></i> Nomor Meter / ID Pelanggan</span>
+                        <div class="input-container-search-ticket">
+                            <input type="text" class="form-control" name="bpjs_number" id="bpjs_number" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
+                        </div>
+                    </div>`;
+        }
+    }
+
     document.getElementById('pln_div').innerHTML = text;
     $('#pln_type').niceSelect();
     $('#pln_nominal').niceSelect();

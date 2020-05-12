@@ -8397,3 +8397,22 @@ ul.popular2_tabs li.current .image-rounded-icon{
     padding-top:40px;
     padding-bottom:20px;
 }
+
+.radio-img {
+    padding-right:15px;
+    cursor:pointer;
+}
+
+.radio-img  > input {
+  display:none;
+}
+
+.radio-img  > img{
+  cursor:pointer;
+  padding:10px;
+  border:2px solid white;
+}
+
+.radio-img  > input:checked + img{
+  border:2px solid orange;
+}
