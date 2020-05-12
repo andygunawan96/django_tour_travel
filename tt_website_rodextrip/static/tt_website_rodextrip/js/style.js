@@ -2169,8 +2169,8 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/train';", "location.href='/train/passenger';", "", ""];
     }
     else if(breadcrumbs_type == "ppob"){
-        var breadcrumbs = ["Home", "Search", "Passenger", "Booking", "Issued"];
-        var breadcrumbs_url = ["location.href='/dashboard';", "", "", "", ""];
+        var breadcrumbs = ["Home", "Review", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';

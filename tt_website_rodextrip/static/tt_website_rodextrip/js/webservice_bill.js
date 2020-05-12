@@ -52,16 +52,32 @@ function get_config_ppob(){
             counter = 0;
             for(i in ppob_data.product_data){
 
-                text +=`<label class="radio-button-custom" style="margin-bottom:0px;">
-                            <span style="font-size:13px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span>`;
-                if(counter == 0)
-                text +=`
-                            <input type="radio" checked="checked" name="bills_type" value="`+i+`">`;
-                else
-                text +=`    <input type="radio" name="bills_type" value="`+i+`">`;
-                text +=`
-                            <span class="checkmark-radio"></span>
-                        </label>`;
+                text+=`
+                    <label class="radio-img">`;
+
+                    if(counter == 0){
+                        text+=`<input type="radio" checked="checked" name="bills_type" value="`+i+`">`;
+                    }else{
+                        text+=`<input type="radio" name="bills_type" value="`+i+`">`;
+                    }
+                    if(i == 'bpjs'){
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:60px; height:60px;"><br/>`;
+                    }else if(i == 'pln'){
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:60px; height:60px;"><br/>`;
+                    }
+                text+=`<div style="text-align:center;"><span style="font-size:15px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
+                </label>`;
+
+                //text +=`<label class="radio-button-custom" style="margin-bottom:0px;">
+                //            <span style="font-size:13px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span>`;
+                //if(counter == 0)
+                //text +=`
+                //            <input type="radio" checked="checked" name="bills_type" value="`+i+`">`;
+                //else
+                //text +=`    <input type="radio" name="bills_type" value="`+i+`">`;
+                //text +=`
+                //            <span class="checkmark-radio"></span>
+                //        </label>`;
                 counter++;
             }
             document.getElementById('radio_bill_search').innerHTML = text;
@@ -288,15 +304,15 @@ function search_ppob(){
                     }
                     //open modal
                     document.getElementById('bills_response').innerHTML = `
-                        <div class="col-sm-6 col-xs-6 col-lg-6">
-                            <div><span style="font-size:13px;font-weight:500;">Number</span></div>
-                            <div><span style="font-size:13px;font-weight:500;">Name</span></div>
-                            <div><span style="font-size:13px;font-weight:500;">Total</span></div>
+                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-6">
+                            <div style="padding-bottom:15px;"><span style="font-size:13px;font-weight:500;">Number:</span></div>
+                            <div style="padding-bottom:15px;"><span style="font-size:13px;font-weight:500;">Name:</span></div>
+                            <div style="padding-bottom:15px;"><span style="font-size:13px;font-weight:500;">Total:</span></div>
                         </div>
-                        <div class="col-sm-6 col-xs-6 col-lg-6">
-                            <div>`+msg.result.response.provider_booking[0].customer_number+`</div>
-                            <div>`+msg.result.response.provider_booking[0].customer_name+`</div>
-                            <div>`+currency+` `+getrupiah(total_price)+`</div>
+                        <div class="col-lg-9 col-md-8 col-sm-6 col-xs-6">
+                            <div style="padding-bottom:15px;">`+msg.result.response.provider_booking[0].customer_number+`</div>
+                            <div style="padding-bottom:15px;">`+msg.result.response.provider_booking[0].customer_name+`</div>
+                            <div style="padding-bottom:15px;">`+currency+` `+getrupiah(total_price)+`</div>
                         </div>
                     `;
                     $('#myModalBills').modal('show');
