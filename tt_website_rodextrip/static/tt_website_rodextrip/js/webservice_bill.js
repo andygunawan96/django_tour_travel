@@ -1002,7 +1002,13 @@ function bills_get_booking(data){
                 text_detail+=`
                 <div style="margin-bottom:5px;">
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
-                </div>
+                </div>`;
+                if(msg.result.response.status == 'fail_issued')
+                text_detail+=`
+                <div style="margin-bottom:5px;">
+                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="resync_status();" value="Resync"/>
+                </div>`;
+                text+=`
             </div>`;
             }catch(err){}
             document.getElementById('bills_detail').innerHTML = text_detail;
@@ -1139,6 +1145,54 @@ function bills_get_booking(data){
           }
        },timeout: 300000
     });
+}
+
+function resync_status(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/ppob",
+       headers:{
+            'action': 'resync_status',
+       },
+       data: {
+            'order_number': bills_get_detail.result.response.order_number,
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if (msg.result.error_code == 0){
+                bills_get_booking(bills_get_detail.result.response.order_number)
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+               auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error bills resync </span>' + msg.result.error_msg,
+                })
+                $('#show_loading_booking_bills').hide();
+                $('.loader-rodextrip').fadeOut();
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+          if(XMLHttpRequest.status == 500){
+              $("#show_loading_booking_bills").hide();
+              $("#show_error_booking_bills").show();
+              Swal.fire({
+                type: 'error',
+                title: 'Oops!',
+                html: '<span style="color: red;">Error bills booking </span>' + errorThrown,
+              }).then((result) => {
+                  if (result.value) {
+                    $("#waitingTransaction").modal('hide');
+                  }
+                })
+              $('.loader-rodextrip').fadeOut();
+              $("#waitingTransaction").modal('hide');
+          }
+       },timeout: 300000
+    });
+
 }
 
 function bills_issued(data){
