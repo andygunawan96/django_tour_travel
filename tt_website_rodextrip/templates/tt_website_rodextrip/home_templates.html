@@ -6283,9 +6283,7 @@
     {% if username.co_user_login != '' %}
         try{
             //hotel_signin('home');
-            {% if "ppob" in provider %}
-            get_config_ppob();
-            {% endif %}
+
             {% if "airline" in provider %}
             get_airline_config('home');
             airline_search_value = 'false';
@@ -6653,7 +6651,7 @@
             });
         {% endif %}
         {% if "ppob" in provider %}
-            get_activity_config('home');
+            get_config_ppob();
             $("#bill_searchForm").bind("keypress", function(e) {
                 if (e.keyCode == 13) {
                     return false;
