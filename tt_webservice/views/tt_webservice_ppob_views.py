@@ -73,8 +73,6 @@ def api_models(request):
             res = get_booking(request)
         elif req_data['action'] == 'issued':
             res = issued(request)
-        elif req_data['action'] == 'resync_status':
-            res = resync_status(request)
         elif req_data['action'] == 'update_service_charge':
             res = update_service_charge(request)
         else:
@@ -289,31 +287,6 @@ def issued(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "issued",
-            "signature": request.POST['signature'],
-        }
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
-    try:
-        if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
-        else:
-            logging.getLogger("error_logger").error("ERROR issued_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-    return res
-
-def resync_status(request):
-    # nanti ganti ke get_ssr_availability
-    try:
-        data = {
-            'order_number': request.POST['order_number'],
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "resync_status",
             "signature": request.POST['signature'],
         }
     except Exception as e:

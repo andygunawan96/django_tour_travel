@@ -374,6 +374,7 @@
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
         </form>
+        <input type="hidden" id="order_number"/>
         <form method="POST" id="hotel_issued" action="{% url 'tt_website_rodextrip:payment'%}">
             {% csrf_token %}
             <input type="hidden" id="passengers" name="passengers"/>

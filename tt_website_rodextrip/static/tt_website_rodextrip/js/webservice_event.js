@@ -94,15 +94,8 @@ function event_search(data){
        success: function(msg) {
            console.log(msg);
            if(data == ''){
-               document.getElementById('hotel_ticket').innerHTML = ``;
-               child_age = '';
-               for(i=0; i<parseInt($('#hotel_child').val());i++){
-                   child_age+=parseInt($('#hotel_child_age'+(i+1).toString()).val());
-                   if(i != parseInt($('#hotel_child').val())-1)
-                       child_age+=',';
-               }
+               document.getElementById('event_ticket_objs').innerHTML = '';
                if(msg.result.error_code == 0){
-                   get_top_facility();
                    $.ajax({
                        type: "POST",
                        url: "/webservice/event",
@@ -110,53 +103,32 @@ function event_search(data){
                             'action': 'search',
                        },
                        data: {
-                        'destination': $('#hotel_id_destination').val(),
-                        'nationality': $('#hotel_id_nationality').val(),
-                        'checkin': $('#hotel_checkin').val(),
-                        'checkout': $('#hotel_checkout').val(),
-                        'room': $('#hotel_room').val(),
-                        'adult': $('#hotel_adult').val(),
-                        'child': $('#hotel_child').val(),
-                        'child_age': child_age
+                        'event_name': $('#event_name').val(),
+                        'is_online': '1',
                        },
                        success: function(msg) {
+                           console.log('Result');
                            console.log(msg);
                            try{
                                 if(msg.result.error_code==0){
-                                    hotel_data = msg.result.response;
-                                    vendor = [];
-                                    for(i in msg.result.response.hotel_ids){
-                                        check = 0;
-                                        if(vendor.length != 0)
-                                            for(j in msg.result.response.hotel_ids[i].external_code){
-                                                if(vendor.indexOf(j) == -1){
-                                                    vendor.push(j);
-                                                }else{
-                                                    check = 1;
-                                                }
-                                            }
-                                        if(check == 0){
-                                            for(j in msg.result.response.hotel_ids[i].external_code){
-                                                if(vendor.indexOf(j) == -1){
-                                                    vendor.push(j);
-                                                }
-                                            }
-                                        }
-                                    }
-                                    filtering('sort');
+                                    sort(msg.result.response,1);
                                 }else{
                                     //kalau error belum
+                                    console.log('Error #1');
                                 }
                            }catch(err){
+                                console.log('Error #2');
                                 alert(msg.result.error_msg);
                            }
                        },
                        error: function(XMLHttpRequest, textStatus, errorThrown) {
+                           console.log(textStatus);
                            alert(errorThrown);
                        }
                    });
                }else{
-
+                    console.log('Error Code != 0');
+                    console.log(msg.result.error_code);
                }
            }else if(data != ''){
                //goto reservation
@@ -168,7 +140,8 @@ function event_search(data){
     });
 }
 
-function event_detail(id){
+function event_options(id){
+    console.log(id);
     clearTimeout(myVar);
     myVar = setTimeout(function() {
     document.getElementById("detail_room_pick").innerHTML = '';
@@ -237,7 +210,7 @@ function event_detail(id){
                 node.innerHTML = text;
                 document.getElementById("detail_room_pick").appendChild(node);
                 node = document.createElement("div");
-                $('#loading-detail-hotel').hide();
+                $('#loading-detail-event').hide();
             }
             hotel_price = msg.result.prices;
 
