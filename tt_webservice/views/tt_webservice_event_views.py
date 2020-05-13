@@ -90,9 +90,9 @@ def login(request):
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        request.session['hotel_signature'] = res['result']['response']['signature']
+        request.session['event_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_signature']))
+        logging.getLogger("info_logger").info(json.dumps(request.session['event_signature']))
         request.session.modified = True
         logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
@@ -148,121 +148,34 @@ def search(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        id = ''
-        country_id = ''
-        destination_id = ''
-        hotel_id = ''
-        landmark_id = ''
-        try:
-            for hotel in response['result']['response']['hotel_config']:
-                if request.POST['destination'] == hotel['name']:
-                    if hotel['type'] == 'Country':
-                        country_id = int(hotel['id'])
-                        id = int(hotel['id'])
-                    elif hotel['type'] == 'City':
-                        destination_id = int(hotel['id'])
-                        id = int(hotel['id'])
-                    elif hotel['type'] == 'Hotel':
-                        hotel_id = int(hotel['id'])
-                        id = int(hotel['id'])
-                    elif hotel['type'] == 'Landmark':
-                        landmark_id = int(hotel['id'])
-                        id = int(hotel['id'])
-                    break
-        except:
-            pass
-
         data = {
-            'child': int(request.POST['child']),
-            'hotel_id': hotel_id,
-            'search_name': ' - '.join(request.POST['destination'].split(' - ')[:-1]),
-            'room': int(request.POST['room']),
-            'checkout_date': str(datetime.strptime(request.POST['checkout'], '%d %b %Y'))[:10],
-            'checkin_date': str(datetime.strptime(request.POST['checkin'], '%d %b %Y'))[:10],
-            'adult': int(request.POST['adult']),
-            'destination_id': destination_id,
-            'nationality': request.POST['nationality'].split(' - ')[0],
-            'is_bussiness_trip': request.POST['nationality'],
+            'event_name': request.POST['event_name'],
+            'is_online': request.POST['is_online'],
         }
-        try:
-            request.session['hotel_request_data']['hotel_id'] = ''
-            try:
-                del request.session['hotel_request_data']['pax_country']
-            except:
-                pass
-            if data == request.session['hotel_request_data'] and request.session['hotel_error']['error_code'] == 0 and sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) != 0:
-                # or sum([len(rec) for rec in request.session['hotel_response_search']['result']['response'].values()]) == 0
-                data = {}
-                request.session['hotel_signature'] = request.session['hotel_error']['signature']
-            else:
-                request.session['hotel_request_data'] = data
-        except:
-            request.session['hotel_request_data'] = data
+        request.session['event_request_data'] = data
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
-            "signature": request.session['hotel_signature']
+            "signature": request.session['event_signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    if data:
-        res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
-        request.session['hotel_response_search'] = res
-    else:
-        res = request.session['hotel_response_search']
+    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+    request.session['event_response_search'] = res
     try:
         counter = 0
         sequence = 0
         if res['result']['error_code'] == 0:
-            signature = copy.deepcopy(request.session['hotel_signature'])
-            request.session['hotel_error'] = {
+            signature = copy.deepcopy(request.session['event_signature'])
+            request.session['event_error'] = {
                 'error_code': res['result']['error_code'],
                 'signature': signature
             }
-            logging.getLogger("info_logger").info(json.dumps(request.session['hotel_error']))
+            logging.getLogger("info_logger").info(json.dumps(request.session['event_error']))
             request.session.modified = True
-
-            hotel_data = []
-            for hotel in res['result']['response']['city_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['country_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['hotel_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
-
-            counter = 0
-
-            for hotel in res['result']['response']['landmark_ids']:
-                hotel.update({
-                    'sequence': sequence,
-                    'counter': counter
-                })
-                counter += 1
-                sequence += 1
         else:
-            logging.getLogger("error_logger").error("ERROR search_hotel SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR search_hotel SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res

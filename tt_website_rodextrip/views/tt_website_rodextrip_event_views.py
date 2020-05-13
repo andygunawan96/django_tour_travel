@@ -152,30 +152,26 @@ def detail(request):
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-                request.session['hotel_detail'] = json.loads(request.POST['hotel_detail'])
+                request.session['event_code'] = json.loads(request.POST['event_code'])
             except:
                 pass
-            data = request.session['hotel_request']
+            data = request.session['event_code']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'hotel_search': data,
+                'event_code': data,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'check_in': data['checkin_date'],
-                'check_out': data['checkout_date'],
-                'response': request.session['hotel_detail'],
                 'username': request.session['user_account'],
-                'signature': request.session['hotel_signature'],
+                'signature': request.session['event_signature'],
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'time_limit': request.session['time_limit'],
-                'rating': range(int(request.session['hotel_detail']['rating'])),
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
+        return render(request, MODEL_NAME+'/event/02_event_detail_templates.html', values)
     else:
         return no_session_logout(request)
 

@@ -14,6 +14,7 @@
 <script src="{{ static_path }}js/webservice_passport.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_bill.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/bill_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/train_javascript.js?version={{javascript_version}}"></script>
@@ -23,6 +24,7 @@
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/tour_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
 <!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
@@ -1005,22 +1007,32 @@
                             {% endif %}
                             {% if "event" in provider %}
                             <div class="tab-pane fade" id="event" role="tabpanel" aria-labelledby="event-tab">
-                                <form method="POST" class="form-wrap">
+                                <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                                    {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                            <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                        <div class="col-lg-6 col-md-6" style="padding:0px;">
+                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event or Location(City)' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Select Event or City Name' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value=""/>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
+                                            <label class="check_box_custom">
+                                                <span class="span-search-ticket" style="font-size:13px;">{% trans 'Online Class Only' %}</span>
+                                                <input type="checkbox" value="true" onclick="online_check();">
+                                                <input type="hidden" name="include_online" id="include_online" value="false"/>
+                                                <span class="check_box_span_custom"></span>
+                                            </label>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                            {% else %}
-                            <div class="tab-pane fade" id="event" role="tabpanel" aria-labelledby="event-tab">
-                                <form method="POST" class="form-wrap">
-                                    <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                            <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
-                                        </div>
-                                    </div>
+                                    <br/>
+
+                                    <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="event_search_validation();" type="button" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
                                 </form>
                             </div>
                             {% endif %}

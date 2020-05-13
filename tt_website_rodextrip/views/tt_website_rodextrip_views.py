@@ -197,6 +197,13 @@ def index(request):
                                 cache['visa']['departure_date'] = convert_string_to_date_to_string_front_end(str(datetime.now())[:10])
                         except:
                             pass
+
+                        try:
+                            cache['event'] = {
+                                    'event_name': request.session['event_request']['event_name']
+                                }
+                        except:
+                            pass
                         try:
                             values.update({
                                 'static_path': path_util.get_static_path(MODEL_NAME),
