@@ -566,7 +566,6 @@ function bills_get_booking(data){
                             text+=`<hr/>`;
                         }
                         text+=`<h5>PNR: `+msg.result.response.provider_booking[i].pnr+`</h5>`;
-                        $text += 'Flight '+ flight_counter+'\n';
                         flight_counter++;
                         text+=`<div class="row">
                                 <div class="col-lg-4">

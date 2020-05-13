@@ -653,7 +653,6 @@ function bills_detail(){
                     text+=`<hr/>`;
                 }
                 text += `<h6>Flight `+flight_count+`</h6>`;
-                $text +='Flight '+flight_count+'\n';
                 //logo
                 carrier_code_list = Array.from(new Set(price_itinerary.price_itinerary_provider[i].journeys[j].carrier_code_list))
                 for(k in carrier_code_list) //print gambar airline
