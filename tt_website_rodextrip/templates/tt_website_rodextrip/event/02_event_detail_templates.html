@@ -16,20 +16,8 @@
 <script>
     static_path_url_server = '{{static_path_url_server}}'
     signature = `{{signature}}`;
-    //$(document).ready(function() {
-    //    $('#asdasd').datepicker({
-    //        'format': 'd M yyyy',
-    //        'todayHighlight': true,
-    //        'autoclose': true
-    //    });
-    //});
     time_limit = {{time_limit}};
     session_time_limit();
-    facilities = `{{response.facilities}}`;
-    facilities = facilities.replace(/&#39;/g, '"');
-    facilities = facilities.replace(/&quot;/g, '"');
-    facilities = facilities.replace(/False/g, 'false');
-    facilities = facilities.replace(/True/g, 'true');
 </script>
 
 {% include 'tt_website_rodextrip/header.html' %}
@@ -37,7 +25,7 @@
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 
-<title id="title_search">{{name}} Event - {% trans 'Session Time' %} {{response.name}}</title>
+<title id="title_search">{{name}} Event - {% trans 'Session Time' %} {{event_code.name}}</title>
 
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 {%if template == 1%}
@@ -865,7 +853,7 @@
                 <button class="primary-btn-custom" type="button" onclick="location.href='{% url 'tt_website_rodextrip:hotel_search'%}';"><i class="fas fa-chevron-left"></i> Back to result search</button>
             </div>
         </div>
-        <form action="{% url 'tt_website_rodextrip:event_passenger' %}" id="goto_passenger" method="POST" style="padding:15px 15px 0px 15px;">
+        <form action="{% url 'tt_website_rodextrip:event_passenger'%}" id="goto_passenger" method="POST" style="padding:15px 15px 0px 15px;">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12 div-information-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
@@ -882,7 +870,7 @@
                                             <div class="row">
                                                 <div class="col-lg-12" style="margin-bottom:15px;">
                                                     <div class="owl-carousel-hotel-img-modal owl-theme" style="text-align:center;">
-                                                        {% for i in response.images %}
+                                                        {% for i in event_code.images %}
                                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
                                                             <img class="img-fluid zoom-img" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px;" alt="">
                                                         </div>
@@ -894,7 +882,7 @@
                                                 </div>
                                                 <div class="col-lg-12">
                                                     <div class="owl-carousel-hotel-modal owl-theme">
-                                                        {% for i in response.images %}
+                                                        {% for i in event_code.images %}
                                                         <div class="item" style="cursor:pointer;">
                                                             <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="max-width:100%; height:90px;">
                                                         </div>
@@ -908,9 +896,9 @@
                             </div>
                         </div>
                         <div class="col-lg-12">
-                            <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
-                            <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                            <span class="rating_hotel" id="rating_hotel" hidden>{{response.rating}}</span>
+                            <span id="name_event" class="name_event" style="font-size:22px; font-weight:bold; color:black;">{{event_code.name}}</span>
+                            <input type="hidden" value="{{event_code.name}}" id="get_name_hotel"/>
+                            <span class="rating_hotel" id="rating_hotel" hidden>{{event_code.rating}}</span>
                             <span>
                                 {% for i in rating %}
                                     <i class="fas fa-star" style="color:#FFC44D;"></i>
@@ -918,7 +906,7 @@
                             </span>
                             <br/>
                             <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                            <span class="address_hotel" id="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                            <span class="address_hotel" id="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>
                             <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
                             <hr/>
                         </div>
@@ -926,16 +914,16 @@
                         <div class="col-lg-7" style="margin-bottom:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <input type="hidden" value="{{response.images|length}}" id="length-img"/>
-                                    {% if response.images|length > 0 %}
+                                    <input type="hidden" value="{{event_code.images|length}}" id="length-img"/>
+                                    {% if event_code.images|length > 0 %}
                                     <div class="owl-carousel-hotel-img owl-theme">
-                                        {% for i in response.images %}
+                                        {% for i in event_code.images %}
                                         <div class="item" style="cursor:pointer; float:none;">
-                                            <img class="img-fluid" style="max-height:400px; margin-left:50%; transform:translateX(-50%);" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                            <img class="img-fluid" style="max-height:400px; margin-left:50%; transform:translateX(-50%);" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});">
                                         </div>
                                         {% endfor %}
                                     </div>
-                                    <h6 style="color:black; text-align:right; padding-top:10px;" id="total_image_hotel">1 of {{response.images|length}}</h6>
+                                    <h6 style="color:black; text-align:right; padding-top:10px;" id="total_image_hotel">1 of {{event_code.images|length}}</h6>
                                     {% else %}
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         <div class="item" style="float:none; display:inline-block; border:1px solid #cdcdcd;">
@@ -950,18 +938,18 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="row">
-                                        {% if response.images|length > 0 %}
-                                        {% for i in response.images %}
+                                        {% if event_code.images|length > 0 %}
+                                        {% for i in event_code.images %}
                                         {% if forloop.counter < 4 %}
                                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                            <img class="img-fluid" src="{{i.url}}" style="width:100%; height:75px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                            <img class="img-fluid" src="{{i.url}}" style="width:100%; height:75px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});">
                                         </div>
                                         {% elif forloop.counter == 4%}
                                         <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                            <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                            <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});">
                                                 <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="width:100%; height:75px;">
                                             </div>
-                                            <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{response.images|length}})</span>
+                                            <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{event_code.images|length}})</span>
                                         </div>
                                         {% endif %}
                                         {% endfor %}
@@ -977,8 +965,8 @@
                                     <h5>Description</h5>
                                     <hr/>
                                     <div style="text-align: justify; height:250px; overflow: auto;">
-                                        {% if response.description != '' %}
-                                        {{response.description}}
+                                        {% if event_code.description != '' %}
+                                        {{event_code.description}}
                                         {% else %}
                                         <i class="fas fa-ban" style="color:red;"></i> <span style="font-weight:500; font-size:14px;">No description.</span>
                                         {% endif %}
@@ -986,31 +974,6 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- Prepare untuk TripAdvisor Cenius Start-->
-                        <!--<div class="col-lg-12" style="padding-bottom:5px;">
-                            <h4 style="color:#f15a22;">4.5 Excellent</h4>
-                        </div>
-                        <div class="col-lg-3">
-                            <span style="font-weight:500;"><i class="fa fa-map-marker-alt"></i> Location</span>
-                            <br/>
-                            <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
-                        </div>
-                        <div class="col-lg-3">
-                            <span style="font-weight:500;"><i class="fa fa-broom"></i> Cleanliness</span>
-                            <br/>
-                            <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
-                        </div>
-                        <div class="col-lg-3">
-                            <span style="font-weight:500;"><i class="fa fa-concierge-bell"></i> Services</span>
-                            <br/>
-                            <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
-                        </div>
-                        <div class="col-lg-3">
-                            <span style="font-weight:500;"><i class="fa fa-hand-holding"></i> Value</span>
-                            <br/>
-                            <img style="height:20px; width:auto;" src="{{static_path}}img/tripadvisor2.png"/>
-                        </div> -->
-                        <!-- Prepare untuk TripAdvisor Cenius END -->
                     </div>
                 </div>
 
@@ -1026,7 +989,7 @@
                     <h4>Location Info</h4>
                     <hr/>
                     <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                    <span style="font-size:14px; font-weight:500;">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                    <span style="font-size:14px; font-weight:500;">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>
                 </div>
 
                 <div class="col-lg-12 div-select-room-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
@@ -1062,13 +1025,13 @@
                                 <div class="col-lg-12" style="background:white; border:1px solid #cdcdcd; padding-bottom: 15px;">
                                     <h4 style="padding-top:15px;"> Price Detail</h4>
                                     <hr/>
-                                    <span style="font-size:16px; font-weight:700;" id="product_title">{{response.name}} </span>
+                                    <span style="font-size:16px; font-weight:700;" id="product_title">{{event_code.name}} </span>
                                     <span>
                                         {% for i in rating %}
                                             <i class="fas fa-star" style="color:#FFC44D;"></i>
                                         {% endfor %}
                                     </span><br/>
-                                    <span class="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span><br/>
+                                    <span class="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
                                     <span id="date_hotel">Date: {{check_in}} - {{check_out}}</span>
                                     <hr/>
                                     <div style="padding-top:10px;" id="hotel_detail_table">
@@ -1082,7 +1045,7 @@
                                     </div>
                                 </div>
 
-                                <input type="hidden" id="hotel_detail_send" name="hotel_detail_send"/>
+                                <input type="hidden" id="event_option_send" name="event_option_send"/>
                                 <textarea id="data_copy2" name="data_copy2" rows="4" hidden></textarea>
                             </div>
                             <div id="data_id">
@@ -1125,8 +1088,7 @@
 
 
 <script>
-    console.log('Response Content');
-    event_options({{response.event_code}});
+    event_options('{{event_code.name}}');
     var myIndex = 0;
     $(document).ready(function () {
         try{

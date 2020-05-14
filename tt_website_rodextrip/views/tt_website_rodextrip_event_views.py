@@ -115,7 +115,6 @@ def search(request):
                 print('error')
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'event_search': request.session['event_request'],
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
@@ -124,6 +123,8 @@ def search(request):
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': 1200,
                 'signature': request.session['signature'],
+
+                'event_search': request.session['event_request'],
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -158,7 +159,6 @@ def detail(request):
             data = request.session['event_code']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
-                'event_code': data,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
@@ -167,6 +167,9 @@ def detail(request):
                 'static_path_url_server': get_url_static_path(),
                 'javascript_version': javascript_version,
                 'time_limit': request.session['time_limit'],
+
+                'event_search': request.session['event_request'],
+                'event_code': data,
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -176,7 +179,7 @@ def detail(request):
         return no_session_logout(request)
 
 
-def passengers(request):
+def contact_passengers(request):
     if 'user_account' in request.session._session:
         try:
             javascript_version = get_javascript_version()
@@ -191,9 +194,6 @@ def passengers(request):
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
-
-            infant_title = ['MSTR', 'MISS']
-
             airline_country = response['result']['response']['airline']['country']
             phone_code = []
             for i in airline_country:
@@ -201,44 +201,29 @@ def passengers(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            # pax
-            adult = []
-            child = []
-            for i in range(int(request.session['hotel_request']['adult'])):
-                adult.append('')
-            for i in range(int(request.session['hotel_request']['child'])):
-                child.append('')
-            request.session['hotel_request'].update({
-                'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
-                'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
-            })
-            request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
+            request.session['event_option_code'] = request.POST['event_option_send']
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
                 'phone_code': phone_code,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'hotel_search': request.session['hotel_request'],
-                'hotel_room_detail_pick': request.session['hotel_room_pick'],
                 # 'username': request.session['username'],
                 'username': request.session['user_account'],
-                'response': request.session['hotel_detail'],
-                'childs': child,
-                'adults': adult,
-                'rooms': [rec + 1 for rec in range(request.session['hotel_request']['room'])],
-                'adult_count': int(request.session['hotel_request']['adult']),
-                'child_count': int(request.session['hotel_request']['child']),
+                'response': request.session['event_response_search'],
                 'adult_title': adult_title,
-                'infant_title': infant_title,
-                'signature': request.session['hotel_signature'],
+                'signature': request.session['event_signature'],
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': request.session['time_limit'],
+
+                'event_search': request.session['event_request'],
+                'event_code': request.session['event_code'],
+                'event_option_code': request.session['event_option_code'],
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/hotel/hotel_passenger_templates.html', values)
+        return render(request, MODEL_NAME+'/event/03_event_passenger_templates.html', values)
     else:
         return no_session_logout(request)
 
@@ -256,21 +241,9 @@ def review(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            spc_req = ''
-            for rec in request.POST.keys():
-                if 'special_request' in rec:
-                    if request.POST[rec]:
-                        spc_req += 'Room ' + rec[16:] + ': ' + request.POST[rec] + '; '
-                    else:
-                        spc_req += 'Room ' + rec[16:] + ': - ; '
-            spc_req += request.POST.get('late_ci') and 'Early/Late CheckIn: ' + request.POST['late_ci'] + '; 'or ''
-            spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
-
-            request.session['hotel_request'].update({'special_request': spc_req})
             request.session['time_limit'] = int(request.POST['time_limit_input'])
 
             adult = []
-            child = []
             contact = []
             printout_paxs = []
             booker = {
@@ -284,7 +257,7 @@ def review(request):
                 "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
                 'booker_seq_id': request.POST['booker_id']
             }
-            for i in range(int(request.session['hotel_request']['adult'])):
+            for i in range(int(request.session['event_request'].get('adult') or 0)):
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -375,84 +348,47 @@ def review(request):
                     'is_also_booker': True
                 })
 
-            for i in range(int(request.session['hotel_request']['child'])):
-                child.append({
-                    "pax_type": "CHD",
-                    "first_name": request.POST['child_first_name' + str(i + 1)],
-                    "last_name": request.POST['child_last_name' + str(i + 1)],
-                    "title": request.POST['child_title' + str(i + 1)],
-                    "birth_date": request.POST['child_birth_date' + str(i + 1)],
-                    "nationality_name": request.POST['child_nationality' + str(i + 1)],
-                    "passenger_seq_id": request.POST['child_id' + str(i + 1)],
-                })
-                printout_paxs.append({
-                    "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST[
-                        'child_first_name' + str(i + 1)] + ' ' + request.POST['child_last_name' + str(i + 1)],
-                    'ticket_number': '',
-                    'birth_date': request.POST['child_birth_date' + str(i + 1)],
-                    'pax_type': 'Child',
-                    'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
-                })
-
-
-            request.session['hotel_review_pax'] = {
+            request.session['event_review_pax'] = {
                 'booker': booker,
                 'contact': contact,
                 'adult': adult,
-                'child': child,
             }
 
             print_json = json.dumps({
-                "type": "hotel",
+                "type": "event",
                 "agent_name": request.session._session['user_account']['co_agent_name'],
                 "passenger": printout_paxs,
-                "price_detail":[{
-                    "fare": rec['price_total'],
-                    "name": rec['category'] + ' ' + rec['description'],
-                    "qty": 1,
-                    "total": rec['price_total'],
-                    "pax_type": "Adult: " + str(rec['pax']['adult']) + " Child: " + str(len(rec['pax'].get('child_ages',0))),
-                    "tax": 0
-                } for rec in request.session['hotel_room_pick']['rooms'] ],
-                "line": [
-                   {
-                       "resv": "-",
-                       "checkin": request.session['hotel_request']['checkin_date'],
-                       "checkout": request.session['hotel_request']['checkout_date'],
-                       "meal_type": request.session['hotel_room_pick']['meal_type'],
-                       "room_name": rec['category'] + ' ' + rec['description'],
-                       "hotel_name": request.session['hotel_detail']['name'],
-                   }
-               for rec in request.session['hotel_room_pick']['rooms']],
+                "line": [],
             })
-            request.session['hotel_json_printout' + request.session['hotel_signature']] = print_json
+            request.session['hotel_json_printout' + request.session['event_signature']] = print_json
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
                 'adults': adult,
-                'childs': child,
                 'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
                 'countries': airline_country,
                 'phone_code': phone_code,
-                'upsell': request.session.get('hotel_upsell_'+request.session['hotel_signature']) and request.session.get('hotel_upsell_'+request.session['hotel_signature']) or 0,
-                'hotel_search': request.session['hotel_request'],
-                'hotel_pick': request.session['hotel_detail'],
-                'hotel_room_detail_pick': request.session['hotel_room_pick'],
-                'adult_count': int(request.session['hotel_request']['adult']),
-                'infant_count': int(request.session['hotel_request']['child']),
-                'special_request': request.session['hotel_request']['special_request'],
+                'upsell': request.session.get('hotel_upsell_'+request.session['event_signature']) and request.session.get('hotel_upsell_'+request.session['event_signature']) or 0,
                 'username': request.session['user_account'],
-                'signature': request.session['hotel_signature'],
+                'signature': request.session['event_signature'],
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': request.session['time_limit'],
                 'printout_rec': print_json,
-                # 'cookies': json.dumps(res['result']['cookies']),
+
+                'event_search': request.session['event_request'],
+                'event_code': request.session['event_code'],
+                'event_option_code': request.session['event_option_code'],
+                'event_extra_question': [{
+                    'que': request.POST[a],
+                    'ans': request.POST['question_event_' + a.replace('que_','')],
+                } for a in request.POST.keys() if 'que_' in a],
+                # 'event_extra_question_answer': [request.POST[a] for a in request.POST.keys() if 'question_event_' in a],
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/hotel/hotel_review_templates.html', values)
+        return render(request, MODEL_NAME + '/event/04_event_review_templates.html', values)
     else:
         return index(request)
 
