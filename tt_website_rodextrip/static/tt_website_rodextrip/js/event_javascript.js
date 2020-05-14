@@ -1,3 +1,4 @@
+var hotel_room_detail_pick = null;
 
 function search_hotel(val){
     clearTimeout(myVar);
@@ -282,7 +283,7 @@ function sorting_button(value){
     }
     filtering('filter', 0);
 }
-
+//Done
 function sort(response, check_filter){
         //no filter
         $pagination_type = "hotel";
@@ -295,11 +296,6 @@ function sort(response, check_filter){
         text+=`
         <div style="border:1px solid #cdcdcd; background-color:white; margin-bottom:15px; padding:10px;">
             <span style="font-weight:bold; font-size:14px;"> Event - `+event_objs_length+` results</span>
-            <label class="check_box_custom" style="float:right;">
-                <span class="span-search-ticket" style="color:black;">Select All to Copy</span>
-                <input type="checkbox" id="check_all_copy" onchange="check_all_result();"/>
-                <span class="check_box_span_custom"></span>
-            </label>
         </div>`;
         node.innerHTML = text;
         document.getElementById("hotel_result").appendChild(node);
@@ -309,100 +305,56 @@ function sort(response, check_filter){
         text='';
         if(response.length != 0){
             for(i in response){
-                text = '<form id="event'+i+'" action="/event/detail" method="POST">';
+                text = '<div class="sorting-box-b"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
+                if(response[i].images.length != 0){
+                    text+=`<div class="img-hotel-search" style="cursor:pointer; background-image: url(`+response[i].images[0].url+`);" onclick="goto_detail('event',`+i+`)"></div>`;
+                }
+                else{
+                    text+=`<div class="img-hotel-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>`;
+                }
                 text+=`
-                <div class="row">`;
-                    if(response[i].images.length != 0){
-                        text+=`
-                        <div class="col-lg-3">
-                            <div class="img-hotel-search" style="cursor:pointer; background-image: url(`+response[i].images[0].url+`);" onclick="goto_detail('event',`+i+`)"></div>
-                        </div>`;
-                    }
-                    else{
-                        text+=`
-                        <div class="col-lg-3">
-                            <div class="img-hotel-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
-                        </div>`;
-                    }
-                    text+=`
-                    <div class="col-lg-9 name_hotel_search"">
-                        <div class="row">
-                            <div class="col-lg-7 col-md-7">
-                                <div>
-                                    <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:5px; font-size:18px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-11 col-xs-11">Rate</div>
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 checkbox_search_hotel" style="text-align:right;">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket"></span>
-                                    <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`, `+event_objs_length+`);"/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
-                                <span class="id_copy_result" hidden>`+i+`</span>
-                            </div>
-                            <div class="col-lg-7 col-md-7" style="padding-top:5px;">`;
-                            detail = JSON.stringify(response[i]);
-                            detail = detail.replace(/'/g, "");
-                            text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
-                            text+=`
-                            <div style="padding-bottom:5px;">
-                                <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
-                            text+= '<ul>';
-                                if(response[i].locations.length != 0){
-                                    for(g in response[i].locations){
-                                        text+= '<li>' + response[i].locations[g].location_name + ',' + response[i].locations[g].location_address + ',' + response[i].locations[g].city_name + ',' + '</li>';
-                                    }
-                                } else {
-                                    text+= '<li>Detail not available</li>';
-                                }
-                            text+= '</ul>';
-                            text+=`</span>
-                                </div>
-                                <div style="padding-top:10px;" id='pagination_image`+i+`'>`;
-                                    if(i >= 0 && i<= 19){
-                                        var idx_img = 1;
-                                        if(response[i].images.length != 0){
-                                            for(idx_img; idx_img < response[i].images.length; idx_img++){
-                                                if(idx_img < 5){
-                                                    text+=`<img class="img_hotel_smallbot" src="`+response[i].images[idx_img].url+`" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" width="50" height="50" onclick="go_to_owl_carousel_bottom(`+idx_img+`, `+i+`);">`;
-                                                }
-                                                else{
-                                                    break;
-                                                }
-                                            }
-                                        }
-                                        else{
-                                            text+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
-                                        }
-                                    }
-                                    text+=`
-                                </div>
-                            </div>
-                            <div class="col-lg-5 col-md-5" style="padding-top:5px;">
-                                <div class="row" style="padding:0px;">`;
-                                    text += `<div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                    <span style="font-size:13px; font-weight: 500; text-align:left;">Vendor #1</span>
-                                    </div>
-                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                        <span style="font-size:13px; font-weight: 700; text-align:right;">-</span>
-                                    </div>`;
-                                    text+=`<span class="price_hotel" hidden>Waiting price</span>`;
-                                    text += `
-
-                                    </div>
-                                    <div class="col-lg-12 search_hotel_button" style="text-align:right; position:absolute; bottom:0px; right:0px;">`;
-                                        text+=`<button type="button" class="primary-btn-custom" style="width:100%;" onclick="goto_detail('event',`+i+`)">Select</button>`;
-                                        text+=`
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div style="margin-top:10px;">
+                    <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:5px; font-size:18px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>
+                </div>`;
+                detail = JSON.stringify(response[i]);
+                detail = detail.replace(/'/g, "");
+                text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
+                text+=`
+                <div style="padding-top:5px;">
+                    <i class="fas fa-calendar-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">
+                    15 Mei 2020 - 17 Mei 2020`;
+                text+=`</span>
                 </div>
-                </form>`;
+                <div style="padding-top:5px;">
+                    <i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">
+                    09:00 - 15:00`;
+                text+=`</span>
+                </div>
+                <div style="padding-top:5px;">
+                    <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                    if(response[i].locations.length != 0){
+                        for(g in response[i].locations){
+                            text+= ' ' + response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name;
+                        }
+                    }
+                text+=`</span>
+                </div>
+                <div style="padding-top:5px; padding-bottom:15px;">
+                    Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
+                    if(response[i].locations.length != 0){
+                        for(g in response[i].tags){
+                            text+=`<span class="location_hotel" style="padding:0px 5px; font-size:13px; margin-right:5px; color: `+text_color+`; background: `+color+`;"> `+ response[i].tags[g] +`</span>`;
+                        }
+                    }
+                text+=`
+                </div>
+                <div>
+                    <button type="button" class="primary-btn" style="float:right;" onclick="goto_detail('event',`+i+`)">View More</button>
+                </div></div>
+                </form>
+                </div>`;
                 //tambah button ke detailevent_result_data
-                node.className = 'sorting-box-b';
+                node.className = 'col-lg-4 col-md-4 col-sm-6 col-xs-12';
                 node.innerHTML = text;
                 document.getElementById("event_ticket_objs").appendChild(node);
                 node = document.createElement("div");
@@ -750,46 +702,7 @@ function hotel_filter_render(){
     node2.innerHTML = text;
     document.getElementById("sorting-hotel2").appendChild(node2);
 }
-
-
-//function hotel_room_pick(key){
-//    document.getElementById('hotel_detail_table').innerHTML = '';
-//    if(hotel_room_detail_pick != null){
-//        document.getElementById('button'+hotel_room_detail_pick).innerHTML = 'Choose';
-//    }
-//    document.getElementById('button'+key).innerHTML = 'Unchoose';
-//    hotel_room_detail_pick = key;
-//    hotel_room = hotel_price[key];
-//    for(i in hotel_room.rooms){
-//        text += '<span style="font-weight:bold; font-size:12px;">Rooms: '+ hotel_room.rooms[i].description + ' ('+ hotel_room.rooms[i].category + ')</span></br>';
-//        for(j in hotel_room.rooms[i].nightly_prices){
-//            date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
-//            if(hotel_room.rooms[i].nightly_prices[j].currency != 'IDR')
-//                text += '<div class="row"><div class="col-lg-6"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6"><span>' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + (hotel_room.rooms[i].nightly_prices[j].price + hotel_room.rooms[i].nightly_prices[j].commission)+'</span></div></div>';
-//            else
-//                text += '<div class="row"><div class="col-lg-6"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6"><span> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price + hotel_room.rooms[i].nightly_prices[j].commission)+'</span></div></div>';
-//        }
-//    }
-//
-//    text = '<span>Meal Type: ' + hotel_room.meal_type+'</span><br/>';
-//
-//    text += '<br/><button class="primary-btn-custom" style="width:100%; margin-bottom:15px;" type="button" onclick="goto_passenger();">Next</button>';
-//    document.getElementById('button'+key).innerHTML = 'Unchoose';
-//
-//    document.getElementById('hotel_detail_table').innerHTML = text;
-//
-//
-//}
-function hotel_cancellation_button(key, price_id){
-    // Icon Loading muter disini
-    document.getElementById('js_cancellation_button'+key).innerHTML = '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
-    // Tembak Gateway
-    // Olah Response
-    response = hotel_get_cancellation_policy(price_id, key, '2');
-    //console.log('A:' + response);
-
-}
-
+//Done
 function hotel_room_pick(key){
     document.getElementById('hotel_detail_table').innerHTML = '';
     $text2 = "";
@@ -802,7 +715,6 @@ function hotel_room_pick(key){
     }
     document.getElementById('button'+key).innerHTML = 'Unchoose';
     hotel_room_detail_pick = key;
-    hotel_room = hotel_price[key];
     text='';
     var get_name_hotel = document.getElementById("get_name_hotel").value;
     var get_rating_hotel = document.getElementById("rating_hotel").textContent;
@@ -811,63 +723,16 @@ function hotel_room_pick(key){
     $text2 = ''+ get_name_hotel +' *'+ get_rating_hotel +'\n';
     $text2 += 'Address: '+ get_address_hotel +'\n';
     $text2 += get_date_hotel +'\n\n';
-    for(i in hotel_room.rooms){
-        text += '<h5>'+ hotel_room.rooms[i].description + '</h5>';
-        //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
-        text += '<span>Qty: '+ hotel_room.rooms[i].qty + '<span><br/>';
-        text += '<span>Meal Type: ' + hotel_room.meal_type +'</span/><br/><br/>';
-        //text += '<span style="font-weight:500; padding-top:10px;">Cancellation Policy: </span>';
-        text += '<div id="cancellation_policy_choose">';
-        text += '<span style="font-size:14px; font-weight:500;">PLEASE WAIT ... </span>';
-        text += '</div><br/>';
-
-        //$text2 += 'Room Category: '+ hotel_room.rooms[i].category +'\n';
-        $text2 += hotel_room.rooms[i].description +'\n';
-        $text2 += hotel_room.rooms[i].qty +' room(s) \n';
-        $text2 += 'Meal Type: '+ hotel_room.meal_type +'\n \n';
-
-        response = hotel_get_cancellation_policy(hotel_room.price_code, key, '0');
-
-        text += `<div class="row">`;
-        for(j in hotel_room.rooms[i].nightly_prices){
-            date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
-            if(hotel_room.rooms[i].nightly_prices[j].currency != 'IDR'){
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_room.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_room.rooms[i].nightly_prices[j].price)) + '\n';
-            }else{
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_room.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_room.rooms[i].nightly_prices[j].price)) + '\n';
-            }
-        }
-        var total_room = document.getElementById("hotel_room").value;
-        var total_night = document.getElementById("total_night_search").textContent;
-
-        text += `<div class="col-lg-12"><hr/></div>`;
-        text += `<div class="col-lg-6">
-            <span style="font-weight:bold;">Total</span>
-        </div>
-        <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(parseInt(hotel_room.rooms[i].price_total)) +`</span><br/>
-            <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
-        </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-            text+=`
-            <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)) +`</span><br>
-                </div>
-            </div>`;
-        text += `</div>`;
-
-        $text2 += 'Total: IDR '+getrupiah(parseInt(hotel_room.rooms[i].price_total)) + ' ';
-        $text2 += '(for '+ total_room +' room, ' +total_night+ 'night) \n\n';
-    }
 
     document.getElementById('button'+key).innerHTML = 'Chosen';
     document.getElementById('button'+key).classList.remove("primary-btn-custom");
     document.getElementById('button'+key).classList.add("primary-btn-custom-un");
 
+    console.log('Set Option Key');
+    console.log(key);
+    document.getElementById('event_option_send').value = key;
     document.getElementById('hotel_detail_table').innerHTML = text;
+    hotel_room_pick_button()
 }
 function hotel_room_pick_button(){
     document.getElementById('hotel_detail_button').innerHTML = '';
@@ -904,7 +769,6 @@ function hotel_room_pick_button(){
     text += '<button class="primary-btn" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">Next</button></div>';
     text += `</div>`;
     }
-
     document.getElementById('hotel_detail_button').innerHTML = text;
     $('#not_room_select').hide();
 }
@@ -939,9 +803,9 @@ function show_commission_hotel_price_change(type){
         scs.value = "Show Commission";
     }
 }
-
+//Done
 function goto_passenger(){
-    document.getElementById('hotel_detail_send').value = JSON.stringify(hotel_room);
+    // document.getElementById('hotel_detail_send').value = JSON.stringify(hotel_room);
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('goto_passenger').submit();
 }
@@ -1021,105 +885,12 @@ function check_passenger(adult, child){
                 break;
             }
         }
-        if(booker_copy == 'yes')
-            if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
-               document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
-               document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
-                    error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
-       //adult
-       for(i=1;i<=adult;i++){
-           if(check_name(document.getElementById('adult_title'+i).value,
-            document.getElementById('adult_first_name'+i).value,
-            document.getElementById('adult_last_name'+i).value,
-            length_name) == false){
-               error_log+= 'Total of adult '+i+' name maximum '+length_name+' characters!</br>\n';
-               document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-               document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-               document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_first_name'+i).value == '' || check_word(document.getElementById('adult_first_name'+i).value) == false){
-               if(document.getElementById('adult_first_name'+i).value == '')
-                   error_log+= 'Please input first name of adult passenger '+i+'!</br>\n';
-               else if(check_word(document.getElementById('adult_first_name'+i).value) == false)
-                   error_log+= 'Please use alpha characters first name of adult passenger '+i+'!</br>\n';
-               document.getElementById('adult_first_name'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_first_name'+i).style['border-color'] = '#EFEFEF';
-           }
-           //check lastname
-           if(check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value) != ''){
-               error_log += 'Please '+check_name_airline(document.getElementById('adult_first_name'+i).value, document.getElementById('adult_last_name'+i).value)+' adult passenger '+i+'!</br>\n';
-               document.getElementById('adult_last_name'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-           }
-           if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-               error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
-           }if(document.getElementById('adult_nationality'+i).value == ''){
-               error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
-               document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
-           }else{
-               document.getElementById('adult_nationality'+i).style['border-color'] = '#EFEFEF';
-           }
-           if(document.getElementById('adult_cp'+i).checked == true){
-                if(check_email(document.getElementById('adult_email'+i).value)==false){
-                    error_log+= 'Invalid Contact person email!</br>\n';
-                    document.getElementById('adult_email'+i).style['border-color'] = 'red';
-                }else{
-                    document.getElementById('adult_email'+i).style['border-color'] = '#EFEFEF';
-                }
-                if(check_phone_number(document.getElementById('adult_phone'+i).value)==false){
-                    error_log+= 'Phone number Contact person only contain number 8 - 12 digits!</br>\n';
-                    document.getElementById('adult_phone'+i).style['border-color'] = 'red';
-                }else
-                    document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
-           }
-       }
-       //child
-       for(i=1;i<=child;i++){
-           if(check_name(document.getElementById('child_title'+i).value,
-               document.getElementById('child_first_name'+i).value,
-               document.getElementById('child_last_name'+i).value,
-               length_name) == false){
-                   error_log+= 'Total of child '+i+' name maximum '+length_name+' characters!</br>\n';
-                   document.getElementById('child_first_name'+i).style['border-color'] = 'red';
-                   document.getElementById('child_last_name'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
-                   document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('child_first_name'+i).value == '' || check_word(document.getElementById('child_first_name'+i).value) == false){
-                   if(document.getElementById('child_first_name'+i).value == '')
-                       error_log+= 'Please input first name of child passenger '+i+'!</br>\n';
-                   else if(check_word(document.getElementById('child_first_name'+i).value) == false){
-                       error_log+= 'Please use alpha characters first name of child passenger '+i+'!</br>\n';
-                       document.getElementById('child_first_name'+i).style['border-color'] = 'red';
-                   }
-               }else{
-                   document.getElementById('child_first_name'+i).style['border-color'] = '#EFEFEF';
-               }
-               //check lastname
-               if(check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value) != ''){
-                   error_log+= 'Please '+check_name_airline(document.getElementById('child_first_name'+i).value, document.getElementById('child_last_name'+i).value)+' child passenger '+i+'!</br>\n';
-                   document.getElementById('child_last_name'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('child_last_name'+i).style['border-color'] = '#EFEFEF';
-               }
-               if(check_date(document.getElementById('child_birth_date'+i).value)==false){
-                   error_log+= 'Birth date wrong for passenger child '+i+'!</br>\n';
-                   document.getElementById('child_birth_date'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('child_birth_date'+i).style['border-color'] = '#EFEFEF';
-               }if(document.getElementById('child_nationality'+i).value == ''){
-                   error_log+= 'Please fill nationality for passenger child '+i+'!</br>\n';
-                   document.getElementById('child_nationality'+i).style['border-color'] = 'red';
-               }else{
-                   document.getElementById('child_nationality'+i).style['border-color'] = '#EFEFEF';
-               }
-       }
+        // Fixme
+        //if(booker_copy == 'yes')
+        //    if(document.getElementById('booker_title').value != document.getElementById('adult_title1').value ||
+        //       document.getElementById('booker_first_name').value != document.getElementById('adult_first_name1').value ||
+        //       document.getElementById('booker_last_name').value != document.getElementById('adult_last_name1').value)
+        //            error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
        if(error_log==''){
            for(i=1;i<=adult;i++){
                 document.getElementById('adult_birth_date'+i).disabled = false;
@@ -1127,8 +898,9 @@ function check_passenger(adult, child){
            for(i=1;i<=child;i++){
                 document.getElementById('child_birth_date'+i).disabled = false;
            }
-           document.getElementById('time_limit_input').value = time_limit;
-           document.getElementById('hotel_review').submit();
+           // Fixme
+           //document.getElementById('time_limit_input').value = time_limit;
+           document.getElementById('event_review').submit();
        }
        else{
            Swal.fire({
@@ -1155,175 +927,6 @@ function check_passenger(adult, child){
         $('.btn-next').prop('disabled', false);
         $('.btn-next').removeClass("running");
      }
-}
-
-function hotel_detail(){
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
-        tax = 0;
-        fare = 0;
-        total_price = 0;
-        total_price_provider = [];
-        price_provider = 0;
-        commission = 0;
-        service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
-        type_amount_repricing = ['Repricing'];
-        for(i in adult){
-            pax_type_repricing.push([adult[i].first_name +adult[i].last_name, adult[i].first_name +adult[i].last_name]);
-            price_arr_repricing[adult[i].first_name +adult[i].last_name] = {
-                'Fare': 0,
-                'Tax': 0,
-                'Repricing': 0
-            }
-        }
-        for(i in child){
-            pax_type_repricing.push([child[i].first_name +child[i].last_name, child[i].first_name +child[i].last_name]);
-            price_arr_repricing[child[i].first_name +child[i].last_name] = {
-                'Fare': 0,
-                'Tax': 0,
-                'Repricing': 0
-            }
-        }
-        //repricing
-        text_repricing = `
-        <div class="col-lg-12">
-            <div style="padding:5px;" class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-3">Price</div>
-                <div class="col-lg-3">Repricing</div>
-                <div class="col-lg-3">Total</div>
-            </div>
-        </div>`;
-        for(k in price_arr_repricing){
-           text_repricing += `
-           <div class="col-lg-12">
-                <div style="padding:5px;" class="row" id="adult">
-                    <div class="col-lg-3" id="`+i+`_`+k+`">`+k+`</div>
-                    <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                    if(price_arr_repricing[k].Repricing == 0)
-                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                    else
-                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                    text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                </div>
-            </div>`;
-        }
-        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-        document.getElementById('repricing_div').innerHTML = text_repricing;
-        //repricing
-    }
-
-    //console.log(hotel_price);
-    text = '';
-    text += `
-    <div class="row" style="margin-bottom:5px; ">
-        <div class="col-lg-12">
-           <h4> Price Detail </h4>
-           <hr/>
-        </div>
-    </div>`;
-    $text2 = '';
-    for(i in hotel_price.rooms){
-        text += '<h5>'+ hotel_price.rooms[i].description + '</h5>';
-        text += '<span>Qty: '+ hotel_price.rooms[i].qty + '</span><br/>';
-        //text += '<span> '+ hotel_price.rooms[i].category + '<span><br/>';
-        text += '<span>Meal Type: ' + hotel_price.meal_type + '</span/><br/><br/>';
-
-        //$text2 += 'Room Category: '+ hotel_price.rooms[i].category +'\n';
-        $text2 += hotel_price.rooms[i].description +'\n';
-        $text2 += hotel_price.rooms[i].qty +' room(s) \n';
-        $text2 += 'Meal Type: '+ hotel_price.meal_type +'\n \n';
-
-        text += `<div class="row">`;
-        for(j in hotel_price.rooms[i].nightly_prices){
-            date = new Date(hotel_price.rooms[i].nightly_prices[j].date).toString().split(' ');
-            if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
-            }else{
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
-            }
-        }
-        try{
-            grand_total_price = parseInt(hotel_price.rooms[i].price_total);
-        }catch(err){}
-        text += `<div class="col-lg-12"><hr/></div>`;
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
-            text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
-        }
-        try{
-            if(upsell_price != 0){
-                text+=`<div class="col-lg-7" style="text-align:left;">
-                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
-                </div>
-                <div class="col-lg-5" style="text-align:right;">`;
-                text+=`
-                    <span style="font-size:13px; font-weight:500;">IDR `+getrupiah(upsell_price)+`</span><br/>`;
-                text+=`</div>`;
-                grand_total_price += upsell_price;
-            }
-        }catch(err){console.log(err)}
-        text += `<div class="col-lg-6">
-            <span style="font-weight:bold;">Total</span>
-        </div>
-        <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(grand_total_price) +`</span>
-        </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-            text+=`
-            <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
-                </div>
-            </div>`;
-        try{
-            if(adult.length > 0){
-                $text2 += '\nPassengers\n'
-                for(k in adult){
-                    $text2 += adult[k].title + ' ' + adult[k].first_name + ' ' + adult[k].last_name+'\n';
-                }
-                for(k in child){
-                    $text2 += child[k].title + ' ' + child[k].first_name + ' ' + child[k].last_name+'\n';
-                }
-            }
-            $text2 += '\n';
-        }catch(err){}
-        $text2 += 'Grand Total: IDR ' + getrupiah(parseInt(hotel_price.rooms[i].price_total)) + '\n';
-
-        text += `<div class="col-lg-12" style="padding-bottom:15px;">
-            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-            share_data2();
-            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                text+=`
-                    <a href="https://wa.me/?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                    <a href="line://msg/text/`+ $text_share2 +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-            } else {
-                text+=`
-                    <a href="https://web.whatsapp.com/send?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share2 +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share2" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-            }
-        text +=`</div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-            text += `<div class="col-lg-12">
-                <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
-            </div>`;
-        text += `
-        <div class="col-lg-12" style="padding-top:10px;">
-            <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
-        </div>`;
-
-
-        text += `</div>`;
-    }
-    //console.log(text);
-    try{
-        document.getElementById('hotel_detail').innerHTML = text;
-    }catch(err){}
 }
 
 function hotel_review_price_total(prices){
@@ -1401,210 +1004,9 @@ function check_all_result(){
    checkboxCopy();
 }
 
-function get_checked_copy_result(){
-    document.getElementById("show-list-copy-hotel").innerHTML = '';
-
-    var search_params = document.getElementById("show-list-copy-hotel").innerHTML = '';
-
-    var value_idx = [];
-    $("#hotel_search_params .copy_span").each(function(obj) {
-        value_idx.push( $(this).text() );
-    })
-
-    text='';
-    //$text='Search: '+value_idx[0]+'\n'+value_idx[1].trim()+'\nDate: '+value_idx[2]+'\n'+value_idx[3]+'\n\n';
-    $text= value_idx[0]+'\n'+value_idx[1].trim()+'\n\n';
-    var hotel_number = 0;
-    node = document.createElement("div");
-    text+=`<div class="col-lg-12" style="min-height=200px; max-height:500px; overflow-y: scroll;">`;
-    $(".copy_result:checked").each(function(obj) {
-        var parent_hotel = $(this).parent().parent().parent().parent();
-        var name_hotel = parent_hotel.find('.name_hotel').html();
-        var rating_hotel = parent_hotel.find('.rating_hotel').html();
-        var location_hotel = parent_hotel.find('.location_hotel').html();
-        var price_hotel = parent_hotel.find('.price_hotel').html();
-        var id_hotel = parent_hotel.find('.id_copy_result').html();
-        hotel_number = hotel_number + 1;
-        $text += ''+hotel_number+'. '+name_hotel+ ' ' +rating_hotel+'\n';
-        $text += 'Location: '+location_hotel+'\n';
-        $text += 'Price start from: '+price_hotel+'\n \n';
-        text+=`
-            <div class="row" id="div_list`+id_hotel+`">
-                <div class="col-lg-8">
-                    <h6>`+hotel_number+`. `+name_hotel+` `+rating_hotel+ `</h6>
-                    <span>Location: `+location_hotel+`</span><br/>
-                    <span style="font-weight:500;">Best Price: `+price_hotel+`</span>
-                </div>
-                <div class="col-lg-4" style="text-align:right;">
-                    <span style="font-weight:500; cursor:pointer;" onclick="delete_checked_copy_result(`+id_hotel+`);">Delete <i class="fas fa-times-circle" style="color:red; font-size:18px;"></i></span>
-                </div>
-                <div class="col-lg-12"><hr/></div>
-            </div>`;
-        });
-    $text += '\n===Price may change at any time===';
-    text+=`</div>
-    <div class="col-lg-12" style="margin-bottom:15px;" id="share_result">
-        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-        share_data();
-        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-        if (isMobile) {
-            text+=`
-                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>`;
-            if(hotel_number < 11){
-                text+=`
-                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>`;
-            }
-            else{
-                text+=`
-                <a href="#" target="_blank" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png"/></a>
-                <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png"/></a>`;
-            }
-            text+=`
-                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-        } else {
-            text+=`
-                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>`;
-            if(hotel_number < 11){
-                text+=`
-                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>`;
-            }
-            else{
-                text+=`
-                <a href="#" title="Share by Line" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line-gray.png"/></a>
-                <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png"/></a>`;
-            }
-            text+=`
-                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
-        }
-        if(hotel_number > 10){
-            text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Hotel</span>`;
-        }
-    text+=`
-    </div>
-    <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
-    </div>`;
-    node.innerHTML = text;
-    node.className = "row";
-    document.getElementById("show-list-copy-hotel").appendChild(node);
-
-    if(hotel_number > 10){
-        document.getElementById("mobile_line").style.display = "none";
-        document.getElementById("mobile_telegram").style.cursor = "not-allowed";
-        document.getElementById("pc_line").style.display = "not-allowe";
-        document.getElementById("pc_telegram").style.cursor = "not-allowed";
-    }
-
-    var count_copy = $(".copy_result:checked").length;
-    if (count_copy == 0){
-        $('#choose-hotel-copy').show();
-        $("#share_result").remove();
-        $("#copy_result").remove();
-        $text = '';
-        $text_share = '';
-    }
-    else{
-        $('#choose-hotel-copy').hide();
-    }
-}
-
-function delete_checked_copy_result(id){
-    $("#div_list"+id).remove();
-    $("#copy_result"+id).prop("checked", false);
-    checkboxCopyBox(id, event_objs_length)
-    var count_copy = $(".copy_result:checked").length;
-    if (count_copy == 0){
-        $('#choose-hotel-copy').show();
-        $("#share_result").remove();
-        $("#copy_result").remove();
-        $text = '';
-        $text_share = '';
-    }
-    else{
-        $('#choose-hotel-copy').hide();
-        get_checked_copy_result();
-        share_data();
-    }
-    checkboxCopy();
-}
-
-function copy_data(){
-    try{
-        get_checked_copy_result();
-    }catch(err){}
-    document.getElementById('data_copy').innerHTML = $text;
-    document.getElementById('data_copy').hidden = false;
-    var el = document.getElementById('data_copy');
-    el.select();
-    document.execCommand('copy');
-    document.getElementById('data_copy').hidden = true;
-
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    })
-
-    Toast.fire({
-      type: 'success',
-      title: 'Copied Successfully'
-    })
-}
-
-function copy_data2(){
-    var obj_hotel_name = document.getElementById('js_hotel_name');
-    $text_print = '';
-    console.log($text2);
-    if (obj_hotel_name != null){
-        obj_hotel_name = obj_hotel_name.innerHTML;
-        $text_print = obj_hotel_name+'\n' + $text2+'\n===Price may change at any time===';
-    }else{
-        console.log('asdadas');
-        $text_print = $text2+'\n===Price may change at any time===';
-    }
-    document.getElementById('data_copy2').innerHTML = $text_print;
-    document.getElementById('data_copy2').hidden = false;
-    var el = document.getElementById('data_copy2');
-    el.select();
-    document.execCommand('copy');
-    document.getElementById('data_copy2').hidden = true;
-
-    const Toast = Swal.mixin({
-      toast: true,
-      position: 'top-end',
-      showConfirmButton: false,
-      timer: 3000
-    })
-
-    Toast.fire({
-      type: 'success',
-      title: 'Copied Successfully'
-    })
-}
-
-function share_data(){
-    const el = document.createElement('textarea');
-    el.value = $text;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    $text_share = window.encodeURIComponent($text);
-}
-
-function share_data2(){
-    const el = document.createElement('textarea');
-    el.value = $text2;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    $text_share2 = window.encodeURIComponent($text2);
-}
-
+//get_checked_copy_result
+//delete_checked_copy_result
+//copy_data, copy_data2, share_data, share_data2
 
 $check_load = 0;
 $check_ps = 0;

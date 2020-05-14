@@ -6,8 +6,8 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_hotel.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/hotel_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_event.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/event_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_printout.js?version={{javascript_version}}"></script>
@@ -17,11 +17,6 @@
     signature = '{{signature}}';
     time_limit = {{time_limit}};
     session_time_limit();
-    facilities = `{{hotel_pick.facilities}}`;
-    facilities = facilities.replace(/&#39;/g, '"');
-    facilities = facilities.replace(/&quot;/g, '"');
-    facilities = facilities.replace(/False/g, 'false');
-    facilities = facilities.replace(/True/g, 'true');
     adult = `{{adults}}`;
     adult = adult.replace(/True/g, 'true');
     adult = adult.replace(/False/g, 'false');
@@ -32,11 +27,6 @@
     booker = booker.replace(/False/g, 'false');
     booker = booker.replace(/&#39;/g, '"');
     booker = JSON.parse(booker);
-    child = `{{childs}}`;
-    child = child.replace(/True/g, 'true');
-    child = child.replace(/False/g, 'False');
-    child = child.replace(/&#39;/g, '"');
-    child = JSON.parse(child);
     hotel = `{{hotel_pick}}`;
     hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""');
     hotel_pick_provider = `{{hotel_room_detail_pick}}`;
@@ -56,7 +46,7 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 {% include 'tt_website_rodextrip/check_connection.html' %}
-<title id="title_search">{{name}} Hotel - {% trans 'Review' %}</title>
+<title id="title_search">{{name}} Event - {% trans 'Review' %}</title>
 <div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 
 {%if template == 1%}
@@ -121,60 +111,33 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="hotel_review" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> {% trans 'Hotel Detail' %} </h4>
+                                <h4> {% trans 'Booking Event Review' %} </h4>
                                 <hr/>
-                                <span style="font-size:20px; font-weight:bold; color:black;">{{hotel_pick.name}}</span>
+                                <span style="font-size:20px; font-weight:bold; color:black;">{{event_code.name}}</span>
+                                <br/>
+
                                 <span>
-                                    {% for i in "x"|rjust:hotel_pick.rating %}
-                                    {% if hotel_pick.rating == 0 %}
-                                    (Unrated)
-                                    {% else %}
-                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                    {% endif %}
+                                    <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
+                                    <ul>
+                                    {% for location in event_code.locations%}
+                                        <li>
+                                        {% if location.location_name != False %}{{location.location_name}}{% endif %},
+                                        {% if location.location_address != False %}{{location.location_address}}{% endif %},
+                                        {% if location.city_name != False %}{{location.city_name}}{% endif %},
+                                        {% if location.country_name != False %}{{location.country_name}}{% endif %}
+                                        - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{location.lat}}, {{location.long}})</a>
+                                        </li>
                                     {% endfor %}
+                                    </ul>
                                 </span><br/>
-
-                                <span>
-                                <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                                    {% if hotel_pick.location.address != False %}
-                                    {{hotel_pick.location.address}}
-                                    {% endif %}
-                                    {% if hotel_pick.location.city != False %}
-                                    {{hotel_pick.location.city}}
-                                    {% endif %}
-                                    {% if hotel_pick.location.kelurahan != False %}
-                                    {{hotel_pick.location.kelurahan}}
-                                    {% endif %}
-                                    {% if hotel_pick.location.state != False %}
-                                    {{hotel_pick.location.state}}
-                                    {% endif %}
-                                    {% if hotel_pick.location.zipcode != False %}
-                                    {{hotel_pick.location.zipcode}}
-                                    {% endif %}
-
-                                    <!-- - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{hotel_pick.lat}}, {{hotel_pick.long}})</a> -->
-                                </span>
-                                <br/>
-                                <span style="text-align:justify; font-weight:bold;">{% trans 'Date' %}: </span>{{hotel_search.checkin_date}} - {{hotel_search.checkout_date}}<br/>
-                                <span style="text-align:justify; font-weight:bold;">{% trans 'Room' %}: </span>
-                                {% for room in hotel_room_detail_pick.rooms %}
-                                {% with forloop.counter as counter_room %}
-                                <span>{{room.type}} - {{room.description}}</span>
-                                <br/>
-
-
-                                {% endwith %}
+                                <span style="text-align:justify; font-weight:bold;">{% trans 'Extra Question' %}: </span><br/>
+                                <ul>
+                                {% for rec in event_extra_question %}
+                                    <li>{{rec.que}}: {{rec.ans}}</li>
                                 {% endfor %}
-                                <br/>
-                                <span>
-                                    <span style="text-align:justify; font-weight:bold;">{% trans 'Facilities' %}:</span><br/>
-                                    <div id="js_image_facility" class="row">
-
-                                    </div>
-                                </span>
-                                <br/>
+                                </ul><br/>
                                 <span style="text-align:justify; font-weight:bold;">{% trans 'Customer Notes' %}: </span><br/>
-                                {{special_request}}{% if special_request == '' %} No Special Request {% endif %}<br/>
+                                No Special Request<br/>
                             </div>
                         </div>
 
@@ -210,13 +173,6 @@
                                                 <td>{{adult.birth_date}}</td>
                                             </tr>
                                             {% endfor %}
-
-                                            {% for child in childs %}
-                                            <tr>
-                                                <td>{{child.title}} {{child.first_name}} {{child.last_name}}</td>
-                                                <td>{{child.birth_date}}</td>
-                                            </tr>
-                                            {% endfor %}
                                         </table>
                                     </div>
                                 </div>
@@ -248,16 +204,9 @@
                         <div class="col-lg-12">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
-                                {% if 'b2c_limitation' not in username.co_agent_frontend_security%}
-                                <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert(1);">
-                                    {% trans 'Issued Booking' %}
+                                <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" id="issued_event_btn" onclick="event_issued_alert(0);">
+                                    {% trans 'Hold Booking' %}
                                 </button>
-                                {% endif %}
-                            {% endif %}
-                            {% if 'b2c_limitation' in username.co_agent_frontend_security%}
-                            <button class="primary-btn issued_booking_btn" type="button" style="width:100%; margin-top:15px;" disabled id="issued_hotel_btn" onclick="hotel_issued_alert(0);">
-                                {% trans 'Hold Booking' %}
-                            </button>
                             {% endif %}
                         </div>
                     </div>
@@ -360,22 +309,11 @@
                         </div>
                     </div>
                 </div>
-                <!--<div class="col-lg-8">-->
-                    <!--<div class="row">-->
-                        <!--<div class="col-lg-8"></div>-->
-                        <!--<div class="col-lg-4" style="padding-bottom:10px;">-->
-                            <!--<button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" id="btn-issued-hotel" type="button" value="Issued Booking" onclick="hotel_issued_alert();" style="width:100%;">-->
-                                <!--Issued Booking-->
-                                <!--<div class="ld ld-ring ld-cycle"></div>-->
-                            <!--</button>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</div>-->
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
         </form>
         <input type="hidden" id="order_number"/>
-        <form method="POST" id="hotel_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+        <form method="POST" id="event_booked" action="{% url 'tt_website_rodextrip:payment'%}">
             {% csrf_token %}
             <input type="hidden" id="passengers" name="passengers"/>
             <input type="hidden" id="signature" name="signature"/>
@@ -392,9 +330,6 @@
 
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
-    hotel_detail();
-    hotel_facility_request(facilities);
-    hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
       breadcrumb_create("hotel", 5, 0);

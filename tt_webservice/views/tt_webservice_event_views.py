@@ -53,8 +53,12 @@ def api_models(request):
             res = search(request)
         elif req_data['action'] == 'detail':
             res = detail(request)
-        elif req_data['action'] == 'issued':
+        elif req_data['action'] == 'extra_question':
+            res = extra_question(request)
+        elif req_data['action'] == 'create_booking':
             res = create_booking(request)
+        elif req_data['action'] == 'issued':
+            res = issued_booking(request)
         elif req_data['action'] == 'get_booking':
             res = get_booking(request)
         elif req_data['action'] == 'update_service_charge':
@@ -183,22 +187,19 @@ def search(request):
 
 def detail(request):
     try:
-        data = request.session['hotel_request_data']
+        data = request.session['event_request_data']
         data.update({
-            'hotel_id': request.session['hotel_detail']['id'],
-            'checkin_date': request.POST['checkin_date'] and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or data['checkin_date'],
-            'checkout_date': request.POST['checkout_date'] and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or data['checkout_date'],
-            'pax_country': False
+            'event_code': request.session['event_code'].get('id') or 1,
         })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_details",
-            "signature": request.session['hotel_signature'],
+            "signature": request.session['event_signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
     try:
         signature = copy.deepcopy(request.session['hotel_signature'])
         request.session['hotel_error'] = {
@@ -216,7 +217,157 @@ def detail(request):
     return res
 
 
+def extra_question(request):
+    try:
+        data = {
+            'event_code': request.session['event_code'].get('id') or 1,
+            'option_code': '',
+            'provider': 'event_internal',
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "extra_question",
+            "signature": request.session['event_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
+    try:
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['event_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
+        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_error']))
+        request.session.modified = True
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+
 def create_booking(request):
+    try:
+        passenger = []
+        javascript_version = get_cache_version()
+        response = get_cache_data(javascript_version)
+        for pax_type in request.session['event_review_pax']:
+            if pax_type != 'contact' and pax_type != 'booker':
+                for pax in request.session['hotel_review_pax'][pax_type]:
+                    if pax['nationality_name'] != '':
+                        for country in response['result']['response']['airline']['country']:
+                            if pax['nationality_name'] == country['name']:
+                                pax['nationality_code'] = country['code']
+                                break
+                    try:
+                        pax.update({
+                            'birth_date': '%s-%s-%s' % (
+                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                                pax['birth_date'].split(' ')[0]),
+                        })
+                    except:
+                        pass
+                    passenger.append(pax)
+        booker = request.session['event_review_pax']['booker']
+        contacts = request.session['event_review_pax']['contact']
+        for country in response['result']['response']['airline']['country']:
+            if booker['nationality_name'] == country['name']:
+                booker['nationality_code'] = country['code']
+                booker['country_code'] = country['code']
+                break
+
+        for pax in contacts:
+            for country in response['result']['response']['airline']['country']:
+                if pax['nationality_name'] == country['name']:
+                    pax['nationality_code'] = country['code']
+                    break
+        data = {
+            "passengers": passenger,
+            'user_id': request.session.get('co_uid') or '',
+            'promotion_codes_booking': [],
+            # Must set as list prepare buat issued multi vendor
+            "contact": contacts,
+            "booker": booker,
+            'kwargs': {
+                'force_issued': bool(int(request.POST['force_issued']))
+            },
+        }
+
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "create_booking",
+            "signature": request.session['event_signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+
+    try:
+        request.session['hotel_booking'] = res['result']['response']
+        signature = copy.deepcopy(request.session['hotel_signature'])
+        request.session['hotel_error'] = {
+            'error_code': res['result']['error_code'],
+            'signature': signature
+        }
+        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_booking']))
+        request.session.modified = True
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.session['hotel_signature'])
+        else:
+            logging.getLogger("error_logger").error("provision_hotel HOTEL ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+
+def get_booking(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_booking",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+
+    try:
+        request.session['hotel_provision'] = res
+        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_provision']))
+        request.session.modified = True
+        if res['result']['error_code'] == 0:
+            res['result']['response'].update({
+                'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
+                'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
+            })
+            for room in res['result']['response']['hotel_rooms']:
+                room.update({
+                    'date': convert_string_to_date_to_string_front_end_with_date(room['date'].split(' ')[0])
+                })
+            for pax in res['result']['response']['passengers']:
+                pax.update({
+                    'birth_date': convert_string_to_date_to_string_front_end(pax['birth_date'])
+                })
+            logging.getLogger("info_logger").info("get_booking_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_booking_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+
+    return res
+
+
+def issued_booking(request):
     try:
         passenger = []
         javascript_version = get_cache_version()
@@ -323,45 +474,6 @@ def create_booking(request):
 
     return res
 
-def get_booking(request):
-    try:
-        data = {
-            'order_number': request.POST['order_number'],
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "get_booking",
-            "signature": request.POST['signature'],
-        }
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
-
-    try:
-        request.session['hotel_provision'] = res
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_provision']))
-        request.session.modified = True
-        if res['result']['error_code'] == 0:
-            res['result']['response'].update({
-                'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
-                'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
-            })
-            for room in res['result']['response']['hotel_rooms']:
-                room.update({
-                    'date': convert_string_to_date_to_string_front_end_with_date(room['date'].split(' ')[0])
-                })
-            for pax in res['result']['response']['passengers']:
-                pax.update({
-                    'birth_date': convert_string_to_date_to_string_front_end(pax['birth_date'])
-                })
-            logging.getLogger("info_logger").info("get_booking_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
-        else:
-            logging.getLogger("error_logger").error("get_booking_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-
-    return res
 
 def update_service_charge(request):
     # nanti ganti ke get_ssr_availability
