@@ -1,4 +1,6 @@
 var hotel_room_detail_pick = null;
+var category_tooltip = '';
+var max_category = 3;
 
 function search_hotel(val){
     clearTimeout(myVar);
@@ -307,10 +309,10 @@ function sort(response, check_filter){
             for(i in response){
                 text = '<div class="sorting-box-b"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
                 if(response[i].images.length != 0){
-                    text+=`<div class="img-hotel-search" style="cursor:pointer; background-image: url(`+response[i].images[0].url+`);" onclick="goto_detail('event',`+i+`)"></div>`;
+                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url(`+response[i].images[0].url+`);" onclick="goto_detail('event',`+i+`)"></div>`;
                 }
                 else{
-                    text+=`<div class="img-hotel-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>`;
+                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>`;
                 }
                 text+=`
                 <div style="margin-top:10px;">
@@ -339,22 +341,35 @@ function sort(response, check_filter){
                     }
                 text+=`</span>
                 </div>
-                <div style="padding-top:5px; padding-bottom:15px;">
+                <div style="padding-top:5px; padding-bottom:15px; min-height:120px; word-break:break-word;">
                     Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
                     if(response[i].locations.length != 0){
+                        var count_category = 0;
+                        category_tooltip = '';
                         for(g in response[i].tags){
-                            text+=`<span class="location_hotel" style="padding:0px 5px; font-size:13px; margin-right:5px; color: `+text_color+`; background: `+color+`;"> `+ response[i].tags[g] +`</span>`;
+                            if(count_category < max_category){
+                                text+=`<span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].tags[g] +` </span>`;
+                            }else{
+                                text += `<span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].tags[g] +` </span>`;
+                            }
+                            count_category = count_category + 1;
+                        }
+
+                        if(response[i].tags.length > max_category){
+                            var category_more = response[i].tags.length - max_category;
+                            var total_category = response[i].tags.length;
+                            text+=`<br/><span class="tags_btn_rsv" id="category_list_more`+i+`" style="margin-top:5px; max-width:80px;" onclick="display_tags_event(`+i+`, `+total_category+`);"> `+ category_more +` More</span>`;
                         }
                     }
                 text+=`
                 </div>
                 <div>
-                    <button type="button" class="primary-btn" style="float:right;" onclick="goto_detail('event',`+i+`)">View More</button>
+                    <button type="button" class="primary-btn-custom" style="float:right; width:100%;" onclick="goto_detail('event',`+i+`)">See Details</button>
                 </div></div>
                 </form>
                 </div>`;
                 //tambah button ke detailevent_result_data
-                node.className = 'col-lg-4 col-md-4 col-sm-6 col-xs-12';
+                node.className = 'col-lg-4 col-md-6 col-sm-6 col-xs-12';
                 node.innerHTML = text;
                 document.getElementById("event_ticket_objs").appendChild(node);
                 node = document.createElement("div");
@@ -733,6 +748,15 @@ function hotel_room_pick(key){
     document.getElementById('event_option_send').value = key;
     document.getElementById('hotel_detail_table').innerHTML = text;
     hotel_room_pick_button()
+}
+function share_data2(){
+    const el = document.createElement('textarea');
+    el.value = $text2;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    $text_share2 = window.encodeURIComponent($text2);
 }
 function hotel_room_pick_button(){
     document.getElementById('hotel_detail_button').innerHTML = '';
@@ -1232,4 +1256,13 @@ function reset_filter(){
         document.getElementById("rating_filter2"+i).checked = rating_list[i].status;
     }
     filtering('filter');
+}
+
+function display_tags_event(idx, total_category){
+    var display_more = document.getElementById('category_list_more'+idx);
+    display_more.style.display = "none";
+
+    for(i = 3; i < total_category; i++){
+        document.getElementById('tags_more'+idx+i).style.display = "inline-block";
+    }
 }

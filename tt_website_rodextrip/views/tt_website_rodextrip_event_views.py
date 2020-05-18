@@ -397,17 +397,20 @@ def booking(request, order_number):
     try:
         javascript_version = get_javascript_version()
         values = get_data_template(request)
-        request.session['hotel_order_number'] = base64.b64decode(order_number).decode('ascii')
+        try:
+            request.session['event_order_number'] = base64.b64decode(order_number).decode('ascii')
+        except:
+            request.session['event_order_number'] = order_number
         if 'user_account' not in request.session:
             signin_btc(request)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
-            'order_number': request.session['hotel_order_number'],
+            'order_number': request.session['event_order_number'],
             'static_path_url_server': get_url_static_path(),
             'javascript_version': javascript_version,
         })
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
-    return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)
+    return render(request, MODEL_NAME + '/event/05_event_booking_templates.html', values)
