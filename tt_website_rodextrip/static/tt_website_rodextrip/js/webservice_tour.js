@@ -96,17 +96,20 @@ function get_tour_config(type, val){
 
             for(i in msg.tour_countries){
                 var city = [];
-                for(j in msg.tour_countries[i].city.response)
+                for(j in msg.tour_countries[i].states)
                 {
-                    city.push({
-                        'name': msg.tour_countries[i].city.response[j].name,
-                        'id': msg.tour_countries[i].city.response[j].id
-                    });
+                    for(k in msg.tour_countries[i].states[j].cities)
+                    {
+                        city.push({
+                            'name': msg.tour_countries[i].states[j].cities[k].name,
+                            'id': msg.tour_countries[i].states[j].cities[k].uuid
+                        });
+                    }
                 }
                 tour_country.push({
                     'city': city,
                     'name': msg.tour_countries[i].name,
-                    'id': msg.tour_countries[i].id
+                    'id': msg.tour_countries[i].uuid
                 });
             }
 

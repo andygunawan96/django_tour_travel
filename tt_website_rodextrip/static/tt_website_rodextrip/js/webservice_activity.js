@@ -96,46 +96,50 @@ function get_activity_config(type, val){
        success: function(msg) {
             console.log(msg);
             activity_country = [];
+            activity_categories = [];
             sub_category = {};
 
             var country_selection = document.getElementById('activity_countries');
             var type_selection = document.getElementById('activity_type');
             var category_selection = document.getElementById('activity_category');
 
-            for(i in msg.activity_countries){
-                var city = [];
-                for(j in msg.activity_countries[i].city.response)
+            for(i in msg.activity_locations){
+                for(j in msg.activity_locations[i].countries)
                 {
-                    city.push({
-                        'name': msg.activity_countries[i].city.response[j].name,
-                        'id': msg.activity_countries[i].city.response[j].id
+                    var city = [];
+                    for(k in msg.activity_locations[i].countries[j].states)
+                    {
+                        for(l in msg.activity_locations[i].countries[j].states[k].cities)
+                        {
+                            city.push({
+                                'name': msg.activity_locations[i].countries[j].states[k].cities[l].name,
+                                'id': msg.activity_locations[i].countries[j].states[k].cities[l].uuid
+                            });
+                        }
+                    }
+                    activity_country.push({
+                        'city': city,
+                        'name': msg.activity_locations[i].countries[j].name,
+                        'id': msg.activity_locations[i].countries[j].uuid
                     });
                 }
-                activity_country.push({
-                    'city': city,
-                    'name': msg.activity_countries[i].name,
-                    'id': msg.activity_countries[i].id
-                });
             }
 
-            for (key in msg.activity_sub_categories)
+            for (i in msg.activity_categories.data)
             {
-                if (msg.activity_sub_categories.hasOwnProperty(key)) {
-                    var sub_category_list = [];
-                    var name = '';
-                    for (i in msg.activity_sub_categories[key])
-                    {
-                        name = msg.activity_sub_categories[key][i].name;
-                        if(name.search('amp;') !== -1){
-                            name = name.replace(/&amp;/g, '&');
-                        }
-                        sub_category_list.push({
-                            'name': name,
-                            'id': msg.activity_sub_categories[key][i].id
-                        });
-                    }
-                    sub_category[key.replace(/&amp;/g, '&')] = sub_category_list;
+                var sub_cats = [];
+                for(j in msg.activity_categories.data[i].children)
+                {
+                    sub_cats.push({
+                        'name': msg.activity_categories.data[i].children[j].name,
+                        'id': msg.activity_categories.data[i].children[j].uuid
+                    });
                 }
+                activity_categories.push({
+                    'sub_categories': sub_cats,
+                    'name': msg.activity_categories.data[i].name,
+                    'id': msg.activity_categories.data[i].uuid
+                });
             }
 
             country_txt = '';
@@ -172,16 +176,16 @@ function get_activity_config(type, val){
                 {
                     type_txt += `<option value="0">All Types</option>`;
                 }
-                for(i in msg.activity_types)
+                for(i in msg.activity_types.data)
                 {
-                    if (msg.activity_types[i].id == parsed_type)
+                    if (msg.activity_types.data[i].uuid == parsed_type)
                     {
-                        type_txt += `<option value="`+msg.activity_types[i].id+`" selected>`+msg.activity_types[i].name+`</option>`;
-                        document.getElementById('search_type_name').innerHTML = msg.activity_types[i].name;
+                        type_txt += `<option value="`+msg.activity_types.data[i].uuid+`" selected>`+msg.activity_types.data[i].name+`</option>`;
+                        document.getElementById('search_type_name').innerHTML = msg.activity_types.data[i].name;
                     }
                     else
                     {
-                        type_txt += `<option value="`+msg.activity_types[i].id+`">`+msg.activity_types[i].name+`</option>`;
+                        type_txt += `<option value="`+msg.activity_types.data[i].uuid+`">`+msg.activity_types.data[i].name+`</option>`;
                     }
                 }
 
@@ -193,16 +197,16 @@ function get_activity_config(type, val){
                 {
                     category_txt += `<option value="0">All Categories</option>`;
                 }
-                for(i in msg.activity_categories)
+                for(i in activity_categories)
                 {
-                    if (msg.activity_categories[i].id == parsed_category)
+                    if (activity_categories[i].uuid == parsed_category)
                     {
-                        category_txt += `<option value="`+msg.activity_categories[i].id+` - `+msg.activity_categories[i].name+`" selected>`+msg.activity_categories[i].name+`</option>`;
-                        document.getElementById('search_category_name').innerHTML = msg.activity_categories[i].name;
+                        category_txt += `<option value="`+activity_categories[i].id+` - `+activity_categories[i].name+`" selected>`+activity_categories[i].name+`</option>`;
+                        document.getElementById('search_category_name').innerHTML = activity_categories[i].name;
                     }
                     else
                     {
-                        category_txt += `<option value="`+msg.activity_categories[i].id+` - `+msg.activity_categories[i].name+`">`+msg.activity_categories[i].name+`</option>`;
+                        category_txt += `<option value="`+activity_categories[i].id+` - `+activity_categories[i].name+`">`+activity_categories[i].name+`</option>`;
                     }
                 }
             }
@@ -215,15 +219,15 @@ function get_activity_config(type, val){
                 }
 
                 type_txt += `<option value="0" selected="">All Types</option>`;
-                for(i in msg.activity_types)
+                for(i in msg.activity_types.data)
                 {
-                    type_txt += `<option value="`+msg.activity_types[i].id+`">`+msg.activity_types[i].name+`</option>`;
+                    type_txt += `<option value="`+msg.activity_types.data[i].uuid+`">`+msg.activity_types.data[i].name+`</option>`;
                 }
 
                 category_txt += `<option value="0" selected="">All Categories</option>`;
-                for(i in msg.activity_categories)
+                for(i in activity_categories)
                 {
-                    category_txt += `<option value="`+msg.activity_categories[i].id+` - `+msg.activity_categories[i].name+`">`+msg.activity_categories[i].name+`</option>`;
+                    category_txt += `<option value="`+activity_categories[i].id+` - `+activity_categories[i].name+`">`+activity_categories[i].name+`</option>`;
                 }
             }
             if(country_txt != ''){

@@ -114,20 +114,18 @@ def get_data(request):
         temp_data = get_cache_data(cache_version)
 
         response = {
-            'activity_countries': temp_data['result']['response']['activity']['countries'],
+            'activity_locations': temp_data['result']['response']['activity']['locations'],
             'activity_types': temp_data['result']['response']['activity']['types'],
             'activity_categories': temp_data['result']['response']['activity']['categories'],
-            'activity_sub_categories': temp_data['result']['response']['activity']['sub_categories'],
         }
 
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data ACTIVITY SIGNATURE " + request.POST['signature'])
     except Exception as e:
         response = {
-            'activity_countries': [],
+            'activity_locations': [],
             'activity_types': [],
             'activity_categories': [],
-            'activity_sub_categories': [],
         }
 
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
