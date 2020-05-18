@@ -27,20 +27,6 @@
     booker = booker.replace(/False/g, 'false');
     booker = booker.replace(/&#39;/g, '"');
     booker = JSON.parse(booker);
-    hotel = `{{hotel_pick}}`;
-    hotel = hotel.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""');
-    hotel_pick_provider = `{{hotel_room_detail_pick}}`;
-    hotel_pick_provider = JSON.parse(hotel_pick_provider.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""'));
-    upsell_price = {{upsell}};
-    hotel_price = `{{hotel_room_detail_pick}}`;
-    hotel_price = hotel_price.replace(/&#39;/g, '"');
-    hotel_price = hotel_price.replace(/&quot;/g, '"');
-    hotel_price = hotel_price.replace(/False/g, 'false');
-    hotel_price = hotel_price.replace(/True/g, 'true');
-    hotel_price = hotel_price.replace(/None/g, '[]');
-
-    hotel_price = JSON.parse(hotel_price);
-
 </script>
 
 {% include 'tt_website_rodextrip/logout.html' %}
@@ -117,10 +103,10 @@
                                 <br/>
 
                                 <span>
-                                    <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
                                     <ul>
                                     {% for location in event_code.locations%}
                                         <li>
+                                        <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
                                         {% if location.location_name != False %}{{location.location_name}}{% endif %},
                                         {% if location.location_address != False %}{{location.location_address}}{% endif %},
                                         {% if location.city_name != False %}{{location.city_name}}{% endif %},
@@ -130,6 +116,17 @@
                                     {% endfor %}
                                     </ul>
                                 </span><br/>
+                                <span style="text-align:justify; font-weight:bold;">{% trans 'Description' %}: </span><br/>
+                                {{event_code.description}}<br/>
+                                <span style="text-align:justify; font-weight:bold;">{% trans 'Selected Options' %}: </span><br/>
+                                <ul>
+                                {% for rec in event_code.option %}
+                                    {% if rec.option_id == event_option_code%}
+                                    <li>{{rec.grade}}: {{rec.min_qty}} Ticket(s) @ {{rec.currency}} {{rec.price}}</li>
+                                    {% endif %}
+                                {% endfor %}
+                                </ul><br/>
+
                                 <span style="text-align:justify; font-weight:bold;">{% trans 'Extra Question' %}: </span><br/>
                                 <ul>
                                 {% for rec in event_extra_question %}
@@ -312,8 +309,7 @@
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
         </form>
-        <input type="hidden" id="order_number"/>
-        <form method="POST" id="event_booked" action="{% url 'tt_website_rodextrip:payment'%}">
+        <form method="POST" id="event_payment" action="{% url 'tt_website_rodextrip:payment'%}">
             {% csrf_token %}
             <input type="hidden" id="passengers" name="passengers"/>
             <input type="hidden" id="signature" name="signature"/>

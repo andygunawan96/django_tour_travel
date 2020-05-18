@@ -12,7 +12,7 @@
         padding: 10px;
         color: #333;
         border-radius: 10px;
-        box-shadow: 2px 2px 1px silver;
+        box-shadow: 2px 2px 1px #cdcdcd;
     }
 
     [data-tooltip]:hover:before {
@@ -24,6 +24,8 @@
         color: {{text_color}};
         margin-top: -50px;
         margin-left: 20px;
+        text-align:left;
+        z-index:10000;
     }
 
     [data-tooltip]:not([data-tooltip-persistent]):before {

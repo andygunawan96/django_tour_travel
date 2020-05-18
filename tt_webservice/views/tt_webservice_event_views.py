@@ -257,7 +257,7 @@ def create_booking(request):
         response = get_cache_data(javascript_version)
         for pax_type in request.session['event_review_pax']:
             if pax_type != 'contact' and pax_type != 'booker':
-                for pax in request.session['hotel_review_pax'][pax_type]:
+                for pax in request.session['event_review_pax'][pax_type]:
                     if pax['nationality_name'] != '':
                         for country in response['result']['response']['airline']['country']:
                             if pax['nationality_name'] == country['name']:
@@ -285,16 +285,41 @@ def create_booking(request):
                 if pax['nationality_name'] == country['name']:
                     pax['nationality_code'] = country['code']
                     break
+        event_option_codes = []
+        exist = True
+        i = 0
+        while exist:
+            key = "event_option_codes[" + str(i) + "]"
+            if request.POST.get(key + "[option_code]"):
+                extra_question = []
+                exist2 = True
+                j = 0
+                while exist2:
+                    if request.POST.get(key + "[extra_question][" + str(j) + "][question_id]"):
+                        extra_question.append({
+                            'question_id': request.POST[key + "[extra_question][" + str(j) + "][question_id]"],
+                            'answer': request.POST[key + "[extra_question][" + str(j) + "][answer]"],
+                        })
+                        j += 1
+                    else:
+                        exist2 = False
+                event_option_codes.append({
+                    'option_code': request.POST[key + "[option_code]"],
+                    'extra_question': extra_question,
+                })
+                i += 1
+            else:
+                exist = False
         data = {
-            "passengers": passenger,
+            "event_code": request.POST['event_code'],
+            "provider": 'event_internal',
+            "event_option_codes": event_option_codes,
+            "special_request": request.POST['special_request'],
+            "force_issued": bool(int(request.POST['force_issued'])),
+            "booker": booker,
+            "contact": contacts,
             'user_id': request.session.get('co_uid') or '',
             'promotion_codes_booking': [],
-            # Must set as list prepare buat issued multi vendor
-            "contact": contacts,
-            "booker": booker,
-            'kwargs': {
-                'force_issued': bool(int(request.POST['force_issued']))
-            },
         }
 
         headers = {
@@ -339,10 +364,9 @@ def get_booking(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST')
+    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
 
     try:
-        request.session['hotel_provision'] = res
         logging.getLogger("info_logger").info(json.dumps(request.session['hotel_provision']))
         request.session.modified = True
         if res['result']['error_code'] == 0:

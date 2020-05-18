@@ -848,6 +848,25 @@ Licence URI: http://www.os-templates.com/template-terms
           border:2px solid {{color}};
           border-radius: 7px;
         }
+
+        .tags_btn{
+            color: {{color}};
+        }
+
+        .tags_btn:hover{
+            background: {{color}};
+            color:{{text_color}};
+        }
+
+        .tags_btn_rsv{
+            color: {{text_color}};
+            background:{{color}};
+        }
+
+        .tags_btn_rsv:hover{
+            background: {{text_color}};
+            color: {{color}};
+        }
         {% if template == 1%}
 
         {% if username.co_user_login == 'agent_b2c' %}

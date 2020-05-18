@@ -6626,7 +6626,13 @@ input[type="radio"].activity, input[type="checkbox"].activity {
     background-size:cover;
     background-position:50% 50%;
 }
-
+.img-event-search {
+    width: auto;
+    height: 140px;
+    background-size:cover;
+    background-position:50% 50%;
+    border-radius: 3px;
+}
 
 .text-block-custom {
   bottom: 20px;
@@ -8415,4 +8421,38 @@ ul.popular2_tabs li.current .image-rounded-icon{
 
 .radio-img  > input:checked + img{
   border:2px solid orange;
+}
+
+.tags_btn{
+    padding:0px 5px;
+    font-size:13px;
+    margin-right:5px;
+    color: #f15a22;
+    background: white;
+    border: 1px solid #cdcdcd;
+    border-radius:3px;
+    cursor:pointer;
+    line-height:26px;
+}
+
+.tags_btn:hover{
+    background: #f15a22;
+    color:white;
+}
+
+.tags_btn_rsv{
+    padding:0px 5px;
+    font-size:13px;
+    margin-right:5px;
+    color: #f15a22;
+    background: white;
+    border: 1px solid #cdcdcd;
+    border-radius:3px;
+    cursor:pointer;
+    line-height:26px;
+}
+
+.tags_btn_rsv:hover{
+    background: #f15a22;
+    color:white;
 }
