@@ -401,7 +401,7 @@ function event_get_booking(data){
                         text_detail+=`
                     </div>`;
                 }catch(err){console.log(err)}
-                document.getElementById('hotel_detail').innerHTML = text_detail;
+                document.getElementById('event_detail').innerHTML = text_detail;
                 add_repricing();
                 console.log($text);
 
@@ -755,7 +755,7 @@ function event_create_booking(){
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            path = 'http://192.168.0.11:8000/';
+            path = 'http://192.168.50.241:8000/';
             window.location.href = path + "event/booking/" + msg.result.response.order_number;
         }else{
             alert(msg.result.error_msg);

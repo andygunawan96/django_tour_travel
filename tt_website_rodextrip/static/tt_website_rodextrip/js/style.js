@@ -2175,6 +2175,10 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
         var breadcrumbs = ["Home", "Review", "Issued"];
         var breadcrumbs_url = ["location.href='/dashboard';", "", ""];
     }
+    else if(breadcrumbs_type == "event"){
+        var breadcrumbs = ["Home", "Search", "Details", "Contact & OtherInfo", "Review", "Issued"];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/event';", "location.href='/event/detail';", "location.href='/event/passenger';", "", ""];
+    }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
     text = '';
