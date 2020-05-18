@@ -104,11 +104,6 @@ def index(request):
 
                         # activity
                         try:
-                            activity_sub_categories = response['result']['response']['activity']['sub_categories']
-                        except Exception as e:
-                            activity_sub_categories = []
-                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
-                        try:
                             activity_categories = response['result']['response']['activity']['categories']
                         except Exception as e:
                             activity_categories = []
@@ -119,9 +114,9 @@ def index(request):
                             activity_types = []
                             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                         try:
-                            activity_countries = response['result']['response']['activity']['countries']
+                            activity_locations = response['result']['response']['activity']['locations']
                         except Exception as e:
-                            activity_countries = []
+                            activity_locations = []
                             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
                         # activity
 
@@ -217,10 +212,9 @@ def index(request):
                                 # 'co_uid': request.session['co_uid'],
                                 'airline_cabin_class_list': airline_cabin_class_list,
                                 #activity
-                                'activity_sub_categories': activity_sub_categories,
                                 'activity_categories': activity_categories,
                                 'activity_types': activity_types,
-                                'activity_countries': activity_countries,
+                                'activity_locations': activity_locations,
                                 #tour
                                 'tour_countries': tour_countries,
                                 'javascript_version': javascript_version,

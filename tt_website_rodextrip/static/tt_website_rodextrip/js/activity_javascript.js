@@ -68,28 +68,35 @@ function update_contact_cp(val){
 
 function set_sub_category(category_id, current_sub_id=0){
     var text = `<option value="0" selected="">All Sub Categories</option>`;
-    var sub_category_list = sub_category[category_id.split(' - ')[1]];
+
+    var temp_category = {};
+    for(i in activity_categories){
+       console.log(parseInt(category_id));
+       if(activity_categories[i].id == parseInt(category_id)){
+           temp_category = activity_categories[i];
+           break;
+       }
+    }
     if (current_sub_id == 0)
     {
-        for(i in sub_category_list){
-            text +=`<option value="`+sub_category_list[i].id+`">`+sub_category_list[i].name+`</option>`;
+        for(i in temp_category.sub_categories){
+            text +=`<option value="`+temp_category.sub_categories[i].id+`">`+temp_category.sub_categories[i].name+`</option>`;
         }
     }
     else
     {
-        for(i in sub_category_list){
-            if (sub_category_list[i].id == current_sub_id)
+        for(i in temp_category.sub_categories){
+            if (temp_category.sub_categories[i].id == current_sub_id)
             {
-                text +=`<option value="`+sub_category_list[i].id+`" selected>`+sub_category_list[i].name+`</option>`;
+                text +=`<option value="`+temp_category.sub_categories[i].id+`" selected>`+temp_category.sub_categories[i].name+`</option>`;
             }
             else
             {
-                text +=`<option value="`+sub_category_list[i].id+`">`+sub_category_list[i].name+`</option>`;
+                text +=`<option value="`+temp_category.sub_categories[i].id+`">`+temp_category.sub_categories[i].name+`</option>`;
             }
         }
     }
 
-    console.log(text);
     document.getElementById('activity_sub_category').innerHTML = text;
     $('#activity_sub_category').niceSelect('update');
 //    activity_sub_category
@@ -137,11 +144,18 @@ function get_sub_cat_name(current_sub_id=0){
     {
         category_id = sel_objs[i].id;
     }
-    var sub_category_list = sub_category[category_id.split(' - ')[1]];
-    for(i in sub_category_list){
-        if (sub_category_list[i].id == current_sub_id)
+
+    var temp_category = {};
+    for(i in activity_categories){
+       if(activity_categories[i].id == parseInt(category_id)){
+           temp_category = activity_categories[i];
+           break;
+       }
+    }
+    for(i in temp_category.sub_categories){
+        if (temp_category.sub_categories[i].id == current_sub_id)
         {
-            search_sub_cat_name = sub_category_list[i].name;
+            search_sub_cat_name = temp_category.sub_categories[i].name;
         }
     }
 
