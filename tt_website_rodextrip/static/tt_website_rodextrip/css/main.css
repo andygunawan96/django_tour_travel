@@ -8456,3 +8456,33 @@ ul.popular2_tabs li.current .image-rounded-icon{
     background: #f15a22;
     color:white;
 }
+
+.detail-event-box{
+    background-color:white;
+    padding:0px 15px;
+    margin-bottom:15px;
+    border:1px solid #cdcdcd;
+    border-radius:7px;
+}
+.detail-event-box:hover{
+    border:1px solid #f15a22;
+}
+
+.img-event-detail {
+    width: auto;
+    height: 120px;
+    background-size:cover;
+    background-position:50% 50%;
+}
+
+.border-event{
+    padding:10px;
+    border-right:2px solid #f15a22;
+}
+
+@media (max-width: 767px) {
+    .border-event{
+        border-bottom:2px solid #f15a22;
+        border-right:unset;
+    }
+}

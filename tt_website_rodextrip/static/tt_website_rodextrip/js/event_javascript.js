@@ -411,14 +411,15 @@ function sort(response, check_filter){
             $('#hotel_error').hide();
         }
         else{
-            document.getElementById("hotel_error").innerHTML = '';
+            $('#loading-search-event').hide();
+            document.getElementById("event_error").innerHTML = '';
             text = '';
             text += `
                 <div style="padding:5px; margin:10px;">
                     <div style="text-align:center">
                         <img src="/static/tt_website_rodextrip/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="" title="" />
                         <br/><br/>
-                        <span style="font-size:14px; font-weight:600;">Oops! Hotel not found. Please try another day or another hotel</span>
+                        <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another day or another hotel</span>
                     </div>
                 </div>
             `;
@@ -717,49 +718,34 @@ function hotel_filter_render(){
     node2.innerHTML = text;
     document.getElementById("sorting-hotel2").appendChild(node2);
 }
-//Done
-function hotel_room_pick(key){
-    document.getElementById('hotel_detail_table').innerHTML = '';
-    $text2 = "";
-    $text_share2 = "";
-
-    if(hotel_room_detail_pick != null){
-        document.getElementById('button'+hotel_room_detail_pick).innerHTML = 'Choose';
-        document.getElementById('button'+hotel_room_detail_pick).classList.remove("primary-btn-custom-un");
-        document.getElementById('button'+hotel_room_detail_pick).classList.add("primary-btn-custom");
-    }
-    document.getElementById('button'+key).innerHTML = 'Unchoose';
-    hotel_room_detail_pick = key;
-    text='';
-    var get_name_hotel = document.getElementById("get_name_hotel").value;
-    var get_rating_hotel = document.getElementById("rating_hotel").textContent;
-    var get_address_hotel = document.getElementById("address_hotel").textContent;
-    var get_date_hotel = document.getElementById("date_hotel").textContent;
-    $text2 = ''+ get_name_hotel +' *'+ get_rating_hotel +'\n';
-    $text2 += 'Address: '+ get_address_hotel +'\n';
-    $text2 += get_date_hotel +'\n\n';
-
-    document.getElementById('button'+key).innerHTML = 'Chosen';
-    document.getElementById('button'+key).classList.remove("primary-btn-custom");
-    document.getElementById('button'+key).classList.add("primary-btn-custom-un");
-
-    console.log('Set Option Key');
-    console.log(key);
-    document.getElementById('event_option_send').value = key;
-    document.getElementById('hotel_detail_table').innerHTML = text;
+function render_object(val){
+//    var text='';
+//    //untuk setiap input type dengan id mengandung 'option_qty_'?
+//    text += `<td></td>`
+//    if (text){
+//        var text1 = `<table><thead><td>No.</td><td>Option Name</td><td>Qty</td><td>Total</td></thead><tbody>`
+//        text += `</tbody></table>`
+//        text = text1 + text
+//        document.getElementById("event_detail_table").innerHTML = text;
+//        document.getElementById("not_room_select").hidden = true;
+//    } else {
+//        document.getElementById("event_detail_table").innerHTML = false;
+//        document.getElementById("not_room_select").hidden = false;
+//    }
     hotel_room_pick_button()
 }
+
 function share_data2(){
-    const el = document.createElement('textarea');
-    el.value = $text2;
-    document.body.appendChild(el);
-    el.select();
-    document.execCommand('copy');
-    document.body.removeChild(el);
-    $text_share2 = window.encodeURIComponent($text2);
+//    const el = document.createElement('textarea');
+//    el.value = $text2;
+//    document.body.appendChild(el);
+//    el.select();
+//    document.execCommand('copy');
+//    document.body.removeChild(el);
+    $text_share2 = window.encodeURIComponent('Hello');
 }
 function hotel_room_pick_button(){
-    document.getElementById('hotel_detail_button').innerHTML = '';
+    document.getElementById('event_detail_button').innerHTML = '';
     text = '';
     text += `<div class="row" style="padding-top:10px;">`;
     text += `<div class="col-lg-12" style="padding-bottom:15px;">
@@ -793,7 +779,7 @@ function hotel_room_pick_button(){
     text += '<button class="primary-btn" style="width:100%; margin-bottom:10px; margin-top:10px;" type="button" onclick="goto_passenger();">Next</button></div>';
     text += `</div>`;
     }
-    document.getElementById('hotel_detail_button').innerHTML = text;
+    document.getElementById('event_detail_button').innerHTML = text;
     $('#not_room_select').hide();
 }
 

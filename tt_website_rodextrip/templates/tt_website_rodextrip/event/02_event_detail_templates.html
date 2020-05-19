@@ -809,17 +809,18 @@
 
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
     <div class="container">
-        <div class="row align-items-center justify-content-between d-flex">
-            <div class="col-lg-12" id="breadcrumbs_create" style="padding-bottom:15px;">
-
-            </div>
-        </div>
         <div class="row" style="padding-bottom:15px;">
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                 <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-xs-6" style="padding-top:10px;">
                 <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
+            </div>
+        </div>
+
+        <div class="row align-items-center justify-content-between d-flex">
+            <div class="col-lg-12" id="breadcrumbs_create" style="padding-bottom:15px;">
+
             </div>
         </div>
         {% if username.co_user_login != 'agent_b2c' %}
@@ -837,10 +838,8 @@
         <div class="row nav-hotel" style="position:sticky;top: 40px;z-index: 24;">
             <div class="col-lg-12">
                 <div class="box-sticky-hotel" style="padding-right:0px;">
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="information-hotel">Description</button>
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="facility-hotel">Facility</button>
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="location-hotel">Location</button>
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="select-room-hotel">Select Room</button>
+                    <button class="content-event primary-btn-sticky-hotel" type="button" id="information-event">Description</button>
+                    <button class="content-event primary-btn-sticky-hotel" type="button" id="select-room-event">Buy Ticket</button>
 
                     <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();">
                         <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
@@ -856,7 +855,7 @@
         <form action="{% url 'tt_website_rodextrip:event_passenger'%}" id="goto_passenger" method="POST" style="padding:15px 15px 0px 15px;">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12 div-information-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
+                <div class="col-lg-12 div-information-event" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
                     <div class="row">
                         <div class="modal fade modal-rdx" id="openImage" role="dialog" style="background:rgba(250,250,250,1);">
                             <div class="modal-dialog">
@@ -895,27 +894,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <span id="name_event" class="name_event" style="font-size:22px; font-weight:bold; color:black;">{{event_code.name}}</span>
-                            <input type="hidden" value="{{event_code.name}}" id="get_name_hotel"/>
-                            <span class="rating_hotel" id="rating_hotel" hidden>{{event_code.rating}}</span>
-                            <span>
-                                {% for i in rating %}
-                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                {% endfor %}
-                            </span>
-                            <br/>
-                            <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                            <span class="address_hotel" id="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>
-                            <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
-                            <hr/>
-                        </div>
 
                         <div class="col-lg-7" style="margin-bottom:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <input type="hidden" value="{{event_code.images|length}}" id="length-img"/>
-                                    {% if event_code.images|length > 0 %}
+                                    {% if event_code.images.length > 0 %}
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         {% for i in event_code.images %}
                                         <div class="item" style="cursor:pointer; float:none;">
@@ -937,39 +921,68 @@
                         <div class="col-lg-5" style="margin-bottom:10px;">
                             <div class="row">
                                 <div class="col-lg-12">
-                                    <div class="row">
-                                        {% if event_code.images|length > 0 %}
-                                        {% for i in event_code.images %}
-                                        {% if forloop.counter < 4 %}
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                            <img class="img-fluid" src="{{i.url}}" style="width:100%; height:75px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});">
-                                        </div>
-                                        {% elif forloop.counter == 4%}
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                            <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});">
-                                                <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="width:100%; height:75px;">
-                                            </div>
-                                            <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{event_code.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{event_code.images|length}})</span>
-                                        </div>
-                                        {% endif %}
-                                        {% endfor %}
-                                        {% else %}
-                                        <div class="col-lg-3">
-                                            <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
-                                        </div>
-                                        {% endif %}
-                                    </div>
+                                    <input type="hidden" value="{{event_code.name}}" id="get_name_hotel"/>
+                                    <span id="name_event" class="name_event" style="font-size:22px; font-weight:bold; color:black;">{{event_code.name}}</span><br/>
+
+                                    {% for loc in event_code.locations %}
+                                    <span style="font-size:14px;"><i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
+                                    {{loc.location_name}}, {{loc.location_address}}, {{loc.city_name}}, {{loc.country_name}}
+                                    </span><br/>
+                                    {% endfor %}
+                                    <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020 - 17 Mei 2020</span><br/>
+                                    <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 15:00</span><br/>
+
+                                    <!-- <span class="address_hotel" id="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>-->
+                                    <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
                                     <hr/>
                                 </div>
                                 <div class="col-lg-12">
-                                    <h5>Description</h5>
+                                    <span style="font-weight:bold; margin-top:15px; margin-bottom:5px;">Hosted by</span><br/>
+                                    <a href="#">
+                                    {% if event_code.vendor_obj.vendor_logo == '' %}
+                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                                    {% else %}
+                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
+                                    {% endif %}
+                                    {{event_code.vendor_obj.vendor_name}}</a>
                                     <hr/>
-                                    <div style="text-align: justify; height:250px; overflow: auto;">
-                                        {% if event_code.description != '' %}
-                                        {{event_code.description}}
-                                        {% else %}
-                                        <i class="fas fa-ban" style="color:red;"></i> <span style="font-weight:500; font-size:14px;">No description.</span>
-                                        {% endif %}
+                                </div>
+
+                                <div class="col-lg-12">
+                                    Category <i class="fas fa-tags" style="color:{{color}};"></i><br/>
+                                    <div style="word-break:break-word;">
+                                        {% for tag in event_code.tags %}
+                                        <span class="tags_btn"><a href="#"> {{tag}} </a></span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="position:absolute; bottom:0px; right:15px;">
+                                <h6>Price Start From</h6>
+                                500.000 IDR<br/>
+                                <button class="primary-btn" type="button" id="select-room-event2">Buy Ticket</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <hr/>
+                            <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
+                                <ul class="create_tabs" id="identity">
+                                    <li class="create_tab-link current" data-tab="description-tab"><label>Description</label></li>
+                                    <li class="create_tab-link" data-tab="itinerary-tab"><label>Itinerary</label></li>
+                                </ul>
+                            </div>
+
+                            <div class="banner-right" style="background:white; border:1px solid #cdcdcd;">
+                                <div id="description-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
+                                    <div class="col-lg-12">
+                                        <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+                                    </div>
+                                </div>
+                                <div id="itinerary-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                    <div class="col-lg-12">
+                                        <span>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</span>
                                     </div>
                                 </div>
                             </div>
@@ -977,22 +990,7 @@
                     </div>
                 </div>
 
-                <div class="col-lg-12 div-facility-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
-                    <h4>Facility</h4>
-                    <hr/>
-                    <div id="js_image_facility" class="row">
-
-                    </div>
-                </div>
-
-                <div class="col-lg-12 div-location-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
-                    <h4>Location Info</h4>
-                    <hr/>
-                    <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                    <span style="font-size:14px; font-weight:500;">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>
-                </div>
-
-                <div class="col-lg-12 div-select-room-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
+                <div class="col-lg-12 div-select-event" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
                     <div class="row">
                         <div class="col-lg-12">
                             <h4>{% trans 'Event Option(s)' %}</h4>
@@ -1026,18 +1024,12 @@
                                     <h4 style="padding-top:15px;"> Price Detail</h4>
                                     <hr/>
                                     <span style="font-size:16px; font-weight:700;" id="product_title">{{event_code.name}} </span>
-                                    <span>
-                                        {% for i in rating %}
-                                            <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                        {% endfor %}
-                                    </span><br/>
-                                    <span class="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
-                                    <span id="date_hotel">Date: {{check_in}} - {{check_out}}</span>
+                                    <span class="address_event">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
                                     <hr/>
-                                    <div style="padding-top:10px;" id="hotel_detail_table">
+                                    <div style="padding-top:10px;" id="event_detail_table">
 
                                     </div>
-                                    <div id="hotel_detail_button">
+                                    <div id="event_detail_button">
 
                                     </div>
                                     <div style="padding-bottom:10px;" id="not_room_select">
@@ -1126,20 +1118,14 @@
       $('.js-example-basic-single').select2();
       breadcrumb_create("event", 3, 0);
       $(window).scroll(function() {
-        if($(this).scrollTop()>=$('.div-information-hotel').position().top-95 && $(this).scrollTop()<$('.div-facility-hotel').position().top-95){
-            active_sticky_hotel("information");
+        if($(this).scrollTop()>=$('.div-information-event').position().top-95 && $(this).scrollTop()<$('.div-select-event').position().top-95){
+            active_sticky_event("information");
         }
-        else if($(this).scrollTop()>=$('.div-facility-hotel').position().top-95 && $(this).scrollTop()<$('.div-location-hotel').position().top-95){
-            active_sticky_hotel("facility");
+        else if($(this).scrollTop()>=$('.div-select-event').position().top-95){
+            active_sticky_event("select");
         }
-        else if($(this).scrollTop()>=$('.div-location-hotel').position().top-95 && $(this).scrollTop()<$('.div-select-room-hotel').position().top-95){
-            active_sticky_hotel("location");
-        }
-        else if($(this).scrollTop()>=$('.div-select-room-hotel').position().top-95){
-            active_sticky_hotel("select");
-        }
-        else if($(this).scrollTop() < $('.div-information-hotel').position().top){
-            $(".content-hotel").removeClass("sticky-hotel-active");
+        else if($(this).scrollTop() < $('.div-information-event').position().top){
+            $(".content-event").removeClass("sticky-event-active");
         }
       });
     });
