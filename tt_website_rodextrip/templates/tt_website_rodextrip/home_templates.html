@@ -1035,6 +1035,16 @@
                                     </button>
                                 </form>
                             </div>
+                            {% else %}
+                            <div class="tab-pane fade" id="event" role="tabpanel" aria-labelledby="event-tab">
+                                <form method="POST" class="form-wrap">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-sm-12 col-md-12">
+                                            <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                             {% endif %}
                             {% if "deal" in provider %}
                             <div class="tab-pane fade" id="deal" role="tabpanel" aria-labelledby="deal-tab">
@@ -6333,6 +6343,9 @@
                     set_airline_search_value_to_true();
                 }
             });
+            {% endif %}
+            {% if "event" in provider %}
+            get_event_config();
             {% endif %}
             {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
             get_visa_config('home');
