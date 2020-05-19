@@ -23,13 +23,14 @@ function get_event_config(){
        type: "POST",
        url: "/webservice/event",
        headers:{
-            'action': 'get_data',
+            'action': 'get_config',
        },
 //       url: "{% url 'tt_backend_skytors:social_media_tree_update' %}",
-       data: {},
+       data: {
+            'signature': signature
+       },
        success: function(msg) {
         console.log(msg);
-        hotel_config = msg
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
@@ -51,6 +52,7 @@ function event_get_booking(data){
             'signature': signature
        },
        success: function(msg) {
+            console.log('Get Booking');
             console.log(msg);
             document.getElementById('show_loading_booking_airline').hidden = true;
             try{

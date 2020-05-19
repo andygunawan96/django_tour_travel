@@ -47,6 +47,8 @@ def api_models(request):
         req_data = util.get_api_request_data(request)
         if req_data['action'] == 'signin':
             res = login(request)
+        elif req_data['action'] == 'get_config':
+            res = get_config(request)
         elif req_data['action'] == 'get_auto_complete':
             res = get_auto_complete(request)
         elif req_data['action'] == 'search':
@@ -104,6 +106,23 @@ def login(request):
 
     return res
 
+def get_config(request):
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_config",
+            "signature": request.POST['signature']
+        }
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+    try:
+        pass
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
 
 def get_auto_complete(request):
     def find_hotel_ilike(search_str, record_cache, limit=10):
