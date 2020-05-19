@@ -57,16 +57,16 @@ function event_get_booking(data){
                 if(msg.result.error_code == 0){
                     hotel_get_detail = msg;
                     $text = '';
-                    $text += 'Order Number: '+ msg.result.response.booking_name + '\n';
+                    $text += 'Order Number: '+ msg.result.response.order_number + '\n';
                     $text += msg.result.response.status + '\n';
                     text = `
-                        <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.booking_name+`</h6><br/>
+                        <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
                         <table style="width:100%;">
                             <tr>
                                 <th class="carrier_code_template">Booking Code</th>
                                 <th class="carrier_code_template">Status</th>
                             </tr>`;
-                            for(i in msg.result.response.hotel_rooms){
+                            for(i in msg.result.response.options){
                                 text+=`
                                     <tr>`;
                                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
@@ -527,7 +527,7 @@ function event_options(id){
     //clearTimeout(myVar);
     myVar = setTimeout(function() {
     document.getElementById("detail_room_pick").innerHTML = '';
-    document.getElementById('hotel_detail_table').innerHTML = '';
+    document.getElementById('event_detail_table').innerHTML = '';
     getToken();
     $.ajax({
        type: "POST",
@@ -548,31 +548,59 @@ function event_options(id){
             for(i in msg.result.response){
                 text = '<div class="row" style="margin-bottom:15px;">';
                 text += `
-                <div class="col-lg-12" style="margin-bottom:25px;">
-                    <div style="top:0px; right:10px; position:absolute;">
-                        <label class="check_box_custom">
-                            <span class="span-search-ticket"></span>
-                            <input type="checkbox" id="copy_hotel"/>
-                            <span class="check_box_span_custom"></span>
-                        </label>
+                <div class="col-lg-12" style="margin-bottom:15px; padding:0px;">
+                    <div style="background: `+color+`; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
+                        <span style="font-weight: bold; color:`+text_color+`; font-size:16px;"> `+ msg.result.response[i].grade + `</span><br/>
+                        <div style="top:10px; right:10px; position:absolute;">
+                            <label class="check_box_custom">
+                                <span class="span-search-ticket"></span>
+                                <input type="checkbox" id="copy_hotel"/>
+                                <span class="check_box_span_custom"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>`;
                 console.log(msg.result);
                 if(msg.result.response[i].images.length != 0)
-                    text+=`<div class="col-lg-3 col-md-3"><div class="img-hotel-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"></div></div>`;
+                    text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"></div><hr/></div>`;
                 else
-                    text+=`<div class="col-lg-3 col-md-3"><div class="img-hotel-detail" style="background-image: #;"></div></div>`;
+                    text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div></div>`;
 
-                    text+=`<div class="col-lg-3 col-md-3" style="text-align:right;">`;
-                    text+= '<span style="font-weight: bold; font-size:16px;"> '+ msg.result.response[i].grade + '</span><br/>';
-                    if(msg.result.response[i].currency != 'IDR')
-                        text+= '<span style="font-weight: bold; font-size:16px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
-                    else
-                        text+= '<span style="font-weight: bold; font-size:16px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+                    text+=`<div class="col-lg-9 col-md-9">
+                    <div class="row">
+                        <div class="col-lg-12" style="margin-bottom:5px;">
+                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard.</span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020</span>
+                        </div>
+                        <div class="col-lg-6">
+                            <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 13:00</span>
+                        </div>
+                        <div class="col-lg-12"><hr/></div>
+                        <div class="col-lg-6 col-md-6">
+                            <span style="font-weight:500; color: `+color+`;">Expired Date<br/> 15 Mei 2020 - 17:00</span>
+                        </div>
+                    <div class="col-lg-6 col-md-6" style="padding-top:5px;">
+                        <div style="float:right; display:flex;">`;
+                            if(msg.result.response[i].currency != 'IDR')
+                                text+= '<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
+                            else
+                                text+= '<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+                        text+=`
+                            <button type="button" class="btn-custom-circle" id="left-minus-event-`+i+`" data-type="minus" data-field="" disabled onclick="reduce_option(`+i+`);">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
+                            <button type="button" class="btn-custom-circle" id="right-plus-event-`+i+`" data-type="plus" data-field="" onclick="add_option(`+i+`);">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>`;
 
-                    text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
+                    //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
                     text+='</div></div>';
-                    node.className = 'detail-hotel-box';
+                    node.className = 'detail-event-box';
                     node.innerHTML = text;
                     document.getElementById("detail_room_pick").appendChild(node);
                     node = document.createElement("div");
@@ -765,6 +793,29 @@ function event_create_booking(){
            alert(errorThrown);
        }
     });
+}
+
+function add_option(val){
+    var obj = 'option_qty_' + val;
+    var new_int = parseInt(document.getElementById(obj).value) + 1;
+    document.getElementById(obj).value = new_int;
+    if (new_int < 9){
+        document.getElementById('left-minus-event-'+val).disabled = false;
+    }else{
+        document.getElementById('right-plus-event-'+val).disabled = true;
+    }
+    render_object(val);
+}
+function reduce_option(val){
+    var obj = 'option_qty_' + val;
+    var new_int = parseInt(document.getElementById(obj).value) - 1;
+    document.getElementById(obj).value = new_int;
+    if (new_int > 0){
+        document.getElementById('right-plus-event-'+val).disabled = false;
+    }else{
+        document.getElementById('left-minus-event-'+val).disabled = true;
+    }
+    render_object(val);
 }
 
 function gotoForm(){

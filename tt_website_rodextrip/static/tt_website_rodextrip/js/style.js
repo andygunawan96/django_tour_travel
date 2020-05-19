@@ -782,6 +782,27 @@ $(document).ready(function(){
         active_sticky_hotel("review");
     });
 
+    $('#information-event').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-information-event").offset().top - 90
+        }, 500);
+        active_sticky_event("information");
+    });
+
+    $('#select-room-event').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-select-event").offset().top - 90
+        }, 500);
+        active_sticky_event("select");
+    });
+
+    $('#select-room-event2').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-select-event").offset().top - 90
+        }, 500);
+        active_sticky_event("select");
+    });
+
     $('#about-partnership').click(function(e){
         $('html, body').animate({
             scrollTop: $("div.div-about-partnership").offset().top
@@ -2114,6 +2135,17 @@ function active_sticky_hotel(type){
     //    $(".content-hotel").removeClass("sticky-hotel-active");
     //    $("#review-hotel").addClass("sticky-hotel-active");
     //}
+}
+
+function active_sticky_event(type){
+    if(type == "information"){
+        $(".content-event").removeClass("sticky-event-active");
+        $("#information-event").addClass("sticky-event-active");
+    }
+    else if(type == "select"){
+        $(".content-event").removeClass("sticky-event-active");
+        $("#select-room-event").addClass("sticky-event-active");
+    }
 }
 
 function active_sticky_activity(type){
