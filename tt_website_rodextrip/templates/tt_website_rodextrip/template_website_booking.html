@@ -762,6 +762,20 @@ Licence URI: http://www.os-templates.com/template-terms
         .detail-hotel-box:hover {
             border: 1px solid {{color}} !important;
         }
+        .detail-event-box:hover {
+            border: 1px solid {{color}} !important;
+        }
+        .border-event{
+            border-right:2px solid {{color}};
+        }
+        @media (max-width: 767px) {
+            .border-event{
+                border-bottom:2px solid {{color}};
+                border-right:unset;
+                margin-bottom:15px;
+            }
+        }
+
         .primary-btn-custom-un {
             background: {{color}};
             opacity: 0.9;

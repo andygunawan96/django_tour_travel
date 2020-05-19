@@ -1,4 +1,5 @@
 var hotel_room_detail_pick = null;
+var option_pick = [];
 var category_tooltip = '';
 var max_category = 3;
 
@@ -718,21 +719,70 @@ function hotel_filter_render(){
     node2.innerHTML = text;
     document.getElementById("sorting-hotel2").appendChild(node2);
 }
-function render_object(val){
-//    var text='';
-//    //untuk setiap input type dengan id mengandung 'option_qty_'?
-//    text += `<td></td>`
-//    if (text){
-//        var text1 = `<table><thead><td>No.</td><td>Option Name</td><td>Qty</td><td>Total</td></thead><tbody>`
-//        text += `</tbody></table>`
-//        text = text1 + text
-//        document.getElementById("event_detail_table").innerHTML = text;
-//        document.getElementById("not_room_select").hidden = true;
-//    } else {
-//        document.getElementById("event_detail_table").innerHTML = false;
-//        document.getElementById("not_room_select").hidden = false;
-//    }
+function render_object(val, new_int){
+    if(new_int == "0"){
+        option_pick.splice(option_pick.indexOf(val), 1);
+    }else{
+        if(option_pick.indexOf(val) === -1){
+            option_pick.push(val);
+        }
+    }
+
+    var text='';
+    var grand_total_option = 0;
+    console.log(option_pick);
+    for (i in option_pick){
+        var option_name_pick = document.getElementById('option_name_'+option_pick[i]).innerHTML;
+        var option_price_pick = document.getElementById('option_price_'+option_pick[i]).value;
+        var option_currency_pick = document.getElementById('option_currency_'+option_pick[i]).value;
+        var option_qty_pick = document.getElementById('option_qty_'+option_pick[i]).value;
+        var option_price = option_price_pick*parseInt(option_qty_pick); //total price option
+
+        grand_total_option = grand_total_option + option_price;
+
+        text+=`
+        <div class="row">
+            <div class="col-lg-4" style="text-align:left;">
+                <span style="font-weight:500;">`+option_name_pick+` <br/> (`+option_qty_pick+` Qty)</span>
+            </div>
+            <div class="col-lg-4" style="text-align:center;">`;
+                text+='<span style="font-weight:500;"> @ ' + option_currency_pick + ' ' + getrupiah(option_price_pick) + '</span>';
+            text+=`
+            </div>
+            <div class="col-lg-4" style="text-align:right;">`;
+            text+='<span style="font-weight:500;">' + option_currency_pick + ' ' + getrupiah(option_price) + '</span>';
+        text+=`
+            </div>
+        </div>`;
+    }
+    text+=`
+    <div class="row">
+        <div class="col-lg-12">
+            <hr/>
+            <div class="row">
+                <div class="col-lg-6" style="text-align:left;">
+                    <span style="font-weight:bold; font-size:14px;">Grand Total</span>
+                </div>
+
+                <div class="col-lg-6" style="text-align:right;">`;
+                text+='<span style="font-weight:bold; font-size:14px;">' + option_currency_pick + ' ' + getrupiah(grand_total_option) + '</span>'
+                text+=`
+                </div>
+            </div>
+        </div>
+    </div>`;
+
     hotel_room_pick_button()
+
+    if (option_pick === undefined || option_pick.length == 0){
+        document.getElementById("event_detail_table").innerHTML = '';
+        document.getElementById('event_detail_button').innerHTML = ''
+        $('#not_room_select').show();
+    }else{
+        document.getElementById("event_detail_table").innerHTML = text;
+        $('#not_room_select').hide();
+    }
+
 }
 
 function share_data2(){
@@ -780,7 +830,6 @@ function hotel_room_pick_button(){
     text += `</div>`;
     }
     document.getElementById('event_detail_button').innerHTML = text;
-    $('#not_room_select').hide();
 }
 
 function show_commission_hotel(){
@@ -815,7 +864,7 @@ function show_commission_hotel_price_change(type){
 }
 //Done
 function goto_passenger(){
-    // document.getElementById('hotel_detail_send').value = JSON.stringify(hotel_room);
+    //document.getElementById('hotel_detail_send').value = JSON.stringify(hotel_room);
     document.getElementById('time_limit_input').value = time_limit;
     document.getElementById('goto_passenger').submit();
 }
