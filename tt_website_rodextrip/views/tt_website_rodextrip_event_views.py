@@ -201,7 +201,16 @@ def contact_passengers(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            request.session['event_option_code'] = request.POST['event_option_send']
+            opt_code = []
+            i = 1
+            while i:
+                if request.POST.get('option_qty_'+str(i-1)) and int(request.POST['option_qty_' + str(i-1)]) != 0:
+                    opt_code.append({'code': request.session['event_code']['option'][i-1]['option_id'], 'qty': request.POST['option_qty_' + str(i-1)]})
+                    i += 1
+                else:
+                    break
+
+            request.session['event_option_code'] = opt_code
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -218,7 +227,7 @@ def contact_passengers(request):
 
                 'event_search': request.session['event_request'],
                 'event_code': request.session['event_code'],
-                'event_option_code': request.session['event_option_code'],
+                'event_option_code': opt_code,
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
