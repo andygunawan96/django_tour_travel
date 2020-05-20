@@ -253,7 +253,7 @@ def search(request):
             logging.getLogger("info_logger").info(json.dumps(request.session['event_error']))
             request.session.modified = True
         else:
-            logging.getLogger("error_logger").error("ERROR search_hotel SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR search_event SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -274,16 +274,17 @@ def detail(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
+    request.session['event_detail'] = res
     try:
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['hotel_error'] = {
+        signature = copy.deepcopy(request.session['signature'])
+        request.session['event_error'] = {
             'error_code': res['result']['error_code'],
             'signature': signature
         }
         logging.getLogger("info_logger").info(json.dumps(request.session['hotel_error']))
         request.session.modified = True
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            logging.getLogger("info_logger").info("get_details_event SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
             logging.getLogger("error_logger").error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -308,7 +309,7 @@ def extra_question(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
     try:
-        signature = copy.deepcopy(request.session['hotel_signature'])
+        signature = copy.deepcopy(request.session['event_signature'])
         request.session['event_error'] = {
             'error_code': res['result']['error_code'],
             'signature': signature
@@ -359,31 +360,6 @@ def create_booking(request):
                 if pax['nationality_name'] == country['name']:
                     pax['nationality_code'] = country['code']
                     break
-        # event_option_codes = []
-        # exist = True
-        # i = 0
-        # while exist:
-        #     key = "event_option_codes[" + str(i) + "]"
-        #     if request.POST.get(key + "[option_code]"):
-        #         extra_question = []
-        #         exist2 = True
-        #         j = 0
-        #         while exist2:
-        #             if request.POST.get(key + "[extra_question][" + str(j) + "][question_id]"):
-        #                 extra_question.append({
-        #                     'question_id': request.POST[key + "[extra_question][" + str(j) + "][question_id]"],
-        #                     'answer': request.POST[key + "[extra_question][" + str(j) + "][answer]"],
-        #                 })
-        #                 j += 1
-        #             else:
-        #                 exist2 = False
-        #         event_option_codes.append({
-        #             'option_code': request.POST[key + "[option_code]"],
-        #             'extra_question': extra_question,
-        #         })
-        #         i += 1
-        #     else:
-        #         exist = False
         event_option_codes = []
         for i in request.session['event_option_code' + request.POST['signature']]:
             event_option_codes.append({
@@ -439,6 +415,7 @@ def get_booking(request):
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
 
     try:
+        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_provision']))
         request.session.modified = True
         if res['result']['error_code'] == 0:
             request.session['event_get_booking_response'] = res
@@ -508,7 +485,7 @@ def issued_booking(request):
         if res['result']['error_code'] == 0:
             logging.getLogger("info_logger").info("Event Issued SUCCESS SIGNATURE " + request.session['event_signature'])
         else:
-            logging.getLogger("error_logger").error("event_issued HOTEL ERROR SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("event_issued EVENT ERROR SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
@@ -538,12 +515,12 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            request.session['hotel_upsell_'+request.POST['signature']] = total_upsell
+            request.session['event_upsell_'+request.POST['signature']] = total_upsell
             logging.getLogger("info_logger").info(json.dumps(request.session['hotel_upsell_' + request.POST['signature']]))
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+            logging.getLogger("info_logger").info("SUCCESS update_service_charge EVENT SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("ERROR update_service_charge_event EVENT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res

@@ -443,23 +443,139 @@ function event_get_extra_question(option_code, provider){
         if(msg.result.error_code == 0){
             text='';
             var node = document.createElement("div");
+            console.log(option_code);
+            for(j in option_code){
+                var k = 0;
+                while(k < parseInt(option_code[j].qty)){
+                    var co_ticket_idx = parseInt(k)+1;
+                    text+=`
+                    <div class="col-lg-12">
+                        <div class="passenger_div" onclick="show_question_event('option', `+j+`)";>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                    <span style="color:`+text_color+`; text-align:center; font-size:15px;"> `+option_code[j].name+` - `+co_ticket_idx+`</span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                    <span>+</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-12" style="margin-bottom:15px;">
+                        <div style="background-color:white; padding:10px; border:1px solid `+color+`;">
+                            <div class="row">`;
+                    for(i in msg.result.response){
+                        var co_index = (parseInt(i))+1;
+                        text+=`<div class="col-lg-6 col-md-6 col-sm-6"><h6>`;
+                        if (msg.result.response[i].required){
+                            text+=`<span style="color:red; font-size:16px;"> *</span>`;
+                        }
+                        text += 'Question #' + parseInt(co_index) + '</h6>';
+                        text += '<i>' + msg.result.response[i].question + '</i>';
+                        text += '<input id="que_' + j + '_' + k + '_' + i + '" name="que_' + j + '_' + k + '_' + i + '" type="text" value="' + msg.result.response[i].question + '" hidden/>';
+                        if(msg.result.response[i].type == 'text'){
+                            text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="text" placeholder="Enter Your Answer"';
+                            if (msg.result.response[i].required)
+                                text += 'required';
+                            text += '/>';
+                        }else if(msg.result.response[i].type == 'password'){
+                            text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '"name="question_event_' + j + '_' + k + '_' + i + '" type="password" placeholder="Enter Your Password"';
+                            if (msg.result.response[i].required)
+                                text += 'required';
+                            text += '/>';
+                        }else if(msg.result.response[i].type == 'number'){
+                            text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="number" placeholder="0"';
+                            if (msg.result.response[i].required)
+                                text += 'required';
+                            text += '/>';
+                        }else if(msg.result.response[i].type == 'email'){
+                            text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="email" placeholder="Enter Your Email"';
+                            if (msg.result.response[i].required)
+                                text += 'required';
+                            text += '/>';
+                        }else if(msg.result.response[i].type == 'boolean'){
+                            text+=`<br/>`;
+                            for(ans in msg.result.response[i].answers){
+                                if(ans == "0"){
+                                    text+=`
+                                    <label class="radio-button-custom" style="margin-bottom:0px;">
+                                        <span style="font-size:13px;">`+msg.result.response[i].answers[ans].answer+`</span>
+                                        <input type="radio" checked="checked" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`"`;
+                                    if (msg.result.response[i].required)
+                                        text += 'required';
+                                    text+=`>
+                                        <span class="checkmark-radio"></span>
+                                    </label>`;
+                                }else{
+                                    text+=`
+                                    <label class="radio-button-custom" style="margin-bottom:0px;">
+                                        <span style="font-size:13px;">`+msg.result.response[i].answers[ans].answer+`</span>
+                                        <input type="radio" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`">
+                                        <span class="checkmark-radio"></span>
+                                    </label>`;
+                                }
+                            }
+                        }else if(msg.result.response[i].type == 'selection'){
+                            text+=`
+                            <div class="form-group">
+                                <div class="form-select">
+                                    <select id="question_event_`+j+`_`+k+`_`+i+`" name="question_event_`+j+`_`+k+`_`+i+`" class="nice-select-default">
+                                        <option value="" selected>Choose</option>`;
+                                        for(ans in msg.result.response[i].answers){
+                                            text+=`<option value="`+msg.result.response[i].answers[ans].answer+`">`+msg.result.response[i].answers[ans].answer+`</option>`;
+                                        }
+                            text+=`</select/>
+                                </div>
+                            </div>`;
+                        }else if(msg.result.response[i].type == 'date'){
+                            text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="email" placeholder="Enter Your Date"';
+                            if (msg.result.response[i].required)
+                                text += 'required';
+                            text += '/>';
+                        }else if(msg.result.response[i].type == 'checkbox'){
+                            //for(ans in msg.result.response[i].answers){
+                            //text+=`
+                            //    <label class="check_box_custom">
+                            //        <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans].answer+`</span>
+                            //        <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`}" name="question_event_`+j+`_`+k+`_`+i+`_`+ans+`"/>
+                            //        <span class="check_box_span_custom"></span>
+                            //    </label>
+                            //}
+                        }
+                        text+=`</div>`;
+                    }
+                    k += 1;
+                    text+=`</div>
+                        </div>
+                    </div>`;
+                }
+                text+=`</div>`;
+            }
+            node.className = 'row';
+            node.innerHTML = text;
+            document.getElementById("extra_data_master").appendChild(node);
             for(j in option_code){
                 var k = 0;
                 while(k < parseInt(option_code[j].qty)){
                     for(i in msg.result.response){
-                        text += '<h3>Question #' + parseInt(i)+1 + '</h3>';
-                        text += '<i>' + msg.result.response[i].question + '</i>';
-                        text += '<input id="que_' + i +'" name="que_' + i +'" type="text" value="' + msg.result.response[i].question + '" hidden/>';
-                        text += '<input id="question_event_' + i +'" name="question_event_' + i +'" type="text" placeholder="' + msg.result.response[i].type + '"';
-                        if (msg.result.response[i].required)
-                            text += 'required';
-                        text += '/>';
+                        if(msg.result.response[i].type == 'selection'){
+                            $('#question_event_'+j+'_'+k+'_'+i).niceSelect('update');
+                        }else if(msg.result.response[i].type == 'date'){
+                            $('input[name="question_event_'+j+'_'+k+'_'+i+'"]').daterangepicker({
+                                singleDatePicker: true,
+                                autoUpdateInput: true,
+                                startDate: moment(),
+                                showDropdowns: true,
+                                opens: 'center',
+                                locale: {
+                                    format: 'DD MMM YYYY',
+                                }
+                            });
+                        }
                     }
                     k += 1;
                 }
             }
-            node.innerHTML = text;
-            document.getElementById("extra_data_master").appendChild(node);
         }else{
             alert(msg.result.error_msg);
         }
@@ -680,7 +796,7 @@ function event_issued(data){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
+                      html: '<span style="color: red;">Error Event issued </span>' + errorThrown,
                     })
                     price_arr_repricing = {};
                     pax_type_repricing = [];

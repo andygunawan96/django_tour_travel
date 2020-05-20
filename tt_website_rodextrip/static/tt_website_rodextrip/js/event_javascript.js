@@ -743,7 +743,7 @@ function render_object(val, new_int){
         text+=`
         <div class="row">
             <div class="col-lg-4" style="text-align:left;">
-                <span style="font-weight:500;">`+option_name_pick+` <br/> (`+option_qty_pick+` Qty)</span>
+                <span style="font-weight:500;">`+option_name_pick+` <br/> ( `+option_qty_pick+` Qty )</span>
             </div>
             <div class="col-lg-4" style="text-align:center;">`;
                 text+='<span style="font-weight:500;"> @ ' + option_currency_pick + ' ' + getrupiah(option_price_pick) + '</span>';
@@ -761,11 +761,11 @@ function render_object(val, new_int){
             <hr/>
             <div class="row">
                 <div class="col-lg-6" style="text-align:left;">
-                    <span style="font-weight:bold; font-size:14px;">Grand Total</span>
+                    <span style="font-weight:bold; font-size:15px;">Grand Total</span>
                 </div>
 
                 <div class="col-lg-6" style="text-align:right;">`;
-                text+='<span style="font-weight:bold; font-size:14px;">' + option_currency_pick + ' ' + getrupiah(grand_total_option) + '</span>'
+                text+='<span style="font-weight:bold; font-size:15px;">' + option_currency_pick + ' ' + getrupiah(grand_total_option) + '</span>'
                 text+=`
                 </div>
             </div>

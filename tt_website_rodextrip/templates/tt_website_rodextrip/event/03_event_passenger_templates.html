@@ -277,12 +277,11 @@
                                     </ul>
                                 </div>
                             </div>
-                            <div id="extra_data_master" class="col-lg-12"/>
                         </div>
 
-                        <div class="row" id="adult1">
+                        <div class="row" id="adult1" style="margin-top:15px;">
                             <div class="col-lg-12">
-                                <div class="passenger_div" onclick="show_paxs_airline('adult', '1');">
+                                <div class="passenger_div">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                             <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - 1</span>
@@ -293,7 +292,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}}; {% if forloop.counter != 1 %} display:none; {% endif %}" id="adult_paxs1">
+                                <div class="col-lg-12" style="background-color:white; padding:10px; border:1px solid {{color}};" id="adult_paxs1">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6" style="text-align:left;">
                                             <div class="form-group">
@@ -355,7 +354,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Title' %}</label>
                                             <div class="form-group">
-                                                <div class="default-select">
+                                                <div class="form-select-2">
                                                     <select id="adult_title1" name="adult_title1" class="nice-select-default">
                                                         {% for title in adult_title%}
                                                         <option>{{title}}</option>
@@ -380,10 +379,10 @@
                                                                 <center><img src="/static/tt_website_rodextrip/img/id_card.png" style="width:100%; height:100%;"></center>
                                                             </div>
                                                             <div>
-                                                                    <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
-                                                                    <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
-                                                                    <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
-                                                                </div>
+                                                                <p>{% trans '1. Please fill passenger name as written in your ID card, including characters such as "," or "." or foreign characters (i.e: Chinese/Japanese characters).' %}</p>
+                                                                <p>{% trans '2. Maximum total characters for title, first name, and last name is 30. If your title, first name, and last name exceeds 30 characters, you can put only the first 30 characters.' %}</p>
+                                                                <p>{% trans '3. Passenger last name cannot be more than 1 word and must contain at least 2 characters.' %}</p>
+                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
@@ -428,7 +427,7 @@
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group">
-                                                <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date1" id="adult_birth_date1" onchange="check_years_old(1)" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date1" id="adult_birth_date1" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 <input type="hidden" class="form-control" name="adult_years_old1" id="adult_years_old1">
                                             </div>
                                         </div>
@@ -472,26 +471,26 @@
                         </div>
                         <br/>
 
+                        <div class="row" style="margin-top:15px;">
+                            <div class="col-lg-12" id="extra_data_master">
+
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="cancellation_policy">
-
-                        </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
-                            {% for room in rooms %}
-                                <h6>{% trans 'Room' %} {{room}}:</h6>
-                                <textarea rows="2" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="special_request_{{room}}" name="special_request_{{room}}"></textarea>
-                            {% endfor %}
-                            <h6>{% trans 'Early' %}/{% trans 'Late' %} {% trans 'Check-In' %}:</h6>
-                            <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_ci" name="late_ci"></textarea>
-                            <h6>{% trans 'Late' %} {% trans 'Check-Out' %}:</h6>
-                            <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none;" type="text" id="late_co" name="late_co"></textarea>
+                            <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:100px;" type="text" id="special_req_event" name="special_req_event"></textarea>
                         </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
-
+                            <h3>INI PRICE DETAIL</h3>
+                            <h3>INI PRICE DETAIL</h3>
+                            <h3>INI PRICE DETAIL</h3>
+                            <h3>INI PRICE DETAIL</h3>
+                            <h3>INI PRICE DETAIL</h3>
+                            <h3>INI PRICE DETAIL</h3>
                         </div>
                         <textarea id="data_copy2" name="data_copy2" rows="4" hidden></textarea>
                     </div>
@@ -553,6 +552,20 @@
       $('.js-example-basic-single').select2();
       auto_complete('booker_nationality');
       auto_complete('booker_phone_code');
+
+      $('input[name="adult_birth_date1"]').daterangepicker({
+          singleDatePicker: true,
+          autoUpdateInput: true,
+          startDate: moment().subtract(17, 'years'),
+          minDate: moment().subtract(100, 'years'),
+          maxDate: moment(),
+          showDropdowns: true,
+          opens: 'center',
+          locale: {
+              format: 'DD MMM YYYY',
+          }
+      });
+      $('input[name="adult_birth_date1"]').val("");
     });
 
 </script>
