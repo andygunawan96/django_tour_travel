@@ -109,7 +109,7 @@ def login(request):
         time.sleep(1)
         request.session['bills_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['visa_signature']))
+        logging.getLogger("info_logger").info(json.dumps(request.session['bills_signature']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
