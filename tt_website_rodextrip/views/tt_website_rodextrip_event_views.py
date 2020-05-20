@@ -205,7 +205,7 @@ def contact_passengers(request):
             i = 1
             while i:
                 if request.POST.get('option_qty_'+str(i-1)) and int(request.POST['option_qty_' + str(i-1)]) != 0:
-                    opt_code.append({'code': request.session['event_code']['option'][i-1]['option_id'], 'qty': request.POST['option_qty_' + str(i-1)]})
+                    opt_code.append({'name': request.session['event_code']['option'][i-1]['grade'], 'code': request.session['event_code']['option'][i-1]['option_id'], 'qty': request.POST['option_qty_' + str(i-1)]})
                     i += 1
                 else:
                     break
