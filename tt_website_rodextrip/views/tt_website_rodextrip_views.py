@@ -32,7 +32,8 @@ provider_type = {
     'AT': 'activity',
     'TR': 'tour',
     'RESV': 'hotel',
-    'BT': 'ppob'
+    'BT': 'ppob',
+    'VT': 'event'
 }
 
 # Create your views here.
