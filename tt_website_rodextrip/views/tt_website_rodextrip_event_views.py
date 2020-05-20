@@ -210,7 +210,7 @@ def contact_passengers(request):
                 else:
                     break
 
-            request.session['event_option_code'] = opt_code
+            request.session['event_option_code' + request.session['event_signature']] = opt_code
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -370,6 +370,13 @@ def review(request):
                 "line": [],
             })
             request.session['hotel_json_printout' + request.session['event_signature']] = print_json
+
+            question_answer = [{
+                    'que': request.POST[a],
+                    'ans': request.POST['question_event_' + a.replace('que_','')],
+                } for a in request.POST.keys() if 'que_' in a]
+            request.session['event_extra_question' + request.session['event_signature']] = question_answer
+
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
@@ -387,7 +394,7 @@ def review(request):
 
                 'event_search': request.session['event_request'],
                 'event_code': request.session['event_code'],
-                'event_option_code': request.session['event_option_code'],
+                'event_option_code': request.session['event_option_code' + request.session['event_signature']],
                 'event_extra_question': [{
                     'que': request.POST[a],
                     'ans': request.POST['question_event_' + a.replace('que_','')],

@@ -11,6 +11,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice_voucher_views import *
+import time
 _logger = logging.getLogger(__name__)
 
 month = {
@@ -109,11 +110,15 @@ def login(request):
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
+        time.sleep(1)
+        if 'event_signature' in request.session:
+            del request.session['event_signature']
         request.session['event_signature'] = res['result']['response']['signature']
+        if 'signature' in request.session:
+            del request.session['signature']
         request.session['signature'] = res['result']['response']['signature']
         logging.getLogger("info_logger").info(json.dumps(request.session['event_signature']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -222,7 +227,7 @@ def search(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         data = {
-            'event_name': request.POST['event_name'],
+            'event_name': request.POST['event_name'].split(' - ')[0],
             'is_online': request.POST['is_online'],
         }
         request.session['event_request_data'] = data
@@ -354,31 +359,37 @@ def create_booking(request):
                 if pax['nationality_name'] == country['name']:
                     pax['nationality_code'] = country['code']
                     break
+        # event_option_codes = []
+        # exist = True
+        # i = 0
+        # while exist:
+        #     key = "event_option_codes[" + str(i) + "]"
+        #     if request.POST.get(key + "[option_code]"):
+        #         extra_question = []
+        #         exist2 = True
+        #         j = 0
+        #         while exist2:
+        #             if request.POST.get(key + "[extra_question][" + str(j) + "][question_id]"):
+        #                 extra_question.append({
+        #                     'question_id': request.POST[key + "[extra_question][" + str(j) + "][question_id]"],
+        #                     'answer': request.POST[key + "[extra_question][" + str(j) + "][answer]"],
+        #                 })
+        #                 j += 1
+        #             else:
+        #                 exist2 = False
+        #         event_option_codes.append({
+        #             'option_code': request.POST[key + "[option_code]"],
+        #             'extra_question': extra_question,
+        #         })
+        #         i += 1
+        #     else:
+        #         exist = False
         event_option_codes = []
-        exist = True
-        i = 0
-        while exist:
-            key = "event_option_codes[" + str(i) + "]"
-            if request.POST.get(key + "[option_code]"):
-                extra_question = []
-                exist2 = True
-                j = 0
-                while exist2:
-                    if request.POST.get(key + "[extra_question][" + str(j) + "][question_id]"):
-                        extra_question.append({
-                            'question_id': request.POST[key + "[extra_question][" + str(j) + "][question_id]"],
-                            'answer': request.POST[key + "[extra_question][" + str(j) + "][answer]"],
-                        })
-                        j += 1
-                    else:
-                        exist2 = False
-                event_option_codes.append({
-                    'option_code': request.POST[key + "[option_code]"],
-                    'extra_question': extra_question,
-                })
-                i += 1
-            else:
-                exist = False
+        for i in request.session['event_option_code' + request.POST['signature']]:
+            event_option_codes.append({
+                'option_code': i['code'],
+                'qty': int(i['qty'])
+            })
         data = {
             "event_code": request.POST['event_code'],
             "provider": 'event_internal',
@@ -402,18 +413,10 @@ def create_booking(request):
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
 
     try:
-        request.session['hotel_booking'] = res['result']['response']
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['hotel_error'] = {
-            'error_code': res['result']['error_code'],
-            'signature': signature
-        }
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_booking']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.session['hotel_signature'])
+            logging.getLogger("info_logger").info("create_booking EVENT SUCCESS SIGNATURE " + request.session['hotel_signature'])
         else:
-            logging.getLogger("error_logger").error("provision_hotel HOTEL ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("create_booking EVENT ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 

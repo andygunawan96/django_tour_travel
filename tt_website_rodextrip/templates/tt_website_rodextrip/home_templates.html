@@ -6352,7 +6352,7 @@
                 cache: false,
                 delay:0,
                 source: function(term, suggest){
-                    if(term.split(' - ').length == 4)
+                    if(term.split(' - ').length == 2)
                         term = ''
                     if(term.length > 1)
                         suggest(event_search_autocomplete(term));
@@ -6371,8 +6371,8 @@
                     }
                 },
                 onSelect: function(e, term, item){
-                    $("#destination_id_flight").trigger("blur");
-                    set_airline_search_value_to_true();
+                    $("#event_name_id").trigger("blur");
+                    document.getElementById('event_name_id').value = item.innerText.slice(1,item.innerText.length);
                 }
             });
             {% endif %}
