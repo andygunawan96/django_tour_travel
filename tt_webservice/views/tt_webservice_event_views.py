@@ -41,6 +41,19 @@ month = {
 
 }
 
+class provider_event:
+    def __init__(self, name):
+        self.get_time_auto_complete_event = name
+        self.get_time_auto_complete_event_first_time = True
+    def set_new_time_out(self, val):
+        if val == 'auto_complete':
+            self.get_time_auto_complete_event = datetime.now()
+    def set_first_time(self,val):
+        if val == 'auto_complete':
+            self.get_time_auto_complete_event_first_time = False
+
+event = provider_event(datetime.now())
+
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -115,9 +128,46 @@ def get_config(request):
             "action": "get_config",
             "signature": request.POST['signature']
         }
+        date_time = datetime.now() - event.get_time_auto_complete_event
+        if date_time.seconds >= 1800 or event.get_time_auto_complete_event_first_time == True:
+            res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+            try:
+                if res['result']['error_code'] == 0:
+                    file = open(var_log_path() + "event_cache_data.txt", "w+")
+                    file.write(json.dumps(res['result']['response']))
+                    file.close()
+                    event.set_new_time_out('auto_complete')
+                    event.set_first_time('auto_complete')
+            except Exception as e:
+                logging.getLogger("info_logger").info(
+                    "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
+                        e) + '\n' + traceback.format_exc())
+                file = open(var_log_path() + "event_cache_data.txt", "r")
+                for line in file:
+                    response = json.loads(line)
+                file.close()
+                res = {
+                    'result': {
+                        'error_code': 0,
+                        'error_msg': 'using old cache',
+                        'response': response
+                    }
+                }
+        else:
+            file = open(var_log_path() + "event_cache_data.txt", "r")
+            for line in file:
+                response = json.loads(line)
+            file.close()
+            res = {
+                'result': {
+                    'error_code': 0,
+                    'error_msg': 'using old cache',
+                    'response': response
+                }
+            }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
+
     try:
         pass
     except Exception as e:
@@ -180,7 +230,7 @@ def search(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
-            "signature": request.session['event_signature']
+            "signature": request.session['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -208,13 +258,13 @@ def detail(request):
     try:
         data = request.session['event_request_data']
         data.update({
-            'event_code': request.session['event_code'].get('id') or 1,
+            'event_code': request.POST['external_code'],
         })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_details",
-            "signature": request.session['event_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -247,7 +297,7 @@ def extra_question(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "extra_question",
-            "signature": request.session['event_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -345,7 +395,7 @@ def create_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "create_booking",
-            "signature": request.session['event_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -436,7 +486,7 @@ def issued_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "issued",
-            "signature": request.session['event_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

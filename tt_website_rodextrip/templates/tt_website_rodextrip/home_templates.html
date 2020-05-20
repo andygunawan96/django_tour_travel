@@ -6345,7 +6345,36 @@
             });
             {% endif %}
             {% if "event" in provider %}
-            get_event_config();
+            get_event_config('home');
+            var event_autocomplete = new autoComplete({
+                selector: '#event_name_id',
+                minChars: 0,
+                cache: false,
+                delay:0,
+                source: function(term, suggest){
+                    if(term.split(' - ').length == 4)
+                        term = ''
+                    if(term.length > 1)
+                        suggest(event_search_autocomplete(term));
+                },
+                renderItem: function (item, search){
+                    search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                    var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+                    try{
+                        if(item.image_url.length != 0)
+                            return '<div class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><img src="img/'+item.name+'.png" style="max-width:20px;"> '+item.name.replace(re, "<b>$1</b>")+' - '+item.type+'</div>';
+
+                        else
+                            return '<div class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><img src="{{static_path}}images/nofound/no-activity.png" style="max-width:20px;"> '+item.name.replace(re, "<b>$1</b>")+' - '+item.type+'</div>';
+                    }catch(err){
+                        return '<div class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><img src="{{static_path}}images/nofound/no-activity.png" style="max-width:20px;"> '+item.name.replace(re, "<b>$1</b>")+' - '+item.type+'</div>';
+                    }
+                },
+                onSelect: function(e, term, item){
+                    $("#destination_id_flight").trigger("blur");
+                    set_airline_search_value_to_true();
+                }
+            });
             {% endif %}
             {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
             get_visa_config('home');

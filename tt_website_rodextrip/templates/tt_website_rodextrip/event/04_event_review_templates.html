@@ -86,7 +86,7 @@
 {% endif %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background: #f7f7f7;">
     <div class="container">
-        <form method="POST" id="issued">
+        <form method="POST" id="event_booking">
             {% csrf_token %}
             <div class="row">
                 <div class="col-lg-12">
@@ -309,7 +309,7 @@
             </div>
             <input type="hidden" id="time_limit_input" value="{{time_limit}}" name="time_limit_input" />
         </form>
-        <form method="POST" id="event_payment" action="{% url 'tt_website_rodextrip:payment'%}">
+        <form method="POST" id="event_issued" action="{% url 'tt_website_rodextrip:payment'%}">
             {% csrf_token %}
             <input type="hidden" id="passengers" name="passengers"/>
             <input type="hidden" id="signature" name="signature"/>
