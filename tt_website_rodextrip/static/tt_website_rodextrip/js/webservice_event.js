@@ -118,7 +118,7 @@ function event_get_booking(data){
                document.getElementById('event_booking').innerHTML = text;
             //======================= Button Issued ==================
             if(msg.result.response.status == 'booked'){
-               check_payment_payment_method(msg.result.response.booking_name, 'Issued', '', 'billing', 'event', signature, {});
+               check_payment_payment_method(msg.result.response.order_number, 'Issued', '', 'billing', 'event', signature, {});
                $(".issued_booking_btn").show();
             }
             //======================= Option =========================
@@ -135,9 +135,10 @@ function event_get_booking(data){
                             <th class="">SubTotal</th>
                         </tr>`;
                     for(i in msg.result.response.options){
+                        var b = parseInt(i) + 1;
                         text+=`
                             <tr>
-                                <td>`+parseInt(i+1)+`</td>
+                                <td>`+ b +`</td>
                                 <td>`+msg.result.response.options[i].image_url+`</td>
                                 <td>`+msg.result.response.options[i].name+`</td>
                                 <td>`+msg.result.response.options[i].description+`</td>
@@ -146,8 +147,30 @@ function event_get_booking(data){
                                 <td>`+msg.result.response.options[i].currency+` `+getrupiah(msg.result.response.options[i].price * msg.result.response.options[i].qty)+`</td>
                             </tr>`;
                         }
-                        text+=`</table>`;
+                    text+=`</table>`;
             document.getElementById('event_list_option').innerHTML = text;
+
+            //======================= Guest / Passanger =========================
+            text=`
+                <h5>Extra Question</h5>
+                <hr/>
+                <table style="width:100%;" id="list-of-question">
+                    <tr>
+                        <th class="">No</th>
+                        <th class="">Name</th>
+                        <th class="">Pax Type</th>
+                        <th class="">Birth Date</th>
+                    </tr>`;
+                    for(i in msg.result.response.passengers){
+                        text+=`<tr>
+                            <td>`+parseInt(i+1)+`</td>
+                            <td><span>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</span></td>
+                            <td><span>`+msg.result.response.passengers[i].pax_type+`</span></td>
+                            <td><span>`+msg.result.response.passengers[i].birth_date+`</span></td>
+                        </tr>`;
+                    }
+           text+=`</table>`;
+           document.getElementById('event_passenger').innerHTML = text;
 
             //======================= Other =========================
             add_repricing();
@@ -155,7 +178,7 @@ function event_get_booking(data){
                 }else{
                     //swal
                 }
-            }catch(err){console.log('part #8')}
+            }catch(err){}
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){
@@ -439,14 +462,18 @@ function event_get_extra_question(option_code, provider){
             text='';
             var node = document.createElement("div");
             for(j in option_code){
-                for(i in msg.result.response){
-                    text += '<h3>Question #' + parseInt(i)+1 + '</h3>';
-                    text += '<i>' + msg.result.response[i].question + '</i>';
-                    text += '<input id="que_' + i +'" name="que_' + i +'" type="text" value="' + msg.result.response[i].question + '" hidden/>';
-                    text += '<input id="question_event_' + i +'" name="question_event_' + i +'" type="text" placeholder="' + msg.result.response[i].type + '"';
-                    if (msg.result.response[i].required)
-                        text += 'required';
-                    text += '/>';
+                var k = 0;
+                while(k < parseInt(option_code[j].qty)){
+                    for(i in msg.result.response){
+                        text += '<h3>Question #' + parseInt(i)+1 + '</h3>';
+                        text += '<i>' + msg.result.response[i].question + '</i>';
+                        text += '<input id="que_' + i +'" name="que_' + i +'" type="text" value="' + msg.result.response[i].question + '" hidden/>';
+                        text += '<input id="question_event_' + i +'" name="question_event_' + i +'" type="text" placeholder="' + msg.result.response[i].type + '"';
+                        if (msg.result.response[i].required)
+                            text += 'required';
+                        text += '/>';
+                    }
+                    k += 1;
                 }
             }
             node.innerHTML = text;
@@ -539,9 +566,35 @@ function event_create_booking(){
         console.log(msg);
         if(msg.result.error_code == 0){
             path = 'http://192.168.50.241:8000/';
+//            path = 'http://192.168.0.11:8000/';
             window.location.href = path + "event/booking/" + msg.result.response.order_number;
         }else{
             alert(msg.result.error_msg);
+        }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           alert(errorThrown);
+       }
+    });
+}
+
+function event_issued(val){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/event",
+       headers:{
+            'action': 'issued',
+       },
+       data: {
+            'order_number': val,
+//            'seq_id': payment_acq2[payment_method][selected].seq_id,
+//            'member': payment_acq2[payment_method][selected].method,
+//            'signature': signature,
+//            'voucher_code': voucher_code
+       },
+       success: function(msg) {
+        if(msg.result.error_code == 0){
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

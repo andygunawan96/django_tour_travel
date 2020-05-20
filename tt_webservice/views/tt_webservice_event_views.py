@@ -412,106 +412,49 @@ def get_booking(request):
 
 def issued_booking(request):
     try:
-        passenger = []
         javascript_version = get_cache_version()
-        response = get_cache_data(javascript_version)
-        for pax_type in request.session['hotel_review_pax']:
-            if pax_type != 'contact' and pax_type != 'booker':
-                for pax in request.session['hotel_review_pax'][pax_type]:
-                    if pax['nationality_name'] != '':
-                        for country in response['result']['response']['airline']['country']:
-                            if pax['nationality_name'] == country['name']:
-                                pax['nationality_code'] = country['code']
-                                break
-                    try:
-                        pax.update({
-                            'birth_date': '%s-%s-%s' % (
-                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                                pax['birth_date'].split(' ')[0]),
-                        })
-                    except:
-                        pass
-                    passenger.append(pax)
-        booker = request.session['hotel_review_pax']['booker']
-        contacts = request.session['hotel_review_pax']['contact']
-        for country in response['result']['response']['airline']['country']:
-            if booker['nationality_name'] == country['name']:
-                booker['nationality_code'] = country['code']
-                booker['country_code'] = country['code']
-                break
-
-        for pax in contacts:
-            for country in response['result']['response']['airline']['country']:
-                if pax['nationality_name'] == country['name']:
-                    pax['nationality_code'] = country['code']
-                    break
-        data = {
-            "passengers": passenger,
-            'user_id': request.session.get('co_uid') or '',
-            'search_data': request.session['hotel_request'],
-            # 'cancellation_policy': request.session['hotel_cancellation_policy']['result']['response'],
-            'cancellation_policy': [],
-            'promotion_codes_booking': [],
-            # 'voucher_code': request.POST['voucher_code'],
-            # Remove Versi Baru
-            # 'hotel_code': [{
-            #     "hotel_code": request.session['hotel_detail']['result']['hotel_code'][request.session['hotel_room_pick']['provider']],
-            #     "provider": request.session['hotel_room_pick']['provider']
-            # }],
-            # Must set as list prepare buat issued multi vendor
-            'price_codes': [request.session['hotel_room_pick']['price_code'],],
-            "contact": contacts,
-            "booker": booker,
-            'kwargs': {
-                'force_issued': bool(int(request.POST['force_issued']))
-            },
-            'special_request': request.session['hotel_request']['special_request'],
-            'resv_name': '',
-            'os_res_no': '',
-            'journeys_booking': ''
-        }
-
         # payment
-        if request.POST['force_issued'] == True:
-            try:
-                if request.POST['member'] == 'non_member':
-                    member = False
-                else:
-                    member = True
-                data.update({
-                    'member': member,
-                    'seq_id': request.POST['seq_id'],
-                    'voucher': {}
-                })
-                if request.POST['voucher_code'] != '':
-                    data.update({
-                        'voucher': data_voucher(request.POST['voucher_code'], 'hotel', []),
-                    })
-            except:
-                pass
+        data = request
+        # data = {}
+        # try:
+        #     if request.POST['member'] == 'non_member':
+        #         member = False
+        #     else:
+        #         member = True
+        #     data.update({
+        #         'member': member,
+        #         'seq_id': request.POST['seq_id'],
+        #         'voucher': {}
+        #     })
+        #     if request.POST['voucher_code'] != '':
+        #         data.update({
+        #             'voucher': data_voucher(request.POST['voucher_code'], 'hotel', []),
+        #         })
+        # except:
+        #     pass
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
-            "action": "booked",
-            "signature": request.session['hotel_signature'],
+            "action": "issued",
+            "signature": request.session['event_signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + "booking/hotel", data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
 
     try:
-        request.session['hotel_booking'] = res['result']['response']
+        request.session['event_booking'] = res['result']['response']
         signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['hotel_error'] = {
+        request.session['event_error'] = {
             'error_code': res['result']['error_code'],
             'signature': signature
         }
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_booking']))
+        logging.getLogger("info_logger").info(json.dumps(request.session['event_booking']))
         request.session.modified = True
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("provision_hotel HOTEL SUCCESS SIGNATURE " + request.session['hotel_signature'])
+            logging.getLogger("info_logger").info("Event Issued SUCCESS SIGNATURE " + request.session['event_signature'])
         else:
-            logging.getLogger("error_logger").error("provision_hotel HOTEL ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            logging.getLogger("error_logger").error("event_issued HOTEL ERROR SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 

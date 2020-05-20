@@ -98,6 +98,8 @@ def get_payment_acquirer(request):
         # })
     elif request.POST['type'] == 'tour':
         url_post = 'booking/tour'
+    elif request.POST['type'] == 'event':
+        url_post = 'booking/event'
     res = util.send_request(url=url + url_post, data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
