@@ -18,7 +18,7 @@ var month = {
     '12': 'Dec',
 }
 
-function get_event_config(){
+function get_event_config(type){
     getToken();
     $.ajax({
        type: "POST",
@@ -32,11 +32,58 @@ function get_event_config(){
        },
        success: function(msg) {
         console.log(msg);
+        data_event = msg.result.response;
+        if(type == 'search'){
+            for(i in data_event.category){
+                var node = document.createElement("div");
+                carrier_code_airline_checkbox = '';
+                carrier_code_airline_checkbox += `
+                <div class="checkbox-inline1">
+                    <label class="check_box_custom">`;
+
+                carrier_code_airline_checkbox +=`
+                    <span class="span-search-ticket" style="color:black;">`+data_event.category[i].category_name.slice(0,26)+`</span>`;
+
+                carrier_code_airline_checkbox +=`<input type="checkbox" id="checkbox_event`+data_event.category[i].category_name+`" onclick=""/>
+                        <span class="check_box_span_custom"></span>
+                        </label><br/>
+                    </div>`;
+                node.innerHTML = carrier_code_airline_checkbox;
+                console.log(node);
+                document.getElementById("filter").appendChild(node);
+            }
+        }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
            alert(errorThrown);
        }
     });
+}
+
+function event_search_autocomplete(term){
+    term = term.toLowerCase();
+    var choices = data_event;
+    var suggestions = [];
+    var priority = [];
+    if(term.split(' - ').length == 2)
+        term = '';
+    for(i in choices){
+        for(j in choices[i]){
+            if(i == 'event'){
+                if(choices[i][j].name.toLowerCase().split(' - ')[0].search(term) !== -1){
+                    choices[i][j].type = 'event'
+                    priority.push(choices[i][j]);
+                }
+            }else if(i == 'category'){
+                if(choices[i][j].category_name.toLowerCase().split(' - ')[0].search(term) !== -1){
+                    choices[i][j].type = 'category'
+                    choices[i][j].name = choices[i][j].category_name
+                    suggestions.push(choices[i][j]);
+                }
+            }
+        }
+    }
+    return priority.concat(suggestions).slice(0,100);
 }
 
 function event_get_booking(data){
@@ -207,6 +254,8 @@ function event_signin(data){
                signature = msg.result.response.signature;
                if(data != ''){
                     event_get_booking(data);
+               }else{
+                    event_search();
                }
            }else{
                Swal.fire({
@@ -234,62 +283,38 @@ function event_signin(data){
     });
 }
 //signin jadi 1 sama search
-function event_search(data){
-    getToken();
+function event_search(){
     $.ajax({
        type: "POST",
        url: "/webservice/event",
        headers:{
-            'action': 'signin',
+            'action': 'search',
        },
-       data: {},
+       data: {
+        'event_name': $('#event_name').val(),
+        'is_online': '1',
+        'signature': signature
+       },
        success: function(msg) {
+           console.log('Result');
            console.log(msg);
-           if(data == ''){
-               document.getElementById('event_ticket_objs').innerHTML = '';
-               if(msg.result.error_code == 0){
-                   $.ajax({
-                       type: "POST",
-                       url: "/webservice/event",
-                       headers:{
-                            'action': 'search',
-                       },
-                       data: {
-                        'event_name': $('#event_name').val(),
-                        'is_online': '1',
-                       },
-                       success: function(msg) {
-                           console.log('Result');
-                           console.log(msg);
-                           try{
-                                if(msg.result.error_code==0){
-                                    sort(msg.result.response,1);
-                                }else{
-                                    //kalau error belum
-                                    console.log('Error #1');
-                                }
-                           }catch(err){
-                                console.log('Error #2');
-                                alert(msg.result.error_msg);
-                           }
-                       },
-                       error: function(XMLHttpRequest, textStatus, errorThrown) {
-                           console.log(textStatus);
-                           alert(errorThrown);
-                       }
-                   });
-               }else{
-                    console.log('Error Code != 0');
-                    console.log(msg.result.error_code);
-               }
-           }else if(data != ''){
-               //goto reservation
+           try{
+                if(msg.result.error_code==0){
+                    sort(msg.result.response,1);
+                }else{
+                    //kalau error belum
+                    console.log('Error #1');
+                }
+           }catch(err){
+                console.log('Error #2');
+                alert(msg.result.error_msg);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
+           console.log(textStatus);
            alert(errorThrown);
        }
-    });
+   });
 }
 
 function event_options(id){
@@ -306,6 +331,7 @@ function event_options(id){
        },
        data: {
             'external_code':id,
+            'signature': signature
        },
        success: function(msg) {
         console.log(msg);
@@ -383,51 +409,6 @@ function event_options(id){
 
                 hotel_price = msg.result.prices;
 
-                //            for(i in msg.result.prices){
-    //                text+=`
-    //                <div class="row" style="margin-bottom:15px;">
-    //                    <div class="col-lg-12" style="margin-bottom:25px;">
-    //                        <div style="top:0px; right:10px; position:absolute;">
-    //                            <label class="check_box_custom">
-    //                                <span class="span-search-ticket"></span>
-    //                                <input type="checkbox" id="copy_hotel"/>
-    //                                <span class="check_box_span_custom"></span>
-    //                            </label>
-    //                        </div>
-    //                    </div>`;
-    //
-    //                for(j in msg.result.prices[i].rooms){
-    //                    if(msg.result.prices[i].rooms[j].images.length != 0){
-    //                        text+=`
-    //                        <div class="col-lg-3 col-md-3">
-    //                            <div class="img-hotel-detail" style="background-image: url(`+msg.result.prices[i].rooms[j].images[0].url+`);"></div>
-    //                        </div>`;
-    //                    }else{
-    //                        text+=`
-    //                        <div class="col-lg-3 col-md-3">
-    //                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
-    //                        </div>`;
-    //                    }
-    //
-    //                    text+='<div class="col-lg-5 col-md-5"> <div style="margin-bottom:10px;"> <h4 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' +msg.result.prices[i].rooms[j].description+ '</h4></div>';
-    //                    text+='<span>' + msg.result.prices[i].rooms[j].category + '<br/> Total: '+ msg.result.prices[i].rooms[j].qty + ' room(s)</span><br/>';
-    //                }
-    //
-    //                text += '<span>Meal Type: ' + msg.result.prices[i].meal_type+'</span><br/>';
-    //                text+=`</div>`;
-    //
-    //                text+=`
-    //                <div class="col-lg-4 col-md-4" style="text-align:right;">`;
-    //                if(msg.result.prices[i].currency != 'IDR')
-    //                    text+= '<span style="font-weight: bold; font-size:16px;">'+ msg.result.prices[i].currency + ' ' + msg.result.prices[i].price_total +'</span>';
-    //                else
-    //                    text+= '<span style="font-weight: bold; font-size:16px;">'+ msg.result.prices[i].currency + ' ' + getrupiah(msg.result.prices[i].price_total) + '</span>';
-    //
-    //                text+='<br/><button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+msg.result.prices[i].sequence+');" id="button'+msg.result.prices[i].sequence+'">Choose</button>';
-    //                text+=`</div></div>`;
-    //
-    //            }
-    //            hotel_price = msg.result.prices;
 
             }else{
                 alert("There's no room in this hotel!");
@@ -453,7 +434,8 @@ function event_get_extra_question(option_code, provider){
        data: {
           "event_code": option_code,
           "price_code": option_code,
-          "provider": provider
+          "provider": provider,
+          'signature': signature
        },
        success: function(msg) {
         //console.log(option_code);
@@ -508,7 +490,7 @@ function event_issued_alert(val){
             $('.loader-rodextrip').fadeIn();
             document.getElementById("passengers").value = JSON.stringify({'booker':booker});
             document.getElementById("signature").value = signature;
-            document.getElementById("provider").value = 'hotel';
+            document.getElementById("provider").value = 'event';
             document.getElementById("type").value = 'hotel_review';
             document.getElementById("voucher_code").value = voucher_code;
             document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -516,12 +498,14 @@ function event_issued_alert(val){
             if(val == 1)
                 document.getElementById('event_issued').submit();
             else
-                event_create_booking();
+                a = document.getElementById("session_time_input").value
+                event_create_booking(val,a);
     }
     })
 }
 
-function event_create_booking(){
+function event_create_booking(val,a){
+    console.log(a);
     getToken();
     $.ajax({
        type: "POST",
@@ -561,13 +545,29 @@ function event_create_booking(){
             'event_extra_question': '',
             'special_request': '',
             'force_issued': '0',
+            'signature': signature
        },
        success: function(msg) {
         console.log(msg);
         if(msg.result.error_code == 0){
-            path = 'http://192.168.50.241:8000/';
-//            path = 'http://192.168.0.11:8000/';
-            window.location.href = path + "event/booking/" + msg.result.response.order_number;
+            if(val == 0){
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
+                    send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    document.getElementById('order_number').value = msg.result.response.order_number;
+                    document.getElementById('event_issued').submit();
+                }else{
+                   document.getElementById('event_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                   document.getElementById('event_booking').action = '/event/booking/' + btoa(msg.result.response.order_number);
+                   document.getElementById('event_booking').submit();
+                }
+            }else if(val == 1){
+                document.getElementById('order_number').value = msg.result.response.order_number;
+                document.getElementById('issued').action = '/event/booking/' + btoa(msg.result.response.order_number);
+                document.getElementById('issued').submit();
+            }
+//            path = 'http://192.168.50.241:8000/';
+////            path = 'http://192.168.0.11:8000/';
+//            window.location.href = path + "event/booking/" + msg.result.response.order_number;
         }else{
             alert(msg.result.error_msg);
         }
@@ -588,6 +588,7 @@ function event_issued(val){
        },
        data: {
             'order_number': val,
+            'signature': signature
 //            'seq_id': payment_acq2[payment_method][selected].seq_id,
 //            'member': payment_acq2[payment_method][selected].method,
 //            'signature': signature,
