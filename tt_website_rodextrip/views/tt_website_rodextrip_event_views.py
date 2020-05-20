@@ -392,7 +392,6 @@ def review(request):
                     'que': request.POST[a],
                     'ans': request.POST['question_event_' + a.replace('que_','')],
                 } for a in request.POST.keys() if 'que_' in a],
-                # 'event_extra_question_answer': [request.POST[a] for a in request.POST.keys() if 'question_event_' in a],
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

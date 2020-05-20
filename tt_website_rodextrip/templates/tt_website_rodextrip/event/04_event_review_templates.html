@@ -27,6 +27,12 @@
     booker = booker.replace(/False/g, 'false');
     booker = booker.replace(/&#39;/g, '"');
     booker = JSON.parse(booker);
+
+    json_event_option_code = `{{event_option_code}}`;
+    json_event_option_code = json_event_option_code.replace(/True/g, 'true');
+    json_event_option_code = json_event_option_code.replace(/False/g, 'false');
+    json_event_option_code = json_event_option_code.replace(/&#39;/g, '"');
+    json_event_option_code = JSON.parse(json_event_option_code);
 </script>
 
 {% include 'tt_website_rodextrip/logout.html' %}
@@ -121,9 +127,11 @@
                                 <span style="text-align:justify; font-weight:bold;">{% trans 'Selected Options' %}: </span><br/>
                                 <ul>
                                 {% for rec in event_code.option %}
-                                    {% if rec.option_id == event_option_code%}
-                                    <li>{{rec.grade}}: {{rec.min_qty}} Ticket(s) @ {{rec.currency}} {{rec.price}}</li>
-                                    {% endif %}
+                                    {% for rec2 in event_option_code %}
+                                        {% if rec.option_id == rec2.code%}
+                                        <li>{{rec.grade}}: {{rec2.qty}} Ticket(s) @ {{rec.currency}} {{rec.price}}</li>
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endfor %}
                                 </ul><br/>
 
@@ -176,6 +184,7 @@
                             </div>
                         </div>
                         <textarea id="data_copy2" name="data_copy2" rows="4" hidden></textarea>
+                        <input id="json_event_code" name="json_event_code" hidden value=""/>
                         <div class="col-lg-4" style="padding-bottom:10px;">
 
                         </div>
@@ -198,6 +207,7 @@
                             <!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
                             <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail"></div>
                         </div>
+                        <div></div>
                         <div class="col-lg-12">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
@@ -327,8 +337,9 @@
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
+    document.getElementById('json_event_code').value = json_event_option_code;
     $( document ).ready(function() {
-      breadcrumb_create("hotel", 5, 0);
+      breadcrumb_create("event", 5, 0);
     });
 </script>
 {% endblock %}

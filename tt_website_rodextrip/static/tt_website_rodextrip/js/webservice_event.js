@@ -409,51 +409,6 @@ function event_options(id){
 
                 hotel_price = msg.result.prices;
 
-                //            for(i in msg.result.prices){
-    //                text+=`
-    //                <div class="row" style="margin-bottom:15px;">
-    //                    <div class="col-lg-12" style="margin-bottom:25px;">
-    //                        <div style="top:0px; right:10px; position:absolute;">
-    //                            <label class="check_box_custom">
-    //                                <span class="span-search-ticket"></span>
-    //                                <input type="checkbox" id="copy_hotel"/>
-    //                                <span class="check_box_span_custom"></span>
-    //                            </label>
-    //                        </div>
-    //                    </div>`;
-    //
-    //                for(j in msg.result.prices[i].rooms){
-    //                    if(msg.result.prices[i].rooms[j].images.length != 0){
-    //                        text+=`
-    //                        <div class="col-lg-3 col-md-3">
-    //                            <div class="img-hotel-detail" style="background-image: url(`+msg.result.prices[i].rooms[j].images[0].url+`);"></div>
-    //                        </div>`;
-    //                    }else{
-    //                        text+=`
-    //                        <div class="col-lg-3 col-md-3">
-    //                            <div class="img-hotel-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>
-    //                        </div>`;
-    //                    }
-    //
-    //                    text+='<div class="col-lg-5 col-md-5"> <div style="margin-bottom:10px;"> <h4 style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">' +msg.result.prices[i].rooms[j].description+ '</h4></div>';
-    //                    text+='<span>' + msg.result.prices[i].rooms[j].category + '<br/> Total: '+ msg.result.prices[i].rooms[j].qty + ' room(s)</span><br/>';
-    //                }
-    //
-    //                text += '<span>Meal Type: ' + msg.result.prices[i].meal_type+'</span><br/>';
-    //                text+=`</div>`;
-    //
-    //                text+=`
-    //                <div class="col-lg-4 col-md-4" style="text-align:right;">`;
-    //                if(msg.result.prices[i].currency != 'IDR')
-    //                    text+= '<span style="font-weight: bold; font-size:16px;">'+ msg.result.prices[i].currency + ' ' + msg.result.prices[i].price_total +'</span>';
-    //                else
-    //                    text+= '<span style="font-weight: bold; font-size:16px;">'+ msg.result.prices[i].currency + ' ' + getrupiah(msg.result.prices[i].price_total) + '</span>';
-    //
-    //                text+='<br/><button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+msg.result.prices[i].sequence+');" id="button'+msg.result.prices[i].sequence+'">Choose</button>';
-    //                text+=`</div></div>`;
-    //
-    //            }
-    //            hotel_price = msg.result.prices;
 
             }else{
                 alert("There's no room in this hotel!");
@@ -535,7 +490,7 @@ function event_issued_alert(val){
             $('.loader-rodextrip').fadeIn();
             document.getElementById("passengers").value = JSON.stringify({'booker':booker});
             document.getElementById("signature").value = signature;
-            document.getElementById("provider").value = 'hotel';
+            document.getElementById("provider").value = 'event';
             document.getElementById("type").value = 'hotel_review';
             document.getElementById("voucher_code").value = voucher_code;
             document.getElementById("discount").value = JSON.stringify(discount_voucher);
@@ -543,12 +498,14 @@ function event_issued_alert(val){
             if(val == 1)
                 document.getElementById('event_issued').submit();
             else
-                event_create_booking(val);
+                a = document.getElementById("session_time_input").value
+                event_create_booking(val,a);
     }
     })
 }
 
-function event_create_booking(val){
+function event_create_booking(val,a){
+    console.log(a);
     getToken();
     $.ajax({
        type: "POST",

@@ -335,30 +335,30 @@ function sort(response, check_filter){
                 </div>
                 <div style="padding-top:5px;">
                     <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
-                    if(response[i].locations.length != 0){
-                        for(g in response[i].locations){
-                            text+= ' ' + response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name;
-                        }
-                    }
+//                    if(response[i].locations.length != 0){
+//                        for(g in response[i].locations){
+//                            text+= ' ' + response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name;
+//                        }
+//                    }
                 text+=`</span>
                 </div>
                 <div style="padding-top:5px; padding-bottom:15px; min-height:120px; word-break:break-word;">
                     Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
-                    if(response[i].locations.length != 0){
+                    if(response[i].category.length != 0){
                         var count_category = 0;
                         category_tooltip = '';
-                        for(g in response[i].tags){
+                        for(g in response[i].category){
                             if(count_category < max_category){
-                                text+=`<span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].tags[g] +` </span>`;
+                                text+=`<span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].category[g] +` </span>`;
                             }else{
-                                text += `<span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].tags[g] +` </span>`;
+                                text += `<span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].category[g] +` </span>`;
                             }
                             count_category = count_category + 1;
                         }
 
-                        if(response[i].tags.length > max_category){
-                            var category_more = response[i].tags.length - max_category;
-                            var total_category = response[i].tags.length;
+                        if(response[i].category.length > max_category){
+                            var category_more = response[i].category.length - max_category;
+                            var total_category = response[i].category.length;
                             text+=`<br/><span class="tags_btn_rsv" id="category_list_more`+i+`" style="margin-top:5px; max-width:80px;" onclick="display_tags_event(`+i+`, `+total_category+`);"> `+ category_more +` More</span>`;
                         }
                     }
