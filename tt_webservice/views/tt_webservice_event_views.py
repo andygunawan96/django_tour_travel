@@ -439,9 +439,9 @@ def get_booking(request):
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
 
     try:
-        logging.getLogger("info_logger").info(json.dumps(request.session['hotel_provision']))
         request.session.modified = True
         if res['result']['error_code'] == 0:
+            request.session['event_get_booking_response'] = res
             res['result']['response'].update({
                 'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
                 'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
@@ -467,24 +467,25 @@ def issued_booking(request):
     try:
         javascript_version = get_cache_version()
         # payment
-        data = request
-        # data = {}
-        # try:
-        #     if request.POST['member'] == 'non_member':
-        #         member = False
-        #     else:
-        #         member = True
-        #     data.update({
-        #         'member': member,
-        #         'seq_id': request.POST['seq_id'],
-        #         'voucher': {}
-        #     })
-        #     if request.POST['voucher_code'] != '':
-        #         data.update({
-        #             'voucher': data_voucher(request.POST['voucher_code'], 'hotel', []),
-        #         })
-        # except:
-        #     pass
+        if request.POST['member'] == 'non_member':
+            member = False
+        else:
+            member = True
+        data = {
+            # 'order_number': 'TB.190329533467'
+            'order_number': request.POST['order_number'],
+            'member': member,
+            'seq_id': request.POST['seq_id'],
+            'voucher': {}
+        }
+        provider = []
+        for provider_type in request.session['event_get_booking_response']['result']['response']['providers']:
+            if not provider_type['provider'] in provider:
+                provider.append(provider_type['provider'])
+        if request.POST['voucher_code'] != '':
+            data.update({
+                'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+            })
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
