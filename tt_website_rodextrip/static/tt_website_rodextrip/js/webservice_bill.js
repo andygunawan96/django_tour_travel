@@ -1002,7 +1002,7 @@ function bills_get_booking(data){
                 <div style="margin-bottom:5px;">
                     <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                 </div>`;
-                if(msg.result.response.state == 'fail_issued')
+                if(msg.result.response.state == 'fail_issued' || msg.result.response.state == 'fail_refunded')
                 text_detail+=`
                 <div style="margin-bottom:5px;">
                     <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="resync_status();" value="Resync"/>

@@ -593,7 +593,7 @@ function event_issued(data){
         getToken();
         $.ajax({
            type: "POST",
-           url: "/webservice/airline",
+           url: "/webservice/event",
            headers:{
                 'action': 'issued',
            },
@@ -695,37 +695,12 @@ function event_issued(data){
                     document.getElementById("overlay-div-box").style.display = "none";
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    airline_get_booking(data);
+                    event_get_booking(data);
                 }
            },timeout: 300000
         });
       }
     })
-
-
-    getToken();
-    $.ajax({
-       type: "POST",
-       url: "/webservice/event",
-       headers:{
-            'action': 'issued',
-       },
-       data: {
-            'order_number': val,
-            'signature': signature
-//            'seq_id': payment_acq2[payment_method][selected].seq_id,
-//            'member': payment_acq2[payment_method][selected].method,
-//            'signature': signature,
-//            'voucher_code': voucher_code
-       },
-       success: function(msg) {
-        if(msg.result.error_code == 0){
-        }
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-           alert(errorThrown);
-       }
-    });
 }
 
 function add_option(val){
