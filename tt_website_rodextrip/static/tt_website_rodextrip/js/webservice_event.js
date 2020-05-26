@@ -330,66 +330,120 @@ function event_options(id){
 
         text='';
         var node = document.createElement("div");
+        console.log(msg.result.response)
         if(msg.result.response.length != 0){
             for(i in msg.result.response){
-                text = '<div class="row" style="margin-bottom:15px;">';
-                text += `
-                <div class="col-lg-12" style="margin-bottom:15px; padding:0px;">
-                    <div style="background: `+color+`; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
-                        <span id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px;"> `+ msg.result.response[i].grade + `</span><br/>
-                        <div style="top:10px; right:10px; position:absolute;">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket"></span>
-                                <input type="checkbox" id="copy_hotel"/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>`;
-                console.log(msg.result);
-                if(msg.result.response[i].images.length != 0)
-                    text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"></div><hr/></div>`;
-                else
-                    text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div></div>`;
+                text = '<div class="row">';
+                    if(parseInt(msg.result.response[i].qty_available) >= 1){
+                        text += `
+                        <div class="col-lg-12" style="padding:0px;">
+                            <div style="background: `+color+`; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
+                                <span id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px; padding-right:5px;"> `+ msg.result.response[i].grade + `</span>`;
+                                if(parseInt(msg.result.response[i].qty_available) <= 5 && parseInt(msg.result.response[i].qty_available) >= 1){
+                                    text+=`<span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+color+`; background: `+text_color+`; border-radius:7px;">`+ msg.result.response[i].qty_available +` ticket left</span>`;
+                                }
+                                text+=`
+                                <br/>
+                                <div style="top:10px; right:10px; position:absolute;">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket"></span>
+                                        <input type="checkbox" id="copy_hotel"/>
+                                        <span class="check_box_span_custom" style="border:1px solid #cdcdcd;"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>`;
+                        console.log(msg.result);
+                        if(msg.result.response[i].images.length != 0)
+                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"></div><hr/></div>`;
+                        else
+                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div></div>`;
 
-                    text+=`<div class="col-lg-9 col-md-9">
-                    <div class="row">
-                        <div class="col-lg-12" style="margin-bottom:5px;">
-                            <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard.</span>
-                        </div>
-                        <div class="col-lg-6">
-                            <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020</span>
-                        </div>
-                        <div class="col-lg-6">
-                            <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 13:00</span>
-                        </div>
-                        <div class="col-lg-12"><hr/></div>
-                        <div class="col-lg-6 col-md-6">
-                            <span style="font-weight:500; color: `+color+`;">Expired Date<br/> 15 Mei 2020 - 17:00</span>
-                        </div>
-                    <div class="col-lg-6 col-md-6" style="padding-top:5px;">
-                        <div style="float:right; display:flex;">
-                            <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
-                            <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>`;
-                            price_start.push(msg.result.response[i].price);
-                            if(msg.result.response[i].currency != 'IDR')
-                                text+= '<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
-                            else
-                                text+= '<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
-                        text+=`
-                            <button type="button" class="btn-custom-circle" id="left-minus-event-`+i+`" data-type="minus" data-field="" disabled onclick="reduce_option(`+i+`);">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
-                            <button type="button" class="btn-custom-circle" id="right-plus-event-`+i+`" data-type="plus" data-field="" onclick="add_option(`+i+`);">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>`;
+                        text+=`<div class="col-lg-9 col-md-9">
+                        <div class="row" style="padding:10px 0px;">
+                            <div class="col-lg-12" style="margin-bottom:5px;">
+                                <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard.</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 13:00</span>
+                            </div>
+                            <div class="col-lg-12"><hr/></div>
+                            <div class="col-lg-6 col-md-6">
+                                <span style="font-weight:500; color: `+color+`;">Expired Date<br/> 15 Mei 2020 - 17:00</span>
+                            </div>
+                        <div class="col-lg-6 col-md-6" style="padding-top:5px;">
+                            <div style="float:right; display:flex;">
+                                <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
+                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>`;
+                                price_start.push(msg.result.response[i].price);
+                                if(msg.result.response[i].currency != 'IDR')
+                                    text+= '<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
+                                else
+                                    text+= '<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + getrupiah(parseInt(msg.result.response[i].price))+'</span><br/>';
+                            text+=`
+                                <button type="button" class="btn-custom-circle" id="left-minus-event-`+i+`" data-type="minus" data-field="" disabled onclick="reduce_option(`+i+`);">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
+                                <button type="button" class="btn-custom-circle" id="right-plus-event-`+i+`" data-type="plus" data-field="" onclick="add_option(`+i+`);">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>`;
 
-                    //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
-                    text+='</div></div>';
-                    node.className = 'detail-event-box';
+                        //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
+                        text+='</div></div>';
+                        node.className = 'detail-event-box';
+                    }
+
+                    else{
+                        text += `
+                        <div class="col-lg-12" style="padding:0px;">
+                            <div style="background: gray; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
+                                <span id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px;"> `+ msg.result.response[i].grade + `</span>
+                                <span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+text_color+`; background: `+color+`; border-radius:7px;">SOLD OUT</span>
+                            </div>
+                        </div>`;
+                        console.log(msg.result);
+                        if(msg.result.response[i].images.length != 0)
+                            text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"><div class="overlay overlay-bg-sold"></div></div><hr/></div>`;
+                        else
+                            text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"><div class="overlay overlay-bg-sold"></div></div></div>`;
+
+                        text+=`<div class="col-lg-9 col-md-9">
+                        <div class="overlay overlay-bg-sold"></div>
+                        <div class="row">
+                            <div class="col-lg-12" style="margin-top:10px; margin-bottom:5px;">
+                                <span style="color: #6e6e6e;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard.</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <span style="font-size:14px; color: #6e6e6e;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020</span>
+                            </div>
+                            <div class="col-lg-6">
+                                <span style="font-size:14px; color: #6e6e6e;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 13:00</span>
+                            </div>
+                            <div class="col-lg-12"><hr/></div>
+                            <div class="col-lg-6 col-md-6" style="margin-bottom:10px;">
+                                <span style="font-weight:500; color: #6e6e6e;">Expired Date<br/> 15 Mei 2020 - 17:00</span>
+                            </div>
+                        <div class="col-lg-6 col-md-6" style="margin-bottom:10px; padding-top:5px;">
+                            <div style="float:right; display:flex;">
+                                <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
+                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>`;
+                                price_start.push(msg.result.response[i].price);
+                                text+=`<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> SOLD OUT </span><br/>`;
+                            text+=`
+                            </div>
+                        </div>`;
+
+                        //text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick(`'+msg.result.response[i].option_id+'`);" id="button'+msg.result.response[i].option_id+'">Choose</button>';
+                        text+='</div></div>';
+                        node.className = 'detail-event-box-sold';
+                    }
+
                     node.innerHTML = text;
                     document.getElementById("detail_room_pick").appendChild(node);
                     node = document.createElement("div");
@@ -441,18 +495,33 @@ function event_get_extra_question(option_code, provider){
                     var co_ticket_idx = parseInt(k)+1;
                     text+=`
                     <div class="col-lg-12">
-                        <div class="passenger_div" onclick="show_question_event('option', `+j+`)";>
+                        <div class="passenger_div" style="margin-top:15px;" onclick="show_question_event('question', `+j+`, `+k+`)";>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                     <span style="color:`+text_color+`; text-align:center; font-size:15px;"> `+option_code[j].name+` - `+co_ticket_idx+`</span>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                                    <span>+</span>
+                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">`;
+
+                                if(j == 0 && k == 0){
+                                    text+=`
+                                        <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:block;" id="question_down_opt`+j+``+k+`"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:none;" id="question_up_opt`+j+``+k+`"><i class="fas fa-plus" style="font-size:14px;"></i></span>`;
+                                }else{
+                                    text+=`
+                                        <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:none;" id="question_down_opt`+j+``+k+`"><i class="fas fa-minus" style="font-size:14px;"></i></span>
+                                        <span style="color:`+text_color+`; text-align:right; margin-right:5px; display:block;" id="question_up_opt`+j+``+k+`"><i class="fas fa-plus" style="font-size:14px;"></i></span>`;
+                                }
+                                text+=`
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-12" style="margin-bottom:15px;">
+                    </div>`;
+                    if(j == 0 && k == 0){
+                        text+=`<div class="col-lg-12" style="display:block;" id="question_opt`+j+``+k+`">`;
+                    }else{
+                        text+=`<div class="col-lg-12" style="display:none;" id="question_opt`+j+``+k+`">`;
+                    }
+                    text+=`
                         <div style="background-color:white; padding:10px; border:1px solid `+color+`;">
                             <div class="row">`;
                     for(i in msg.result.response){

@@ -730,15 +730,19 @@ function render_object(val, new_int){
 
     var text='';
     var grand_total_option = 0;
+    var total_commission = 0;
     console.log(option_pick);
     for (i in option_pick){
         var option_name_pick = document.getElementById('option_name_'+option_pick[i]).innerHTML;
         var option_price_pick = document.getElementById('option_price_'+option_pick[i]).value;
         var option_currency_pick = document.getElementById('option_currency_'+option_pick[i]).value;
         var option_qty_pick = document.getElementById('option_qty_'+option_pick[i]).value;
+        var option_commission_pick = document.getElementById('option_commission_'+option_pick[i]).value;
         var option_price = option_price_pick*parseInt(option_qty_pick); //total price option
+        var option_commission_total = option_commission_pick*parseInt(option_qty_pick); //total commission
 
         grand_total_option = grand_total_option + option_price;
+        total_commission = total_commission + option_commission_total;
 
         text+=`
         <div class="row">
@@ -772,7 +776,7 @@ function render_object(val, new_int){
         </div>
     </div>`;
 
-    hotel_room_pick_button()
+    hotel_room_pick_button(total_commission)
 
     if (option_pick === undefined || option_pick.length == 0){
         document.getElementById("event_detail_table").innerHTML = '';
@@ -794,7 +798,7 @@ function share_data2(){
 //    document.body.removeChild(el);
     $text_share2 = window.encodeURIComponent('Hello');
 }
-function hotel_room_pick_button(){
+function hotel_room_pick_button(total_commission){
     document.getElementById('event_detail_button').innerHTML = '';
     text = '';
     text += `<div class="row" style="padding-top:10px;">`;
@@ -817,8 +821,14 @@ function hotel_room_pick_button(){
         }
     text +=`</div>`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text+=`
+        <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_event">
+            <div class="alert alert-success">
+                <span id="commission_val" style="font-size:13px; font-weight:bold;">Your Commission: ` + total_commission + `</span><br>
+            </div>
+        </div>`;
         text += `<div class="col-lg-12">
-            <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+            <input class="primary-btn" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
         </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
@@ -832,9 +842,9 @@ function hotel_room_pick_button(){
     document.getElementById('event_detail_button').innerHTML = text;
 }
 
-function show_commission_hotel(){
-    var sc = document.getElementById("show_commission_hotel");
-    var scs = document.getElementById("show_commission_button_hotel");
+function show_commission_event(){
+    var sc = document.getElementById("show_commission_event");
+    var scs = document.getElementById("show_commission_button_event");
     if (sc.style.display === "none"){
         sc.style.display = "block";
         scs.value = "Hide Commission";

@@ -364,12 +364,13 @@ def create_booking(request):
         for i in request.session['event_option_code' + request.POST['signature']]:
             event_option_codes.append({
                 'option_code': i['code'],
-                'qty': int(i['qty'])
+                'qty': int(i['qty']),
             })
         data = {
             "event_code": request.POST['event_code'],
             "provider": 'event_internal',
             "event_option_codes": event_option_codes,
+            "event_answer": request.session['event_extra_question' + request.POST['signature']],
             "special_request": request.POST['special_request'],
             "force_issued": bool(int(request.POST['force_issued'])),
             "booker": booker,

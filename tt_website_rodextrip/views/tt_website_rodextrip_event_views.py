@@ -204,8 +204,9 @@ def contact_passengers(request):
             opt_code = []
             i = 1
             while i:
-                if request.POST.get('option_qty_'+str(i-1)) and int(request.POST['option_qty_' + str(i-1)]) != 0:
-                    opt_code.append({'name': request.session['event_code']['option'][i-1]['grade'], 'code': request.session['event_code']['option'][i-1]['option_id'], 'qty': request.POST['option_qty_' + str(i-1)]})
+                if request.POST.get('option_qty_'+str(i-1)):
+                    if int(request.POST['option_qty_' + str(i-1)]) != 0:
+                        opt_code.append({'name': request.session['event_code']['option'][i-1]['grade'], 'code': request.session['event_code']['option'][i-1]['option_id'], 'qty': request.POST['option_qty_' + str(i-1)]})
                     i += 1
                 else:
                     break
@@ -371,10 +372,28 @@ def review(request):
             })
             request.session['hotel_json_printout' + request.session['event_signature']] = print_json
 
-            question_answer = [{
-                    'que': request.POST[a],
-                    'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
-                } for a in request.POST.keys() if 'que_' in a]
+            question_answer = []
+            for a in request.POST.keys():
+                if 'que_' in a:
+                    b = a.split('_')
+                    c_obj = False
+                    for c in question_answer:
+                        if c['option_grade'] == request.session['event_detail']['result']['response'][int(b[1])]['grade'] and c['idx'] == b[2]:
+                            c_obj = c
+                            break
+                    if not c_obj:
+                        c_obj = {
+                            'option_grade': request.session['event_detail']['result']['response'][int(b[1])]['grade'],
+                            'option_code': request.session['event_detail']['result']['response'][int(b[1])]['option_id'],
+                            'idx': b[2],
+                            'answer': []
+                        }
+                        question_answer.append(c_obj)
+
+                    c_obj['answer'].append({
+                        'que': request.POST[a],
+                        'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
+                    })
             request.session['event_extra_question' + request.session['event_signature']] = question_answer
 
             values.update({
@@ -395,10 +414,7 @@ def review(request):
                 'event_search': request.session['event_request'],
                 'event_code': request.session['event_code'],
                 'event_option_code': request.session['event_option_code' + request.session['event_signature']],
-                'event_extra_question': [{
-                    'que': request.POST[a],
-                    'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
-                } for a in request.POST.keys() if 'que_' in a],
+                'event_extra_question': question_answer,
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
