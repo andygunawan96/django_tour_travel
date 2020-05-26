@@ -7889,6 +7889,20 @@ display: block;
   cursor: pointer;
 }
 
+.overlay-div-opt {
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  background-color: rgba(0,0,0,0.2);
+  cursor: pointer;
+}
+
 @media (max-width: 767px) {
     .search_hotel_button{
         position:unset !important;
@@ -8468,6 +8482,15 @@ ul.popular2_tabs li.current .image-rounded-icon{
     border:1px solid #f15a22;
 }
 
+.detail-event-box-sold{
+    background-color:white;
+    padding:0px 15px;
+    margin-bottom:15px;
+    border:1px solid #cdcdcd;
+    border-radius:7px;
+    cursor:not-allowed;
+}
+
 .img-event-detail {
     width: auto;
     height: 120px;
@@ -8485,4 +8508,25 @@ ul.popular2_tabs li.current .image-rounded-icon{
         border-bottom:2px solid #f15a22;
         border-right:unset;
     }
+}
+
+.border-event-sold{
+    padding:10px;
+    border-right:2px solid gray;
+}
+
+@media (max-width: 767px) {
+    .border-event-sold{
+        border-bottom:2px solid gray;
+        border-right:unset;
+    }
+}
+
+.overlay-bg-sold {
+  background: rgba(4, 9, 30, 0.4);
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  opacity: 0.5;
 }

@@ -1732,6 +1732,23 @@ function show_paxs(pax_type, key){
     }
 }
 
+function show_question_event(opt, key1, key2){
+    var option = document.getElementById(opt+'_opt'+key1+key2);
+    var option_down = document.getElementById(opt+'_down_opt'+key1+key2);
+    var option_up = document.getElementById(opt+'_up_opt'+key1+key2);
+
+    if (option.style.display === "none") {
+        option.style.display = "block";
+        option_down.style.display = "block";
+        option_up.style.display = "none";
+    }
+    else {
+        option.style.display = "none";
+        option_down.style.display = "none";
+        option_up.style.display = "block";
+    }
+
+}
 
 function show_paxs_airline(pax_type, key){
     var paxs = document.getElementById(pax_type+'_paxs'+key);
