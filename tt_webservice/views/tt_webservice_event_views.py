@@ -455,13 +455,18 @@ def issued_booking(request):
             'seq_id': request.POST['seq_id'],
             'voucher': {}
         }
-        provider = []
-        for provider_type in request.session['event_get_booking_response']['result']['response']['providers']:
-            if not provider_type['provider'] in provider:
-                provider.append(provider_type['provider'])
+
         if request.POST['voucher_code'] != '':
+            provider = []
+            if request.session.get('event_get_booking_response'):
+                for provider_type in request.session['event_get_booking_response']['result']['response']['providers']:
+                    if not provider_type['provider'] in provider:
+                        provider.append(provider_type['provider'])
+            else:
+                provider.append('event_internal')
+
             data.update({
-                'voucher': data_voucher(request.POST['voucher_code'], 'airline', provider),
+                'voucher': data_voucher(request.POST['voucher_code'], 'event', provider),
             })
         headers = {
             "Accept": "application/json,text/html,application/xml",

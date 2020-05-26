@@ -373,7 +373,7 @@ def review(request):
 
             question_answer = [{
                     'que': request.POST[a],
-                    'ans': request.POST['question_event_' + a.replace('que_','')],
+                    'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
                 } for a in request.POST.keys() if 'que_' in a]
             request.session['event_extra_question' + request.session['event_signature']] = question_answer
 
@@ -397,7 +397,7 @@ def review(request):
                 'event_option_code': request.session['event_option_code' + request.session['event_signature']],
                 'event_extra_question': [{
                     'que': request.POST[a],
-                    'ans': request.POST['question_event_' + a.replace('que_','')],
+                    'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
                 } for a in request.POST.keys() if 'que_' in a],
             })
         except Exception as e:

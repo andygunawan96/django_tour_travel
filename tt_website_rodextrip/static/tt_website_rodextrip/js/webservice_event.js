@@ -153,15 +153,6 @@ function event_get_booking(data){
                                     text+=`<span>-</span><br/>`;
                     text+=`</div>
                           </div>`;
-
-                   text+=`<div class="row">
-                            <div class="col-sm-6">
-                                <span class="carrier_code_template">Check In: </span><span>`+msg.result.response.from_date+`</span><br/>
-                            </div>
-                            <div class="col-sm-6" style='text-align:right'>
-                                <span class="carrier_code_template">Check Out: </span><span>`+msg.result.response.to_date+`</span><br/>
-                            </div>
-                          </div>`;
                document.getElementById('event_booking').innerHTML = text;
             //======================= Button Issued ==================
             if(msg.result.response.status == 'booked'){
