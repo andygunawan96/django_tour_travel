@@ -663,7 +663,7 @@ function train_get_detail(){
         <br/>
         <div class="row">`;
             if(parseInt(passengers.adult) > 0){
-                total_commission += journeys[i].fares[0].service_charge_summary[0].total_rac*-1;
+                total_commission += journeys[i].fares[0].service_charge_summary[0].total_commission*-1;
                 total_tax += journeys[i].fares[0].service_charge_summary[0].total_tax;
                 for(j in journeys[i].fares[0].service_charge_summary){
 
@@ -683,7 +683,6 @@ function train_get_detail(){
                         total_price += price['fare'] * parseInt(passengers.adult);
                     else
                         total_price += price['fare'] * parseInt(passengers.infant);
-                    console.log(price);
                     if(journeys[i].fares[0].service_charge_summary[j].pax_type == 'ADT' && parseInt(passengers.adult) > 0){
                         train_detail_text+=`
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
