@@ -325,23 +325,21 @@ function sort(response, check_filter){
                 text+=`
                 <div style="padding-top:5px;">
                     <i class="fas fa-calendar-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">
-                    15 Mei 2020 - 17 Mei 2020`;
+                    `+response[i].start_date;
+                if (response[i].end_date != false && response[i].start_date != response[i].end_date)
+                    text+=` - `+response[i].end_date;
                 text+=`</span>
-                </div>
-                <div style="padding-top:5px;">
-                    <i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">
-                    09:00 - 15:00`;
-                text+=`</span>
-                </div>
-                <div style="padding-top:5px;">
-                    <i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
-//                    if(response[i].locations.length != 0){
-//                        for(g in response[i].locations){
-//                            text+= ' ' + response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name;
-//                        }
-//                    }
-                text+=`</span>
-                </div>
+                </div>`;
+                //Unremark jika butuh time
+                //text+=`<div style="padding-top:5px;"><i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span></div>`;
+
+                text+=`<div style="padding-top:5px;"><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                    if(response[i].locations.length != 0){
+                        for(g in response[i].locations){
+                            text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
+                        }
+                    }
+                text+=`</span></div>
                 <div style="padding-top:5px; padding-bottom:15px; min-height:120px; word-break:break-word;">
                     Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
                     if(response[i].category.length != 0){
@@ -789,6 +787,51 @@ function render_object(val, new_int){
 
 }
 
+function render_object_from_value(val){
+    var text='';
+    var grand_total_option = 0;
+    var total_commission = 0;
+
+    for (i in val){
+        grand_total_option = grand_total_option + (val[i].qty * val[i].price);
+        total_commission = total_commission + (val[i].qty * val[i].comm);
+
+        text+=`
+        <div class="row">
+            <div class="col-lg-4" style="text-align:left;">
+                <span style="font-weight:500;">`+val[i].name+` <br/> ( `+val[i].qty+` Qty )</span>
+            </div>
+            <div class="col-lg-4" style="text-align:center;">`;
+                text+='<span style="font-weight:500;"> @ ' + val[i].currency + ' ' + getrupiah(val[i].price) + '</span>';
+            text+=`
+            </div>
+            <div class="col-lg-4" style="text-align:right;">`;
+            text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price) + '</span>';
+        text+=`
+            </div>
+        </div>`;
+    }
+
+    text+=`
+    <div class="row">
+        <div class="col-lg-12">
+            <hr/>
+            <div class="row">
+                <div class="col-lg-6" style="text-align:left;">
+                    <span style="font-weight:bold; font-size:15px;">Grand Total</span>
+                </div>
+
+                <div class="col-lg-6" style="text-align:right;">`;
+                text+='<span style="font-weight:bold; font-size:15px;">' + val[i].currency + ' ' + getrupiah(grand_total_option) + '</span>'
+                text+=`
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+    document.getElementById("event_detail_table").innerHTML = text;
+}
+
 function share_data2(){
 //    const el = document.createElement('textarea');
 //    el.value = $text2;
@@ -1073,6 +1116,42 @@ function check_all_result(){
    checkboxCopy();
 }
 
+function render_extra_question(json_event_answer){
+    console.log(json_event_answer);
+    var text='';
+    text+=`<div class="row">`;
+    for (i in json_event_answer){
+        text+=`<div class="col-lg-12">`;
+        var idx_event_ans = parseInt(json_event_answer[i].idx) + 1;
+        if(i == 0){
+            text+=`<h6>`+json_event_answer[i].option_grade+` - `+idx_event_ans+`
+            <span id="question_down_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:none;" onclick="show_question_event_review('question', `+i+`)";> Hide Your Answer</span>
+            <span id="question_up_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:inline-block;" onclick="show_question_event_review('question', `+i+`)";> Show Your Answer</span>
+            </h6><hr/>`;
+        }else{
+            text+=`<hr/><h6>`+json_event_answer[i].option_grade+` - `+idx_event_ans+`
+            <span id="question_down_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:none;" onclick="show_question_event_review('question', `+i+`)";> Hide Your Answer</span>
+            <span id="question_up_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:inline-block;" onclick="show_question_event_review('question', `+i+`)";> Show Your Answer</span>
+            </h6><hr/>`;
+        }
+        text+=`
+        <div class="row" id="question_opt`+i+`" style="display:none;">`;
+            for (j in json_event_answer[i].answer){
+                var ans_index = (parseInt(j))+1;
+                text+=`<div class="col-lg-12" style="margin-bottom:15px;">
+                    <div style="padding:15px; border: 1px solid #cdcdcd; background: #f7f7f7;">
+                        <h6>Question #`+ans_index+` - <i>`+ json_event_answer[i].answer[j].que +`</i></h6>
+                        <span>Answer:</span>
+                        <span style="font-weight:500;">`+ json_event_answer[i].answer[j].ans +`</span>
+                    </div>
+                </div>`;
+            }
+        text+=`</div>`;
+        text+=`</div>`;
+    }
+    text+=`</div>`;
+    document.getElementById("extra_question_target").innerHTML = text;
+}
 //get_checked_copy_result
 //delete_checked_copy_result
 //copy_data, copy_data2, share_data, share_data2

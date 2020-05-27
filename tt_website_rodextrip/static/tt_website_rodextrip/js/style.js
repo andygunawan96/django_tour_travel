@@ -1747,6 +1747,23 @@ function show_question_event(opt, key1, key2){
         option_down.style.display = "none";
         option_up.style.display = "block";
     }
+}
+
+function show_question_event_review(opt, key1){
+    var option = document.getElementById(opt+'_opt'+key1);
+    var option_down = document.getElementById(opt+'_down_opt'+key1);
+    var option_up = document.getElementById(opt+'_up_opt'+key1);
+
+    if (option.style.display === "none") {
+        option.style.display = "block";
+        option_down.style.display = "inline-block";
+        option_up.style.display = "none";
+    }
+    else {
+        option.style.display = "none";
+        option_down.style.display = "none";
+        option_up.style.display = "inline-block";
+    }
 
 }
 
