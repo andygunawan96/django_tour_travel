@@ -478,8 +478,8 @@ function carrier_to_provider(){
     }
     provider_airline = []
     for(i in airline[0]){
-        try{
-            for(j in airline[0][i]){
+        for(j in airline[0][i]){
+            try{
                 if(airline_carriers[0][i].is_excluded_from_b2c != true || user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                     check = 0;
                     try{
@@ -498,8 +498,8 @@ function carrier_to_provider(){
                         }
                     }catch(err){}
                 }
-            }
-        }catch(err){console.log(err)}
+            }catch(err){console.log(err)}
+        }
     }
     airline_choose = 0;
     count_progress_bar_airline = 0;
