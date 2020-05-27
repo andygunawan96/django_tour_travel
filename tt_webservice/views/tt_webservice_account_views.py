@@ -275,7 +275,7 @@ def get_balance(request):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_balance",
-                "signature": request.POST['signature'],
+                "signature": request.session['signature'],
             }
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -318,7 +318,7 @@ def get_balance(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_balance",
-                    "signature": request.POST['signature'],
+                    "signature": request.session['signature'],
                 }
             except Exception as e:
                 logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -370,7 +370,7 @@ def get_transactions(request):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_transactions",
-                "signature": request.POST['signature'],
+                "signature": request.session['signature'],
             }
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
@@ -415,7 +415,7 @@ def get_transactions(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_transactions",
-                    "signature": request.POST['signature'],
+                    "signature": request.session['signature'],
                 }
                 res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                 if int(request.POST['offset']) == 300:
