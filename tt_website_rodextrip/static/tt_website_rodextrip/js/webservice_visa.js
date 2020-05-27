@@ -416,7 +416,7 @@ function check_hold_booking(){
         }
     }
     if(error_log == ''){
-        visa_pre_create_booking(1);
+        focus_box('payment_acq');
     }
     else{
         Swal.fire({
@@ -572,15 +572,15 @@ function update_contact(){
        success: function(msg) {
            console.log(msg);
             if(msg.result.error_code == 0){
-//                commit_booking();
-                document.getElementById("passengers").value = JSON.stringify(passenger);
-                document.getElementById("signature").value = signature;
-                document.getElementById("provider").value = 'visa';
-                document.getElementById("type").value = 'visa';
-                document.getElementById("voucher_code").value = voucher_code;
-                document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                document.getElementById("session_time_input").value = time_limit;
-                document.getElementById('visa_issued').submit();
+                visa_commit_booking();
+//                document.getElementById("passengers").value = JSON.stringify(passenger);
+//                document.getElementById("signature").value = signature;
+//                document.getElementById("provider").value = 'visa';
+//                document.getElementById("type").value = 'visa';
+//                document.getElementById("voucher_code").value = voucher_code;
+//                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+//                document.getElementById("session_time_input").value = time_limit;
+//                document.getElementById('visa_issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
                 close_div('payment_acq');
@@ -657,8 +657,8 @@ function visa_commit_booking(){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                     send_url_booking('visa', btoa(msg.result.response.journey.name), msg.result.response.journey.name);
                 document.getElementById('order_number').value = msg.result.response.journey.name;
-                document.getElementById('issued').action = '/visa/booking/' + btoa(msg.result.response.journey.name);
-                document.getElementById('issued').submit();
+                document.getElementById('visa_issued').action = '/visa/booking/' + btoa(msg.result.response.journey.name);
+                document.getElementById('visa_issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
 //                close_div('payment_acq');
