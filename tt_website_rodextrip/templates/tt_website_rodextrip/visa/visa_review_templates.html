@@ -518,7 +518,7 @@
             set_value_radio_first('infant',parseInt(i)+1);
         for(i in passenger.elder)
             set_value_radio_first('elder',parseInt(i)+1);
-        //get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'visa');
+        get_payment_acq('Issued','{{passengers.booker.booker_seq_id}}', '', 'billing',signature,'visa');
     });
 
 </script>

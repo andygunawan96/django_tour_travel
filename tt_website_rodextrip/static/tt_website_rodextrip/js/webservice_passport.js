@@ -382,7 +382,7 @@ function check_hold_booking(){
         }
     }
     if(error_log == ''){
-        passport_pre_create_booking(1);
+        focus_box('payment_acq');
     }
     else{
         Swal.fire({
@@ -515,19 +515,19 @@ function update_contact(){
        success: function(msg) {
            console.log(msg);
             if(msg.result.error_code == 0){
-//                commit_booking();
-                document.getElementById("passengers").value = JSON.stringify(passenger);
-                document.getElementById("signature").value = signature;
-                document.getElementById("provider").value = 'passport';
-                document.getElementById("type").value = 'passport';
-                document.getElementById("voucher_code").value = voucher_code;
-                document.getElementById("discount").value = JSON.stringify(discount_voucher);
-                document.getElementById("session_time_input").value = time_limit;
-                document.getElementById('passport_issued').submit();
+                passport_commit_booking();
+//                document.getElementById("passengers").value = JSON.stringify(passenger);
+//                document.getElementById("signature").value = signature;
+//                document.getElementById("provider").value = 'passport';
+//                document.getElementById("type").value = 'passport';
+//                document.getElementById("voucher_code").value = voucher_code;
+//                document.getElementById("discount").value = JSON.stringify(discount_voucher);
+//                document.getElementById("session_time_input").value = time_limit;
+//                document.getElementById('passport_issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
                 close_div('payment_acq');
-                set_payment('Issued','visa');
+                set_payment('Issued','passport');
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -600,8 +600,8 @@ function passport_commit_booking(){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
                     send_url_booking('passport', btoa(msg.result.response.journey.name), msg.result.response.journey.name);
                 document.getElementById('order_number').value = msg.result.response.journey.name;
-                document.getElementById('issued').action = '/passport/booking/' + btoa(msg.result.response.journey.name);
-                document.getElementById('issued').submit();
+                document.getElementById('passport_issued').action = '/passport/booking/' + btoa(msg.result.response.journey.name);
+                document.getElementById('passport_issued').submit();
             }else{
                 $("#waitingTransaction").modal('hide');
 //                close_div('payment_acq');
