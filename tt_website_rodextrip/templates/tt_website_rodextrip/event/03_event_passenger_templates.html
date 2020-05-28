@@ -480,17 +480,20 @@
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                        <h4 style="padding-top:15px;"> Price Detail</h4>
-                        <hr/>
-                        <span style="font-size:16px; font-weight:700;" id="product_title">{{event_code.name}} </span>
-                        <span class="address_event">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
-                        <hr/>
-                        <div style="padding-top:10px;" id="event_detail_table">
+                        <div style="background:white; padding:0px 15px; margin-bottom:15px; border:1px solid #cdcdcd;">
+                            <h4 style="padding-top:15px;"> Price Detail</h4>
+                            <hr/>
+                            <span style="font-size:16px; font-weight:700;" id="product_title">{{event_code.name}} </span>
+                            <span class="address_event">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
+                            <hr/>
 
+                            <div style="padding-top:10px;" id="event_detail_table">
+
+                            </div>
+                            <div id="event_detail_button">
+
+                            </div><br/>
                         </div>
-                        <div id="event_detail_button">
-
-                        </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>

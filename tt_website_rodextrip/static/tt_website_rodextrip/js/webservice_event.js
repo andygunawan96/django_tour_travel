@@ -131,29 +131,41 @@ function event_get_booking(data){
                             }
                         text+=`
                         </table>
+                        <hr/>
                    `;
-                   text+=`<div class="row">
-                            <div class="col-sm-6">`;
-                                if(msg.result.response.event_name != false)
-                                    text+=`<span class="carrier_code_template">Event Name: </span><br/>`;
-                                if(msg.result.response.event_location != false)
-                                    text+=`<span class="carrier_code_template">Location: </span>`;
-                                    for (loc_obj in msg.result.response.event_location)
-                                        text+=`<br/>`;
-                                text+=`<span class="carrier_code_template">Event Detail: </span><br/>`;
-                    text+=`</div>
-                            <div class="col-sm-6" style='text-align:right'>`;
-                                if(msg.result.response.event_name != false)
-                                    text+=`<span>`+msg.result.response.event_name+`</span><br/>`;
-                                if(msg.result.response.event_location != false)
-                                    for (loc_obj in msg.result.response.event_location)
-                                        text+=`<span>`+msg.result.response.event_location[loc_obj].name+`, `+msg.result.response.event_location[loc_obj].address+`, `+msg.result.response.event_location[loc_obj].city+`</span><br/>`;
-                                if(msg.result.response.description != false)
-                                    text+=`<span>`+msg.result.response.description+`</span><br/>`;
-                                else
-                                    text+=`<span>-</span><br/>`;
-                    text+=`</div>
-                          </div>`;
+                   text+=`<div class="row">`;
+                   text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
+                   if(msg.result.response.event_name != false)
+                        text+=`<span class="carrier_code_template">Event Name: </span><br/>`;
+                   text+=`</div>`;
+
+                   text+=`<div class="col-lg-8 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
+                   if(msg.result.response.event_name != false)
+                        text+=`<span>`+msg.result.response.event_name+`</span><br/>`;
+                   text+=`</div>`;
+
+                   text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
+                   if(msg.result.response.event_location != false)
+                        text+=`<span class="carrier_code_template">Location: </span>`;
+                   text+=`</div>`;
+
+                   text+=`<div class="col-lg-8 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
+                       if(msg.result.response.event_location != false)
+                           for (loc_obj in msg.result.response.event_location)
+                               text+=`<span><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> `+msg.result.response.event_location[loc_obj].name+`, `+msg.result.response.event_location[loc_obj].address+`, `+msg.result.response.event_location[loc_obj].city+`</span><br/>`;
+                   text+=`</div>`;
+
+                   text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
+                   if(msg.result.response.event_location != false)
+                        text+=`<span class="carrier_code_template">Event Detail: </span>`;
+                   text+=`</div>`;
+
+                   text+=`<div class="col-lg-8 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
+                       if(msg.result.response.description != false)
+                           text+=`<span>`+msg.result.response.description+`</span><br/>`;
+                       else
+                           text+=`<span>-</span><br/>`;
+                   text+=`</div>`;
                document.getElementById('event_booking').innerHTML = text;
             //======================= Button Issued ==================
             if(msg.result.response.status == 'booked'){
@@ -309,6 +321,39 @@ function event_search(){
    });
 }
 
+function event_search_vendor(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/event",
+       headers:{
+            'action': 'search',
+       },
+       data: {
+        'vendor': $('#vendor_id').val(),
+        'signature': $('#signature').val(),
+       },
+       success: function(msg) {
+           console.log('Result');
+           console.log(msg);
+           try{
+                if(msg.result.error_code==0){
+                    sort(msg.result.response,1);
+                }else{
+                    //kalau error belum
+                    console.log('Error #1');
+                }
+           }catch(err){
+                console.log('Error #2');
+                alert(msg.result.error_msg);
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+           console.log(textStatus);
+           alert(errorThrown);
+       }
+   });
+}
+
 function event_options(id){
     //clearTimeout(myVar);
     myVar = setTimeout(function() {
@@ -363,17 +408,21 @@ function event_options(id){
                         text+=`<div class="col-lg-9 col-md-9">
                         <div class="row" style="padding:10px 0px;">
                             <div class="col-lg-12" style="margin-bottom:5px;">
-                                <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard.</span>
-                            </div>
-                            <div class="col-lg-6">
-                                <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020</span>
-                            </div>
-                            <div class="col-lg-6">
-                                <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 13:00</span>
-                            </div>
-                            <div class="col-lg-12"><hr/></div>
+                                <span>` + msg.result.response[i].description + `</span>
+                            </div>`;
+
+                            for (j in msg.result.response[i].timeslot){
+                                text+=`<div class="col-lg-6">
+                                    <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> ` + msg.result.response[i].timeslot[j].start_date + `</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> ` +  msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour + `</span>
+                                </div>`
+                            }
+
+                            text+=`<div class="col-lg-12"><hr/></div>
                             <div class="col-lg-6 col-md-6">
-                                <span style="font-weight:500; color: `+color+`;">Expired Date<br/> 15 Mei 2020 - 17:00</span>
+                                <span style="font-weight:500; color: `+color+`;">Expired Date<br/> `+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span>
                             </div>
                         <div class="col-lg-6 col-md-6" style="padding-top:5px;">
                             <div style="float:right; display:flex;">
@@ -419,17 +468,21 @@ function event_options(id){
                         <div class="overlay overlay-bg-sold"></div>
                         <div class="row">
                             <div class="col-lg-12" style="margin-top:10px; margin-bottom:5px;">
-                                <span style="color: #6e6e6e;">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard.</span>
-                            </div>
-                            <div class="col-lg-6">
-                                <span style="font-size:14px; color: #6e6e6e;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020</span>
-                            </div>
-                            <div class="col-lg-6">
-                                <span style="font-size:14px; color: #6e6e6e;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 13:00</span>
-                            </div>
-                            <div class="col-lg-12"><hr/></div>
+                                <span style="color: #6e6e6e;">` + msg.result.response[i].description + `</span>
+                            </div>`;
+
+                            for (j in msg.result.response[i].timeslot){
+                                text+=`<div class="col-lg-6">
+                                    <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> ` + msg.result.response[i].timeslot[j].start_date + `</span>
+                                </div>
+                                <div class="col-lg-6">
+                                    <span style="color: #6e6e6e; font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> ` +  msg.result.response[i].timeslot[j].start_hour +`- `+ msg.result.response[i].timeslot[j].end_hour + `</span>
+                                </div>`
+                            }
+
+                            text+=`<div class="col-lg-12"><hr/></div>
                             <div class="col-lg-6 col-md-6" style="margin-bottom:10px;">
-                                <span style="font-weight:500; color: #6e6e6e;">Expired Date<br/> 15 Mei 2020 - 17:00</span>
+                                <span style="font-weight:500; color: #6e6e6e;">Expired Date<br/> `+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span>
                             </div>
                         <div class="col-lg-6 col-md-6" style="margin-bottom:10px; padding-top:5px;">
                             <div style="float:right; display:flex;">
@@ -613,7 +666,7 @@ function event_get_extra_question(option_code, provider){
                                 <div class="checkbox-inline1">
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans].answer+`</span>
-                                        <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`}" name="question_event_`+j+`_`+k+`_`+i+`_`+ans+`"/>
+                                        <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`}" name="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" value="`+msg.result.response[i].answers[ans].answer+`"/>
                                         <span class="check_box_span_custom"></span>
                                     </label>
                                 </div>

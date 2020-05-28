@@ -227,8 +227,9 @@ def search(request):
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         data = {
-            'event_name': request.POST['event_name'].split(' - ')[0],
-            'is_online': request.POST['is_online'],
+            'event_name': request.POST.get('event_name') and request.POST['event_name'].split(' - ')[0] or '',
+            'vendor': request.POST.get('vendor') or '',
+            'is_online': request.POST.get('is_online') or False,
         }
         request.session['event_request_data'] = data
         headers = {

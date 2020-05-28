@@ -956,7 +956,7 @@
                                 </div>
                                 <div class="col-lg-6" style="text-align:left; position:absolute; left:0px; bottom:15px;">
                                     <span style="font-weight:bold; margin-bottom:15px;">Hosted by</span><br/>
-                                    <a href="#">
+                                    <a href="http://192.168.50.241:8000/event/vendor">
                                     {% if event_code.vendor_obj.vendor_logo == '' %}
                                     <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
                                     {% else %}
@@ -986,7 +986,9 @@
                                 <div id="description-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
                                         {% if event_code.description != '' %}
+                                        {% autoescape off %}
                                         {{event_code.description}}
+                                        {% endautoescape %}
                                         {% else %}
                                         Currently no description available for this event
                                         {% endif %}
@@ -995,7 +997,9 @@
                                 <div id="itinerary-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
                                         {% if event_code.itinerary != ''%}
+                                        {% autoescape off %}
                                         {{event_code.itinerary}}
+                                        {% endautoescape %}
                                         {% else %}
                                         Currently no itinerary available for this event
                                         {% endif %}

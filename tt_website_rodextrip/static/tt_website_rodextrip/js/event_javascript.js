@@ -867,7 +867,7 @@ function hotel_room_pick_button(total_commission){
         text+=`
         <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_event">
             <div class="alert alert-success">
-                <span id="commission_val" style="font-size:13px; font-weight:bold;">Your Commission: ` + total_commission + `</span><br>
+                <span id="commission_val" style="font-size:13px; font-weight:bold;">Your Commission: ` + getrupiah(parseInt(total_commission)) + `</span><br>
             </div>
         </div>`;
         text += `<div class="col-lg-12">

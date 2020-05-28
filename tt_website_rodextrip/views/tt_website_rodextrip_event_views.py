@@ -179,6 +179,29 @@ def detail(request):
         return no_session_logout(request)
 
 
+def vendor(request):
+    if 'user_account' in request.session._session:
+        try:
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            values = get_data_template(request)
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                'static_path_url_server': get_url_static_path(),
+                'signature': request.session['signature'],
+                'javascript_version': javascript_version,
+                'time_limit': request.session['time_limit'],
+
+                'vendor': request.session['event_code']['vendor_obj'],
+            })
+        except Exception as e:
+            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/event/06_event_vendor_templates.html', values)
+    else:
+        return no_session_logout(request)
+
+
 def contact_passengers(request):
     if 'user_account' in request.session._session:
         try:
