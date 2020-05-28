@@ -206,7 +206,14 @@ def contact_passengers(request):
             while i:
                 if request.POST.get('option_qty_'+str(i-1)):
                     if int(request.POST['option_qty_' + str(i-1)]) != 0:
-                        opt_code.append({'name': request.session['event_code']['option'][i-1]['grade'], 'code': request.session['event_code']['option'][i-1]['option_id'], 'qty': request.POST['option_qty_' + str(i-1)]})
+                        opt_code.append({
+                            'name': request.session['event_code']['option'][i-1]['grade'],
+                            'code': request.session['event_code']['option'][i-1]['option_id'],
+                            'qty': request.POST['option_qty_' + str(i-1)],
+                            'currency': request.session['event_code']['option'][i-1]['currency'],
+                            'price': request.session['event_code']['option'][i-1]['price'],
+                            'comm': request.session['event_code']['option'][i-1].get('commission',0),
+                        })
                     i += 1
                 else:
                     break
@@ -252,6 +259,7 @@ def review(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
             request.session['time_limit'] = int(request.POST['time_limit_input'])
+            request.session['special_req_event'] = request.POST['special_req_event']
 
             adult = []
             contact = []
@@ -394,6 +402,15 @@ def review(request):
                         'que': request.POST[a],
                         'ans': request.POST.get('question_event_' + a.replace('que_','')) or '', #Check Box Hasil nysa bisa tidak ada
                     })
+
+                    if c_obj['answer'][-1]['ans'] == '':
+                        # Jika tidak ada answer coba cari untuk method checkbox
+                        new_ans = ''
+                        for a1 in request.POST.keys():
+                            if 'question_event_' + a.replace('que_','') in a1:
+                                new_ans += request.POST[a1] + ', '
+                        c_obj['answer'][-1]['ans'] = new_ans[:-2]
+
             request.session['event_extra_question' + request.session['event_signature']] = question_answer
 
             values.update({
@@ -415,6 +432,7 @@ def review(request):
                 'event_code': request.session['event_code'],
                 'event_option_code': request.session['event_option_code' + request.session['event_signature']],
                 'event_extra_question': question_answer,
+                'special_req_event': request.POST['special_req_event'],
             })
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())

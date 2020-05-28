@@ -924,14 +924,22 @@
                                     <input type="hidden" value="{{event_code.name}}" id="get_name_hotel"/>
                                     <span id="name_event" class="name_event" style="font-size:22px; font-weight:bold; color:black;">{{event_code.name}}</span><br/>
 
+                                    <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> {{event_code.start_date}}
+                                        {% if event_code.start_date != event_code.end_date %}
+                                        - {{event_code.end_date}}
+                                        {% endif %}
+                                    </span><br/>
+                                    <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> {{event_code.start_time}}
+                                        {% if event_code.start_time != event_code.end_time %}
+                                        - {{event_code.end_time}}
+                                        {% endif %}
+                                    </span><br/>
+
                                     {% for loc in event_code.locations %}
                                     <span style="font-size:14px;"><i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
                                     {{loc.location_name}}, {{loc.location_address}}, {{loc.city_name}}, {{loc.country_name}}
                                     </span><br/>
                                     {% endfor %}
-                                    <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei 2020 - 17 Mei 2020</span><br/>
-                                    <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> 09:00 - 15:00</span><br/>
-
                                     <!-- <span class="address_hotel" id="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>-->
                                     <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
                                     <hr/>
@@ -977,12 +985,20 @@
                             <div class="banner-right" style="background:white; border:1px solid #cdcdcd;">
                                 <div id="description-tab" class="create_tab-content current" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        <span>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</span>
+                                        {% if event_code.description != '' %}
+                                        {{event_code.description}}
+                                        {% else %}
+                                        Currently no description available for this event
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div id="itinerary-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                     <div class="col-lg-12">
-                                        <span>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.</span>
+                                        {% if event_code.itinerary != ''%}
+                                        {{event_code.itinerary}}
+                                        {% else %}
+                                        Currently no itinerary available for this event
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

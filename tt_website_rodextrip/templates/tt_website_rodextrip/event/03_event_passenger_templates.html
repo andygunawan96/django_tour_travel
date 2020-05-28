@@ -284,7 +284,7 @@
                                 <div class="passenger_div">
                                     <div class="row">
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
-                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Guest' %} {% trans 'Adult' %} - 1</span>
+                                            <span style="color:{{text_color}}; text-align:center; font-size:15px;">{% trans 'Contact' %} {% trans 'Person' %}</span>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"></div>
                                     </div>
@@ -469,25 +469,32 @@
                         <br/>
 
                         <div class="row">
-                            <div class="col-lg-12" id="extra_data_master">
+                            <div class="col-lg-12">
+                                <h4>Extra Question</h4>
+                                <hr/>
+                            </div>
+                            <div class="col-lg-12" id="extra_data_master" style="margin-bottom:15px;">
 
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-4" style="margin-top:10px;">
                         <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
+                        <h4 style="padding-top:15px;"> Price Detail</h4>
+                        <hr/>
+                        <span style="font-size:16px; font-weight:700;" id="product_title">{{event_code.name}} </span>
+                        <span class="address_event">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
+                        <hr/>
+                        <div style="padding-top:10px;" id="event_detail_table">
+
+                        </div>
+                        <div id="event_detail_button">
+
+                        </div><br/>
                         <div style="background-color:white; padding:10px; border:1px solid {{color}};">
                             <h4> {% trans 'Special Request' %} </h4>
                             <hr/>
-                            <textarea rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:100px;" type="text" id="special_req_event" name="special_req_event"></textarea>
-                        </div><br/>
-                        <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail">
-                            <h3>INI PRICE DETAIL</h3>
-                            <h3>INI PRICE DETAIL</h3>
-                            <h3>INI PRICE DETAIL</h3>
-                            <h3>INI PRICE DETAIL</h3>
-                            <h3>INI PRICE DETAIL</h3>
-                            <h3>INI PRICE DETAIL</h3>
+                            <textarea placeholder="Fill your Request" rows="1" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:100px;" type="text" id="special_req_event" name="special_req_event"></textarea>
                         </div>
                         <textarea id="data_copy2" name="data_copy2" rows="4" hidden></textarea>
                     </div>
@@ -542,6 +549,7 @@
 
 <script>
     event_get_extra_question(event_option_code,'event_internal');
+    render_object_from_value(event_option_code);
 
     $( document ).ready(function() {
       breadcrumb_create("event", 4, 0);

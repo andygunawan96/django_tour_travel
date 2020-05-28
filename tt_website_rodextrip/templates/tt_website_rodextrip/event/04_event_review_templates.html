@@ -33,6 +33,12 @@
     json_event_option_code = json_event_option_code.replace(/False/g, 'false');
     json_event_option_code = json_event_option_code.replace(/&#39;/g, '"');
     json_event_option_code = JSON.parse(json_event_option_code);
+
+    json_event_answer = `{{event_extra_question}}`;
+    json_event_answer = json_event_answer.replace(/True/g, 'true');
+    json_event_answer = json_event_answer.replace(/False/g, 'false');
+    json_event_answer = json_event_answer.replace(/&#39;/g, '"');
+    json_event_answer = JSON.parse(json_event_answer);
 </script>
 
 {% include 'tt_website_rodextrip/logout.html' %}
@@ -103,46 +109,51 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div id="hotel_review" style="padding:10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> {% trans 'Booking Event Review' %} </h4>
-                                <hr/>
-                                <span style="font-size:20px; font-weight:bold; color:black;">{{event_code.name}}</span>
-                                <br/>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <h4> {% trans 'Booking Event Review' %} </h4>
+                                        <hr/>
+                                    </div>
+                                    <div class="col-lg-4"></div>
 
-                                <span>
-                                    <ul>
-                                    {% for location in event_code.locations%}
-                                        <li>
+                                    <div class="col-lg-8">
+                                        <span style="font-size:20px; font-weight:bold; color:black;">{{event_code.name}}</span>
+                                        <br/>
+                                        <span><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei - 17 Mei 2020</span>
+                                        <br/>
+                                        {% for location in event_code.locations%}
                                         <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                                        {% if location.location_name != False %}{{location.location_name}}{% endif %},
-                                        {% if location.location_address != False %}{{location.location_address}}{% endif %},
-                                        {% if location.city_name != False %}{{location.city_name}}{% endif %},
-                                        {% if location.country_name != False %}{{location.country_name}}{% endif %}
-                                        - <a href="#" style="color:blue; text-decoration: underline;"> Show Map ({{location.lat}}, {{location.long}})</a>
-                                        </li>
-                                    {% endfor %}
-                                    </ul>
-                                </span><br/>
-                                <h6 style="text-align:justify; font-weight:bold;">{% trans 'Description' %}: </h6><br/>
-                                {{event_code.description}}<br/>
-                                <span style="text-align:justify; font-weight:bold;">{% trans 'Selected Options' %}: </span><br/>
-                                <ul>
-                                {% for rec in event_code.option %}
-                                    {% for rec2 in event_option_code %}
-                                        {% if rec.option_id == rec2.code%}
-                                        <li>{{rec.grade}}: {{rec2.qty}} Ticket(s) @ {{rec.currency}} {{rec.price}}</li>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endfor %}
-                                </ul><br/>
+                                        <span>
+                                                {% if location.location_name != False %}{{location.location_name}}{% endif %},
+                                                {% if location.location_address != False %}{{location.location_address}}{% endif %},
+                                                {% if location.city_name != False %}{{location.city_name}}{% endif %},
+                                                {% if location.country_name != False %}{{location.country_name}}{% endif %}
+                                        </span>
+                                        <br/>
+                                        {% endfor %}
 
-                                <span style="text-align:justify; font-weight:bold;">{% trans 'Extra Question' %}: </span><br/>
-                                <ul>
-                                {% for rec in event_extra_question %}
-                                    <li>{{rec.que}}: {{rec.ans}}</li>
-                                {% endfor %}
-                                </ul><br/>
-                                <span style="text-align:justify; font-weight:bold;">{% trans 'Customer Notes' %}: </span><br/>
-                                No Special Request<br/>
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+
+                                <h6 style="text-align:justify; font-weight:bold;">{% trans 'Description' %}: </h6><br/>
+                                <span>{{event_code.description}}</span><br/>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12" style="margin-top:15px;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div style="border:1px solid #cdcdcd; padding:10px; background-color:white;">
+                                        <h4 style="text-align:justify; font-weight:bold;">{% trans 'Extra Question' %} </h4><hr/>
+                                        <div id="extra_question_target">
+
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -204,10 +215,25 @@
                 <div class="col-lg-4" style="padding-bottom:20px;">
                     <div class="row">
                         <div class="col-lg-12">
-                            <!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
-                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail"></div>
+                            <h4 style="padding-top:15px;"> Price Detail</h4>
+                            <hr/>
+                            <span style="font-size:16px; font-weight:700;" id="product_title">{{event_code.name}} </span>
+                            <span class="address_event">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span><br/>
+                            <hr/>
+                            <div style="padding-top:10px;" id="event_detail_table">
+
+                            </div>
+                            <div id="event_detail_button">
+
+                            </div>
                         </div>
-                        <div></div>
+                        <div class="col-lg-12" style="margin-top:15px;">
+                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;">
+                                <h4>{% trans 'Special Request' %}</h4>
+                                <hr/>
+                                {{special_req_event}}<br/>
+                            </div>
+                        </div>
                         <div class="col-lg-12">
                             {% if 'issued_reservation' in username.co_agent_frontend_security %}
                             {% include 'tt_website_rodextrip/voucher_code.html'  %}
@@ -338,6 +364,8 @@
     //document.getElementById('voucher_discount').style.display = 'none';
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     document.getElementById('json_event_code').value = json_event_option_code;
+    render_extra_question(json_event_answer);
+    render_object_from_value(json_event_option_code);
     $( document ).ready(function() {
       breadcrumb_create("event", 5, 0);
     });

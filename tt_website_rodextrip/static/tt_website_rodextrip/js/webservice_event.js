@@ -49,7 +49,8 @@ function get_event_config(type){
                         </label><br/>
                     </div>`;
                 node.innerHTML = carrier_code_airline_checkbox;
-                console.log(node);
+                // tak buang ngotori logger
+                // console.log(node);
                 document.getElementById("filter").appendChild(node);
             }
         }
@@ -377,7 +378,8 @@ function event_options(id){
                         <div class="col-lg-6 col-md-6" style="padding-top:5px;">
                             <div style="float:right; display:flex;">
                                 <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
-                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>`;
+                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
+                                <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
                                 price_start.push(msg.result.response[i].price);
                                 if(msg.result.response[i].currency != 'IDR')
                                     text+= '<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px;"> '+ msg.result.response[i].currency + ' ' + parseInt(msg.result.response[i].price) +'</span><br/>';
@@ -432,7 +434,8 @@ function event_options(id){
                         <div class="col-lg-6 col-md-6" style="margin-bottom:10px; padding-top:5px;">
                             <div style="float:right; display:flex;">
                                 <input id="option_currency_`+i+`" type="hidden" value="`+msg.result.response[i].currency+`"/>
-                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>`;
+                                <input id="option_price_`+i+`" type="hidden" value="`+msg.result.response[i].price+`"/>
+                                <input id="option_commission_`+i+`" type="hidden" value="`+msg.result.response[i].commission+`"/>`;
                                 price_start.push(msg.result.response[i].price);
                                 text+=`<span style="font-weight: bold; font-size:15px; padding-right:10px; padding-top:5px; color:`+color+`"> SOLD OUT </span><br/>`;
                             text+=`
@@ -494,8 +497,14 @@ function event_get_extra_question(option_code, provider){
                 while(k < parseInt(option_code[j].qty)){
                     var co_ticket_idx = parseInt(k)+1;
                     text+=`
-                    <div class="col-lg-12">
-                        <div class="passenger_div" style="margin-top:15px;" onclick="show_question_event('question', `+j+`, `+k+`)";>
+                    <div class="col-lg-12">`;
+
+                    if(j == 0 && k == 0){
+                        text+=`<div class="passenger_div" onclick="show_question_event('question', `+j+`, `+k+`)";>`;
+                    }else{
+                        text+=`<div class="passenger_div" style="margin-top:15px;" onclick="show_question_event('question', `+j+`, `+k+`)";>`;
+                    }
+                        text+=`
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                                     <span style="color:`+text_color+`; text-align:center; font-size:15px;"> `+option_code[j].name+` - `+co_ticket_idx+`</span>
@@ -526,7 +535,11 @@ function event_get_extra_question(option_code, provider){
                             <div class="row">`;
                     for(i in msg.result.response){
                         var co_index = (parseInt(i))+1;
-                        text+=`<div class="col-lg-6 col-md-6 col-sm-6"><h6>`;
+                        if(msg.result.response[i].type == 'boolean' || msg.result.response[i].type == 'checkbox'){
+                            text+=`<div class="col-lg-12" style="margin-bottom:15px;"><h6>`;
+                        }else{
+                            text+=`<div class="col-lg-12"><h6>`;
+                        }
                         if (msg.result.response[i].required){
                             text+=`<span style="color:red; font-size:16px;"> *</span>`;
                         }
@@ -558,7 +571,7 @@ function event_get_extra_question(option_code, provider){
                             for(ans in msg.result.response[i].answers){
                                 if(ans == "0"){
                                     text+=`
-                                    <label class="radio-button-custom" style="margin-bottom:0px;">
+                                    <label class="radio-button-custom" style="margin-bottom:10px;">
                                         <span style="font-size:13px;">`+msg.result.response[i].answers[ans].answer+`</span>
                                         <input type="radio" checked="checked" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`"`;
                                     if (msg.result.response[i].required)
@@ -593,14 +606,20 @@ function event_get_extra_question(option_code, provider){
                                 text += 'required';
                             text += '/>';
                         }else if(msg.result.response[i].type == 'checkbox'){
-                            //for(ans in msg.result.response[i].answers){
-                            //text+=`
-                            //    <label class="check_box_custom">
-                            //        <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans].answer+`</span>
-                            //        <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`}" name="question_event_`+j+`_`+k+`_`+i+`_`+ans+`"/>
-                            //        <span class="check_box_span_custom"></span>
-                            //    </label>
-                            //}
+                            text+=`<div class="row">`;
+                            for(ans in msg.result.response[i].answers){
+                            text+=`
+                            <div class="col-lg-4 col-md-6">
+                                <div class="checkbox-inline1">
+                                    <label class="check_box_custom">
+                                        <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans].answer+`</span>
+                                        <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`}" name="question_event_`+j+`_`+k+`_`+i+`_`+ans+`"/>
+                                        <span class="check_box_span_custom"></span>
+                                    </label>
+                                </div>
+                            </div>`;
+                            }
+                            text+=`</div>`;
                         }
                         text+=`</div>`;
                     }
