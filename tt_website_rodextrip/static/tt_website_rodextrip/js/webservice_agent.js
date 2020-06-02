@@ -214,7 +214,7 @@ function signin_btc(){
     $('.loading-button').prop('disabled', true);
     $('.loading-button').addClass("running");
 
-    if( $(window).width() > 767){
+    if( $(window).width() > 991){
         if($('#username').val() != '' && $('#password').val() != ''){
             username = $('#username').val();
             password = $('#password').val();
@@ -335,7 +335,7 @@ function signin_btc(){
 }
 
 function reset_password_btc(){
-    if( $(window).width() > 767){
+    if( $(window).width() > 991){
         if($('#username').val() != ''){
             $.ajax({
                type: "POST",
