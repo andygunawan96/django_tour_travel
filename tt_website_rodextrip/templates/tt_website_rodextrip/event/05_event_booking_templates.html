@@ -74,11 +74,14 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-                <div class="col-lg-12">
-                    <h3>{% trans 'Please Review Your Booking' %}</h3>
-                    <h5>{% trans 'Prices may changes at any time' %}</h5>
-                </div>
-                <div class="col-lg-12" id="show_loading_booking_airline" style="display:none;">
+            <div class="col-lg-12" id="show_title_event">
+                <h3>{% trans 'Please Review Your Booking' %}</h3>
+                <h5>{% trans 'Prices may changes at any time' %}</h5>
+            </div>
+            <div class="col-lg-12">
+                <h3 id="display_state"></h3>
+            </div>
+            <div class="col-lg-12" id="show_loading_booking_airline" style="display:none;">
                 <div class="sk-circle">
                     <div class="sk-circle1 sk-child"></div>
                     <div class="sk-circle2 sk-child"></div>

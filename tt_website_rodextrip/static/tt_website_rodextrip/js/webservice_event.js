@@ -162,7 +162,7 @@ function event_get_booking(data){
 
                    text+=`<div class="col-lg-8 col-md-8 col-sm-6" style="margin-bottom:5px;">`;
                        if(msg.result.response.description != false)
-                           text+=`<span>`+msg.result.response.description+`</span><br/>`;
+                           text+=`<span style="font-size:13px !important;">`+msg.result.response.description+`</span><br/>`;
                        else
                            text+=`<span>-</span><br/>`;
                    text+=`</div>`;
@@ -171,6 +171,14 @@ function event_get_booking(data){
             if(msg.result.response.status == 'booked'){
                check_payment_payment_method(msg.result.response.order_number, 'Issued', '', 'billing', 'event', signature, {});
                $(".issued_booking_btn").show();
+            }
+            else if(msg.result.response.status == 'issued'){
+                document.getElementById('issued-breadcrumb').classList.add("br-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                document.getElementById('show_title_event').hidden = true;
+                document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
+
             }
             //======================= Option =========================
             text = `<h4>Option(s)</h4>

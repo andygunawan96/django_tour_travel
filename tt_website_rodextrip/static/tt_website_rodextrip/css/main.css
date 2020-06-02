@@ -7081,7 +7081,7 @@ th input {
   width: 75px;
   height: 75px;
   border-radius: 50%;
-
+  border: 1px solid #cdcdcd;
   object-fit: cover;
   object-position: center right;
 }
