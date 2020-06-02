@@ -136,7 +136,7 @@ function get_carrier_providers_ppob(){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                return msg.result.response;
+                carrier_provider_ppob = msg.result.response;
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -300,7 +300,6 @@ function search_ppob(){
         total = document.getElementById('pln_nominal').value
     }catch(err){}
     if(product_code != '' && customer_number != '' && error_log == ''){
-        var carrier_provider_ppob = get_carrier_providers_ppob();
         console.log(carrier_provider_ppob);
         var search_provider_ppob = carrier_provider_ppob[product_code][0];
 
