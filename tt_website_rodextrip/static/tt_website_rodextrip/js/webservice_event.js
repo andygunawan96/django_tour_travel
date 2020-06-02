@@ -415,8 +415,12 @@ function event_options(id){
 
                         text+=`<div class="col-lg-9 col-md-9">
                         <div class="row" style="padding:10px 0px;">
-                            <div class="col-lg-12" style="margin-bottom:5px;">
-                                <span>` + msg.result.response[i].description + `</span>
+                            <div class="col-lg-12" style="margin-bottom:5px;">`;
+                                if(msg.result.response[i].description != false)
+                                    text+=`<span>` + msg.result.response[i].description + `</span>`;
+                                else
+                                    text+=`<span>Description not Available</span>`;
+                            text+=`
                             </div>`;
 
                             for (j in msg.result.response[i].timeslot){
@@ -475,8 +479,12 @@ function event_options(id){
                         text+=`<div class="col-lg-9 col-md-9">
                         <div class="overlay overlay-bg-sold"></div>
                         <div class="row">
-                            <div class="col-lg-12" style="margin-top:10px; margin-bottom:5px;">
-                                <span style="color: #6e6e6e;">` + msg.result.response[i].description + `</span>
+                            <div class="col-lg-12" style="margin-top:10px; margin-bottom:5px;">`;
+                            if(msg.result.response[i].description != false)
+                                text+=`<span style="color: #6e6e6e;">` + msg.result.response[i].description + `</span>`;
+                            else
+                                text+=`<span>Description not Available</span>`;
+                            text+=`
                             </div>`;
 
                             for (j in msg.result.response[i].timeslot){
