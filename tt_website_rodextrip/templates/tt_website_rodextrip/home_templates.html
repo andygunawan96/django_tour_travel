@@ -6707,6 +6707,7 @@
         {% endif %}
         {% if "ppob" in provider %}
             get_config_ppob();
+            get_carrier_providers_ppob();
             $("#bill_searchForm").bind("keypress", function(e) {
                 if (e.keyCode == 13) {
                     return false;
