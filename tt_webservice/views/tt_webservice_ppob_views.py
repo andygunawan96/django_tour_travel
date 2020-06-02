@@ -63,6 +63,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_carriers':
             res = get_carriers(request)
+        elif req_data['action'] == 'get_carrier_providers':
+            res = get_carrier_providers(request)
         elif req_data['action'] == 'get_config':
             res = get_config(request)
         elif req_data['action'] == 'search':
@@ -139,6 +141,31 @@ def get_carriers(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
+
+def get_carrier_providers(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_carrier_providers",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'ppob'
+        }
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("info_logger").info("get_carrier_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("info_logger").info("get_carrier_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+
 def get_config(request):
     try:
         javascript_version = get_cache_version()
@@ -154,6 +181,7 @@ def search(request):
         data = {
             "product_code": int(request.POST['product_code']),
             "customer_number": request.POST['customer_number'],
+            "provider": request.POST['provider'],
         }
         if request.POST['amount_of_month'] != '0':
             data.update({
