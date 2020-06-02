@@ -123,6 +123,34 @@ function get_carriers_ppob(){
     });
 }
 
+function get_carrier_providers_ppob(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/ppob",
+       headers:{
+            'action': 'get_carrier_providers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(msg.result.error_code == 0){
+                return msg.result.response;
+            }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
+                })
+            }
+       },timeout: 60000
+    });
+}
+
 function search_ppob(){
     product_code = '';
     customer_number = '';
@@ -272,6 +300,10 @@ function search_ppob(){
         total = document.getElementById('pln_nominal').value
     }catch(err){}
     if(product_code != '' && customer_number != '' && error_log == ''){
+        var carrier_provider_ppob = get_carrier_providers_ppob();
+        console.log(carrier_provider_ppob);
+        var search_provider_ppob = carrier_provider_ppob[product_code][0];
+
         $.ajax({
            type: "POST",
            url: "/webservice/ppob",
@@ -281,6 +313,7 @@ function search_ppob(){
            data: {
                 'customer_number': customer_number,
                 'product_code': product_code,
+                'provider': search_provider_ppob,
                 'signature': signature,
                 'total': total,
                 'amount_of_month': amount_of_month
