@@ -250,6 +250,18 @@ function filtering(type, update){
     }
 }
 
+function event_search_validation(){
+    text= '';
+    if(document.getElementById("event_name").value == '')
+        text+= 'Please fill Event Name\n';
+    //check no error
+    if(text == ''){
+        document.getElementById('event_searchForm').submit();
+    }else{
+        alert(text);
+    }
+}
+
 function sorting_button(value){
     if(value == 'price'){
         if(sorting_value == '' || sorting_value == 'Lowest Price'){
@@ -310,7 +322,7 @@ function sort(response, check_filter){
             for(i in response){
                 text = '<div class="sorting-box-b" onclick="goto_detail(`event`,'+i+')"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
                 if(response[i].images.length != 0){
-                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url(`+response[i].images[0].url+`);" onclick="goto_detail('event',`+i+`)"></div>`;
+                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
                 }
                 else{
                     text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>`;
@@ -416,19 +428,19 @@ function sort(response, check_filter){
             text += `
                 <div style="padding:5px; margin:10px;">
                     <div style="text-align:center">
-                        <img src="/static/tt_website_rodextrip/images/nofound/no-hotel.png" style="width:60px; height:60px;" alt="" title="" />
+                        <img src="/static/tt_website_rodextrip/images/nofound/no-event.png" style="width:60px; height:60px;" alt="" title="" />
                         <br/><br/>
-                        <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another day or another hotel</span>
+                        <span style="font-size:14px; font-weight:600;">Oops! Event not found. Please try another event</span>
                     </div>
                 </div>
             `;
             var node = document.createElement("div");
             node.innerHTML = text;
-            document.getElementById("hotel_error").appendChild(node);
+            document.getElementById("event_error").appendChild(node);
             node = document.createElement("div");
             $('#pagination-container').hide();
             $('#pagination-container2').hide();
-            $('#hotel_error').show();
+            $('#event_error').show();
         }
 
         /*for(i in response.landmark_ids){
@@ -1144,43 +1156,6 @@ function update_contact_cp(val){
         document.getElementById('adult_cp_hidden1_'+val.toString()).hidden = true;
         document.getElementById('adult_cp_hidden2_'+val.toString()).hidden = true;
     }
-}
-
-function checkboxCopy(){
-    var count_copy = $(".copy_result:checked").length;
-    document.getElementById("badge-copy-notif").innerHTML = count_copy;
-    document.getElementById("badge-copy-notif2").innerHTML = count_copy;
-}
-
-function checkboxCopyBox(id, co_hotel){
-    if(document.getElementById('copy_result'+id).checked) {
-        var copycount = $(".copy_result:checked").length;
-        if(copycount == co_hotel){
-            document.getElementById("check_all_copy").checked = true;
-        }
-
-    } else {
-        document.getElementById("check_all_copy").checked = false;
-    }
-    checkboxCopy();
-}
-
-function check_all_result(){
-   var selectAllCheckbox = document.getElementById("check_all_copy");
-   if(selectAllCheckbox.checked==true){
-        var checkboxes = document.getElementsByClassName("copy_result");
-        for(var i=0, n=checkboxes.length;i<n;i++) {
-        checkboxes[i].checked = true;
-        $('#choose-hotel-copy').hide();
-    }
-   }else {
-    var checkboxes = document.getElementsByClassName("copy_result");
-    for(var i=0, n=checkboxes.length;i<n;i++) {
-        checkboxes[i].checked = false;
-        $('#choose-hotel-copy').show();
-    }
-   }
-   checkboxCopy();
 }
 
 function render_extra_question(json_event_answer){
