@@ -353,7 +353,7 @@ function event_search_vendor(){
                 }
            }catch(err){
                 console.log('Error #2');
-                alert(msg.result.error_msg);
+                alert(err);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
