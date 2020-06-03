@@ -741,7 +741,7 @@
                     <button class="content-event primary-btn-sticky-hotel" type="button" id="information-event">Description</button>
                     <button class="content-event primary-btn-sticky-hotel" type="button" id="select-room-event">Buy Ticket</button>
 
-                    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();">
+                    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyOption" onclick="get_checked_copy_result();">
                         <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
                     </button>
                 </div>
@@ -820,25 +820,13 @@
                         </div>
                         <div class="col-lg-5" style="margin-bottom:10px;">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" id="option_search_params">
                                     <input type="hidden" value="{{event_code.name}}" id="get_name_hotel"/>
-                                    <span id="name_event" class="name_event" style="font-size:22px; font-weight:bold; color:black;">{{event_code.name}}</span><br/>
-
-                                    <span style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> {{event_code.start_date}}
-                                        {% if event_code.start_date != event_code.end_date and event_code.end_date%}
-                                        - {{event_code.end_date}}
-                                        {% endif %}
-                                    </span><br/>
-                                    <span style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> {{event_code.start_time}}
-                                        {% if event_code.start_time != event_code.end_time and event_code.end_time%}
-                                        - {{event_code.end_time}}
-                                        {% endif %}
-                                    </span><br/>
-
+                                    <span id="name_event" class="copy_span" style="font-size:22px; font-weight:bold; color:black;">{{event_code.name}}</span><br/>
+                                    <span class="copy_span" style="font-size:14px;"><i class="fas fa-calendar-alt" style="color:{{color}};"></i> {{event_code.start_date}} {% if event_code.start_date != event_code.end_date %} - {{event_code.end_date}} {% endif %}</span><br/>
+                                    <span class="copy_span" style="font-size:14px;"><i class="fas fa-clock" style="color:{{color}};"></i> {{event_code.start_time}} {% if event_code.start_time != event_code.end_time %} - {{event_code.end_time}} {% endif %}</span><br/>
                                     {% for loc in event_code.locations %}
-                                    <span style="font-size:14px;"><i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                                    {{loc.location_name}}, {{loc.location_address}}, {{loc.city_name}}, {{loc.country_name}}
-                                    </span><br/>
+                                    <span class="copy_span loc_address" style="font-size:14px;"><i class="fas fa-map-marker-alt" style="color:{{color}};"></i><span class="loc_address"> {{loc.location_name}}, {{loc.location_address}}, {{loc.city_name}}, {{loc.country_name}}</span></span><br/>
                                     {% endfor %}
                                     <!-- <span class="address_hotel" id="address_hotel">{% if event_code.location.address != false %}{{event_code.location.address}}{% endif %}{% if event_code.location.city != false %}, {{event_code.location.city}}{% endif %}{% if event_code.location.kelurahan != false %}, {{event_code.location.kelurahan}}{% endif %}{% if event_code.location.state != false %}, {{event_code.location.state}}{% endif %}{% if event_code.location.zipcode != false %}, {{event_code.location.zipcode}}{% endif %}</span>-->
                                     <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
@@ -968,21 +956,21 @@
                 </div>
 
                 <div class="col-lg-12">
-                    <div class="modal fade" id="myModalCopyHotel" role="dialog">
+                    <div class="modal fade" id="myModalCopyOption" role="dialog">
                         <div class="modal-dialog">
                             <!-- Modal content-->
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h4 class="modal-title" style="color:{{text_color}};"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
+                                    <h4 class="modal-title" style="color:{{text_color}};"> List Copy Option <i class="fas fa-copy"></i></i></h4>
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 </div>
                                 <div class="modal-body">
-                                    <div class="row" id="choose-hotel-copy">
+                                    <div class="row" id="choose-option-copy">
                                         <div class="col-lg-12">
-                                            <h6>Please choose your room want to copy!</h6>
+                                            <h6>Please choose your option want to copy!</h6>
                                         </div>
                                     </div>
-                                    <div id="show-list-copy-hotel">
+                                    <div id="show-list-copy-option">
 
                                     </div>
                                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>

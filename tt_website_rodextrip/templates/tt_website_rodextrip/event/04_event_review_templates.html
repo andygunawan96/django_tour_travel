@@ -115,7 +115,13 @@
                                         <h4> {% trans 'Booking Event Review' %} </h4>
                                         <hr/>
                                     </div>
-                                    <div class="col-lg-4"></div>
+                                    <div class="col-lg-4">
+                                        {% if event_code.images|length > 0 %}
+                                        <img class="img-fluid" style="max-height:400px; margin-left:50%; transform:translateX(-50%);" src="{{event_code.images0.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';">
+                                        {% else %}
+                                        <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="margin: auto; max-height:400px;">
+                                        {% endif %}
+                                    </div>
 
                                     <div class="col-lg-8">
                                         <span style="font-size:20px; font-weight:bold; color:black;">{{event_code.name}}</span>
