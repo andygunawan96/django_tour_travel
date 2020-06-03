@@ -6362,8 +6362,7 @@
                     var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
                     try{
                         if(item.image_url.length != 0)
-                            return '<div class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><img src="img/'+item.name+'.png" style="max-width:20px;"> '+item.name.replace(re, "<b>$1</b>")+' - '+item.type+'</div>';
-
+                            return '<div class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><img src="'+item.image_url[0]+'" style="max-width:20px;"> '+item.name.replace(re, "<b>$1</b>")+' - '+item.type+'</div>';
                         else
                             return '<div class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><img src="{{static_path}}images/nofound/no-activity.png" style="max-width:20px;"> '+item.name.replace(re, "<b>$1</b>")+' - '+item.type+'</div>';
                     }catch(err){

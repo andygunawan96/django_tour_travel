@@ -39,6 +39,7 @@
     json_event_answer = json_event_answer.replace(/False/g, 'false');
     json_event_answer = json_event_answer.replace(/&#39;/g, '"');
     json_event_answer = JSON.parse(json_event_answer);
+    upsell_price = {{upsell}};
 </script>
 
 {% include 'tt_website_rodextrip/logout.html' %}

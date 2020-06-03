@@ -303,7 +303,7 @@ function event_search(){
             'action': 'search',
        },
        data: {
-        'event_name': $('#event_name').val(),
+        'event_name': $('#event_name_id').val(),
         'is_online': '1',
         'signature': signature
        },
@@ -992,4 +992,101 @@ function reduce_option(val){
 
 function gotoForm(){
     document.getElementById('event_searchForm').submit();
+}
+
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+//        upsell = []
+//        for(i in train_get_detail.result.response.passengers){
+//            for(j in train_get_detail.result.response.passengers[i].sale_service_charges){
+//                currency = train_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
+//            }
+//            list_price = []
+//            for(j in list){
+//                if(train_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+//                    list_price.push({
+//                        'amount': list[j],
+//                        'currency_code': currency
+//                    });
+//                }
+//
+//            }
+//            upsell.push({
+//                'sequence': train_get_detail.result.response.passengers[i].sequence,
+//                'pricing': JSON.parse(JSON.stringify(list_price))
+//            });
+//        }
+//        repricing_order_number = order_number;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = -1;
+        val = json_event_option_code
+        currency = val[0]['currency'];
+        for(i in val){
+            list_price = []
+            for(j in list){
+                if(val[i].name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                    upsell_price += list[j];
+                }
+            }
+            counter_pax++;
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/event",
+       headers:{
+            'action': 'update_service_charge',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                if(type == 'booking'){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    train_get_booking(repricing_order_number);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    render_object_from_value(val);
+                }
+
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline service charge </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+                })
+            }
+       },timeout: 480000
+    });
+
 }

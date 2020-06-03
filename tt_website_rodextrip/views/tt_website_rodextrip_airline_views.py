@@ -106,6 +106,10 @@ def search(request):
             for line in file:
                 airline_destinations = json.loads(line)
             file.close()
+            file = open(var_log_path() + "get_airline_carriers.txt", "r")
+            for line in file:
+                carrier = json.loads(line)
+            file.close()
             airline_destinations = []
             try:
                 file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
@@ -314,6 +318,7 @@ def search(request):
                 'flight': flight,
                 'airline_cabin_class_list': airline_cabin_class_list,
                 'airline_carriers': airline_carriers,
+                'airline_all_carriers': carrier,
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
                 'signature': request.session['signature'],

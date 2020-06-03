@@ -20,6 +20,12 @@
     };
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+    airline_all_carriers = `{{airline_all_carriers }}`;
+    airline_all_carriers  = airline_all_carriers .replace(/&#39;/g, '"');
+    airline_all_carriers  = airline_all_carriers .replace(/&quot;/g, '"');
+    airline_all_carriers  = airline_all_carriers .replace(/False/g, 'false');
+    airline_all_carriers  = airline_all_carriers .replace(/True/g, 'true');
+    airline_all_carriers  = JSON.parse(airline_all_carriers );
     airline_carriers = `{{airline_carriers}}`;
     airline_carriers = airline_carriers.replace(/&#39;/g, '"');
     airline_carriers = airline_carriers.replace(/&quot;/g, '"');
