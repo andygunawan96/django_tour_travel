@@ -368,7 +368,8 @@ def create_booking(request):
                 'qty': int(i['qty']),
             })
         data = {
-            "event_code": request.POST['event_code'],
+            "event_code": request.session['event_code'].get('id') or 1,
+            # "event_code": request.POST['event_code'],
             "provider": 'event_internal',
             "event_option_codes": event_option_codes,
             "event_answer": request.session['event_extra_question' + request.POST['signature']],
