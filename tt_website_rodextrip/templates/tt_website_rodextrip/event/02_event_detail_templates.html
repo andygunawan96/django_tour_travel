@@ -799,7 +799,7 @@
                             <div class="row">
                                 <div class="col-lg-12">
                                     <input type="hidden" value="{{event_code.images|length}}" id="length-img"/>
-                                    {% if event_code.images.length > 0 %}
+                                    {% if event_code.images|length > 0 %}
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         {% for i in event_code.images %}
                                         <div class="item" style="cursor:pointer; float:none;">

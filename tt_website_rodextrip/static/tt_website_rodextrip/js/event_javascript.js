@@ -322,7 +322,7 @@ function sort(response, check_filter){
             for(i in response){
                 text = '<div class="sorting-box-b" onclick="goto_detail(`event`,'+i+')"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
                 if(response[i].images.length != 0){
-                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url(`+response[i].images[0].url+`);" onclick="goto_detail('event',`+i+`)"></div>`;
+                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
                 }
                 else{
                     text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>`;
