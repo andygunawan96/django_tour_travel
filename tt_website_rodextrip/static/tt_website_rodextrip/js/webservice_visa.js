@@ -1222,7 +1222,7 @@ function update_service_charge(type){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline service charge </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error visa service charge </span>' + msg.result.error_msg,
                 })
                 $('.loader-rodextrip').fadeOut();
            }
@@ -1232,7 +1232,7 @@ function update_service_charge(type){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+                  html: '<span style="color: red;">Error visa service charge </span>' + errorThrown,
                 })
                 $('.loader-rodextrip').fadeOut();
             }

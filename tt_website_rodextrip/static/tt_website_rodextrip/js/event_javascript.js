@@ -250,18 +250,6 @@ function filtering(type, update){
     }
 }
 
-function event_search_validation(){
-    text= '';
-    if(document.getElementById("event_name").value == '')
-        text+= 'Please fill Event Name\n';
-    //check no error
-    if(text == ''){
-        document.getElementById('event_searchForm').submit();
-    }else{
-        alert(text);
-    }
-}
-
 function sorting_button(value){
     if(value == 'price'){
         if(sorting_value == '' || sorting_value == 'Lowest Price'){
@@ -322,7 +310,7 @@ function sort(response, check_filter){
             for(i in response){
                 text = '<div class="sorting-box-b" onclick="goto_detail(`event`,'+i+')"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
                 if(response[i].images.length != 0){
-                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
+                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url(`+response[i].images[0].url+`);" onclick="goto_detail('event',`+i+`)"></div>`;
                 }
                 else{
                     text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div>`;
@@ -823,7 +811,74 @@ function render_object_from_value(val){
             </div>
         </div>`;
     }
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        tax = 0;
+        fare = 0;
+        total_price = 0;
+        total_price_provider = [];
+        price_provider = 0;
+        commission = 0;
+        service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+        type_amount_repricing = ['Repricing'];
+        for(i in val){
+            pax_type_repricing.push([val[i].name, val[i].name]);
+            price_arr_repricing[val[i].name] = {
+                'Fare': 0,
+                'Tax': 0,
+                'Repricing': 0
+            }
 
+        }
+        //repricing
+        text_repricing = `
+        <div class="col-lg-12">
+            <div style="padding:5px;" class="row">
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6">Repricing</div>
+            </div>
+        </div>`;
+        for(k in price_arr_repricing){
+           text_repricing += `
+           <div class="col-lg-12">
+                <div style="padding:5px;" class="row" id="adult">
+                    <div class="col-lg-6" id="`+j+`_`+k+`">`+k+`</div>
+                    <div hidden id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                    if(price_arr_repricing[k].Repricing == 0)
+                    text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">-</div>`;
+                    else
+                    text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                    text_repricing+=`<div hidden id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                </div>
+            </div>`;
+        }
+        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+        document.getElementById('repricing_div').innerHTML = text_repricing;
+        //repricing
+    }
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+    }
+    try{
+        console.log(upsell_price);
+        if(upsell_price != 0){
+            text+=`
+            <div class="row">
+                <div class="col-lg-7" style="text-align:left;">
+                    <span style="font-size:13px;font-weight:500;">Other Service Charge</span><br/>
+                </div>
+                <div class="col-lg-5" style="text-align:right;">`;
+                if(val[i].currency == 'IDR')
+                text+=`
+                    <span style="font-size:13px; font-weight:500;">`+val[i].currency+` `+getrupiah(upsell_price)+`</span><br/>`;
+                else
+                text+=`
+                    <span style="font-size:13px; font-weight:500;">`+val[i].currency+` `+upsell_price+`</span><br/>`;
+                text+=`
+                </div>
+            </div>`;
+        }
+        grand_total_option += upsell_price;
+    }catch(err){}
     text+=`
     <div class="row">
         <div class="col-lg-12">

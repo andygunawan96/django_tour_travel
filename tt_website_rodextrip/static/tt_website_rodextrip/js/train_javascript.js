@@ -819,23 +819,21 @@ function train_detail(){
         text_repricing = `
         <div class="col-lg-12">
             <div style="padding:5px;" class="row">
-                <div class="col-lg-3"></div>
-                <div class="col-lg-3">Price</div>
-                <div class="col-lg-3">Repricing</div>
-                <div class="col-lg-3">Total</div>
+                <div class="col-lg-6"></div>
+                <div class="col-lg-6">Repricing</div>
             </div>
         </div>`;
         for(k in price_arr_repricing){
            text_repricing += `
            <div class="col-lg-12">
                 <div style="padding:5px;" class="row" id="adult">
-                    <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                    <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                    <div class="col-lg-6" id="`+j+`_`+k+`">`+k+`</div>
+                    <div hidden id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
                     if(price_arr_repricing[k].Repricing == 0)
-                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                    text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">-</div>`;
                     else
-                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                    text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                    text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                    text_repricing+=`<div hidden id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
                 </div>
             </div>`;
         }

@@ -689,7 +689,7 @@ function airline_search(provider,carrier_codes){
                                <label class="check_box_custom">`;
                                try{
                                carrier_code_airline_checkbox +=`
-                                    <span class="span-search-ticket" style="color:black;">`+airline_carriers[0][obj2.segments[0].carrier_code].name+`</span>`;
+                                    <span class="span-search-ticket" style="color:black;">`+airline_all_carriers[obj2.segments[0].carrier_code].name+`</span>`;
                                }catch(err){
                                carrier_code_airline_checkbox +=`
                                     <span class="span-search-ticket" style="color:black;">`+obj2.segments[0].carrier_code+`</span>`;
