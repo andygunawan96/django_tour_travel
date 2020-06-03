@@ -15,6 +15,7 @@
     signature = `{{signature}}`;
     time_limit = {{time_limit}};
     session_time_limit();
+    sorting_value = '';
 </script>
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
@@ -45,6 +46,21 @@
 
                     <div class="row" style="padding:15px;">
                         <div class="col-lg-12" id="hotel_result"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="pagination-container" style="margin-bottom:10px;"></div>
+                        </div>
+                    </div>
+                    <div class="row" id="event_ticket_objs">
+                    </div>
+                    <div id="event_error">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div id="pagination-container2"></div>
+                        </div>
                     </div>
                 </div>
             </div>
