@@ -250,6 +250,18 @@ function filtering(type, update){
     }
 }
 
+function event_search_validation(){
+    text= '';
+    if(document.getElementById("event_name").value == '')
+        text+= 'Please fill Event Name\n';
+    //check no error
+    if(text == ''){
+        document.getElementById('event_searchForm').submit();
+    }else{
+        alert(text);
+    }
+}
+
 function sorting_button(value){
     if(value == 'price'){
         if(sorting_value == '' || sorting_value == 'Lowest Price'){

@@ -230,12 +230,12 @@ def contact_passengers(request):
                 if request.POST.get('option_qty_'+str(i-1)):
                     if int(request.POST['option_qty_' + str(i-1)]) != 0:
                         opt_code.append({
-                            'name': request.session['event_code']['option'][i-1]['grade'],
-                            'code': request.session['event_code']['option'][i-1]['option_id'],
+                            'name': request.session['event_detail']['result']['response'][i-1]['grade'],
+                            'code': request.session['event_detail']['result']['response'][i-1]['option_id'],
                             'qty': request.POST['option_qty_' + str(i-1)],
-                            'currency': request.session['event_code']['option'][i-1]['currency'],
-                            'price': request.session['event_code']['option'][i-1]['price'],
-                            'comm': request.session['event_code']['option'][i-1].get('commission',0),
+                            'currency': request.session['event_detail']['result']['response'][i-1]['currency'],
+                            'price': request.session['event_detail']['result']['response'][i-1]['price'],
+                            'comm': request.session['event_detail']['result']['response'][i-1].get('commission',0),
                         })
                     i += 1
                 else:

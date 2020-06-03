@@ -60,127 +60,19 @@
         <div class="row">
             <div class="col-lg-12" style="padding:0;">
                 <div class="banner-right">
-                    <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                    <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                         {% csrf_token %}
                         <div class="row">
                             <input type="hidden" id="response" name="response">
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
+                            <div class="col-lg-12 col-md-12" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
                                 <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name" name="event_name" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
-                                {% for country in countries %}
-                                    {% if country.code == event_search.nationality %}
-                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                    {% else %}
-                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                    {% endif %}
-                                {% endfor %}
-                                </select>
-                                <input type="hidden" value="{{event_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                            </div>
-
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{event_search.checkin_date}} - {{event_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                    <i class="fas fa-moon icon-search-ticket" id="total_night_search" style="padding-right:40px; border-right:1px solid #F0F0F0;">1</i>
-                                </div>
-                                <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{event_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
-                                <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{event_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                    <ul class="dropdown-menu" role="menu" style="z-index:5;">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{event_search.room}}" min="1">
-                                                        <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{event_search.adult}}" min="1">
-                                                        <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{event_search.child}}">
-                                                        <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="row" id="guest_child_age">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
-                                    <input type="checkbox" name="business_trip" id="business_trip" {% if event_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
                             </div>
                         </div>
 
-                        <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
+                        <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
                             <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                             {% trans 'Search' %}
                         </button>
@@ -214,128 +106,20 @@
             <div class="col-lg-12">
                 <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
                     <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
-                        <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                        <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                             {% csrf_token %}
                             <div class="row">
                                 <input type="hidden" id="response" name="response">
-                                <div class="col-lg-6 col-md-6">
-                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
+                                <div class="col-lg-12 col-md-12">
+                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
                                     <div class="input-container-search-ticket">
-                                        <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name" name="event_name" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
+                                        <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                                     </div>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                    <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                    <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
-                                    {% for country in countries %}
-                                        {% if country.code == event_search.nationality %}
-                                        <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                        {% else %}
-                                        <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                        {% endif %}
-                                    {% endfor %}
-                                    </select>
-                                    <input type="hidden" value="{{event_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                                </div>
-
-                                <div class="col-lg-6 col-md-6">
-                                    <span style="color:{{text_color}};"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
-                                    <div class="input-container-search-ticket">
-                                        <input style="background:white;" class="form-control" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{event_search.checkin_date}} - {{event_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                        <i class="fas fa-moon" id="total_night_search" style="padding-left:15px; padding-top:15px;">1</i>
-                                    </div>
-                                    <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{event_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
-                                    <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{event_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
-                                </div>
-
-                                <div class="col-lg-6 col-md-6">
-                                    <span style="color:{{text_color}};"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
-                                    <div class="input-container-search-ticket btn-group">
-                                        <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                        <ul class="dropdown-menu" role="menu" style="z-index:5;">
-                                            <div class="container">
-                                                <div class="row">
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{event_search.room}}" min="1" disabled>
-                                                            <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{event_search.adult}}" min="1" disabled>
-                                                            <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                        <div style="float:left;">
-                                                            <label>
-                                                                <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                                <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                        <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                            <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                                <i class="fas fa-minus"></i>
-                                                            </button>
-                                                            <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{event_search.child}}" disabled>
-                                                            <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                                <i class="fas fa-plus"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-12">
-                                                        <div class="row" id="guest_child_age">
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-12" style="margin-top:5px;float:left;">
-                                    <label class="check_box_custom">
-                                        <span style="font-size:13px; color:{{text_color}};">{% trans 'Business Trip' %}</span>
-                                        <input type="checkbox" name="business_trip" id="business_trip" {% if event_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
-                                        <span class="check_box_span_custom"></span>
-                                    </label>
                                 </div>
                             </div>
 
                             <center>
-                            <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
+                            <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                 {% trans 'Search' %}
                             </button>
@@ -371,128 +155,20 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="header-right" style="background:unset; border:unset;">
-                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                         {% csrf_token %}
                         <div class="row">
                             <input type="hidden" id="response" name="response">
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
+                            <div class="col-lg-12 col-md-12">
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
                                 <div class="form-group">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name" name="event_name" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
-                                {% for country in countries %}
-                                    {% if country.code == event_search.nationality %}
-                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                    {% else %}
-                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                    {% endif %}
-                                {% endfor %}
-                                </select>
-                                <input type="hidden" value="{{event_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{event_search.checkin_date}} - {{event_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                    <i class="fas fa-moon" id="total_night_search" style="color:{{text_color}}; padding-left:15px; padding-top:15px;">1</i>
-                                </div>
-                                <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{event_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
-                                <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{event_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
-                                <div class="form-group">
-                                    <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                    <ul class="dropdown-menu" role="menu" style="z-index:5; overflow-y:unset;">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{event_search.room}}" min="1">
-                                                        <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{event_search.adult}}" min="1">
-                                                        <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{event_search.child}}">
-                                                        <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="row" id="guest_child_age">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="margin-top:5px;float:left;">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
-                                    <input type="checkbox" name="business_trip" id="business_trip" {% if event_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
                             </div>
                         </div>
                         <br/>
                         <center>
-                            <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
+                            <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                 {% trans 'Search' %}
                             </button>
@@ -526,130 +202,20 @@
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
-                <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                     {% csrf_token %}
                     <div class="row">
                         <input type="hidden" id="response" name="response">
-                        <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket">{% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
+                        <div class="col-lg-12 col-md-12">
+                            <span class="span-search-ticket">{% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
                             <div class="input-container-search-ticket">
                                 <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name" name="event_name" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
+                                <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                             </div>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6" style="padding:0px;">
-                            <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                            <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
-                            {% for country in countries %}
-                                {% if country.code == event_search.nationality %}
-                                <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                {% else %}
-                                <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                {% endif %}
-                            {% endfor %}
-                            </select>
-                            <input type="hidden" value="{{event_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                        </div>
-
-                        <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket">{% trans 'Check-In - Check-Out' %}</span>
-                            <div class="input-container-search-ticket">
-                                <i class="fas fa-calendar-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{event_search.checkin_date}} - {{event_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                <i class="fas fa-moon" id="total_night_search" style="padding-left:10px;padding-top:15px; color:{{text_color}};">1</i>
-                            </div>
-                            <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{event_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
-                            <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{event_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
-                        </div>
-
-                        <div class="col-lg-6 col-md-6">
-                            <span class="span-search-ticket">{% trans 'Guest' %}</span>
-                            <div class="input-container-search-ticket btn-group">
-                                <i class="fas fa-users" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
-                                <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                <ul class="dropdown-menu" role="menu" style="z-index:5;">
-                                    <div class="container">
-                                        <div class="row">
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
-                                                        <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{event_search.room}}" min="1" disabled>
-                                                    <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{event_search.adult}}" min="1" disabled>
-                                                    <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                <div style="float:left;">
-                                                    <label>
-                                                        <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                        <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                    <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                        <i class="fas fa-minus"></i>
-                                                    </button>
-                                                    <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{event_search.child}}" disabled>
-                                                    <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                        <i class="fas fa-plus"></i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12">
-                                                <div class="row" id="guest_child_age">
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-12" style="margin-top:5px;float:left;">
-                            <label class="check_box_custom">
-                                <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
-                                <input type="checkbox" name="business_trip" id="business_trip" {% if event_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
-                                <span class="check_box_span_custom"></span>
-                            </label>
                         </div>
 
                         <div class="col-lg-12" style="text-align:center; margin-top:15px;">
-                            <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
+                            <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                 {% trans 'Search' %}
                             </button>
@@ -684,128 +250,20 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="banner-right">
-                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="hotel_searchForm">
+                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                         {% csrf_token %}
                         <div class="row">
                             <input type="hidden" id="response" name="response">
                             <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Destination' %} {% trans 'or' %} {% trans 'Hotel Name' %}</span>
+                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
                                 <div class="input-container-search-ticket">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name" name="event_name" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
+                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;max-width:600px;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                                 </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-globe-asia"></i> {% trans 'Guest Nationality' %}</span>
-                                <select class="js-example-basic-single" name="hotel_id_nationality_id" style="width:100%;" id="hotel_id_nationality_id" placeholder="{% trans 'Guest Nationality' %}" onchange="auto_complete('hotel_id_nationality');" class="nice-select-default">
-                                {% for country in countries %}
-                                    {% if country.code == event_search.nationality %}
-                                    <option value="{{country.code}} - {{country.name}}" selected>{{country.code}} - {{country.name}}</option>
-                                    {% else %}
-                                    <option value="{{country.code}} - {{country.name}}">{{country.code}} - {{country.name}}</option>
-                                    {% endif %}
-                                {% endfor %}
-                                </select>
-                                <input type="hidden" value="{{event_search.guest_nationality}}" id="hotel_id_nationality" class="form-control" name="hotel_id_nationality" />
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-calendar-alt"></i> {% trans 'Check-In - Check-Out' %}</span>
-                                <div class="input-container-search-ticket">
-                                    <input class="form-control" style="background:white;" type="text" name="hotel_checkin_checkout" id="hotel_checkin_checkout" value="{{event_search.checkin_date}} - {{event_search.checkout_date}}" placeholder="{% trans 'Check-In - Check-Out Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-In - Check-out Date '" autocomplete="off" readonly/>
-                                    <i class="fas fa-moon" id="total_night_search" style="padding-top:15px; padding-left:15px; font-size:15px; color:{{text_color}};">1</i>
-                                </div>
-                                <input type="hidden" class="form-control" id="hotel_checkout" name="hotel_checkout" placeholder="Check-out Date " placeholder="Check-out Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-out Date '" autocomplete="off" value="{{event_search.checkout_date}}" onchange="change_date_hotel('checkout');" />
-                                <input type="hidden" class="form-control" id="hotel_checkin" name="hotel_checkin" placeholder="Check-In Date " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Check-in Date '" autocomplete="off" value="{{event_search.checkin_date}}" onchange="change_date_hotel('checkin');"/>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-users"></i> {% trans 'Guest' %}</span>
-                                <div class="input-container-search-ticket btn-group">
-                                    <button id="show_total_pax_hotel" style="text-align:left;" type="button" class="form-control dropdown-toggle" data-toggle="dropdown" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"></button>
-                                    <ul class="dropdown-menu" role="menu" style="z-index:5; overflow:unset;">
-                                        <div class="container">
-                                            <div class="row">
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Room' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">(Qty >= 1)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-room-hotel btn-custom-circle" id="left-minus-room-hotel" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_room" name="hotel_room" value="{{event_search.room}}" min="1" disabled>
-                                                        <button type="button" class="right-plus-room-hotel btn-custom-circle" id="right-plus-room-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Adult' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} 12+)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-adult-hotel btn-custom-circle" id="left-minus-adult-hotel" data-type="minus" data-field="">
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_adult" name="hotel_adult" value="{{event_search.adult}}" min="1" disabled>
-                                                        <button type="button" class="right-plus-adult-hotel btn-custom-circle" id="right-plus-adult-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                    <div style="float:left;">
-                                                        <label>
-                                                            <span style="color:black; font-size:13px;">{% trans 'Child' %}<br/></span>
-                                                            <span style="color:gray; font-size:11px;">({% trans 'Age' %} <12)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                                                    <div style="float:right; display:flex; padding:5px 0px 5px 5px;">
-                                                        <button type="button" class="left-minus-child-hotel btn-custom-circle" id="left-minus-child-hotel" data-type="minus" data-field="" disabled>
-                                                            <i class="fas fa-minus"></i>
-                                                        </button>
-                                                        <input type="text" style="font-size:13px; padding:5px !important; border:none; background:none; text-align:center; width:25px;" id="hotel_child" name="hotel_child" value="{{event_search.child}}" disabled>
-                                                        <button type="button" class="right-plus-child-hotel btn-custom-circle" id="right-plus-child-hotel" data-type="plus" data-field="">
-                                                            <i class="fas fa-plus"></i>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <div class="row" id="guest_child_age">
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-12" style="margin-top:5px;float:left;">
-                                <label class="check_box_custom">
-                                    <span class="span-search-ticket" style="font-size:13px;">{% trans 'Business Trip' %}</span>
-                                    <input type="checkbox" name="business_trip" id="business_trip" {% if event_search.business_trip == 'true' %} value="true" checked {% else %} value="false" {% endif %}/>
-                                    <span class="check_box_span_custom"></span>
-                                </label>
                             </div>
                         </div>
                         <br/>
                         <center>
-                            <button class="primary-btn" onclick="hotel_search_validation();" type="button" value="Submit">
+                            <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
                                 {% trans 'Search' %}
                             </button>
@@ -1036,7 +494,7 @@
     });
 
     var hotel_autocomplete = new autoComplete({
-        selector: '#event_name',
+        selector: '#event_name_id',
         minChars: 1,
         cache: false,
         delay:0,
@@ -1044,7 +502,7 @@
             get_auto_complete(term,suggest);
         },
         onSelect: function(e, term, item){
-            $("#event_name").trigger("blur");
+            $("#event_name_id").trigger("blur");
         }
     });
 

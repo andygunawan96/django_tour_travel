@@ -528,7 +528,7 @@ function event_options(id){
 
 
             }else{
-                alert("There's no room in this hotel!");
+                alert("There's option found for this event, Please Try again");
                 $('#loading-detail-hotel').hide();
     //            window.location.href = "http://localhost:8000";
             }
@@ -991,5 +991,5 @@ function reduce_option(val){
 }
 
 function gotoForm(){
-    document.getElementById('hotel_searchForm').submit();
+    document.getElementById('event_searchForm').submit();
 }
