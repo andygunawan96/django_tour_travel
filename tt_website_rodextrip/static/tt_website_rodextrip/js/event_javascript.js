@@ -1,7 +1,7 @@
-var hotel_room_detail_pick = null;
 var option_pick = [];
 var category_tooltip = '';
 var max_category = 3;
+var selected_categ = [];
 
 function search_hotel(val){
     clearTimeout(myVar);
@@ -94,7 +94,7 @@ function online_check(){
 function event_search_validation(){
     text= '';
     if(document.getElementById("event_name_id").value == '')
-        text+= 'Please fill destination\n';
+        text+= 'Please fill Event Name\n';
     //check no error
     if(text == ''){
         document.getElementById('event_searchForm').submit();
@@ -119,147 +119,33 @@ function triggered(){
 }
 
 function filtering(type, update){
-    update = 0;
     $('#badge-copy-notif').html("0");
     var data = JSON.parse(JSON.stringify(hotel_data));
-    checking_slider = update;
-    if(type == 'filter'){
-        check_rating = 0;
-        for(i in rating_list){
-            if(rating_list[i].status == true){
-                check_rating = 1;
-            }
-        }
-        var check = 0;
-        var temp_data = [];
-        var searched_name = $('#hotel_filter_name').val();
 
-        if(check_rating == 1){
-            data.hotel_ids.forEach((obj)=> {
-                check = 0;
-                rating_list.forEach((obj1)=> {
-                    if(obj.rating == parseInt(obj1.value) && obj1.status==true){
-                        check = 1;
-                    }
-                });
-                if(check != 0){
-                    temp_data.push(obj);
-                } else {
-                    // Tambahkan hotel ygy unrated jika *1 nya tercentang
-                    // console.log(obj.rating);
-                    if(rating_list[0].status == true && obj.rating == false){
-                        temp_data.push(obj);
+    var check = 0;
+    var temp_data = [];
+
+    if (selected_categ.length > 0 ){
+        event_search_result.forEach((obj)=> {
+            var selected = 0;
+            selected_categ.forEach((obj1)=> {
+                for( var i = 0; i < obj.category.length; i++){
+                    if (data_event.category[obj1].category_name.toLowerCase() == obj.category[i].toLowerCase() ){
+                        selected += 1;
+                        continue;
                     }
                 }
             });
-            data.hotel_ids = temp_data;
-            hotel_filter = data;
-            temp_data = [];
-            high_price_slider = 0;
-            low_price_slider = 99999999;
-        }
 
-        if (searched_name){
-            data.hotel_ids.forEach((obj)=> {
-                var test = 1;
-                searched_name.toLowerCase().split(" ").forEach((search_str)=> {
-                    if (obj.name.toLowerCase().includes( search_str ) == false){
-                        test = 0;
-                    }
-                });
-                if(test == 1){
-                    temp_data.push(obj);
-                }
-            });
-            data.hotel_ids = temp_data;
-            hotel_filter = data;
-            temp_data = [];
-            high_price_slider = 0;
-            low_price_slider = 99999999;
-        }
-
-        if (selected_fac.length > 0 ){
-            data.hotel_ids.forEach((obj)=> {
-                var selected = 0;
-                selected_fac.forEach((obj1)=> {
-                    for( var i = 0; i < obj.facilities.length; i++){
-                        if (top_facility[obj1].facility_name.toLowerCase().includes(obj.facilities[i].facility_name.toLowerCase()) ){
-                            selected += 1;
-                            continue;
-                        }
-                        if (top_facility[obj1].internal_name.toLowerCase().includes(obj.facilities[i].facility_name.toLowerCase()) ){
-                        //if (obj.facilities[i].facility_id === top_facility[obj1].internal_code){
-                            selected += 1;
-                            continue;
-                        }
-                    }
-                });
-
-                if (selected == selected_fac.length){
-                    temp_data.push(obj);
-                }
-            });
-            data.hotel_ids = temp_data;
-            hotel_filter = data;
-            temp_data = [];
-            high_price_slider = 0;
-            low_price_slider = 99999999;
-        }
-
-        if(checking_slider == 1){
-            if (check_rating != 1 || !searched_name){
-                checking_price = 1;
-                temp_response = data;
-                sort(data, 1);
+            if (selected == selected_categ.length){
+                temp_data.push(obj);
             }
-            else{
-                checking_price = 1;
-                temp_response = data;
-                sort(data, 0);
-            }
-        }
-        // Perubahan high price jika di trigger dari input user
-        else{
-            var minPr = 0;
-            var maxPr = 0;
-            if($check_type_ps == 1){
-                minPr = parseFloat(document.getElementById('price-from').value);
-                maxPr = parseFloat(document.getElementById('price-to').value);
-            }else if($check_type_ps == 2){
-                minPr = parseFloat(document.getElementById('price-from2').value);
-                maxPr = parseFloat(document.getElementById('price-to2').value);
-            }
-
-            $minPrice = parseFloat(minPr);
-            $maxPrice = parseFloat(maxPr);
-            data.hotel_ids.forEach((obj)=> {
-                for (i in obj.prices) {
-                    if ($minPrice <= obj.prices[i].price && obj.prices[i].price <= $maxPrice){
-                        temp_data.push(obj);
-                        break;
-                    }
-                }
-            });
-            data.hotel_ids = temp_data;
-            hotel_filter = data;
-            temp_data = [];
-            checking_price = 0;
-            temp_response = data;
-            sort(data, 1);
-        }
+        });
+    } else {
+        temp_data = event_search_result;
     }
-}
-
-function event_search_validation(){
-    text= '';
-    if(document.getElementById("event_name").value == '')
-        text+= 'Please fill Event Name\n';
-    //check no error
-    if(text == ''){
-        document.getElementById('event_searchForm').submit();
-    }else{
-        alert(text);
-    }
+    console.log(temp_data);
+    sort(temp_data, 1);
 }
 
 function sorting_button(value){
@@ -320,17 +206,16 @@ function sort(response, check_filter){
         text='';
         if(response.length != 0){
             for(i in response){
-                text = '<div class="sorting-box-b"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
+                text = '<div class="sorting-box-b" style="padding:unset;"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
                 if(response[i].images.length != 0){
-                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
+                    text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
                 }
                 else{
-                    text+=`<div class="img-event-search" style="cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');" onclick="goto_detail('event',`+i+`)"></div>`;
+                    text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no-event.png');" onclick="goto_detail('event',`+i+`)"></div>`;
                 }
                 text+=`
-                <div style="margin-top:10px;">
-                    <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right:5px; font-size:18px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>
-                </div>`;
+                <div style="padding:10px;">
+                    <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-size:16px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>`;
                 detail = JSON.stringify(response[i]);
                 detail = detail.replace(/'/g, "");
                 text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
@@ -345,23 +230,24 @@ function sort(response, check_filter){
                 //Unremark jika butuh time
                 //text+=`<div style="padding-top:5px;"><i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span></div>`;
 
-                text+=`<div style="padding-top:5px;"><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
-                    if(response[i].locations.length != 0){
-                        for(g in response[i].locations){
-                            text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
-                        }
+                if(response[i].locations.length != 0){
+                    text+=`<div style="padding-top:5px;"><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                    for(g in response[i].locations){
+                        text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
                     }
-                text+=`</span></div>
-                <div style="padding-top:5px; padding-bottom:15px; min-height:120px; word-break:break-word;">
+                    text+=`</span></div>`;
+                }
+                text+=`
+                <div style="padding-top:5px; padding-bottom:15px; word-break:break-word;">
                     Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
                     if(response[i].category.length != 0){
                         var count_category = 0;
                         category_tooltip = '';
                         for(g in response[i].category){
                             if(count_category < max_category){
-                                text+=`<span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].category[g] +` </span>`;
+                                text+=`<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].category[g] +` </span></a>`;
                             }else{
-                                text += `<span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].category[g] +` </span>`;
+                                text += `<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].category[g] +` </span><a>`;
                             }
                             count_category = count_category + 1;
                         }
@@ -375,8 +261,8 @@ function sort(response, check_filter){
                 text+=`
                 </div>
                 <div>
-                    <button type="button" class="primary-btn-custom" style="float:right; width:100%;" onclick="goto_detail('event',`+i+`)">See Details</button>
-                </div></div>
+                    <button type="button" class="primary-btn-custom" style="float:right; width:100%; margin-bottom:15px;" onclick="goto_detail('event',`+i+`)">See Details</button>
+                </div></div></div>
                 </form>
                 </div>`;
                 //tambah button ke detailevent_result_data
@@ -389,7 +275,7 @@ function sort(response, check_filter){
 
             var items = $(".sorting-box-b");
             var numItems = items.length;
-            var perPage = 20;
+            var perPage = 12;
             items.slice(perPage).hide();
 
             $('#pagination-container').pagination({
@@ -442,39 +328,6 @@ function sort(response, check_filter){
             $('#pagination-container2').hide();
             $('#event_error').show();
         }
-
-        /*for(i in response.landmark_ids){
-            text = '<form id="hotel'+i+'" action="/hotel/detail" method="POST">';
-            text += `{%csrf_token%}`;
-            //msg.result.response.city_ids[i].sequence
-            if(response.landmark_ids[i].images.length != 0)
-                text+=`<img data-toggle="tooltip" class="airline-logo" style="width:50px;height:50px;" src="`+response.landmark_ids[i].images[0].url+`"><span> </span>`;
-            else
-                text+=`<img data-toggle="tooltip" class="airline-logo" style="width:50px;height:50px;" src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg"><span> </span>`;
-            text+=`<br/><label>`+response.landmark_ids[i].name+`</label>`;
-            text+=`<br/><label>`+response.landmark_ids[i].rating+` KASIH GAMBAR BINTANG</label>`;
-            text+=`<input type="hidden" id="hotel_detail" name="hotel_detail" value='`+JSON.stringify(response.landmark_ids[i])+`'/>`;
-            text+=`<label>`;
-            if(response.landmark_ids[i].location.city != false)
-                text+= response.landmark_ids[i].location.city;
-            if(response.landmark_ids[i].location.address != false)
-                text+= ' '+ response.landmark_ids[i].location.address;
-            if(response.landmark_ids[i].location.district != false)
-                text+= ' '+ response.landmark_ids[i].location.district;
-            if(response.landmark_ids[i].location.state != false)
-                text+= ' '+ response.landmark_ids[i].location.state;
-            if(response.landmark_ids[i].location.kelurahan != false)
-                text+= ' '+ response.landmark_ids[i].location.kelurahan;
-            if(response.landmark_ids[i].location.zipcode != false)
-                text+= ' '+ response.landmark_ids[i].location.zipcode;
-            text+=`</label>
-            <button type="button" onclick="goto_detail('landmark',`+response.landmark_ids[i].sequence+`,`+response.landmark_ids[i].counter+`)"/>
-            </form>`;
-            //tambah button ke detail
-            node.innerHTML = text;
-            document.getElementById("hotel_ticket").appendChild(node);
-            node = document.createElement("div");
-        }*/
     }
 
 function filter_name(name_num){
@@ -486,249 +339,23 @@ function filter_name(name_num){
 
 function change_filter(type, value){
     var check = 0;
-    if(type == 'rating'){
-        rating_list[value].status = !rating_list[value].status;
-        document.getElementById("rating_filter"+value).checked = rating_list[value].status;
-        document.getElementById("rating_filter2"+value).checked = rating_list[value].status;
-    } else if(type == 'facility'){
-        if (selected_fac.includes(value)){
-            for( var i = 0; i < selected_fac.length; i++){
-               if (selected_fac[i] === value) {
-                 selected_fac.splice(i, 1);
-                 document.getElementById("fac_filter"+value).checked = false;
-                 document.getElementById("fac_filter2"+value).checked = false;
+    if(type == 'category'){
+        if (selected_categ.includes(value)){
+            for( var i = 0; i < selected_categ.length; i++){
+               if (selected_categ[i] === value) {
+                 selected_categ.splice(i, 1);
+                 document.getElementById("checkbox_event_"+value).checked = false;
                  break;
                }
             }
         } else {
-            selected_fac.push(value);
-            document.getElementById("fac_filter"+value).checked = true;
-            document.getElementById("fac_filter2"+value).checked = true;
+            selected_categ.push(value);
+            document.getElementById("checkbox_event_"+value).checked = true;
         }
-
-    } else if(type == 'hotel_name1'){
-        document.getElementById('hotel_filter_name2').value = document.getElementById('hotel_filter_name').value;
-    } else if(type == 'hotel_name2'){
-        document.getElementById('hotel_filter_name').value = document.getElementById('hotel_filter_name2').value;
     };
     filtering('filter', 1);
 }
 
-function hotel_filter_render(){
-
-    var node = document.createElement("div");
-    text = '';
-    text+= `
-    <span style="font-size:14px; font-weight:600;">Session Time <span class="count_time" id="session_time"> </span></span>
-    <hr/>
-    <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>`;
-
-    node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("session_timer").appendChild(node);
-    node = document.createElement("div");
-
-    text = '';
-    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
-    <hr/>`;
-    if(template == 1){
-        text+=`<div class="banner-right">`;
-    }else if(template == 2){
-        text+=`
-        <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-            <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-    }else if(template == 3){
-        text+=`<div class="header-right" style="background:unset; border:unset;">`;
-    }
-    text+=`
-        <div class="form-wrap" style="padding:0px; text-align:left;">
-            <h6 class="filter_general" onclick="show_hide_general('hotelName');">Hotel Name <i class="fas fa-chevron-down" id="hotelName_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelName_generalUp" style="float:right; display:block;"></i></h6>
-            <div id="hotelName_generalShow" style="display:inline-block; width:100%;">
-                <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(1);"/>
-            </div>
-            <hr/>
-            <h6 class="filter_general" onclick="show_hide_general('hotelPrice');">Price Range <i class="fas fa-chevron-down" id="hotelPrice_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelPrice_generalUp" style="float:right; display:block;"></i></h6>
-            <div id="hotelPrice_generalShow" style="display:inline-block;">
-                <div class="range-slider">
-                    <input type="text" class="js-range-slider"/>
-                </div>
-                <div class="row">
-                    <div class="col-lg-6">
-                        <input type="text" style="margin-bottom:unset;" class="js-input-from form-control" id="price-from" value="`+low_price_slider+`" onblur="checking_price_slider(1,1);"/>
-                    </div>
-                    <div class="col-lg-6">
-                        <input type="text" style="margin-bottom:unset;" class="js-input-to form-control" id="price-to" value="`+high_price_slider+`" onblur="checking_price_slider(1,2);"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr/>
-    <h6 class="filter_general" onclick="show_hide_general('hotelRating');">Star Rating <i class="fas fa-chevron-down" id="hotelRating_generalDown" style="float:right; display:none;"></i><i class="fas fa-chevron-up" id="hotelRating_generalUp" style="float:right; display:block;"></i></h6>
-    <div id="hotelRating_generalShow" style="display:inline-block;">`;
-    for(i in rating_list){
-        if(i == 0)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` star) </span>
-                <input type="checkbox" id="rating_filter`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else if(i == 1)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else if(i == 2)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else if(i ==3)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-    }
-    text+=`</div>`;
-    if(template == 2){
-        text+=`</div>`;
-    }
-    var node = document.createElement("div");
-    node.innerHTML = text;
-    document.getElementById("filter").appendChild(node);
-
-    node = document.createElement("div");
-
-    text = `<span style="font-weight: bold; margin-right:10px;">Sort by: </span>`;
-    for(i in sorting_list2){
-        text+=`
-        <button class="primary-btn-sorting" id="sorting_list2`+i+`" name="sorting_list2" onclick="sorting_button('`+sorting_list2[i].value.toLowerCase()+`')" value="`+sorting_list2[i].value+`">
-            <span id="img-sort-down-`+sorting_list2[i].value.toLowerCase()+`" style="display:block;"> `+sorting_list2[i].value+` <i class="fas fa-caret-down"></i></span>
-            <span id="img-sort-up-`+sorting_list2[i].value.toLowerCase()+`" style="display:none;"> `+sorting_list2[i].value+` <i class="fas fa-caret-up"></i></span>
-        </button>`;
-    }
-    text += `<button class="myticket_static" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
-                <span style="color:`+text_color+`; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
-            </button>`
-    var node = document.createElement("div");
-    node.className = 'sorting-box';
-    node.innerHTML = text;
-    document.getElementById("sorting-hotel").appendChild(node);
-
-    var node2 = document.createElement("div");
-    text = '';
-    text+= `<h4 style="display: inline;">Filter</h4><a style="float: right; cursor: pointer;" onclick="reset_filter();"><i style="color:`+color+`;" class="fa fa-refresh"></i> Reset</a>
-            <hr/>
-            <h6 style="padding-bottom:10px;">Hotel Name</h6>`;
-            if(template == 1){
-                text+=`<div class="banner-right">`;
-            }else if(template == 2){
-                text+=`
-                <div class="hotel-search-form-area" style="bottom:0px !important; padding-left:0px; padding-right:0px;">
-                    <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:`+text_color+`;">`;
-            }
-            text+=`
-                <div class="form-wrap" style="padding:0px; text-align:left;">
-                    <input type="text" style="margin-bottom:unset;" class="form-control" id="hotel_filter_name2" placeholder="Hotel Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Hotel Name '" autocomplete="off" onkeyup="filter_name(2);"/>
-                </div>
-            </div>`;
-            if(template == 2){
-                text+=`</div>`;
-            }
-            text+=`
-            <hr/>
-            <h6 style="padding-bottom:10px;">Price Range</h6>
-            <div class="banner-right">
-                <div class="form-wrap" style="padding:0px; text-align:left;">
-                    <div class="wrapper">
-                        <div class="range-slider">
-                            <input type="text" class="js-range-slider2"/>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <input type="text" style="margin-bottom:unset;" class="js-input-from2 form-control" id="price-from2" value="`+low_price_slider+`" onblur="checking_price_slider(2,1);"/>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                                <input type="text" style="margin-bottom:unset;" class="js-input-to2 form-control" id="price-to2" value="`+high_price_slider+`" onblur="checking_price_slider(2,2);"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr/>
-            <h6 style="padding-bottom:10px;">Star Rating</h6>`;
-
-    for(i in rating_list){
-        if(i == 0)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` star) </span>
-                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else if(i == 1)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else if(i == 2)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else if(i ==3)
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-        else
-            text += `
-            <label class="check_box_custom">
-                <span class="span-search-ticket" style="color:black;"><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i><i class="fas fa-star" style="color:#FFC44D;"></i> (`+rating_list[i].value+` stars) </span>
-                <input type="checkbox" id="rating_filter2`+i+`" onclick="change_filter('rating',`+i+`);">
-                <span class="check_box_span_custom"></span>
-            </label><br/>`;
-    }
-
-    node2 = document.createElement("div");
-    node2.innerHTML = text;
-    document.getElementById("filter2").appendChild(node2);
-
-    text = '';
-    for(i in sorting_list){
-
-            text+=`
-            <label class="radio-button-custom">
-                <span class="span-search-ticket" style="color:black;">`+sorting_list[i].value+`</span>
-                <input type="radio" id="radio_sorting`+i+`" name="radio_sorting" onclick="sorting_button('`+sorting_list[i].value+`');" value="`+sorting_list[i].value+`">
-                <span class="checkmark-radio"></span>
-            </label></br>`;
-
-    }
-    node2 = document.createElement("div");
-    node2.innerHTML = text;
-    document.getElementById("sorting-hotel2").appendChild(node2);
-}
 function render_object(val, new_int){
     if(new_int == "0"){
         option_pick.splice(option_pick.indexOf(val), 1);
@@ -779,7 +406,7 @@ function render_object(val, new_int){
                 </div>
 
                 <div class="col-lg-6" style="text-align:right;">`;
-                text+='<span style="font-weight:bold; font-size:15px;">' + option_currency_pick + ' ' + getrupiah(grand_total_option) + '</span>'
+                text+='<span id="option_detail_grand_total" style="font-weight:bold; font-size:15px;">' + option_currency_pick + ' ' + getrupiah(grand_total_option) + '</span>'
                 text+=`
                 </div>
             </div>
@@ -933,13 +560,13 @@ function hotel_room_pick_button(total_commission){
                 <a href="https://wa.me/?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
                 <a href="line://msg/text/`+ $text_share2 +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
                 <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
         } else {
             text+=`
                 <a href="https://web.whatsapp.com/send?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
                 <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share2 +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
                 <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share2" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
         }
     text +=`</div>`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
@@ -1201,118 +828,6 @@ function render_extra_question(json_event_answer){
 $check_load = 0;
 $check_ps = 0;
 $check_type_ps = 0;
-function price_slider_true(filter, type){
-   if(filter == 1){
-       var from_price = parseFloat(document.getElementById('price-from').value);
-       var to_price = parseFloat(document.getElementById('price-to').value);
-       document.getElementById('price-from2').value = parseFloat(document.getElementById('price-from').value)
-       document.getElementById('price-to2').value = parseFloat(document.getElementById('price-to').value)
-       $check_type_ps = 1;
-   }
-   else if(filter == 2){
-       var from_price = parseFloat(document.getElementById('price-from2').value);
-       var to_price = parseFloat(document.getElementById('price-to2').value);
-       document.getElementById('price-from').value = parseFloat(document.getElementById('price-from2').value)
-       document.getElementById('price-to').value = parseFloat(document.getElementById('price-to2').value)
-       $check_type_ps = 2;
-   }
-   $minPrice = parseFloat(from_price);
-   $maxPrice = parseFloat(to_price);
-   checking_price = 0;
-   if($check_ps == 0 && filter == 2){
-       if($check_load != 0){
-           filtering('filter', 0);
-       }
-       else{
-           $check_load = 1;
-       }
-       $check_ps = 1;
-   }else{
-       if($check_load != 0){
-           filtering('filter', 0);
-       }
-   }
-}
-
-function price_update(filter, type){
-   if(filter == 1){
-       var from_price = parseFloat(document.getElementById('price-from').value);
-       var to_price = parseFloat(document.getElementById('price-to').value);
-       document.getElementById('price-from2').value = parseInt(document.getElementById('price-from').value)
-       document.getElementById('price-to2').value = parseInt(document.getElementById('price-to').value)
-       $check_type_ps = 1;
-   }
-   else if(filter == 2){
-       var from_price = parseInt(document.getElementById('price-from2').value);
-       var to_price = parseInt(document.getElementById('price-to2').value);
-       document.getElementById('price-from').value = parseInt(document.getElementById('price-from2').value)
-       document.getElementById('price-to').value = parseInt(document.getElementById('price-to2').value)
-       $check_type_ps = 2;
-   }
-
-   $(".js-range-slider").data("ionRangeSlider").update({
-        from: from_price,
-        to: to_price,
-        min: low_price_slider,
-        max: high_price_slider,
-        step: step_slider
-   });
-
-   $(".js-range-slider2").data("ionRangeSlider").update({
-        from: from_price,
-        to: to_price,
-        min: low_price_slider,
-        max: high_price_slider,
-        step: step_slider
-   });
-}
-
-function checking_price_slider(filter, type){
-   if(filter == 1){
-       var from_price = parseInt(document.getElementById('price-from').value);
-       var to_price = parseInt(document.getElementById('price-to').value);
-       document.getElementById('price-from2').value = parseInt(document.getElementById('price-from').value)
-       document.getElementById('price-to2').value = parseInt(document.getElementById('price-to').value)
-   }
-   else if(filter == 2){
-       var from_price = parseInt(document.getElementById('price-from2').value);
-       var to_price = parseInt(document.getElementById('price-to2').value);
-       document.getElementById('price-from').value = parseInt(document.getElementById('price-from2').value)
-       document.getElementById('price-to').value = parseInt(document.getElementById('price-to2').value)
-   }
-
-   if(type == 1){
-       if(from_price < low_price_slider){
-          document.getElementById('price-from').value = low_price_slider;
-          document.getElementById('price-from2').value = low_price_slider;
-          from_price = low_price_slider;
-       }
-       if(from_price > high_price_slider || from_price > to_price){
-          document.getElementById('price-from').value = document.getElementById('price-to').value;
-          document.getElementById('price-from2').value = document.getElementById('price-to').value;
-          from_price = document.getElementById('price-to').value;
-       }
-   }
-   else if(type == 2){
-       if(to_price > high_price_slider){
-          document.getElementById('price-to').value = high_price_slider;
-          document.getElementById('price-to2').value = high_price_slider;
-          to_price = high_price_slider;
-       }
-       if(to_price < low_price_slider || to_price < from_price){
-          document.getElementById('price-to').value = document.getElementById('price-from').value;
-          document.getElementById('price-to2').value = document.getElementById('price-from').value;
-          to_price = document.getElementById('price-from').value;
-       }
-   }
-
-   $minPrice = parseFloat(from_price);
-   $maxPrice = parseFloat(to_price);
-   checking_price = 0;
-   if($check_load != 0){
-       filtering('filter', 0);
-   }
-}
 
 function go_to_owl_carousel_bottom(counter, co_i){
     text_img = '';
@@ -1323,6 +838,9 @@ function go_to_owl_carousel_bottom(counter, co_i){
     if(temp_response.hotel_ids[co_i].images.length != 0){
         for(idx_img_bot; idx_img_bot < temp_response.hotel_ids[co_i].images.length; idx_img_bot++){
             if(idx_img_bot < 5){
+                //jgn delete
+                //<div class="img-event-search zoom-img" style="background-size:contain; height:400px; background-repeat: no-repeat; cursor:pointer; background-image: url('`+temp_response.hotel_ids[co_i].images[idx_img_bot].url+`');"></div>
+
                 text_img +=`
                 <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
                     <img class="img-fluid zoom-img" src="`+temp_response.hotel_ids[co_i].images[idx_img_bot].url+`" style="margin: auto; max-height:500px;">
@@ -1334,7 +852,7 @@ function go_to_owl_carousel_bottom(counter, co_i){
         }
     }
     else{
-        text_img+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+        text_img+=`<img src="/static/tt_website_rodextrip/images/no pic/no-event.png" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
     }
     text_img += `</div>`;
     document.getElementById("viewImageHotelBottom").innerHTML = text_img;
@@ -1409,17 +927,10 @@ function change_image_hotel(numb){
 //}
 
 function reset_filter(){
-    document.getElementById('hotel_filter_name').value = '';
-    document.getElementById('price-from').value = low_price_slider;
-    document.getElementById('price-to').value = high_price_slider;
-    filter_name(1);
-    price_update(1, 1);
-    price_slider_true(1, 1);
-
-    for(i in rating_list){
-        rating_list[i].status = false;
-        document.getElementById("rating_filter"+i).checked = rating_list[i].status;
-        document.getElementById("rating_filter2"+i).checked = rating_list[i].status;
+    for(i in selected_categ){
+        document.getElementById("checkbox_event_"+i).checked = false;
+        document.getElementById("checkbox_event_"+i).checked = false;
+        selected_categ.splice(i, 1);
     }
     filtering('filter');
 }

@@ -4,6 +4,7 @@ var hotel_price = '';
 var price_pick = '';
 var price_start = [];
 var option_ids_length = 0;
+var event_search_result = [];
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -45,7 +46,7 @@ function get_event_config(type){
                 carrier_code_airline_checkbox +=`
                     <span class="span-search-ticket" style="color:black;">`+data_event.category[i].category_name.slice(0,26)+`</span>`;
 
-                carrier_code_airline_checkbox +=`<input type="checkbox" id="checkbox_event`+data_event.category[i].category_name+`" onclick=""/>
+                carrier_code_airline_checkbox +=`<input type="checkbox" id="checkbox_event_`+ i +`" onclick="change_filter('category',`+i+`)"/>
                         <span class="check_box_span_custom"></span>
                         </label><br/>
                     </div>`;
@@ -135,6 +136,8 @@ function event_get_booking(data){
                         <hr/>
                    `;
                    text+=`<div class="row">`;
+                   //Gambar event di booking
+                   text+=`<div class="col-lg-12"></div>`;
                    text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
                    if(msg.result.response.event_name != false)
                         text+=`<span class="carrier_code_template">Event Name: </span><br/>`;
@@ -196,6 +199,7 @@ function event_get_booking(data){
                         </tr>`;
                     for(i in msg.result.response.options){
                         var b = parseInt(i) + 1;
+                        //console.log(msg.result.response.options);
                         text+=`
                             <tr>
                                 <td>`+ b +`</td>
@@ -306,6 +310,7 @@ function event_search(){
        data: {
         'event_name': $('#event_name_id').val(),
         'is_online': '1',
+        'category': $('#category_name').val(),
         'signature': signature
        },
        success: function(msg) {
@@ -313,6 +318,7 @@ function event_search(){
            console.log(msg);
            try{
                 if(msg.result.error_code==0){
+                    event_search_result = msg.result.response;
                     sort(msg.result.response,1);
                 }else{
                     //kalau error belum
@@ -420,7 +426,7 @@ function event_options(id){
                         text += `
                         <div class="col-lg-12" style="padding:0px;">
                             <div style="background: `+color+`; padding:10px; border-top-left-radius:7px; border-top-right-radius:7px;">
-                                <span class="option_name" id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px; padding-right:5px;"> `+ msg.result.response[i].grade + `</span>`;
+                                <span class="option_name" id="option_name_`+i+`" style="font-weight: bold; color:`+text_color+`; font-size:16px; padding-right:5px; text-transform: capitalize;"> `+ msg.result.response[i].grade + `</span>`;
                                 if(parseInt(msg.result.response[i].qty_available) <= 5 && parseInt(msg.result.response[i].qty_available) >= 1){
                                     text+=`<span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+color+`; background: `+text_color+`; border-radius:7px;">`+ msg.result.response[i].qty_available +` ticket left</span>`;
                                 }
@@ -438,9 +444,9 @@ function event_options(id){
                         </div>`;
                         console.log(msg.result);
                         if(msg.result.response[i].images.length != 0)
-                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"></div><hr/></div>`;
+                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response[i].images[0].url+`');"></div></div>`;
                         else
-                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"></div></div>`;
+                            text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"></div></div>`;
 
                         text+=`<div class="col-lg-9 col-md-9">
                         <div class="row" style="padding:10px 0px;">
@@ -514,7 +520,7 @@ function event_options(id){
                         if(msg.result.response[i].images.length != 0)
                             text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"><div class="overlay overlay-bg-sold"></div></div><hr/></div>`;
                         else
-                            text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg');"><div class="overlay overlay-bg-sold"></div></div></div>`;
+                            text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url('/static/tt_website_rodextrip/images/no pic/no-ticket.png');"><div class="overlay overlay-bg-sold"></div></div></div>`;
 
                         text+=`<div class="col-lg-9 col-md-9">
                         <div class="overlay overlay-bg-sold"></div>
@@ -573,8 +579,8 @@ function event_options(id){
 
 
             }else{
-                alert("There's option found for this event, Please Try again");
-                $('#loading-detail-hotel').hide();
+                alert("There's no option found for this event, Please Try again");
+                $('#loading-detail-event').hide();
     //            window.location.href = "http://localhost:8000";
             }
            },
@@ -1182,6 +1188,69 @@ function check_all_result(){
    checkboxCopy();
 }
 
+function copy_data2(){
+    console.log('Oi');
+    var obj_name = document.getElementById('product_title').innerHTML;
+    var value_idx = [];
+    var value_loc = [];
+    $("#option_search_params .copy_span").each(function(obj) {
+        if($(this).hasClass( "loc_address" )){
+            value_loc.push( $(this).text() )
+        }else{
+            value_idx.push( $(this).text() );
+        }
+    })
+    obj_name += '\n';
+    obj_name += 'Date: '+value_idx[1]+'\n';
+    obj_name += 'Time: '+value_idx[2]+'\n';
+    obj_name += 'Address: ';
+    if(value_loc.length > 1){
+        obj_name += '\n';
+    }
+    for (i = 0; i < value_loc.length; i++) {
+        obj_name += value_loc[i]+'\n';
+    }
+
+    var obj_body = 'Price:\n'
+    var counter = 0;
+    $("#event_detail_table div.row span").each(function(obj) {
+        if ($(this).text() != 'Grand Total' && counter != 'x'){
+            if (counter % 3 == 2){
+                obj_body += '\n';
+            } else {
+                obj_body += $(this).text() + ' ';
+            }
+            counter += 1
+        } else {
+            counter = 'x';
+        }
+    })
+    obj_body += '\n';
+    obj_body += 'Grand Total: '+ document.getElementById('option_detail_grand_total').innerHTML +'\n';
+
+    $text_print = '';
+    $text_print = obj_name + '\n' + obj_body +'===Price may change at any time===';
+
+    document.getElementById('data_copy2').innerHTML = $text_print;
+    document.getElementById('data_copy2').hidden = false;
+    var el = document.getElementById('data_copy2');
+    el.select();
+    document.execCommand('copy');
+    document.getElementById('data_copy2').hidden = true;
+
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    })
+
+    Toast.fire({
+      type: 'success',
+      title: 'Copied Successfully'
+    })
+}
+
 function get_checked_copy_result(){
         document.getElementById("show-list-copy-option").innerHTML = '';
 
@@ -1294,7 +1363,7 @@ function get_checked_copy_result(){
                         <a href="#" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png"/></a>`;
                     }
                     text+=`
-                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                        <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 } else {
                     text+=`
                         <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>`;
@@ -1309,7 +1378,7 @@ function get_checked_copy_result(){
                         <a href="#" title="Share by Telegram" style="padding-right:5px; cursor:not-allowed;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram-gray.png"/></a>`;
                     }
                     text+=`
-                        <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                        <a href="mailto:?subject=This is the event price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
                 }
                 if(option_number > 10){
                     text+=`<br/><span style="color:red;">Nb: Share on Line and Telegram Max 10 Hotel</span>`;
