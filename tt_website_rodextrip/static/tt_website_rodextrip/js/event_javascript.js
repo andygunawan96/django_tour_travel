@@ -305,7 +305,7 @@ function sort(response, check_filter){
             });
             $('#pagination-container').show();
             $('#pagination-container2').show();
-            $('#hotel_error').hide();
+            $('#event_error').hide();
         }
         else{
             $('#loading-search-event').hide();
@@ -919,12 +919,6 @@ function change_image_hotel(numb){
         }
     }
 }
-
-//function viewImageHotel(urlImage){
-//    var modalImg = document.getElementById("viewImageHotel");
-//    modalImg.src = urlImage;
-//    $("#openImage").modal('show');
-//}
 
 function reset_filter(){
     for(i in selected_categ){

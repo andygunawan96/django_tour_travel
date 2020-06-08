@@ -136,7 +136,6 @@ function event_get_booking(data){
                         <hr/>
                    `;
                    text+=`<div class="row">`;
-                   //Gambar event di booking
                    text+=`<div class="col-lg-12"></div>`;
                    text+=`<div class="col-lg-4 col-md-4 col-sm-6">`;
                    if(msg.result.response.event_name != false)
@@ -187,34 +186,44 @@ function event_get_booking(data){
             //======================= Option =========================
             text = `<h4>Option(s)</h4>
                     <hr/>
-                    <table style="width:100%;" id="option-list">
-                        <tr>
-                            <th class="">No</th>
-                            <th class="">Image</th>
-                            <th class="">Name</th>
-                            <th class="">Description</th>
-                            <th class="">Price</th>
-                            <th class="">Qty</th>
-                            <th class="">SubTotal</th>
-                        </tr>`;
+                    <div class="row">`;
                     for(i in msg.result.response.options){
                         var b = parseInt(i) + 1;
                         //console.log(msg.result.response.options);
                         text+=`
-                            <tr>
-                                <td>`+ b +`</td>
-                                <td>`+msg.result.response.options[i].image_url+`</td>
-                                <td>`+msg.result.response.options[i].name+`</td>
-                                <td>`+msg.result.response.options[i].description+`</td>
-                                <td>`+msg.result.response.options[i].currency+` `+getrupiah(msg.result.response.options[i].price)+`</td>
-                                <td>`+msg.result.response.options[i].qty+`</td>
-                                <td>`+msg.result.response.options[i].currency+` `+getrupiah(msg.result.response.options[i].price * msg.result.response.options[i].qty)+`</td>
-                            </tr>`;
+                            <div class="col-lg-12">
+                                <h6 style="margin-bottom:10px;">`+ b +`. `+msg.result.response.options[i].name+`</h6>
+                            </div>
+                            <div class="col-lg-3" style="margin-bottom:10px;">
+                                <div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url(`+msg.result.response.options[i].image_url+`);"></div>
+                            </div>
+                            <div class="col-lg-9">
+                                <h6>Description</h6>`;
+                            if(msg.result.response.options[i].description != false){
+                                text+=`<span>`+msg.result.response.options[i].description+`</span><hr/>`;
+                            }else{
+                                text+='<span>No Description for this Ticket</span><hr/>';
+                            }
+                            text+=`
+                                <table style="width:100%;">
+                                    <tr>
+                                        <th style="width:40%;">Price</th>
+                                        <th style="width:20%;">Qty</th>
+                                        <th style="width:40%;">Sub Total</th>
+                                    </tr>
+                                    <tr>
+                                        <td>`+msg.result.response.options[i].currency+` `+getrupiah(msg.result.response.options[i].price)+`</td>
+                                        <td>`+msg.result.response.options[i].qty+`</td>
+                                        <td>`+msg.result.response.options[i].currency+` `+getrupiah(msg.result.response.options[i].price * msg.result.response.options[i].qty)+`</td>
+                                    </tr>
+                                </table>
+                            </div>`;
+                            if(b != 1)
+                                text+=`<div class="col-lg-12"><hr/></div>`;
                         }
-                    text+=`</table>`;
             document.getElementById('event_list_option').innerHTML = text;
 
-            //======================= Guest / Passanger =========================
+            //======================= Extra Question =========================
             text=`
                 <h5>Extra Question</h5>
                 <hr/>
@@ -222,16 +231,19 @@ function event_get_booking(data){
                     <tr>
                         <th class="">No</th>
                         <th class="">Name</th>
-                        <th class="">Pax Type</th>
-                        <th class="">Birth Date</th>
+                        <th class="">Ticket</th>
+                        <th class="">Answer & Question</th>
                     </tr>`;
-                    for(i in msg.result.response.passengers){
+                    for(i in msg.result.response.options){
+                        var b = parseInt(i) + 1;
                         text+=`<tr>
-                            <td>`+parseInt(i+1)+`</td>
-                            <td><span>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</span></td>
-                            <td><span>`+msg.result.response.passengers[i].pax_type+`</span></td>
-                            <td><span>`+msg.result.response.passengers[i].birth_date+`</span></td>
-                        </tr>`;
+                            <td>`+ b +`</td>
+                            <td><span>`+msg.result.response.options[i].name+`</span></td>
+                            <td><span>`+msg.result.response.options[i].ticket_number+`</span></td><td><span>`;
+                            for(j in msg.result.response.options[i].answers){
+                                text+=msg.result.response.options[i].answers[j].answer + `<br/>` + msg.result.response.options[i].answers[j].question + `<br/><br/>`;
+                            }
+                        text+=`</span></td></tr>`;
                     }
            text+=`</table>`;
            document.getElementById('event_passenger').innerHTML = text;
@@ -352,6 +364,7 @@ function event_search_vendor(){
            console.log(msg);
            try{
                 if(msg.result.error_code==0){
+                    event_search_result = msg.result.response;
                     sort(msg.result.response,1);
                 }else{
                     //kalau error belum
@@ -1189,7 +1202,7 @@ function check_all_result(){
 }
 
 function copy_data2(){
-    console.log('Oi');
+    // console.log('Oi');
     var obj_name = document.getElementById('product_title').innerHTML;
     var value_idx = [];
     var value_loc = [];
