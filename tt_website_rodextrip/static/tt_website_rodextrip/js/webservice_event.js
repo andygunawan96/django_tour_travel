@@ -326,8 +326,8 @@ function event_search(){
         'signature': signature
        },
        success: function(msg) {
-           console.log('Result');
-           console.log(msg);
+//           console.log('Result');
+//           console.log(msg);
            try{
                 if(msg.result.error_code==0){
                     event_search_result = msg.result.response;

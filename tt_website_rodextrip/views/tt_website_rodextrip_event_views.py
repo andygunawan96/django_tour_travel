@@ -457,13 +457,13 @@ def review(request):
                     b = a.split('_')
                     c_obj = False
                     for c in question_answer:
-                        if c['option_grade'] == request.session['event_detail']['result']['response'][int(b[1])]['grade'] and c['idx'] == b[2]:
+                        if c['option_grade'] == request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'] and c['idx'] == b[2]:
                             c_obj = c
                             break
                     if not c_obj:
                         c_obj = {
-                            'option_grade': request.session['event_detail']['result']['response'][int(b[1])]['grade'],
-                            'option_code': request.session['event_detail']['result']['response'][int(b[1])]['option_id'],
+                            'option_grade': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['name'],
+                            'option_code': request.session['event_option_code' + request.session['event_signature']][int(b[1])]['code'],
                             'idx': b[2],
                             'answer': []
                         }
