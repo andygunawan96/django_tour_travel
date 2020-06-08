@@ -117,9 +117,9 @@
                                     </div>
                                     <div class="col-lg-4">
                                         {% if event_code.images|length > 0 %}
-                                        <img class="img-fluid" style="max-height:400px; margin-left:50%; transform:translateX(-50%);" src="{{event_code.images0.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';">
+                                        <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images0.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';">
                                         {% else %}
-                                        <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="margin: auto; max-height:400px;">
+                                        <img class="img-fluid" src="{{static_path}}/images/no pic/no-event.png" style="background-size:contain; background-repeat: no-repeat;">
                                         {% endif %}
                                     </div>
 
@@ -143,11 +143,9 @@
 
                                     </div>
                                 </div>
-
-
+                                <hr/>
                                 <h6 style="text-align:justify; font-weight:bold;">{% trans 'Description' %}: </h6><br/>
                                 <span>{{event_code.description}}</span><br/>
-
                             </div>
                         </div>
 

@@ -230,6 +230,7 @@ def search(request):
             'event_name': request.POST.get('event_name') and request.POST['event_name'].split(' - ')[0] or '',
             'vendor': request.POST.get('vendor') or '',
             'is_online': request.POST.get('is_online') or False,
+            'category': request.POST.get('category') and request.POST['category'] or '',
         }
         request.session['event_request_data'] = data
         headers = {
