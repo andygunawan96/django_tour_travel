@@ -117,7 +117,7 @@
                                     </div>
                                     <div class="col-lg-4">
                                         {% if event_code.images|length > 0 %}
-                                        <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images0.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';">
+                                        <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images.0.url}}">
                                         {% else %}
                                         <img class="img-fluid" src="{{static_path}}/images/no pic/no-event.png" style="background-size:contain; background-repeat: no-repeat;">
                                         {% endif %}
@@ -126,7 +126,22 @@
                                     <div class="col-lg-8">
                                         <span style="font-size:20px; font-weight:bold; color:black;">{{event_code.name}}</span>
                                         <br/>
-                                        <span><i class="fas fa-calendar-alt" style="color:{{color}};"></i> 15 Mei - 17 Mei 2020</span>
+                                        <span><i class="fas fa-calendar-alt" style="color:{{color}};"></i>
+                                            {% if event_code.start_date != False %}
+                                            {{event_code.start_date}}
+                                            {% endif %}
+                                            {% if event_code.end_date != False %}
+                                            {{event_code.start_date}}
+                                            {% endif %}
+                                        </span><br/>
+                                        <span><i class="fas fa-clock" style="color:{{color}};"></i>
+                                            {% if event_code.start_time != False %}
+                                            {{event_code.start_time}}
+                                            {% endif %}
+                                            {% if event_code.end_time != False %}
+                                            {{event_code.end_time}}
+                                            {% endif %}
+                                        </span>
                                         <br/>
                                         {% for location in event_code.locations%}
                                         <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
@@ -138,14 +153,24 @@
                                         </span>
                                         <br/>
                                         {% endfor %}
-
                                         <br/>
-
                                     </div>
                                 </div>
                                 <hr/>
-                                <h6 style="text-align:justify; font-weight:bold;">{% trans 'Description' %}: </h6><br/>
-                                <span>{{event_code.description}}</span><br/>
+                                <div class="style-scrollbar" style="overflow:auto; white-space:nowrap;">
+                                    <ul class="create_tabs" id="identity">
+                                        <li class="create_tab-link current" data-tab="description-tab"><label>Description</label></li>
+                                        <li class="create_tab-link" data-tab="itinerary-tab"><label>Itinerary</label></li>
+                                    </ul>
+                                </div>
+                                <div class="banner-right" style="background:white; border:1px solid #cdcdcd;">
+                                    <div id="description-tab" class="create_tab-content current" style="padding:15px;">
+                                        <span>{% autoescape off %} {{event_code.description}} {% endautoescape %}</span><br/>
+                                    </div>
+                                    <div id="itinerary-tab" class="create_tab-content" style="padding:15px;">
+                                        <span>{% autoescape off %} {{event_code.itinerary}} {% endautoescape %}</span><br/>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

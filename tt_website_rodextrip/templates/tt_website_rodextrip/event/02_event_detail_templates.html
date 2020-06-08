@@ -772,7 +772,7 @@
                                                         {% for i in event_code.images %}
                                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
 <!--                                                            <div class="img-event-search zoom-img" style="background-size:contain; margin: auto; max-height:500px; background-repeat: no-repeat; cursor:pointer; background-image: url('{{i.url}}');" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>-->
-                                                            <img class="img-fluid zoom-img" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px;" alt="">
+                                                            <img class="img-fluid zoom-img" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px; width:unset;" alt="">
                                                         </div>
                                                         {% endfor %}
                                                     </div>
@@ -841,20 +841,21 @@
                                     Category <i class="fas fa-tags" style="color:{{color}};"></i><br/>
                                     <div style="word-break:break-word;">
                                         {% for category in event_code.category %}
-                                        <a class="tags_btn" href="#"> {{category}} </a>
+                                        <a class="tags_btn" href="/event/category/{{category}}"> {{category}} </a>
                                         {% endfor %}
                                     </div>
                                     <hr/>
                                 </div>
                                 <div class="col-lg-6" style="text-align:left; position:absolute; left:0px; bottom:15px;">
                                     <span style="font-weight:bold; margin-bottom:15px;">Hosted by</span><br/>
-                                    <a href="/event/vendor">
-                                    {% if event_code.vendor_obj.vendor_logo == '' %}
-                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
-                                    {% else %}
-                                    <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/>
-                                    {% endif %}
-                                    {{event_code.vendor_obj.vendor_name}}</a>
+                                    <a href="/event/vendor" style="text-decoration:unset;">
+                                        {% if event_code.vendor_obj.vendor_logo == '' %}
+                                        <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:5px;"/>
+                                        {% else %}
+                                        <img src="{{event_code.vendor_obj.vendor_logo}}" class="image-rounded-profile" style="margin-right:5px;"/>
+                                        {% endif %}
+                                        {{event_code.vendor_obj.vendor_name}}
+                                    </a>
                                 </div>
                                 <div class="col-lg-6" style="text-align:right; position:absolute; right:0px; bottom:15px;">
                                     <h6>Price Start From</h6>
