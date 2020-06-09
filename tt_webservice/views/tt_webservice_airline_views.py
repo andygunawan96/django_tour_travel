@@ -113,10 +113,12 @@ def api_models(request):
             res = get_fare_rules(request)
         elif req_data['action'] == 'sell_journeys':
             res = sell_journeys(request)
-        elif req_data['action'] == 'get_ssr_availabilty':
-            res = get_ssr_availabilty(request)
+        elif req_data['action'] == 'get_ssr_availability':
+            res = get_ssr_availability(request)
         elif req_data['action'] == 'get_seat_availability':
             res = get_seat_availability(request)
+        elif req_data['action'] == 'get_ff_availability':
+            res = get_ff_availability(request)
         elif req_data['action'] == 'get_seat_map_response':
             res = get_seat_map_response(request)
         elif req_data['action'] == 'update_contacts':
@@ -1010,7 +1012,7 @@ def sell_journeys(request):
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def get_ssr_availabilty(request):
+def get_ssr_availability(request):
     data = {}
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -1081,6 +1083,29 @@ def get_seat_availability(request):
             logging.getLogger("error_info").info("get_seat_availability AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             logging.getLogger("error_logger").error("get_seat_availability ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_ff_availability(request):
+    data = {}
+    headers = {
+        "Accept": "application/json,text/html,application/xml",
+        "Content-Type": "application/json",
+        "action": "get_ff_availability",
+        "signature": request.POST['signature'],
+    }
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST')
+    if 'airline_get_ff_availability' in request.session:
+        del request.session['airline_get_ff_availability']
+    request.session['airline_get_ff_availability'] = res
+    logging.getLogger("info_logger").info(json.dumps(request.session['airline_get_ff_availability']))
+    request.session.modified = True
+    try:
+        if res['result']['error_code'] == 0:
+            logging.getLogger("error_info").info("get_ff_availability AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            logging.getLogger("error_logger").error("get_ff_availability ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
     return res
