@@ -4070,6 +4070,19 @@ function check_passenger(adult, child, infant){
                 document.getElementById('adult_phone'+i).style['border-color'] = 'red';
             }else
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
+       }if(ff_request.length != 0){
+           for(j=1;j<=ff_request.length;j++){
+                if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
+                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                    error_log+= 'Please fill Frequent Flyer Program '+j+' for passenger adult '+i+'!</br>\n';
+                    document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                    document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                }
+           }
        }
    }
    //child
@@ -4137,6 +4150,19 @@ function check_passenger(adult, child, infant){
                document.getElementById('child_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }
+       }if(ff_request.length != 0){
+           for(j=1;j<=ff_request.length;j++){
+                if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
+                    error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
+                    document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = 'red';
+                }else if(document.getElementById('child_ff_request'+i+'_'+j).value == '' && document.getElementById('child_ff_number'+i+'_'+j).value != ''){
+                    error_log+= 'Please fill Frequent Flyer Program '+j+' for passenger child '+i+'!</br>\n';
+                    document.getElementById('child_ff_request'+i+'_'+j).style['border-color'] = 'red';
+                }else{
+                    document.getElementById('child_ff_number'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                    document.getElementById('child_ff_request'+i+'_'+j).style['border-color'] = '#EFEFEF';
+                }
            }
        }
    }
@@ -4381,6 +4407,11 @@ function get_airline_review(){
                                 text+=`</td>
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
+                                try{
+                                    for(j in passengers_ssr[i].ff_numbers){
+                                        text+= `<label>`+passengers_ssr[i].ff_numbers[j].ff_code+`: `+passengers_ssr[i].ff_numbers[j].ff_number+`</label><br/>`;
+                                    }
+                                }catch(err){}
                                 for(j in passengers_ssr[i].ssr_list){
                                     text+= `<label>`+passengers_ssr[i].ssr_list[j].name+`</label><br/>`;
                                 }
@@ -4575,7 +4606,7 @@ function next_seat_map(){
 }
 
 function set_new_request_ssr(){
-    get_ssr_availabilty('request_new_ssr');
+    get_ssr_availability('request_new_ssr');
 }
 
 function set_new_request_seat(){

@@ -58,6 +58,13 @@
     airline_carriers = JSON.parse(airline_carriers);
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
+    ff_request = `{{ff_request}}`;
+    ff_request = ff_request.replace(/&#39;/g, '"');
+    ff_request = ff_request.replace(/&quot;/g, '"');
+    ff_request = ff_request.replace(/False/g, 'false');
+    ff_request = ff_request.replace(/True/g, 'true');
+    ff_request = JSON.parse(ff_request);
+    console.log(ff_request)
     signature = `{{signature}}`;
     adult = airline_request.adult;
     child = airline_request.child;
@@ -335,6 +342,7 @@
                         </div>
 
                         {% for adult in adults%}
+                        {% with forloop.counter as counter%}
                         <div class="row" id="adult{{forloop.counter}}">
                             <div class="col-lg-12">
                                 <div class="passenger_div" onclick="show_paxs_airline('adult', '{{forloop.counter}}');">
@@ -524,6 +532,31 @@
                                                 <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                             </div>
                                         </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        </div>
+                                        {% for ff in ff_request %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                        {% for ff_program in ff.ff_availability %}
+                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label>{% trans 'Frequent Flyer Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_ff_number{{counter}}_{{forloop.counter}}" id="adult_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
+                                            </div>
+                                        </div>
+                                        {% endfor %}
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden1_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label>{% trans 'Contact Email Address' %}</label>
@@ -567,9 +600,11 @@
                             </div>
                         </div>
                         <br/>
+                        {% endwith %}
                         {% endfor %}
 
                         {% for child in childs%}
+                        {% with forloop.counter as counter%}
                         <div class="row" id="child{{forloop.counter}}">
                             <div class="col-lg-12">
                                 <div class="passenger_div" onclick="show_paxs_airline('child', '{{forloop.counter}}');">
@@ -754,11 +789,37 @@
                                         {% if is_lionair == True and is_international == True %}
                                         <span><span style="color:red">* </span>{% trans 'Passport is required for lion air, wings air, or batik air' %}</span>
                                         {%endif%}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        </div>
+                                        {% for ff in ff_request %}
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label style="color:white">*</label>
+                                            <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
+                                            <div class="input-container-search-ticket">
+                                                <div class="form-select">
+                                                    <select class="form-control js-example-basic-single" name="adult_ff_request{{counter}}_{{forloop.counter}}_id" style="width:100%;" id="adult_ff_request{{counter}}_{{forloop.counter}}_id" onchange="auto_complete('adult_ff_request{{counter}}_{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Frequent Flyer Program' %}</option>
+                                                        {% for ff_program in ff.ff_availability %}
+                                                        <option value="{{ff_program.code}}">{{ff_program.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                                <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                            <label>{% trans 'Frequent Flyer Number' %}</label>
+                                            <div class="input-container-search-ticket">
+                                                <input type="text" class="form-control" name="adult_ff_number{{counter}}_{{forloop.counter}}" id="adult_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
+                                            </div>
+                                        </div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <br/>
+                        {% endwith %}
                         {% endfor %}
 
 

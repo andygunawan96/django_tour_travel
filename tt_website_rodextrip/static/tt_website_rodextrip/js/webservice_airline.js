@@ -2201,7 +2201,7 @@ function get_seat_availability(type){
        success: function(msg) {
             console.log(msg);
             if(type == '')
-                get_ssr_availabilty(type);
+                get_ssr_availability(type);
             else if(type == 'request_new_seat' && msg.result.error_code == 0)
                 window.location.href='/airline/seat_map';
             else{
@@ -2484,13 +2484,50 @@ function update_seat_passenger(segment, departure_date, row, column,seat_code,se
 }
 
 //SSR
-function get_ssr_availabilty(type){
+function get_ssr_availability(type){
     getToken();
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
        headers:{
-            'action': 'get_ssr_availabilty',
+            'action': 'get_ssr_availability',
+       },
+       data: {
+            'signature': airline_signature
+       },
+       success: function(msg) {
+            console.log(msg);
+            if(type == ''){
+                get_ff_availability(type);
+            }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
+                window.location.href='/airline/ssr';
+            else if(type == 'request_new_ssr')
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline ssr availability </span>' + msg.result.error_msg,
+                    })
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error airline ssr availability </span>' + errorThrown,
+                })
+                $('.loader-rodextrip').fadeOut();
+            }
+       },timeout: 60000
+    });
+}
+
+function get_ff_availability(type){
+    getToken();
+    $.ajax({
+       type: "POST",
+       url: "/webservice/airline",
+       headers:{
+            'action': 'get_ff_availability',
        },
        data: {
             'signature': airline_signature
@@ -2506,7 +2543,7 @@ function get_ssr_availabilty(type){
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline ssr availability </span>' + msg.result.error_msg,
+                      html: '<span style="color: #ff9900;">Error airline ff availability </span>' + msg.result.error_msg,
                     })
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -3532,11 +3569,15 @@ function airline_get_booking(data){
                     </tr>`;
                     for(pax in msg.result.response.passengers){
                         ticket = '';
+                        ff_request = '';
                         for(provider in msg.result.response.provider_bookings){
                             try{
                                 ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
                                 if(provider != msg.result.response.provider_bookings.length - 1)
                                     ticket += ', ';
+                                if(ff_request != '')
+                                    ff_request += '<br/>';
+                                ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_code + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
                             }catch(err){
 
                             }
@@ -3546,7 +3587,7 @@ function airline_get_booking(data){
                             <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                             <td>`+msg.result.response.passengers[pax].birth_date+`</td>
                             <td id="passenger_ticket_`+parseInt(pax)+`">`+ticket+`</td>
-                            <td>`;
+                            <td>`+ff_request;
                                   try{
                                       for(i in msg.result.response.passengers[pax].fees){
                                         text += `<label>` + msg.result.response.passengers[pax].fees[i].fee_name + ' ' + msg.result.response.passengers[pax].fees[i].fee_value + `</label><br/>`;

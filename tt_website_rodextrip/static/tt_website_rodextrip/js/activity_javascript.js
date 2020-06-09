@@ -467,7 +467,7 @@ function activity_table_detail2(pagetype){
            text_repricing += `
            <div class="col-lg-12">
                 <div style="padding:5px;" class="row" id="adult">
-                    <div class="col-lg-6" id="`+j+`_`+k+`">`+k+`</div>
+                    <div class="col-lg-6" id="`+i+`_`+k+`">`+k+`</div>
                     <div hidden id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
                     if(price_arr_repricing[k].Repricing == 0)
                     text_repricing+=`<div class="col-lg-6" id="`+k+`_repricing">-</div>`;

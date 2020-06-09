@@ -397,10 +397,14 @@ def passenger(request):
                             break
             if airline['provider'] == 'lionair':
                 is_lionair = True
-
+            try:
+                ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
+            except:
+                ff_request = []
         try:
             logging.getLogger("info_logger").info('AIRLINE PASSENGER')
             values.update({
+                'ff_request': ff_request,
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'is_lionair': is_lionair,
                 'is_international': is_international,
@@ -963,6 +967,24 @@ def review(request):
                     'booker_seq_id': request.POST['booker_id']
                 }
                 for i in range(int(request.session['airline_request']['adult'])):
+                    ff_number = []
+                    try:
+                        ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
+                    except:
+                        ff_request = []
+                    counter = 0
+                    for j in ff_request:
+                        if request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)] != '':
+                            code = ''
+                            for k in j['ff_availability']:
+                                if request.POST['adult_ff_request' + str(i + 1)+'_' + str(counter + 1)] == k['name']:
+                                    code = k['ff_code']
+                                    break
+                            ff_number.append({
+                                "schedule_id": j['schedule_id'],
+                                "ff_number": request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)],
+                                "ff_code": code
+                            })
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -975,6 +997,7 @@ def review(request):
                         "identity_number": request.POST['adult_passport_number' + str(i + 1)],
                         "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                         "identity_type": "passport",
+                        "ff_numbers": ff_number
                     })
 
                     if i == 0:
@@ -1045,6 +1068,24 @@ def review(request):
                     })
 
                 for i in range(int(request.session['airline_request']['child'])):
+                    ff_number = []
+                    try:
+                        ff_request = request.session['airline_get_ff_availability']['result']['response']['ff_availability_provider']
+                    except:
+                        ff_request = []
+                    counter = 0
+                    for j in ff_request:
+                        if request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
+                            code = ''
+                            for k in j['ff_availability']:
+                                if request.POST['child_ff_request' + str(i + 1) + '_' + str(counter + 1)] == k['name']:
+                                    code = k['ff_code']
+                                    break
+                            ff_number.append({
+                                "schedule_id": j['schedule_id'],
+                                "ff_number": request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)],
+                                "ff_code": code
+                            })
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
@@ -1057,6 +1098,7 @@ def review(request):
                         "identity_country_of_issued_name": request.POST['child_country_of_issued' + str(i + 1)],
                         "passenger_seq_id": request.POST['child_id' + str(i + 1)],
                         "identity_type": "passport",
+                        "ff_numbers": ff_number
                     })
 
                 for i in range(int(request.session['airline_request']['infant'])):
