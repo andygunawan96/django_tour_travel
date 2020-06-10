@@ -378,6 +378,7 @@ def create_booking(request):
             "force_issued": bool(int(request.POST['force_issued'])),
             "booker": booker,
             "contact": contacts,
+            "passengers": request.session['event_review_pax']['adult'],
             'user_id': request.session.get('co_uid') or '',
             'promotion_codes_booking': [],
         }

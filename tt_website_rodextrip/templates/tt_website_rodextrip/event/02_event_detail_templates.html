@@ -849,10 +849,10 @@
                                 <div class="col-lg-6" style="text-align:left; position:absolute; left:0px; bottom:15px;">
                                     <span style="font-weight:bold; margin-bottom:15px;">Hosted by</span><br/>
                                     <a href="/event/vendor" style="text-decoration:unset;">
-                                        {% if event_code.vendor_obj.vendor_logo == '' %}
-                                        <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:5px;"/>
-                                        {% else %}
+                                        {% if event_code.vendor_obj.vendor_logo %}
                                         <img src="{{event_code.vendor_obj.vendor_logo}}" class="image-rounded-profile" style="margin-right:5px;"/>
+                                        {% else %}
+                                        <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:5px;"/>
                                         {% endif %}
                                         {{event_code.vendor_obj.vendor_name}}
                                     </a>

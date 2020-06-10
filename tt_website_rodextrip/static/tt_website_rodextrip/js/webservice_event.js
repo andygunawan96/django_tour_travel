@@ -5,6 +5,7 @@ var price_pick = '';
 var price_start = [];
 var option_ids_length = 0;
 var event_search_result = [];
+var extra_question_result = [];
 var month = {
     '01': 'Jan',
     '02': 'Feb',
@@ -218,7 +219,7 @@ function event_get_booking(data){
                                     </tr>
                                 </table>
                             </div>`;
-                            if(b != 1)
+                            if(msg.result.response.options.length > 1)
                                 text+=`<div class="col-lg-12"><hr/></div>`;
                         }
             document.getElementById('event_list_option').innerHTML = text;
@@ -241,7 +242,7 @@ function event_get_booking(data){
                             <td><span>`+msg.result.response.options[i].name+`</span></td>
                             <td><span>`+msg.result.response.options[i].ticket_number+`</span></td><td><span>`;
                             for(j in msg.result.response.options[i].answers){
-                                text+=msg.result.response.options[i].answers[j].answer + `<br/>` + msg.result.response.options[i].answers[j].question + `<br/><br/>`;
+                                text+=msg.result.response.options[i].answers[j].question + `<br/>` + msg.result.response.options[i].answers[j].answer + `<br/><br/>`;
                             }
                         text+=`</span></td></tr>`;
                     }
@@ -261,7 +262,7 @@ function event_get_booking(data){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error hotel get booking </span>' + errorThrown,
+                  html: '<span style="color: red;">Error event get booking </span>' + errorThrown,
                 })
             }
        },timeout: 180000
@@ -594,7 +595,12 @@ function event_options(id){
             }else{
                 alert("There's no option found for this event, Please Try again");
                 $('#loading-detail-event').hide();
-    //            window.location.href = "http://localhost:8000";
+
+                text = '<div style="text-align:center"><img src="/static/tt_website_rodextrip/images/nofound/no-event.png" style="width:60px; height:60px;" alt="" title=""><br><br>';
+                text += '<span style="font-size:14px; font-weight:600;">Oops! No option(s) found for this event, Please Try again</span></div>';
+                node.innerHTML = text;
+                document.getElementById("detail_room_pick").appendChild(node);
+                node = document.createElement("div");
             }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -620,13 +626,14 @@ function event_get_extra_question(option_code, provider){
        },
        success: function(msg) {
         //console.log(option_code);
-        console.log(msg);
+        //console.log(msg);
         if(msg.result.error_code == 0){
             text='';
             var node = document.createElement("div");
             console.log(option_code);
 
             if(msg.result.response.length != 0){
+                extra_question_result = msg.result.response;
                 for(j in option_code){
                     var k = 0;
                     while(k < parseInt(option_code[j].qty)){
@@ -671,7 +678,7 @@ function event_get_extra_question(option_code, provider){
                         for(i in msg.result.response){
                             var co_index = (parseInt(i))+1;
                             if(msg.result.response[i].type == 'boolean' || msg.result.response[i].type == 'checkbox'){
-                                text+=`<div class="col-lg-12" style="margin-bottom:15px;"><h6>`;
+                                text+=`<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;"><h6>`;
                             }else{
                                 text+=`<div class="col-lg-12"><h6>`;
                             }
@@ -692,7 +699,7 @@ function event_get_extra_question(option_code, provider){
                                     text += 'required';
                                 text += '/>';
                             }else if(msg.result.response[i].type == 'number'){
-                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="number" placeholder="0"';
+                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="number" placeholder="Example: 0"';
                                 if (msg.result.response[i].required)
                                     text += 'required';
                                 text += '/>';
@@ -702,13 +709,13 @@ function event_get_extra_question(option_code, provider){
                                     text += 'required';
                                 text += '/>';
                             }else if(msg.result.response[i].type == 'boolean'){
-                                text+=`<br/>`;
+                                text+=`<br/><div id="boolean_question_event_`+j+`_`+k+`_`+i+`">`;
                                 for(ans in msg.result.response[i].answers){
                                     if(ans == "0"){
                                         text+=`
                                         <label class="radio-button-custom" style="margin-bottom:10px;">
                                             <span style="font-size:13px;">`+msg.result.response[i].answers[ans].answer+`</span>
-                                            <input type="radio" checked="checked" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`"`;
+                                            <input type="radio" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`"`;
                                         if (msg.result.response[i].required)
                                             text += 'required';
                                         text+=`>
@@ -723,10 +730,11 @@ function event_get_extra_question(option_code, provider){
                                         </label>`;
                                     }
                                 }
+                                text+=`</div>`;
                             }else if(msg.result.response[i].type == 'selection'){
                                 text+=`
                                 <div class="form-group">
-                                    <div class="form-select">
+                                    <div class="form-select" id="select_question_event_`+j+`_`+k+`_`+i+`" style="height:45px;">
                                         <select id="question_event_`+j+`_`+k+`_`+i+`" name="question_event_`+j+`_`+k+`_`+i+`" class="nice-select-default">
                                             <option value="" selected>Choose</option>`;
                                             for(ans in msg.result.response[i].answers){
@@ -741,20 +749,20 @@ function event_get_extra_question(option_code, provider){
                                     text += 'required';
                                 text += '/>';
                             }else if(msg.result.response[i].type == 'checkbox'){
-                                text+=`<div class="row">`;
+                                text+=`<div id="checkbox_question_event_`+j+`_`+k+`_`+i+`"><div class="row">`;
                                 for(ans in msg.result.response[i].answers){
                                 text+=`
                                 <div class="col-lg-4 col-md-6">
                                     <div class="checkbox-inline1">
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans].answer+`</span>
-                                            <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`}" name="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" value="`+msg.result.response[i].answers[ans].answer+`"/>
+                                            <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`"/>
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
                                 </div>`;
                                 }
-                                text+=`</div>`;
+                                text+=`</div></div>`;
                             }
                             text+=`</div>`;
                         }
@@ -777,13 +785,20 @@ function event_get_extra_question(option_code, provider){
                             }else if(msg.result.response[i].type == 'date'){
                                 $('input[name="question_event_'+j+'_'+k+'_'+i+'"]').daterangepicker({
                                     singleDatePicker: true,
-                                    autoUpdateInput: true,
-                                    startDate: moment(),
+                                    autoUpdateInput: false,
                                     showDropdowns: true,
                                     opens: 'center',
                                     locale: {
-                                        format: 'DD MMM YYYY',
+                                        cancelLabel: 'Clear'
                                     }
+                                });
+
+                                $('input[name="question_event_'+j+'_'+k+'_'+i+'"]').on('apply.daterangepicker', function(ev, picker) {
+                                  $(this).val(picker.startDate.format('DD MMM YYYY'));
+                                });
+
+                                $('input[name="question_event_'+j+'_'+k+'_'+i+'"]').on('cancel.daterangepicker', function(ev, picker) {
+                                  $(this).val('');
                                 });
                             }
                         }

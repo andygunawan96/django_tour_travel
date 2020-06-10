@@ -346,7 +346,8 @@ def review(request):
                 "work_phone": request.POST['booker_phone_code'] + request.POST['booker_phone'],
                 'booker_seq_id': request.POST['booker_id']
             }
-            for i in range(int(request.session['event_request'].get('adult') or 0)):
+            # for i in range(int(request.session['event_request'].get('adult') or 1)):
+            for i in range(1):
                 adult.append({
                     "pax_type": "ADT",
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -355,15 +356,12 @@ def review(request):
                     "birth_date": request.POST['adult_birth_date' + str(i + 1)],
                     "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
-                    "room_number": '1'
                 })
                 printout_paxs.append({
                     "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
                         'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
-                    'ticket_number': '',
                     'birth_date': request.POST['adult_birth_date' + str(i + 1)],
                     'pax_type': 'Adult',
-                    'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
                 })
 
                 if i == 0:
