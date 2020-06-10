@@ -538,6 +538,8 @@
             document.getElementById('gotobooking'+key).action = '/passport/booking/' + btoa(data_search[key].order_number);
         }else if(data_search[key].provider_type == 'ppob'){
             document.getElementById('gotobooking'+key).action = '/bills/booking/' + btoa(data_search[key].order_number);
+        }else if(data_search[key].provider_type == 'event'){
+            document.getElementById('gotobooking'+key).action = '/event/booking/' + btoa(data_search[key].order_number);
         }
         document.getElementById('gotobooking'+key).submit();
 
