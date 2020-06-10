@@ -1111,12 +1111,12 @@ function update_service_charge(type){
         upsell_price = 0;
         upsell = []
         counter_pax = -1;
-        val = json_event_option_code
-        currency = val[0]['currency'];
+        val = adult;
+        currency = json_event_option_code[0]['currency'];
         for(i in val){
             list_price = []
             for(j in list){
-                if(val[i].name == document.getElementById('selection_pax'+j).value){
+                if(val[i].first_name +val[i].last_name == document.getElementById('selection_pax'+j).value){
                     list_price.push({
                         'amount': list[j],
                         'currency_code': currency
@@ -1131,6 +1131,7 @@ function update_service_charge(type){
                     'pricing': JSON.parse(JSON.stringify(list_price))
                 });
         }
+        val = json_event_option_code;
     }
     $.ajax({
        type: "POST",
