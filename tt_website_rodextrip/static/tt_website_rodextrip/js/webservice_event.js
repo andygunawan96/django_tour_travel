@@ -124,7 +124,7 @@ function event_get_booking(data){
             try{
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
-                    hotel_get_detail = msg;
+                    event_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
                     $text += msg.result.response.status + '\n';
@@ -262,6 +262,193 @@ function event_get_booking(data){
                     }
            text+=`</table>`;
            document.getElementById('event_passenger').innerHTML = text;
+
+            //detail
+            text = '';
+            tax = 0;
+            fare = 0;
+            total_price = 0;
+            total_price_provider = [];
+            price_provider = 0;
+            commission = 0;
+            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+            text_detail=`
+            <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                <h5> Price Detail</h5>
+            <hr/>`;
+
+            //repricing
+            type_amount_repricing = ['Repricing'];
+            //repricing
+            counter_service_charge = 0;
+            $text += '\nPrice:\n';
+            for(i in msg.result.response.providers){
+                try{
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                        text_detail+=`
+                            <div style="text-align:left">
+                                <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.providers[i].pnr+` </span>
+                            </div>`;
+
+                    for(j in msg.result.response.passenger){
+                        price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                        for(k in msg.result.response.passenger[j].sale_service_charges[""]){
+                            price[k] += msg.result.response.passenger[j].sale_service_charges[""][k].amount;
+                            if(price['currency'] == '')
+                                price['currency'] = msg.result.response.passenger[j].sale_service_charges[""][k].currency;
+                        }
+                        try{
+                            price['CSC'] = msg.result.response.passenger[j].channel_service_charges.amount;
+
+                        }catch(err){}
+                        //repricing
+                        check = 0;
+                        for(k in pax_type_repricing){
+                            if(pax_type_repricing[k][0] == msg.result.response.passenger[j].name)
+                                check = 1;
+                        }
+                        if(check == 0){
+                            pax_type_repricing.push([msg.result.response.passenger[j].name, msg.result.response.passenger[j].name]);
+                            price_arr_repricing[msg.result.response.passenger[j].name] = {
+                                'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                'Tax': price['TAX'] + price['ROC'],
+                                'Repricing': price['CSC']
+                            }
+                        }else{
+                            price_arr_repricing[msg.result.response.passenger[j].name] = {
+                                'Fare': price_arr_repricing[msg.result.response.passenger[j].name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
+                                'Tax': price_arr_repricing[msg.result.response.passenger[j].name]['Tax'] + price['TAX'] + price['ROC'],
+                                'Repricing': price['CSC']
+                            }
+                        }
+                        text_repricing = `
+                        <div class="col-lg-12">
+                            <div style="padding:5px;" class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-3">Price</div>
+                                <div class="col-lg-3">Repricing</div>
+                                <div class="col-lg-3">Total</div>
+                            </div>
+                        </div>`;
+                        for(k in price_arr_repricing){
+                           text_repricing += `
+                           <div class="col-lg-12">
+                                <div style="padding:5px;" class="row" id="adult">
+                                    <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                                    <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                    if(price_arr_repricing[k].Repricing == 0)
+                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                    else
+                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                    text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                                </div>
+                            </div>`;
+                        }
+                        text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                        document.getElementById('repricing_div').innerHTML = text_repricing;
+                        //repricing
+
+                        text_detail+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+msg.result.response.passenger[j].name+`</span>`;
+                            text_detail+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                            </div>
+                        </div>`;
+                        $text += msg.result.response.passenger[j].title +' '+ msg.result.response.passenger[j].name + ' ['+msg.result.response.providers[i].pnr+'] ';
+                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                        if(counter_service_charge == 0){
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                        }else{
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                        }
+                        commission += parseInt(price.RAC);
+                    }
+                    total_price_provider.push({
+                        'pnr': msg.result.response.providers[i].pnr,
+                        'price': price_provider
+                    })
+                    price_provider = 0;
+                    counter_service_charge++;
+                }catch(err){console.log(err)}
+            }
+            try{
+                event_get_detail.result.response.total_price = total_price;
+                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+                if(msg.result.response.status == 'booked'){
+                    $text += '\n\nPrices and availability may change at any time';
+                }
+                text_detail+=`
+                <div>
+                    <hr/>
+                </div>
+                <div class="row" style="margin-bottom:10px;">
+                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                        <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                    </div>
+                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                        <span style="font-size:13px; font-weight: bold;">`;
+                        try{
+                            text_detail+= price.currency+` `+getrupiah(total_price);
+                        }catch(err){
+
+                        }
+                        text_detail+= `</span>
+                    </div>
+                </div>`;
+                if(msg.result.response.status == 'booked')
+                    text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                text_detail+=`<div class="row">
+                <div class="col-lg-12" style="padding-bottom:10px;">
+                    <hr/>
+                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                    share_data();
+                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                    if (isMobile) {
+                        text_detail+=`
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                    } else {
+                        text_detail+=`
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                            <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                    }
+
+                text_detail+=`
+                    </div>
+                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text_detail+=`
+                    <div class="row" id="show_commission" style="display:none;">
+                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                            <div class="alert alert-success">
+                                <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                            </div>
+                        </div>
+                    </div>`;
+                text_detail+=`<center>
+
+                <div style="padding-bottom:10px;">
+                    <center>
+                        <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                    </center>
+                </div>`;
+                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                text_detail+=`
+                <div style="margin-bottom:5px;">
+                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                </div>
+            </div>`;
+            }catch(err){console.log(err);}
+            document.getElementById('event_detail').innerHTML = text_detail;
 
             //======================= Other =========================
             add_repricing();
