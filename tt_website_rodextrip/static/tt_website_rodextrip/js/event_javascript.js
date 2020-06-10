@@ -987,13 +987,26 @@ function check_extra_question_answer(option_code){
                             temp_que.style.padding= "unset";
                         }
                     }else if(extra_question_result[i].type == 'selection'){
-                        var que_selection = $('#question_event_'+j+'_'+k+'_'+i+' option:selected').val();
-                        var temp_que = document.getElementById('select_question_event_'+j+'_'+k+'_'+i);
-                        if(que_selection == ''){
-                            temp_que.style.border= "1px solid red";
-                            check_error_question = 1;
+                        if(extra_question_result[i].answers.length > 3){
+                            var que_selection = $('#question_event_'+j+'_'+k+'_'+i+' option:selected').val();
+                            var temp_que = document.getElementById('select_question_event_'+j+'_'+k+'_'+i);
+                            if(que_selection == ''){
+                                temp_que.style.border= "1px solid red";
+                                check_error_question = 1;
+                            }else{
+                                temp_que.style.border= "unset";
+                            }
                         }else{
-                            temp_que.style.border= "unset";
+                            var que_radio = $('input[name=question_event_'+j+'_'+k+'_'+i+']:checked').val()
+                            var temp_que = document.getElementById('boolean_question_event_'+j+'_'+k+'_'+i);
+                            if(que_radio == undefined){
+                                temp_que.style.border= "1px solid red";
+                                temp_que.style.padding= "10px 10px 10px 10px";
+                                check_error_question = 1;
+                            }else{
+                                temp_que.style.border= "unset";
+                                temp_que.style.padding= "unset";
+                            }
                         }
                     }else if(extra_question_result[i].type == 'checkbox'){
                         var que_checkbox = $('input[name="question_event_'+j+'_'+k+'_'+i+'"]:checked').length;

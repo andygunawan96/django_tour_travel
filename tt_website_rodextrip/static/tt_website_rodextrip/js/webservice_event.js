@@ -36,6 +36,20 @@ function get_event_config(type){
        success: function(msg) {
         console.log(msg);
         data_event = msg.result.response;
+        if(type == 'home'){
+            console.log(data_event);
+            var node = document.createElement("div");
+            category_event_drp = '';
+            category_event_drp += `<option value="all" selected>All Category</option>`;
+
+            for(i in data_event.category){
+                category_event_drp += `<option value="`+data_event.category[i].category_id+`">`+data_event.category[i].category_name+`</option>`;
+            }
+
+            node.innerHTML = category_event_drp;
+            document.getElementById("category_event").appendChild(node);
+            $('#category_event').niceSelect('update');
+        }
         if(type == 'search'){
             for(i in data_event.category){
                 var node = document.createElement("div");
@@ -732,17 +746,30 @@ function event_get_extra_question(option_code, provider){
                                 }
                                 text+=`</div>`;
                             }else if(msg.result.response[i].type == 'selection'){
-                                text+=`
-                                <div class="form-group">
-                                    <div class="form-select" id="select_question_event_`+j+`_`+k+`_`+i+`" style="height:45px;">
-                                        <select id="question_event_`+j+`_`+k+`_`+i+`" name="question_event_`+j+`_`+k+`_`+i+`" class="nice-select-default">
-                                            <option value="" selected>Choose</option>`;
-                                            for(ans in msg.result.response[i].answers){
-                                                text+=`<option value="`+msg.result.response[i].answers[ans]+`">`+msg.result.response[i].answers[ans]+`</option>`;
-                                            }
-                                text+=`</select/>
-                                    </div>
-                                </div>`;
+                                if(msg.result.response[i].answers.length > 3){
+                                    text+=`
+                                    <div class="form-group">
+                                        <div class="form-select" id="select_question_event_`+j+`_`+k+`_`+i+`" style="height:45px;">
+                                            <select id="question_event_`+j+`_`+k+`_`+i+`" name="question_event_`+j+`_`+k+`_`+i+`" class="nice-select-default">
+                                                <option value="" selected>Choose</option>`;
+                                                for(ans in msg.result.response[i].answers){
+                                                    text+=`<option value="`+msg.result.response[i].answers[ans]+`">`+msg.result.response[i].answers[ans]+`</option>`;
+                                                }
+                                    text+=`</select/>
+                                        </div>
+                                    </div>`;
+                                }else{
+                                    text+=`<div id="boolean_question_event_`+j+`_`+k+`_`+i+`">`;
+                                    for(ans in msg.result.response[i].answers){
+                                        text+=`
+                                        <label class="radio-button-custom" style="margin-bottom:0px;">
+                                            <span style="font-size:13px;">`+msg.result.response[i].answers[ans]+`</span>
+                                            <input type="radio" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans]+`">
+                                            <span class="checkmark-radio"></span>
+                                        </label>`;
+                                    }
+                                    text+=`</div><br/>`;
+                                }
                             }else if(msg.result.response[i].type == 'date'){
                                 text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="email" placeholder="Enter Your Date"';
                                 if (msg.result.response[i].required)
