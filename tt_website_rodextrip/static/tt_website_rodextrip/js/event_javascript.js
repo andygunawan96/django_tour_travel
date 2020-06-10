@@ -459,9 +459,9 @@ function render_object_from_value(val){
         commission = 0;
         service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
         type_amount_repricing = ['Repricing'];
-        for(i in val){
-            pax_type_repricing.push([val[i].name, val[i].name]);
-            price_arr_repricing[val[i].name] = {
+        for(i in adult){
+            pax_type_repricing.push([adult[i].first_name +adult[i].last_name, adult[i].first_name +adult[i].last_name]);
+            price_arr_repricing[adult[i].first_name +adult[i].last_name] = {
                 'Fare': 0,
                 'Tax': 0,
                 'Repricing': 0
