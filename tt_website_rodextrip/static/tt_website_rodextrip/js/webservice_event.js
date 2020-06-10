@@ -714,8 +714,8 @@ function event_get_extra_question(option_code, provider){
                                     if(ans == "0"){
                                         text+=`
                                         <label class="radio-button-custom" style="margin-bottom:10px;">
-                                            <span style="font-size:13px;">`+msg.result.response[i].answers[ans].answer+`</span>
-                                            <input type="radio" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`"`;
+                                            <span style="font-size:13px;">`+msg.result.response[i].answers[ans]+`</span>
+                                            <input type="radio" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans]+`"`;
                                         if (msg.result.response[i].required)
                                             text += 'required';
                                         text+=`>
@@ -724,8 +724,8 @@ function event_get_extra_question(option_code, provider){
                                     }else{
                                         text+=`
                                         <label class="radio-button-custom" style="margin-bottom:0px;">
-                                            <span style="font-size:13px;">`+msg.result.response[i].answers[ans].answer+`</span>
-                                            <input type="radio" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`">
+                                            <span style="font-size:13px;">`+msg.result.response[i].answers[ans]+`</span>
+                                            <input type="radio" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans]+`">
                                             <span class="checkmark-radio"></span>
                                         </label>`;
                                     }
@@ -738,7 +738,7 @@ function event_get_extra_question(option_code, provider){
                                         <select id="question_event_`+j+`_`+k+`_`+i+`" name="question_event_`+j+`_`+k+`_`+i+`" class="nice-select-default">
                                             <option value="" selected>Choose</option>`;
                                             for(ans in msg.result.response[i].answers){
-                                                text+=`<option value="`+msg.result.response[i].answers[ans].answer+`">`+msg.result.response[i].answers[ans].answer+`</option>`;
+                                                text+=`<option value="`+msg.result.response[i].answers[ans]+`">`+msg.result.response[i].answers[ans]+`</option>`;
                                             }
                                 text+=`</select/>
                                     </div>
@@ -755,8 +755,8 @@ function event_get_extra_question(option_code, provider){
                                 <div class="col-lg-4 col-md-6">
                                     <div class="checkbox-inline1">
                                         <label class="check_box_custom">
-                                            <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans].answer+`</span>
-                                            <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans].answer+`"/>
+                                            <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans]+`</span>
+                                            <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans]+`"/>
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>
