@@ -117,7 +117,7 @@
                                     </div>
                                     <div class="col-lg-4">
                                         {% if event_code.images|length > 0 %}
-                                        <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images.0.url}}">
+                                        <img class="img-fluid" style="background-size:contain; background-repeat: no-repeat;" src="{{event_code.images.0.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';">
                                         {% else %}
                                         <img class="img-fluid" src="{{static_path}}/images/no pic/no-event.png" style="background-size:contain; background-repeat: no-repeat;">
                                         {% endif %}
@@ -130,16 +130,16 @@
                                             {% if event_code.start_date != False %}
                                             {{event_code.start_date}}
                                             {% endif %}
-                                            {% if event_code.end_date != False %}
-                                            {{event_code.start_date}}
+                                            {% if event_code.end_date != False and event_code.start_date != event_code.end_date  %}
+                                            - {{event_code.end_date}}
                                             {% endif %}
                                         </span><br/>
                                         <span><i class="fas fa-clock" style="color:{{color}};"></i>
                                             {% if event_code.start_time != False %}
                                             {{event_code.start_time}}
                                             {% endif %}
-                                            {% if event_code.end_time != False %}
-                                            {{event_code.end_time}}
+                                            {% if event_code.end_time != False and event_code.start_time != event_code.end_time%}
+                                            - {{event_code.end_time}}
                                             {% endif %}
                                         </span>
                                         <br/>
