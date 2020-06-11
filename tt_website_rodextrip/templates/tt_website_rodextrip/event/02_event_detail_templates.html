@@ -872,6 +872,8 @@
                                 <ul class="create_tabs" id="identity">
                                     <li class="create_tab-link current" data-tab="description-tab"><label>Description</label></li>
                                     <li class="create_tab-link" data-tab="itinerary-tab"><label>Itinerary</label></li>
+                                    <li class="create_tab-link" data-tab="inclusion-tab"><label>Price Inclusion</label></li>
+                                    <li class="create_tab-link" data-tab="exclude-tab"><label>Price Exclude</label></li>
                                 </ul>
                             </div>
 
@@ -895,6 +897,28 @@
                                         {% endautoescape %}
                                         {% else %}
                                         Currently no itinerary available for this event
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div id="inclusion-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                    <div class="col-lg-12">
+                                        {% if event_code.includes != ''%}
+                                        {% autoescape off %}
+                                        {{event_code.includes}}
+                                        {% endautoescape %}
+                                        {% else %}
+                                        Currently no Inclusion data available for this event
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div id="exclude-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                    <div class="col-lg-12">
+                                        {% if event_code.excludes != ''%}
+                                        {% autoescape off %}
+                                        {{event_code.excludes}}
+                                        {% endautoescape %}
+                                        {% else %}
+                                        Currently no Exclude information available for this event
                                         {% endif %}
                                     </div>
                                 </div>

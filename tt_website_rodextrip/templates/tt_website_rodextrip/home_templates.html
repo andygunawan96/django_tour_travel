@@ -6394,7 +6394,7 @@
 
                         }
                         else{
-                            var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><div style="display:inline-block;">';
+                            var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+'" data-val="'+search+'"><div style="display:inline-block;">';
                             autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
                             autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
                             if(item.locations.length != 0){
@@ -6417,31 +6417,16 @@
 
                         }
                     }catch(err){
-                        var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><div style="display:inline-block;">';
-                        autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
-                        autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
-                        if(item.locations.length != 0){
-                            autocomplete_event += '<i class="fas fa-map-marker-alt"></i><span style="padding-left:5px; font-size:13px;">';
-                            for(i in item.locations){
-                                if(i > 0)
-                                    autocomplete_event += '; ';
-
-                                if(item.locations[i].city_name != '' && item.locations[i].country_name != '')
-                                    autocomplete_event += item.locations[i].city_name + ', ' + item.locations[i].country_name;
-                                else if(item.locations[i].city_name != '' && item.locations[i].country_name == '')
-                                    autocomplete_event += item.locations[i].city_name;
-                                else if(item.locations[i].city_name == '' && item.locations[i].country_name != '')
-                                    autocomplete_event += item.locations[i].country_name;
-                            }
-                            autocomplete_event += '</span></p>';
-                        }
+                        var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="" data-lang="" data-val="'+search+'"><div style="display:inline-block;">';
+                        autocomplete_event += `<img src="/static/tt_website_rodextrip/images/no pic/no-event.png" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
+                        autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+ search + '</span>';
                         autocomplete_event += '</div></div>';
                         return autocomplete_event;
                     }
                 },
                 onSelect: function(e, term, item){
                     $("#event_name_id").trigger("blur");
-                    document.getElementById('event_name_id').value = item.innerText.slice(0,item.innerText.length);
+                    document.getElementById('event_name_id').value = $(item).attr('data-lang');
                 }
             });
             {% endif %}

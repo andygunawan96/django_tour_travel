@@ -657,7 +657,7 @@ function event_options(id){
                                 </div>
                             </div>
                         </div>`;
-                        console.log(msg.result);
+                        //console.log(msg.result);
                         if(msg.result.response[i].images.length != 0)
                             text+=`<div class="col-lg-3 col-md-3 border-event"><div class="img-event-detail" style="background-size:contain; background-repeat: no-repeat; background-image: url('`+msg.result.response[i].images[0].url+`');"></div></div>`;
                         else
@@ -731,7 +731,7 @@ function event_options(id){
                                 <span style="border:2px solid `+text_color+`; padding:0px 7px; color: `+text_color+`; background: `+color+`; border-radius:7px;">SOLD OUT</span>
                             </div>
                         </div>`;
-                        console.log(msg.result);
+                        //console.log(msg.result);
                         if(msg.result.response[i].images.length != 0)
                             text+=`<div class="col-lg-3 col-md-3 border-event-sold" style="padding-top:20px;"><div class="img-event-detail" style="background-image: url(`+msg.result.response[i].images[0].url+`);"><div class="overlay overlay-bg-sold"></div></div><hr/></div>`;
                         else
@@ -970,7 +970,7 @@ function event_get_extra_question(option_code, provider){
                                     <div class="checkbox-inline1">
                                         <label class="check_box_custom">
                                             <span class="span-search-ticket" style="color:black;">`+msg.result.response[i].answers[ans]+`</span>
-                                            <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" name="question_event_`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans]+`"/>
+                                            <input type="checkbox" id="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" name="question_event_`+j+`_`+k+`_`+i+`_`+ans+`" class="question_event_checkbox`+j+`_`+k+`_`+i+`" value="`+msg.result.response[i].answers[ans]+`"/>
                                             <span class="check_box_span_custom"></span>
                                         </label>
                                     </div>

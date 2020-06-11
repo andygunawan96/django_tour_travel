@@ -541,6 +541,7 @@
         }else if(data_search[key].provider_type == 'event'){
             document.getElementById('gotobooking'+key).action = '/event/booking/' + btoa(data_search[key].order_number);
         }
+
         document.getElementById('gotobooking'+key).submit();
 
     }

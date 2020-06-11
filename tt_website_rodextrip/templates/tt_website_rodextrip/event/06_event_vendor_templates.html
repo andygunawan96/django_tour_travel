@@ -96,5 +96,11 @@
 <script>
     event_search_vendor();
     get_event_config('search');
+
+    function goto_detail(type, counter){
+       document.getElementById('event'+counter).innerHTML += `{% csrf_token %}`;
+       document.getElementById('event'+counter).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
+       document.getElementById('event'+counter).submit();
+    }
 </script>
 {% endblock %}

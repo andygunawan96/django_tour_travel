@@ -632,6 +632,7 @@ function check_passenger(adult, child){
     //booker
     length_name = 25;
     error_log = '';
+    //console.log(passenger_data_pick);
     try{
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence != 'booker'){
@@ -1009,7 +1010,7 @@ function check_extra_question_answer(option_code){
                             }
                         }
                     }else if(extra_question_result[i].type == 'checkbox'){
-                        var que_checkbox = $('input[name="question_event_'+j+'_'+k+'_'+i+'"]:checked').length;
+                        var que_checkbox = $('input:checkbox.question_event_checkbox'+j+'_'+k+'_'+i+':checked').length;
                         var temp_que = document.getElementById('checkbox_question_event_'+j+'_'+k+'_'+i);
                         if(que_checkbox == 0){
                             temp_que.style.border= "1px solid red";
