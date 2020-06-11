@@ -505,6 +505,7 @@ function hotel_detail_request(checkin_date, checkout_date){
                         </div>
                     </div>`;
 
+                    var idx = 0;
                     for(j in result.prices[i].rooms){
                         if(result.prices[i].rooms[j].images.length != 0){
                             text+=`
@@ -531,19 +532,23 @@ function hotel_detail_request(checkin_date, checkout_date){
                             text+= '<span class="note">Notes: ' + result.prices[i].rooms[j].notes+'</span><br/>';
                         text+= '<span style="font-weight:500; padding-top:10px;">Cancellation: </span><ul><li id="js_cancellation_button'+i+'" style="color:'+color+'; font-weight:400;"><span class="carrier_code_template" onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');"><i class="fas fa-question-circle"></i> Show Cancellation Policy</span></li></ul>';
                         text+=`</div>`;
+
+                        text+=`<div class="col-lg-3 col-md-3" style="text-align:right;">`;
+                        if(idx == 0){
+                            var total_room = document.getElementById("hotel_room").value;
+                            var total_night = document.getElementById("total_night_search").textContent;
+                            if(result.prices[i].currency != 'IDR')
+                                text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span class="copy_total_rn carrier_code_template" >(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                            else
+                                text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span class="copy_total_rn carrier_code_template">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+
+                            text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
+                            idx = 1;
+                        }
+                        text+='</div>';
                     }
+                    text+='</div>';
 
-                    text+=`<div class="col-lg-3 col-md-3" style="text-align:right;">`;
-                    var total_room = document.getElementById("hotel_room").value;
-                    var total_night = document.getElementById("total_night_search").textContent;
-
-                    if(result.prices[i].currency != 'IDR')
-                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + result.prices[i].price_total +'</span><br/><span class="copy_total_rn carrier_code_template" >(for '+total_room+' room, '+total_night+' night)</span><br/>';
-                    else
-                        text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(result.prices[i].price_total)+'</span><br/><span class="copy_total_rn carrier_code_template">(for '+total_room+' room, '+total_night+' night)</span><br/>';
-
-                    text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
-                    text+='</div></div>';
                     node.className = 'detail-hotel-box';
                     node.innerHTML = text;
                     document.getElementById("detail_room_pick").appendChild(node);
