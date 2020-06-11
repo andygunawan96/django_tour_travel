@@ -4850,6 +4850,13 @@ input[type="radio"].activity, input[type="checkbox"].activity {
     background-size:cover;
     background-position:50% 50%;
 }
+.img-event-search {
+    width: auto;
+    height: 140px;
+    background-size:cover;
+    background-position:50% 50%;
+    border-radius: 3px;
+}
 
 
 .text-block-custom {

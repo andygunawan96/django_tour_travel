@@ -194,8 +194,6 @@ def detail(request):
             phone_code = sorted(phone_code)
             if request.POST:
                 request.session['time_limit'] = int(request.POST['time_limit_input'])
-            else:
-                request.session['time_limit'] -= 50
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:

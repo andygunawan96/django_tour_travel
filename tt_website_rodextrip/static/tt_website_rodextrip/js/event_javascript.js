@@ -94,8 +94,9 @@ function online_check(){
 //Done
 function event_search_validation(){
     text= '';
-    if(document.getElementById("event_name_id").value == '')
-        text+= 'Please fill Event Name\n';
+    //Remark supay bisa search all
+    //if(document.getElementById("event_name_id").value == '')
+    //    text+= 'Please fill Event Name\n';
     //check no error
     if(text == ''){
         document.getElementById('event_searchForm').submit();
@@ -128,19 +129,29 @@ function filtering(type, update){
 
     if (selected_categ.length > 0 ){
         event_search_result.forEach((obj)=> {
-            var selected = 0;
+            // LOGIC AND
+            //var selected = 0;
+            //selected_categ.forEach((obj1)=> {
+            //    for( var i = 0; i < obj.category.length; i++){
+            //        if (data_event.category[obj1].category_name.toLowerCase() == obj.category[i].toLowerCase() ){
+            //            selected += 1;
+            //            continue;
+            //        }
+            //    }
+            //});
+
+            //if (selected == selected_categ.length){
+            //    temp_data.push(obj);
+            //}
+
+            // LOGIC OR
             selected_categ.forEach((obj1)=> {
                 for( var i = 0; i < obj.category.length; i++){
                     if (data_event.category[obj1].category_name.toLowerCase() == obj.category[i].toLowerCase() ){
-                        selected += 1;
-                        continue;
+                        temp_data.push(obj);
                     }
                 }
             });
-
-            if (selected == selected_categ.length){
-                temp_data.push(obj);
-            }
         });
     } else {
         temp_data = event_search_result;
@@ -819,24 +830,24 @@ function render_extra_question(json_event_answer){
     var text='';
     text+=`<div class="row">`;
     for (i in json_event_answer){
-        text+=`<div class="col-lg-12">`;
+        text+=`<div class="col-lg-12"><div style="padding:15px; border:1px solid #cdcdcd; margin-bottom:15px;">`;
         var idx_event_ans = parseInt(json_event_answer[i].idx) + 1;
         if(i == 0){
             text+=`<h6>`+json_event_answer[i].option_grade+` - `+idx_event_ans+`
             <span id="question_down_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:none;" onclick="show_question_event_review('question', `+i+`)";> Hide Your Answer</span>
             <span id="question_up_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:inline-block;" onclick="show_question_event_review('question', `+i+`)";> Show Your Answer</span>
-            </h6><hr/>`;
+            </h6>`;
         }else{
-            text+=`<hr/><h6>`+json_event_answer[i].option_grade+` - `+idx_event_ans+`
+            text+=`<h6>`+json_event_answer[i].option_grade+` - `+idx_event_ans+`
             <span id="question_down_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:none;" onclick="show_question_event_review('question', `+i+`)";> Hide Your Answer</span>
             <span id="question_up_opt`+i+`" style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer; display:inline-block;" onclick="show_question_event_review('question', `+i+`)";> Show Your Answer</span>
-            </h6><hr/>`;
+            </h6>`;
         }
         text+=`
         <div class="row" id="question_opt`+i+`" style="display:none;">`;
             for (j in json_event_answer[i].answer){
                 var ans_index = (parseInt(j))+1;
-                text+=`<div class="col-lg-12" style="margin-bottom:15px;">
+                text+=`<div class="col-lg-12" style="margin-top:15px;">
                     <div style="padding:15px; border: 1px solid #cdcdcd; background: #f7f7f7;">
                         <h6>Question #`+ans_index+` - <i>`+ json_event_answer[i].answer[j].que +`</i></h6>
                         <span>Answer:</span>
@@ -845,7 +856,7 @@ function render_extra_question(json_event_answer){
                 </div>`;
             }
         text+=`</div>`;
-        text+=`</div>`;
+        text+=`</div></div>`;
     }
     text+=`</div>`;
     document.getElementById("extra_question_target").innerHTML = text;

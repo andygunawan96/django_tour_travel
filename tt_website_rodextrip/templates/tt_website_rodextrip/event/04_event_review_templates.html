@@ -161,6 +161,10 @@
                                     <ul class="create_tabs" id="identity">
                                         <li class="create_tab-link current" data-tab="description-tab"><label>Description</label></li>
                                         <li class="create_tab-link" data-tab="itinerary-tab"><label>Itinerary</label></li>
+                                        <li class="create_tab-link" data-tab="inclusion-tab"><label>Price Inclusion</label></li>
+                                        <li class="create_tab-link" data-tab="exclude-tab"><label>Price Exclude</label></li>
+                                        <li class="create_tab-link" data-tab="info-tab"><label>Additional Info</label></li>
+                                        <li class="create_tab-link" data-tab="notice-tab"><label>Warning(s)</label></li>
                                     </ul>
                                 </div>
                                 <div class="banner-right" style="background:white; border:1px solid #cdcdcd;">
@@ -169,6 +173,50 @@
                                     </div>
                                     <div id="itinerary-tab" class="create_tab-content" style="padding:15px;">
                                         <span>{% autoescape off %} {{event_code.itinerary}} {% endautoescape %}</span><br/>
+                                    </div>
+                                    <div id="inclusion-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                    <div class="col-lg-12">
+                                        {% if event_code.includes != ''%}
+                                        {% autoescape off %}
+                                        {{event_code.includes}}
+                                        {% endautoescape %}
+                                        {% else %}
+                                        Currently no Inclusion data available for this event
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                    <div id="exclude-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                        <div class="col-lg-12">
+                                            {% if event_code.excludes != ''%}
+                                            {% autoescape off %}
+                                            {{event_code.excludes}}
+                                            {% endautoescape %}
+                                            {% else %}
+                                            Currently no Exclude information available for this event
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div id="info-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                        <span>
+                                            {% if event_code.additional_info != ''%}
+                                            {% autoescape off %}
+                                            {{event_code.additional_info}}
+                                            {% endautoescape %}
+                                            {% else %}
+                                            Currently no Additional information available for this event
+                                            {% endif %}
+                                        </span>
+                                    </div>
+                                    <div id="notice-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                        <span>
+                                            {% if event_code.to_info != ''%}
+                                            {% autoescape off %}
+                                            {{event_code.to_info}}
+                                            {% endautoescape %}
+                                            {% else %}
+                                            Currently no Notification information available for this event
+                                            {% endif %}
+                                        </span>
                                     </div>
                                 </div>
                             </div>

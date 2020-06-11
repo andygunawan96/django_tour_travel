@@ -2243,7 +2243,7 @@ function breadcrumb_create(breadcrumbs_type, current_step, back_step){
     }
     else if(breadcrumbs_type == "event"){
         var breadcrumbs = ["Home", "Search", "Details", "Contact & OtherInfo", "Review", "Issued"];
-        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/event';", "location.href='/event/detail';", "location.href='/event/passenger';", "", ""];
+        var breadcrumbs_url = ["location.href='/dashboard';", "location.href='/event/search';", "location.href='/event/detail';", "location.href='/event/passenger';", "", ""];
     }
 
     document.getElementById("breadcrumbs_create").innerHTML = '';
@@ -2472,4 +2472,8 @@ function pagination_numb(numb){
     if($pagination_type == "hotel"){
         change_image_hotel(numb);
     }
+
+    $('html, body').animate({
+        scrollTop: $("#pagination-container").offset().top - 110
+    }, 500);
 }
