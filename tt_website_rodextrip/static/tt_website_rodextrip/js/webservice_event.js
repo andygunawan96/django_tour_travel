@@ -38,16 +38,12 @@ function get_event_config(type){
         data_event = msg.result.response;
         if(type == 'home'){
             console.log(data_event);
-            var node = document.createElement("div");
             category_event_drp = '';
             category_event_drp += `<option value="all" selected>All Category</option>`;
-
             for(i in data_event.category){
-                category_event_drp += `<option value="`+data_event.category[i].category_id+`">`+data_event.category[i].category_name+`</option>`;
+                category_event_drp += `<option value="`+data_event.category[i].category_name+`">`+data_event.category[i].category_name+`</option>`;
             }
-
-            node.innerHTML = category_event_drp;
-            document.getElementById("category_event").appendChild(node);
+            document.getElementById("category_event").innerHTML = category_event_drp;
             $('#category_event').niceSelect('update');
         }
         if(type == 'search'){
@@ -85,18 +81,29 @@ function event_search_autocomplete(term){
     var priority = [];
     if(term.split(' - ').length == 2)
         term = '';
+    category_event_choose = document.getElementById('category_event').value;
     for(i in choices){
         for(j in choices[i]){
             if(i == 'event'){
-                if(choices[i][j].name.toLowerCase().split(' - ')[0].search(term) !== -1){
-                    choices[i][j].type = 'event'
-                    priority.push(choices[i][j]);
+                if(category_event_choose == 'all'){
+                    if(choices[i][j].name.toLowerCase().split(' - ')[0].search(term) !== -1){
+                        choices[i][j].type = 'event'
+                        priority.push(choices[i][j]);
+                    }
+                }else{
+                    //check category
+                    if(choices[i][j].name.toLowerCase().split(' - ')[0].search(term) !== -1 && choices[i][j].category.includes(category_event_choose) == true){
+                        choices[i][j].type = 'event'
+                        priority.push(choices[i][j]);
+                    }
                 }
             }else if(i == 'category'){
-                if(choices[i][j].category_name.toLowerCase().split(' - ')[0].search(term) !== -1){
-                    choices[i][j].type = 'category'
-                    choices[i][j].name = choices[i][j].category_name
-                    suggestions.push(choices[i][j]);
+                if(category_event_choose == 'all'){
+                    if(choices[i][j].category_name.toLowerCase().split(' - ')[0].search(term) !== -1){
+                        choices[i][j].type = 'category'
+                        choices[i][j].name = choices[i][j].category_name
+                        suggestions.push(choices[i][j]);
+                    }
                 }
             }
         }
