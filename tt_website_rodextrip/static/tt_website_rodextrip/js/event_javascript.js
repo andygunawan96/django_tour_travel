@@ -632,7 +632,6 @@ function check_passenger(adult, child){
     //booker
     length_name = 25;
     error_log = '';
-    //console.log(passenger_data_pick);
     try{
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence != 'booker'){
