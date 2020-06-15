@@ -81,7 +81,7 @@ def event(request):
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/hotel/hotel_templates.html', values)
+        return render(request, MODEL_NAME+'/event/01_event_search_templates.html', values)
 
     else:
         return no_session_logout(request)
@@ -107,7 +107,7 @@ def search(request):
                 request.session['event_request'] = {
                     'event_name': request.POST['event_name_id'],
                     'city_id': False,
-                    'category_id': False,
+                    'category_name': request.POST['category_event'],
                     'is_online': request.POST.get('include_online'), #Checkbox klo disi baru di POST
                 }
                 request.session.modified = True
