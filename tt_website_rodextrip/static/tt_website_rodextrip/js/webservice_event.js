@@ -555,7 +555,7 @@ function event_search(){
        data: {
         'event_name': $('#event_name_id').val(),
         'is_online': '1',
-        'category': $('#category_name').val(),
+        'category': $('#category_event').val(),
         'signature': signature
        },
        success: function(msg) {
