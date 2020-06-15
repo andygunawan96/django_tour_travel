@@ -43,11 +43,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
-                {% if not event_search.category_name %}
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Event in or Contain(s): {{event_search.event_name}}</span><br/>
-                {% else %}
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Category: {{event_search.category_name}}</span><br/>
-                {% endif%}
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
