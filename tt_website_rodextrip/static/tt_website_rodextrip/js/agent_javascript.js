@@ -271,37 +271,3 @@ function set_radio_payment(type){
 //        document.getElementById('payment').innerHTML = text;
 //        document.getElementById('total_amount').innerHTML = `<span>`+response.acquirer.tt_transfer[0].amount+`</span>`;
 //    }
-
-function getrupiah(price){
-    try{
-        if(isNaN(price) == false && price.length != 0){
-            var temp = parseInt(price);
-            var positif = false;
-            if(temp > -1)
-                positif = true;
-
-            temp = temp.toString();
-            temp = temp.split('-')[temp.split('-').length-1];
-            var pj = temp.split('.')[0].toString().length;
-            var priceshow="";
-            for(x=0;x<pj;x++){
-                if((pj-x)%3==0 && x!=0){
-                    priceshow+=",";
-                }
-                priceshow+=temp.charAt(x);
-            }
-            if(temp.split('.').length == 2){
-                for(x=pj;x<temp.length;x++){
-                    priceshow+=temp.charAt(x);
-                }
-            }
-            if(positif == false)
-                priceshow = '-' + priceshow;
-            return priceshow;
-        }else{
-            return '';
-        }
-    }catch(err){
-        return price;
-    }
-}

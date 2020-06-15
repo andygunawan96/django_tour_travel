@@ -460,13 +460,21 @@ function carrier_to_provider(){
             }else if(airline_carriers[i][j].bool == true){
                 try{
                     if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == false)
-                        for(k in airline_carriers[i][j].provider)
-                            if(provider_list[airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == true)
-                                airline[i][airline_carriers[i][j].code] = [airline_carriers[i][j].provider[k]];
+                        for(k in airline_carriers[i][j].provider){
+                            if(provider_list[airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == true){
+                                if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == true)
+                                    airline[i][airline_carriers[i][j].code].push(airline_carriers[i][j].provider[k]);
+                                else
+                                    airline[i][airline_carriers[i][j].code] = [airline_carriers[i][j].provider[k]];
+                            }
+                        }
                     else{
                         for(k in airline_carriers[i][j].provider){
                             if(airline[i][airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]) == false && provider_list[airline_carriers[i][j].code].includes(airline_carriers[i][j].provider[k]))
-                                airline[i][airline_carriers[i][j].code].push(airline_carriers[i][j].provider[k]);
+                                if(airline[i].hasOwnProperty(airline_carriers[i][j].code) == true)
+                                    airline[i][airline_carriers[i][j].code].push(airline_carriers[i][j].provider[k]);
+                                else
+                                    airline[i][airline_carriers[i][j].code] = [airline_carriers[i][j].provider[k]];
                         }
                     }
 
