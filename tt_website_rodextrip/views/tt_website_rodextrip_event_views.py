@@ -49,18 +49,6 @@ def event(request):
             ]
             # get_data_awal
             cache = {}
-            try:
-                cache['hotel'] = {
-                    'checkin': request.session['hotel_request']['checkin_date'],
-                    'checkout': request.session['hotel_request']['checkout_date']
-                }
-                if cache['hotel']['checkin'] == 'Invalid date' or cache['hotel']['checkout'] == 'Invalid date':
-                    cache['hotel']['checkin'] = convert_string_to_date_to_string_front_end(
-                        str(datetime.now() + relativedelta(days=1))[:10])
-                    cache['hotel']['checkout'] = convert_string_to_date_to_string_front_end(
-                        str(datetime.now() + relativedelta(days=2))[:10])
-            except:
-                pass
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -81,7 +69,7 @@ def event(request):
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/hotel/hotel_templates.html', values)
+        return render(request, MODEL_NAME+'/event/01_event_search_templates.html', values)
 
     else:
         return no_session_logout(request)
@@ -107,7 +95,7 @@ def search(request):
                 request.session['event_request'] = {
                     'event_name': request.POST['event_name_id'],
                     'city_id': False,
-                    'category_id': False,
+                    'category_name': request.POST['category_event'],
                     'is_online': request.POST.get('include_online'), #Checkbox klo disi baru di POST
                 }
                 request.session.modified = True
@@ -153,6 +141,7 @@ def search_category(request, category_name):
 
             try:
                 request.session['event_request'].update({
+                    'event_name': '',
                     'category_name': category_name,
                 })
                 request.session.modified = True
@@ -194,8 +183,6 @@ def detail(request):
             phone_code = sorted(phone_code)
             if request.POST:
                 request.session['time_limit'] = int(request.POST['time_limit_input'])
-            else:
-                request.session['time_limit'] -= 50
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -258,7 +245,8 @@ def contact_passengers(request):
             response = get_cache_data(cache_version)
             values = get_data_template(request)
 
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            if request.POST:
+                request.session['time_limit'] = int(request.POST['time_limit_input'])
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -357,13 +345,6 @@ def review(request):
                     "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                     "passenger_seq_id": request.POST['adult_id' + str(i + 1)],
                 })
-                printout_paxs.append({
-                    "name": request.POST['adult_title' + str(i + 1)] + ' ' + request.POST[
-                        'adult_first_name' + str(i + 1)] + ' ' + request.POST['adult_last_name' + str(i + 1)],
-                    'birth_date': request.POST['adult_birth_date' + str(i + 1)],
-                    'pax_type': 'Adult',
-                })
-
                 if i == 0:
                     if request.POST['myRadios'] == 'yes':
                         adult[len(adult) - 1].update({
@@ -441,14 +422,6 @@ def review(request):
                 'adult': adult,
             }
 
-            print_json = json.dumps({
-                "type": "event",
-                "agent_name": request.session._session['user_account']['co_agent_name'],
-                "passenger": printout_paxs,
-                "line": [],
-            })
-            request.session['hotel_json_printout' + request.session['event_signature']] = print_json
-
             question_answer = []
             for a in request.POST.keys():
                 if 'que_' in a:
@@ -481,6 +454,15 @@ def review(request):
                         c_obj['answer'][-1]['ans'] = new_ans[:-2]
 
             request.session['event_extra_question' + request.session['event_signature']] = question_answer
+
+            print_json = json.dumps({
+                "type": "event",
+                "agent_name": request.session._session['user_account']['co_agent_name'],
+                "passenger": printout_paxs,
+                "price_detail": [],
+                "price_lines": question_answer,
+            })
+            request.session['event_json_printout' + request.session['event_signature']] = print_json
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),

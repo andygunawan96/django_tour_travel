@@ -113,7 +113,7 @@ function search_hotel(val){
 function getrupiah(price){
     try{
         if(isNaN(price) == false && price.length != 0){
-            var temp = parseInt(price);
+            var temp = parseFloat(price);
             var positif = false;
             if(temp > -1)
                 positif = true;
@@ -129,12 +129,13 @@ function getrupiah(price){
                 priceshow+=temp.charAt(x);
             }
             if(temp.split('.').length == 2){
-                for(x=pj;x<temp.length;x++){
+                for(x=pj;x<pj+3;x++){
                     priceshow+=temp.charAt(x);
                 }
             }
             if(positif == false)
                 priceshow = '-' + priceshow;
+
             return priceshow;
         }else{
             return '';

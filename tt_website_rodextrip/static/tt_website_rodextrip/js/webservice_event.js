@@ -206,15 +206,61 @@ function event_get_booking(data){
 
             }
             //======================= Option =========================
-            text = `<h4>Option(s)</h4>
+            text = `<h4>Ticket Information(s)</h4>
                     <hr/>
                     <div class="row">`;
+                    var temp_name_option = '';
+                    var temp_numb_option = 0;
                     for(i in msg.result.response.options){
                         var b = parseInt(i) + 1;
                         //console.log(msg.result.response.options);
+                        if(temp_name_option != msg.result.response.options[i].name){
+                            temp_numb_option = 0;
+                        }
+                        temp_name_option = msg.result.response.options[i].name;
+                        temp_numb_option = temp_numb_option + 1;
                         text+=`
-                            <div class="col-lg-12">
-                                <h6 style="margin-bottom:10px;">`+ b +`. `+msg.result.response.options[i].name+`</h6>
+                            <div class="col-lg-12" style="margin-bottom:15px;">
+                                <h6>`+msg.result.response.options[i].name+` - `+ temp_numb_option +`</h6>
+                                <span>Ticket Number : </span>`;
+                                if(msg.result.response.options[i].ticket_number == false)
+                                    text+=`<span>-</span>`;
+                                else
+                                    text+=`<span style="font-weight:500;">`+msg.result.response.options[i].ticket_number+`</span>`;
+
+                            text+=`
+                                <br/>
+                                <span>Extra Question :
+                                    <span style="padding-left:5px; font-size:12px; color:`+color+`; cursor:pointer;" data-toggle="modal" data-target="#answerModal`+i+`"> Show Your Answer </span>
+                                </span>
+                                <div class="modal fade" id="answerModal`+i+`" role="dialog" data-keyboard="false">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 style="color:`+text_color+`;">Extra Question </h5>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            </div>
+                                            <div class="modal-body">
+                                            <h6>Your Answer on `+msg.result.response.options[i].name+` - `+ temp_numb_option +`</h6>
+                                                <div class="row" style="overflow-y:auto; max-height:450px;">`;
+                                                for(j in msg.result.response.options[i].answers){
+                                                    var ans_index = (parseInt(j))+1;
+                                                    text+=`<div class="col-lg-12" style="margin-top:15px;">
+                                                        <div style="padding:15px; border: 1px solid #cdcdcd; background: #f7f7f7;">
+                                                            <h6>Question #`+ans_index+` - <i>`+ msg.result.response.options[i].answers[j].question +`</i></h6>
+                                                            <span>Answer:</span>
+                                                            <span style="font-weight:500;">`+ msg.result.response.options[i].answers[j].answer +`</span>
+                                                        </div>
+                                                    </div>`;
+                                                }
+                                            text+=`</div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-3" style="margin-bottom:10px;">
                                 <div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url(`+msg.result.response.options[i].image_url+`);"></div>
@@ -240,35 +286,13 @@ function event_get_booking(data){
                                     </tr>
                                 </table>
                             </div>`;
-                            if(msg.result.response.options.length > 1)
+                            if(msg.result.response.options.length > 1 && b != msg.result.response.options.length)
                                 text+=`<div class="col-lg-12"><hr/></div>`;
-                        }
+                    }
             document.getElementById('event_list_option').innerHTML = text;
 
             //======================= Extra Question =========================
-            text=`
-                <h5>Extra Question</h5>
-                <hr/>
-                <table style="width:100%;" id="list-of-question">
-                    <tr>
-                        <th class="">No</th>
-                        <th class="">Name</th>
-                        <th class="">Ticket</th>
-                        <th class="">Answer & Question</th>
-                    </tr>`;
-                    for(i in msg.result.response.options){
-                        var b = parseInt(i) + 1;
-                        text+=`<tr>
-                            <td>`+ b +`</td>
-                            <td><span>`+msg.result.response.options[i].name+`</span></td>
-                            <td><span>`+msg.result.response.options[i].ticket_number+`</span></td><td><span>`;
-                            for(j in msg.result.response.options[i].answers){
-                                text+=msg.result.response.options[i].answers[j].question + `<br/>` + msg.result.response.options[i].answers[j].answer + `<br/><br/>`;
-                            }
-                        text+=`</span></td></tr>`;
-                    }
-           text+=`</table>`;
-           document.getElementById('event_passenger').innerHTML = text;
+
 
             //detail
             text = '';
@@ -361,17 +385,17 @@ function event_get_booking(data){
                                 <span style="font-size:12px;">`+msg.result.response.passenger[j].name+`</span>`;
                             text_detail+=`</div>
                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                                <span style="font-size:13px;">`+ msg.result.response.passenger[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
                             </div>
                         </div>`;
                         $text += msg.result.response.passenger[j].title +' '+ msg.result.response.passenger[j].name + ' ['+msg.result.response.providers[i].pnr+'] ';
                         $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                         if(counter_service_charge == 0){
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
                         }else{
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
+                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
                         }
                         commission += parseInt(price.RAC);
                     }
@@ -531,7 +555,7 @@ function event_search(){
        data: {
         'event_name': $('#event_name_id').val(),
         'is_online': '1',
-        'category': $('#category_name').val(),
+        'category': $('#category_event').val(),
         'signature': signature
        },
        success: function(msg) {

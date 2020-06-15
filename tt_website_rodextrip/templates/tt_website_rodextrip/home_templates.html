@@ -1021,18 +1021,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-9" style="padding:0px;">
-                                            <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event Name' %}</span>
+                                            <span class="span-search-ticket">{% trans 'Event Name' %}</span>
                                             <div class="input-container-search-ticket">
                                                 <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
                                             </div>
-                                        </div>
-                                        <div class="col-lg-12" style="padding:0px;margin-top:5px;float:left;">
-                                            <label class="check_box_custom">
-                                                <span class="span-search-ticket" style="font-size:13px;">{% trans 'Online Class Only' %}</span>
-                                                <input type="checkbox" value="true" onclick="online_check();">
-                                                <input type="hidden" name="include_online" id="include_online" value="false"/>
-                                                <span class="check_box_span_custom"></span>
-                                            </label>
                                         </div>
                                     </div>
                                     <br/>
@@ -2593,12 +2585,32 @@
                         {% endif %}
                         {% if "event" in provider %}
                         <div id="tab-event" class="tab-content">
-                            <form method="POST" class="form-wrap">
+                            <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                                {% csrf_token %}
                                 <div class="row">
-                                    <div class="col-lg-12 col-sm-12 col-md-12">
-                                        <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                    <div class="col-lg-3">
+                                        <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                        <div class="input-container-search-ticket btn-group">
+                                            <select id="category_event" name="category_event" class="nice-select-default">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                        <div class="input-container-search-ticket">
+                                            <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                        </div>
                                     </div>
                                 </div>
+                                <br/>
+                                <center>
+                                    <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="event_search_validation();" type="button" value="Submit">
+                                        <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                        {% trans 'Search' %}
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </button>
+                                </center>
                             </form>
                         </div>
                         {% else %}
@@ -3751,12 +3763,30 @@
 
                             {% if "event" in provider %}
                             <div id="tab-event" class="tab-content">
-                                <form method="POST" class="form-wrap">
+                                <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                                    {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-12 col-sm-12 col-md-12">
-                                            <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                        <div class="col-lg-12">
+                                            <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                            <select id="category_event" name="category_event" class="default-select">
+
+                                            </select>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                            <div class="input-container-search-ticket">
+                                                <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                            </div>
                                         </div>
                                     </div>
+                                    <br/>
+                                    <center>
+                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="event_search_validation();" type="button" value="Submit">
+                                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                            {% trans 'Search' %}
+                                            <div class="ld ld-ring ld-cycle"></div>
+                                        </button>
+                                    </center>
                                 </form>
                             </div>
                             {% else %}
@@ -3770,6 +3800,7 @@
                                 </form>
                             </div>
                             {% endif %}
+
                             {% if "deal" in provider %}
                             <div id="tab-deal" class="tab-content">
                                 <form method="POST" class="form-wrap">
@@ -4940,12 +4971,32 @@
 
                                 {% if "event" in provider %}
                                 <div class="form-search-wrap tab-content" id="tab-event" data-aos-delay="200">
-                                    <form method="POST" class="form-wrap">
+                                    <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                                        {% csrf_token %}
                                         <div class="row">
-                                            <div class="col-lg-12 col-sm-12 col-md-12">
-                                                <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                            <div class="col-lg-3">
+                                                <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                                <div class="input-container-search-ticket btn-group">
+                                                    <select id="category_event" name="category_event" class="nice-select-default">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                                <div class="input-container-search-ticket">
+                                                    <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                                </div>
                                             </div>
                                         </div>
+                                        <br/>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="event_search_validation();" type="button" value="Submit">
+                                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                {% trans 'Search' %}
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
                                     </form>
                                 </div>
                                 {% else %}
@@ -4959,6 +5010,7 @@
                                     </form>
                                 </div>
                                 {% endif %}
+
                                 {% if "deal" in provider %}
                                 <div class="form-search-wrap tab-content" id="tab-deal" data-aos-delay="200">
                                     <form method="POST" class="form-wrap">
@@ -6106,17 +6158,39 @@
                                     {% endif %}
 
                                     {% if "event" in provider %}
-                                    <div class="tab-content" id="tab-event">
-                                        <form method="POST" class="form-wrap">
+                                    <div id="tab-event" class="tab-content">
+                                        <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                                            {% csrf_token %}
                                             <div class="row">
-                                                <div class="col-lg-12 col-sm-12 col-md-12">
-                                                    <span class="span-search-ticket"> {% trans 'COMINGSOON' %} </span>
+                                                <div class="col-lg-3">
+                                                    <span class="span-search-ticket">{% trans 'Category' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <div class="form-select">
+                                                            <select id="category_event" name="category_event" class="nice-select-default">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-9">
+                                                    <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                                                    <div class="input-container-search-ticket">
+                                                        <input id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Event Name' %}" style="outline:0" autocomplete="off" value=""/>
+                                                    </div>
                                                 </div>
                                             </div>
+                                            <br/>
+                                            <center>
+                                                <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="event_search_validation();" type="button" value="Submit">
+                                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                                    {% trans 'Search' %}
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </center>
                                         </form>
                                     </div>
                                     {% else %}
-                                    <div class="tab-content" id="tab-event">
+                                    <div id="tab-event" class="tab-content">
                                         <form method="POST" class="form-wrap">
                                             <div class="row">
                                                 <div class="col-lg-12 col-sm-12 col-md-12">
@@ -6126,6 +6200,7 @@
                                         </form>
                                     </div>
                                     {% endif %}
+
                                     {% if "deal" in provider %}
                                     <div class="tab-content" id="tab-deal">
                                         <form method="POST" class="form-wrap">
