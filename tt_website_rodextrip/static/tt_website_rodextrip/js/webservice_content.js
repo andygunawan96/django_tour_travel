@@ -302,17 +302,17 @@ function get_banner(type,page){
                             </section>`;
                         }
                     }else if(type == 'promotion'){
+//                    <div class="col-lg-12">
+//                                            <center>
+//                                                <h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> PROMOTIONS! </h2>
+//                                            </center>
+//                                        </div>
                         text+=`
                         <div class="modal fade" id="myModalPromotion" role="dialog">
                             <div class="modal-dialog">
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="row">
-                                            <div class="col-lg-12">
-                                            <center>
-                                                <h2 class="modal-title animated pulse infinite" style="color:#ffffff;"> PROMOTIONS! </h2>
-                                            </center>
-                                        </div>
                                         <div class="col-lg-12">
                                             <center>
                                                 <span data-dismiss="modal" style="color:#ffffff;font-weight:bold;">Click everywhere to close! X</span>
