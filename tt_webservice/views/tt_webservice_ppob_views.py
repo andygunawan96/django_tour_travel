@@ -187,10 +187,15 @@ def search(request):
             data.update({
                 "amount_of_month": int(request.POST['amount_of_month'])
             })
-        elif request.POST['total'] != '0':
+        if request.POST['total'] != '0':
             data.update({
                 "total": int(request.POST['total'])
             })
+        if request.POST.get('customer_email'):
+            data.update({
+                "customer_email": request.POST['customer_email']
+            })
+
         request.session['ppob_search_request'] = data
         headers = {
             "Accept": "application/json,text/html,application/xml",
