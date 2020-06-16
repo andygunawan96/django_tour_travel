@@ -158,6 +158,7 @@ function search_ppob(){
     total = 0;
     error_log = '';
     customer_number = document.getElementById('bpjs_number').value;
+    customer_email = '';
     check_break = false;
     if(bill_type == 'bpjs'){
         product_code = document.getElementById('bpjs_type').value;
@@ -299,6 +300,9 @@ function search_ppob(){
     try{
         total = document.getElementById('pln_nominal').value
     }catch(err){}
+    try{
+        customer_email = document.getElementById('customer_email').value
+    }catch(err){}
     if(product_code != '' && customer_number != '' && error_log == ''){
         console.log(carrier_provider_ppob);
         var search_provider_ppob = carrier_provider_ppob[product_code][0];
@@ -315,7 +319,8 @@ function search_ppob(){
                 'provider': search_provider_ppob,
                 'signature': signature,
                 'total': total,
-                'amount_of_month': amount_of_month
+                'amount_of_month': amount_of_month,
+                'customer_email': customer_email
            },
            success: function(msg) {
                 console.log(msg);
