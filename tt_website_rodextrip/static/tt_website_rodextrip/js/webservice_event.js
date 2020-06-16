@@ -1,5 +1,4 @@
-var hotel_data = '';
-var hotel_data_filter = '';
+var data_event = '';
 var hotel_price = '';
 var price_pick = '';
 var price_start = [];
@@ -66,6 +65,39 @@ function get_event_config(type){
                 // console.log(node);
                 document.getElementById("filter").appendChild(node);
             }
+
+            category_event_drp = '';
+            category_event_drp += `<option value="all" `;
+            if(event_search_data_request.category_name == ''){
+                category_event_drp += `selected`;
+            }
+            category_event_drp += `>All Category</option>`;
+            for(i in data_event.category){
+                category_event_drp += `<option value="`+data_event.category[i].category_name+`"`;
+                if(event_search_data_request.category_name == data_event.category[i].category_name){
+                    category_event_drp += `selected`;
+                }
+                category_event_drp += `>`+data_event.category[i].category_name+`</option>`;
+            }
+            document.getElementById("category_event").innerHTML = category_event_drp;
+            $('#category_event').niceSelect('update');
+        }
+        if(type == 'detail'){
+            category_event_drp = '';
+            category_event_drp += `<option value="all" `;
+            if(event_search_data_request.category_name == ''){
+                category_event_drp += `selected`;
+            }
+            category_event_drp += `>All Category</option>`;
+            for(i in data_event.category){
+                category_event_drp += `<option value="`+data_event.category[i].category_name+`"`;
+                if(event_search_data_request.category_name == data_event.category[i].category_name){
+                    category_event_drp += `selected`;
+                }
+                category_event_drp += `>`+data_event.category[i].category_name+`</option>`;
+            }
+            document.getElementById("category_event").innerHTML = category_event_drp;
+            $('#category_event').niceSelect('update');
         }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
