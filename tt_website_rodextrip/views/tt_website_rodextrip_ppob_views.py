@@ -48,7 +48,7 @@ def ppob(request):
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME + '/bills/bills_templates.html', values)
+        return render(request, MODEL_NAME + '/ppob/ppob_templates.html', values)
 
     else:
         return no_session_logout(request)
@@ -86,7 +86,7 @@ def review(request):
         except Exception as e:
             logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
-        return render(request, MODEL_NAME+'/bills/bills_review_templates.html', values)
+        return render(request, MODEL_NAME+'/ppob/ppob_review_templates.html', values)
     else:
         return no_session_logout(request)
 
@@ -113,4 +113,4 @@ def booking(request, order_number):
     except Exception as e:
         logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
-    return render(request, MODEL_NAME+'/bills/bills_booking_templates.html', values)
+    return render(request, MODEL_NAME+'/ppob/ppob_booking_templates.html', values)
