@@ -597,7 +597,7 @@ function ppob_get_booking(data){
                 <div class="row">
                     <div class="col-lg-12">
                         <div style="padding:10px; background-color:white;">
-                        <h5> Bills Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
+                        <h5> Bill Details <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
                         <hr/>`;
                     check = 0;
                     flight_counter = 1;
@@ -654,9 +654,20 @@ function ppob_get_booking(data){
                     }
 
                 text+=`</table>
-                </div>
             </div>`;
             }
+
+            if(msg.result.response.provider_booking[0].description != ''){
+            text+=`
+            <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                <h5> Additional Information</h5>
+                <hr/>
+                `+msg.result.response.provider_booking[0].description+`
+            </div>
+            `;
+
+            }
+
             text+=`
 
             <div class="row" style="margin-top:20px;">
