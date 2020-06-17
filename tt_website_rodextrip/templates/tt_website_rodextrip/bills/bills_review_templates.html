@@ -7,8 +7,8 @@
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_bills.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/bills_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_ppob.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <style>
@@ -375,7 +375,7 @@
                 </div>
             </div>
         </form>
-        <form method="POST" id="bills_issued" action="{% url 'tt_website_rodextrip:payment'%}">
+        <form method="POST" id="ppob_issued" action="{% url 'tt_website_rodextrip:payment'%}">
             {% csrf_token %}
             <input type="hidden" id="passengers" name="passengers"/>
             <input type="hidden" id="signature" name="signature"/>

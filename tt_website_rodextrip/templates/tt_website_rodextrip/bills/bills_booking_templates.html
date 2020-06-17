@@ -6,8 +6,8 @@
 <!--<script src="{{ static_path }}vendor/jquery/jquery-3.2.1.min.js?version={{javascript_version}}"></script>-->
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/bill_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/webservice_bill.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/ppob_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_ppob.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/moment.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/pricing_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
@@ -268,7 +268,7 @@
     try{
     document.getElementById('voucher_div').style.display = 'none';
     }catch(err){}
-    signin_bills('{{order_number}}');
+    signin_ppob('{{order_number}}');
     //testing_bca();
 
     $( document ).ready(function() {
