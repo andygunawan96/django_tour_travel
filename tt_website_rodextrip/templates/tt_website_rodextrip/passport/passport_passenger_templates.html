@@ -2690,14 +2690,14 @@
               $('input[name="adult_birth_date'+i+'"]').daterangepicker({
                   singleDatePicker: true,
                   autoUpdateInput: true,
-                  startDate: moment().subtract(17, 'years'),
+                  startDate: moment().subtract(18, 'years'),
                   showDropdowns: true,
                   opens: 'center',
                   locale: {
                       format: 'DD MMM YYYY',
                   }
               });
-              $('input[name="adult_birth_date'+i+'"]').val("");
+              //$('input[name="adult_birth_date'+i+'"]').val("");
 
               $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
                   singleDatePicker: true,

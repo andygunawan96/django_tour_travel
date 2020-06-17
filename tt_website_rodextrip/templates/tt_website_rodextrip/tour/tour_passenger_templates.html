@@ -4732,7 +4732,7 @@
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment().subtract(20, 'years'),
+              startDate: moment().subtract(18, 'years'),
               minDate: moment().subtract(120, 'years').subtract(365, 'days'),
               maxDate: moment().subtract(12, 'years'),
               showDropdowns: true,
@@ -4741,7 +4741,7 @@
                   format: 'DD MMM YYYY',
               }
           });
-          $('input[name="adult_birth_date'+i+'"]').val("");
+          //$('input[name="adult_birth_date'+i+'"]').val("");
 
           $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
@@ -4778,7 +4778,7 @@
                   format: 'DD MMM YYYY',
               }
           });
-          $('input[name="child_birth_date'+i+'"]').val("");
+          //$('input[name="child_birth_date'+i+'"]').val("");
 
           $('input[name="child_passport_expired_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
@@ -4815,7 +4815,7 @@
                   format: 'DD MMM YYYY',
               }
           });
-          $('input[name="infant_birth_date'+i+'"]').val("");
+          //$('input[name="infant_birth_date'+i+'"]').val("");
 
           $('input[name="infant_passport_expired_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
