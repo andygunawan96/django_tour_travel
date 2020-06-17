@@ -1027,10 +1027,12 @@
                     <hr/>
                     <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
                     <span style="font-size:14px; font-weight:500;">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                    {% if response.lat != '' and response.long != '' %}
                     <br/><button type="button" class="primary-btn-ticket" id="show_google_map" onclick="initMap();">Show Map</button>
                     <div id="map" style="position:inherit;height:300px;" hidden>
 
                     </div>
+                    {% endif %}
                 </div>
 
                 <div class="col-lg-12 div-select-room-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
@@ -1237,9 +1239,11 @@
 
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+{% if response.lat != '' and response.long != '' %}
 <script async defer
 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvqFX9-0kr4&libraries=&v=weekly">
 </script>
+{% endif %}
 
 <script>
 
