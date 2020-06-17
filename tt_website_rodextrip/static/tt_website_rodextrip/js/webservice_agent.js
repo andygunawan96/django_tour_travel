@@ -1996,7 +1996,9 @@ function copy_booker_to_passenger(val,type){
             document.getElementById('adult_last_name1').readOnly = true;
             document.getElementById('adult_nationality1').value = document.getElementById('booker_nationality').value;
             document.getElementById('select2-adult_nationality1_id-container').innerHTML = document.getElementById('booker_nationality').value;
-            document.getElementById('adult_birth_date1').value = document.getElementById('booker_birth_date').value;
+            //testing
+            if(document.getElementById('booker_birth_date').value != '')
+                document.getElementById('adult_birth_date1').value = document.getElementById('booker_birth_date').value;
             document.getElementById('adult_email1').value = document.getElementById('booker_email').value;
             document.getElementById('adult_phone1').value = document.getElementById('booker_phone').value;
             document.getElementById('adult_phone_code1').value = document.getElementById('booker_phone_code').value;
@@ -2070,7 +2072,9 @@ function copy_booker_to_passenger(val,type){
         document.getElementById('adult_last_name1').readOnly = false;
         document.getElementById('adult_nationality1').value = 'Indonesia';
         document.getElementById('select2-adult_nationality1_id-container').value = 'Indonesia';
-        document.getElementById('adult_birth_date1').value = '';
+        //testing
+        initial_date = moment().subtract(17, 'years').format('DD MMM YYYY');
+        document.getElementById('adult_birth_date1').value = initial_date;
         document.getElementById('adult_passport_number1').value = '';
         document.getElementById('adult_passport_number1').readOnly = false;
         document.getElementById('adult_passport_expired_date1').value = '';
@@ -2155,7 +2159,9 @@ function clear_passenger(type, sequence){
             document.getElementById('adult_nationality'+sequence).value = 'Indonesia';
             document.getElementById('select2-adult_nationality'+sequence+'_id-container').value = 'Indonesia';
             document.getElementById('adult_nationality'+sequence+'_id').disabled = false;
-            document.getElementById('adult_birth_date'+sequence).value = '';
+            //testing
+            initial_date = moment().subtract(17, 'years').format('DD MMM YYYY');
+            document.getElementById('adult_birth_date'+sequence).value = initial_date;
             document.getElementById('adult_birth_date'+sequence).disabled = false;
             document.getElementById('adult_passport_number'+sequence).value = '';
             document.getElementById('adult_passport_number'+sequence).readOnly = false;
@@ -2186,7 +2192,9 @@ function clear_passenger(type, sequence){
             document.getElementById('infant_last_name'+sequence).readOnly = false;
             document.getElementById('infant_nationality'+sequence).value = 'Indonesia';
             document.getElementById('select2-infant_nationality'+sequence+'_id-container').value = 'Indonesia';
-            document.getElementById('infant_birth_date'+sequence).value = '';
+            //testing
+            initial_date = moment().subtract(1, 'years');
+            document.getElementById('infant_birth_date'+sequence).value = initial_date;
             document.getElementById('infant_passport_number'+sequence).value = '';
             document.getElementById('infant_passport_number'+sequence).readOnly = false;
             document.getElementById('infant_passport_expired_date'+sequence).value = '';
@@ -2213,7 +2221,9 @@ function clear_passenger(type, sequence){
         document.getElementById('senior_last_name'+sequence).readOnly = false;
         document.getElementById('senior_nationality'+sequence).value = 'Indonesia';
         document.getElementById('select2-senior_nationality'+sequence+'_id-container').value = 'Indonesia';
-        document.getElementById('senior_birth_date'+sequence).value = '';
+        //testing
+        initial_date = moment().subtract(80, 'years').format('DD MMM YYYY');
+        document.getElementById('senior_birth_date'+sequence).value = initial_date;
         document.getElementById('senior_passport_number'+sequence).value = '';
         document.getElementById('senior_passport_number'+sequence).readOnly = false;
         document.getElementById('senior_passport_expired_date'+sequence).value = '';
@@ -2238,7 +2248,9 @@ function clear_passenger(type, sequence){
         document.getElementById('child_last_name'+sequence).readOnly = false;
         document.getElementById('child_nationality'+sequence).value = 'Indonesia';
         document.getElementById('select2-child_nationality'+sequence+'_id-container').value = 'Indonesia';
-        document.getElementById('child_birth_date'+sequence).value = '';
+        //testing
+        initial_date = moment().subtract(5, 'years').format('DD MMM YYYY');
+        document.getElementById('child_birth_date'+sequence).value = initial_date;
         document.getElementById('child_passport_number'+sequence).value = '';
         document.getElementById('child_passport_number'+sequence).readOnly = false;
         document.getElementById('child_passport_expired_date'+sequence).value = '';
