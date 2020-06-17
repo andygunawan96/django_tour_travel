@@ -2160,7 +2160,7 @@ function clear_passenger(type, sequence){
             document.getElementById('select2-adult_nationality'+sequence+'_id-container').value = 'Indonesia';
             document.getElementById('adult_nationality'+sequence+'_id').disabled = false;
             //testing
-            initial_date = moment().subtract(17, 'years').format('DD MMM YYYY');
+            initial_date = moment().subtract(18, 'years').format('DD MMM YYYY');
             document.getElementById('adult_birth_date'+sequence).value = initial_date;
             document.getElementById('adult_birth_date'+sequence).disabled = false;
             document.getElementById('adult_passport_number'+sequence).value = '';

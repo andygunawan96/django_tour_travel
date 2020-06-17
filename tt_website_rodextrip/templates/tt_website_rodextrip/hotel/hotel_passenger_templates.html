@@ -3400,7 +3400,7 @@
           $('input[name="adult_birth_date'+i+'"]').daterangepicker({
               singleDatePicker: true,
               autoUpdateInput: true,
-              startDate: moment().subtract(17, 'years'),
+              startDate: moment().subtract(18, 'years'),
               minDate: moment().subtract(100, 'years'),
               maxDate: moment().subtract(13, 'years'),
               showDropdowns: true,
@@ -3409,7 +3409,7 @@
                   format: 'DD MMM YYYY',
               }
           });
-          $('input[name="adult_birth_date'+i+'"]').val("");
+          //$('input[name="adult_birth_date'+i+'"]').val("");
       }
 
       for (var i = 1; i <= child; i++){
@@ -3433,7 +3433,7 @@
                   format: 'DD MMM YYYY',
               }
           });
-          $('input[name="child_birth_date'+i+'"]').val("");
+          //$('input[name="child_birth_date'+i+'"]').val("");
       }
     });
 </script>
