@@ -68,7 +68,11 @@ def get_printout(request):
             })
         elif request.POST['mode'] == 'itinerary' and request.POST['provider_type'] == 'activity':
             data.update({
-                'json_printout': request.session.get('activity_json_printout' + request.session['hotel_activity']) and request.session['activity_json_printout' + request.session['hotel_activity']] or ''
+                'json_printout': request.session.get('activity_json_printout' + request.session['activity_signature']) and request.session['activity_json_printout' + request.session['activity_signature']] or ''
+            })
+        elif request.POST['mode'] == 'itinerary' and request.POST['provider_type'] == 'event':
+            data.update({
+                'json_printout': request.session.get('event_json_printout' + request.session['event_signature']) and request.session['event_json_printout' + request.session['event_signature']] or ''
             })
         # if request.POST['bill_address'] != '':
         #     bill_address = request.POST['bill_address']

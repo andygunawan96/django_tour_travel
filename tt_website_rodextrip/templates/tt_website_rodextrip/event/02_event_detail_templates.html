@@ -18,6 +18,13 @@
     signature = `{{signature}}`;
     time_limit = {{time_limit}};
     session_time_limit();
+
+    event_search_data_request = {
+        'event_name': `{{event_search.event_name}}`,
+        'is_online': `{{event_search.is_online}}`,
+        'category_name': `{{event_search.category_name}}`,
+    }
+
 </script>
 
 {% include 'tt_website_rodextrip/header.html' %}
@@ -29,7 +36,7 @@
 
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 {%if template == 1%}
-<section class="destinations-area change_search_area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; position:sticky; top:0px; z-index:10;">
+<section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:90; position:relative;">
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
@@ -48,7 +55,7 @@
         </div>
     </div>
 </section>
-<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:3; position:relative; display:none">
+<section class="price-area" id="change_search_box" data-aos="fade-up" style="padding-top:30px; padding-bottom:5px; background-color: black; z-index:90; position:relative; display:none">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
         <div class="row">
@@ -58,11 +65,20 @@
                         {% csrf_token %}
                         <div class="row">
                             <input type="hidden" id="response" name="response">
-                            <div class="col-lg-12 col-md-12" style="padding:0px;">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
+                            <div class="col-lg-3" style="padding:0px;">
+                                <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select" id="default-select">
+                                        <select id="category_event" name="category_event" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9" style="padding:0px;">
+                                <span class="span-search-ticket">{% trans 'Event Name' %}</span>
                                 <div class="input-container-search-ticket">
                                     <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
-                                    <input id="category_event" name="category_event" type="text" value="{{event_search.category_name}}"/>
                                 </div>
                             </div>
                         </div>
@@ -842,21 +858,25 @@
                                     </div>
                                     <hr/>
                                 </div>
-                                <div class="col-lg-6" style="text-align:left; position:absolute; left:0px; bottom:15px;">
-                                    <span style="font-weight:bold; margin-bottom:15px;">Hosted by</span><br/>
-                                    <a href="/event/vendor" style="text-decoration:unset;">
-                                        {% if event_code.vendor_obj.vendor_logo %}
-                                        <img src="{{event_code.vendor_obj.vendor_logo}}" class="image-rounded-profile" style="margin-right:5px;"/>
-                                        {% else %}
-                                        <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:5px;"/>
-                                        {% endif %}
-                                        {{event_code.vendor_obj.vendor_name}}
-                                    </a>
-                                </div>
-                                <div class="col-lg-6" style="text-align:right; position:absolute; right:0px; bottom:15px;">
-                                    <h6>Price Start From</h6>
-                                    <span style="font-weight:500; font-size:14px;" id="price_start_event"></span><br/>
-                                    <button class="primary-btn" type="button" id="select-room-event2">Buy Ticket</button>
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 price_bottom">
+                                    <div class="row">
+                                        <div class="col-lg-6" style="text-align:left;">
+                                            <span style="font-weight:bold; margin-bottom:15px;">Hosted by</span><br/>
+                                            <a href="/event/vendor" style="text-decoration:unset;">
+                                                {% if event_code.vendor_obj.vendor_logo %}
+                                                <img src="{{event_code.vendor_obj.vendor_logo}}" class="image-rounded-profile" style="margin-right:5px;"/>
+                                                {% else %}
+                                                <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:5px;"/>
+                                                {% endif %}
+                                                {{event_code.vendor_obj.vendor_name}}
+                                            </a>
+                                        </div>
+                                        <div class="col-lg-6" style="text-align:right;">
+                                            <h6>Price Start From</h6>
+                                            <span style="font-weight:500; font-size:14px;" id="price_start_event"></span><br/>
+                                            <button class="primary-btn" type="button" id="select-room-event2">Buy Ticket</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1037,6 +1057,82 @@
 
 
 <script>
+    get_event_config('detail');
+    var event_autocomplete = new autoComplete({
+        selector: '#event_name_id',
+        minChars: 0,
+        cache: false,
+        delay:0,
+        source: function(term, suggest){
+            if(term.split(' - ').length == 2)
+                term = ''
+            if(term.length > 1)
+                suggest(event_search_autocomplete(term));
+        },
+        renderItem: function (item, search){
+            search = search.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            var re = new RegExp("(" + search.split(' ').join('|') + ")", "gi");
+            try{
+                if(item.image_url.length != 0){
+                    var autocomplete_event = '<div style="padding: 10px 10px 10px 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><div style="display:inline-block;">';
+                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
+                    autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
+                    if(item.locations.length != 0){
+                        autocomplete_event += '<span style="display:block; font-size:13px;"><i class="fas fa-map-marker-alt" style="padding-right:5px;"></i>';
+                        for(i in item.locations){
+                            if(i > 0)
+                                autocomplete_event += '; ';
+
+                            if(item.locations[i].city_name != '' && item.locations[i].country_name != '')
+                                autocomplete_event += item.locations[i].city_name + ', ' + item.locations[i].country_name;
+                            else if(item.locations[i].city_name != '' && item.locations[i].country_name == '')
+                                autocomplete_event += item.locations[i].city_name;
+                            else if(item.locations[i].city_name == '' && item.locations[i].country_name != '')
+                                autocomplete_event += item.locations[i].country_name;
+                        }
+                        autocomplete_event += '</span></p>';
+                    }
+                    autocomplete_event += '</div></div>';
+                    return autocomplete_event;
+
+                }
+                else{
+                    var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+'" data-val="'+search+'"><div style="display:inline-block;">';
+                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
+                    autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
+                    if(item.locations.length != 0){
+                        autocomplete_event += '<i class="fas fa-map-marker-alt"></i><span style="padding-left:5px; font-size:13px;">';
+                        for(i in item.locations){
+                            if(i > 0)
+                                autocomplete_event += '; ';
+
+                            if(item.locations[i].city_name != '' && item.locations[i].country_name != '')
+                                autocomplete_event += item.locations[i].city_name + ', ' + item.locations[i].country_name;
+                            else if(item.locations[i].city_name != '' && item.locations[i].country_name == '')
+                                autocomplete_event += item.locations[i].city_name;
+                            else if(item.locations[i].city_name == '' && item.locations[i].country_name != '')
+                                autocomplete_event += item.locations[i].country_name;
+                        }
+                        autocomplete_event += '</span></p>';
+                    }
+                    autocomplete_event += '</div></div>';
+                    return autocomplete_event;
+
+                }
+            }catch(err){
+                var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="" data-lang="" data-val="'+search+'"><div style="display:inline-block;">';
+                autocomplete_event += `<img src="/static/tt_website_rodextrip/images/no pic/no-event.png" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
+                autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+ search + '</span>';
+                autocomplete_event += '</div></div>';
+                return autocomplete_event;
+            }
+        },
+        onSelect: function(e, term, item){
+            $("#event_name_id").trigger("blur");
+            document.getElementById('event_name_id').value = $(item).attr('data-lang');
+        }
+    });
+
     event_options('{{event_code.id}}');
     var myIndex = 0;
     $(document).ready(function () {

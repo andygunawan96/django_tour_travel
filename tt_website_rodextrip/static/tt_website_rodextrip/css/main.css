@@ -8540,3 +8540,15 @@ ul.popular2_tabs li.current .image-rounded-icon{
   transition: all 0.3s ease 0s;
   opacity: 0.5;
 }
+
+.price_bottom{
+    position:absolute;
+    bottom:15px;
+}
+
+@media (max-width: 991px) {
+    .price_bottom{
+        position:unset;
+        bottom:unset;
+    }
+}
