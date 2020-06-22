@@ -293,17 +293,6 @@
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7;">
     <div class="container">
         <div class="row">
-            <div class="col-lg-12" style="position:sticky; top:73px; z-index:99; display:none;" id="mybuttonsticky">
-                <div class="row">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-left:2px;">
-                        <button class="primary-btn-custom" style="width:100%;" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result();">
-                            <span style="color:{{text_color}}; font-size:12px;"> List Copy </span>
-                            <span class="badge-notif2 animated bounceIn" id="badge-copy-notif2">0</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
             <div class="col-lg-12" id="breadcrumbs_create">
 
             </div>
@@ -369,8 +358,12 @@
                 </div>
 
                 <div class="filter-search-flight" id="filter-search-flight">
-                    <div style="background-color:white; border:1px solid #cdcdcd; padding:10px; margin-top:20px;" id="filter">
 
+                    <div style="background-color:white; border:1px solid #cdcdcd; padding:10px; margin-top:20px;">
+                        <h5 style="text-align:left;">Filter</h5><hr/>
+                        <div id="filter">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -431,29 +424,6 @@
                                     <!--                                        <img id="viewImageHotel" style="width:auto; height:500px;">-->
                                     <!--                                    </center>-->
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade" id="myModalCopyHotel" role="dialog">
-                    <div class="modal-dialog">
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="modal-title" style="color:{{text_color}};"> List Copy Hotel <i class="fas fa-copy"></i></i></h4>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                            <div class="modal-body">
-                                <div class="row" id="choose-hotel-copy">
-                                    <div class="col-lg-12">
-                                        <h6>Please choose your hotel want to copy!</h6>
-                                    </div>
-                                </div>
-                                <div id="show-list-copy-hotel">
-
-                                </div>
-                                <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                             </div>
                         </div>
                     </div>

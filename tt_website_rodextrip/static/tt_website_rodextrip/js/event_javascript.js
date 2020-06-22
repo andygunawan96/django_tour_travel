@@ -218,65 +218,131 @@ function sort(response, check_filter){
         text='';
         if(response.length != 0){
             for(i in response){
-                text = '<div class="sorting-box-b" style="padding:unset;"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
-                if(response[i].images.length != 0){
-                    text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
+                if (Date.parse(response[i].start_date) > Date.now() ){
+                    text = '<div class="sorting-box-b single-recent-blog-post" style="padding:unset;"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
+                    if(response[i].images.length != 0){
+                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
+                    }
+                    else{
+                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no-event.png');" onclick="goto_detail('event',`+i+`)"></div>`;
+                    }
+                    text+=`
+                    <div style="padding:10px;">
+                        <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-size:16px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>`;
+                    detail = JSON.stringify(response[i]);
+                    detail = detail.replace(/'/g, "");
+                    text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
+                    text+=`
+                    <div style="padding-top:5px;">
+                        <i class="fas fa-calendar-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">
+                        `+response[i].start_date;
+                    if (response[i].end_date != false && response[i].start_date != response[i].end_date)
+                        text+=` - `+response[i].end_date;
+                    text+=`</span>
+                    </div>`;
+                    //Unremark jika butuh time
+                    //text+=`<div style="padding-top:5px;"><i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span></div>`;
+
+                    if(response[i].locations.length != 0){
+                        text+=`<div style="padding-top:5px;"><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
+                        for(g in response[i].locations){
+                            text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
+                        }
+                        text+=`</span></div>`;
+                    }
+                    text+=`
+                    <div style="padding-top:5px; padding-bottom:15px; word-break:break-word;">
+                        Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
+                        if(response[i].category.length != 0){
+                            var count_category = 0;
+                            category_tooltip = '';
+                            for(g in response[i].category){
+                                if(count_category < max_category){
+                                    text+=`<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].category[g] +` </span></a>`;
+                                }else{
+                                    text += `<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].category[g] +` </span><a>`;
+                                }
+                                count_category = count_category + 1;
+                            }
+
+                            if(response[i].category.length > max_category){
+                                var category_more = response[i].category.length - max_category;
+                                var total_category = response[i].category.length;
+                                text+=`<br/><span class="tags_btn_rsv" id="category_list_more`+i+`" style="margin-top:5px; max-width:80px;" onclick="display_tags_event(`+i+`, `+total_category+`);"> `+ category_more +` More</span>`;
+                            }
+                        }
+                    text+=`
+                    </div>
+                    <div>
+                        <button type="button" class="primary-btn-custom" style="float:right; width:100%; margin-bottom:15px;" onclick="goto_detail('event',`+i+`)">See Details</button>
+                    </div></div></div>
+                    </form>
+                    </div>`;
                 }
                 else{
-                    text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no-event.png');" onclick="goto_detail('event',`+i+`)"></div>`;
-                }
-                text+=`
-                <div style="padding:10px;">
-                    <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; padding-right:5px; font-size:16px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>`;
-                detail = JSON.stringify(response[i]);
-                detail = detail.replace(/'/g, "");
-                text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
-                text+=`
-                <div style="padding-top:5px;">
-                    <i class="fas fa-calendar-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">
-                    `+response[i].start_date;
-                if (response[i].end_date != false && response[i].start_date != response[i].end_date)
-                    text+=` - `+response[i].end_date;
-                text+=`</span>
-                </div>`;
-                //Unremark jika butuh time
-                //text+=`<div style="padding-top:5px;"><i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span></div>`;
-
-                if(response[i].locations.length != 0){
-                    text+=`<div style="padding-top:5px;"><i class="fas fa-map-marker-alt" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`;
-                    for(g in response[i].locations){
-                        text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
+                    text = '<div class="sorting-box-b single-recent-blog-post disabled-post item" style="padding:unset; border:1px solid #cdcdcd;"><div class="single-destination relative"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
+                    text += `<div style="background:gray; position:absolute; padding:10px; float:right; z-index:1;">
+                        <h5 style="color:`+text_color+`;">EVENT CLOSED</h5>
+                    </div>`;
+                    if(response[i].images.length != 0){
+                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
                     }
-                    text+=`</span></div>`;
-                }
-                text+=`
-                <div style="padding-top:5px; padding-bottom:15px; word-break:break-word;">
-                    Category <i class="fas fa-tags" style="color:`+color+`;"></i><br/>`;
-                    if(response[i].category.length != 0){
-                        var count_category = 0;
-                        category_tooltip = '';
-                        for(g in response[i].category){
-                            if(count_category < max_category){
-                                text+=`<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`">`+ response[i].category[g] +` </span></a>`;
-                            }else{
-                                text += `<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none;">`+ response[i].category[g] +` </span><a>`;
+                    else{
+                        text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('/static/tt_website_rodextrip/images/no pic/no-event.png');" onclick="goto_detail('event',`+i+`)"></div>`;
+                    }
+                    text+=`
+                    <div style="padding:10px;">
+                        <h5 class="name_hotel hover_name" title="`+response[i].name+`" style="cursor:pointer; color:gray !important; padding-right:5px; font-size:16px; font-weight:bold;" onclick="goto_detail('event',`+i+`)">`+response[i].name+`</h5>`;
+                    detail = JSON.stringify(response[i]);
+                    detail = detail.replace(/'/g, "");
+                    text+=`<input type="hidden" id="event_code`+i+`" name="event_code" value='`+detail+`'/>`;
+                    text+=`
+                    <div style="padding-top:5px; color:gray;">
+                        <i class="fas fa-calendar-alt"></i> <span class="location_hotel" style="font-size:13px;">
+                        `+response[i].start_date;
+                    if (response[i].end_date != false && response[i].start_date != response[i].end_date)
+                        text+=` - `+response[i].end_date;
+                    text+=`</span>
+                    </div>`;
+                    //Unremark jika butuh time
+                    //text+=`<div style="padding-top:5px;"><i class="fas fa-clock" style="color:`+color+`;"></i> <span class="location_hotel" style="font-size:13px;">`+response[i].start_time+` - `+response[i].end_time` + </span></div>`;
+
+                    if(response[i].locations.length != 0){
+                        text+=`<div style="padding-top:5px; color:gray;"><i class="fas fa-map-marker-alt"></i> <span class="location_hotel" style="font-size:13px;">`;
+                        for(g in response[i].locations){
+                            text+= response[i].locations[g].city_name + ', ' + response[i].locations[g].country_name + '; ';
+                        }
+                        text+=`</span></div>`;
+                    }
+                    text+=`
+                    <div style="padding-top:5px; padding-bottom:15px; word-break:break-word; color:gray;">
+                        Category <i class="fas fa-tags"></i><br/>`;
+                        if(response[i].category.length != 0){
+                            var count_category = 0;
+                            category_tooltip = '';
+                            for(g in response[i].category){
+                                if(count_category < max_category){
+                                    text+=`<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="color:gray !important; background:unset;">`+ response[i].category[g] +` </span></a>`;
+                                }else{
+                                    text += `<a href='/event/category/`+response[i].category[g]+`'><span class="tags_btn" id="tags_more`+i+``+g+`" style="display:none; color:gray !important; background:unset;">`+ response[i].category[g] +` </span><a>`;
+                                }
+                                count_category = count_category + 1;
                             }
-                            count_category = count_category + 1;
-                        }
 
-                        if(response[i].category.length > max_category){
-                            var category_more = response[i].category.length - max_category;
-                            var total_category = response[i].category.length;
-                            text+=`<br/><span class="tags_btn_rsv" id="category_list_more`+i+`" style="margin-top:5px; max-width:80px;" onclick="display_tags_event(`+i+`, `+total_category+`);"> `+ category_more +` More</span>`;
+                            if(response[i].category.length > max_category){
+                                var category_more = response[i].category.length - max_category;
+                                var total_category = response[i].category.length;
+                                text+=`<br/><span class="tags_btn_rsv" id="category_list_more`+i+`" style="margin-top:5px; max-width:80px; color:gray !important; background:unset;" onclick="display_tags_event(`+i+`, `+total_category+`);"> `+ category_more +` More</span>`;
+                            }
                         }
-                    }
-                text+=`
-                </div>
-                <div>
-                    <button type="button" class="primary-btn-custom" style="float:right; width:100%; margin-bottom:15px;" onclick="goto_detail('event',`+i+`)">See Details</button>
-                </div></div></div>
-                </form>
-                </div>`;
+                    text+=`
+                    </div>
+                    <div>
+                        <button type="button" class="primary-btn-custom" style="float:right; width:100%; margin-bottom:15px; background:gray;" onclick="goto_detail('event',`+i+`)">See Details</button>
+                    </div></div></div>
+                    </form></div>
+                    </div>`;
+                }
                 //tambah button ke detailevent_result_data
                 node.className = 'col-lg-4 col-md-6 col-sm-6 col-xs-12';
                 node.innerHTML = text;
@@ -442,22 +508,28 @@ function render_object_from_value(val){
     var text='';
     var grand_total_option = 0;
     var total_commission = 0;
-
+    $text = '';
+    var copy_event_name = document.getElementById("product_title").innerHTML;
+    $text += copy_event_name + '\n\n';
     for (i in val){
         grand_total_option = grand_total_option + (val[i].qty * val[i].price);
         total_commission = total_commission + (val[i].qty * val[i].comm);
 
+        $text += val[i].name + '\n';
+        $text += val[i].qty + ' x ' + val[i].currency + ' ' + getrupiah(val[i].price) + '\n';
+        $text += 'Sub Total: ' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '\n\n';
+
         text+=`
         <div class="row">
-            <div class="col-lg-4" style="text-align:left;">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:left;">
                 <span style="font-weight:500;">`+val[i].name+` <br/> ( `+val[i].qty+` Qty )</span>
             </div>
-            <div class="col-lg-4" style="text-align:center;">`;
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:center;">`;
                 text+='<span style="font-weight:500;"> @ ' + val[i].currency + ' ' + getrupiah(val[i].price) + '</span>';
             text+=`
             </div>
-            <div class="col-lg-4" style="text-align:right;">`;
-            text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price) + '</span>';
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align:right;">`;
+            text+='<span style="font-weight:500;">' + val[i].currency + ' ' + getrupiah(val[i].price * val[i].qty) + '</span>';
         text+=`
             </div>
         </div>`;
@@ -530,6 +602,8 @@ function render_object_from_value(val){
         }
         grand_total_option += upsell_price;
     }catch(err){}
+    $text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
+
     text+=`
     <div class="row">
         <div class="col-lg-12">
@@ -545,7 +619,52 @@ function render_object_from_value(val){
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12" style="padding-bottom:10px;">
+            <hr/>
+            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+            share_data();
+            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            if (isMobile) {
+                text+=`
+                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            } else {
+                text+=`
+                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
+                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
+                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
+                    <a href="mailto:?subject=This is the airline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+            }
+    text+=`
+        </div>
     </div>`;
+
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text+=`
+        <div class="row" id="show_commission_event" style="display:none;">
+            <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                <div class="alert alert-success">
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: `+val[i].currency+` `+getrupiah(parseInt(total_commission)*-1)+`</span><br>
+                </div>
+            </div>
+        </div>`;
+    text+=`<center>
+
+    <div style="padding-bottom:10px;">
+        <center>
+            <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+        </center>
+    </div>`;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text+=`
+        <div style="margin-bottom:5px;">
+            <input class="primary-btn-ticket" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
+        </div>`;
 
     document.getElementById("event_detail_table").innerHTML = text;
 }
