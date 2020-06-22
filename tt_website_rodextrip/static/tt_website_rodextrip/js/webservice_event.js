@@ -46,9 +46,9 @@ function get_event_config(type){
             $('#category_event').niceSelect('update');
         }
         if(type == 'search'){
+            var node = document.createElement("div");
+            carrier_code_airline_checkbox = '<h5>Category</h5>';
             for(i in data_event.category){
-                var node = document.createElement("div");
-                carrier_code_airline_checkbox = '';
                 carrier_code_airline_checkbox += `
                 <div class="checkbox-inline1">
                     <label class="check_box_custom">`;
@@ -166,12 +166,12 @@ function event_get_booking(data){
                     event_get_detail = msg;
                     $text = '';
                     $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-                    $text += msg.result.response.status + '\n';
                     text = `
                         <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
                         <table style="width:100%;">
                             <tr>
                                 <th class="carrier_code_template">Booking Code</th>
+                                <th class="carrier_code_template">Hold Date</th>
                                 <th class="carrier_code_template">Status</th>
                             </tr>`;
                             for(i in msg.result.response.providers){
@@ -179,7 +179,8 @@ function event_get_booking(data){
                                     <tr>`;
 
                                 text+=`
-                                    <td>`+msg.result.response.providers[i].pnr+`</td>`;
+                                    <td>`+msg.result.response.providers[i].pnr+`</td>
+                                    <td>`+msg.result.response.hold_date+`</td>`;
                                 text+=`
                                         <td>`+msg.result.response.status.charAt(0).toUpperCase()+msg.result.response.status.slice(1).toLowerCase()+`</td>
                                     </tr>
@@ -228,6 +229,7 @@ function event_get_booking(data){
             if(msg.result.response.status == 'booked'){
                check_payment_payment_method(msg.result.response.order_number, 'Issued', '', 'billing', 'event', signature, {});
                $(".issued_booking_btn").show();
+               $text += 'Status: Booked\n';
             }
             else if(msg.result.response.status == 'issued'){
                 document.getElementById('issued-breadcrumb').classList.add("br-active");
@@ -235,8 +237,63 @@ function event_get_booking(data){
                 document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                 document.getElementById('show_title_event').hidden = true;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
-
+                document.getElementById('display_prices').style.display = "none";
+                $text += 'Status: Issued\n';
             }
+            else if(msg.result.response.status == 'cancel2'){
+                $text += 'Status: Expired \n';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                document.getElementById('display_state').innerHTML = `Your Order Has Been Expired`;
+                document.getElementById('show_title_event').hidden = true;
+            }
+            else if(msg.result.response.status == 'fail_issued'){
+                $text = 'Failed (Issue)';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Issue)`;
+                document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Issue)`;
+                document.getElementById('show_title_event').hidden = true;
+            }
+            else if(msg.result.response.status == 'fail_booked'){
+                $text = 'Failed (Book)';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Book)`;
+                document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Book)`;
+                document.getElementById('show_title_event').hidden = true;
+            }
+            else if(msg.result.response.status == 'fail_refunded'){
+                $text = 'Failed (Refunded)';
+                document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Failed (Refunded)`;
+                document.getElementById('display_state').innerHTML = `Your Order Has Been Failed (Refunded)`;
+                document.getElementById('show_title_event').hidden = true;
+            }
+            else if(msg.result.response.status == 'refund'){
+                $text = 'Refunded';
+                document.getElementById('issued-breadcrumb').classList.add("br-active");
+                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                document.getElementById('issued-breadcrumb-span').innerHTML = `Refunded`;
+                document.getElementById('display_state').innerHTML = `Your Order Has Been Refunded`;
+                document.getElementById('show_title_event').hidden = true;
+            }
+
             //======================= Option =========================
             text = `<h4>Ticket Information(s)</h4>
                     <hr/>
@@ -324,7 +381,6 @@ function event_get_booking(data){
             document.getElementById('event_list_option').innerHTML = text;
 
             //======================= Extra Question =========================
-
 
             //detail
             text = '';
@@ -420,8 +476,9 @@ function event_get_booking(data){
                                 <span style="font-size:13px;">`+ msg.result.response.passenger[j].qty + `X @` + price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
                             </div>
                         </div>`;
-                        $text += msg.result.response.passenger[j].title +' '+ msg.result.response.passenger[j].name + ' ['+msg.result.response.providers[i].pnr+'] ';
-                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                        $text += msg.result.response.passenger[j].name + ' ['+msg.result.response.providers[i].pnr+'] \n';
+                        $text += msg.result.response.passenger[j].qty + ' x ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                        $text += 'Sub Total: ' + price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC) * msg.result.response.passenger[j].qty)+'\n\n';
                         if(counter_service_charge == 0){
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
                             price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC) * parseInt(msg.result.response.passenger[j].qty);
@@ -490,7 +547,7 @@ function event_get_booking(data){
                 </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                     text_detail+=`
-                    <div class="row" id="show_commission" style="display:none;">
+                    <div class="row" id="show_commission_event" style="display:none;">
                         <div class="col-lg-12 col-xs-12" style="text-align:center;">
                             <div class="alert alert-success">
                                 <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
@@ -507,7 +564,7 @@ function event_get_booking(data){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                 text_detail+=`
                 <div style="margin-bottom:5px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                    <input class="primary-btn-ticket" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
                 </div>
             </div>`;
             }catch(err){console.log(err);}
@@ -593,10 +650,19 @@ function event_search(){
        success: function(msg) {
 //           console.log('Result');
 //           console.log(msg);
+           event_search_result = [];
+           var temp = [];
            try{
                 if(msg.result.error_code==0){
-                    event_search_result = msg.result.response;
-                    sort(msg.result.response,1);
+                    for(k in msg.result.response){
+                        if (Date.parse(msg.result.response[k].start_date) > Date.now() ){
+                            event_search_result.push(msg.result.response[k]);
+                        } else {
+                            temp.push(msg.result.response[k]);
+                        }
+                    }
+                    event_search_result = event_search_result.concat(temp);
+                    sort(event_search_result,1);
                 }else{
                     //kalau error belum
                     console.log('Error #1');
@@ -861,9 +927,11 @@ function event_options(id){
                 $('#loading-detail-event').hide();
 
                 text = '<div style="text-align:center"><img src="/static/tt_website_rodextrip/images/nofound/no-event.png" style="width:60px; height:60px;" alt="" title=""><br><br>';
-                text += '<span style="font-size:14px; font-weight:600;">Oops! No option(s) found for this event, Please Try again</span></div>';
+                text += '<span style="font-size:14px; font-weight:600;">Oops! No option(s) found for this event, Please Try again or search another event.</span></div>';
                 node.innerHTML = text;
                 document.getElementById("detail_room_pick").appendChild(node);
+
+                document.getElementById("please_select").innerHTML = "No option(s) found for this event";
                 node = document.createElement("div");
             }
            },

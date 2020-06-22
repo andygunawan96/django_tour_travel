@@ -729,9 +729,14 @@
                 <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12" style="margin-bottom:15px;">
+                <button class="primary-btn-custom" type="button" onclick="location.href='{% url 'tt_website_rodextrip:event_search'%}';"><i class="fas fa-chevron-left"></i> Back to result search</button>
+            </div>
+        </div>
 
         <div class="row align-items-center justify-content-between d-flex">
-            <div class="col-lg-12" id="breadcrumbs_create" style="padding-bottom:15px;">
+            <div class="col-lg-12" id="breadcrumbs_create" style="margin-bottom:15px;">
 
             </div>
         </div>
@@ -757,11 +762,6 @@
                         <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
                     </button>
                 </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <button class="primary-btn-custom" type="button" onclick="location.href='{% url 'tt_website_rodextrip:event_search'%}';"><i class="fas fa-chevron-left"></i> Back to result search</button>
             </div>
         </div>
         <form action="{% url 'tt_website_rodextrip:event_passenger'%}" id="goto_passenger" method="POST" style="padding:15px 15px 0px 15px;">
@@ -1010,7 +1010,7 @@
 
                                     </div>
                                     <div style="padding-bottom:10px;" id="not_room_select">
-                                        <h5>Please select event options first</h5>
+                                        <h5 id="please_select">Please select event options first</h5>
                                     </div>
                                 </div>
 
