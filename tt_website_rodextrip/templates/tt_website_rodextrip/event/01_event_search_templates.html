@@ -46,7 +46,7 @@
                 <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Event in or Contain(s):
                     {% if event_search.event_name != ''%}{{event_search.event_name}}{% else %}All Event{% endif %}
                 </span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Category: {{event_search.category_name}}</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-tags"></i> Category: {{event_search.category_name}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
@@ -101,8 +101,10 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{event_search.event_name}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{event_search.checkin_date}} - {{event_search.checkout_date}} | {{event_search.room}} {% trans 'Room' %}, {{event_search.adult}} {% trans 'Adult' %}, {{event_search.child}} {% trans 'Child' %}</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Event in or Contain(s):
+                    {% if event_search.event_name != ''%}{{event_search.event_name}}{% else %}All Event{% endif %}
+                </span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-tags"></i> Category: {{event_search.category_name}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
@@ -120,12 +122,18 @@
             <div class="col-lg-12">
                 <div class="hotel-search-form-area" style="bottom:0px; padding-left:0px; padding-right:0px;">
                     <div class="hotel-search-form" style="background-color:unset; padding:unset; box-shadow:unset; color:{{text_color}};">
-                        <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                        <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" id="event_searchForm">
                             {% csrf_token %}
                             <div class="row">
                                 <input type="hidden" id="response" name="response">
-                                <div class="col-lg-12 col-md-12">
-                                    <span style="color:{{text_color}};"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
+                                <div class="col-lg-3">
+                                    <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
+                                    <select id="category_event" name="category_event" class="form-control">
+
+                                    </select>
+                                </div>
+                                <div class="col-lg-9">
+                                    <span class="span-search-ticket">{% trans 'Event Name' %}</span>
                                     <div class="input-container-search-ticket">
                                         <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                                     </div>
@@ -133,10 +141,10 @@
                             </div>
 
                             <center>
-                            <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
-                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                {% trans 'Search' %}
-                            </button>
+                                <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
+                                    <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                                    {% trans 'Search' %}
+                                </button>
                             </center>
                         </form>
                     </div>
@@ -150,8 +158,10 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{event_search.event_name}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{event_search.checkin_date}} - {{event_search.checkout_date}} | {{event_search.room}} {% trans 'Room' %}, {{event_search.adult}} {% trans 'Adult' %}, {{event_search.child}} {% trans 'Child' %}</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Event in or Contain(s):
+                    {% if event_search.event_name != ''%}{{event_search.event_name}}{% else %}All Event{% endif %}
+                </span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-tags"></i> Category: {{event_search.category_name}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
@@ -166,29 +176,36 @@
 <section class="banner-area relative" id="change_search_box" style="padding-top:50px; padding-bottom:40px; background-color: black; z-index:98; position:relative; display:none;">
     <div class="overlay overlay-bg"></div>
     <div class="container" id="div-search-overlay">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="header-right" style="background:unset; border:unset;">
-                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
-                        {% csrf_token %}
-                        <div class="row">
-                            <input type="hidden" id="response" name="response">
-                            <div class="col-lg-12 col-md-12">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
-                                <div class="form-group">
-                                    <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
+        <div class="row fullscreen d-flex">
+            <div class="col-lg-12 header-right" style="padding-top:50px; padding-bottom:50px; background-color:unset; border:unset;">
+                <form action="{% url 'tt_website_rodextrip:event_search'%}" class="form-wrap" method="POST" id="event_searchForm">
+                    {% csrf_token %}
+                    <div class="row">
+                        <input type="hidden" id="response" name="response">
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
+                            <div class="form-group">
+                                <div class="default-select" id="default-select">
+                                    <select id="category_event" name="category_event" class="nice-select-default">
+
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <br/>
-                        <center>
-                            <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
-                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                {% trans 'Search' %}
-                            </button>
-                        </center>
-                    </form>
-                </div>
+                        <div class="col-lg-9">
+                            <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                            <div class="input-container-search-ticket">
+                                <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <center>
+                        <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                        </button>
+                    </center>
+                </form>
             </div>
         </div>
     </div>
@@ -198,8 +215,10 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{event_search.event_name}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{event_search.checkin_date}} - {{event_search.checkout_date}} | {{event_search.room}} {% trans 'Room' %}, {{event_search.adult}} {% trans 'Adult' %}, {{event_search.child}} {% trans 'Child' %}</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Event in or Contain(s):
+                    {% if event_search.event_name != ''%}{{event_search.event_name}}{% else %}All Event{% endif %}
+                </span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-tags"></i> Category: {{event_search.category_name}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
@@ -216,25 +235,33 @@
     <div class="container" id="div-search-overlay">
         <div class="row">
             <div class="col-lg-12">
-                <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                     {% csrf_token %}
                     <div class="row">
                         <input type="hidden" id="response" name="response">
-                        <div class="col-lg-12 col-md-12">
-                            <span class="span-search-ticket">{% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
+                        <div class="col-lg-3">
+                            <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
                             <div class="input-container-search-ticket">
-                                <i class="fas fa-map-marker-alt" style="padding:14px; height: 43px; width: 45px; background:{{color}}; color:{{text_color}};"></i>
+                                <div class="form-select" id="default-select">
+                                    <select id="category_event" name="category_event" class="nice-select-default">
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-9">
+                            <span class="span-search-ticket">{% trans 'Event Name' %}</span>
+                            <div class="input-container-search-ticket">
                                 <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                             </div>
                         </div>
-
-                        <div class="col-lg-12" style="text-align:center; margin-top:15px;">
-                            <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
-                                <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
-                                {% trans 'Search' %}
-                            </button>
-                        </div>
                     </div>
+                    <center>
+                        <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
+                            <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>
+                            {% trans 'Search' %}
+                        </button>
+                    </center>
                 </form>
             </div>
         </div>
@@ -245,8 +272,10 @@
     <div id="hotel_search_params" class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6" style="text-align:left;">
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> {{event_search.event_name}}</span><br/>
-                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"> {{event_search.checkin_date}} - {{event_search.checkout_date}} | {{event_search.room}} {% trans 'Room' %}, {{event_search.adult}} {% trans 'Adult' %}, {{event_search.child}} {% trans 'Child' %}</span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-map-marker-alt"></i> Event in or Contain(s):
+                    {% if event_search.event_name != ''%}{{event_search.event_name}}{% else %}All Event{% endif %}
+                </span><br/>
+                <span class="copy_span" style="text-transform: capitalize; font-size:13px;"><i class="fas fa-tags"></i> Category: {{event_search.category_name}}</span><br/>
             </div>
 
             <div class="col-lg-6 col-md-6" style="text-align:right;">
@@ -264,18 +293,27 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="banner-right">
-                    <form action="{% url 'tt_website_rodextrip:hotel_search'%}" method="POST" class="form-wrap" id="event_searchForm">
+                    <form action="{% url 'tt_website_rodextrip:event_search'%}" method="POST" class="form-wrap" id="event_searchForm">
                         {% csrf_token %}
                         <div class="row">
                             <input type="hidden" id="response" name="response">
-                            <div class="col-lg-6 col-md-6">
-                                <span class="span-search-ticket"><i class="fas fa-map-marker-alt"></i> {% trans 'Event' %} {% trans 'or' %} {% trans 'Location' %} ( {% trans 'City' %} )</span>
+                            <div class="col-lg-3">
+                                <span class="span-search-ticket"><i class="fas fa-folder"></i> {% trans 'Category' %}</span>
+                                <div class="input-container-search-ticket">
+                                    <div class="form-select" id="default-select">
+                                        <select id="category_event" name="category_event" class="nice-select-default">
+
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <span class="span-search-ticket">{% trans 'Event Name' %}</span>
                                 <div class="input-container-search-ticket">
                                     <input onClick="this.setSelectionRange(0, this.value.length);" id="event_name_id" name="event_name_id" class="form-control" type="text" placeholder="{% trans 'Origin' %}" style="width:100%;outline:0" autocomplete="off" value="{{event_search.event_name}}"/>
                                 </div>
                             </div>
                         </div>
-                        <br/>
                         <center>
                             <button class="primary-btn" onclick="event_search_validation();" type="button" value="Submit">
                                 <i class="fas fa-search" style="color:{{text_color}}; font-weight:bold; font-size:18px;"></i>

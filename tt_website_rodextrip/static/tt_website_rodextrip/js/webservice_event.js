@@ -776,7 +776,7 @@ function event_options(id){
                                 }
                                 text+=`
                                 <br/>
-                                <div style="top:10px; right:10px; position:absolute;">
+                                <div style="top:8px; right:10px; position:absolute;">
                                     <label class="check_box_custom">
                                         <span class="span-search-ticket"></span>
                                         <input type="checkbox" class="copy_result" name="copy_result`+i+`" id="copy_result`+i+`" onchange="checkboxCopyBox(`+i+`, `+option_ids_length+`);"/>
@@ -840,7 +840,7 @@ function event_options(id){
                                 <button type="button" class="btn-custom-circle" id="left-minus-event-`+i+`" data-type="minus" data-field="" disabled onclick="reduce_option(`+i+`);">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                                <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
+                                <input type="text" class="form-control" style="padding:5px !important; background:none; text-align:center; width:30px; height:30px !important;" id="option_qty_`+i+`" name="option_qty_`+i+`" value="0" min="0" readonly>
                                 <button type="button" class="btn-custom-circle" id="right-plus-event-`+i+`" data-type="plus" data-field="" onclick="add_option(`+i+`);">
                                     <i class="fas fa-plus"></i>
                                 </button>
@@ -1009,6 +1009,7 @@ function event_get_extra_question(option_code, provider){
                                 <div class="row">`;
                         for(i in msg.result.response){
                             var co_index = (parseInt(i))+1;
+                            var temp_id_que = "";
                             if(msg.result.response[i].type == 'boolean' || msg.result.response[i].type == 'checkbox'){
                                 text+=`<div class="col-lg-12" style="margin-bottom:15px; margin-top:10px;"><h6>`;
                             }else{
@@ -1031,12 +1032,15 @@ function event_get_extra_question(option_code, provider){
                                     text += 'required';
                                 text += '/>';
                             }else if(msg.result.response[i].type == 'number'){
-                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="number" placeholder="Example: 0"';
+                                temp_id_que = "question_event_"+j+"_"+k+"_"+i;
+                                text += '<input class="form-control" value=""';
+                                text += 'oninput="regex_input_number(`'+temp_id_que+'`);"';
+                                text += 'id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="text" placeholder="Input number only, Example: 17"';
                                 if (msg.result.response[i].required)
                                     text += 'required';
                                 text += '/>';
                             }else if(msg.result.response[i].type == 'email'){
-                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="email" placeholder="Enter Your Email"';
+                                text += '<input class="form-control" id="question_event_' + j + '_' + k + '_' + i + '" name="question_event_' + j + '_' + k + '_' + i + '" type="email" placeholder="Enter Your Email, Example: email@example.com"';
                                 if (msg.result.response[i].required)
                                     text += 'required';
                                 text += '/>';
