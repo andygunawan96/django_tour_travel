@@ -1,11 +1,12 @@
 var div_overlay_checked=0;
 
 $(document).ready(function(){
-
     var sort_price=0;
     var sort_duration=0;
     var sort_departure=0;
     var sort_arrival=0;
+    $temp_target = '';
+    $temp_type = '';
     $page_number = 1;
     $pagination_type = "default";
     var checking = function() {
@@ -98,6 +99,16 @@ $(document).ready(function(){
 //            document.getElementById("").style.display = "none";
 //            document.getElementById("sorting-search-train2").style.display = "none";
 //            document.getElementById("mybuttonfiltersort").style.display = "block";
+        }
+
+        if ($(window).width() >= 768) {
+            if($temp_target != '' && $temp_target != ''){
+                scroll_menu_horizontal($temp_type, $temp_target);
+            }
+        }else{
+            if($temp_target != '' && $temp_target != ''){
+                scroll_menu_horizontal($temp_type, $temp_target);
+            }
         }
     });
 //    $('.button-search').click(function() {      // When arrow is clicked
@@ -2476,4 +2487,49 @@ function pagination_numb(numb){
     $('html, body').animate({
         scrollTop: $("#pagination-container").offset().top - 110
     }, 500);
+}
+
+function scroll_menu_horizontal(type, target){
+    var div_scroll = $('#div_scroll_menu');
+    var menu_id = $('#nav_scroll_menu_'+target);
+    $temp_target = target;
+    $temp_type = type;
+
+    if(template != 3){
+        var div_scroll_width = div_scroll.width();
+        var menu_id_width = menu_id.outerWidth(true);
+        var menu_id_index = menu_id.index();
+        var count = 0;
+        var find_div = div_scroll.find('.'+type);
+        //Just need to add up the width of all the elements before our target.
+        for(var i = 0; i < menu_id_index; i++){
+            count+= $(find_div[i]).outerWidth(true);
+        }
+        div_scroll.scrollLeft(Math.max(0, count - (div_scroll_width - menu_id_width)/2));
+    }else{
+        var width_window = window.innerWidth;
+        if(width_window >= 768){
+            var div_scroll_height = div_scroll.height();
+            var menu_id_height = menu_id.outerHeight(true);
+            var menu_id_index = menu_id.index();
+            var count = 0;
+            var find_div = div_scroll.find('.'+type);
+
+            for(var i = 0; i < menu_id_index; i++){
+                count+= $(find_div[i]).outerHeight(true);
+            }
+            div_scroll.scrollTop(Math.max(0, count - (div_scroll_height - menu_id_height)/2));
+        }else{
+            var div_scroll_width = div_scroll.width();
+            var menu_id_width = menu_id.outerWidth(true);
+            var menu_id_index = menu_id.index();
+            var count = 0;
+            var find_div = div_scroll.find('.'+type);
+            //Just need to add up the width of all the elements before our target.
+            for(var i = 0; i < menu_id_index; i++){
+                count+= $(find_div[i]).outerWidth(true);
+            }
+            div_scroll.scrollLeft(Math.max(0, count - (div_scroll_width - menu_id_width)/2));
+        }
+    }
 }

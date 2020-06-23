@@ -218,7 +218,11 @@ function sort(response, check_filter){
         text='';
         if(response.length != 0){
             for(i in response){
-                if (Date.parse(response[i].start_date) > Date.now() ){
+                var obj_end_date = Date.now()
+                if (response[i].end_date) {
+                    obj_end_date = Date.parse(response[i].end_date);
+                }
+                if (Date.parse(response[i].start_date) > Date.now() || obj_end_date < Date.now()){
                     text = '<div class="sorting-box-b single-recent-blog-post" style="padding:unset;"><form id="event'+i+'" action="/event/detail" method="POST"><div class="row"><div class="col-lg-12">';
                     if(response[i].images.length != 0){
                         text+=`<div class="img-event-search" style="background-size:contain; background-repeat: no-repeat; cursor:pointer; background-image: url('`+response[i].images[0].url+`');" onclick="goto_detail('event',`+i+`)"></div>`;
@@ -1160,11 +1164,30 @@ function check_extra_question_answer(option_code){
                         }
                     }
                 }
+
+                if(extra_question_result[i].type == 'email'){
+                    var temp_que = document.getElementById('question_event_'+j+'_'+k+'_'+i);
+                    if(temp_que.value != ''){
+                        if(check_email(temp_que.value) == false){
+                            temp_que.style.border= "1px solid red";
+                            check_error_question = 1;
+                        }else{
+                            temp_que.style.border= "1px solid #cdcdcd";
+                        }
+                    }else{
+                        temp_que.style.border= "1px solid #cdcdcd";
+                    }
+                }
             }
             k += 1;
         }
     }
 
     if(check_error_question == 1)
-        error_log += "Please Complete Your Answer in the Extra Question <br/>";
+        error_log += "Please Fill Your Answers Correctly in the Extra Question <br/>";
+}
+
+function regex_input_number(temp){
+    var que_id = document.getElementById(temp);
+    que_id.value = que_id.value.replace(/(?!^-)[^0-9.]/g, "").replace(/(\..*)\./g, '$1');
 }

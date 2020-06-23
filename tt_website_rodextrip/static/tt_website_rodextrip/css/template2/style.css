@@ -1784,6 +1784,7 @@ html .ui-button.ui-state-disabled:active {
       margin-bottom: 15px;
       height: 43px;
       line-height: 32px;
+      border-radius:0px;
       border: 1px solid #cdcdcd;
       font-size: 13px; }
       @media only screen and (max-width: 767px) {
@@ -6495,4 +6496,110 @@ display: block;
 
 .radio-img  > input:checked + img{
   border:2px solid orange;
+}
+
+.tags_btn{
+    padding:0px 5px;
+    font-size:13px;
+    margin-right:5px;
+    color: #f15a22;
+    background: white;
+    border: 1px solid #cdcdcd;
+    border-radius:3px;
+    cursor:pointer;
+    line-height:26px;
+}
+
+.tags_btn:hover{
+    background: #f15a22;
+    color:white;
+}
+
+.tags_btn_rsv{
+    padding:0px 5px;
+    font-size:13px;
+    margin-right:5px;
+    color: #f15a22;
+    background: white;
+    border: 1px solid #cdcdcd;
+    border-radius:3px;
+    cursor:pointer;
+    line-height:26px;
+}
+
+.tags_btn_rsv:hover{
+    background: #f15a22;
+    color:white;
+}
+
+.detail-event-box{
+    background-color:white;
+    padding:0px 15px;
+    margin-bottom:15px;
+    border:1px solid #cdcdcd;
+    border-radius:7px;
+}
+.detail-event-box:hover{
+    border:1px solid #f15a22;
+}
+
+.detail-event-box-sold{
+    background-color:white;
+    padding:0px 15px;
+    margin-bottom:15px;
+    border:1px solid #cdcdcd;
+    border-radius:7px;
+    cursor:not-allowed;
+}
+
+.img-event-detail {
+    width: auto;
+    height: 120px;
+    background-size:cover;
+    background-position:50% 50%;
+}
+
+.border-event{
+    padding:10px;
+    border-right:2px solid #f15a22;
+}
+
+@media (max-width: 767px) {
+    .border-event{
+        border-bottom:2px solid #f15a22;
+        border-right:unset;
+    }
+}
+
+.border-event-sold{
+    padding:10px;
+    border-right:2px solid gray;
+}
+
+@media (max-width: 767px) {
+    .border-event-sold{
+        border-bottom:2px solid gray;
+        border-right:unset;
+    }
+}
+
+.overlay-bg-sold {
+  background: rgba(4, 9, 30, 0.4);
+  -webkit-transition: all 0.3s ease 0s;
+  -moz-transition: all 0.3s ease 0s;
+  -o-transition: all 0.3s ease 0s;
+  transition: all 0.3s ease 0s;
+  opacity: 0.5;
+}
+
+.price_bottom{
+    position:absolute;
+    bottom:15px;
+}
+
+@media (max-width: 991px) {
+    .price_bottom{
+        position:unset;
+        bottom:unset;
+    }
 }

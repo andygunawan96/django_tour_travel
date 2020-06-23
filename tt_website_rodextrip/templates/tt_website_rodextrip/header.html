@@ -677,7 +677,7 @@
                         </li>
 
                         {% if username.co_user_login != '' %}
-                        <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
+                        <li class="has-children notification-pc" style="display:inline-flex;"><a href="#" title="{{username.co_user_login}}" style="font-weight:700; display:inline-block; overflow: hidden; overflow: -moz-hidden-unscrollable; text-overflow: ellipsis; white-space: nowrap; max-width:100px;">{{username.co_user_login}}</a>
                             <ul class="dropdown">
                                 <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                                 {% if "admin" in username.co_agent_frontend_security %}
