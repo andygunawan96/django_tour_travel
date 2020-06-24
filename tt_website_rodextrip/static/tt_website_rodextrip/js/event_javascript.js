@@ -605,8 +605,8 @@ function render_object_from_value(val){
             </div>`;
         }
         grand_total_option += upsell_price;
+        $text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
     }catch(err){}
-    $text += 'Grand Total: '+val[i].currency+' '+ getrupiah(grand_total_option);
 
     text+=`
     <div class="row">
