@@ -2611,6 +2611,8 @@ function airline_update_passenger(val){
                 })
                 $('.loader-rodextrip').fadeOut();
                 $("#waitingTransaction").modal('hide');
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -2622,6 +2624,8 @@ function airline_update_passenger(val){
                 })
                 $('.loader-rodextrip').fadeOut();
                 $("#waitingTransaction").modal('hide');
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
             }
        },timeout: 60000
     });
@@ -2771,6 +2775,9 @@ function airline_set_ssr(val){
                   html: '<span style="color: red;">Error airline seat ssr </span>' + errorThrown,
                 })
                 $('.loader-rodextrip').fadeOut();
+                $("#waitingTransaction").modal('hide');
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
             }
        }, timeout: 300000
     });
@@ -2848,6 +2855,9 @@ function airline_assign_seats(val){
                   html: '<span style="color: red;">Error airline assign seats </span>' + errorThrown,
                 })
                 $('.loader-rodextrip').fadeOut();
+                $("#waitingTransaction").modal('hide');
+                $('.btn-next').removeClass('running');
+                $('.btn-next').prop('disabled', false);
             }
        },timeout: 300000
     });
@@ -3580,12 +3590,14 @@ function airline_get_booking(data){
                         ff_request = '';
                         for(provider in msg.result.response.provider_bookings){
                             try{
-                                ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number
+                                ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number;
+
                                 if(provider != msg.result.response.provider_bookings.length - 1)
                                     ticket += ', ';
                                 if(ff_request != '')
                                     ff_request += '<br/>';
-                                ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_code + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
+                                if(msg.result.response.provider_bookings[provider].tickets[pax].ff_code != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
+                                    ff_request += msg.result.response.provider_bookings[provider].tickets[pax].ff_code + ': '+ msg.result.response.provider_bookings[provider].tickets[pax].ff_number;
                             }catch(err){
 
                             }
