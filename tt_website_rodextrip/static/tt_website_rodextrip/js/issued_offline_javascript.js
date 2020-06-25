@@ -678,7 +678,7 @@ function add_table_of_line(type){
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-4">
-                    <span>Qty</span><br/>
+                    <span>Room Qty</span><br/>
                     <input type="input" id='hotel_qty`+counter_line+`' class="form-control" name='hotel_qty`+counter_line+`' placeholder="Quantity"/>
                 </div>
                 <div class="col-lg-4 col-xs-4">
