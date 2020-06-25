@@ -219,7 +219,19 @@ def vendor(request):
         try:
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
-            values = get_data_template(request)
+            response = get_cache_data(cache_version)
+            values = get_data_template(request, 'search')
+            airline_country = response['result']['response']['airline']['country']
+            if request.POST:
+                request.session['time_limit'] = int(request.POST['time_limit_input'])
+
+            try:
+                if translation.LANGUAGE_SESSION_KEY in request.session:
+                    del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
+
+                request.session['event_code'] = json.loads(request.POST['event_code'])
+            except:
+                pass
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'static_path_url_server': get_url_static_path(),
