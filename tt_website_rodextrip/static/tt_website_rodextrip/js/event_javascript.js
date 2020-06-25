@@ -122,7 +122,7 @@ function triggered(){
 
 function filtering(type, update){
     $('#badge-copy-notif').html("0");
-    var data = JSON.parse(JSON.stringify(hotel_data));
+    var data = JSON.parse(JSON.stringify(data_event));
 
     var check = 0;
     var temp_data = [];
