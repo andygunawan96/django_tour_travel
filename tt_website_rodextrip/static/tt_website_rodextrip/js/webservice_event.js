@@ -822,8 +822,10 @@ function event_options(id){
                             text+=`</div>`;
 
                             text+=`<div class="col-lg-12"><hr/></div>
-                            <div class="col-lg-6 col-md-6">
-                                <span style="font-weight:500; color: `+color+`;">Expired Date<br/> <span class="option_expired">`+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span></span>
+                            <div class="col-lg-6 col-md-6">`
+                            if (msg.result.response[i].ticket_sale_end_day != '')
+                                text+=`<span style="font-weight:500; color: `+color+`;">Available Until:<br/> <span class="option_expired">`+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span></span>`
+                            text+=`
                             </div>
                         <div class="col-lg-6 col-md-6" style="padding-top:5px;">
                             <div style="float:right; display:flex;">
@@ -892,8 +894,10 @@ function event_options(id){
                             }
 
                             text+=`<div class="col-lg-12"><hr/></div>
-                            <div class="col-lg-6 col-md-6" style="margin-bottom:10px;">
-                                <span style="font-weight:500; color: #6e6e6e;">Expired Date<br/> `+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span>
+                            <div class="col-lg-6 col-md-6">`
+                            if (msg.result.response[i].ticket_sale_end_day != '')
+                                text+=`<span style="font-weight:500; color: `+color+`;">Available Until:<br/> <span class="option_expired">`+ msg.result.response[i].ticket_sale_end_day +` - `+ msg.result.response[i].ticket_sale_end_hour +`</span></span>`
+                            text+=`
                             </div>
                         <div class="col-lg-6 col-md-6" style="margin-bottom:10px; padding-top:5px;">
                             <div style="float:right; display:flex;">
