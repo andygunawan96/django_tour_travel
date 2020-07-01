@@ -237,7 +237,7 @@ function event_get_booking(data){
                 document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                 document.getElementById('show_title_event').hidden = true;
                 document.getElementById('display_state').innerHTML = `Your Order Has Been Issued`;
-                document.getElementById('display_prices').style.display = "none";
+                //document.getElementById('display_prices').style.display = "none";
                 $text += 'Status: Issued\n';
             }
             else if(msg.result.response.status == 'cancel2'){
@@ -569,6 +569,27 @@ function event_get_booking(data){
             </div>`;
             }catch(err){console.log(err);}
             document.getElementById('event_detail').innerHTML = text_detail;
+
+            //==================== Print Button =====================
+            var print_text = '<div class="col-lg-4" style="padding-bottom:10px;">';
+            // === Button 1 ===
+            if (msg.result.response.status  == 'issued') {
+                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket','event');" style="width:100%;">Print Ticket</button>`;
+            }
+            print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+            // === Button 2 ===
+            if (msg.result.response.status  == 'booked'){
+                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('` + msg.result.response.name + `','itinerary','event');" style="width:100%;">Print Itinerary Form</button>`;
+            }else{
+                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="get_printout('` + msg.result.response.name + `','ticket_price','event');" style="width:100%;">Print Ticket (With Price)</button>`;
+            }
+            print_text += '</div><div class="col-lg-4" style="padding-bottom:10px;">';
+            // === Button 3 ===
+            if (msg.result.response.status  == 'issued') {
+                print_text+=`<button class="primary-btn hold-seat-booking-train" type="button" onclick="window.location.href='https://backend.rodextrip.com/rodextrip/report/pdf/tt.agent.invoice/`+msg.result.response.name+`'" style="width:100%;" >Print Invoice</button>`;
+            }
+            print_text += '</div>';
+            document.getElementById('event_btn_printout').innerHTML = print_text;
 
             //======================= Other =========================
             add_repricing();
