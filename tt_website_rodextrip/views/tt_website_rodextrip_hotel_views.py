@@ -427,6 +427,7 @@ def review(request):
                     "birth_date": request.POST['child_birth_date' + str(i + 1)],
                     "nationality_name": request.POST['child_nationality' + str(i + 1)],
                     "passenger_seq_id": request.POST['child_id' + str(i + 1)],
+                    "room_number": '1'
                 })
                 printout_paxs.append({
                     "name": request.POST['child_title' + str(i + 1)] + ' ' + request.POST[

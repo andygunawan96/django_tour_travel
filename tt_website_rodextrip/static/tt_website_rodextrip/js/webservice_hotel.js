@@ -538,9 +538,9 @@ function hotel_detail_request(checkin_date, checkout_date){
                             var total_room = document.getElementById("hotel_room").value;
                             var total_night = document.getElementById("total_night_search").textContent;
                             if(result.prices[i].currency != 'IDR')
-                                text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + parseInt(result.prices[i].price_total) +'</span><br/><span class="copy_total_rn carrier_code_template" >(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                                text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + result.prices[i].price_total +'</span><br/><span class="copy_total_rn carrier_code_template" >(for '+total_room+' room, '+total_night+' night)</span><br/>';
                             else
-                                text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(parseInt(result.prices[i].price_total))+'</span><br/><span class="copy_total_rn carrier_code_template">(for '+total_room+' room, '+total_night+' night)</span><br/>';
+                                text+= '<span class="price_room" style="font-weight: bold; font-size:14px;"> '+ result.prices[i].currency + ' ' + getrupiah(result.prices[i].price_total)+'</span><br/><span class="copy_total_rn carrier_code_template">(for '+total_room+' room, '+total_night+' night)</span><br/>';
 
                             text+='<button class="primary-btn-custom" type="button" onclick="hotel_room_pick('+i+');" id="button'+i+'">Choose</button>';
                             idx = 1;
@@ -729,7 +729,7 @@ function hotel_provision(price_code, provider){
        },
        success: function(msg) {
             //testing
-            console.log(msg);
+            //console.log(msg);
             provision = msg;
             if(msg.result.error_code == 0){
                 document.getElementById('issued_hotel_btn').disabled = false;
@@ -805,7 +805,7 @@ function hotel_issued_alert(val){
                     if(hotel_price.rooms[i].nightly_prices[j].currency != 'IDR'){
                         text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
                     }else{
-                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price)+'<span/></div>';
                     }
                 }
                 try{
@@ -834,7 +834,7 @@ function hotel_issued_alert(val){
                     text+=`
                     <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel_old">
                         <div class="alert alert-success">
-                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
+                            <span style="font-size:13px; font-weight:bold;">Your Commission: `+hotel_price.rooms[i].nightly_prices[j].currency+` `+ getrupiah(hotel_price.rooms[i].commission) +`</span><br>
                         </div>
                     </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
@@ -866,7 +866,7 @@ function hotel_issued_alert(val){
                     if(temporary.rooms[i].nightly_prices[j].currency != 'IDR'){
                         text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + temporary.rooms[i].nightly_prices[j].currency + ' ' + parseInt((temporary.rooms[i].nightly_prices[j].price))+'<span/></div>';
                     }else{
-                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + temporary.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(temporary.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                        text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + temporary.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(temporary.rooms[i].nightly_prices[j].price)+'<span/></div>';
                     }
                 }
                 try{
@@ -1185,8 +1185,9 @@ function hotel_get_booking(data){
                                 <th class="">Birth Date</th>
                             </tr>`;
                             for(i in msg.result.response.passengers){
+                                var new_int = parseInt(i)+1;
                                 text+=`<tr>
-                                    <td>`+parseInt(i+1)+`</td>
+                                    <td>`+ new_int +`</td>
                                     <td><span>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</span></td>
                                     <td><span>`+msg.result.response.passengers[i].pax_type+`</span></td>
                                     <td><span>`+msg.result.response.passengers[i].birth_date+`</span></td>

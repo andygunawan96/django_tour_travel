@@ -1426,10 +1426,10 @@ function hotel_room_pick(key){
             date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
             if(hotel_room.rooms[i].nightly_prices[j].currency != 'IDR'){
                 text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_room.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_room.rooms[i].nightly_prices[j].price)) + '\n';
+                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah((hotel_room.rooms[i].nightly_prices[j].price)) + '\n';
             }else{
                 text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_room.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_room.rooms[i].nightly_prices[j].price)) + '\n';
+                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
             }
         }
         var total_room = document.getElementById("hotel_room").value;
@@ -1440,7 +1440,7 @@ function hotel_room_pick(key){
             <span style="font-weight:bold;">Total</span>
         </div>
         <div class="col-lg-6" style="text-align:right;">
-            <span style="font-weight:bold;">IDR `+ getrupiah(parseInt(hotel_room.rooms[i].price_total)) +`</span><br/>
+            <span style="font-weight:bold;">IDR `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
             <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
         </div>`;
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
@@ -1452,7 +1452,7 @@ function hotel_room_pick(key){
             </div>`;
         text += `</div>`;
 
-        $text2 += 'Total: IDR '+getrupiah(parseInt(hotel_room.rooms[i].price_total)) + ' ';
+        $text2 += 'Total: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
         $text2 += '(for '+ total_room +' room, ' +total_night+ 'night) \n\n';
     }
 
@@ -1831,7 +1831,7 @@ function hotel_detail(){
                 text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
                 $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_price.rooms[i].nightly_prices[j].price))+'\n';
             }else{
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'<span/></div>';
+                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_price.rooms[i].nightly_prices[j].price)+'<span/></div>';
                 $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_price.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_price.rooms[i].nightly_prices[j].price))+'\n';
             }
         }
@@ -1879,7 +1879,7 @@ function hotel_detail(){
             }
             $text2 += '\n';
         }catch(err){}
-        $text2 += 'Grand Total: IDR ' + getrupiah(parseInt(hotel_price.rooms[i].price_total)) + '\n';
+        $text2 += 'Grand Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n';
 
         text += `<div class="col-lg-12" style="padding-bottom:15px;">
             <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;

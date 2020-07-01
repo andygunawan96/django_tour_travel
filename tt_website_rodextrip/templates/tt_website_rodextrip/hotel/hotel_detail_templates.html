@@ -1240,13 +1240,8 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 {% if response.lat != '' and response.long != '' %}
-<script async defer
-src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvqFX9-0kr4&libraries=&v=weekly">
-</script>
-{% endif %}
-
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvqFX9-0kr4&libraries=&v=weekly"></script>
 <script>
-
     var map;
     var myLatlng = { lat: {{response.lat}}, lng: {{response.long}} };
     function initMap() {
@@ -1263,8 +1258,9 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvq
         document.getElementById('map').hidden = false;
         $("#show_google_map").remove();
     }
-
-
+</script>
+{% endif %}
+<script>
     hotel_facility_request(facilities);
     var myIndex = 0;
     $(document).ready(function () {
@@ -1433,7 +1429,6 @@ src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB0B4gWu6auyPm91HyHd55huvq
         }
     }
 </script>
-
 {% endblock %}
 
 
