@@ -168,13 +168,20 @@
                                 <br/>
                                 <span>
                                     <span style="text-align:justify; font-weight:bold;">{% trans 'Facilities' %}:</span><br/>
-                                    <div id="js_image_facility" class="row">
+                                    <span id="js_image_facility">
 
-                                    </div>
+                                    </span>
                                 </span>
                                 <br/>
                                 <span style="text-align:justify; font-weight:bold;">{% trans 'Customer Notes' %}: </span><br/>
                                 {{special_request}}{% if special_request == '' %} No Special Request {% endif %}<br/>
+                                <br/>
+                                <span id="js_hotel_norms_container" style="display:none;">
+                                    <span style="text-align:justify; font-weight:bold;">{% trans 'Hotel Norms' %}:</span><br/>
+                                    <ul id="js_hotel_norms" class="list-group">
+
+                                    </ul>
+                                </span>
                             </div>
                         </div>
 

@@ -728,14 +728,20 @@ function hotel_provision(price_code, provider){
           "provider": provider
        },
        success: function(msg) {
-            //testing
-            //console.log(msg);
+            //testing start
+            console.log("Provsion:");
+            console.log(msg);
+            //testing end
             provision = msg;
             if(msg.result.error_code == 0){
                 document.getElementById('issued_hotel_btn').disabled = false;
             }else if(msg.result.error_code == 4006){
                 document.getElementById('issued_hotel_btn').disabled = false;
             }
+            for (rec in msg.result.response.hotel_norm){
+                document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ msg.result.response.hotel_norm[rec] +'</li>';
+            }
+            document.getElementById('js_hotel_norms_container').style.display = 'block';
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){
