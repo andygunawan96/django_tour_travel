@@ -2043,7 +2043,7 @@ function copy_booker_to_passenger(val,type){
             document.getElementById('adult_email1').readOnly = true;
             document.getElementById('adult_phone1').readOnly = true;
             document.getElementById('adult_phone_code1_id').disabled = true;
-            if(document.getElementById('adult_birth_date1').value != '')
+            if(document.getElementById('adult_birth_date1').value != '' && document.getElementById('booker_birth_date').value != '')
                 document.getElementById('adult_birth_date1').disabled = true;
             document.getElementById('adult_id1').value = document.getElementById('booker_id').value;
         }else{
@@ -2076,11 +2076,13 @@ function copy_booker_to_passenger(val,type){
         initial_date = moment().subtract(17, 'years').format('DD MMM YYYY');
         document.getElementById('adult_birth_date1').value = initial_date;
         document.getElementById('adult_passport_number1').value = '';
-        document.getElementById('adult_passport_number1').readOnly = false;
-        document.getElementById('adult_passport_expired_date1').value = '';
-        document.getElementById('adult_passport_expired_date1').readOnly = false;
-        document.getElementById('adult_country_of_issued1').value = '';
-        document.getElementById('select2-adult_country_of_issued1_id-container').value = '';
+        try{
+            document.getElementById('adult_passport_number1').readOnly = false;
+            document.getElementById('adult_passport_expired_date1').value = '';
+            document.getElementById('adult_passport_expired_date1').readOnly = false;
+            document.getElementById('adult_country_of_issued1').value = '';
+            document.getElementById('select2-adult_country_of_issued1_id-container').value = '';
+        }catch(err){}
         document.getElementById('adult_email1').value = '';
         document.getElementById('adult_email1').readOnly = false;
         document.getElementById('adult_nationality1_id').disabled = false;

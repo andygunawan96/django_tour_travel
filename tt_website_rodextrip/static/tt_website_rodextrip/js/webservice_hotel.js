@@ -739,7 +739,9 @@ function hotel_provision(price_code, provider){
                 document.getElementById('issued_hotel_btn').disabled = false;
             }
             for (rec in msg.result.response.hotel_norm){
-                document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ msg.result.response.hotel_norm[rec] +'</li>';
+                data_print = msg.result.response.hotel_norm[rec].replace(/&lt;/g, '<');
+                data_print = data_print.replace(/&gt;/g, '>');
+                document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ data_print +'</li>';
             }
             document.getElementById('js_hotel_norms_container').style.display = 'block';
        },

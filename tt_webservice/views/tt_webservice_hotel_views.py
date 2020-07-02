@@ -156,7 +156,7 @@ def search(request):
     try:
         child_age = []
         if request.POST['child_age'] != '':
-            request.POST['child_age'].split(',')
+            child_age = request.POST['child_age'].split(',')
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
         id = ''
