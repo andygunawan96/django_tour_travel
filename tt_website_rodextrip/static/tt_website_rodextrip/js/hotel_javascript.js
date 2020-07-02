@@ -1543,6 +1543,7 @@ function check_passenger(adult, child){
     //booker
     length_name = 25;
     error_log = '';
+    pax_list = [];
     try{
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence != 'booker'){
@@ -1621,6 +1622,10 @@ function check_passenger(adult, child){
                     error_log += 'Copy booker to passenger true, value title, first name, and last name has to be same!</br>\n';
        //adult
        for(i=1;i<=adult;i++){
+           if(pax_list.includes(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value) == true)
+                error_log+= 'please use different name for adult passenger '+i+'!</br>\n';
+           else
+                pax_list.push(document.getElementById('adult_first_name'+i).value+document.getElementById('adult_last_name'+i).value)
            if(check_name(document.getElementById('adult_title'+i).value,
             document.getElementById('adult_first_name'+i).value,
             document.getElementById('adult_last_name'+i).value,
@@ -1674,6 +1679,10 @@ function check_passenger(adult, child){
        }
        //child
        for(i=1;i<=child;i++){
+           if(pax_list.includes(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value) == true)
+                error_log+= 'please use different name for child passenger '+i+'!</br>\n';
+           else
+                pax_list.push(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value)
            if(check_name(document.getElementById('child_title'+i).value,
                document.getElementById('child_first_name'+i).value,
                document.getElementById('child_last_name'+i).value,
