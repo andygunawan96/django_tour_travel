@@ -358,7 +358,7 @@ function add_multi_city(type){
                 <div class="col-lg-4 col-md-4">`;
                 if(template != 4){
                     text_paxs += `
-                    <span class="span-search-ticket"><i class="fas fa-plane"></i> Passenger</span>
+                    <span class="span-search-ticket"><i class="fas fa-plane"></i> Airline</span>
                     <div class="input-container-search-ticket btn-group">`;
                 }else{
                     text_paxs += `

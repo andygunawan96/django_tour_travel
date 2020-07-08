@@ -1129,7 +1129,6 @@ function change_filter(type, value){
 }
 
 function hotel_filter_render(){
-
     var node = document.createElement("div");
     text = '';
     text+= `
@@ -1679,10 +1678,10 @@ function check_passenger(adult, child){
        }
        //child
        for(i=1;i<=child;i++){
-           if(pax_list.includes(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value) == true)
-                error_log+= 'please use different name for child passenger '+i+'!</br>\n';
-           else
-                pax_list.push(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value)
+//           if(pax_list.includes(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value) == true)
+//                error_log+= 'please use different name for child passenger '+i+'!</br>\n';
+//           else
+//                pax_list.push(document.getElementById('child_first_name'+i).value+document.getElementById('child_last_name'+i).value)
            if(check_name(document.getElementById('child_title'+i).value,
                document.getElementById('child_first_name'+i).value,
                document.getElementById('child_last_name'+i).value,

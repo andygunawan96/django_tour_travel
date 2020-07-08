@@ -729,8 +729,8 @@ function hotel_provision(price_code, provider){
        },
        success: function(msg) {
             //testing start
-            console.log("Provsion:");
-            console.log(msg);
+            //console.log("Provsion:");
+            //console.log(msg);
             //testing end
             provision = msg;
             if(msg.result.error_code == 0){
@@ -738,12 +738,14 @@ function hotel_provision(price_code, provider){
             }else if(msg.result.error_code == 4006){
                 document.getElementById('issued_hotel_btn').disabled = false;
             }
-            for (rec in msg.result.response.hotel_norm){
-                data_print = msg.result.response.hotel_norm[rec].replace(/&lt;/g, '<');
-                data_print = data_print.replace(/&gt;/g, '>');
-                document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ data_print +'</li>';
+            if (msg.result.response.hotel_norm){
+                for (rec in msg.result.response.hotel_norm){
+                    data_print = msg.result.response.hotel_norm[rec].replace(/&lt;/g, '<');
+                    data_print = data_print.replace(/&gt;/g, '>');
+                    document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ data_print +'</li>';
+                }
+                document.getElementById('js_hotel_norms_container').style.display = 'block';
             }
-            document.getElementById('js_hotel_norms_container').style.display = 'block';
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){
