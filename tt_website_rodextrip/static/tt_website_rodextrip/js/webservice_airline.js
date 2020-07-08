@@ -3591,9 +3591,9 @@ function airline_get_booking(data){
                         for(provider in msg.result.response.provider_bookings){
                             try{
                                 ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number;
-
                                 if(provider != msg.result.response.provider_bookings.length - 1)
-                                    ticket += ', ';
+                                    if(ticket != '')
+                                        ticket += ', ';
                                 if(ff_request != '')
                                     ff_request += '<br/>';
                                 if(msg.result.response.provider_bookings[provider].tickets[pax].ff_code != '' && msg.result.response.provider_bookings[provider].tickets[pax].ff_number != '')
