@@ -985,6 +985,7 @@ def review(request):
                                 "ff_number": request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)],
                                 "ff_code": code
                             })
+                        counter += 1
                     adult.append({
                         "pax_type": "ADT",
                         "first_name": request.POST['adult_first_name' + str(i + 1)],
@@ -1086,6 +1087,7 @@ def review(request):
                                 "ff_number": request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)],
                                 "ff_code": code
                             })
+                        counter += 1
                     child.append({
                         "pax_type": "CHD",
                         "first_name": request.POST['child_first_name' + str(i + 1)],
