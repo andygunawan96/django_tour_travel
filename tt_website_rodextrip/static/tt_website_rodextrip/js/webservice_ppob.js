@@ -302,6 +302,10 @@ function search_ppob(){
     }catch(err){}
     try{
         customer_email = document.getElementById('customer_email').value
+        if (customer_email == '')
+        {
+            error_log += 'Please fill your email address!';
+        }
     }catch(err){}
     if(product_code != '' && customer_number != '' && error_log == ''){
         console.log(carrier_provider_ppob);
