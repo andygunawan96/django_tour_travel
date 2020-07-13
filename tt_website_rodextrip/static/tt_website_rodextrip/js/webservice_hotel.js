@@ -778,6 +778,7 @@ function hotel_issued_alert(val){
     }).then((result) => {
       if (result.value) {
 //        hotel_issued_booking();
+//        console.log(provision.result);
         if(provision.result.error_code == 0){
             $('.next-loading-booking').prop('disabled', true);
             $('.next-loading-issued').addClass("running");
@@ -856,7 +857,7 @@ function hotel_issued_alert(val){
             document.getElementById('old_price').innerHTML = text;
             text = '';
             temporary = provision.result.response;
-
+            //console.log(temporary);
             text += `
                 <div class="row" style="margin-bottom:5px; ">
                     <div class="col-lg-12">
@@ -1163,9 +1164,10 @@ function hotel_get_booking(data){
                                 <th class="">Meal Type</th>
                             </tr>`;
                         for(i in msg.result.response.hotel_rooms){
+                        var oioi = parseInt(i)+1;
                         text+=`
                             <tr>
-                                <td>`+parseInt(i+1)+`</td>
+                                <td>`+oioi+`</td>
                                 <td>`+msg.result.response.hotel_rooms[i].date+`</td>
                                 <td>`+msg.result.response.hotel_rooms[i].room_name;
                                  if(msg.result.response.hotel_rooms[i].room_type != '')
@@ -1415,10 +1417,11 @@ function hotel_get_booking(data){
                         </div>`;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                             text_detail+=`
-                            <div class="row" id="show_commission" style="display:none;">
+                            <div class="row" id="show_commission_hotel" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                     <div class="alert alert-success">
-                                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                                        <!--<span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>-->
+                                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(msg.result.response.commission))+`</span><br>
                                     </div>
                                 </div>
                             </div>`;
@@ -1432,7 +1435,7 @@ function hotel_get_booking(data){
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                             text_detail+=`
                             <div style="margin-bottom:5px;">
-                                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel('commission');" value="Show Commission"/>
                             </div>`;
                         text_detail+=`
                     </div>`;
