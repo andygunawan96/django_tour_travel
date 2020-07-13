@@ -197,7 +197,7 @@ function get_transactions_notification(val){
                 'provider_type': JSON.stringify([]),
                 'signature': signature,
                 'type': 'all',
-                'state': '',
+                'state': 'booked',
                 'start_date': '',
                 'end_date': '',
                 'name': '',
@@ -248,47 +248,41 @@ function get_transactions_notification(val){
                             if(msg.result.response[i][j].hold_date != ''){
                                 date = moment.utc(msg.result.response[i][j].hold_date).format('YYYY-MM-DD HH:mm:ss');
                                 var localTime  = moment.utc(date).toDate();
-                                if(today >= moment(localTime) && msg.result.response[i][j].state_description == 'Expired'){
-                                    hold_date = 'Expired';
-                                }else if(msg.result.response[i][j].state_description == 'Issued'){
-                                    hold_date = 'Issued';
-                                }else{
-                                    hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                                    if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
-                                        document.getElementById('notification_div').innerHTML +=`
-                                            <div class="row" id="alert`+check_notif+`">
-                                                <div class="col-sm-6">
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <div class="alert alert-warning" role="alert">
-                                                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                      <strong>Hurry pay for this booking!</strong> `+msg.result.response[i][j].order_number + ' - ' + hold_date+`
-                                                    </div>
-                                                </div>
-                                            </div>`;
-                                    }
-                                    check_notif++;
-                                    text = '';
-                                    text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
-                                    text+=`<form action="airline/booking/`+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
-                                    text+=`<div class="row">
-                                            <div class="col-sm-6">`;
-                                    text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
-                                    text+=` </div>
-                                            <div class="col-sm-6" style="text-align:right">
-                                            <span style="font-weight:500;"> `+hold_date+`</span>`;
-                                    text+=` </div>
-                                           </div>`;
-                                    text+=`<input type="hidden" id="order_number`+check_notif+`" name="order_number`+check_notif+`" value="`+msg.result.response[i][j].order_number+`">`;
-                                    text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
-                                    text+=`<hr/></form>`;
-                                    text+=`</div>`;
-                                    document.getElementById('notification_detail').innerHTML += text;
-                                    $(".bell_notif").addClass("infinite");
-                                    $(".bell_notif").css("color", color);
-//                                        document.getElementById('notification_detail2').innerHTML += text;
 
+                                hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                                if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
+                                    document.getElementById('notification_div').innerHTML +=`
+                                        <div class="row" id="alert`+check_notif+`">
+                                            <div class="col-sm-6">
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div class="alert alert-warning" role="alert">
+                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                  <strong>Hurry pay for this booking!</strong> `+msg.result.response[i][j].order_number + ' - ' + hold_date+`
+                                                </div>
+                                            </div>
+                                        </div>`;
                                 }
+                                check_notif++;
+                                text = '';
+                                text+=`<div class="col-lg-12 notification-hover" style="cursor:pointer;">`;
+                                text+=`<form action="airline/booking/`+btoa(msg.result.response[i][j].order_number)+`" method="post" id="notification_`+check_notif+`" onclick="set_csrf_notification(`+check_notif+`)">`;
+                                text+=`<div class="row">
+                                        <div class="col-sm-6">`;
+                                text+=`<span style="font-weight:500;"> `+check_notif+`. `+msg.result.response[i][j].order_number+` - `+msg.result.response[i][j].pnr+`</span>`;
+                                text+=` </div>
+                                        <div class="col-sm-6" style="text-align:right">
+                                        <span style="font-weight:500;"> `+hold_date+`</span>`;
+                                text+=` </div>
+                                       </div>`;
+                                text+=`<input type="hidden" id="order_number`+check_notif+`" name="order_number`+check_notif+`" value="`+msg.result.response[i][j].order_number+`">`;
+                                text+=`<input type="hidden" id="type_reservation`+check_notif+`" name="order_number`+check_notif+`" value="`+j+`">`;
+                                text+=`<hr/></form>`;
+                                text+=`</div>`;
+                                document.getElementById('notification_detail').innerHTML += text;
+                                $(".bell_notif").addClass("infinite");
+                                $(".bell_notif").css("color", color);
+//                              document.getElementById('notification_detail2').innerHTML += text;
                             }else{
                                 hold_date = 'Error booked';
                             }
