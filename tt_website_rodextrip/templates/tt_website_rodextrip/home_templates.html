@@ -133,6 +133,14 @@
                                 </a>
                             </li>
                             {% endif %}
+                            {% if "hotel" in provider %}
+                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'hotel');" id="nav_scroll_menu_hotel">
+                                <a class="nav-link" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab" aria-controls="hotel" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> HOTEL </span>
+                                </a>
+                            </li>
+                            {% endif %}
                             {% if name == "Rodextrip" %}
                             <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'deal');" id="nav_scroll_menu_deal">
                                 <a class="nav-link" id="deal-tab" data-toggle="tab" href="#deal" role="tab" aria-controls="deal" aria-selected="false">
@@ -141,19 +149,19 @@
                                 </a>
                             </li>
                             {% endif %}
-                            {% if "tour" in provider %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'tour');" id="nav_scroll_menu_tour">
-                                <a class="nav-link" id="tour-tab" data-toggle="tab" href="#tour" role="tab" aria-controls="tour" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'TOUR' %} </span>
+                            {% if "ppob" in provider %}
+                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'ppob');" id="nav_scroll_menu_ppob">
+                                <a class="nav-link" id="bills-tab" data-toggle="tab" href="#bills" role="tab" aria-controls="bills" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'BILLS & TOP UP' %} </span>
                                 </a>
                             </li>
                             {% endif %}
-                            {% if "hotel" in provider %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'hotel');" id="nav_scroll_menu_hotel">
-                                <a class="nav-link" id="hotel-tab" data-toggle="tab" href="#hotel" role="tab" aria-controls="hotel" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> HOTEL </span>
+                            {% if "train" in provider %}
+                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'train');" id="nav_scroll_menu_train">
+                                <a class="nav-link" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'TRAIN' %} </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -165,11 +173,26 @@
                                 </a>
                             </li>
                             {% endif %}
-                            {% if "train" in provider %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'train');" id="nav_scroll_menu_train">
-                                <a class="nav-link" id="train-tab" data-toggle="tab" href="#train" role="tab" aria-controls="train" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'TRAIN' %} </span>
+                            {% if "event" in provider %}
+                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'event');" id="nav_scroll_menu_event">
+                                <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'event');" id="nav_scroll_menu_event">
+                                <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% if "tour" in provider %}
+                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'tour');" id="nav_scroll_menu_tour">
+                                <a class="nav-link" id="tour-tab" data-toggle="tab" href="#tour" role="tab" aria-controls="tour" aria-selected="false">
+                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i>
+                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'TOUR' %} </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -186,36 +209,6 @@
                                 <a class="nav-link" id="passport-tab" data-toggle="tab" href="#passport" role="tab" aria-controls="passport" aria-selected="false">
                                     <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i>
                                     <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'PASSPORT' %} </span>
-                                </a>
-                            </li>
-                            {% endif %}
-                            {% if "ppob" in provider %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'ppob');" id="nav_scroll_menu_ppob">
-                                <a class="nav-link" id="bills-tab" data-toggle="tab" href="#bills" role="tab" aria-controls="bills" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'BILLS & TOP UP' %} </span>
-                                </a>
-                            </li>
-                            {% else %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'ppob');" id="nav_scroll_menu_ppob">
-                                <a class="nav-link" id="bills-tab" data-toggle="tab" href="#bills" role="tab" aria-controls="bills" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'BILLS & TOP UP' %} </span>
-                                </a>
-                            </li>
-                            {% endif %}
-                            {% if "event" in provider %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'event');" id="nav_scroll_menu_event">
-                                <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
-                                </a>
-                            </li>
-                            {% else %}
-                            <li class="nav-item" onclick="scroll_menu_horizontal('nav-item', 'event');" id="nav_scroll_menu_event">
-                                <a class="nav-link" id="event-tab" data-toggle="tab" href="#event" role="tab" aria-controls="event" aria-selected="false">
-                                    <i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i>
-                                    <span class="btn-txt-color" style="padding-left:5px; font-weight:bold;"> {% trans 'EVENT' %} </span>
                                 </a>
                             </li>
                             {% endif %}
@@ -1824,36 +1817,34 @@
                             {% if "airline" in provider %}
                             <li class="tab-link current" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
                             {% endif %}
+                            {% if "hotel" in provider %}
+                            <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
+                            {% endif %}
                             {% if name == "Rodextrip" %}
                             <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">{% trans 'Rodexshop' %}</label></li>
                             {% endif %}
-                            {% if "tour" in provider %}
-                            <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i></i><label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
+                            {% if "ppob" in provider %}
+                            <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
                             {% endif %}
-                            {% if "hotel" in provider %}
-                            <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
+                            {% if "train" in provider %}
+                            <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
                             {% endif %}
                             {% if "activity" in provider %}
                             <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activty');" id="nav_scroll_menu_activity"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
                             {% endif %}
-                            {% if "train" in provider %}
-                            <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
+                            {% if "event" in provider %}
+                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                            {% else %}
+                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                            {% endif %}
+                            {% if "tour" in provider %}
+                            <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i></i><label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
                             {% endif %}
                             {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                             <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
                             {% endif %}
                             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security%}
                             <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
-                            {% endif %}
-                            {% if "ppob" in provider %}
-                            <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                            {% else %}
-                            <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                            {% endif %}
-                            {% if "event" in provider %}
-                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                            {% else %}
-                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon3"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -2996,20 +2987,28 @@
                                     {% if "airline" in provider %}
                                     <li class="tab-link current" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
                                     {% endif %}
+                                    {% if "hotel" in provider %}
+                                    <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
+                                    {% endif %}
                                     {% if name == 'Rodextrip' %}
                                     <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">Rodexshop</label></li>
                                     {% endif %}
-                                    {% if "tour" in provider %}
-                                    <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i><label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
+                                    {% if "ppob" in provider %}
+                                    <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
                                     {% endif %}
-                                    {% if "hotel" in provider %}
-                                    <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i><label class="btn-txt-color">HOTEL</label></li>
+                                    {% if "train" in provider %}
+                                    <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
                                     {% endif %}
                                     {% if "activity" in provider %}
                                     <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i><label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
                                     {% endif %}
-                                    {% if "train" in provider %}
-                                    <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i><label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
+                                    {% if "event" in provider %}
+                                    <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                    {% else %}
+                                    <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                    {% endif %}
+                                    {% if "tour" in provider %}
+                                    <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i><label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
                                     {% endif %}
                                     {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon" style="background:unset;"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i><label class="btn-txt-color">VISA</label></li>
@@ -3017,17 +3016,6 @@
                                     {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                     <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/passport.png"/></i><label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
                                     {% endif %}
-                                    {% if "ppob" in provider %}
-                                    <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                                    {% else %}
-                                    <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/bill.png"/></i><label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                                    {% endif %}
-                                    {% if "event" in provider %}
-                                    <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                    {% else %}
-                                    <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon" style="background:unset;"><img style="width:18px;" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                    {% endif %}
-
                                 </ul>
                             </div>
                         </div>
@@ -4186,20 +4174,28 @@
                                         {% if "airline" in provider %}
                                         <li class="tab-link current" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/></i><label class="btn-txt-color">{% trans 'AIRLINE' %}</label></li>
                                         {% endif %}
+                                        {% if "hotel" in provider %}
+                                        <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i> <label class="btn-txt-color">HOTEL</label></li>
+                                        {% endif %}
                                         {% if name == 'Rodextrip' %}
                                         <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">Rodexshop</label></li>
                                         {% endif %}
-                                        {% if "tour" in provider %}
-                                        <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i> <label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
+                                        {% if "ppob" in provider %}
+                                        <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i> <label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
                                         {% endif %}
-                                        {% if "hotel" in provider %}
-                                        <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/></i> <label class="btn-txt-color">HOTEL</label></li>
+                                        {% if "train" in provider %}
+                                        <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
                                         {% endif %}
                                         {% if "activity" in provider %}
                                         <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/></i> <label class="btn-txt-color">{% trans 'ACTIVITY' %}</label></li>
                                         {% endif %}
-                                        {% if "train" in provider %}
-                                        <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/></i> <label class="btn-txt-color">{% trans 'TRAIN' %}</label></li>
+                                        {% if "event" in provider %}
+                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                        {% else %}
+                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                        {% endif %}
+                                        {% if "tour" in provider %}
+                                        <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/></i> <label class="btn-txt-color">{% trans 'TOUR' %}</label></li>
                                         {% endif %}
                                         {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/></i> <label class="btn-txt-color">VISA</label></li>
@@ -4207,18 +4203,6 @@
                                         {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                         <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/></i> <label class="btn-txt-color">{% trans 'PASSPORT' %}</label></li>
                                         {% endif %}
-                                        {% if "ppob" in provider %}
-                                        <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i> <label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                                        {% else %}
-                                        <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/></i> <label class="btn-txt-color">{% trans 'BILLS & TOP UP' %}</label></li>
-                                        {% endif %}
-
-                                        {% if "event" in provider %}
-                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                        {% else %}
-                                        <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><i class="image-rounded-icon"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                        {% endif %}
-
                                     </ul>
                                 </div>
                             </div>
@@ -5394,20 +5378,28 @@
                                             {% if "airline" in provider %}
                                             <li class="tab-link current" data-tab="tab-airline" onclick="scroll_menu_horizontal('tab-link', 'airline');" id="nav_scroll_menu_airline"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-airline.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'AIRLINE' %}</label></li>
                                             {% endif %}
+                                            {% if "hotel" in provider %}
+                                            <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">HOTEL</label></li>
+                                            {% endif %}
                                             {% if name == 'Rodextrip' %}
                                             <li class="tab-link" data-tab="tab-deal" onclick="scroll_menu_horizontal('tab-link', 'deal');" id="nav_scroll_menu_deal"><img style="width:20px; height:20px" src="{{static_path}}images/icon/coupon.png"/></i><label class="btn-txt-color">Rodexshop</label></li>
                                             {% endif %}
-                                            {% if "tour" in provider %}
-                                            <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TOUR' %}</label></li>
+                                            {% if "ppob" in provider %}
+                                            <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'BILLS & TOP UP' %}</label></li>
                                             {% endif %}
-                                            {% if "hotel" in provider %}
-                                            <li class="tab-link" data-tab="tab-hotel" onclick="scroll_menu_horizontal('tab-link', 'hotel');" id="nav_scroll_menu_hotel"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-hotel.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">HOTEL</label></li>
+                                            {% if "train" in provider %}
+                                            <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TRAIN' %}</label></li>
                                             {% endif %}
                                             {% if "activity" in provider %}
                                             <li class="tab-link" data-tab="tab-activity" onclick="scroll_menu_horizontal('tab-link', 'activity');" id="nav_scroll_menu_activity"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-activity.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'ACTIVITY' %}</label></li>
                                             {% endif %}
-                                            {% if "train" in provider %}
-                                            <li class="tab-link" data-tab="tab-train" onclick="scroll_menu_horizontal('tab-link', 'train');" id="nav_scroll_menu_train"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-train.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TRAIN' %}</label></li>
+                                            {% if "event" in provider %}
+                                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                            {% else %}
+                                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
+                                            {% endif %}
+                                            {% if "tour" in provider %}
+                                            <li class="tab-link" data-tab="tab-tour" onclick="scroll_menu_horizontal('tab-link', 'tour');" id="nav_scroll_menu_tour"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-tour.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'TOUR' %}</label></li>
                                             {% endif %}
                                             {% if "visa" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <li class="tab-link" data-tab="tab-visa" onclick="scroll_menu_horizontal('tab-link', 'visa');" id="nav_scroll_menu_visa"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-visa.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">VISA</label></li>
@@ -5415,18 +5407,6 @@
                                             {% if "passport" in provider and 'b2c_limitation' not in username.co_agent_frontend_security %}
                                             <li class="tab-link" data-tab="tab-passport" onclick="scroll_menu_horizontal('tab-link', 'passport');" id="nav_scroll_menu_passport"><img style="width:20px; height:20px" src="{{static_path}}images/icon/passport.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'PASSPORT' %}</label></li>
                                             {% endif %}
-                                            {% if "ppob" in provider %}
-                                            <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'BILLS & TOP UP' %}</label></li>
-                                            {% else %}
-                                            <li class="tab-link" data-tab="tab-bills" onclick="scroll_menu_horizontal('tab-link', 'ppob');" id="nav_scroll_menu_ppob"><img style="width:20px; height:20px" src="{{static_path}}images/icon/bill.png"/><label class="btn-txt-color" style="font-weight:bold; padding:5px;">{% trans 'BILLS & TOP UP' %}</label></li>
-                                            {% endif %}
-
-                                            {% if "event" in provider %}
-                                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                            {% else %}
-                                            <li class="tab-link" data-tab="tab-event" onclick="scroll_menu_horizontal('tab-link', 'event');" id="nav_scroll_menu_event"><img style="width:20px; height:20px" src="{{static_path}}images/icon/home-event.png"/></i><label class="btn-txt-color">{% trans 'EVENT' %}</label></li>
-                                            {% endif %}
-
                                         </ul>
                                     </div>
                                 </div>
