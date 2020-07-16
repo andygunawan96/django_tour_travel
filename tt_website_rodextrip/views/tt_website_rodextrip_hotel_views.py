@@ -491,6 +491,7 @@ def review(request):
                 'static_path_url_server': get_url_static_path(),
                 'time_limit': request.session['time_limit'],
                 'printout_rec': print_json,
+                'hotel_cancellation_policy': request.session['hotel_cancellation_policy']['result']['response']['policies'],
                 # 'cookies': json.dumps(res['result']['cookies']),
             })
         except Exception as e:

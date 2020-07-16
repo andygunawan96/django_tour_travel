@@ -440,8 +440,7 @@ function sort(response, check_filter){
                 });
                 checking_price = 0;
             }
-        }
-        else{
+        }else{
             if(high_price_slider <= 1000000){
                 step_slider = 50000;
             }
@@ -479,44 +478,39 @@ function sort(response, check_filter){
                 if(sorting == 'Lowest Price'){
                     var price_i = 0;
                     var price_j = 0;
-                    if(response.hotel_ids[i].prices.length > 0){
-                        var arr = [];
-                        for (var key in response.hotel_ids[i].prices) {
-                            if (response.hotel_ids[i].prices.hasOwnProperty(key)) {
-                                arr.push( response.hotel_ids[i].prices[key].price );
+
+                    var arr = [];
+                    for (var key in response.hotel_ids[i].prices) {
+                        if (response.hotel_ids[i].prices.hasOwnProperty(key)) {
+                            arr.push( response.hotel_ids[i].prices[key].price );
+                        }
+                    }
+                    for(var l = 0; l < arr.length-1; l++)
+                        for(var k = l+1; k <= arr.length-1; k++) {
+                            if(arr[j] > arr[k]){
+                                var temp = arr[l];
+                                arr[l] = arr[k];
+                                arr[k] = temp;
                             }
                         }
-                        for(var l = 0; l < arr.length-1; l++)
-                            for(var k = l+1; k <= arr.length-1; k++) {
-                                if(arr[j].price > arr[k].price){
-                                    var temp = arr[l];
-                                    arr[l] = arr[k];
-                                    arr[k] = temp;
-                                }
-                            }
-                        price_i = arr[0];
+                    price_i = arr[0];
+
+                    var arr = [];
+                    for (var key in response.hotel_ids[j].prices) {
+                        if (response.hotel_ids[j].prices.hasOwnProperty(key)) {
+                            arr.push( response.hotel_ids[j].prices[key].price );
+                        }
                     }
-                    else
-                        price_i = 0;
-                    if(response.hotel_ids[j].prices.length > 0){
-                        var arr = [];
-                        for (var key in response.hotel_ids[j].prices) {
-                            if (response.hotel_ids[j].prices.hasOwnProperty(key)) {
-                                arr.push( response.hotel_ids[j].prices[key].price );
+                    for(var l = 0; l < arr.length-1; l++)
+                        for(var k = l+1; k <= arr.length-1; k++) {
+                            if(arr[l] > arr[k]){
+                                var temp = arr[l];
+                                arr[l] = arr[k];
+                                arr[k] = temp;
                             }
                         }
-                        for(var l = 0; l < arr.length-1; l++)
-                            for(var k = l+1; k <= arr.length-1; k++) {
-                                if(arr[l].price > arr[k].price){
-                                    var temp = arr[l];
-                                    arr[l] = arr[k];
-                                    arr[k] = temp;
-                                }
-                            }
-                        price_j = arr[0];
-                    }
-                    else
-                        price_j = 0;
+                    price_j = arr[0];
+
                     if(price_i > price_j){
                         var temp = response.hotel_ids[i];
                         response.hotel_ids[i] = response.hotel_ids[j];
@@ -525,44 +519,38 @@ function sort(response, check_filter){
                 }else if(sorting == 'Highest Price'){
                     var price_i = 0;
                     var price_j = 0;
-                    if(response.hotel_ids[i].prices.length > 0){
-                        var arr = [];
-                        for (var key in response.hotel_ids[i].prices) {
-                            if (response.hotel_ids[i].prices.hasOwnProperty(key)) {
-                                arr.push( response.hotel_ids[i].prices[key].price );
+                    var arr = [];
+                    for (var key in response.hotel_ids[i].prices) {
+                        if (response.hotel_ids[i].prices.hasOwnProperty(key)) {
+                            arr.push( response.hotel_ids[i].prices[key].price );
+                        }
+                    }
+                    for(var l = 0; l < arr.length-1; l++)
+                        for(var k = l+1; k <= arr.length-1; k++) {
+                            if(arr[l] < arr[k]){
+                                var temp = arr[l];
+                                arr[l] = arr[k];
+                                arr[k] = temp;
                             }
                         }
-                        for(var l = 0; l < arr.length-1; l++)
-                            for(var k = l+1; k <= arr.length-1; k++) {
-                                if(arr[l].price < arr[k].price){
-                                    var temp = arr[l];
-                                    arr[l] = arr[k];
-                                    arr[k] = temp;
-                                }
-                            }
-                        price_i = arr[0];
+                    price_i = arr[0];
+
+                    var arr = [];
+                    for (var key in response.hotel_ids[j].prices) {
+                        if (response.hotel_ids[j].prices.hasOwnProperty(key)) {
+                            arr.push( response.hotel_ids[j].prices[key].price );
+                        }
                     }
-                    else
-                        price_i = 0;
-                    if(response.hotel_ids[j].prices.length > 0){
-                        var arr = [];
-                        for (var key in response.hotel_ids[j].prices) {
-                            if (response.hotel_ids[j].prices.hasOwnProperty(key)) {
-                                arr.push( response.hotel_ids[j].prices[key].price );
+                    for(var l = 0; l < arr.length-1; l++)
+                        for(var k = l+1; k <= arr.length-1; k++) {
+                            if(arr[l] < arr[k]){
+                                var temp = arr[l];
+                                arr[l] = arr[k];
+                                arr[k] = temp;
                             }
                         }
-                        for(var l = 0; l < arr.length-1; l++)
-                            for(var k = l+1; k <= arr.length-1; k++) {
-                                if(arr[l].price < arr[k].price){
-                                    var temp = arr[l];
-                                    arr[l] = arr[k];
-                                    arr[k] = temp;
-                                }
-                            }
-                        price_j = arr[0];
-                    }
-                    else
-                        price_j = 0;
+                    price_j = arr[0];
+
                     if(price_i < price_j){
                         var temp = response.hotel_ids[i];
                         response.hotel_ids[i] = response.hotel_ids[j];
@@ -1758,7 +1746,7 @@ function check_passenger(adult, child){
      }
 }
 
-function hotel_detail(){
+function hotel_detail(old_cancellation_policy){
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
         tax = 0;
         fare = 0;
@@ -1811,9 +1799,34 @@ function hotel_detail(){
         //repricing
     }
 
-    //console.log(hotel_price);
-    text = '';
-    text += `
+    //console.log(old_cancellation_policy);
+    old_cancellation_text = ``;
+    for(i in old_cancellation_policy){
+        if (old_cancellation_policy[i].received_amount != 0){
+            old_cancellation_text += '<li style="list-style: unset;">Cancellation Before: ' + old_cancellation_policy[i].date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
+            //$text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
+        } else {
+            old_cancellation_text += '<li style="list-style: unset;">No Cancellation after: ' + old_cancellation_policy[i].date;
+            //$text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
+        }
+    }
+    if (old_cancellation_text == ''){
+        old_cancellation_text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
+        //$text2 += 'No Cancellation Policy Provided \n';
+    }
+
+    new_cancellation_text = ``;
+    for(i in old_cancellation_policy){
+        if (old_cancellation_policy[i].received_amount != 0){
+            new_cancellation_text += '<li style="list-style: unset;">Cancellation Before: ' + old_cancellation_policy[i].date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
+        } else {
+            new_cancellation_text += '<li style="list-style: unset;">No Cancellation after: ' + old_cancellation_policy[i].date;
+        }
+    }
+    if (new_cancellation_text == ''){
+        new_cancellation_text = old_cancellation_text;
+    }
+    text = `
     <div class="row" style="margin-bottom:5px; ">
         <div class="col-lg-12">
            <h4> Price Detail </h4>
@@ -1921,6 +1934,8 @@ function hotel_detail(){
     }
     //console.log(text);
     try{
+        document.getElementById('old_cancellation_policy').innerHTML = old_cancellation_text;
+        document.getElementById('new_cancellation_policy').innerHTML = new_cancellation_text;
         document.getElementById('hotel_detail').innerHTML = text;
     }catch(err){}
 }
