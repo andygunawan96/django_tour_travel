@@ -50,6 +50,8 @@
     hotel_price = hotel_price.replace(/None/g, '[]');
 
     hotel_price = JSON.parse(hotel_price);
+    cancellation_policy = `{{hotel_cancellation_policy}}`;
+    cancellation_policy = JSON.parse(cancellation_policy.replace(/&#39;/g, '"').replace(/&quot;/g, '"').replace(/False/g, 'false').replace(/True/g, 'true').replace(/None/g, '""'));
 
 </script>
 
@@ -250,6 +252,23 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <!--                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="price_total"></div>-->
+                            <div style="background-color:white; padding:10px; border:1px solid #cdcdcd; margin-bottom:10px;" id="hotel_cancellation">
+                                <div class="row" style="margin-bottom:5px; ">
+                                    <div class="col-lg-12">
+                                       <h4> Cancellation Policy </h4>
+                                       <b>{{hotel_pick.name}}</b>
+                                       <hr/>
+                                       <h5> Cancellation Policy </h5>
+                                       <ul id="old_cancellation_policy" style="list-style-type: disc; margin: 0 15px;">
+                                       </ul>
+                                       <hr/>
+                                       <h5> Newest Cancellation Policy </h5>
+                                       <ul id="new_cancellation_policy" style="list-style-type: disc; margin: 0 15px;">
+                                       </ul>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
                             <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="hotel_detail"></div>
                         </div>
                         <div class="col-lg-12">
@@ -398,9 +417,9 @@
 
 <script>
     //document.getElementById('voucher_discount').style.display = 'none';
-    hotel_detail();
+    hotel_detail(cancellation_policy);
     hotel_facility_request(facilities);
-    hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}')
+    hotel_provision('{{hotel_room_detail_pick.price_code}}', '{{hotel_room_detail_pick.provider}}');
     //get_payment_acq('Issued','{{booker.booker_seq_id}}', '', 'billing',signature,'hotel_review');
     $( document ).ready(function() {
       breadcrumb_create("hotel", 5, 0);
