@@ -746,6 +746,25 @@ function hotel_provision(price_code, provider){
                 }
                 document.getElementById('js_hotel_norms_container').style.display = 'block';
             }
+            if (msg.result.response.cancellation_policy){
+                console.log(msg.result.response.cancellation_policy);
+                var text = '';
+                for (i in msg.result.response.cancellation_policy){
+                    if (msg.result.response.cancellation_policy[i].charge_type == 'amount'){
+                        text += '<li style="list-style: unset;">Cancellation between: ' + msg.result.response.cancellation_policy[i].from_date + ' - ' + msg.result.response.cancellation_policy[i].to_date;
+                        if (msg.result.response.cancellation_policy[i].charge_rate == 0){
+                            text += ' No Charged Fee';
+                        } else {
+                            text += ' will be Charge: ' + msg.result.response.cancellation_policy[i].charge_rate;
+                        }
+                        text += '<br/>Notes: ' + msg.result.response.cancellation_policy[i].description + '</li>';
+                    } else {
+                        text += '<li style="list-style: unset;">Cancellation between: ' + msg.result.response.cancellation_policy[i].from_date + ' - ' + msg.result.response.cancellation_policy[i].to_date + ' will be Charge: ' + msg.result.response.cancellation_policy[i].charge_rate + '(%)<br/>Notes: ' + msg.result.response.cancellation_policy[i].description + '</li>';
+                    }
+                    document.getElementById('new_cancellation_policy').innerHTML = text;
+                }
+            }
+            document.getElementById('js_new_cancel').style.display = 'block';
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){
