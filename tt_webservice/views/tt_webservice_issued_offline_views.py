@@ -84,8 +84,8 @@ def signin(request):
             "api_key": api_key,
             # "co_user": request.session['username'],
             # "co_password": request.session['password'],
-            "co_user": request.session['username'] or user_default,
-            "co_password": request.session['password'] or password_default,
+            "co_user": request.session.get('username') or user_default,
+            "co_password": request.session.get('password') or password_default,
             "co_uid": ""
         }
     except Exception as e:
@@ -98,7 +98,7 @@ def signin(request):
         request.session.modified = True
 
     except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
