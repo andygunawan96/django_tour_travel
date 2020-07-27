@@ -10,7 +10,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice_voucher_views import *
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -94,11 +94,11 @@ def signin(request):
     try:
         request.session['issued_offline_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['issued_offline_signature']))
+        _logger.info(json.dumps(request.session['issued_offline_signature']))
         request.session.modified = True
 
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -231,11 +231,11 @@ def set_data_issued_offline(request):
 
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS set_data_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
+            _logger.info("SUCCESS set_data_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR set_data_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR set_data_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_contact(request):
@@ -321,11 +321,11 @@ def update_contact(request):
     res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS update_contact_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
+            _logger.info("SUCCESS update_contact_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_contact_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_contact_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -431,11 +431,11 @@ def update_passenger(request):
     res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS update_passenger_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
+            _logger.info("SUCCESS update_passenger_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_passenger_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_passenger_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def commit_booking(request):
@@ -464,11 +464,11 @@ def commit_booking(request):
     res = util.send_request(url=url + "booking/issued_offline", data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
+            _logger.info("SUCCESS commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR commit_booking_issued_offline SIGNATURE " + request.session['issued_offline_signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_booking(request):
@@ -485,7 +485,7 @@ def get_booking(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
     try:
@@ -512,13 +512,13 @@ def get_booking(request):
                             'check_out': convert_string_to_date_to_string_front_end(line['check_out']),
                         })
             request.session['offline_get_booking_response'] = res
-            logging.getLogger("info_logger").info(json.dumps(request.session['offline_get_booking_response']))
+            _logger.info(json.dumps(request.session['offline_get_booking_response']))
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def validate(request):
@@ -534,16 +534,16 @@ def validate(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_service_charge(request):
@@ -560,14 +560,14 @@ def update_service_charge(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/issued_offline', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS update_service_charge ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_service_charge ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_service_charge_airline ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_airline ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

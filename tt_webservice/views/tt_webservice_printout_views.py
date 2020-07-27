@@ -10,7 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -92,11 +92,11 @@ def get_printout(request):
     res = util.send_request(url=url + 'printout', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_printout_api_printout " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_printout_api_printout" + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_printout_api_printout" + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     if res['result']['error_code'] == 0:
         pass

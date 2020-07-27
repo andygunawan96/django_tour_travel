@@ -12,7 +12,7 @@ import traceback
 from .tt_webservice_views import *
 from .tt_webservice_voucher_views import *
 import time
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -115,7 +115,7 @@ def login(request):
         request.session['signature'] = res['result']['response']['signature']
         if request.session.get('visa_search'):
             del request.session['visa_search']
-        logging.getLogger("info_logger").info(json.dumps(request.session['visa_signature']))
+        _logger.info(json.dumps(request.session['visa_signature']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -134,15 +134,15 @@ def get_config_provider(request):
             "provider_type": 'visa'
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("info_logger").info("get_providers VISA ERROR SIGNATURE " + request.POST['signature'])
+            _logger.info("get_providers VISA ERROR SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_config(request):
@@ -257,11 +257,11 @@ def search(request):
                 'visa_type': visa_type,
                 'process_type': process_type
             }
-            logging.getLogger("info_logger").info(json.dumps(request.session['visa_search']))
+            _logger.info(json.dumps(request.session['visa_search']))
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS search VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS search VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR search_visa TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR search_visa TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -283,9 +283,9 @@ def get_availability(request):
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR sell_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sell_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -306,9 +306,9 @@ def sell_visa(request):
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS sell_visa VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR sell_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR sell_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -344,9 +344,9 @@ def update_contact(request):
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS update_contact VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_contact VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_contact_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_contact_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -414,9 +414,9 @@ def update_passengers(request):
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS update_passengers VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_passengers VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_passengers_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_passengers_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -456,9 +456,9 @@ def commit_booking(request):
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS commit_booking VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS commit_booking VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR commit_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR commit_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -485,9 +485,9 @@ def get_booking(request):
             res['result']['response']['journey']['departure_date'] = convert_string_to_date_to_string_front_end_with_unkown_separator(res['result']['response']['journey']['departure_date'])
             for pax in res['result']['response']['passengers']:
                 pax['birth_date'] = convert_string_to_date_to_string_front_end(pax['birth_date'])
-            logging.getLogger("info_logger").info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -507,7 +507,7 @@ def update_service_charge(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
     try:
@@ -517,11 +517,11 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['visa_upsell_'+request.POST['signature']] = total_upsell
-            logging.getLogger("info_logger").info(json.dumps(request.session['visa_upsell_' + request.POST['signature']]))
+            _logger.info(json.dumps(request.session['visa_upsell_' + request.POST['signature']]))
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])
+            _logger.error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

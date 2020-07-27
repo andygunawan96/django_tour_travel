@@ -12,7 +12,7 @@ import traceback
 from .tt_webservice_views import *
 from .tt_webservice_voucher_views import *
 import time
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -111,7 +111,7 @@ def login(request):
         time.sleep(1)
         request.session['bills_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['bills_signature']))
+        _logger.info(json.dumps(request.session['bills_signature']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -130,15 +130,15 @@ def get_carriers(request):
             "provider_type": 'ppob'
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("info_logger").info("get_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
+            _logger.info("get_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -154,15 +154,15 @@ def get_carrier_providers(request):
             "provider_type": 'ppob'
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("get_carrier_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("get_carrier_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("info_logger").info("get_carrier_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
+            _logger.info("get_carrier_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -212,7 +212,7 @@ def search(request):
             request.session.modified = True
             pass
         else:
-            logging.getLogger("error_logger").error("ERROR search BILLS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR search BILLS SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -252,9 +252,9 @@ def commit_booking(request):
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS commit_booking VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS commit_booking VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR commit_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR commit_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -285,9 +285,9 @@ def get_booking(request):
                         rec1['period_date'] = parse_date_ppob(rec1['period'])
             request.session['bills_get_booking_response'] = res
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_booking_visa VISA SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -325,16 +325,16 @@ def issued(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR issued_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR issued_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def resync_status(request):
@@ -350,16 +350,16 @@ def resync_status(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS issued PPOB SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR issued_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR issued_ppob PPOB SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_service_charge(request):
@@ -376,7 +376,7 @@ def update_service_charge(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
     try:
@@ -386,11 +386,11 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['visa_upsell_'+request.POST['signature']] = total_upsell
-            logging.getLogger("info_logger").info(json.dumps(request.session['visa_upsell_' + request.POST['signature']]))
+            _logger.info(json.dumps(request.session['visa_upsell_' + request.POST['signature']]))
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])
+            _logger.error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res

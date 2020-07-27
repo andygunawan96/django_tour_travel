@@ -9,7 +9,7 @@ import json
 from .tt_webservice_views import *
 import logging
 import traceback
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -164,7 +164,7 @@ def signin(request):
                             request.session['provider'] = []
                     except:
                         request.session['provider'] = []
-                    logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
+                    _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     javascript_version = get_cache_version()
                     response = get_cache_data(javascript_version)
 
@@ -182,10 +182,10 @@ def signin(request):
                 get_new_cache(res['result']['response']['signature'])
                 request.session.create()
         else:
-            logging.getLogger("error_logger").error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
+            _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
 
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -228,7 +228,7 @@ def signin_btc(request):
             # "co_uid": ""
         }
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR get user or password for btc login\n' + str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url+'session', data=data, headers=headers, method='POST', timeout=10)
     try:
@@ -286,7 +286,7 @@ def signin_btc(request):
                             request.session['provider'] = []
                     except:
                         request.session['provider'] = []
-                    logging.getLogger("info_logger").info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
+                    _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     javascript_version = get_cache_version()
                     response = get_cache_data(javascript_version)
 
@@ -303,10 +303,10 @@ def signin_btc(request):
             except:
                 get_new_cache(res['result']['response']['signature'])
         else:
-            logging.getLogger("error_logger").error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
+            _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
 
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR SIGNIN\n' + str(e) + '\n' + traceback.format_exc())
         # pass
         # # logging.getLogger("error logger").error('testing')
         # _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -333,9 +333,9 @@ def get_new_cache(signature):
             if res_destination_airline['result']['error_code'] == 0:
                 pass
             else:
-                logging.getLogger("info_logger").info("ERROR GET CACHE FROM DESTINATION TRAIN AUTOCOMPLETE" + res_destination_airline['result']['error_msg'] + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM DESTINATION TRAIN AUTOCOMPLETE" + res_destination_airline['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
-            logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_destination_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_destination_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
         data = {'provider_type': 'train'}
         headers = {
@@ -361,9 +361,9 @@ def get_new_cache(signature):
                 file.write(json.dumps(destination_train))
                 file.close()
             else:
-                logging.getLogger("info_logger").info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + res_destination_train['result']['error_msg'] + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + res_destination_train['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
-            logging.getLogger("info_logger").info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + json.dumps(res_destination_train) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
 
         data = {}
@@ -379,9 +379,9 @@ def get_new_cache(signature):
             if res_country_airline['result']['error_code'] == 0:
                 pass
             else:
-                logging.getLogger("info_logger").info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + res_country_airline['result']['error_msg'] + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + res_country_airline['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
-            logging.getLogger("info_logger").info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + json.dumps(res_country_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.info("ERROR GET CACHE FROM COUNTRY AIRLINE AUTOCOMPLETE" + json.dumps(res_country_airline) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
         # hotel
         headers = {
@@ -403,7 +403,7 @@ def get_new_cache(signature):
                 file.write(res_cache_hotel['result']['response'])
                 file.close()
         except Exception as e:
-            logging.getLogger("info_logger").info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(
+            _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
             pass
 
@@ -423,9 +423,9 @@ def get_new_cache(signature):
             if res_config_visa['result']['error_code'] == 0:
                 pass
             else:
-                logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + res_config_visa['result']['error_msg'] + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + res_config_visa['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
-            logging.getLogger("info_logger").info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + json.dumps(res_config_visa) + '\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.info("ERROR GET CACHE FROM VISA AUTOCOMPLETE" + json.dumps(res_config_visa) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
         #
 
@@ -446,11 +446,11 @@ def get_new_cache(signature):
             if res_config_passport['result']['error_code'] == 0:
                 pass
             else:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM PASSPORT AUTOCOMPLETE" + res_config_passport['result'][
                         'error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
-            logging.getLogger("info_logger").info(
+            _logger.info(
                 "ERROR GET CACHE FROM VISA AUTOCOMPLETE" + json.dumps(res_config_passport) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
             pass
@@ -473,9 +473,9 @@ def get_new_cache(signature):
             if res_config_issued_offline['result']['error_code'] == 0:
                 pass
             else:
-                logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + res_config_issued_offline['result']['error_msg'] + '\n' + traceback.format_exc())
+                _logger.info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + res_config_issued_offline['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
-            logging.getLogger("info_logger").info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + json.dumps(res_config_issued_offline) + '\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.info("ERROR GET CACHE FROM ISSUED OFFLINE AUTOCOMPLETE" + json.dumps(res_config_issued_offline) + '\n' + str(e) + '\n' + traceback.format_exc())
             pass
         # return res
 
@@ -519,7 +519,7 @@ def get_new_cache(signature):
                 file.write(json.dumps(res_cache_activity['result']['response']))
                 file.close()
         except Exception as e:
-            logging.getLogger("info_logger").info(
+            _logger.info(
                 "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
             pass
@@ -554,7 +554,7 @@ def get_new_cache(signature):
                 file.write(json.dumps(res_cache_tour['result']['response']))
                 file.close()
         except Exception as e:
-            logging.getLogger("info_logger").info(
+            _logger.info(
                 "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res_cache_tour) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
             pass
@@ -575,29 +575,29 @@ def get_new_cache(signature):
         # check sebelum masukkan ke cache
         try:
             if res_country_airline['result']['error_code'] == 0:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
 
             if res_destination_airline['result']['error_code'] != 0:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM AIRLINE DESTINATION GATEWAY" + json.dumps(res_country_airline))
             if res_config_visa['result']['error_code'] != 0:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM VISA CONFIG GATEWAY" + json.dumps(res_config_visa))
             if res_config_issued_offline['result']['error_code'] != 0:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM ISSUED OFFLINE CONFIG GATEWAY" + json.dumps(res_config_issued_offline))
             if res_config_activity['result']['error_code'] != 0:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM ACTIVITY CONFIG GATEWAY" + json.dumps(res_config_activity))
             if res_config_tour['result']['error_code'] != 0:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM TOUR CONFIG GATEWAY" + json.dumps(res_config_tour))
             if res_cache_ppob['result']['error_code'] != 0:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM PPOB CONFIG GATEWAY" + json.dumps(res_cache_ppob))
         except Exception as e:
-            logging.getLogger("info_logger").info(
+            _logger.info(
                 "ERROR LOG CACHE \n" + str(e) + '\n' + traceback.format_exc())
         res = {
             'result': {
@@ -760,7 +760,7 @@ def get_customer_list(request):
             "signature": request.POST['signature']
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
     try:
@@ -823,11 +823,11 @@ def get_customer_list(request):
                     counter += 1
                 except:
                     pass
-            logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_customer_list(request):
@@ -853,7 +853,7 @@ def update_customer_list(request):
             "signature": request.POST['signature']
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
     try:
@@ -922,11 +922,11 @@ def update_customer_list(request):
                     pax = res['result']['response'][0]
                     break
             res['result']['response'] = request.session.get('cache_passengers')
-            logging.getLogger("info_logger").info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("GET CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def create_customer(request):
@@ -991,17 +991,17 @@ def create_customer(request):
             "signature": request.POST['signature']
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
 
-            logging.getLogger("info_logger").info("CREATE CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
+            _logger.info("CREATE CUSTOMER LIST SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("create_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("create_customer_list_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def update_customer(request):
@@ -1065,7 +1065,7 @@ def update_customer(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
 
     res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -1114,11 +1114,11 @@ def update_customer(request):
                             })
                     break
             request.session['cache_passengers'] = passenger_cache
-            logging.getLogger("info_logger").info("SUCCESS update_customer_agent SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_customer_agent SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("update_customer_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("update_customer_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def add_passenger_cache(request):

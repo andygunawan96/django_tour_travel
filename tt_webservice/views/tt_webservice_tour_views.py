@@ -10,7 +10,7 @@ import logging
 import traceback
 from .tt_webservice_views import *
 from .tt_webservice_voucher_views import *
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -115,12 +115,12 @@ def login(request):
     try:
         request.session['tour_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['tour_signature']))
+        _logger.info(json.dumps(request.session['tour_signature']))
         request.session.modified = True
-        logging.getLogger("info_logger").info(
+        _logger.info(
             "SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_auto_complete_gateway(request):
@@ -153,7 +153,7 @@ def get_auto_complete_gateway(request):
                         }
                     }
             except Exception as e:
-                logging.getLogger("info_logger").info(
+                _logger.info(
                     "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
                 res = {
@@ -170,7 +170,7 @@ def get_auto_complete_gateway(request):
                 }
             }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -190,7 +190,7 @@ def get_data(request):
             'tour_countries': [],
         }
 
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return response
 
@@ -242,7 +242,7 @@ def search(request):
             counter += 1
 
         request.session['tour_search'] = data_tour
-        logging.getLogger("info_logger").info(json.dumps(request.session['tour_search']))
+        _logger.info(json.dumps(request.session['tour_search']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -320,7 +320,7 @@ def get_pricing(request):
                 }
             })
         request.session['tour_price'] = res
-        logging.getLogger("info_logger").info(json.dumps(request.session['tour_price']))
+        _logger.info(json.dumps(request.session['tour_price']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -594,7 +594,7 @@ def commit_booking(request):
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     if res['result']['error_code'] == 0:
         request.session['tour_order_number'] = res['result']['response']['order_number']
-        logging.getLogger("info_logger").info(json.dumps(request.session['tour_order_number']))
+        _logger.info(json.dumps(request.session['tour_order_number']))
         request.session.modified = True
 
     return res
@@ -646,7 +646,7 @@ def get_booking(request):
             res['result']['response']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['departure_date'])
             res['result']['response']['arrival_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['arrival_date'])
             request.session['tour_get_booking_response'] = res
-            logging.getLogger("info_logger").info(json.dumps(request.session['tour_get_booking_response']))
+            _logger.info(json.dumps(request.session['tour_get_booking_response']))
             request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -678,16 +678,16 @@ def issued_booking(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS issued TOUR SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS issued TOUR SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR issued TOUR SIGNATURE " + request.POST['signature'])
+            _logger.error("ERROR issued TOUR SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -710,7 +710,7 @@ def get_payment_rules(request):
             for payment in res['result']['response']['payment_rules']:
                 payment['due_date'] = convert_string_to_date_to_string_front_end(payment['due_date'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return res
 
@@ -729,7 +729,7 @@ def update_service_charge(request):
             "signature": request.POST['signature'],
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     try:
@@ -739,13 +739,13 @@ def update_service_charge(request):
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
             request.session['tour_upsell_'+request.POST['signature']] = total_upsell
-            logging.getLogger("info_logger").info(json.dumps(request.session['tour_upsell_' + request.POST['signature']]))
+            _logger.info(json.dumps(request.session['tour_upsell_' + request.POST['signature']]))
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR update_service_charge TOUR SIGNATURE " + request.POST['signature'])
+            _logger.error("ERROR update_service_charge TOUR SIGNATURE " + request.POST['signature'])
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_auto_complete(request):
@@ -783,7 +783,7 @@ def get_auto_complete(request):
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_autocomplete TOUR")
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return record_json
 

@@ -17,7 +17,7 @@ from tools.parser import *
 import base64
 
 MODEL_NAME = 'tt_website_rodextrip'
-
+_logger = logging.getLogger("rodextrip_logger")
 
 def event(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -67,7 +67,7 @@ def event(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/event/01_event_search_templates.html', values)
 
@@ -115,7 +115,7 @@ def search(request):
                 'event_search': request.session['event_request'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/event/01_event_search_templates.html', values)
     else:
@@ -161,7 +161,7 @@ def search_category(request, category_name):
                 'event_search': request.session['event_request'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/event/01_event_search_templates.html', values)
     else:
@@ -207,7 +207,7 @@ def detail(request):
                 'event_code': data,
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/event/02_event_detail_templates.html', values)
     else:
@@ -242,7 +242,7 @@ def vendor(request):
                 'vendor': request.session['event_code']['vendor_obj'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/event/06_event_vendor_templates.html', values)
     else:
@@ -309,7 +309,7 @@ def contact_passengers(request):
                 'event_option_code': opt_code,
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/event/03_event_passenger_templates.html', values)
     else:
@@ -498,7 +498,7 @@ def review(request):
                 'special_req_event': request.POST['special_req_event'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/event/04_event_review_templates.html', values)
     else:
@@ -523,6 +523,6 @@ def booking(request, order_number):
             'javascript_version': javascript_version,
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/event/05_event_booking_templates.html', values)

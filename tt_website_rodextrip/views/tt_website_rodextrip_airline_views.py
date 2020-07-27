@@ -15,6 +15,7 @@ from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 import base64
+_logger = logging.getLogger("rodextrip_logger")
 
 MODEL_NAME = 'tt_website_rodextrip'
 
@@ -82,7 +83,7 @@ def airline(request):
                 'signature': request.session['signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/airline/airline_templates.html', values)
 
@@ -117,7 +118,7 @@ def search(request):
                     response = json.loads(line)
                 file.close()
             except Exception as e:
-                logging.getLogger("error_logger").error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+                _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
             values = get_data_template(request, 'search')
 
             airline_carriers = {'All': {'name': 'All', 'code': 'all','is_excluded_from_b2c': False}}
@@ -330,7 +331,7 @@ def search(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_search_templates.html', values)
     else:
@@ -402,7 +403,7 @@ def passenger(request):
             except:
                 ff_request = []
         try:
-            logging.getLogger("info_logger").info('AIRLINE PASSENGER')
+            _logger.info('AIRLINE PASSENGER')
             values.update({
                 'ff_request': ff_request,
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -432,7 +433,7 @@ def passenger(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_passenger_templates.html', values)
     else:
@@ -622,7 +623,7 @@ def ssr(request):
                     'time_limit': '',
                 })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_ssr_templates.html', values)
     else:
@@ -808,7 +809,7 @@ def seat_map(request):
                     'time_limit': ''
                 })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_seat_map_templates.html', values)
     else:
@@ -1174,7 +1175,7 @@ def review(request):
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/airline/airline_review_templates.html', values)
     else:
@@ -1318,7 +1319,7 @@ def review_after_sales(request):
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/airline/airline_review_after_sales_templates.html', values)
     else:
@@ -1337,7 +1338,7 @@ def booking(request, order_number):
                 airline_carriers = json.loads(line)
             file.close()
         except Exception as e:
-            logging.getLogger("error_logger").error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+            _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)
 
         if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -1355,6 +1356,6 @@ def booking(request, order_number):
             'javascript_version': javascript_version,
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/airline/airline_booking_templates.html', values)

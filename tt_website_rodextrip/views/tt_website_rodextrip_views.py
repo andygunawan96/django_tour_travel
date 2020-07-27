@@ -21,6 +21,7 @@ from tools.parser import *
 from datetime import *
 import copy
 import math
+_logger = logging.getLogger("rodextrip_logger")
 
 MODEL_NAME = 'tt_website_rodextrip'
 # _dest_env = TtDestinations()
@@ -108,17 +109,17 @@ def index(request):
                             activity_categories = response['result']['response']['activity']['categories']
                         except Exception as e:
                             activity_categories = []
-                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                            _logger.error(str(e) + '\n' + traceback.format_exc())
                         try:
                             activity_types = response['result']['response']['activity']['types']
                         except Exception as e:
                             activity_types = []
-                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                            _logger.error(str(e) + '\n' + traceback.format_exc())
                         try:
                             activity_locations = response['result']['response']['activity']['locations']
                         except Exception as e:
                             activity_locations = []
-                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                            _logger.error(str(e) + '\n' + traceback.format_exc())
                         # activity
 
                         # tour
@@ -126,7 +127,7 @@ def index(request):
                             tour_countries = response['result']['response']['tour']['countries']
                         except Exception as e:
                             tour_countries = []
-                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                            _logger.error(str(e) + '\n' + traceback.format_exc())
                         # tour
                         try:
                             if 'hotel_error' in request.session._session:
@@ -225,7 +226,7 @@ def index(request):
 
                             })
                         except Exception as e:
-                            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                            _logger.error(str(e) + '\n' + traceback.format_exc())
                             raise Exception('Make response code 500!')
                         return render(request, MODEL_NAME + '/home_templates.html', values)
                         # return render(request, MODEL_NAME + '/testing.html', {})
@@ -370,7 +371,7 @@ def login(request):
                 'username': {'co_user_login': ''}
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         # return goto_dashboard()
         if values['website_mode'] == 'btb':
@@ -405,7 +406,7 @@ def login(request):
                     'username': {'co_user_login': ''}
                 })
             except Exception as e:
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
             # return goto_dashboard()
             return render(request, MODEL_NAME + '/login_templates.html', values)
@@ -573,7 +574,7 @@ def admin(request):
                         if not file in temp and file != 'image_dynamic':
                             os.remove(fs.location+'/'+file)
             except Exception as e:
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
             javascript_version = get_javascript_version()
             cache_version = get_cache_version()
@@ -602,7 +603,7 @@ def admin(request):
                     'signature': request.session['signature'],
                 })
             except Exception as e:
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                _logger.error(str(e) + '\n' + traceback.format_exc())
                 raise Exception('Make response code 500!')
             return render(request, MODEL_NAME+'/backend/admin_templates.html', values)
         else:
@@ -649,7 +650,7 @@ def reservation(request):
                 'signature': request.session['signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/reservation_templates.html', values)
     else:
@@ -694,7 +695,7 @@ def highlight_setting(request):
                 'signature': request.session['signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/highlight_templates.html', values)
     else:
@@ -728,7 +729,7 @@ def top_up(request):
                 'signature': request.session['signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/top_up_templates.html', values)
     else:
@@ -762,7 +763,7 @@ def top_up_quota_pnr(request):
                 'signature': request.session['signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/top_up_quota_pnr_templates.html', values)
     else:
@@ -803,7 +804,7 @@ def payment(request):
                 'javascript_version': javascript_version,
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/payment_force_issued.html', values)
     else:
@@ -838,7 +839,7 @@ def top_up_history(request):
                 'signature': request.session['signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/backend/top_up_history_templates.html', values)
     else:
@@ -850,7 +851,7 @@ def get_javascript_version():
         javascript_version = int(file.read())
         file.close()
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
     return javascript_version
 
 def get_cache_version():
@@ -859,7 +860,7 @@ def get_cache_version():
         cache_version = int(file.read())
         file.close()
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR cache_version file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR cache_version file\n' + str(e) + '\n' + traceback.format_exc())
     return cache_version
 
 def get_cache_data(javascript_version):
@@ -869,7 +870,7 @@ def get_cache_data(javascript_version):
             response = json.loads(line)
         file.close()
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR version cache file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR version cache file\n' + str(e) + '\n' + traceback.format_exc())
     return response
 
 def get_data_template(request, type='home', provider_type = []):
@@ -1014,7 +1015,7 @@ We build this application for our existing partner and public users who register
         if len(background.split('\n')) > 1:
             background = background.split('\n')[0]
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR GET CACHE TEMPLATE DJANGO RUN USING DEFAULT\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR GET CACHE TEMPLATE DJANGO RUN USING DEFAULT\n' + str(e) + '\n' + traceback.format_exc())
     return {
         'logo': logo,
         'website_mode': website_mode,

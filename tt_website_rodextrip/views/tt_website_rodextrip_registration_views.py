@@ -14,6 +14,7 @@ from datetime import *
 from tt_webservice.views.tt_webservice_registration_views import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_rodextrip_views import *
+_logger = logging.getLogger("rodextrip_logger")
 
 
 MODEL_NAME = 'tt_website_rodextrip'
@@ -55,7 +56,7 @@ def open_page(request):
                 'signature': request.session.get('signature') or '',
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/agent_registration/registration_form_template.html', values)
 
@@ -131,7 +132,7 @@ def register_agent(request):
             'javascript_version': javascript_version,
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/agent_registration/registration_finish_template.html', values)
 
