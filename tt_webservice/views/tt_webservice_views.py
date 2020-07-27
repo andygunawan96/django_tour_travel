@@ -1,6 +1,7 @@
 import json
 import logging
 import traceback
+_logger = logging.getLogger("rodextrip_logger")
 
 def get_cache_version():
     try:
@@ -8,7 +9,7 @@ def get_cache_version():
         cache_version = int(file.read())
         file.close()
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR cache_version\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR cache_version\n' + str(e) + '\n' + traceback.format_exc())
     return cache_version
 
 def get_cache_data(javascript_version):
@@ -18,7 +19,7 @@ def get_cache_data(javascript_version):
             response = json.loads(line)
         file.close()
     except Exception as e:
-        logging.getLogger("error_logger").error('ERROR version javascript file\n' + str(e) + '\n' + traceback.format_exc())
+        _logger.error('ERROR version javascript file\n' + str(e) + '\n' + traceback.format_exc())
     return response
 
 def var_log_path():

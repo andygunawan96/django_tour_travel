@@ -9,6 +9,7 @@ from io import BytesIO
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_rodextrip_views import *
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -71,7 +72,7 @@ def tour(request):
                     tour_countries = response['result']['response']['tour']['countries']
                 except Exception as e:
                     tour_countries = []
-                    logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                    _logger.error(str(e) + '\n' + traceback.format_exc())
                 # tour
 
             values.update({
@@ -91,7 +92,7 @@ def tour(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/tour/tour_templates.html', values)
 
@@ -160,7 +161,7 @@ def search(request):
                 'static_path_url_server': get_url_static_path(),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/tour/tour_search_templates.html', values)
     else:
@@ -231,7 +232,7 @@ def detail(request):
                 'static_path_url_server': get_url_static_path(),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
 
         return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
@@ -404,7 +405,7 @@ def passenger(request):
                 'signature': request.session['tour_signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/tour/tour_passenger_templates.html', values)
     else:
@@ -676,7 +677,7 @@ def review(request):
                 'signature': request.session['tour_signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
 
         return render(request, MODEL_NAME+'/tour/tour_review_templates.html', values)
@@ -703,7 +704,7 @@ def booking(request, order_number):
             'static_path_url_server': get_url_static_path(),
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/tour/tour_booking_templates.html', values)
 

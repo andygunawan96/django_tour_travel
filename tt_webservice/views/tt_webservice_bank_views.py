@@ -11,7 +11,7 @@ import base64
 import logging
 import traceback
 from .tt_webservice_views import *
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',

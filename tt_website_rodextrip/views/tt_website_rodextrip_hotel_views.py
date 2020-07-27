@@ -15,6 +15,7 @@ from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 import base64
+_logger = logging.getLogger("rodextrip_logger")
 
 MODEL_NAME = 'tt_website_rodextrip'
 
@@ -78,7 +79,7 @@ def hotel(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/hotel/hotel_templates.html', values)
 
@@ -138,7 +139,7 @@ def search(request):
                 # 'cookies': json.dumps(res['result']['cookies']),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/hotel/hotel_search_templates.html', values)
     else:
@@ -185,7 +186,7 @@ def detail(request):
                 'rating': range(int(request.session['hotel_detail']['rating'])),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/hotel/hotel_detail_templates.html', values)
     else:
@@ -215,7 +216,7 @@ def detail_static(request):
             'template': 1,
         }
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/hotel/hotel_detail_static.html', values)
 
@@ -280,7 +281,7 @@ def passengers(request):
                 'time_limit': request.session['time_limit'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/hotel/hotel_passenger_templates.html', values)
     else:
@@ -495,7 +496,7 @@ def review(request):
                 # 'cookies': json.dumps(res['result']['cookies']),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/hotel/hotel_review_templates.html', values)
     else:
@@ -517,6 +518,6 @@ def booking(request, order_number):
             'javascript_version': javascript_version,
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/hotel/hotel_booking_templates.html', values)

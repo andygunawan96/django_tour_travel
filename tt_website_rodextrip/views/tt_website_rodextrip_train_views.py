@@ -15,6 +15,7 @@ from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
+_logger = logging.getLogger("rodextrip_logger")
 
 MODEL_NAME = 'tt_website_rodextrip'
 
@@ -95,7 +96,7 @@ def train(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/train/train_templates.html', values)
 
@@ -164,7 +165,7 @@ def search(request):
                 'javascript_version': javascript_version,
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_search_templates.html', values)
     else:
@@ -228,7 +229,7 @@ def passenger(request):
                 'static_path_url_server': get_url_static_path(),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_passenger_templates.html', values)
     else:
@@ -393,7 +394,7 @@ def review(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_review_templates.html', values)
     else:
@@ -418,7 +419,7 @@ def booking(request, order_number):
             'static_path_url_server': get_url_static_path(),
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/train/train_booking_templates.html', values)
 
@@ -445,7 +446,7 @@ def seat_map(request):
                 'static_path_url_server': get_url_static_path(),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/train/train_seat_map_templates.html', values)
     else:

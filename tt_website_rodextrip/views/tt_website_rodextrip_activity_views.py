@@ -15,6 +15,7 @@ from io import BytesIO
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_rodextrip_views import *
+_logger = logging.getLogger("rodextrip_logger")
 
 MODEL_NAME = 'tt_website_rodextrip'
 
@@ -40,22 +41,22 @@ def activity(request):
                 activity_sub_categories = response['result']['response']['activity']['sub_categories']
             except Exception as e:
                 activity_sub_categories = []
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                _logger.error(str(e) + '\n' + traceback.format_exc())
             try:
                 activity_categories = response['result']['response']['activity']['categories']
             except Exception as e:
                 activity_categories = []
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                _logger.error(str(e) + '\n' + traceback.format_exc())
             try:
                 activity_types = response['result']['response']['activity']['types']
             except Exception as e:
                 activity_types = []
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                _logger.error(str(e) + '\n' + traceback.format_exc())
             try:
                 activity_countries = response['result']['response']['activity']['countries']
             except Exception as e:
                 activity_countries = []
-                logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+                _logger.error(str(e) + '\n' + traceback.format_exc())
             # activity
 
             # get_data_awal
@@ -88,7 +89,7 @@ def activity(request):
 
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/activity/activity_templates.html', values)
 
@@ -144,7 +145,7 @@ def search(request):
                 'static_path_url_server': get_url_static_path(),
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/activity/activity_search_templates.html', values)
     else:
@@ -199,7 +200,7 @@ def detail(request):
                 'time_limit': request.session['time_limit'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/activity/activity_detail_templates.html', values)
     else:
@@ -488,7 +489,7 @@ def passenger(request):
                     low_sku_id+'_count': request.session['activity_pax_data']['pax_count'].get(low_sku_id) and int(request.session['activity_pax_data']['pax_count'][low_sku_id]) or 0,
                 })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/activity/activity_passenger_templates.html', values)
     else:
@@ -1356,7 +1357,7 @@ def review(request):
                 'time_limit': request.session['time_limit'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/activity/activity_review_templates.html', values)
     else:
@@ -1385,6 +1386,6 @@ def booking(request, order_number):
             'static_path_url_server': get_url_static_path(),
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME + '/activity/activity_booking_templates.html', values)

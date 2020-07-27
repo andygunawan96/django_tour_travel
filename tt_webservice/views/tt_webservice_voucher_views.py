@@ -10,7 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 month = {
     'Jan': '01',
@@ -78,7 +78,7 @@ def get_voucher(request):
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
+        _logger.info(json.dumps(request.session['signature']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -107,7 +107,7 @@ def set_voucher(request):
     try:
         request.session['visa_signature'] = res['result']['response']['signature']
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
+        _logger.info(json.dumps(request.session['signature']))
         request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
@@ -135,9 +135,9 @@ def check_voucher(request):
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS check_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS check_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR check_voucher_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR check_voucher_voucher VOUCHER " + request.POST['provider_type'] + " SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 

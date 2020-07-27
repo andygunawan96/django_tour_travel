@@ -12,7 +12,7 @@ import traceback
 from .tt_webservice_views import *
 import time
 import copy
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 @api_view(['GET', 'POST'])
 def api_models(request):
@@ -55,7 +55,7 @@ def login(request,func):
     try:
         time.sleep(1)
         request.session['signature'] = res['result']['response']['signature']
-        logging.getLogger("info_logger").info(json.dumps(request.session['signature']))
+        _logger.info(json.dumps(request.session['signature']))
         request.session.modified = True
         if func == 'get_config':
             res = get_config(request)
@@ -87,11 +87,11 @@ def get_requirement_list_doc(request):
         res = login(request, 'get_requirement')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_requirement_list_doc_agent_regis SIGNATURE " + request.session['signature'])
+            _logger.info("SUCCESS get_requirement_list_doc_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_requirement_list_doc_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_requirement_list_doc_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_config(request):
@@ -113,11 +113,11 @@ def get_config(request):
         res = login(request, 'get_config')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_config_agent_regis SIGNATURE " + request.session['signature'])
+            _logger.info("SUCCESS get_config_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_config_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_config_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_promotions(request):
@@ -139,11 +139,11 @@ def get_promotions(request):
         res = login(request, 'get_promotions')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_promotion_agent_regis SIGNATURE " + request.session['signature'])
+            _logger.info("SUCCESS get_promotion_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_promotion_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR get_promotion_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
 def register(request):
@@ -178,11 +178,11 @@ def register(request):
             request.session['register_done_data'] = copy.deepcopy(request.session['registration_request'])
             request.session['register_result_done'] = res
             request.session.modified = True
-            logging.getLogger("info_logger").info("SUCCESS create_agent_agent_regis SIGNATURE " + request.session['signature'])
+            _logger.info("SUCCESS create_agent_agent_regis SIGNATURE " + request.session['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR create_agent_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR create_agent_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
 
     return res
 

@@ -15,6 +15,7 @@ from tt_webservice.views.tt_webservice_agent_views import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 import base64
+_logger = logging.getLogger("rodextrip_logger")
 
 MODEL_NAME = 'tt_website_rodextrip'
 
@@ -46,7 +47,7 @@ def ppob(request):
                 'signature': request.session['signature'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME + '/ppob/ppob_templates.html', values)
 
@@ -84,7 +85,7 @@ def review(request):
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })
         except Exception as e:
-            logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+            _logger.error(str(e) + '\n' + traceback.format_exc())
             raise Exception('Make response code 500!')
         return render(request, MODEL_NAME+'/ppob/ppob_review_templates.html', values)
     else:
@@ -111,6 +112,6 @@ def booking(request, order_number):
             'javascript_version': javascript_version,
         })
     except Exception as e:
-        logging.getLogger("error_logger").error(str(e) + '\n' + traceback.format_exc())
+        _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/ppob/ppob_booking_templates.html', values)

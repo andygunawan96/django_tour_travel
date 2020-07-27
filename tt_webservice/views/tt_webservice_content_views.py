@@ -11,7 +11,7 @@ import base64
 import logging
 import traceback
 from .tt_webservice_views import *
-_logger = logging.getLogger(__name__)
+_logger = logging.getLogger("rodextrip_logger")
 
 from django.core.files.storage import FileSystemStorage
 import os
@@ -277,9 +277,9 @@ def get_banner(request):
     res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            logging.getLogger("info_logger").info("SUCCESS get_banner_content SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS get_banner_content SIGNATURE " + request.POST['signature'])
         else:
-            logging.getLogger("error_logger").error("ERROR get_banner_content SIGNATURE " + request.POST['signature'])
+            _logger.error("ERROR get_banner_content SIGNATURE " + request.POST['signature'])
         # request.session['signature'] = res['result']['response']['signature']
         # if func == 'get_config':
         #     get_config(request)
