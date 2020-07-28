@@ -640,11 +640,15 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
-                            text += '<li style="list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>';
-                            //$text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
+                            if (result.policies[i].to_date == ''){
+                                text += '<li style="list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>';
+                                //$text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
+                            } else {
+                                text += '<li style="list-style: unset;">Cancellation Between: ' + result.policies[i].date + ' until ' + result.policies[i].to_date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>';
+                            }
                         } else {
-                            text += '<li style="list-style: unset;">No Cancellation after: ' + result.policies[i].date;
-                            //$text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
+                            text += '<li style="list-style: unset;">No Refunded fee after: ' + result.policies[i].date;
+                            //$text2 += 'No Refunded fee after: ' + result.policies[i].date + '\n';
                         }
                     }
                 } else {
@@ -663,15 +667,20 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
-                            text += '<li style="color:'+color+'; list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
-                            $text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n'
+                            if (result.policies[i].to_date == ''){
+                                text += '<li style="list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                                $text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n'
+                            } else {
+                                text += '<li style="list-style: unset;">Cancellation Between: ' + result.policies[i].date + ' until ' + result.policies[i].to_date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>';
+                                $text2 += 'Cancellation Between: ' + result.policies[i].date+ result.policies[i].date + ' until ' + result.policies[i].to_date + ' will be Refunded: ' + result.policies[i].received_amount + '\n'
+                            }
                         } else {
-                            text += '<li style="color:'+color+'; list-style: unset;">No Cancellation after: ' + result.policies[i].date;
-                            //$text2 += 'No Cancellation after: ' + result.policies[i].date+ '\n';
+                            text += '<li style="list-style: unset;">No Refunded fee after: ' + result.policies[i].date;
+                            //$text2 += 'No Refunded fee after: ' + result.policies[i].date+ '\n';
                         }
                     }
                 } else {
-                    text += '<li style="color:'+color+'; list-style: unset;">No Cancellation Policy Provided</li>';
+                    text += '<li style="list-style: unset;">No Cancellation Policy Provided</li>';
                     //$text2 += 'No Cancellation Policy Provided \n';
                 };
                 text += '</ul>';
@@ -682,9 +691,13 @@ function hotel_get_cancellation_policy(price_code, provider, view_type){
                 if(result.policies.length != 0){
                     for(i in result.policies){
                         if (result.policies[i].received_amount != 0){
-                            text += '<li style="color:'+color+'; list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                            if (result.policies[i].to_date == ''){
+                                text += '<li style="color:'+color+'; list-style: unset;">Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                            } else {
+                                text += '<li style="color:'+color+'; list-style: unset;">Cancellation Between: ' + result.policies[i].date + ' until ' + result.policies[i].to_date + ' will be Refunded: ' + result.policies[i].received_amount + '</li>'
+                            }
                         } else {
-                            text += '<li style="color:'+color+'; list-style: unset;">No Cancellation after: ' + result.policies[i].date;
+                            text += '<li style="color:'+color+'; list-style: unset;">No Refunded fee after: ' + result.policies[i].date;
                         }
                     }
                 } else {
@@ -839,7 +852,7 @@ function hotel_issued_alert(val){
                     }
                 }
                 try{
-                    grand_total_price = parseInt(hotel_price.rooms[i].price_total);
+                    grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
                 }catch(err){}
                 text += `<div class="col-lg-12"><hr/></div>`;
                 try{
@@ -900,7 +913,7 @@ function hotel_issued_alert(val){
                     }
                 }
                 try{
-                    grand_total_price = parseInt(temporary.rooms[i].price_total);
+                    grand_total_price = parseFloat(temporary.rooms[i].price_total);
                 }catch(err){}
                 text += `<div class="col-lg-12"><hr/></div>`;
                 try{
@@ -1373,11 +1386,11 @@ function hotel_get_booking(data){
                                 $text += msg.result.response.hotel_rooms[i].date + ' ';
                                 $text += price.currency+` `+getrupiah(total_price_provider)+'\n';
                                 if(counter_service_charge == 0){
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
+                                    total_price += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
+                                    price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
                                 }else{
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
+                                    total_price += parseFloat(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
+                                    price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
                                 }
                                 commission += parseInt(price.RAC);
 
