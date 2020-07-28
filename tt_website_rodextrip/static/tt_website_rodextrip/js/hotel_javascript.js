@@ -1411,13 +1411,8 @@ function hotel_room_pick(key){
         text += `<div class="row">`;
         for(j in hotel_room.rooms[i].nightly_prices){
             date = new Date(hotel_room.rooms[i].nightly_prices[j].date).toString().split(' ');
-            if(hotel_room.rooms[i].nightly_prices[j].currency != 'IDR'){
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + parseInt((hotel_room.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah((hotel_room.rooms[i].nightly_prices[j].price)) + '\n';
-            }else{
-                text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(parseInt(hotel_room.rooms[i].nightly_prices[j].price))+'<span/></div>';
-                $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
-            }
+            text += '<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;"><span>Date: '+date[2] +' '+ date[1] + ' ' + date[3] + '</span></div><div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;"> ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price)+'<span/></div>';
+            $text2 += 'Date: '+date[2] +' '+ date[1] + ' ' + date[3] + ' - ' + hotel_room.rooms[i].nightly_prices[j].currency + ' ' + getrupiah(hotel_room.rooms[i].nightly_prices[j].price) + '\n';
         }
         var total_room = document.getElementById("hotel_room").value;
         var total_night = document.getElementById("total_night_search").textContent;
@@ -1857,7 +1852,7 @@ function hotel_detail(old_cancellation_policy){
             }
         }
         try{
-            grand_total_price = parseInt(hotel_price.rooms[i].price_total);
+            grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
         }catch(err){}
         text += `<div class="col-lg-12"><hr/></div>`;
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){

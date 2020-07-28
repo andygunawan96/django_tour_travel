@@ -839,7 +839,7 @@ function hotel_issued_alert(val){
                     }
                 }
                 try{
-                    grand_total_price = parseInt(hotel_price.rooms[i].price_total);
+                    grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
                 }catch(err){}
                 text += `<div class="col-lg-12"><hr/></div>`;
                 try{
@@ -900,7 +900,7 @@ function hotel_issued_alert(val){
                     }
                 }
                 try{
-                    grand_total_price = parseInt(temporary.rooms[i].price_total);
+                    grand_total_price = parseFloat(temporary.rooms[i].price_total);
                 }catch(err){}
                 text += `<div class="col-lg-12"><hr/></div>`;
                 try{
@@ -1373,11 +1373,11 @@ function hotel_get_booking(data){
                                 $text += msg.result.response.hotel_rooms[i].date + ' ';
                                 $text += price.currency+` `+getrupiah(total_price_provider)+'\n';
                                 if(counter_service_charge == 0){
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
+                                    total_price += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
+                                    price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
                                 }else{
-                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
-                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
+                                    total_price += parseFloat(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
+                                    price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
                                 }
                                 commission += parseInt(price.RAC);
 
