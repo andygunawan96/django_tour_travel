@@ -563,7 +563,7 @@ function bills_get_booking(data){
                             printed_hold_date = true;
                         }
                         //datetime utc to local
-                        if(msg.result.response.provider_booking[i].error_msg.length != 0)
+                        if(msg.result.response.provider_booking[i].error_msg.length != 0 && msg.result.response.state != 'issued')
                             text += `<div class="alert alert-danger">
                                 `+msg.result.response.provider_booking[i].error_msg+`
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>

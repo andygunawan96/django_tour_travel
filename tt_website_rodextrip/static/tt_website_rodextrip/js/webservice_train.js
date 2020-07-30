@@ -472,7 +472,7 @@ function train_get_booking(data){
                     </tr>`;
                     for(i in msg.result.response.provider_bookings){
                         //datetime utc to local
-                        if(msg.result.response.provider_bookings[i].error_msg.length != 0)
+                        if(msg.result.response.provider_bookings[i].error_msg.length != 0 && msg.result.response.state != 'issued')
                             text += `<div class="alert alert-danger">
                                 `+msg.result.response.provider_bookings[i].error_msg+`
                                 <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
