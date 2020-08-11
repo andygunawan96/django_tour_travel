@@ -2176,7 +2176,11 @@
       document.getElementById('timelimit').value = '';
 
     });
-
+    try{
+        get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+    }catch(err){
+        console.log(err);
+    }
 </script>
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
 {% endblock %}
