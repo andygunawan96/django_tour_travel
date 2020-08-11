@@ -1201,6 +1201,11 @@
        document.getElementById('hotel'+counter).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
        document.getElementById('hotel'+counter).submit();
     }
+    try{
+        get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+    }catch(err){
+        console.log(err);
+    }
 </script>
 
 {% endblock %}

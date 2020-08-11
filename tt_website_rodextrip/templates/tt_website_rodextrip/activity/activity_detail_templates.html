@@ -1833,6 +1833,11 @@
         document.getElementById('data_id').innerHTML = text;
         document.getElementById('go_to_pax').submit();
     }
+    try{
+        get_public_holiday(moment().format('YYYY-MM-DD'), moment().subtract(-1, 'years').format('YYYY-MM-DD'), 100 );
+    }catch(err){
+        console.log(err);
+    }
 </script>
 
 {% endblock %}
