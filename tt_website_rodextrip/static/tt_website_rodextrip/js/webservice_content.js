@@ -788,16 +788,17 @@ function run_dynamic_page(){
 }
 
 function update_dynamic_page(){
-    var radios = document.getElementsByName('page');
-    for (var j = 0, length = radios.length; j < length; j++) {
-        if (radios[j].checked) {
-            // do whatever you want with the checked radio
-            page_choose = radios[j].value;
-            page_number = j-1;
-            // only one radio can be logically checked, don't check the rest
-            break;
-        }
-    }
+//    var radios = document.getElementsByName('page');
+//    for (var j = 0, length = radios.length; j < length; j++) {
+//        if (radios[j].checked) {
+//            // do whatever you want with the checked radio
+//            page_choose = radios[j].value;
+//            page_number = j-1;
+//            // only one radio can be logically checked, don't check the rest
+//            break;
+//        }
+//    }
+    page_number = parseInt(document.getElementById('page_choose').value) - 1
     error_log = '';
     if(document.getElementById('title_dynamic_page').value == ''){
         error_log += 'Please input title\n';
@@ -812,7 +813,6 @@ function update_dynamic_page(){
         var formData = new FormData($('#form_admin').get(0));
         formData.append('state', document.getElementById('page_active').checked);
         formData.append('title', document.getElementById('title_dynamic_page').value);
-        formData.append('page', document.getElementById('page_choose').value);
         formData.append('page_number', parseInt(page_number));
         formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
         getToken();
@@ -821,6 +821,78 @@ function update_dynamic_page(){
            url: "/webservice/content",
            headers:{
                 'action': 'set_dynamic_page',
+           },
+           data: formData,
+           success: function(msg) {
+                if(msg.result.error_code == 0){
+                    Swal.fire({
+                      type: 'success',
+                      title: 'Update!',
+                      html: msg.result.error_msg,
+                    })
+                    location.reload();
+                }else
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: msg.result.error_msg,
+                    })
+           },
+           contentType:false,
+           processData:false,
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error update dynamic page </span>' + errorThrown,
+                    })
+                }
+           }
+        });
+    }else{
+        Swal.fire({
+          type: 'error',
+          title: 'Oops!',
+          html: error_log,
+        })
+    }
+}
+
+function delete_dynamic_page(){
+//    var radios = document.getElementsByName('page');
+//    for (var j = 0, length = radios.length; j < length; j++) {
+//        if (radios[j].checked) {
+//            // do whatever you want with the checked radio
+//            page_choose = radios[j].value;
+//            page_number = j-1;
+//            // only one radio can be logically checked, don't check the rest
+//            break;
+//        }
+//    }
+    page_number = parseInt(document.getElementById('page_choose').value) - 1
+    error_log = '';
+    if(document.getElementById('title_dynamic_page').value == ''){
+        error_log += 'Please input title\n';
+    }
+    if(document.getElementById("image_carousel").files.length == 0 && page_number == -1){
+        error_log += 'Please input image URL\n';
+    }
+    if(CKEDITOR.instances.editor.getData() == ''){
+        error_log += 'Please HTML\n';
+    }
+    if(error_log == ''){
+        var formData = new FormData($('#form_admin').get(0));
+        formData.append('state', document.getElementById('page_active').checked);
+        formData.append('title', document.getElementById('title_dynamic_page').value);
+        formData.append('page_number', parseInt(page_number));
+        formData.append('body', JSON.stringify(CKEDITOR.instances.editor.getData()));
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/content",
+           headers:{
+                'action': 'delete_dynamic_page',
            },
            data: formData,
            success: function(msg) {

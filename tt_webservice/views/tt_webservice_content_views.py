@@ -88,6 +88,8 @@ def api_models(request):
             res = get_dynamic_page(request)
         elif req_data['action'] == 'set_dynamic_page':
             res = set_dynamic_page(request)
+        elif req_data['action'] == 'delete_dynamic_page':
+            res = delete_dynamic_page(request)
         elif req_data['action'] == 'get_dynamic_page_detail':
             res = get_dynamic_page_detail(request)
         elif req_data['action'] == 'testing_espay_close':
@@ -492,16 +494,23 @@ def delete_dynamic_page(request):
         os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
         # check image
         fs = FileSystemStorage()
+        fs.location += '/image_dynamic'
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
             file = open('/var/log/django/page_dynamic/' + rec, "r")
             for idx, line in enumerate(file):
                 if idx == 3:
-                    image_list.append(line.split('\n')[0])
+                    line = line.split('\n')[0]
+                    line = line.split('/')
+                    line.pop(0)
+                    line.pop(0)
+                    line.pop(0)
+                    line = '/'.join(line)
+                    image_list.append(line)
         for data in os.listdir(fs.location):
             if not data in image_list:
-                os.remove(fs.location + data)
+                os.remove(fs.base_location + '/image_dynamic/' + data)
         res = {
             'result': {
                 'error_code': 0,
@@ -509,7 +518,7 @@ def delete_dynamic_page(request):
                 'response': ''
             }
         }
-    except:
+    except Exception as e:
         res = {
             'result': {
                 'error_code': 500,
