@@ -3238,6 +3238,8 @@ function airline_hold_booking(val){
 }
 
 function airline_get_booking(data){
+    airline_pick_list = [];
+    document.getElementById('payment_acq').hidden = true;
     price_arr_repricing = {};
     get_balance('false');
     $.ajax({
@@ -4098,7 +4100,7 @@ function cancel_btn(){
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
                    $(".issued_booking_btn").remove();
-                   airline_get_booking(data);
+                   airline_get_booking(airline_get_detail.result.response.order_number);
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                }else{
@@ -4190,6 +4192,7 @@ function airline_issued(data){
                    document.getElementById('airline_booking').innerHTML = '';
                    document.getElementById('airline_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
+                   document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('show_loading_booking_airline').style.display = 'block';
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
@@ -4204,6 +4207,7 @@ function airline_issued(data){
                    document.getElementById('airline_booking').innerHTML = '';
                    document.getElementById('airline_detail').innerHTML = '';
                    document.getElementById('payment_acq').innerHTML = '';
+                   document.getElementById('voucher_div').style.display = 'none';
                    document.getElementById('show_loading_booking_airline').style.display = 'block';
                    document.getElementById('show_loading_booking_airline').hidden = false;
                    document.getElementById('payment_acq').hidden = true;
@@ -4495,6 +4499,7 @@ function airline_issued(data){
                     document.getElementById('airline_booking').innerHTML = '';
                     document.getElementById('airline_detail').innerHTML = '';
                     document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('voucher_div').style.display = 'none';
                     document.getElementById('show_loading_booking_airline').style.display = 'block';
                     document.getElementById('show_loading_booking_airline').hidden = false;
                     document.getElementById('payment_acq').hidden = true;
