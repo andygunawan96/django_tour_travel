@@ -1429,7 +1429,7 @@ function hotel_room_pick(key){
             text+=`
             <div class="col-lg-12" style="text-align:center; display:none;" id="show_commission_hotel">
                 <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)) +`</span><br>
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_room.rooms[i].commission)*-1) +`</span><br>
                 </div>
             </div>`;
         text += `</div>`;
@@ -1883,7 +1883,7 @@ function hotel_detail(old_cancellation_policy){
             text+=`
             <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
                 <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_price.rooms[i].commission)) +`</span><br>
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_price.rooms[i].commission) *-1) +`</span><br>
                 </div>
             </div>`;
         try{
