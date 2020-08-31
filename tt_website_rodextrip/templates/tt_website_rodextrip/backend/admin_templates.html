@@ -9,7 +9,11 @@
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/contact_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/social_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/about_javascript.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/jscolor.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}ckeditor/ckeditor.js"></script>
 <script>
@@ -54,13 +58,13 @@
                 <div class="col-lg-12" style="margin-bottom:15px;color:white;">
                     <h3 style="color:white;">{% trans 'Admin Setting' %}</h3>
                 </div>
-                <div class="col-lg-12" >
+                <div class="col-lg-12" style="padding:0px;">
                     <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background:{{tab_color}};">
                         <ul class="create_tabs" id="identity">
                             {% if "edit_appearance" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                             <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                            <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
+                            <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
@@ -133,8 +137,8 @@
                                         <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                     </div>
                                     <div class="col-lg-12">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Contact Us' %}</h6>
-                                        <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
+                                        <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" placeholder="Information (example: address)" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                     </div>
                                     <div class="col-lg-12"><hr/></div>
                                     <div class="col-lg-6">
@@ -306,18 +310,165 @@
                                     </div>
                                 </div>
                             </div>
-                            <div id="social_media-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                            <div id="web_information-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                    <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                        <div class="form-select">
-                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                        <div class="form-select">
-                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                    <div class="col-lg-12">
+                                        <ul class="edit_tabs" id="tabs_template">
+                                            <li class="edit_tab-link current" data-tab="about-tab_edit"><label style="color:{{text_color}};">{% trans 'About Us' %}</label></li>
+                                            <li class="edit_tab-link" data-tab="contact-tab_edit"><label style="color:{{text_color}};">{% trans 'Contact Us' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
+                                        </ul>
+                                        <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                            <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'About Us' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose Paragraph' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="paragraph_choose" onchange="change_about_us();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <button id="delete_paragraph" type="button" class="primary-btn-cancel" onclick="delete_about_us();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Paragraph Number' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="number" class="form-control" name="sequence_paragraph" id="sequence_paragraph" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="title_paragraph" id="title_paragraph" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                                        <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
+
+                                                        <div class="input-container-search-ticket form-select">
+                                                            <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <img id="paragraph_img" style="height:auto; width:100px;">
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Body</h6>
+                                                        <textarea class="ckeditor" name="body_paragraph" id="body_paragraph"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="paragraph_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_about_us();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="contact-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Contact Us' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_contact(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="save_contact();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
+                                                    </div>
+                                                    <input type="hidden" id="counter_contact" value="0"/>
+                                                </div>
+                                            </div>
+                                            <div id="social-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Social Media' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_social(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="save_social();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" id="social_div" style="margin-top:15px;">
+                                                    </div>
+                                                    <input type="hidden" id="counter_social" value="0"/>
+                                                </div>
+                                                <div class="row" style="display:none;">
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Payment Partner' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 class="control-label" style="margin-bottom:10px;color:{{text_color}}">{% trans 'Payment Partner' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Partner Name' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="payment_partner_name" id="payment_partner_name" placeholder="{% trans 'Partner Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Name '" value="">
+                                                        </div>
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Sequence' %}</h6>
+                                                        <input type="number" class="form-control" name="payment_partner_sequence" id="payment_partner_sequence" placeholder="{% trans 'Partner Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Sequence '" value="0">
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
+                                                        <div class="input-container-search-ticket form-select">
+                                                            <input type="file" name="image_partner" id="image_partner"/>
+                                                        </div>
+                                                        <img id="partner_img" style="height:auto; width:100px;">
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="partner_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <button id="delete_partner" type="button" class="btn button-seat-pass-cancel" style="color:{{text_color}};" onclick="delete_payment_partner();" hidden>{% trans 'Delete' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_payment_partner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--<div class="col-lg-6">-->
@@ -326,9 +477,6 @@
                                     <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
                                     <!--</div>-->
                                     <!--</div>-->
-                                    <div class="col-lg-12" style="text-align:center;">
-                                        <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
-                                    </div>
                                 </div>
                             </div>
                             <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
@@ -702,7 +850,7 @@
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
+                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
@@ -772,7 +920,7 @@
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Contact Us' %}</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
@@ -946,31 +1094,171 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="social_media-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
-                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                        <div id="web_information-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-12">
+                                        <ul class="edit_tabs" id="tabs_template">
+                                            <li class="edit_tab-link current" data-tab="about-tab_edit"><label style="color:{{text_color}};">{% trans 'About Us' %}</label></li>
+                                            <li class="edit_tab-link" data-tab="contact-tab_edit"><label style="color:{{text_color}};">{% trans 'Contact Us' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
+                                        </ul>
+                                        <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                            <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'About Us' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose Paragraph' %}</h6>
+                                                        <div class="form-select">
+                                                            <select class="form-control" style="width:100%;" id="paragraph_choose" onchange="change_about_us();">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <button id="delete_paragraph" type="button" class="primary-btn-cancel" onclick="delete_about_us();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Paragraph Number' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="number" class="form-control" name="sequence_paragraph" id="sequence_paragraph" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="title_paragraph" id="title_paragraph" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                                        <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
+
+                                                        <div class="input-container-search-ticket form-select">
+                                                            <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <img id="paragraph_img" style="height:auto; width:100px;">
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Body</h6>
+                                                        <textarea class="ckeditor" name="body_paragraph" id="body_paragraph"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="paragraph_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_about_us();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="contact-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Contact Us' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_contact(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="save_contact();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
+                                                    </div>
+                                                    <input type="hidden" id="counter_contact" value="0"/>
+                                                </div>
+                                            </div>
+                                            <div id="social-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Social Media' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_social(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="save_social();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" id="social_div" style="margin-top:15px;">
+                                                    </div>
+                                                    <input type="hidden" id="counter_social" value="0"/>
+                                                </div>
+                                                <div class="row" style="display:none;">
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Payment Partner' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Payment Partner' %}</h6>
+                                                        <div class="form-select mb-2">
+                                                            <select class="form-control" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
+
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Partner Name' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="payment_partner_name" id="payment_partner_name" placeholder="{% trans 'Partner Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Name '" value="">
+                                                        </div>
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Sequence' %}</h6>
+                                                        <input type="number" class="form-control" name="payment_partner_sequence" id="payment_partner_sequence" placeholder="{% trans 'Partner Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Sequence '" value="0">
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
+                                                        <div class="input-container-search-ticket form-select">
+                                                            <input type="file" name="image_partner" id="image_partner"/>
+                                                        </div>
+                                                        <img id="partner_img" style="height:auto; width:100px;">
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="partner_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <button id="delete_partner" type="button" class="btn button-seat-pass-cancel" style="color:{{text_color}};" onclick="delete_payment_partner();" hidden>{% trans 'Delete' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_payment_partner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
-                                    </div>
-                                </div>
-                                <!--<div class="col-lg-6">-->
-                                <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
-                                <!--<div class="form-select">-->
-                                <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
+                                    <!--<div class="form-select">-->
+                                    <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                    <!--</div>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
-                        </div>
                         <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 {% if "cache_version" in username.co_agent_frontend_security %}
@@ -1352,7 +1640,7 @@
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
+                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
                                 {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
@@ -1424,7 +1712,7 @@
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Contact Us' %}</h6>
+                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
@@ -1600,18 +1888,161 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="social_media-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                        <div id="web_information-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                <div class="col-lg-12">
+                                    <ul class="edit_tabs" id="tabs_template">
+                                        <li class="edit_tab-link current" data-tab="about-tab_edit"><label style="color:{{text_color}};">{% trans 'About Us' %}</label></li>
+                                        <li class="edit_tab-link" data-tab="contact-tab_edit"><label style="color:{{text_color}};">{% trans 'Contact Us' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
+                                        <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
+                                    </ul>
+                                    <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                        <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'About Us' %}</h3>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose Paragraph' %}</h6>
+                                                    <div class="default-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="paragraph_choose" onchange="change_about_us();">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <button id="delete_paragraph" type="button" class="primary-btn-cancel" onclick="delete_about_us();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Paragraph Number' %}</h6>
+                                                    <div class="form-select">
+                                                        <input type="number" class="form-control" name="sequence_paragraph" id="sequence_paragraph" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
+                                                    <div class="form-select">
+                                                        <input type="text" class="form-control" name="title_paragraph" id="title_paragraph" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6 mb-2">
+                                                    <h6 style="margin-bottom:10px; margin-top:10px;color:{{text_color}};">Thumbnail</h6>
+                                                    <h6 style="color:{{color}};">Recommended Size: </h6>
+                                                    <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
+
+                                                    <div class="input-container-search-ticket form-select">
+                                                        <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6">
+                                                    <img id="paragraph_img" style="height:auto; width:100px;">
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Body</h6>
+                                                    <textarea class="ckeditor" name="body_paragraph" id="body_paragraph"></textarea>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <label class="check_box_custom">
+                                                        <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                        <input type="checkbox" id="paragraph_active" />
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn" onclick="update_about_us();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="contact-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'Contact Us' %}</h3>
+                                                </div>
+                                                <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_contact(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                </div>
+                                                <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                    <button class="primary-btn-ticket" type="button" onclick="save_contact();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                </div>
+                                                <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
+                                                </div>
+                                                <input type="hidden" id="counter_contact" value="0"/>
+                                            </div>
+                                        </div>
+                                        <div id="social-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'Social Media' %}</h3>
+                                                </div>
+                                                <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                    <button class="primary-btn-ticket" type="button" onclick="add_table_of_social(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                </div>
+                                                <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                    <button class="primary-btn-ticket" type="button" onclick="save_social();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                </div>
+                                                <div class="col-lg-12" id="social_div" style="margin-top:15px;">
+                                                </div>
+                                                <input type="hidden" id="counter_social" value="0"/>
+                                            </div>
+                                            <div class="row" style="display:none;">
+                                                <div class="col-lg-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
+                                                    <div class="form-select">
+                                                        <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
+                                                    <div class="form-select">
+                                                        <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
+                                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                    <h3 style="color:white;">{% trans 'Payment Partner' %}</h3>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12">
+                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Payment Partner' %}</h6>
+                                                    <div class="default-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6">
+                                                    <h6 style="margin-bottom:10px; margin-top:10px; color:{{text_color}};">{% trans 'Partner Name' %}</h6>
+                                                    <div class="form-select">
+                                                        <input type="text" class="form-control" name="payment_partner_name" id="payment_partner_name" placeholder="{% trans 'Partner Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Name '" value="">
+                                                    </div>
+                                                    <h6 style="margin-bottom:10px; margin-top:10px; color:{{text_color}};">{% trans 'Sequence' %}</h6>
+                                                    <input type="number" class="form-control" name="payment_partner_sequence" id="payment_partner_sequence" placeholder="{% trans 'Partner Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Sequence '" value="0">
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 col-xs-6">
+                                                    <h6 style="margin-bottom:10px; margin-top:10px; color:{{text_color}};">Partner Logo</h6>
+                                                    <div class="input-container-search-ticket form-select">
+                                                        <input type="file" name="image_partner" id="image_partner"/>
+                                                    </div>
+                                                    <img id="partner_img" style="height:auto; width:100px;">
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <label class="check_box_custom">
+                                                        <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                        <input type="checkbox" id="partner_active" />
+                                                        <span class="check_box_span_custom"></span>
+                                                    </label>
+                                                </div>
+                                                <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                    <button id="delete_partner" type="button" class="btn button-seat-pass-cancel" style="color:{{text_color}};" onclick="delete_payment_partner();" hidden>{% trans 'Delete' %}</button>
+                                                </div>
+                                                <div class="col-lg-12" style="text-align:center;">
+                                                    <button type="button" class="primary-btn" onclick="update_payment_partner();">{% trans 'Save Change' %}</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--<div class="col-lg-6">-->
@@ -1620,10 +2051,6 @@
                                 <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
                                 <!--</div>-->
                                 <!--</div>-->
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <hr/>
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
-                                </div>
                             </div>
                         </div>
                         <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
@@ -1734,7 +2161,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Visible Chat' %}</h6>
-                                    <div class="form-select" id="default-select">
+                                    <div class="default-select mb-3" id="default-select">
                                         <select id="tawk_chat" name="tawk_chat" name="template" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
                                             <option value="0" {% if tawk_chat == 0 %} selected {% endif %}>No</option>
                                             <option value="1" {% if tawk_chat == 1 %} selected {% endif %}>Yes</option>
@@ -2014,7 +2441,7 @@
                             {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
+                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>
                             {% endif %}
                             {% if "cache_version" in username.co_agent_frontend_security %}
                             <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
@@ -2083,11 +2510,11 @@
                             </div>
                             <div class="col-lg-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
-                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
+                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px !important; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                             </div>
                             <div class="col-lg-12">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Contact Us' %}</h6>
-                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
+                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
+                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px !important; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                             </div>
                             <div class="col-lg-12"><hr/></div>
                             <div class="col-lg-6">
@@ -2259,18 +2686,165 @@
                             </div>
                         </div>
                     </div>
-                    <div id="social_media-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                    <div id="web_information-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                <div class="form-select">
-                                    <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                <div class="form-select">
-                                    <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                            <div class="col-lg-12">
+                                <ul class="edit_tabs" id="tabs_template">
+                                    <li class="edit_tab-link current" data-tab="about-tab_edit"><label style="color:{{text_color}};">{% trans 'About Us' %}</label></li>
+                                    <li class="edit_tab-link" data-tab="contact-tab_edit"><label style="color:{{text_color}};">{% trans 'Contact Us' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
+                                    <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
+                                </ul>
+                                <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                    <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'About Us' %}</h3>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose Paragraph' %}</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="paragraph_choose" onchange="change_about_us();">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <button id="delete_paragraph" type="button" class="primary-btn-cancel" onclick="delete_about_us();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Paragraph Number' %}</h6>
+                                                <div class="form-select">
+                                                    <input type="number" class="form-control" name="sequence_paragraph" id="sequence_paragraph" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
+                                                <div class="form-select">
+                                                    <input type="text" class="form-control" name="title_paragraph" id="title_paragraph" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                                <h6 style="color:{{color}};">Recommended Size: </h6>
+                                                <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
+
+                                                <div class="input-container-search-ticket form-select">
+                                                    <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <img id="paragraph_img" style="height:auto; width:100px;">
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Body</h6>
+                                                <textarea class="ckeditor" name="body_paragraph" id="body_paragraph"></textarea>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                    <input type="checkbox" id="paragraph_active" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn" onclick="update_about_us();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="contact-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'Contact Us' %}</h3>
+                                            </div>
+                                            <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_contact(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                            </div>
+                                            <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                <button class="primary-btn-ticket" type="button" onclick="save_contact();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                            </div>
+                                            <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
+                                            </div>
+                                            <input type="hidden" id="counter_contact" value="0"/>
+                                        </div>
+                                    </div>
+                                    <div id="social-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'Social Media' %}</h3>
+                                            </div>
+                                            <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                <button class="primary-btn-ticket" type="button" onclick="add_table_of_social(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                            </div>
+                                            <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                <button class="primary-btn-ticket" type="button" onclick="save_social();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                            </div>
+                                            <div class="col-lg-12" id="social_div" style="margin-top:15px;">
+                                            </div>
+                                            <input type="hidden" id="counter_social" value="0"/>
+                                        </div>
+                                        <div class="row" style="display:none;">
+                                            <div class="col-lg-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
+                                                <div class="form-select">
+                                                    <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
+                                                <div class="form-select">
+                                                    <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
+                                        <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                            <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                <h3 style="color:white;">{% trans 'Payment Partner' %}</h3>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Payment Partner' %}</h6>
+                                                <div class="input-container-search-ticket">
+                                                    <div class="form-select">
+                                                        <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
+
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Partner Name' %}</h6>
+                                                <div class="form-select">
+                                                    <input type="text" class="form-control" name="payment_partner_name" id="payment_partner_name" placeholder="{% trans 'Partner Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Name '" value="">
+                                                </div>
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Sequence' %}</h6>
+                                                <input type="number" class="form-control" name="payment_partner_sequence" id="payment_partner_sequence" placeholder="{% trans 'Partner Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Sequence '" value="0">
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-xs-6">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
+                                                <div class="input-container-search-ticket form-select">
+                                                    <input type="file" name="image_partner" id="image_partner"/>
+                                                </div>
+                                                <img id="partner_img" style="height:auto; width:100px;">
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <label class="check_box_custom">
+                                                    <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                    <input type="checkbox" id="partner_active" />
+                                                    <span class="check_box_span_custom"></span>
+                                                </label>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                <button id="delete_partner" type="button" class="btn button-seat-pass-cancel" style="color:{{text_color}};" onclick="delete_payment_partner();" hidden>{% trans 'Delete' %}</button>
+                                            </div>
+                                            <div class="col-lg-12" style="text-align:center;">
+                                                <button type="button" class="primary-btn" onclick="update_payment_partner();">{% trans 'Save Change' %}</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <!--<div class="col-lg-6">-->
@@ -2279,10 +2853,6 @@
                             <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
                             <!--</div>-->
                             <!--</div>-->
-                            <div class="col-lg-12" style="text-align:center;">
-                                <hr/>
-                                <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
-                            </div>
                         </div>
                     </div>
                     <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
@@ -2674,8 +3244,7 @@
                                 {% if "edit_appearance" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="website-tab"><label style="color:white; font-size:15px;">Website Template</label></li>
                                 <li class="create_tab-link" data-tab="banner-tab"><label style="color:white; font-size:15px;">Banner</label></li>
-                                <li class="create_tab-link" data-tab="social_media-tab"><label style="color:white; font-size:15px;">{% trans 'Social Media' %}</label></li>
-                                {% endif %}
+                                <li class="create_tab-link" data-tab="web_information-tab"><label style="color:white; font-size:15px;">{% trans 'Website Information' %}</label></li>                                {% endif %}
                                 {% if "cache_version" in username.co_agent_frontend_security %}
                                 <li class="create_tab-link" data-tab="testing-tab"><label style="color:white; font-size:15px;">Update Cache</label></li>
                                 {% endif %}
@@ -2920,31 +3489,175 @@
                                 </div>
                             </div>
                         </div>
-                        <div id="social_media-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
-                            <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                        <div id="web_information-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
+                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                    <div class="col-lg-12">
+                                        <ul class="edit_tabs" id="tabs_template">
+                                            <li class="edit_tab-link current" data-tab="about-tab_edit"><label style="color:{{text_color}};">{% trans 'About Us' %}</label></li>
+                                            <li class="edit_tab-link" data-tab="contact-tab_edit"><label style="color:{{text_color}};">{% trans 'Contact Us' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="social-tab_edit"><label style="color:{{text_color}};">{% trans 'Social Media' %} / {% trans 'Follow Us' %}</label></li>
+                                            <li class="edit_tab-link " data-tab="payment_partner-tab_edit"><label style="color:{{text_color}};">{% trans 'Payment Partner' %}</label></li>
+                                        </ul>
+                                        <div class="banner-right" style="border: 1px solid {{text_color}};">
+                                            <div id="about-tab_edit" class="edit_tab-content current" style="padding:20px 0px 10px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'About Us' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Choose Paragraph' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="paragraph_choose" onchange="change_about_us();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <button id="delete_paragraph" type="button" class="primary-btn-cancel" onclick="delete_about_us();" style="margin-left:10px;" hidden>{% trans 'Delete' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Paragraph Number' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="number" class="form-control" name="sequence_paragraph" id="sequence_paragraph" placeholder="{% trans 'Example: 1' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Example: 1 '" value="1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Title' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="title_paragraph" id="title_paragraph" placeholder="{% trans 'Title' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Title '" value="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Thumbnail</h6>
+                                                        <h6 style="color:{{color}};">Recommended Size: </h6>
+                                                        <span style="color:{{text_color}}">Max.Width: 1100px, Height: 360px</span><br/>
+
+                                                        <div class="input-container-search-ticket form-select">
+                                                            <input type="file" name="image_paragraph" id="image_paragraph"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <img id="paragraph_img" style="height:auto; width:100px;">
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Body</h6>
+                                                        <textarea class="ckeditor" name="body_paragraph" id="body_paragraph"></textarea>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="paragraph_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_about_us();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="contact-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Contact Us' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_contact(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="save_contact();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" id="contact_div" style="margin-top:15px;">
+                                                    </div>
+                                                    <input type="hidden" id="counter_contact" value="0"/>
+                                                </div>
+                                            </div>
+                                            <div id="social-tab_edit" class="edit_tab-content" style="padding:20px 0px 15px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Social Media' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:left; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="add_table_of_social(['','','']);"><i class="fas fa-plus"></i> {% trans 'Add' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-6" style="text-align:right; margin-top:20px; margin-bottom:15px;">
+                                                        <button class="primary-btn-ticket" type="button" onclick="save_social();"><i class="fas fa-save"></i> {% trans 'Save' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" id="social_div" style="margin-top:15px;">
+                                                    </div>
+                                                    <input type="hidden" id="counter_social" value="0"/>
+                                                </div>
+                                                <div class="row" style="display:none;">
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
+                                                <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
+                                                    <div class="col-lg-12" style="margin-bottom:15px;color:white;">
+                                                        <h3 style="color:white;">{% trans 'Payment Partner' %}</h3>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12">
+                                                        <h6 class="control-label" style="margin-bottom:10px;color:{{text_color}}">{% trans 'Payment Partner' %}</h6>
+                                                        <div class="input-container-search-ticket">
+                                                            <div class="form-select">
+                                                                <select class="nice-select-default" style="width:100%;" id="partner_choose" onchange="change_payment_partner();">
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Partner Name' %}</h6>
+                                                        <div class="form-select">
+                                                            <input type="text" class="form-control" name="payment_partner_name" id="payment_partner_name" placeholder="{% trans 'Partner Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Name '" value="">
+                                                        </div>
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Sequence' %}</h6>
+                                                        <input type="number" class="form-control" name="payment_partner_sequence" id="payment_partner_sequence" placeholder="{% trans 'Partner Sequence' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Partner Sequence '" value="0">
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-xs-6">
+                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Partner Logo</h6>
+                                                        <div class="input-container-search-ticket form-select">
+                                                            <input type="file" name="image_partner" id="image_partner"/>
+                                                        </div>
+                                                        <img id="partner_img" style="height:auto; width:100px;">
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <label class="check_box_custom">
+                                                            <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Active' %}</span>
+                                                            <input type="checkbox" id="partner_active" />
+                                                            <span class="check_box_span_custom"></span>
+                                                        </label>
+                                                    </div>
+                                                    <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
+                                                        <button id="delete_partner" type="button" class="btn button-seat-pass-cancel" style="color:{{text_color}};" onclick="delete_payment_partner();" hidden>{% trans 'Delete' %}</button>
+                                                    </div>
+                                                    <div class="col-lg-12" style="text-align:center;">
+                                                        <button type="button" class="primary-btn" onclick="update_payment_partner();">{% trans 'Save Change' %}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                    <div class="form-select">
-                                        <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
-                                    </div>
-                                </div>
-                                <!--<div class="col-lg-6">-->
-                                <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
-                                <!--<div class="form-select">-->
-                                <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
-                                <!--</div>-->
-                                <!--</div>-->
-                                <div class="col-lg-12" style="text-align:center;">
-                                    <button type="button" class="primary-btn" onclick="update_banner();">{% trans 'Save Change' %}</button>
+                                    <!--<div class="col-lg-6">-->
+                                    <!--<h6 style="margin-bottom:10px;color:{{text_color}};">Twitter</h6>-->
+                                    <!--<div class="form-select">-->
+                                    <!--<input type="text" class="form-control" name="tawk_code" id="tawk_code" placeholder="Tawk Code " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Tawk Code '" value="{{tawk_code}}">-->
+                                    <!--</div>-->
+                                    <!--</div>-->
                                 </div>
                             </div>
-                        </div>
                         <div id="testing-tab" class="create_tab-content" style="padding:20px 0px 10px 0px;">
                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
                                 {% if "cache_version" in username.co_agent_frontend_security %}
@@ -3328,6 +4041,8 @@
 	var selDiv_promotionbanner = "";
     {% if "create_page" in username.co_agent_frontend_security %}
         get_highlight('setting');
+        get_contact('setting');
+        get_social('setting');
     {% endif %}
 	document.addEventListener("DOMContentLoaded", init, false);
 
@@ -3343,6 +4058,8 @@
 	get_banner('big_banner','admin');
     get_banner('small_banner','admin');
     get_banner('promotion','admin');
+    get_payment_partner('admin');
+    get_about_us('admin');
     {% if "create_page" in username.co_agent_frontend_security %}
     get_dynamic_page('admin');
     {% endif %}

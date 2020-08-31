@@ -26,11 +26,11 @@ $(document).ready(function(){
                 nav:true
             },
             768:{
-                items:3,
+                items:1,
                 nav:false
             },
             961:{
-                items:3,
+                items:1,
                 nav:true,
             }
         }

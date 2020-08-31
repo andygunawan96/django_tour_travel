@@ -32,6 +32,7 @@
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/vendor/login_main.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/social_javascript.js?version={{javascript_version}}"></script>
 <style>
 	input::placeholder {
 	  color: {{color}};
@@ -129,17 +130,8 @@
 			<div class="container" id="owl-login">
 
 			</div>
-			<div style="text-align:center; position:absolute; bottom:15px; left:0px; right:0px; ">
-				{% if instagram_url != '' or facebook_url != '' %}
-				<span style="color:{{text_color}}; font-weight:700;">{% trans 'Follow us' %}</span>
-				<br/>
-				{% if instagram_url != ''%}
-				<a href="{{instagram_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
-				{% endif %}
-				{% if facebook_url != ''%}
-				<a href="{{facebook_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
-				{% endif %}
-				{% endif %}
+			<div style="text-align:center; position:absolute; bottom:15px; left:0px; right:0px;" id="social_login_div">
+
 			</div>
 		</div>
 		<div class="wrap-login100 p-t-30 form-box-login" style="display:none;">
@@ -206,17 +198,8 @@
 				</form>
 			</div>
 
-			<div style="text-align:center; margin-top:30px;">
-				{% if instagram_url != '' or facebook_url != '' %}
-				<span style="color:{{text_color}}; font-weight:500;">{% trans 'Follow us' %}</span>
-				<br/>
-				{% if instagram_url != ''%}
-				<a href="{{instagram_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/instagram.png"/></a>
-				{% endif %}
-				{% if facebook_url != ''%}
-				<a href="{{facebook_url}}"><img style="height:40px; width:auto; margin-right:5px;" src="{{static_path}}img/facebook.png"/></a>
-				{% endif %}
-				{% endif %}
+			<div style="text-align:center; margin-top:30px;" id="social_login_div2">
+
 			</div>
 		</div>
 	</div>
@@ -260,6 +243,7 @@
 <!--===============================================================================================-->
 <!--loading-bar-->
 <script>
+	get_social('login');
 	get_dynamic_page('login');
 </script>
 <script src="{{ static_path }}js/loading-bar.js?version={{javascript_version}}"></script>

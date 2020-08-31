@@ -8,6 +8,10 @@ from ..static.tt_webservice.url import *
 import json
 import logging
 import traceback
+import base64
+import os
+from django.core.files.storage import FileSystemStorage
+
 _logger = logging.getLogger("rodextrip_logger")
 from .tt_webservice_views import *
 import time
@@ -98,6 +102,26 @@ def api_models(request):
             res = set_highlight_url(request)
         elif req_data['action'] == 'get_highlight_url':
             res = get_highlight_url(request)
+        elif req_data['action'] == 'set_contact_url':
+            res = set_contact_url(request)
+        elif req_data['action'] == 'get_contact_url':
+            res = get_contact_url(request)
+        elif req_data['action'] == 'set_social_url':
+            res = set_social_url(request)
+        elif req_data['action'] == 'get_social_url':
+            res = get_social_url(request)
+        elif req_data['action'] == 'set_payment_partner':
+            res = set_payment_partner(request)
+        elif req_data['action'] == 'get_payment_partner':
+            res = get_payment_partner(request)
+        elif req_data['action'] == 'delete_payment_partner':
+            res = delete_payment_partner(request)
+        elif req_data['action'] == 'set_about_us':
+            res = set_about_us(request)
+        elif req_data['action'] == 'get_about_us':
+            res = get_about_us(request)
+        elif req_data['action'] == 'delete_about_us':
+            res = delete_about_us(request)
         elif req_data['action'] == 'get_va_number':
             res = get_va_number(request)
         elif req_data['action'] == 'send_url_booking':
@@ -107,6 +131,7 @@ def api_models(request):
     except Exception as e:
         res = ERR.get_error_api(500, additional_message=str(e))
     return Response(res)
+
 
 def signin(request):
     headers = {
@@ -651,6 +676,7 @@ def confirm_top_up(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+
 def set_highlight_url(request):
     data = ''
     data_list = json.loads(request.POST['data'])
@@ -668,6 +694,7 @@ def set_highlight_url(request):
     file.close()
     return 0
 
+
 def get_highlight_url(request):
     data = []
     try:
@@ -679,6 +706,460 @@ def get_highlight_url(request):
     except:
         pass
     return data
+
+
+def set_contact_url(request):
+    data = ''
+    data_list = json.loads(request.POST['data'])
+    if len(data_list) == 0:
+        pass
+    else:
+        for rec in data_list:
+            if rec[0] != '' and rec[1] != '':
+                if data != '':
+                    data += '\n'
+                data += '%s:contact:%s:contact:%s' % (rec[0], rec[1], rec[2])
+
+    file = open(var_log_path() + "contact_data.txt", "w+")
+    file.write(data)
+    file.close()
+    return 0
+
+
+def get_contact_url(request):
+    data = []
+    try:
+        file = open(var_log_path() + "contact_data.txt", "r")
+        for line in file:
+            if line != '\n':
+                data.append(line.split(':contact:'))
+        file.close()
+    except:
+        pass
+    return data
+
+
+def set_social_url(request):
+    data = ''
+    data_list = json.loads(request.POST['data'])
+    if len(data_list) == 0:
+        pass
+    else:
+        for rec in data_list:
+            if rec[0] != '' and rec[2] != '':
+                if data != '':
+                    data += '\n'
+                data += '%s:social:%s:social:%s' % (rec[0], rec[1], rec[2])
+
+    file = open(var_log_path() + "social_data.txt", "w+")
+    file.write(data)
+    file.close()
+    return 0
+
+
+def get_social_url(request):
+    data = []
+    try:
+        file = open(var_log_path() + "social_data.txt", "r")
+        for line in file:
+            if line != '\n':
+                data.append(line.split(':social:'))
+        file.close()
+    except:
+        pass
+    return data
+
+
+def get_payment_partner(request):
+    try:
+        response = []
+        if not os.path.exists("/var/log/django/payment_partner"):
+            os.mkdir('/var/log/django/payment_partner')
+        for data in os.listdir('/var/log/django/payment_partner'):
+            file = open('/var/log/django/payment_partner/' + data, "r")
+            state = ''
+            sequence = ''
+            title = ''
+            image_partner = ''
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line.split('\n')[0] == 'false':
+                        state = False
+                    else:
+                        state = True
+                elif idx == 1:
+                    sequence = line.split('\n')[0]
+                elif idx == 2:
+                    title = line.split('\n')[0]
+                elif idx == 3:
+                    image_partner = line.split('\n')[0]
+            file.close()
+            response.append({
+                "state": bool(state),
+                "sequence": sequence,
+                "title": title,
+                "image_partner": image_partner
+            })
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def delete_payment_partner(request):
+    try:
+        data = os.listdir('/var/log/django/payment_partner')
+        os.remove('/var/log/django/payment_partner/' + data[int(request.POST['partner_number'])])
+        # check image
+        fs = FileSystemStorage()
+        fs.location += '/image_payment_partner'
+        data = os.listdir('/var/log/django/payment_partner')
+        image_list = []
+        for rec in data:
+            file = open('/var/log/django/payment_partner/' + rec, "r")
+            for idx, line in enumerate(file):
+                if idx == 3:
+                    line = line.split('\n')[0]
+                    line = line.split('/')
+                    line.pop(0)
+                    line.pop(0)
+                    line.pop(0)
+                    line = '/'.join(line)
+                    image_list.append(line)
+        for data in os.listdir(fs.location):
+            if not data in image_list:
+                os.remove(fs.base_location + '/image_payment_partner/' + data)
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        print(e)
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'Error Delete',
+                'response': ''
+            }
+        }
+    return res
+
+
+def set_payment_partner(request):
+    try:
+        fs = FileSystemStorage()
+        fs.location += '/image_payment_partner'
+        if not os.path.exists(fs.location):
+            os.mkdir(fs.location)
+        if not os.path.exists("/var/log/django/payment_partner"):
+            os.mkdir('/var/log/django/payment_partner')
+
+        filename = ''
+        try:
+            if request.FILES['image_partner'].content_type == 'image/jpeg' or request.FILES['image_partner'].content_type == 'image/png' or request.FILES['image_partner'].content_type == 'image/png':
+                file = request.FILES['image_partner']
+                filename = fs.save(file.name, file)
+        except:
+            pass
+
+        data = os.listdir('/var/log/django/payment_partner')
+        #create new
+        sequence = request.POST['sequence']
+        title = request.POST['title']
+        counter = 1
+        if int(request.POST['partner_number']) == -1:
+
+            while True:
+                if counter == 0 and title + '.txt' in data:
+                    counter += 1
+                elif title + str(counter) + '.txt' in data:
+                    counter += 1
+                else:
+                    if counter != 1:
+                        title += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
+            file = open('/var/log/django/payment_partner/' + "".join(title.split(' ')) + ".txt", "w+")
+            file.write(text)
+            file.close()
+        #replace
+        else:
+            if filename == '':
+                file = open('/var/log/django/payment_partner/' + data[int(request.POST['partner_number'])], "r")
+                for idx, line in enumerate(file):
+                    if idx == 3:
+                        text = line.split('\n')[0].split('/')
+                        text.pop(0)
+                        text.pop(0)
+                        text.pop(0)
+                        filename = "/".join(text)
+            os.remove('/var/log/django/payment_partner/' + data[int(request.POST['partner_number'])])
+            data = os.listdir('/var/log/django/payment_partner')
+            while True:
+                if counter == 0 and title + '.txt' in data:
+                    counter += 1
+                elif title + str(counter) + '.txt' in data:
+                    counter += 1
+                else:
+                    if counter != 1:
+                        title += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
+            file = open('/var/log/django/payment_partner/' + "".join(title.split(' ')) + ".txt", "w+")
+            file.write(text)
+            file.close()
+        #check image
+        data = os.listdir('/var/log/django/payment_partner')
+        image_list = []
+        for rec in data:
+            file = open('/var/log/django/payment_partner/' + rec, "r")
+            for idx, line in enumerate(file):
+                if idx == 3:
+                    text = line.split('\n')[0].split('/')
+                    text.pop(0)
+                    text.pop(0)
+                    text.pop(0)
+                    image_list.append("/".join(text))
+        for data in os.listdir(fs.location):
+            if not data in image_list:
+                os.remove(fs.location + '/' + data)
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        if int(request.POST['partner_number']) == -1:
+            error = "Can't create"
+        else:
+            error = "Can't update"
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': error,
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def get_about_us(request):
+    try:
+        response = []
+        if not os.path.exists("/var/log/django/about_us"):
+            os.mkdir('/var/log/django/about_us')
+        for data in os.listdir('/var/log/django/about_us'):
+            file = open('/var/log/django/about_us/' + data, "r")
+            state = ''
+            sequence = ''
+            title = ''
+            body = ''
+            image_paragraph = ''
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line.split('\n')[0] == 'false':
+                        state = False
+                    else:
+                        state = True
+                elif idx == 1:
+                    sequence = line.split('\n')[0]
+                elif idx == 2:
+                    title = line.split('\n')[0]
+                elif idx == 3:
+                    body = json.loads(line.split('\n')[0])
+                elif idx == 4:
+                    image_paragraph = line.split('\n')[0]
+            file.close()
+            response.append({
+                "state": bool(state),
+                "sequence": sequence,
+                "title": title,
+                "body": body,
+                "image_paragraph": image_paragraph
+            })
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def delete_about_us(request):
+    try:
+        data = os.listdir('/var/log/django/about_us')
+        os.remove('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])])
+        # check image
+        fs = FileSystemStorage()
+        fs.location += '/image_about_us'
+        data = os.listdir('/var/log/django/about_us')
+        image_list = []
+        for rec in data:
+            file = open('/var/log/django/about_us/' + rec, "r")
+            for idx, line in enumerate(file):
+                if idx == 4:
+                    line = line.split('\n')[0]
+                    line = line.split('/')
+                    line.pop(0)
+                    line.pop(0)
+                    line.pop(0)
+                    line = '/'.join(line)
+                    image_list.append(line)
+        for data in os.listdir(fs.location):
+            if not data in image_list:
+                os.remove(fs.base_location + '/image_about_us/' + data)
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        print(e)
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'Error Delete',
+                'response': ''
+            }
+        }
+    return res
+
+
+def set_about_us(request):
+    try:
+        fs = FileSystemStorage()
+        fs.location += '/image_about_us'
+        if not os.path.exists(fs.location):
+            os.mkdir(fs.location)
+        if not os.path.exists("/var/log/django/about_us"):
+            os.mkdir('/var/log/django/about_us')
+
+        filename = ''
+        try:
+            if request.FILES['image_paragraph'].content_type == 'image/jpeg' or request.FILES['image_paragraph'].content_type == 'image/png' or request.FILES['image_paragraph'].content_type == 'image/png':
+                file = request.FILES['image_paragraph']
+                filename = fs.save(file.name, file)
+        except:
+            pass
+
+        data = os.listdir('/var/log/django/about_us')
+        #create new
+        sequence = request.POST['sequence']
+        title = request.POST['title']
+        body = request.POST['body']
+        counter = 1
+        if int(request.POST['paragraph_number']) == -1:
+
+            while True:
+                if counter == 0 and sequence + '.txt' in data:
+                    counter += 1
+                elif sequence + str(counter) + '.txt' in data:
+                    counter += 1
+                else:
+                    if counter != 1:
+                        sequence += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
+            file = open('/var/log/django/about_us/' + "".join(sequence.split(' ')) + ".txt", "w+")
+            file.write(text)
+            file.close()
+        #replace
+        else:
+            if filename == '':
+                file = open('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])], "r")
+                for idx, line in enumerate(file):
+                    if idx == 4:
+                        text = line.split('\n')[0].split('/')
+                        text.pop(0)
+                        text.pop(0)
+                        text.pop(0)
+                        filename = "/".join(text)
+            os.remove('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])])
+            data = os.listdir('/var/log/django/about_us')
+            while True:
+                if counter == 0 and sequence + '.txt' in data:
+                    counter += 1
+                elif sequence + str(counter) + '.txt' in data:
+                    counter += 1
+                else:
+                    if counter != 1:
+                        sequence += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
+            file = open('/var/log/django/about_us/' + "".join(sequence.split(' ')) + ".txt", "w+")
+            file.write(text)
+            file.close()
+        #check image
+        data = os.listdir('/var/log/django/about_us')
+        image_list = []
+        for rec in data:
+            file = open('/var/log/django/about_us/' + rec, "r")
+            for idx, line in enumerate(file):
+                if idx == 4:
+                    text = line.split('\n')[0].split('/')
+                    text.pop(0)
+                    text.pop(0)
+                    text.pop(0)
+                    image_list.append("/".join(text))
+        for data in os.listdir(fs.location):
+            if not data in image_list:
+                os.remove(fs.location + '/' + data)
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        if int(request.POST['paragraph_number']) == -1:
+            error = "Can't create"
+        else:
+            error = "Can't update"
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': error,
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
 
 def get_va_number(request):
     try:

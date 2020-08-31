@@ -6,15 +6,19 @@
 <footer class="footer-area section-gap">
     <div class="container">
         <div class="row">
-            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+            <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 mb-3">
                 <h6 style="color:black;">About {{name}}</h6>
-                <p>
-                    {% for description in desc%}
-                    {{description}}
-                    <br/>
-                    {% endfor %}
-                </p>
+                <div class="single-footer-widget">
+                    <ul>
+                        <li><a href="/about_us">About Us</a></li>
+                        <li><a href="/contact_us">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div id="payment_partner_footer_div" class="mb-3">
+
+                </div>
             </div>
+
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                 <h6 style="color:black;">Our Product</h6>
                 <div class="single-footer-widget">
@@ -55,7 +59,7 @@
             </div>
 
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                <h6 style="color:black;">Contact Us</h6>
+                <h6 style="color:black;">Information</h6>
                 <p>
                     {% for description in contact_us%}
                     {{description}}
@@ -63,16 +67,13 @@
                     {% endfor %}
                 </p>
 
-                {% if instagram_url != '' or facebook_url != '' %}
-                <hr/>
-                <h6 style="color:black">Follow us</h6>
-                {% if facebook_url != ''%}
-                <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
-                {% endif %}
-                {% if instagram_url != ''%}
-                <a href="{{instagram_url}}"><img style="height:30px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
-                {% endif %}
-                {% endif %}
+                <div id="contact_footer_div">
+
+                </div>
+
+                <div id="social_footer_div">
+
+                </div>
             </div>
 
             <!--<div class="col-lg-6 col-md-6 col-sm-6">-->
@@ -149,13 +150,14 @@
                         <h5 class="widget-title" style="color:black;">About {{name}}</h5>
 
                         <!-- Single Blog Area -->
-                        <div class="latest-blog-area">
-                            <p>
-                                {% for description in desc%}
-                                {{description}}
-                                <br/>
-                                {% endfor %}
-                            </p>
+                        <div class="single-footer-widget">
+                            <ul class="footer-nav">
+                                <li><a href="/about_us">About Us</a></li>
+                                <li><a href="/contact_us">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        <div id="payment_partner_footer_div" class="mb-3">
+
                         </div>
                     </div>
                 </div>
@@ -204,27 +206,22 @@
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                     <div class="single-footer-widget mb-30">
-                        <h5 class="widget-title" style="color:black;">Contact Us</h5>
+                        <h5 class="widget-title" style="color:black;">Information</h5>
                         <p>
                             {% for description in contact_us%}
                             {{description}}
                             <br/>
                             {% endfor %}
                         </p>
+
+                        <div id="contact_footer_div">
+
+                        </div>
+
+                        <div id="social_footer_div">
+
+                        </div>
                     </div>
-                    {% if instagram_url != '' or facebook_url != '' %}
-                    <div class="single-footer-widget mb-80">
-                        <!-- Widget Title -->
-                        <hr/>
-                        <h5 class="widget-title" style="color:black;">Follow us</h5>
-                        {% if facebook_url != ''%}
-                        <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
-                        {% endif %}
-                        {% if instagram_url != ''%}
-                        <a href="{{instagram_url}}"><img style="height:30px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
-                        {% endif %}
-                    </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -253,12 +250,15 @@
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                 <div class="single-footer-widget">
                     <h6 style="color:black;">About {{name}}</h6>
-                    <p>
-                        {% for description in desc%}
-                        {{description}}
-                        <br/>
-                        {% endfor %}
-                    </p>
+                    <div class="single-footer-widget">
+                        <ul class="footer-nav">
+                            <li><a href="/about_us">About Us</a></li>
+                            <li><a href="/contact_us">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div id="payment_partner_footer_div" class="mb-3">
+
+                    </div>
                 </div>
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
@@ -301,26 +301,21 @@
             </div>
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                 <div class="single-footer-widget">
-                    <h6 style="color:black;">Contact Us</h6>
+                    <h6 style="color:black;">Information</h6>
                     <p>
                         {% for description in contact_us%}
                         {{description}}
                         <br/>
                         {% endfor %}
                     </p>
+                    <div id="contact_footer_div">
+
+                    </div>
+
+                    <div id="social_footer_div">
+
+                    </div>
                 </div>
-                {% if instagram_url != '' or facebook_url != '' %}
-                <div class="single-footer-widget">
-                    <hr/>
-                    <h6 style="color:black;">Follow us</h6>
-                    {% if facebook_url != ''%}
-                    <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
-                    {% endif %}
-                    {% if instagram_url != ''%}
-                    <a href="{{instagram_url}}"><img style="height:30px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
-                    {% endif %}
-                </div>
-                {% endif %}
             </div>
 
             <!--            <div class="col-lg-2 col-md-6 col-sm-6">-->
@@ -394,12 +389,15 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                         <h2 class="footer-heading mb-4" style="color:black;">About {{name}}</h2>
-                        <p>
-                            {% for description in desc%}
-                            {{description}}
-                            <br/>
-                            {% endfor %}
-                        </p>
+                        <div class="single-footer-widget">
+                            <ul class="footer-nav">
+                                <li><a href="/about_us">About Us</a></li>
+                                <li><a href="/contact_us">Contact Us</a></li>
+                            </ul>
+                        </div>
+                        <div id="payment_partner_footer_div" class="mb-3">
+
+                        </div>
                     </div>
 
                     <!--                    <div class="col-md-3">-->
@@ -448,24 +446,20 @@
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
-                        <h2 class="footer-heading mb-4" style="color:black;">Contact Us</h2>
+                        <h2 class="footer-heading mb-4" style="color:black;">Information</h2>
                         <p>
                             {% for description in contact_us%}
                             {{description}}
                             <br/>
                             {% endfor %}
                         </p>
+                        <div id="contact_footer_div">
 
-                        {% if instagram_url != '' or facebook_url != '' %}
-                        <hr/>
-                        <h2 class="footer-heading mb-4" style="color:black;">Follow Us</h2>
-                        {% if facebook_url != ''%}
-                        <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
-                        {% endif %}
-                        {% if instagram_url != ''%}
-                        <a href="{{instagram_url}}"><img style="height:30px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
-                        {% endif %}
-                        {% endif %}
+                        </div>
+
+                        <div id="social_footer_div">
+
+                        </div>
                     </div>
                 </div>
             </div>
@@ -505,12 +499,15 @@
             <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
                 <div class="single-footer-widget">
                     <h4 style="color:black;">About {{name}}</h4><br/>
-                    <p>
-                        {% for description in desc%}
-                        {{description}}
-                        <br/>
-                        {% endfor %}
-                    </p>
+                    <div class="footer-social d-flex align-items-center">
+                        <ul class="footer-nav">
+                            <li><a href="/about_us">About Us</a></li>
+                            <li><a href="/contact_us">Contact Us</a></li>
+                        </ul>
+                    </div>
+                    <div id="payment_partner_footer_div" class="mb-3">
+
+                    </div>
                 </div>
             </div>
             <!--            <div class="col-lg-4 col-md-6 col-sm-6">-->
@@ -598,21 +595,14 @@
                         <br/>
                         {% endfor %}
                     </p>
-                </div>
-                {% if instagram_url != '' or facebook_url != '' %}
-                <hr/>
-                <div class="single-footer-widget">
-                    <h4 style="color:black;">Follow Us</h4><br/>
-                    <div class="footer-social d-flex align-items-center">
-                        {% if facebook_url != ''%}
-                        <a href="{{facebook_url}}"><img style="height:30px; width:auto; padding-right:10px;" src="{{static_path}}img/facebook.png"/></a>
-                        {% endif %}
-                        {% if instagram_url != ''%}
-                        <a href="{{instagram_url}}"><img style="height:30px; width:auto;" src="{{static_path}}img/instagram.png"/></a>
-                        {% endif %}
+                    <div id="contact_footer_div">
+
+                    </div>
+
+                    <div id="social_footer_div">
+
                     </div>
                 </div>
-                {% endif %}
             </div>
         </div>
         <hr/>
