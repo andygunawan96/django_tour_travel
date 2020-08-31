@@ -17,7 +17,7 @@ button:focus{
     outline:unset !important;
 }
 a {
-  color:#fff;
+  color: black;
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease; }
@@ -214,11 +214,11 @@ option::after{
   .site-footer .border-top {
     border-top: 1px solid rgba(255, 255, 255, 0.1) !important; }
   .site-footer p {
-    color: #737373; }
+    color: black; }
   .site-footer h2, .site-footer h3, .site-footer h4, .site-footer h5 {
     color: #fff; }
   .site-footer a {
-    color: #999999; }
+    color: black; }
     .site-footer a:hover {
       color: white; }
   .site-footer ul li {
