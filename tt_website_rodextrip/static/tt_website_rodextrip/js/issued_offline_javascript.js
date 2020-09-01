@@ -120,6 +120,7 @@ function add_table_of_passenger(type){
         <td>
             <div style="text-align:center;">
                 <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" data-toggle="modal" data-target="#myModalPassenger`+counter_passenger+`" onclick="set_passenger_number(`+counter_passenger+`);"><i class="fas fa-search"></i></button>
+                <button type="button" class="primary-btn" style="margin-bottom:5px; line-height:34px;" onclick="clear_passenger('Adult',`+parseInt(counter_passenger+1)+`);document.getElementById('name_pax`+counter_passenger+`').innerHTML='';document.getElementById('birth_date`+counter_passenger+`').innerHTML=document.getElementById('adult_birth_date`+parseInt(counter_passenger+1)+`').value;document.getElementById('id_passenger`+counter_passenger+`').value='';"><i class="fas fa-times"></i></button>
             </div>
             <!-- Modal -->
             <div class="modal fade" id="myModalPassenger`+counter_passenger+`" role="dialog" data-keyboard="false">
@@ -353,24 +354,23 @@ function add_table_of_passenger(type){
                                                 <div class="col-lg-6" id="adult_cp_hidden2_`+parseInt(counter_passenger+1)+`" hidden>
                                                     <label style="margin:0;">Contact Person for Urgent Situation</label>
                                                     <label style="font-size:10px; color:red;">(Must be filled with booker's mobile on first registration)</label>
-                                                    <div class="input-container-search-ticket">
-                                                        <div class="row">
-                                                            <div class="col-lg-3">
-                                                                <div class="form-select">
-                                                                    <select id="adult_phone_code`+parseInt(counter_passenger+1)+`" name="adult_phone_code`+parseInt(counter_passenger+1)+`">`;
-                                                                        for(i in countries){
-                                                                            if(countries[i].code == 'ID')
-                                                                               text+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
-                                                                            else
-                                                                               text+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
-                                                                        }
+                                                    <div class="row">
+                                                        <div class="col-lg-3">
+                                                            <div class="form-select">
+                                                                <select id="adult_phone_code`+parseInt(counter_passenger+1)+`_id" name="adult_phone_code`+parseInt(counter_passenger+1)+`_id" class="form-control js-example-basic-single">`;
+                                                                    for(i in countries){
+                                                                        if(countries[i].code == 'ID')
+                                                                           text+=`<option value="`+countries[i].phone_code+`" selected>`+countries[i].phone_code+`</option>`;
+                                                                        else
+                                                                           text+=`<option value="`+countries[i].phone_code+`">`+countries[i].phone_code+`</option>`;
+                                                                    }
 
-                                                            text+=` </select>
-                                                                </div>
+                                                        text+=` </select>
+                                                                <input type="hidden" name="adult_phone_code`+parseInt(counter_passenger+1)+`" id="adult_phone_code`+parseInt(counter_passenger+1)+`" />
                                                             </div>
-                                                            <div class="col-lg-9">
-                                                                <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
-                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-9">
+                                                            <input type="text" class="form-control" name="adult_phone`+parseInt(counter_passenger+1)+`" id="adult_phone`+parseInt(counter_passenger+1)+`" placeholder="Phone Number " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Phone Number '">
                                                         </div>
                                                     </div>
                                                     <label style="font-size:12px; padding:0;">Example: +62812345678</label>
@@ -430,6 +430,7 @@ function add_table_of_passenger(type){
 
     $('#adult_nationality'+parseInt(counter_passenger+1)+'_id').select2();
     $('#adult_country_of_issued'+parseInt(counter_passenger+1)+'_id').select2();
+    $('#adult_phone_code'+parseInt(counter_passenger+1)+'_id').select2();
 //    $('#adult_nationality'+parseInt(counter_passenger+1)).select2();
     if(type == 'open')
         $('#myModalPassenger'+parseInt(parseInt(counter_passenger))).modal('show');
