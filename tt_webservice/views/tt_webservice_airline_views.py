@@ -64,6 +64,8 @@ class provider_airline:
         self.get_time_carrier_airline_first_time = True
         self.get_time_carrier_airline_cache = name
         self.get_time_carrier_airline_cache_first_time = True
+        self.get_time_carrier_airline_cache_text = name
+        self.get_time_carrier_airline_cache_text_first_time = True
         self.get_time_provider_list_data = name
         self.get_time_provider_list_data_first_time = True
     def set_new_time_out(self, val):
@@ -73,6 +75,8 @@ class provider_airline:
             self.get_time_carrier_airline = datetime.now()
         elif val == 'carrier_cache':
             self.get_time_carrier_airline_cache = datetime.now()
+        elif val == 'carrier_cache_text':
+            self.get_time_carrier_airline_cache_text = datetime.now()
         elif val == 'provider_list_data':
             self.get_time_provider_list_data = datetime.now()
     def set_first_time(self,val):
@@ -82,6 +86,8 @@ class provider_airline:
             self.get_time_carrier_airline_first_time = False
         elif val == 'carrier_cache':
             self.get_time_carrier_airline_cache_first_time = False
+        elif val == 'carrier_cache_text':
+            self.get_time_carrier_airline_cache_text_first_time = False
         elif val == 'provider_list_data':
             self.get_time_provider_list_data_first_time = False
 
@@ -217,12 +223,12 @@ def get_carrier_code_list(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if date_time.seconds >= 300 or airline.get_time_carrier_airline_first_time == True:
+    if date_time.seconds >= 300 or airline.get_time_carrier_airline_cache_text_first_time == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                airline.set_new_time_out('carrier')
-                # airline.set_first_time('carrier')
+                airline.set_new_time_out('carrier_cache_text')
+                airline.set_first_time('carrier_cache_text')
                 res = res['result']['response']
                 res.update({
                     'GA1': {
@@ -429,7 +435,7 @@ def get_carriers_search(request):
         try:
             if res['result']['error_code'] == 0:
                 airline.set_new_time_out('carrier')
-                # airline.set_first_time('carrier')
+                airline.set_first_time('carrier')
                 res = res['result']['response']
                 # res.update({
                 #     'GA1': {
