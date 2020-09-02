@@ -870,29 +870,11 @@ def get_cache_data(javascript_version):
             response = json.loads(line)
         file.close()
     except Exception as e:
+        response = {}
         _logger.error('ERROR version cache file\n' + str(e) + '\n' + traceback.format_exc())
     return response
 
 def get_data_template(request, type='home', provider_type = []):
-    if type != 'login':
-        if request.session.get('keep_me_signin') == True:
-            request.session.set_expiry(1200)
-            request.session.modified = True
-    cache_version = get_cache_version()
-    response = get_cache_data(cache_version)
-    airline_country = response['result']['response']['airline']['country']
-    phone_code = []
-    for i in airline_country:
-        if i['phone_code'] not in phone_code:
-            phone_code.append(i['phone_code'])
-    phone_code = sorted(phone_code)
-    if len(provider_type) != 0:
-        provider_type = provider_type
-    else:
-        try:
-            provider_type = request.session.get('provider') and request.session.get('provider') or []
-        except:
-            provider_type = []
     template = 1
     logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
@@ -901,6 +883,8 @@ def get_data_template(request, type='home', provider_type = []):
     else:
         background = '/static/tt_website_rodextrip/images/bg_7.jpg'
     color = '#f15a22'
+    airline_country = []
+    phone_code = []
     website_name = 'Rodextrip'
     tawk_chat = 0
     website_mode = 'btb'
@@ -916,8 +900,28 @@ def get_data_template(request, type='home', provider_type = []):
     contact_us = ''
     website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
 
-We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
+    We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
     try:
+        if type != 'login':
+            if request.session.get('keep_me_signin') == True:
+                request.session.set_expiry(1200)
+                request.session.modified = True
+        cache_version = get_cache_version()
+        response = get_cache_data(cache_version)
+        airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
+        if len(provider_type) != 0:
+            provider_type = provider_type
+        else:
+            try:
+                provider_type = request.session.get('provider') and request.session.get('provider') or []
+            except:
+                provider_type = []
+
         file = open(var_log_path()+"data_cache_template.txt", "r")
         for idx, line in enumerate(file):
             if idx == 0:
@@ -1009,11 +1013,11 @@ We build this application for our existing partner and public users who register
                     contact_us = '\n'.join(line.split('<br>')[:-1])
                 else:
                     contact_us = '\n'.join(line.split('<br>'))
-        if color == '':
-            color = '#f15a22'
-        file.close()
-        if len(background.split('\n')) > 1:
-            background = background.split('\n')[0]
+            if color == '':
+                color = '#f15a22'
+            file.close()
+            if len(background.split('\n')) > 1:
+                background = background.split('\n')[0]
     except Exception as e:
         _logger.error('ERROR GET CACHE TEMPLATE DJANGO RUN USING DEFAULT\n' + str(e) + '\n' + traceback.format_exc())
     return {
