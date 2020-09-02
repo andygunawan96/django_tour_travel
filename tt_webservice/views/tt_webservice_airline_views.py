@@ -222,7 +222,7 @@ def get_carrier_code_list(request):
         try:
             if res['result']['error_code'] == 0:
                 airline.set_new_time_out('carrier')
-                airline.set_first_time('carrier')
+                # airline.set_first_time('carrier')
                 res = res['result']['response']
                 res.update({
                     'GA1': {
@@ -429,7 +429,7 @@ def get_carriers_search(request):
         try:
             if res['result']['error_code'] == 0:
                 airline.set_new_time_out('carrier')
-                airline.set_first_time('carrier')
+                # airline.set_first_time('carrier')
                 res = res['result']['response']
                 # res.update({
                 #     'GA1': {

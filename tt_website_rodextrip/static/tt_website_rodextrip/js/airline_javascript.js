@@ -4270,6 +4270,7 @@ function get_airline_review(){
             <hr/>`;
     flight_count = 0;
     for(i in airline_pick){
+        airline_pick[i].price_itinerary = airline_pick[i].journeys;
         for(j in airline_pick[i].price_itinerary){
             if(airline_pick[i].price_itinerary[j].is_combo_price == true){
                 text += `<h6>Combo Price</h6>`;
@@ -4440,7 +4441,6 @@ function get_airline_review(){
     </div>`;
 
     document.getElementById('airline_review').innerHTML = text;
-
 }
 
 function get_airline_review_after_sales(){

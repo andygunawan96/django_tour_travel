@@ -535,7 +535,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         {% for ff in ff_request %}
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_ff_program_{{counter}}_{{forloop.counter}}">
                                             <label style="color:white">*</label>
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
@@ -550,7 +550,7 @@
                                                 <input type="hidden" name="adult_ff_request{{counter}}_{{forloop.counter}}" id="adult_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="adult_ff_value_{{counter}}_{{forloop.counter}}">
                                             <label>{% trans 'Frequent Flyer Number' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="adult_ff_number{{counter}}_{{forloop.counter}}" id="adult_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
@@ -568,7 +568,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
-                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
+                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 
@@ -792,7 +792,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                         </div>
                                         {% for ff in ff_request %}
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_program_{{counter}}_{{forloop.counter}}">
                                             <label style="color:white">*</label>
                                             <label>{% trans 'Frequent Flyer Program Journey' %} {{forloop.counter}}</label>
                                             <div class="input-container-search-ticket">
@@ -807,7 +807,7 @@
                                                 <input type="hidden" name="child_ff_request{{counter}}_{{forloop.counter}}" id="child_ff_request{{counter}}_{{forloop.counter}}" />
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="col-lg-6 col-md-6 col-sm-6" id="child_ff_value_{{counter}}_{{forloop.counter}}">
                                             <label>{% trans 'Frequent Flyer Number' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control" name="child_ff_number{{counter}}_{{forloop.counter}}" id="child_ff_number{{counter}}_{{forloop.counter}}" placeholder="{% trans 'Frequent Flyer Number' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Frequent Flyer Number '">
@@ -1497,7 +1497,7 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                                     <label style="color:red">*</label>
                                                     <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
-                                                    <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
+                                                    <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                                     <div class="row">
                                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                             <div class="input-container-search-ticket">
@@ -2338,7 +2338,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
-                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
+                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 
@@ -3294,7 +3294,7 @@
                                     <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                         <label style="color:red">*</label>
                                         <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
-                                        <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
+                                        <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                         <div class="row">
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 
@@ -4255,7 +4255,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6" id="adult_cp_hidden2_{{forloop.counter}}" hidden>
                                             <label style="color:red">*</label>
                                             <label style="margin:0;">{% trans 'Contact Person for Urgent Situation' %}</label>
-                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with booker's mobile on first registration" %})</label>
+                                            <label style="font-size:10px; color:red;">({% trans "Must be filled with contact person's mobile on first registration" %})</label>
                                             <div class="row">
                                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
 
