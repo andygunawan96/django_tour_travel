@@ -123,6 +123,9 @@
                                         <div class="form-select">
                                             <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                         </div>
+
+                                    </div>
+                                    <div class="col-lg-6">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                         <div class="form-select">
                                             <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
@@ -132,62 +135,124 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
-                                        <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                                    </div>
                                     <div class="col-lg-12">
                                         <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                         <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" placeholder="Information (example: address)" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                     </div>
                                     <div class="col-lg-12"><hr/></div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input type="checkbox" id="empty_logo" name="empty_logo"/>
+                                                <label for="empty_logo" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                            </div>
+                                        </div>
                                         <h6 style="color:{{color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileToUpload" id="fileToUpload"/>
                                         </div>
+                                        {%if logo %}
+                                        <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon"/>
+                                                <label for="empty_logo_icon" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                            </div>
+                                        </div>
                                         <h6 style="color:{{color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="filelogoicon" id="filelogoicon"/>
                                         </div>
+                                        {%if logo_icon %}
+                                        <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input type="checkbox" id="empty_image_home" name="empty_image_home"/>
+                                                <label for="empty_image_home" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                            </div>
+                                        </div>
                                         <h6 style="color:{{color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                         </div>
+                                        {%if background %}
+                                        <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input type="checkbox" id="empty_image_login" name="empty_image_login" />
+                                                <label for="empty_image_login" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                            </div>
+                                        </div>
                                         <h6 style="color:{{color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                         </div>
+                                        {%if bg_login %}
+                                        <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input type="checkbox" id="empty_image_search" name="empty_image_search" />
+                                                <label for="empty_image_search" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                            </div>
+                                        </div>
                                         <h6 style="color:{{color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                         </div>
+                                        {%if bg_search %}
+                                        <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-6">
-                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                        <div class="row">
+                                            <div class="col-lg-3">
+                                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                            </div>
+                                            <div class="col-lg-9">
+                                                <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
+                                                <label for="empty_image_regis" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                            </div>
+                                        </div>
                                         <h6 style="color:{{color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                         <div class="input-container-search-ticket form-select">
                                             <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                         </div>
+                                        {%if bg_regis %}
+                                        <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                        {% endif %}
                                     </div>
                                     <div class="col-lg-12" style="text-align:center;">
                                         <hr/>
@@ -409,20 +474,7 @@
                                                     </div>
                                                     <input type="hidden" id="counter_social" value="0"/>
                                                 </div>
-                                                <div class="row" style="display:none;">
-                                                    <div class="col-lg-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
@@ -906,6 +958,9 @@
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="website_name" id="website_name" placeholder="Website Name " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                     </div>
+
+                                </div>
+                                <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                     <div class="form-select">
                                         <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
@@ -915,64 +970,127 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
-                                    <textarea rows="6" cols="50" class="form-control" style="font-size:13px; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                                </div>
                                 <div class="col-lg-12">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_logo" name="empty_logo"/>
+                                            <label for="empty_logo" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
 
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileToUpload" id="fileToUpload"/>
                                     </div>
+                                    {%if logo %}
+                                    <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon"/>
+                                            <label for="empty_logo_icon" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
 
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="filelogoicon" id="filelogoicon"/>
                                     </div>
+                                    {%if logo_icon %}
+                                    <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_home" name="empty_image_home"/>
+                                            <label for="empty_image_home" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                     </div>
+                                    {%if background %}
+                                    <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_login" name="empty_image_login" />
+                                            <label for="empty_image_login" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                     </div>
+                                    {%if bg_login %}
+                                    <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_search" name="empty_image_search" />
+                                            <label for="empty_image_search" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                     </div>
+                                    {%if bg_search %}
+                                    <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
+                                            <label for="empty_image_regis" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                     </div>
+                                    {%if bg_regis %}
+                                    <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
@@ -1191,20 +1309,7 @@
                                                     </div>
                                                     <input type="hidden" id="counter_social" value="0"/>
                                                 </div>
-                                                <div class="row" style="display:none;">
-                                                    <div class="col-lg-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
@@ -1696,6 +1801,8 @@
                                     <div class="form-group">
                                         <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                     </div>
+                                </div>
+                                <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                     <div class="form-group">
                                         <div class="default-select" id="default-select">
@@ -1707,64 +1814,126 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
-                                    <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                                </div>
                                 <div class="col-lg-12">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_logo" name="empty_logo"/>
+                                            <label for="empty_logo" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
 
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileToUpload" id="fileToUpload"/>
                                     </div>
+                                    {%if logo %}
+                                    <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon"/>
+                                            <label for="empty_logo_icon" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
 
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="filelogoicon" id="filelogoicon"/>
                                     </div>
+                                    {%if logo_icon %}
+                                    <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_home" name="empty_image_home"/>
+                                            <label for="empty_image_home" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                     </div>
+                                    {%if background %}
+                                    <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_login" name="empty_image_login" />
+                                            <label for="empty_image_login" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                     </div>
+                                    {%if bg_login %}
+                                    <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_search" name="empty_image_search" />
+                                            <label for="empty_image_search" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                     </div>
+                                    {%if bg_search %}
+                                    <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
+                                            <label for="empty_image_regis" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                     </div>
+                                    {%if bg_regis %}
+                                    <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
@@ -1985,20 +2154,7 @@
                                                 </div>
                                                 <input type="hidden" id="counter_social" value="0"/>
                                             </div>
-                                            <div class="row" style="display:none;">
-                                                <div class="col-lg-6">
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                                    <div class="form-select">
-                                                        <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                             <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
@@ -2499,6 +2655,8 @@
                                 <div class="form-select">
                                     <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                 </div>
+                            </div>
+                            <div class="col-lg-6">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                 <div class="form-select">
                                     <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
@@ -2508,62 +2666,124 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
-                                <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px !important; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                            </div>
                             <div class="col-lg-12">
                                 <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Footer Information' %}</h6>
                                 <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px !important; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                             </div>
                             <div class="col-lg-12"><hr/></div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="checkbox" id="empty_logo" name="empty_logo"/>
+                                        <label for="empty_logo" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                    </div>
+                                </div>
                                 <h6 style="color:{{color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileToUpload" id="fileToUpload"/>
                                 </div>
+                                {%if logo %}
+                                <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                {% endif %}
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon"/>
+                                        <label for="empty_logo_icon" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                    </div>
+                                </div>
                                 <h6 style="color:{{color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="filelogoicon" id="filelogoicon"/>
                                 </div>
+                                {%if logo_icon %}
+                                <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                {% endif %}
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="checkbox" id="empty_image_home" name="empty_image_home"/>
+                                        <label for="empty_image_home" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                    </div>
+                                </div>
                                 <h6 style="color:{{color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                 </div>
+                                {%if background %}
+                                <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                {% endif %}
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="checkbox" id="empty_image_login" name="empty_image_login" />
+                                        <label for="empty_image_login" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                    </div>
+                                </div>
                                 <h6 style="color:{{color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                 </div>
+                                {%if bg_login %}
+                                <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                {% endif %}
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="checkbox" id="empty_image_search" name="empty_image_search" />
+                                        <label for="empty_image_search" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                    </div>
+                                </div>
                                 <h6 style="color:{{color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                 </div>
+                                {%if bg_search %}
+                                <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                {% endif %}
                             </div>
                             <div class="col-lg-6">
-                                <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
+                                        <label for="empty_image_regis" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                    </div>
+                                </div>
                                 <h6 style="color:{{color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                 <div class="input-container-search-ticket form-select">
                                     <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                 </div>
+                                {%if bg_regis %}
+                                <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                {% endif %}
                             </div>
                             <div class="col-lg-12" style="text-align:center;">
                                 <hr/>
@@ -2785,20 +3005,7 @@
                                             </div>
                                             <input type="hidden" id="counter_social" value="0"/>
                                         </div>
-                                        <div class="row" style="display:none;">
-                                            <div class="col-lg-6">
-                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                                <div class="form-select">
-                                                    <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6">
-                                                <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                                <div class="form-select">
-                                                    <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
-                                                </div>
-                                            </div>
-                                        </div>
+
                                     </div>
                                     <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                         <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
@@ -3299,6 +3506,8 @@
                                     <div class="form-select">
                                         <input type="text" class="form-control" name="website_name" id="website_name" placeholder="{% trans 'Website Name' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Website Name '" value="{{name}}">
                                     </div>
+                                </div>
+                                <div class="col-lg-6">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">Website Mode</h6>
                                     <div class="form-select">
                                         <select id="website_mode" name="website_mode" data-size="7" data-live-search="true" required="required" tabindex="-98" class="nice-select-default">
@@ -3308,65 +3517,127 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Website Description' %}</h6>
-                                    <textarea rows="6" cols="50" class="form-control" style="font-size:13px; border-radius:unset; resize: none; height:200px;" type="text" id="website_description" name="website_description">{% for description in desc%}{{description}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
-                                </div>
                                 <div class="col-lg-12">
                                     <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Contact Us' %}</h6>
                                     <textarea rows="6" cols="50" class="form-control" style="font-size:13px; height:150px; border-radius:unset; resize: none;" type="text" id="contact_us" name="contact_us">{% for contact in contact_us%}{{contact}}{% if forloop.last == False %}&#13;&#10;{% endif %}{% endfor %}</textarea>
                                 </div>
                                 <div class="col-lg-12"><hr/></div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">Logo</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_logo" name="empty_logo"/>
+                                            <label for="empty_logo" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 150px, Max.Height: 40px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileToUpload" id="fileToUpload"/>
                                     </div>
+                                    {%if logo %}
+                                    <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">Logo icon</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_logo_icon" name="empty_logo_icon"/>
+                                            <label for="empty_logo_icon" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 50px, Max.Height: 50px</span><br/>
 
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="filelogoicon" id="filelogoicon"/>
                                     </div>
+                                    {%if logo_icon %}
+                                    <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Home' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_home" name="empty_image_home"/>
+                                            <label for="empty_image_home" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
 
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundHome" id="fileBackgroundHome"/>
                                     </div>
+                                    {%if background %}
+                                    <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Login' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_login" name="empty_image_login" />
+                                            <label for="empty_image_login" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
 
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundLogin" id="fileBackgroundLogin"/>
                                     </div>
+                                    {%if bg_login %}
+                                    <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Background Image Search' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_search" name="empty_image_search" />
+                                            <label for="empty_image_search" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileBackgroundSearch" id="fileBackgroundSearch"/>
                                     </div>
+                                    {%if bg_search %}
+                                    <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-6">
-                                    <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <h6 style="margin-bottom:10px;color:{{text_color}};">{% trans 'Registration Banner' %}</h6>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <input type="checkbox" id="empty_image_regis" name="empty_image_regis" />
+                                            <label for="empty_image_regis" style="margin-bottom:10px;color:{{text_color}};"> Empty</label>
+                                        </div>
+                                    </div>
                                     <h6 style="color:{{color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
                                     <div class="input-container-search-ticket form-select">
                                         <input type="file" name="fileRegistrationBanner" id="fileRegistrationBanner"/>
                                     </div>
+                                    {%if bg_regis %}
+                                    <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                    {% endif %}
                                 </div>
                                 <div class="col-lg-12" style="text-align:center;">
                                     <hr/>
@@ -3588,20 +3859,7 @@
                                                     </div>
                                                     <input type="hidden" id="counter_social" value="0"/>
                                                 </div>
-                                                <div class="row" style="display:none;">
-                                                    <div class="col-lg-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Facebook</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="facebook" id="facebook" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{facebook_url}}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6">
-                                                        <h6 style="margin-bottom:10px;color:{{text_color}};">Instagram</h6>
-                                                        <div class="form-select">
-                                                            <input type="text" class="form-control" name="instagram" id="instagram" placeholder="URL " onfocus="this.placeholder = ''" onblur="this.placeholder = 'URL '" value="{{instagram_url}}">
-                                                        </div>
-                                                    </div>
-                                                </div>
+
                                             </div>
                                             <div id="payment_partner-tab_edit" class="edit_tab-content" style="padding:20px 0px 10px 0px;">
                                                 <div class="row" style="margin:0px;text-align:left;padding: 15px 0px;">
