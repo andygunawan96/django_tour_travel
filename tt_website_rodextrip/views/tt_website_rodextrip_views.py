@@ -421,7 +421,9 @@ def admin(request):
                     text = ''
                     fs = FileSystemStorage()
                     try:
-                        if request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
+                        if request.POST.get('empty_logo'):
+                            pass
+                        elif request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
                             file = request.FILES['fileToUpload']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -446,13 +448,35 @@ def admin(request):
                     text += request.POST['template'] + '\n'
                     text += "#" + request.POST['color_pick'] + '\n'
                     text += request.POST['website_name'] + '\n'
-                    text += '<br>'.join(''.join(request.POST['website_description'].split('\r')).split('\n')) + '\n'
                     try:
-                        if request.FILES['fileBackgroundHome'].content_type == 'image/jpeg' or request.FILES['fileBackgroundHome'].content_type == 'image/png' or request.FILES['fileBackgroundHome'].content_type == 'image/png':
+                        if request.POST.get('empty_image_home'):
+                            pass
+                        elif request.FILES['fileBackgroundHome'].content_type == 'image/jpeg' or request.FILES['fileBackgroundHome'].content_type == 'image/png' or request.FILES['fileBackgroundHome'].content_type == 'image/png':
                             file = request.FILES['fileBackgroundHome']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
 
+                    except:
+                        check = 0
+                        try:
+                            file = open(var_log_path() + "data_cache_template.txt", "r")
+                            for idx, line in enumerate(file):
+                                if idx == 4:
+                                    text += line
+                                    check = 1
+                                    break
+                            file.close()
+                        except:
+                            pass
+                        if check == 0:
+                            text += '\n'
+                    try:
+                        if request.POST.get('empty_image_login'):
+                            pass
+                        elif request.FILES['fileBackgroundLogin'].content_type == 'image/jpeg' or request.FILES['fileBackgroundLogin'].content_type == 'image/png' or request.FILES['fileBackgroundLogin'].content_type == 'image/png':
+                            file = request.FILES['fileBackgroundLogin']
+                            filename = fs.save(file.name, file)
+                            text += fs.base_url + filename + '\n'
                     except:
                         check = 0
                         try:
@@ -467,9 +491,12 @@ def admin(request):
                             pass
                         if check == 0:
                             text += '\n'
+
                     try:
-                        if request.FILES['fileBackgroundLogin'].content_type == 'image/jpeg' or request.FILES['fileBackgroundLogin'].content_type == 'image/png' or request.FILES['fileBackgroundLogin'].content_type == 'image/png':
-                            file = request.FILES['fileBackgroundLogin']
+                        if request.POST.get('empty_image_search'):
+                            pass
+                        elif request.FILES['fileBackgroundSearch'].content_type == 'image/jpeg' or request.FILES['fileBackgroundSearch'].content_type == 'image/png' or request.FILES['fileBackgroundSearch'].content_type == 'image/png':
+                            file = request.FILES['fileBackgroundSearch']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                     except:
@@ -486,30 +513,8 @@ def admin(request):
                             pass
                         if check == 0:
                             text += '\n'
-
-                    try:
-                        if request.FILES['fileBackgroundSearch'].content_type == 'image/jpeg' or request.FILES['fileBackgroundSearch'].content_type == 'image/png' or request.FILES['fileBackgroundSearch'].content_type == 'image/png':
-                            file = request.FILES['fileBackgroundSearch']
-                            filename = fs.save(file.name, file)
-                            text += fs.base_url + filename + '\n'
-                    except:
-                        check = 0
-                        try:
-                            file = open(var_log_path() + "data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 7:
-                                    text += line
-                                    check = 1
-                                    break
-                            file.close()
-                        except:
-                            pass
-                        if check == 0:
-                            text += '\n'
                     text += request.POST['tawk_chat'] + '\n'
                     text += request.POST['tawk_code'] + '\n'
-                    text += request.POST['facebook'] + '\n'
-                    text += request.POST['instagram'] + '\n'
                     text += "#" + request.POST['text_pick'] + '\n'
                     if request.POST['bg_tab_pick'] == '':
                         text += 'none'
@@ -517,7 +522,9 @@ def admin(request):
                         text += "#" + request.POST['bg_tab_pick'] + 'B3'
                     text += '\n'
                     try:
-                        if request.FILES['filelogoicon'].content_type == 'image/jpeg' or request.FILES['filelogoicon'].content_type == 'image/png' or request.FILES['filelogoicon'].content_type == 'image/png':
+                        if request.POST.get('empty_logo_icon'):
+                            pass
+                        elif request.FILES['filelogoicon'].content_type == 'image/jpeg' or request.FILES['filelogoicon'].content_type == 'image/png' or request.FILES['filelogoicon'].content_type == 'image/png':
                             file = request.FILES['filelogoicon']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -526,7 +533,7 @@ def admin(request):
                         try:
                             file = open(var_log_path() + "data_cache_template.txt", "r")
                             for idx, line in enumerate(file):
-                                if idx == 14:
+                                if idx == 11:
                                     text += line
                                     check = 1
                                     break
@@ -536,7 +543,9 @@ def admin(request):
                         if check == 0:
                             text += '\n'
                     try:
-                        if request.FILES['fileRegistrationBanner'].content_type == 'image/jpeg' or request.FILES['fileRegistrationBanner'].content_type == 'image/png' or request.FILES['fileRegistrationBanner'].content_type == 'image/png':
+                        if request.POST.get('empty_image_regis'):
+                            pass
+                        elif request.FILES['fileRegistrationBanner'].content_type == 'image/jpeg' or request.FILES['fileRegistrationBanner'].content_type == 'image/png' or request.FILES['fileRegistrationBanner'].content_type == 'image/png':
                             file = request.FILES['fileRegistrationBanner']
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
@@ -545,7 +554,7 @@ def admin(request):
                         try:
                             file = open(var_log_path() + "data_cache_template.txt", "r")
                             for idx, line in enumerate(file):
-                                if idx == 15:
+                                if idx == 12:
                                     text += line
                                     check = 1
                                     break
@@ -586,7 +595,7 @@ def admin(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            values = get_data_template(request)
+            values = get_data_template(request,'admin')
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             try:
@@ -889,8 +898,6 @@ def get_data_template(request, type='home', provider_type = []):
     tawk_chat = 0
     website_mode = 'btb'
     tawk_code = ''
-    facebook = ''
-    instagram = ''
     tab_color = '#333333'
     text_color = '#FFFFFF'
     espay_api_key = ''
@@ -898,9 +905,9 @@ def get_data_template(request, type='home', provider_type = []):
     backend_url = ''
     script_espay = ''
     contact_us = ''
-    website_description = '''RODEXTRIP is a travel online reservation system owned by PT. Roda Express Sukses Mandiri, based in Indonesia, for its registered agent. RODEXTRIP provide some products such as airline, train, themes park tickets, and many more.
-
-    We build this application for our existing partner and public users who register themselves on our application. After registration, users need to wait for verification / approval by our Head Office. We build our application for approved users, so that's why public user can't use our application.'''
+    bg_login = ''
+    bg_search = ''
+    bg_regis = ''
     try:
         if type != 'login':
             if request.session.get('keep_me_signin') == True:
@@ -938,83 +945,84 @@ def get_data_template(request, type='home', provider_type = []):
             elif idx == 3:
                 if line != '\n':
                     website_name = line.split('\n')[0]
-            elif idx == 4:
-                if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
-                    website_description = '\n'.join(line.split('<br>')[:-1])
-                else:
-                    website_description = '\n'.join(line.split('<br>'))
-            elif idx == 5 and type == 'home' or type == 'admin' and idx == 5:
+            elif idx == 4 and type == 'home' or type == 'admin' and idx == 4:
                 if line != '\n':
                     background = line.split('\n')[0]
-            elif idx == 6 and type == 'login':
+            elif idx == 5 and type == 'login' or type == 'admin' and idx == 5:
                 if line != '\n':
-                    background = line.split('\n')[0]
-            elif idx == 7 and type == 'search':
+                    if type == 'admin':
+                        bg_login = line.split('\n')[0]
+                    else:
+                        background = line.split('\n')[0]
+            elif idx == 6 and type == 'search' or type == 'admin' and idx == 6:
                 if line != '\n':
-                    background = line.split('\n')[0]
-            elif idx == 8:
+                    if type == 'admin':
+                        bg_search = line.split('\n')[0]
+                    else:
+                        background = line.split('\n')[0]
+            elif idx == 7:
                 if line != '\n':
                     tawk_chat = int(line)
-            elif idx == 9:
+            elif idx == 8:
                 if line != '\n':
                     tawk_code = line.split('\n')[0]
-            elif idx == 10:
-                if line != '\n':
-                    facebook = line.split('\n')[0]
-            elif idx == 11:
-                if line != '\n':
-                    instagram = line.split('\n')[0]
-            elif idx == 12:
+            elif idx == 9:
                 if line != '\n':
                     text_color = line.split('\n')[0]
-            elif idx == 13:
+            elif idx == 10:
                 if line != '\n':
                     if line.split('\n')[0] == 'none':
                         tab_color = 'transparent'
                     else:
                         tab_color = line.split('\n')[0]
-            elif idx == 14:
+            elif idx == 11:
                 if line == '\n':
                     logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
                 else:
                     logo_icon = line.split('\n')[0]
-            elif idx == 15 and type == 'registration':
+            elif idx == 12 and type == 'registration' or type == 'admin' and idx == 12:
                 if line != '\n':
-                    background = line.split('\n')[0]
+                    if type == 'admin':
+                        bg_regis = line.split('\n')[0]
+                    else:
+                        background = line.split('\n')[0]
                 else:
-                    background = 'https://www.skytors.id/web/image/28381'
-            elif idx == 16:
+                    if type == 'admin':
+                        bg_regis = 'https://www.skytors.id/web/image/28381'
+                    else:
+                        background = 'https://www.skytors.id/web/image/28381'
+            elif idx == 13:
                 if line == '\n':
                     espay_api_key = ''
                 else:
                     espay_api_key = line.split('\n')[0]
-            elif idx == 17:
+            elif idx == 14:
                 if line == '\n':
                     espay_api_key_callback_url = ''
                 else:
                     espay_api_key_callback_url = line.split('\n')[0]
-            elif idx == 18:
+            elif idx == 15:
                 if line == '\n':
                     backend_url = ''
                 else:
                     backend_url = line.split('\n')[0]
-            elif idx == 19:
+            elif idx == 16:
                 if line == '\n':
                     pass
                 else:
                     website_mode = line.split('\n')[0]
-            elif idx == 20:
+            elif idx == 17:
                 if line == '\n':
                     pass
                 else:
                     script_espay = line.split('\n')[0]
-            elif idx == 21:
+            elif idx == 18:
                 if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
                     contact_us = '\n'.join(line.split('<br>')[:-1])
                 else:
                     contact_us = '\n'.join(line.split('<br>'))
-            if color == '':
-                color = '#f15a22'
+        if color == '':
+            color = '#f15a22'
         file.close()
         if len(background.split('\n')) > 1:
             background = background.split('\n')[0]
@@ -1026,13 +1034,10 @@ def get_data_template(request, type='home', provider_type = []):
         'logo_icon': logo_icon,
         'template': template,
         'color': color,
-        'desc': website_description.split('\n'),
         'name': website_name,
         'background': background,
         'tawk_chat': tawk_chat,
         'tawk_code': tawk_code,
-        'facebook_url': facebook,
-        'instagram_url': instagram,
         'text_color': text_color,
         'tab_color': tab_color,
         'update_data': '',
@@ -1046,7 +1051,10 @@ def get_data_template(request, type='home', provider_type = []):
         'provider_types': provider_type,
         'provider_divider_start': math.ceil(len(provider_type) / 2) + 1,
         'provider_divider_end': math.ceil(len(provider_type) / 2),
-        'contact_us': contact_us.split('\n')
+        'contact_us': contact_us.split('\n'),
+        'bg_login': bg_login,
+        'bg_search': bg_search,
+        'bg_regis': bg_regis
     }
 
 
