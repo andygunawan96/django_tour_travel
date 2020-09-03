@@ -422,7 +422,7 @@ def admin(request):
                     fs = FileSystemStorage()
                     try:
                         if request.POST.get('empty_logo'):
-                            pass
+                            text += '\n'
                         elif request.FILES['fileToUpload'].content_type == 'image/jpeg' or request.FILES['fileToUpload'].content_type == 'image/png' or request.FILES['fileToUpload'].content_type == 'image/png':
                             file = request.FILES['fileToUpload']
                             filename = fs.save(file.name, file)
@@ -450,7 +450,7 @@ def admin(request):
                     text += request.POST['website_name'] + '\n'
                     try:
                         if request.POST.get('empty_image_home'):
-                            pass
+                            text += '\n'
                         elif request.FILES['fileBackgroundHome'].content_type == 'image/jpeg' or request.FILES['fileBackgroundHome'].content_type == 'image/png' or request.FILES['fileBackgroundHome'].content_type == 'image/png':
                             file = request.FILES['fileBackgroundHome']
                             filename = fs.save(file.name, file)
@@ -472,7 +472,7 @@ def admin(request):
                             text += '\n'
                     try:
                         if request.POST.get('empty_image_login'):
-                            pass
+                            text += '\n'
                         elif request.FILES['fileBackgroundLogin'].content_type == 'image/jpeg' or request.FILES['fileBackgroundLogin'].content_type == 'image/png' or request.FILES['fileBackgroundLogin'].content_type == 'image/png':
                             file = request.FILES['fileBackgroundLogin']
                             filename = fs.save(file.name, file)
@@ -494,7 +494,7 @@ def admin(request):
 
                     try:
                         if request.POST.get('empty_image_search'):
-                            pass
+                            text += '\n'
                         elif request.FILES['fileBackgroundSearch'].content_type == 'image/jpeg' or request.FILES['fileBackgroundSearch'].content_type == 'image/png' or request.FILES['fileBackgroundSearch'].content_type == 'image/png':
                             file = request.FILES['fileBackgroundSearch']
                             filename = fs.save(file.name, file)
@@ -523,7 +523,7 @@ def admin(request):
                     text += '\n'
                     try:
                         if request.POST.get('empty_logo_icon'):
-                            pass
+                            text += '\n'
                         elif request.FILES['filelogoicon'].content_type == 'image/jpeg' or request.FILES['filelogoicon'].content_type == 'image/png' or request.FILES['filelogoicon'].content_type == 'image/png':
                             file = request.FILES['filelogoicon']
                             filename = fs.save(file.name, file)
@@ -544,7 +544,7 @@ def admin(request):
                             text += '\n'
                     try:
                         if request.POST.get('empty_image_regis'):
-                            pass
+                            text += '\n'
                         elif request.FILES['fileRegistrationBanner'].content_type == 'image/jpeg' or request.FILES['fileRegistrationBanner'].content_type == 'image/png' or request.FILES['fileRegistrationBanner'].content_type == 'image/png':
                             file = request.FILES['fileRegistrationBanner']
                             filename = fs.save(file.name, file)
