@@ -1015,9 +1015,9 @@ def get_data_template(request, type='home', provider_type = []):
                     contact_us = '\n'.join(line.split('<br>'))
             if color == '':
                 color = '#f15a22'
-            file.close()
-            if len(background.split('\n')) > 1:
-                background = background.split('\n')[0]
+        file.close()
+        if len(background.split('\n')) > 1:
+            background = background.split('\n')[0]
     except Exception as e:
         _logger.error('ERROR GET CACHE TEMPLATE DJANGO RUN USING DEFAULT\n' + str(e) + '\n' + traceback.format_exc())
     return {
