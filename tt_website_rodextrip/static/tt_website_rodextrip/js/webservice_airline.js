@@ -4169,6 +4169,8 @@ function airline_get_booking(data){
             type_amount_repricing = ['Repricing'];
             //repricing
             counter_service_charge = 0;
+            price_arr_repricing = {};
+            pax_type_repricing = [];
             $text += '\nPrice:\n';
             for(i in msg.result.response.provider_bookings){
                 try{
@@ -7057,6 +7059,8 @@ function airline_get_booking_refund(data){
        },
        success: function(msg) {
            console.log(msg);
+           $("#waitingTransaction").modal('hide');
+           document.getElementById("overlay-div-box").style.display = "none";
            for(i in msg.result.response.passengers[0].sale_service_charges){
                 for(j in msg.result.response.passengers[0].sale_service_charges[i]){
                     currency = msg.result.response.passengers[0].sale_service_charges[i][j].currency
@@ -7562,7 +7566,7 @@ function airline_get_booking_refund(data){
                     <div class="modal-content">
                         <div class="modal-header">
                             <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <button type="button" class="close" data-dismiss="modal" onclick="airline_get_booking('`+msg.result.response.order_number+`');show_loading();please_wait_transaction();">&times;</button>
                         </div>
                         <div class="modal-body">
                             <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
@@ -7582,7 +7586,7 @@ function airline_get_booking_refund(data){
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal" onclick="airline_issued('`+msg.result.response.order_number+`');">Force Issued</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="airline_get_booking('`+msg.result.response.order_number+`');show_loading();please_wait_transaction();">Close</button>
                         </div>
                     </div>
                 </div>
