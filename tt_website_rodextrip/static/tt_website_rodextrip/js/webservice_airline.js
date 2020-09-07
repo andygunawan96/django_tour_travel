@@ -4248,14 +4248,27 @@ function airline_get_booking(data){
                             </div>
                         </div>`;
                         $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
-                        for(k in msg.result.response.passengers[j].fees){
-                            $text += msg.result.response.passengers[j].fees[k].fee_name;
-                            if(parseInt(parseInt(k)+1) != msg.result.response.passengers[j].fees.length)
-                                $text += ', ';
-                            else
-                                $text += ' ';
+                        journey_code = [];
+                        for(k in msg.result.response.provider_bookings[i].journeys){
+                            try{
+                                journey_code.push(msg.result.response.provider_bookings[i].journeys[k].journey_code)
+                            }catch(err){}
+                            for(l in msg.result.response.provider_bookings[i].journeys[k].segments){
+                                journey_code.push(msg.result.response.provider_bookings[i].journeys[k].segments[l].segment_code)
+                            }
                         }
-                        $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                        coma = false
+                        for(k in msg.result.response.passengers[j].fees){
+                            if(msg.result.response.passengers[j].fees[k].journey_code in journey_code){
+                                $text += msg.result.response.passengers[j].fees[k].fee_name;
+                                if(coma == true)
+                                    $text += ', ';
+                                else
+                                    $text += ' ';
+                                coma = true
+                            }
+                        }
+                        $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                         if(counter_service_charge == 0){
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
@@ -4271,7 +4284,7 @@ function airline_get_booking(data){
                     })
                     price_provider = 0;
                     counter_service_charge++;
-                }catch(err){}
+                }catch(err){console.log(err);}
             }
             try{
                 airline_get_detail.result.response.total_price = total_price;
@@ -4740,11 +4753,15 @@ function airline_issued(data){
                             `+i+`
                         </div>`;
                         for(j in airline_get_detail.result.response.passengers){
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': ''};
+                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             for(k in airline_get_detail.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = airline_get_detail.result.response.passengers[j].sale_service_charges[i][k].amount;
-                                price['currency'] = airline_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
+                                if(price['currency'] == '')
+                                    price['currency'] = airline_get_detail.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
+                            try{
+                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                            }catch(err){}
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -4759,12 +4776,32 @@ function airline_issued(data){
                                     <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Tax
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>
+                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
                                 </div>
                             </div>`;
+                            if(price.SSR != 0 || price.SEAT != 0)
+                                text+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                    </div>
+                                </div>`;
+                            if(price.DISC != 0)
+                                text+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                    </div>
+                                </div>`;
 
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
                             commission += parseInt(price.RAC);
                         }
                         total_price_provider_show.push(price_provider_show);
@@ -4817,11 +4854,15 @@ function airline_issued(data){
                             `+i+`
                         </div>`;
                         for(j in msg.result.response.passengers){
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': ''};
+                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                                 price[k] = msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                                 price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                             }
+
+                            try{
+                                price['CSC'] = airline_get_detail.result.response.passengers[j].channel_service_charges.amount;
+                            }catch(err){}
 
                             text+=`<div class="row" style="margin-bottom:5px;">
                                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
@@ -4836,12 +4877,32 @@ function airline_issued(data){
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+` Tax
                                 </div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC))+`</span>
+                                    <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.TAX + price.ROC + price.CSC))+`</span>
                                 </div>
                             </div>`;
+                            if(price.SSR != 0 || price.SEAT != 0)
+                                text+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` Additional
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">IDR `+getrupiah(parseInt(price.SSR + price.SEAT))+`</span>
+                                    </div>
+                                </div>`;
+                            if(price.DISC != 0)
+                                text+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+airline_get_detail.result.response.passengers[j].name+` DISC
+                                    </div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">IDR -`+getrupiah(parseInt(price.DISC))+`</span>
+                                    </div>
+                                </div>`;
 
-                            total_price += parseInt(price.TAX + price.ROC + price.FARE);
-                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE);
+                            total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
+                            price_provider_show += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT - price.DISC);
                             commission += parseInt(price.RAC);
                         }
                         total_price_provider_show.push(price_provider_show)
