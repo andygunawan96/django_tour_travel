@@ -7,6 +7,7 @@
 <script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/webservice_airline.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_payment_acq.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/airline_javascript.js?version={{javascript_version}}"></script>
 <style>
     a {
@@ -101,7 +102,18 @@
 </script>
 {% include 'tt_website_rodextrip/logout.html' %}
 <title>{{name}} Airline - Review After Sales</title>
+<div class="modal fade" id="waitingTransaction" role="dialog" style="background:rgba(20,20,20,0.8);">
+    <div class="modal-dialog" style="margin: 0; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+        <!-- Modal content-->
+        <div class="modal-content" style="background-color:transparent; border:unset;">
+            <div class="modal-body">
+                <div class="col-lg-12" id="viewWaitingTransaction">
 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <header id="header" class="header_breadcrumb" style="position:sticky; top:0px;">
     <div class="main-menu">
         <div class="container">
@@ -142,12 +154,23 @@
         </div>
     </div>
 </header>
+<div id="overlay-div-box" onclick="close_div('payment_acq');"></div>
 {% include 'tt_website_rodextrip/loading_screen.html' %}
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px;">
     <div class="container">
         <form method="POST" id="airline_booking" action="">
             {% csrf_token %}
             <div class="row">
+                <div class="col-lg-12" id="show_loading_booking_airline">
+                    <div class="center-div">
+                        <div>
+                            <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                        </div>
+                    </div>
+                    <div style="text-align:center">
+                        <span style="font-size:18px; font-weight:bold;">{% trans 'PLEASE WAIT' %} ... </span>
+                    </div>
+                </div>
                 <div class="col-lg-12" style="padding-bottom:15px;">
                     <h3>Please Review Your Booking</h3>
                     <h4>Prices may changes at any time</h4>
@@ -174,8 +197,17 @@
                     <div style="background-color:white; padding:10px 10px 0px 10px; border:1px solid #cdcdcd; position:sticky; top:152px;" id="airline_detail">
 
                     </div>
+                    {% if airline_getbooking.state == 'issued' %}
+                    <button class="primary-btn issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
+                         {% trans 'Issued Booking' %}
+                    </button>
+                    {% endif %}
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
+
+                    </div>
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
+                {% if airline_getbooking.state == 'booked' %}
                 <div class="col-lg-8">
                     <div class="row" style="padding-top:5px;">
                         <div class="col-lg-4" style="padding-bottom:15px;">
@@ -186,13 +218,14 @@
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="airline_hold_booking(1);" style="width:100%;">
+                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="cancel_after_sales();" style="width:100%;">
                                 Cancel
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
                         </div>
                     </div>
                 </div>
+                {% endif %}
             </div>
         </form>
     </div>
@@ -202,6 +235,10 @@
 <script>
     airline_detail('request_new');
     get_airline_review_after_sales();
+    {% if airline_getbooking.state == 'issued' %}
+    get_payment_acq('Issued','{{airline_getbooking.booker.seq_id}}', '{{airline_getbooking.order_number}}', 'billing',signature,'airline_after_sales');
+    {% endif %}
+    document.getElementById('payment_acq').hidden = false;
 </script>
 <!-- loader -->
 {% endblock %}

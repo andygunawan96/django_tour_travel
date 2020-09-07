@@ -2243,8 +2243,8 @@ function sort(){
                                    <div class="col-lg-8 col-md-8 col-sm-8" style="text-align:right;">
                                        <div>
                                        <span id="fare`+i+`" class="basic_fare_field copy_price price_template"></span><br/>`;
-                                       if(provider_list_data[airline[i].provider] != '')
-                                            text += `<span>`+provider_list_data[airline[i].provider]+`</span>`;
+                                       if(provider_list_data[airline[i].provider].description != '')
+                                            text += `<span>`+provider_list_data[airline[i].provider].description+`</span>`;
                                        text+=`</div>`;
                                        if(airline[i].available_count != 0)
                                             text += `<span>`+airline[i].available_count+` Seats </span>`;
@@ -2926,8 +2926,8 @@ function airline_pick_mc(type){
                         }
                     }
                     text+= currency+' '+getrupiah(price) + '</span>';
-                    if(provider_list_data[airline_pick_list[i].provider] != '')
-                        text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider]+`</span><br/>`;
+                    if(provider_list_data[airline_pick_list[i].provider].description != '')
+                        text += `<br/><span>`+provider_list_data[airline_pick_list[i].provider].description+`</span><br/>`;
                     if(type == 'all'){
                         text+=`
                         <input type='button' id="deletejourney_pick`+airline_pick_list[i].airline_pick_sequence+`" class="primary-btn-custom choose_selection_ticket_airlines_depart" value="Delete" onclick="delete_mc_journey(`+airline_pick_list[i].airline_pick_sequence+`);" sequence_id="0"/>
@@ -3570,15 +3570,15 @@ function airline_detail(type){
         </div>
         <div class="row">
             <div class="col-lg-7" style="text-align:left;">
-                <span style="font-size:13px;font-weight:500;">Additional Price</span><br/>
+                <label>Additional Price</label><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_price[0].ADT.currency == 'IDR')
             text+=`
-                <span style="font-size:13px; font-weight:500;" id="additional_price">`+getrupiah(additional_price)+`</span><br/>`;
+                <label id="additional_price">`+getrupiah(additional_price)+`</label><br/>`;
             else
             text+=`
-                <span style="font-size:13px; font-weight:500;" id="additional_price">`+additional_price+`</span><br/>`;
+                <label id="additional_price">`+additional_price+`</label><br/>`;
             text+=`
                 <input type="hidden" name="additional_price" id="additional_price_hidden"/>
             </div>`;
@@ -3850,18 +3850,20 @@ function airline_detail(type){
                 for(k in airline_get_booking.passengers[j].sale_service_charges){
                     if(i == k){
                         for(l in airline_get_booking.passengers[j].sale_service_charges[k]){
-                            total_price += airline_get_booking.passengers[j].sale_service_charges[k][l].amount;
-                            if(currency == '')
-                                currency = airline_get_booking.passengers[j].sale_service_charges[k][l].currency;
-                            text += `
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <label>`+l+`</label>
-                                </div>
-                                <div class="col-lg-6" style="text-align:right;">
-                                    <label>`+airline_get_booking.passengers[j].sale_service_charges[k][l].currency + ' '+ getrupiah(airline_get_booking.passengers[j].sale_service_charges[k][l].amount)+`</label>
-                                </div>
-                            </div>`;
+                            if(l != 'RAC'){
+                                total_price += airline_get_booking.passengers[j].sale_service_charges[k][l].amount;
+                                if(currency == '')
+                                    currency = airline_get_booking.passengers[j].sale_service_charges[k][l].currency;
+                                text += `
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <label>`+l+`</label>
+                                    </div>
+                                    <div class="col-lg-6" style="text-align:right;">
+                                        <label>`+airline_get_booking.passengers[j].sale_service_charges[k][l].currency + ' '+ getrupiah(airline_get_booking.passengers[j].sale_service_charges[k][l].amount)+`</label>
+                                    </div>
+                                </div>`;
+                            }
                         }
                         break;
                     }
@@ -3873,15 +3875,15 @@ function airline_detail(type){
         }
         text += `
             <div class="col-lg-7" style="text-align:left;">
-                <span style="font-size:13px;font-weight:500;">Additional Price</span><br/>
+                <label>Additional Price</label><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
             if(airline_get_booking.passengers[j].sale_service_charges[k][l].currency == 'IDR')
             text+=`
-                <span style="font-size:13px; font-weight:500;" id="additional_price">`+currency+` `+getrupiah(additional_price)+`</span><br/>`;
+                <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
             else
             text+=`
-                <span style="font-size:13px; font-weight:500;" id="additional_price">`+additional_price+`</span><br/>`;
+                <label id="additional_price">`+additional_price+`</label><br/>`;
             text+=`
             </div>
             <div class="col-lg-7" style="text-align:left;">
@@ -4071,7 +4073,7 @@ function check_passenger(adult, child, infant){
                 document.getElementById('adult_phone'+i).style['border-color'] = 'red';
             }else
                 document.getElementById('adult_phone'+i).style['border-color'] = '#EFEFEF';
-       }if(ff_request.length != 0){
+       }if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
                 if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
@@ -4152,7 +4154,7 @@ function check_passenger(adult, child, infant){
            }else{
                document.getElementById('child_country_of_issued'+i).style['border-color'] = '#EFEFEF';
            }
-       }if(ff_request.length != 0){
+       }if(ff_request.length != 0 && check_ff == 1){
            for(j=1;j<=ff_request.length;j++){
                 if(document.getElementById('child_ff_request'+i+'_'+j).value != '' && document.getElementById('child_ff_number'+i+'_'+j).value == ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger child '+i+'!</br>\n';
@@ -4441,6 +4443,7 @@ function get_airline_review(){
     </div>`;
 
     document.getElementById('airline_review').innerHTML = text;
+
 }
 
 function get_airline_review_after_sales(){
@@ -4529,8 +4532,8 @@ function get_airline_review_after_sales(){
                                 <td>`+passengers_ssr[i].birth_date+`</td>
                                 <td>`;
                                   try{
-                                      for(j in airline_get_booking.passengers[i]){
-                                        text += `<label>`+msg.result.response.passengers[i].fees[j].fee_name+ ' ' + msg.result.response.passengers[i].fees[j].fee_value + `</label><br/>`;
+                                      for(j in airline_get_booking.passengers[i].fees){
+                                        text += `<label>`+airline_get_booking.passengers[i].fees[j].fee_name+ ' ' + airline_get_booking.passengers[i].fees[j].fee_value + `</label><br/>`;
                                       }
                                   }catch(err){}
                                   text+=`
@@ -4559,10 +4562,14 @@ function get_airline_review_after_sales(){
                                 <td>`+passengers.infant[i].title+` `+passengers.infant[i].first_name+` `+ passengers.infant[i].last_name +`</td>
                                 <td>Infant</td>
                                 <td>`+passengers.infant[i].birth_date+`</td>
+                                <td></td>
+                                <td></td>
                                </tr>`;
                         count_pax++;
                     }
+
                 text+=`</table>
+                    <br/><label>Notes: Change for same type only</label>
             </div>
         </div>
     </div>`;
@@ -4607,11 +4614,15 @@ function next_seat_map(){
 }
 
 function set_new_request_ssr(){
-    get_ssr_availability('request_new_ssr');
+    show_loading();
+    please_wait_transaction();
+    get_post_ssr_availability();
 }
 
 function set_new_request_seat(){
-    get_seat_availability('request_new_seat');
+    show_loading();
+    please_wait_transaction();
+    get_post_seat_availability();
 }
 
 function send_request_link(val){
