@@ -1206,6 +1206,7 @@ def review_after_sales(request):
                     for pax in passenger:
                         pax['ssr_list'] = []
                     ssr_response = request.session['airline_get_ssr']['result']['response']
+                    data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
                     for counter_ssr_availability_provider, ssr_package in enumerate(ssr_response['ssr_availability_provider']):
                         for ssr_key in ssr_package['ssr_availability']:
                             for counter_journey, journey_ssr in enumerate(ssr_package['ssr_availability'][ssr_key]):
@@ -1231,7 +1232,8 @@ def review_after_sales(request):
                         if len(sell_ssrs_request) != 0:
                             sell_ssrs.append({
                                 'sell_ssrs': sell_ssrs_request,
-                                'provider': ssr_package['provider']
+                                'pnr': data_booking[counter_ssr_availability_provider]['pnr']
+                                # 'provider': ssr_package['provider'] ganti ke pnr
                             })
                         sell_ssrs_request = []
                     if len(sell_ssrs) > 0:
@@ -1252,8 +1254,8 @@ def review_after_sales(request):
                         passenger[idx]['seat_list'] = passengers[idx]['seat_list']
                     seat_map_list = request.session['airline_get_seat_availability']['result']['response']
                     segment_seat_request = []
-
-                    for seat_map_provider in seat_map_list['seat_availability_provider']:
+                    data_booking = request.session['airline_get_booking_response']['result']['response']['provider_bookings']
+                    for counter_seat_availability_provider, seat_map_provider in enumerate(seat_map_list['seat_availability_provider']):
                         for seat_segment in seat_map_provider['segments']:
                             pax_request = []
                             for idx, pax in enumerate(passengers):
@@ -1268,7 +1270,8 @@ def review_after_sales(request):
                             if len(pax_request) != 0:
                                 segment_seat_request.append({
                                     'segment_code': seat_segment['segment_code'],
-                                    'provider': seat_segment['provider'],
+                                    'pnr': data_booking[counter_seat_availability_provider]['pnr'],
+                                    # 'provider': seat_segment['provider'], ganti ke pnr
                                     'passengers': pax_request
                                 })
                             pax_request = []
@@ -1359,3 +1362,38 @@ def booking(request, order_number):
         _logger.error(str(e) + '\n' + traceback.format_exc())
         raise Exception('Make response code 500!')
     return render(request, MODEL_NAME+'/airline/airline_booking_templates.html', values)
+
+def refund(request, order_number):
+    try:
+        javascript_version = get_javascript_version()
+        if 'airline_create_passengers' in request.session:
+            del request.session['airline_create_passengers']
+        if 'user_account' not in request.session:
+            signin_btc(request)
+        try:
+            file = open(var_log_path()+"get_airline_carriers.txt", "r")
+            for line in file:
+                airline_carriers = json.loads(line)
+            file.close()
+        except Exception as e:
+            _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+        values = get_data_template(request)
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+        try:
+            request.session['airline_order_number'] = base64.b64decode(order_number).decode('ascii')
+        except:
+            request.session['airline_order_number'] = order_number
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            'username': request.session.get('user_account') or {'co_user_login': ''},
+            'airline_carriers': airline_carriers,
+            'order_number': request.session['airline_order_number'],
+            'static_path_url_server': get_url_static_path(),
+            'javascript_version': javascript_version,
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+    return render(request, MODEL_NAME+'/airline/airline_booking_refund_templates.html', values)

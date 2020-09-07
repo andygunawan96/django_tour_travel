@@ -94,6 +94,7 @@
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     signature = `{{signature}}`;
+    get_provider_list('review');
     time_limit = {{time_limit}};
     session_time_limit();
     ssr = {{ssr}};
@@ -281,7 +282,7 @@
                         <form method="POST" id="airline_request_send">
                             <div class="col-lg-4">
                                 {% if ssr == 0 %}
-                                <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
+                                <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train" id="ssr_btn" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_ssr'%}`,2)" style="width:100%;">
                                     SSR
                                 </button>
                                 {% endif %}
@@ -289,7 +290,7 @@
                             <div class="col-lg-4"></div>
                             <div class="col-lg-4">
                                 {% if seat == 0 %}
-                                <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
+                                <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train" id="seat_btn" type="button" value="Hold Booking" onclick="send_request_link(`{% url 'tt_website_rodextrip:airline_seat_map'%}`,2)" style="width:100%;">
                                     {% trans 'Seat' %}
                                 </button>
                                 {% endif %}
@@ -298,7 +299,7 @@
 
                         <div class="col-lg-4" style="margin-top:10px;">
                             {% if 'book_reservation' in username.co_agent_frontend_security %}
-                            <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
+                            <button class="btn-next next-loading-booking for-show-website primary-btn hold-seat-booking-train ld-ext-right" id="hold_booking_btn" type="button" value="Hold Booking" onclick="airline_hold_booking(0);" style="width:100%;">
                                 {% trans 'Hold Booking' %}
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -308,7 +309,7 @@
                         </div>
                         <div class="col-lg-4" style="margin-top:10px;">
                             {% if 'issued_reservation' in username.co_agent_frontend_security and 'b2c_limitation' not in username.co_agent_frontend_security and force_issued == True %}
-                            <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" onclick="airline_hold_booking(1);">
+                            <button class="btn-next for-show-website primary-btn issued_booking_btn" type="button" style="width:100%;" id="force_issued_btn" onclick="airline_hold_booking(1);">
                                  {% trans 'Issued Booking' %}
                             </button>
                             {% endif %}

@@ -1,6 +1,7 @@
 from .tt_website_rodextrip_header_urls import *
 from ..views import tt_website_rodextrip_airline_views as view
 
+urlpatterns.append(path(r'airline/booking/<path:order_number>/refund', view.refund, name="airline_refund"))
 urlpatterns.append(path(r'airline/booking/<path:order_number>', view.booking, name="airline_booking"))
 urlpatterns.append(re_path('airline/review_after_sales', view.review_after_sales, name="airline_review_after_sales"))
 urlpatterns.append(re_path('airline/review', view.review, name="airline_review"))

@@ -305,13 +305,26 @@ def get_balance(request):
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
         time.sleep(0.5)
-        res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-        request.session['get_balance_session'] = res
-        _logger.info(json.dumps(request.session['get_balance_session']))
-        request.session.modified = True
+        try:
+            res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
+            request.session['get_balance_session'] = res
+            _logger.info(json.dumps(request.session['get_balance_session']))
+            request.session.modified = True
+            if res['result']['error_code'] == 0:
+                time_check.set_new_time_out('balance')
+                time_check.set_first_time('balance')
+        except ERR.RequestException as e:
+            _logger.error('get_balance', 'Request Error' + '\n' + e.message + '\n' + traceback.format_exc())
 
-        time_check.set_new_time_out('balance')
-        time_check.set_first_time('balance')
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            #get balance ulang
+            res = get_balance(request)
+            request.session['get_balance_session'] = res
+            request.session.modified = True
+            if res['result']['error_code'] == 0:
+                time_check.set_new_time_out('balance')
+                time_check.set_first_time('balance')
     else:
         try:
             date_time = datetime.now() - time_check.get_time_balance
