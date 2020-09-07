@@ -1108,6 +1108,56 @@ def contact_us(request):
         return no_session_logout(request)
 
 
+def faq(request):
+    data = []
+    try:
+        file = open(var_log_path() + "faq_data.txt", "r")
+        for line in file:
+            if line != '\n':
+                data.append(line.split('~'))
+        file.close()
+    except:
+        pass
+    # values = {
+    #     'data': data
+    # }
+    # return render(request, MODEL_NAME+'/contact_us.html', values)
+
+    if 'user_account' in request.session._session:
+        try:
+            javascript_version = get_javascript_version()
+            cache_version = get_cache_version()
+            response = get_cache_data(cache_version)
+            airline_country = response['result']['response']['airline']['country']
+            phone_code = []
+            for i in airline_country:
+                if i['phone_code'] not in phone_code:
+                    phone_code.append(i['phone_code'])
+            phone_code = sorted(phone_code)
+            values = get_data_template(request)
+
+            if translation.LANGUAGE_SESSION_KEY in request.session:
+                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+            values.update({
+                'static_path': path_util.get_static_path(MODEL_NAME),
+                # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
+                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+                'countries': airline_country,
+                'phone_code': phone_code,
+                'username': request.session['user_account'],
+                'static_path_url_server': get_url_static_path(),
+                'javascript_version': javascript_version,
+                'signature': request.session['signature'],
+                'data': data,
+            })
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+            raise Exception('Make response code 500!')
+        return render(request, MODEL_NAME+'/faq.html', values)
+    else:
+        return no_session_logout(request)
+
+
 def about_us(request):
     if 'user_account' in request.session._session:
         try:

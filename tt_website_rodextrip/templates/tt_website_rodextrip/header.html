@@ -120,12 +120,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-has-children notification-pc pt5 guide_h1" style="padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
-                        <ul>
-                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </li>
                     <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
                         <ul>
                             <li><a data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
@@ -139,12 +133,6 @@
                                     <button type="button" onclick="logout();" class="primary-btn-logout" style="color:{{text_color}};">{% trans 'Logout' %}</button>
                                 </a>
                             </li>
-                        </ul>
-                    </li>
-                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                        <ul>
-                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                            <li><a href="#">FAQ</a></li>
                         </ul>
                     </li>
                     <li title="Click to show your notification" class="notification-pc pt5" style="padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:24px;"></i>
@@ -350,18 +338,6 @@
                                     </li>
                                 </ul>
                             </li>
-                            <li class="notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                                <ul class="dropdown">
-                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
-                            <li class="notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
-                                <ul class="dropdown">
-                                    <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                    <li><a href="#">FAQ</a></li>
-                                </ul>
-                            </li>
                             <li title="Click to show your notification" class="notification-pc" style="position:relative; bottom:5px; padding-right:15px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
                                 {% endif %}
                         </ul>
@@ -533,19 +509,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:24px;"></i></a>
-                        <ul>
-                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </li>
-                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                        <ul>
-                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </li>
-
                     <li title="Click to show your notification" class="notification-pc" style="color:{{color}}; padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i></li>
                         {% endif %}
                         </ul>
@@ -709,20 +672,6 @@
                                 </li>
                             </ul>
                         </li>
-
-                        <li class="has-children notification-pc"><a href="#"><i class="fas fa-question-circle" style="font-size:18px;"></i></a>
-                            <ul class="dropdown">
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-                        <li class="has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                            <ul>
-                                <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                                <li><a href="#">FAQ</a></li>
-                            </ul>
-                        </li>
-
                         <li title="Click to show your notification" class="notification-pc" style="padding-right:15px; padding-top:7px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
                             {% else %}
                         <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="bg-primary text-white rounded">{% trans 'Sign In' %}</span></a></li>
@@ -874,13 +823,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-has-children notification-pc" style="padding-top:25px; padding-right:15px;cursor:pointer;"><i class="fas fa-question-circle" style="font-size:24px;"></i>
-                        <ul>
-                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </li>
-
                     <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
                         <ul>
                             <li><a data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
@@ -895,13 +837,6 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#">{% trans 'Help' %} </a>
-                        <ul>
-                            <li><a href="#">{% trans 'Guidelines' %}</a></li>
-                            <li><a href="#">FAQ</a></li>
-                        </ul>
-                    </li>
-
                     <li title="Click to show your notification" class="menu-has-children notification-pc" style="padding-right:15px; padding-top:25px; cursor:pointer;" data-toggle="modal" data-target="#myModalNotification"><i class="fas fa-bell notif-hover bell_notif animated swing" style="font-size:20px;"></i>
                         {% else %}
                     <li style="font-size:12px;color:black;"><a href="{% url 'tt_website_rodextrip:login'%}" class="cta"><span class="primary-btn" style="padding-right:30px !important;">{% trans 'Sign In' %} <i class="fas fa-sign-in-alt"></i></span></a></li>

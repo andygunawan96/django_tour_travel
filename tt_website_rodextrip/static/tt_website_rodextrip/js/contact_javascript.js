@@ -81,42 +81,44 @@ function get_contact(type){
                 }
             }else if(type == 'footer'){
                 text = '';
-                if(msg.length != 0){
-                    if(template == 1){
-                        text+=`<hr/><h6 style="color:black">Contact us</h6>`;
-                    }else if(template == 2){
-                        text+=`<hr/><h6 class="widget-title" style="color:black">Contact us</h6>`;
-                    }else if(template == 3){
-                        text+=`<hr/><h6 class="widget-title" style="color:black">Contact us</h6>`;
-                    }else if(template == 4){
-                        text+=`<hr/><h2 class="footer-heading mb-4" style="color:black;">Contact Us</h2>`;
-                    }else if(template == 5){
-                        text+=`<hr/><h4 style="color:black;" class="mb-4">Contact Us</h4>`;
+                if (typeof $check_get_cs === 'undefined'){
+                    if(msg.length != 0){
+                        if(template == 1){
+                            text+=`<hr/><h6 style="color:black">Contact us</h6>`;
+                        }else if(template == 2){
+                            text+=`<hr/><h6 class="widget-title" style="color:black">Contact us</h6>`;
+                        }else if(template == 3){
+                            text+=`<hr/><h6 class="widget-title" style="color:black">Contact us</h6>`;
+                        }else if(template == 4){
+                            text+=`<hr/><h2 class="footer-heading mb-4" style="color:black;">Contact Us</h2>`;
+                        }else if(template == 5){
+                            text+=`<hr/><h4 style="color:black;" class="mb-4">Contact Us</h4>`;
+                        }
                     }
-                }
-                for(i in msg){
-                    if(msg[i][0] == "Phone"){
-                        text += `<a href="tel:`+msg[i][1]+`" target="_blank">`;
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
-                    }else if(msg[i][0] == "Whatsapp"){
-                        text += `<a href="https://wa.me/`+msg[i][1]+`" target="_blank">`;
-                        text+=`<img style="margin-bottom:10px; height:33px; width:auto; padding-right:5px;" src="/static/tt_website_rodextrip/img/whatsappic.png"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
-                    }else if(msg[i][0] == "Line"){
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png"/>
-                        <div class="line-it-button" data-lang="en" data-type="friend" data-lineid="`+msg[i][1]+`" style="display: none;">`+msg[i][0]+`</div>`;
-                    }else if(msg[i][0] == "Telegram"){
-                        text += `<a href="https://t.me/`+msg[i][1]+`" target="_blank">`;
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
-                    }else if(msg[i][0] == "Email"){
-                        text += `<a href="mailto:`+msg[i][1]+`" target="_blank">`;
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png"/>`+msg[i][1]+`</a>`;
-                    }else if(msg[i][0] == "Other"){
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png"/>`+msg[i][1]+``;
+                    for(i in msg){
+                        if(msg[i][0] == "Phone"){
+                            text += `<a href="tel:`+msg[i][1]+`" target="_blank">`;
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/phone.png"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
+                        }else if(msg[i][0] == "Whatsapp"){
+                            text += `<a href="https://wa.me/`+msg[i][1]+`" target="_blank">`;
+                            text+=`<img style="margin-bottom:10px; height:33px; width:auto; padding-right:5px;" src="/static/tt_website_rodextrip/img/whatsappic.png"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
+                        }else if(msg[i][0] == "Line"){
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/line.png"/>
+                            <div class="line-it-button" data-lang="en" data-type="friend" data-lineid="`+msg[i][1]+`" style="display: none;">`+msg[i][0]+`</div>`;
+                        }else if(msg[i][0] == "Telegram"){
+                            text += `<a href="https://t.me/`+msg[i][1]+`" target="_blank">`;
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/telegram.png"/>`+msg[i][0]+`: `+msg[i][1]+`</a>`;
+                        }else if(msg[i][0] == "Email"){
+                            text += `<a href="mailto:`+msg[i][1]+`" target="_blank">`;
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/email.png"/>`+msg[i][1]+`</a>`;
+                        }else if(msg[i][0] == "Other"){
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png"/>`+msg[i][1]+``;
+                        }
+                        if(msg[i][2] != ''){
+                            text+=` - `+msg[i][2]+``;
+                        }
+                        text+=`<br/>`;
                     }
-                    if(msg[i][2] != ''){
-                        text+=` - `+msg[i][2]+``;
-                    }
-                    text+=`<br/>`;
                 }
                 document.getElementById('contact_footer_div').innerHTML = text;
             }else if(type == 'page'){
@@ -169,7 +171,6 @@ function get_contact(type){
                         }
                         text+=``+msg[i][1]+`</span>`;
                     }
-
                     text+=`</div></div><br/>`;
                 }
                 document.getElementById('contact_page_div').innerHTML = text;
