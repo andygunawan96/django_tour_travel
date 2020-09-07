@@ -122,6 +122,13 @@ function change_about_us(){
         document.getElementById('sequence_paragraph').value = parseInt(about_us[paragraph_number].sequence);
         document.getElementById('title_paragraph').value = about_us[paragraph_number].title;
         document.getElementById("paragraph_img").src = about_us[paragraph_number].image_paragraph;
+        if(about_us[paragraph_number].image_paragraph != '/media/image_about_us/'){
+            document.getElementById('paragraph_img_label').style.display = "block";
+            document.getElementById('paragraph_img').style.display = "block";
+        }else{
+            document.getElementById('paragraph_img_label').style.display = "none";
+            document.getElementById('paragraph_img').style.display = "none";
+        }
         document.getElementById('delete_paragraph').hidden = false;
         CKEDITOR.instances.body_paragraph.setData(about_us[paragraph_number].body);
     }else{
@@ -159,6 +166,7 @@ function update_about_us(){
     if(error_log == ''){
         var formData = new FormData($('#form_admin').get(0));
         formData.append('state', document.getElementById('paragraph_active').checked);
+        formData.append('delete_img', document.getElementById('paragraph_img_delete').checked);
         formData.append('sequence', parseInt(document.getElementById('sequence_paragraph').value));
         formData.append('title', document.getElementById('title_paragraph').value);
         formData.append('body', JSON.stringify(CKEDITOR.instances.body_paragraph.getData()));
@@ -218,6 +226,7 @@ function delete_about_us(){
     if(error_log == ''){
         var formData = new FormData($('#form_admin').get(0));
         formData.append('state', document.getElementById('paragraph_active').checked);
+        formData.append('delete_img', document.getElementById('paragraph_img_delete').checked);
         formData.append('sequence', parseInt(document.getElementById('sequence_paragraph').value));
         formData.append('title', document.getElementById('title_paragraph').value);
         formData.append('body', document.getElementById('body_paragraph').value);

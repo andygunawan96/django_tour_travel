@@ -81,33 +81,35 @@ function get_social(type){
                 }
             }else if(type == 'footer'){
                 text = '';
-                if(msg.length != 0){
-                    if(template == 1){
-                        text+=`<hr/><h6 style="color:black">Follow Us</h6>`;
-                    }else if(template == 2){
-                        text+=`<hr/><h6 class="widget-title" style="color:black">Follow Us</h6>`;
-                    }else if(template == 3){
-                        text+=`<hr/><h6 style="color:black;">Follow Us</h6>`;
-                    }else if(template == 4){
-                        text+=`<hr/><h2 class="footer-heading mb-4" style="color:black;">Follow Us</h2>`;
-                    }else if(template == 5){
-                        text+=`<hr/><h4 style="color:black;" class="mb-4">Follow Us</h4>`;
+                if (typeof $check_get_cs === 'undefined'){
+                    if(msg.length != 0){
+                        if(template == 1){
+                            text+=`<hr/><h6 style="color:black">Follow Us</h6>`;
+                        }else if(template == 2){
+                            text+=`<hr/><h6 class="widget-title" style="color:black">Follow Us</h6>`;
+                        }else if(template == 3){
+                            text+=`<hr/><h6 style="color:black;">Follow Us</h6>`;
+                        }else if(template == 4){
+                            text+=`<hr/><h2 class="footer-heading mb-4" style="color:black;">Follow Us</h2>`;
+                        }else if(template == 5){
+                            text+=`<hr/><h4 style="color:black;" class="mb-4">Follow Us</h4>`;
+                        }
                     }
-                }
-                for(i in msg){
-                    text += `<a href="`+msg[i][2]+`" title="`+msg[i][1]+`" target="_blank">`;
-                    if(msg[i][0] == "Facebook"){
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png"/>`;
-                    }else if(msg[i][0] == "Instagram"){
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/instagram.png"/>`;
-                    }else if(msg[i][0] == "Twitter"){
-                        text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png"/>`;
-                    }else if(msg[i][0] == "Youtube"){
-                        text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png"/>`;
-                    }else if(msg[i][0] == "Other"){
-                        text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png"/>`;
+                    for(i in msg){
+                        text += `<a href="`+msg[i][2]+`" title="`+msg[i][1]+`" target="_blank">`;
+                        if(msg[i][0] == "Facebook"){
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png"/>`;
+                        }else if(msg[i][0] == "Instagram"){
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/instagram.png"/>`;
+                        }else if(msg[i][0] == "Twitter"){
+                            text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png"/>`;
+                        }else if(msg[i][0] == "Youtube"){
+                            text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png"/>`;
+                        }else if(msg[i][0] == "Other"){
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png"/>`;
+                        }
+                        text+=`</a>`;
                     }
-                    text+=`</a>`;
                 }
                 document.getElementById('social_footer_div').innerHTML = text;
 

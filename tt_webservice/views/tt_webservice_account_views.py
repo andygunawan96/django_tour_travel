@@ -122,6 +122,12 @@ def api_models(request):
             res = get_about_us(request)
         elif req_data['action'] == 'delete_about_us':
             res = delete_about_us(request)
+        elif req_data['action'] == 'set_faq':
+            res = set_faq(request)
+        elif req_data['action'] == 'get_faq':
+            res = get_faq(request)
+        elif req_data['action'] == 'delete_faq':
+            res = delete_faq(request)
         elif req_data['action'] == 'get_va_number':
             res = get_va_number(request)
         elif req_data['action'] == 'send_url_booking':
@@ -1081,12 +1087,13 @@ def set_about_us(request):
             os.mkdir('/var/log/django/about_us')
 
         filename = ''
-        try:
-            if request.FILES['image_paragraph'].content_type == 'image/jpeg' or request.FILES['image_paragraph'].content_type == 'image/png' or request.FILES['image_paragraph'].content_type == 'image/png':
-                file = request.FILES['image_paragraph']
-                filename = fs.save(file.name, file)
-        except:
-            pass
+        if request.POST['delete_img'] == 'false':
+            try:
+                if request.FILES['image_paragraph'].content_type == 'image/jpeg' or request.FILES['image_paragraph'].content_type == 'image/png' or request.FILES['image_paragraph'].content_type == 'image/png':
+                    file = request.FILES['image_paragraph']
+                    filename = fs.save(file.name, file)
+            except:
+                pass
 
         data = os.listdir('/var/log/django/about_us')
         #create new
@@ -1095,7 +1102,6 @@ def set_about_us(request):
         body = request.POST['body']
         counter = 1
         if int(request.POST['paragraph_number']) == -1:
-
             while True:
                 if counter == 0 and sequence + '.txt' in data:
                     counter += 1
@@ -1111,15 +1117,18 @@ def set_about_us(request):
             file.close()
         #replace
         else:
-            if filename == '':
-                file = open('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])], "r")
-                for idx, line in enumerate(file):
-                    if idx == 4:
-                        text = line.split('\n')[0].split('/')
-                        text.pop(0)
-                        text.pop(0)
-                        text.pop(0)
-                        filename = "/".join(text)
+            if request.POST['delete_img'] == 'false':
+                if filename == '':
+                    file = open('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])], "r")
+                    for idx, line in enumerate(file):
+                        if idx == 4:
+                            text = line.split('\n')[0].split('/')
+                            text.pop(0)
+                            text.pop(0)
+                            text.pop(0)
+                            filename = "/".join(text)
+            else:
+                filename = ''
             os.remove('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])])
             data = os.listdir('/var/log/django/about_us')
             while True:
@@ -1174,6 +1183,167 @@ def set_about_us(request):
     return res
 
 
+def get_faq(request):
+    try:
+        response = []
+        if not os.path.exists("/var/log/django/faq"):
+            os.mkdir('/var/log/django/faq')
+        for data in os.listdir('/var/log/django/faq'):
+            file = open('/var/log/django/faq/' + data, "r")
+            state = ''
+            sequence = ''
+            title = ''
+            body = ''
+            for idx, line in enumerate(file):
+                if idx == 0:
+                    if line.split('\n')[0] == 'false':
+                        state = False
+                    else:
+                        state = True
+                elif idx == 1:
+                    sequence = line.split('\n')[0]
+                elif idx == 2:
+                    title = line.split('\n')[0]
+                elif idx == 3:
+                    body = json.loads(line.split('\n')[0])
+            file.close()
+            response.append({
+                "state": bool(state),
+                "sequence": sequence,
+                "title": title,
+                "body": body,
+            })
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': '',
+                'response': response
+            }
+        }
+    except Exception as e:
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'not found',
+                'response': []
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
+def delete_faq(request):
+    try:
+        data = os.listdir('/var/log/django/faq')
+        os.remove('/var/log/django/faq/' + data[int(request.POST['faq_number'])])
+        data = os.listdir('/var/log/django/faq')
+        for rec in data:
+            file = open('/var/log/django/faq/' + rec, "r")
+            for idx, line in enumerate(file):
+                if idx == 4:
+                    line = line.split('\n')[0]
+                    line = line.split('/')
+                    line.pop(0)
+                    line.pop(0)
+                    line.pop(0)
+                    line = '/'.join(line)
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        print(e)
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': 'Error Delete',
+                'response': ''
+            }
+        }
+    return res
+
+
+def set_faq(request):
+    try:
+        if not os.path.exists("/var/log/django/faq"):
+            os.mkdir('/var/log/django/faq')
+
+        filename = ''
+        data = os.listdir('/var/log/django/faq')
+
+        #create new
+        sequence = request.POST['sequence']
+        title = request.POST['title']
+        body = request.POST['body']
+        counter = 1
+        if int(request.POST['faq_number']) == -1:
+
+            while True:
+                if counter == 0 and sequence + '.txt' in data:
+                    counter += 1
+                elif sequence + str(counter) + '.txt' in data:
+                    counter += 1
+                else:
+                    if counter != 1:
+                        sequence += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
+            file = open('/var/log/django/faq/' + "".join(sequence.split(' ')) + ".txt", "w+")
+            file.write(text)
+            file.close()
+        #replace
+        else:
+            if filename == '':
+                file = open('/var/log/django/faq/' + data[int(request.POST['faq_number'])], "r")
+                for idx, line in enumerate(file):
+                    if idx == 4:
+                        text = line.split('\n')[0].split('/')
+                        text.pop(0)
+                        text.pop(0)
+                        text.pop(0)
+                        filename = "/".join(text)
+            os.remove('/var/log/django/faq/' + data[int(request.POST['faq_number'])])
+            data = os.listdir('/var/log/django/faq')
+            while True:
+                if counter == 0 and sequence + '.txt' in data:
+                    counter += 1
+                elif sequence + str(counter) + '.txt' in data:
+                    counter += 1
+                else:
+                    if counter != 1:
+                        sequence += str(counter)
+                    break
+            text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
+            file = open('/var/log/django/faq/' + "".join(sequence.split(' ')) + ".txt", "w+")
+            file.write(text)
+            file.close()
+
+        res = {
+            'result': {
+                'error_code': 0,
+                'error_msg': 'Success',
+                'response': ''
+            }
+        }
+    except Exception as e:
+        if int(request.POST['faq_number']) == -1:
+            error = "Can't create"
+        else:
+            error = "Can't update"
+        res = {
+            'result': {
+                'error_code': 500,
+                'error_msg': error,
+                'response': ''
+            }
+        }
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    return res
+
+
 def get_va_number(request):
     try:
         headers = {
@@ -1195,6 +1365,7 @@ def get_va_number(request):
         }
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
+
 
 def send_url_booking(request):
     try:
