@@ -343,9 +343,9 @@ def get_cancellation_policy(request):
             }
             _logger.info(json.dumps(request.session['hotel_cancellation_policy']))
             request.session.modified = True
-            _logger.info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
         else:
-            _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("get_details_hotel ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
