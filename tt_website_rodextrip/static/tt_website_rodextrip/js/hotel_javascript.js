@@ -1798,13 +1798,10 @@ function hotel_detail(old_cancellation_policy){
     old_cancellation_text = ``;
     for(i in old_cancellation_policy){
         if (old_cancellation_policy[i].received_amount != 0){
-            if (old_cancellation_policy[i].to_date == ''){
-                old_cancellation_text += '<li style="list-style: unset;">Cancellation Before: ' + old_cancellation_policy[i].date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
-            } else {
-                old_cancellation_text += '<li style="list-style: unset;">Cancellation Between: ' + old_cancellation_policy[i].date + ' until ' + old_cancellation_policy[i].to_date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
-            }
+            old_cancellation_text += '<li style="list-style: unset;">Cancellation Before: ' + old_cancellation_policy[i].date + ' will be Refunded: ' + old_cancellation_policy[i].received_amount + '</li>';
+            //$text2 += 'Cancellation Before: ' + result.policies[i].date + ' will be Refunded: ' + result.policies[i].received_amount + '\n';
         } else {
-            old_cancellation_text += '<li style="list-style: unset;">No Refunded fee after: ' + old_cancellation_policy[i].date;
+            old_cancellation_text += '<li style="list-style: unset;">No Cancellation after: ' + old_cancellation_policy[i].date;
             //$text2 += 'No Cancellation after: ' + result.policies[i].date + '\n';
         }
     }
