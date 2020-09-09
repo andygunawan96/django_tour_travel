@@ -3516,7 +3516,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
-            if(msg.result.response.state == 'issued'){
+            if(msg.result.response.state == 'issued' || msg.result.response.state == 'reschedule'){
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){}
@@ -3925,15 +3925,18 @@ function airline_get_booking(data){
                                                         <span>`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].arrival_date.split('  ')[0]+`</span><br/>
                                                         <span style="font-weight:500;">`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_name+` - `+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination_city+` (`+msg.result.response.reschedule_list[i].new_segments[j].legs[k].destination+`)</span>
                                                     </div>
-                                                    <div class="col-lg-6 col-xs-6">
-                                                    </div>
-                                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                        <span style="font-weight:500;color:#f15a22">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>`;
                                     }
+                                    text += `
+                                        <div class="row">
+                                            <div class="col-lg-6 col-xs-6">
+                                            </div>
+                                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                                <span style="font-weight:500;color:#f15a22">`+currency+` `+getrupiah(msg.result.response.reschedule_list[i].total_amount)+`</span><br/>
+                                            </div>
+                                        </div>`;
                                 }
                             }
                             text+=`
@@ -4565,6 +4568,7 @@ function cancel_btn(){
                console.log(msg);
                if(msg.result.error_code == 0){
                    //update ticket
+                   window.location = "/airline/booking/" + airline_get_detail.result.response.order_number;
                    document.getElementById('airline_reissue_div').innerHTML = '';
                    price_arr_repricing = {};
                    pax_type_repricing = [];
@@ -7198,7 +7202,7 @@ function airline_get_booking_refund(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
-            if(msg.result.response.state == 'issued'){
+            if(msg.result.response.state == 'issued' || msg.result.response.state == 'reschedule'){
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){}
