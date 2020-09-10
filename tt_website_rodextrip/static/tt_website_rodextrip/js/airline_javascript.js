@@ -3844,31 +3844,16 @@ function airline_detail(type){
         for(i in airline_get_booking.passengers[0].sale_service_charges){
             text += `<div class="row">
                         <div class="col-lg-12">
-                        <center>`+i+`</center>
             `;
             for(j in airline_get_booking.passengers){
                 for(k in airline_get_booking.passengers[j].sale_service_charges){
-                    if(i == k){
-                        for(l in airline_get_booking.passengers[j].sale_service_charges[k]){
-                            if(l != 'RAC'){
-                                total_price += airline_get_booking.passengers[j].sale_service_charges[k][l].amount;
-                                if(currency == '')
-                                    currency = airline_get_booking.passengers[j].sale_service_charges[k][l].currency;
-                                text += `
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <label>`+l+`</label>
-                                    </div>
-                                    <div class="col-lg-6" style="text-align:right;">
-                                        <label>`+airline_get_booking.passengers[j].sale_service_charges[k][l].currency + ' '+ getrupiah(airline_get_booking.passengers[j].sale_service_charges[k][l].amount)+`</label>
-                                    </div>
-                                </div>`;
-                            }
-                        }
-                        break;
+                    for(l in airline_get_booking.passengers[j].sale_service_charges[k]){
+                        currency = airline_get_booking.passengers[j].sale_service_charges[k][l].currency;
+                        break
                     }
+                    break;
                 }
-
+                break;
 
             }
             text+=`</div>`;
@@ -3878,7 +3863,7 @@ function airline_detail(type){
                 <label>Additional Price</label><br/>
             </div>
             <div class="col-lg-5" style="text-align:right;">`;
-            if(airline_get_booking.passengers[j].sale_service_charges[k][l].currency == 'IDR')
+            if(currency == 'IDR')
             text+=`
                 <label id="additional_price">`+currency+` `+getrupiah(additional_price)+`</label><br/>`;
             else

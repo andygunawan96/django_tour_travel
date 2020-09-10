@@ -218,7 +218,7 @@
                         </div>
                         <div class="col-lg-4"></div>
                         <div class="col-lg-4" style="padding-bottom:15px;">
-                            <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="cancel_after_sales();" style="width:100%;">
+                                <button class="next-loading-issued primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Issued Booking" onclick="cancel_after_sales();" style="width:100%;">
                                 Cancel
                                 <div class="ld ld-ring ld-cycle"></div>
                             </button>
@@ -235,8 +235,12 @@
 <script>
     airline_detail('request_new');
     get_airline_review_after_sales();
-    {% if airline_getbooking.state == 'issued' %}
-    get_payment_acq('Issued','{{airline_getbooking.booker.seq_id}}', '{{airline_getbooking.order_number}}', 'billing',signature,'airline_after_sales');
+    booker_id = '{{airline_getbooking.booker.seq_id}}';
+    state = '{{airline_getbooking.state}}';
+    {% if page == 'ssr' %}
+    sell_ssrs_after_sales();
+    {% elif page == 'seat' %}
+    assign_seats_after_sales();
     {% endif %}
     document.getElementById('payment_acq').hidden = false;
 </script>
