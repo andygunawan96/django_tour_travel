@@ -409,7 +409,7 @@ function hotel_facility_request(hotel_facilities){
                 var fac_name = hotel_facilities[rec];
             }
             facility_image_html += `
-                    <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
+                    <div class="col-md-3 col-xs-6" style="width:25%; padding-bottom:15px;">
                         <i class="fas fa-circle" style="font-size:9px;"></i>
                         <span style="font-weight:500;"> `+ fac_name +`</span>
                     </div>`;
@@ -417,7 +417,7 @@ function hotel_facility_request(hotel_facilities){
         document.getElementById("js_image_facility").innerHTML = facility_image_html;
     }catch(err){
         facility_image_html += `
-        <div class="col-md-3 col-xs-4" style="width:25%; padding-bottom:15px;">
+        <div class="col-md-3 col-xs-6" style="width:25%; padding-bottom:15px;">
             <i class="fas fa-circle" style="font-size:9px;"></i>
             <span style="font-weight:500;">No Facility to show right now</span>
         </div>`;
@@ -521,16 +521,26 @@ function hotel_detail_request(checkin_date, checkout_date){
                         text+=`<div class="col-lg-6 col-md-6">`;
                         //<span>' + result.prices[i].rooms[j].category + '</span><br/>
                         text+= '<h5 class="name_room" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title=' + result.prices[i].rooms[j].description + '>' + result.prices[i].rooms[j].description + '</h5><span class="qty_room">'+ result.prices[i].rooms[j].qty +' Room(s)</span><br/>';
-                        text+= '<span class="meal_room">Meal Type: ' + result.prices[i].meal_type+'</span><br/>';
-                        if(result.prices[i].rooms[j].notes != undefined)
+                        if(result.prices[i].meal_type != "" && result.prices[i].meal_type != undefined){
+                            text+= '<span class="meal_room"><b>Meal Type:</b> <span>' + result.prices[i].meal_type+'</span></span><br/>';
+                        }
+                        if(result.prices[i].rooms[j].supplements.length != 0)
                             text+= '<span class="suplement">Suplement(s): <br/><ul>';
                             for(j in result.prices[i].rooms[j].supplements){
                                 text+= '<li>'+ result.prices[i].rooms[j].supplements[j].name + ': '+ result.prices[i].rooms[j].supplements[j].price + ' ' + result.prices[i].rooms[j].supplements[j].currency + ' (' + result.prices[i].rooms[j].supplements[j].type +  ')' + '</li>'
                             }
                             text+= '</ul></span>'
-                        if(result.prices[i].rooms[j].notes != undefined)
-                            text+= '<span class="note">Notes: ' + result.prices[i].rooms[j].notes+'</span><br/>';
-                        text+= '<span style="font-weight:500; padding-top:10px;">Cancellation: </span><ul><li id="js_cancellation_button'+i+'" style="color:'+color+'; font-weight:400;"><span class="carrier_code_template" onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');"><i class="fas fa-question-circle"></i> Show Cancellation Policy</span></li></ul>';
+                        if(result.prices[i].rooms[j].notes != undefined && result.prices[i].rooms[j].notes != ""){
+                            text+= '<span class="note"><b>Notes:</b><br/>';
+                            text+=`
+                            <div class="notes-description">
+                                <div class="text show-more-height" id="notes_div`+i+``+j+`">
+                                    `+result.prices[i].rooms[j].notes+`
+                                </div>
+                                <div class="show-more`+i+``+j+` mb-2" style="color:`+color+`; cursor:pointer;" onclick="show_less_notes(`+i+`, `+j+`);">Show More</div>
+                            </div>`;
+                        }
+                        text+= '<span style="font-weight:500; padding-top:10px;">Cancellation: </span><ul><li id="js_cancellation_button'+i+'" style="color:'+color+'; cursor:pointer; font-weight:400;"><span class="carrier_code_template" onclick="hotel_cancellation_button('+i+','+ result.prices[i].price_code +');"><i class="fas fa-question-circle"></i> Show Cancellation Policy</span></li></ul>';
                         text+=`</div>`;
 
                         text+=`<div class="col-lg-3 col-md-3" style="text-align:right;">`;
@@ -1795,4 +1805,14 @@ function update_service_charge(type){
        },timeout: 60000
     });
 
+}
+
+function show_less_notes(i,j){
+    if($("#notes_div"+i+j).hasClass("show-more-height")) {
+        $(".show-more"+i+j).text("Show Less");
+        $("#notes_div"+i+j).removeClass("show-more-height");
+    } else {
+        $(".show-more"+i+j).text("Show More");
+        $("#notes_div"+i+j).addClass("show-more-height");
+    }
 }

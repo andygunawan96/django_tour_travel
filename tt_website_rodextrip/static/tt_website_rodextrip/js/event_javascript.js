@@ -122,6 +122,7 @@ function triggered(){
 
 function filtering(type, update){
     $('#badge-copy-notif').html("0");
+    $('#badge-copy-notif2').html("0");
     var data = JSON.parse(JSON.stringify(data_event));
 
     var check = 0;

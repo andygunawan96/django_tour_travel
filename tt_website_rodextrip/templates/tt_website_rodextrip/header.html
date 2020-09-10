@@ -1,9 +1,6 @@
 {% load i18n %}
 <script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/highlight_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/social_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/contact_javascript.js?version={{javascript_version}}"></script>
-<script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
 
 <script>
     agent_security = `{{username.co_agent_frontend_security}}`;
@@ -900,9 +897,6 @@
     document.getElementById('backend_btn2').href = url;
     {% if username.co_user_login != '' %}
         get_highlight('header');
-        get_contact('footer');
-        get_social('footer');
-        get_payment_partner('footer');
         if(document.URL.split('/')[document.URL.split('/').length-1] != 'ssr' || document.URL.split('/')[document.URL.split('/').length-1] != 'seat'){
             time = 300;
             console.log(`{{username}}`);

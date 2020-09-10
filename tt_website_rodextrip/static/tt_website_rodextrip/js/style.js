@@ -81,9 +81,12 @@ $(document).ready(function(){
         if ($(window).width() >= 992) {
             $('#filter-search-flight').show();
             $('#sorting-search-flight').show();
+            $('#copy_selected_mb').show();
+            $('#copy_selected_pc').hide();
             $('#filter-search-train').show();
             $('#sorting-search-train').show();
             $('#mybuttonfiltersort').hide();
+            $('#copy_selected_pc').hide();
             $("#myModalFilter").modal('hide');
             $("#myModalSort").modal('hide');
 //            document.getElementById("filter-search-train").style.display = "block";
@@ -96,6 +99,8 @@ $(document).ready(function(){
             $('#filter-search-train').hide();
             $('#sorting-search-train').hide();
             $('#mybuttonfiltersort').show();
+            $('#copy_selected_mb').hide();
+            $('#copy_selected_pc').show();
 //            document.getElementById("").style.display = "none";
 //            document.getElementById("sorting-search-train2").style.display = "none";
 //            document.getElementById("mybuttonfiltersort").style.display = "block";
@@ -758,58 +763,65 @@ $(document).ready(function(){
         }
     });
 
-    $('#information-hotel').click(function(e){
+    $('#photo-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-hotel").offset().top - 90
+            scrollTop: $("div.div-photo-hotel").offset().top - 50
         }, 500);
-        active_sticky_hotel("information");
+        active_sticky_hotel("photo");
     });
 
     $('#facility-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-facility-hotel").offset().top - 90
+            scrollTop: $("div.div-facility-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("facility");
     });
 
     $('#location-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-location-hotel").offset().top - 90
+            scrollTop: $("div.div-location-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("location");
     });
 
     $('#select-room-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-room-hotel").offset().top - 90
+            scrollTop: $("div.div-select-room-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("select");
     });
 
+    $('#description-hotel').click(function(e){
+        $('html, body').animate({
+            scrollTop: $("div.div-description-hotel").offset().top - 50
+        }, 500);
+        active_sticky_hotel("description");
+    });
+
     $('#review-hotel').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-review-hotel").offset().top - 90
+            scrollTop: $("div.div-review-hotel").offset().top - 50
         }, 500);
         active_sticky_hotel("review");
     });
 
     $('#information-event').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-information-event").offset().top - 90
+            scrollTop: $("div.div-information-event").offset().top - 50
         }, 500);
         active_sticky_event("information");
     });
 
     $('#select-room-event').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-event").offset().top - 90
+            scrollTop: $("div.div-select-event").offset().top - 50
         }, 500);
         active_sticky_event("select");
     });
 
     $('#select-room-event2').click(function(e){
         $('html, body').animate({
-            scrollTop: $("div.div-select-event").offset().top - 90
+            scrollTop: $("div.div-select-event").offset().top - 50
         }, 500);
         active_sticky_event("select");
     });
@@ -2160,9 +2172,9 @@ function capitalizeInput(id){
 }
 
 function active_sticky_hotel(type){
-    if(type == "information"){
+    if(type == "photo"){
         $(".content-hotel").removeClass("sticky-hotel-active");
-        $("#information-hotel").addClass("sticky-hotel-active");
+        $("#photo-hotel").addClass("sticky-hotel-active");
     }
     else if(type == "facility"){
         $(".content-hotel").removeClass("sticky-hotel-active");
@@ -2175,6 +2187,10 @@ function active_sticky_hotel(type){
     else if(type == "select"){
         $(".content-hotel").removeClass("sticky-hotel-active");
         $("#select-room-hotel").addClass("sticky-hotel-active");
+    }
+    else if(type == "description"){
+        $(".content-hotel").removeClass("sticky-hotel-active");
+        $("#description-hotel").addClass("sticky-hotel-active");
     }
     //else if(type == "review"){
     //    $(".content-hotel").removeClass("sticky-hotel-active");

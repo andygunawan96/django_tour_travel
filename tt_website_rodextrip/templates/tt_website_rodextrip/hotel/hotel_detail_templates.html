@@ -30,7 +30,11 @@
     facilities = facilities.replace(/False/g, 'false');
     facilities = facilities.replace(/True/g, 'true');
 </script>
-
+<style>
+    ul li{
+        list-style-type: disc;
+    }
+</style>
 {% include 'tt_website_rodextrip/header.html' %}
 {% include 'tt_website_rodextrip/logout.html' %}
 {% include 'tt_website_rodextrip/plugin_passenger.html' %}
@@ -819,6 +823,27 @@
 </section>
 {%endif%}
 
+{% if username.co_user_login != 'agent_b2c' %}
+<section id="info_user_search" style="position: fixed; z-index:1050; width: 300px; top:0px; right:15px;" hidden>
+    <div style="padding:12px; background:white; border:1px solid {{color}};">
+        <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
+        <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+        <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
+    </div>
+</section>
+{% endif %}
+<section id="copy_selected_pc" style="position: fixed; z-index:1050; width: 300px; top:60px; right:15px; display:block;">
+    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();" style="margin: 0px 0px 15px 0px;">
+        <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+    </button>
+</section>
+
+<section id="copy_selected_mb" style="position: fixed; z-index:1050; bottom:55px; left: 50%; margin-left: -80px; display:none;">
+    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();" style="margin: 0px 0px 15px 0px; width:150px;">
+        <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif2">0</span> Copy <i class="fas fa-copy"></i></span>
+    </button>
+</section>
+
 <section class="destinations-area" style="padding-top:30px; padding-bottom:40px; z-index:1; background:#f7f7f7">
     <div class="container">
         <div class="row align-items-center justify-content-between d-flex">
@@ -834,41 +859,45 @@
                 <span style="font-size:14px; font-weight:600;">Elapsed Time <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
-        {% if username.co_user_login != 'agent_b2c' %}
-        <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 0px; z-index: 2;">
-            <div class="col-lg-12">
-                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                    <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
-                    <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
-                    <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-
-        <div class="row nav-hotel" style="position:sticky;top: 40px;z-index: 24;">
-            <div class="col-lg-12">
-                <div class="box-sticky-hotel" style="padding-right:0px;">
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="information-hotel">Description</button>
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="facility-hotel">Facility</button>
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="location-hotel">Location</button>
-                    <button class="content-hotel primary-btn-sticky-hotel" type="button" id="select-room-hotel">Select Room</button>
-
-                    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyHotel" onclick="get_checked_copy_result_room();">
-                        <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div class="row">
+        <div class="row mb-3">
             <div class="col-lg-12">
                 <button class="primary-btn-custom" type="button" onclick="location.href='{% url 'tt_website_rodextrip:hotel_search'%}';"><i class="fas fa-chevron-left"></i> Back to result search</button>
             </div>
         </div>
-        <form action="{% url 'tt_website_rodextrip:hotel_passenger' %}" id="goto_passenger" method="POST" style="padding:15px 15px 0px 15px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div style="background:white; padding:15px; margin-bottom:15px; border:1px solid #cdcdcd;">
+                    <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
+                    <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
+                    <span class="rating_hotel" id="rating_hotel" hidden>{{response.rating}}</span>
+                    <span>
+                        {% for i in rating %}
+                            <i class="fas fa-star" style="color:#FFC44D;"></i>
+                        {% endfor %}
+                    </span>
+                    <br/>
+                    <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
+                    <span class="address_hotel" id="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
+                    <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
+                </div>
+            </div>
+        </div>
+
+        <div class="row nav-hotel" style="position:sticky;top: 0px;z-index: 24;">
+            <div class="col-lg-12">
+                <div class="box-sticky-hotel" style="padding-right:0px;">
+                    <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="photo-hotel">Photo</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="facility-hotel">Facility</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="description-hotel">Description</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="location-hotel">Location</button>
+                    <button class="content-hotel primary-btn-sticky-hotel" style="padding: 15px;" type="button" id="select-room-hotel">Rooms</button>
+                </div>
+            </div>
+        </div>
+        <form action="{% url 'tt_website_rodextrip:hotel_passenger' %}" id="goto_passenger" method="POST" style="padding:0px 15px 0px 15px;">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12 div-information-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
+                <div class="col-lg-12 div-photo-hotel" style="background:white; margin-bottom:30px; padding-top:15px; border:1px solid #cdcdcd; border-radius:3px;">
                     <div class="row">
                         <div class="modal fade modal-rdx" id="openImage" role="dialog" style="background:rgba(250,250,250,1);">
                             <div class="modal-dialog">
@@ -884,7 +913,9 @@
                                                     <div class="owl-carousel-hotel-img-modal owl-theme" style="text-align:center;">
                                                         {% for i in response.images %}
                                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
-                                                            <img class="img-fluid zoom-img" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto; max-height:500px;" alt="">
+                                                            <center>
+                                                                <img class="img-fluid zoom-img" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto;" alt="">
+                                                            </center>
                                                         </div>
                                                         {% endfor %}
                                                     </div>
@@ -907,23 +938,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12">
-                            <span class="name_hotel" style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
-                            <input type="hidden" value="{{response.name}}" id="get_name_hotel"/>
-                            <span class="rating_hotel" id="rating_hotel" hidden>{{response.rating}}</span>
-                            <span>
-                                {% for i in rating %}
-                                    <i class="fas fa-star" style="color:#FFC44D;"></i>
-                                {% endfor %}
-                            </span>
-                            <br/>
-                            <i class="fas fa-map-marker-alt" style="color:{{color}};"></i>
-                            <span class="address_hotel" id="address_hotel">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
-                            <!-- - <a href="#" style="color:blue; text-decoration: underline;">Show Map</a><br/>-->
-                            <hr/>
-                        </div>
-
-                        <div class="col-lg-7" style="margin-bottom:15px;">
+                        <div class="col-lg-10" style="margin-bottom:15px;">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <input type="hidden" value="{{response.images|length}}" id="length-img"/>
@@ -931,7 +946,9 @@
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         {% for i in response.images %}
                                         <div class="item" style="cursor:pointer; float:none;">
-                                            <img class="img-fluid" style="max-height:400px; margin-left:50%; transform:translateX(-50%);" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                            <center>
+                                                <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                            </center>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -939,51 +956,37 @@
                                     {% else %}
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         <div class="item" style="float:none; display:inline-block; border:1px solid #cdcdcd;">
-                                            <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="margin: auto; max-height:400px;">
+                                            <center>
+                                                <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg">
+                                            </center>
                                         </div>
                                     </div>
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-5" style="margin-bottom:10px;">
+                        <div class="col-lg-2" style="margin-bottom:10px;">
                             <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="row">
-                                        {% if response.images|length > 0 %}
-                                        {% for i in response.images %}
-                                        {% if forloop.counter < 4 %}
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                            <img class="img-fluid" src="{{i.url}}" style="width:100%; height:75px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
-                                        </div>
-                                        {% elif forloop.counter == 4%}
-                                        <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                            <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
-                                                <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="width:100%; height:75px;">
-                                            </div>
-                                            <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{response.images|length}})</span>
-                                        </div>
-                                        {% endif %}
-                                        {% endfor %}
-                                        {% else %}
-                                        <div class="col-lg-3">
-                                            <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
-                                        </div>
-                                        {% endif %}
-                                    </div>
-                                    <hr/>
+                                {% if response.images|length > 0 %}
+                                {% for i in response.images %}
+                                {% if forloop.counter < 4 %}
+                                <div class="col-lg-12 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
+                                    <img class="img-fluid" src="{{i.url}}" style="width:100%; height:110px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
                                 </div>
-                                <div class="col-lg-12">
-                                    <h5>Description</h5>
-                                    <hr/>
-                                    <div style="text-align: justify; height:250px; overflow: auto;">
-                                        {% if response.description != '' %}
-                                        {{response.description}}
-                                        {% else %}
-                                        <i class="fas fa-ban" style="color:red;"></i> <span style="font-weight:500; font-size:14px;">No description.</span>
-                                        {% endif %}
+                                {% elif forloop.counter == 4%}
+                                <div class="col-lg-12 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
+                                    <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                        <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="width:100%; height:110px;">
                                     </div>
+                                    <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{response.images|length}})</span>
                                 </div>
+                                {% endif %}
+                                {% endfor %}
+                                {% else %}
+                                <div class="col-lg-3">
+                                    <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                         <!-- Prepare untuk TripAdvisor Cenius Start-->
@@ -1022,6 +1025,20 @@
                     </div>
                 </div>
 
+                <div class="col-lg-12 div-description-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
+                    <h5>Description</h5>
+                    <hr/>
+                    <div style="text-align: justify;">
+                        {% if response.description != '' %}
+                        {% autoescape off %}
+                        {{response.description}}
+                        {% endautoescape %}
+                        {% else %}
+                        <i class="fas fa-ban" style="color:red;"></i> <span style="font-weight:500; font-size:14px;">No description.</span>
+                        {% endif %}
+                    </div>
+                </div>
+
                 <div class="col-lg-12 div-location-hotel" style="background:white; margin-bottom:30px; padding-top:20px; padding-bottom:20px; border:1px solid #cdcdcd; border-radius:3px;">
                     <h4>Location Info</h4>
                     <hr/>
@@ -1029,7 +1046,7 @@
                     <span style="font-size:14px; font-weight:500;">{% if response.location.address != false %}{{response.location.address}}{% endif %}{% if response.location.city != false %}, {{response.location.city}}{% endif %}{% if response.location.kelurahan != false %}, {{response.location.kelurahan}}{% endif %}{% if response.location.state != false %}, {{response.location.state}}{% endif %}{% if response.location.zipcode != false %}, {{response.location.zipcode}}{% endif %}</span>
                     {% if response.lat != '' and response.long != '' %}
                     <br/><button type="button" class="primary-btn-ticket" id="show_google_map" onclick="initMap();">Show Map</button>
-                    <div id="map" style="position:inherit;height:300px;" hidden>
+                    <div id="map" style="position:inherit;height:400px;" hidden>
 
                     </div>
                     {% endif %}
@@ -1272,9 +1289,9 @@
         }catch(err){}
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
-                if ($(window).width() >= 992){
+                if ($(window).width() >= 768){
                    {% if username.co_user_login != 'agent_b2c' %}
-                   document.getElementById("info_user_search").style.display = "block";
+                   document.getElementById("info_user_search").hidden = false;
                    {% endif %}
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
@@ -1284,12 +1301,12 @@
                    }catch(err){}
                 }else{
                    {% if username.co_user_login != 'agent_b2c' %}
-                   document.getElementById("info_user_search").style.display = "none";
+                   document.getElementById("info_user_search").hidden = true;
                    {% endif %}
                 }
             }else{
                 {% if username.co_user_login != 'agent_b2c' %}
-                document.getElementById("info_user_search").style.display = "none";
+                document.getElementById("info_user_search").hidden = true;
                 {% endif %}
             }
         });
@@ -1299,11 +1316,14 @@
       $('.js-example-basic-single').select2();
       breadcrumb_create("hotel", 3, 0);
       $(window).scroll(function() {
-        if($(this).scrollTop()>=$('.div-information-hotel').position().top-95 && $(this).scrollTop()<$('.div-facility-hotel').position().top-95){
-            active_sticky_hotel("information");
+        if($(this).scrollTop()>=$('.div-photo-hotel').position().top-95 && $(this).scrollTop()<$('.div-facility-hotel').position().top-95){
+            active_sticky_hotel("photo");
         }
-        else if($(this).scrollTop()>=$('.div-facility-hotel').position().top-95 && $(this).scrollTop()<$('.div-location-hotel').position().top-95){
+        else if($(this).scrollTop()>=$('.div-facility-hotel').position().top-95 && $(this).scrollTop()<$('.div-description-hotel').position().top-95){
             active_sticky_hotel("facility");
+        }
+        else if($(this).scrollTop()>=$('.div-description-hotel').position().top-95 && $(this).scrollTop()<$('.div-location-hotel').position().top-95){
+            active_sticky_hotel("description");
         }
         else if($(this).scrollTop()>=$('.div-location-hotel').position().top-95 && $(this).scrollTop()<$('.div-select-room-hotel').position().top-95){
             active_sticky_hotel("location");
@@ -1317,7 +1337,7 @@
         //else if($(this).scrollTop()>=$('.div-review-hotel').position().top-90){
         //    active_sticky_hotel("review");
         //}
-        else if($(this).scrollTop() < $('.div-information-hotel').position().top){
+        else if($(this).scrollTop() < $('.div-photo-hotel').position().top){
             $(".content-hotel").removeClass("sticky-hotel-active");
         }
       });

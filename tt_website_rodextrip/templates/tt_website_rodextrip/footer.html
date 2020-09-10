@@ -1,3 +1,8 @@
+{% load i18n %}
+<script src="{{ static_path }}js/social_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/contact_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/payment_partner_javascript.js?version={{javascript_version}}"></script>
+
 {% if template == 1%}
 <button onclick="topFunction()" id="myBtnBTP" title="Go to top">
     <span><i class="fas fa-chevron-up"></i></span>
@@ -618,3 +623,9 @@
     </div>
 </footer>
 {% endif %}
+
+<script>
+    get_contact('footer');
+    get_social('footer');
+    get_payment_partner('footer');
+</script>

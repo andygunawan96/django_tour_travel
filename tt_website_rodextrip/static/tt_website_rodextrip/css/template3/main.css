@@ -7419,6 +7419,15 @@ display: block;
   #mybuttonsticky {
     display:none !important;
   }
+
+  #copy_selected_pc {
+    display:block !important;
+  }
+
+  #copy_selected_mb {
+    display:none !important;
+  }
+
   .my_sticky_button {
     display:none !important;
   }
@@ -7476,6 +7485,15 @@ display: block;
   #mybuttonsticky {
     display:block !important;
   }
+
+  #copy_selected_pc {
+    display:none !important;
+  }
+
+  #copy_selected_mb {
+    display:block !important;
+  }
+
   .my_sticky_button {
     display:block !important;
   }
@@ -7760,4 +7778,87 @@ display: block;
     background-size:cover;
     background-position:50% 50%;
     border-radius: 3px;
+}
+
+@media (min-width: 992px) {
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:452px;
+    }
+
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:452px;
+    }
+
+    .owl-carousel-banner .owl-item img{
+        max-height:360px;
+    }
+}
+
+@media (max-width: 991px) and (min-width: 768px) {
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:400px;
+    }
+
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:350px;
+    }
+
+    .owl-carousel-banner .owl-item img{
+        max-height:280px;
+    }
+}
+
+@media (max-width: 767px) and (min-width: 576px) {
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:250px;
+    }
+
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:300px;
+    }
+
+    .owl-carousel-banner .owl-item img{
+        max-height:220px;
+    }
+}
+
+@media (max-width: 575px) {
+    .owl-carousel-hotel-img .owl-item img{
+        max-height:220px;
+    }
+
+    .owl-carousel-hotel-img-modal .owl-item img{
+        max-height:250px;
+    }
+
+    .owl-carousel-banner .owl-item img{
+        max-height:150px;
+    }
+}
+
+
+.notes-description {
+  max-width: 400px;
+  position:relative;
+}
+.notes-description .text {
+/*   width: 660px;  */
+  position:relative;
+  display: block;
+}
+
+.notes-description .show-more-height {
+  max-height: 60px;
+  overflow:hidden;
+}
+
+@media (min-width: 992px) {
+    #info_user_search{
+        display:block;
+    }
+}
+@media (max-width: 991px) {
+    #info_user_search{
+        display:none;
+    }
 }
