@@ -35,6 +35,30 @@
 <title id="title_search">{{name}} Event - {% trans 'Session Time' %} {{event_code.name}}</title>
 
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
+
+{% if username.co_user_login != 'agent_b2c' %}
+<section id="info_user_search" style="position: fixed; z-index:1050; width: 300px; top:0px; right:15px;" hidden>
+    <div style="padding:12px; background:white; border:1px solid {{color}};">
+        <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
+        <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+        <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
+    </div>
+</section>
+{% endif %}
+
+<section id="copy_selected_pc" style="position: fixed; z-index:1050; width: 300px; top:60px; right:15px; display:block;">
+    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyOption" onclick="get_checked_copy_result_room();" style="margin: 0px 0px 15px 0px;">
+        <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
+    </button>
+</section>
+
+<section id="copy_selected_mb" style="position: fixed; z-index:1050; bottom:55px; left: 50%; margin-left: -80px; display:none;">
+    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyOption" onclick="get_checked_copy_result_room();" style="margin: 0px 0px 15px 0px; width:150px;">
+        <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif2">0</span> Copy <i class="fas fa-copy"></i></span>
+    </button>
+</section>
+
+
 {%if template == 1%}
 <section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:90; position:relative;">
     <div class="container">
@@ -347,27 +371,12 @@
 
             </div>
         </div>
-        {% if username.co_user_login != 'agent_b2c' %}
-        <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 0px; z-index: 2;">
-            <div class="col-lg-12">
-                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                    <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
-                    <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
-                    <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
-                </div>
-            </div>
-        </div>
-        {% endif %}
 
-        <div class="row nav-hotel" style="position:sticky;top: 40px;z-index: 24;">
+        <div class="row nav-hotel" style="position:sticky;top: 0px;z-index: 24;">
             <div class="col-lg-12">
                 <div class="box-sticky-hotel" style="padding-right:0px;">
                     <button class="content-event primary-btn-sticky-hotel" type="button" id="information-event">Description</button>
                     <button class="content-event primary-btn-sticky-hotel" type="button" id="select-room-event">Buy Ticket</button>
-
-                    <button class="myticket_static_detail" data-toggle="modal" data-target="#myModalCopyOption" onclick="get_checked_copy_result();">
-                        <span style="color:{{text_color}}; font-size:14px;"><span id="badge-copy-notif">0</span> Copy Selected <i class="fas fa-copy"></i></span>
-                    </button>
                 </div>
             </div>
         </div>
@@ -751,9 +760,9 @@
         }catch(err){}
         $(window).scroll(function() {
             if ($(this).scrollTop() >= 66) {
-                if ($(window).width() >= 992){
+                if ($(window).width() >= 768){
                    {% if username.co_user_login != 'agent_b2c' %}
-                   document.getElementById("info_user_search").style.display = "block";
+                   document.getElementById("info_user_search").hidden = false;
                    {% endif %}
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
@@ -763,12 +772,12 @@
                    }catch(err){}
                 }else{
                    {% if username.co_user_login != 'agent_b2c' %}
-                   document.getElementById("info_user_search").style.display = "none";
+                   document.getElementById("info_user_search").hidden = true;
                    {% endif %}
                 }
             }else{
                 {% if username.co_user_login != 'agent_b2c' %}
-                document.getElementById("info_user_search").style.display = "none";
+                document.getElementById("info_user_search").hidden = true;
                 {% endif %}
             }
         });

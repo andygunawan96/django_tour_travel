@@ -1557,7 +1557,7 @@ function update_service_charge(type){
 function checkboxCopy(){
     var count_copy = $(".copy_result:checked").length;
     document.getElementById("badge-copy-notif").innerHTML = count_copy;
-    //document.getElementById("badge-copy-notif2").innerHTML = count_copy;
+    document.getElementById("badge-copy-notif2").innerHTML = count_copy;
 }
 
 function checkboxCopyBox(id, co_hotel){

@@ -144,7 +144,7 @@ function get_banner(type,page){
                             text+=`
                             <div class="item">
                                 <center>
-                                    <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:360px;"/>
+                                    <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
                                 </center>
                             </div>`;
                         }

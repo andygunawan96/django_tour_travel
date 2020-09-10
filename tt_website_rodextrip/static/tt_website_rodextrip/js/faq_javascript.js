@@ -171,8 +171,8 @@ function update_faq(){
 }
 
 
-function delete_faq(){
-    faq_number = parseInt(document.getElementById('faq_choose').value) - 1
+function delete_faq_btn(){
+    faq_number = parseInt(document.getElementById('faq_choose').value) - 1;
     error_log = '';
     if(document.getElementById('sequence_faq').value == ''){
         error_log += 'Please input FAQ Number\n';

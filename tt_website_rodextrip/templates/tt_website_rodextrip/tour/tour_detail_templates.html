@@ -45,6 +45,16 @@
 
 <title id="title_search">{{name}} {% trans 'Tour' %} - {% trans 'Detail' %} {{response.name}}</title>
 
+{% if username.co_user_login != 'agent_b2c' %}
+<section id="info_user_search" style="position: fixed; z-index:1050; width: 300px; top:0px; right:15px;" hidden>
+    <div style="padding:12px; background:white; border:1px solid {{color}};">
+        <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
+        <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
+        <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
+    </div>
+</section>
+{% endif %}
+
 {%if template == 1%}
 <section class="destinations-area" style="padding:15px 0px 15px 0px; background:white; border-bottom:1px solid #cdcdcd; z-index:90; position:relative;">
     <div id="hotel_search_params" class="container">
@@ -752,17 +762,6 @@
                 <span style="font-size:14px; font-weight:600;">{% trans 'Elapsed Time' %} <span class="count_time" id="elapse_time"> </span></span>
             </div>
         </div>
-        {% if username.co_user_login != 'agent_b2c' %}
-        <div class="row" id="info_user_search" style="padding-bottom:15px; position: sticky; top: 0px; z-index: 2;">
-            <div class="col-lg-12">
-                <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                    <i class="fas fa-user" style="padding-right:5px; color:{{color}}; font-size:16px;"></i><span title="{{username.co_user_login}}" style="font-size:13px; font-weight:600; padding-right:10px; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{username.co_user_login}}</span>
-                    <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
-                    <span id="credit_search" style="font-size:13px; font-weight:500;"></span>
-                </div>
-            </div>
-        </div>
-        {% endif %}
 
 
         {% if template == 1%}
@@ -776,7 +775,7 @@
             <div class="col-lg-12 header-right" style="background:unset; border:unset;">
         {%endif%}
                 {% csrf_token %}
-                <div class="row" style="position:sticky;top: 40px;z-index: 89;">
+                <div class="row" style="position:sticky;top: 0px;z-index: 89;">
                     <div class="col-lg-12">
                         <div class="box-sticky-hotel" style="margin-bottom:unset;">
                             <button class="content-tour primary-btn-sticky-hotel" type="button" id="description-tour">{% trans 'Description' %}</button>
@@ -785,7 +784,7 @@
                     </div>
                 </div>
                 <div class="row" id="div-description-tour" style="padding:15px;">
-                    <div class="col-lg-12" style="width:100%; background-color:white; padding:20px 20px 20px 20px; border: 1px solid #ddd;">
+                    <div class="col-lg-12" style="width:100%; background-color:white; padding:20px; border: 1px solid #ddd;">
                         <div class="row">
                             <div class="col-lg-4 col-md-4">
                                 <div id="tour_carousel">
@@ -803,10 +802,8 @@
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12 mt-3" style="padding:0px;">
                         {%if template == 1%}
                         <ul class="nav nav-tabs-activity" style="text-align:center;">
                             <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
@@ -1082,7 +1079,7 @@
             if ($(this).scrollTop() >= 66) {
                 if ($(window).width() >= 992){
                    {% if username.co_user_login != 'agent_b2c' %}
-                   document.getElementById("info_user_search").style.display = "block";
+                   document.getElementById("info_user_search").hidden = false;
                    {% endif %}
                    try{
                        document.getElementById("balance_search").innerHTML = document.getElementById("balance").innerHTML;
@@ -1092,12 +1089,12 @@
                    }catch(err){}
                 }else{
                    {% if username.co_user_login != 'agent_b2c' %}
-                   document.getElementById("info_user_search").style.display = "none";
+                   document.getElementById("info_user_search").hidden = true;
                    {% endif %}
                 }
             }else{
                 {% if username.co_user_login != 'agent_b2c' %}
-                document.getElementById("info_user_search").style.display = "none";
+                document.getElementById("info_user_search").hidden = true;
                 {% endif %}
             }
         });
@@ -1137,13 +1134,13 @@
         });
 
       $(window).scroll(function() {
-        if($(this).scrollTop()>=$('#div-description-tour').position().top+55 && $(this).scrollTop()<$('#div-product-tour').position().top+55){
+        if($(this).scrollTop()>=$('#div-description-tour').position().top+190 && $(this).scrollTop()<$('#div-product-tour').position().top+190){
             active_sticky_tour("description");
         }
-        else if($(this).scrollTop()>=$('#div-product-tour').position().top+55){
+        else if($(this).scrollTop()>=$('#div-product-tour').position().top+190){
             active_sticky_tour("product");
         }
-        else if($(this).scrollTop() < $('#div-description-tour').position().top+55){
+        else if($(this).scrollTop() < $('#div-description-tour').position().top+190){
             $(".content-tour").removeClass("sticky-tour-active");
         }
       });

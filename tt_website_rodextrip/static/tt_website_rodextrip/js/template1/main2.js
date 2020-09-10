@@ -838,7 +838,6 @@ function go_to_owl_carousel(counter){
     }
 
     document.getElementById("total_image_hotel").innerHTML = counter + " of " + $lengthimg;
-    document.getElementById("total_image_hotel_modal").innerHTML = counter + " of " + $lengthimg;
 }
 
 
