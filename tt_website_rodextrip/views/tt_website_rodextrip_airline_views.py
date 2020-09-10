@@ -1203,6 +1203,7 @@ def review_after_sales(request):
                     sell_ssrs = []
                     sell_ssrs_request = []
                     passengers_list = []
+                    page = 'ssr'
                     for pax in passenger:
                         pax['ssr_list'] = []
                     ssr_response = request.session['airline_get_ssr']['result']['response']
@@ -1250,6 +1251,7 @@ def review_after_sales(request):
                                 request.session['airline_create_passengers']['child']
                     passengers = json.loads(request.POST['passenger'])
                     #
+                    page = 'seat'
                     for idx, pax in enumerate(passengers):
                         passenger[idx]['seat_list'] = passengers[idx]['seat_list']
                     seat_map_list = request.session['airline_get_seat_availability']['result']['response']
@@ -1318,6 +1320,7 @@ def review_after_sales(request):
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['airline_signature'],
                 'time_limit': 1200,
+                'page': page
                 # 'co_uid': request.session['co_uid'],
                 # 'balance': request.session['balance']['balance'] + request.session['balance']['credit_limit'],
             })

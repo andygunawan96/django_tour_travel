@@ -5151,7 +5151,8 @@ function sell_ssrs_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                update_booking_after_sales();
+                if(state == 'issued')
+                    get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -5195,7 +5196,8 @@ function assign_seats_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                update_booking_after_sales();
+                if(state == 'issued')
+                    get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
