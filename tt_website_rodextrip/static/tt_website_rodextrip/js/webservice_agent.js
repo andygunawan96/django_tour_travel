@@ -513,6 +513,7 @@ function signup_b2c(){
                 'signature': signature,
                 "phone": document.getElementById('b2c_phone_code').value + document.getElementById('b2c_phone').value,
                 "email": document.getElementById('b2c_email').value,
+                "title": document.getElementById('b2c_title').value,
                 "first_name": document.getElementById('b2c_first_name').value,
                 "last_name": document.getElementById('b2c_last_name').value,
                 "nationality_code": document.getElementById('b2c_nationality').value,
