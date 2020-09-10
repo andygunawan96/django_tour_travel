@@ -195,6 +195,10 @@ def search(request):
             data.update({
                 "customer_email": request.POST['customer_email']
             })
+        if request.POST.get('e_voucher_code'):
+            data.update({
+                'e_voucher_code': request.POST['e_voucher_code']
+            })
 
         request.session['ppob_search_request'] = data
         headers = {
