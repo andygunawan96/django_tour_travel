@@ -63,7 +63,6 @@
     airline_carriers = airline_carriers.replace(/False/g, 'false');
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
-    after_sales_type = '{{after_sales_type}}';
     passengers = `{{passengers}}`;
     passengers = passengers.replace(/&#39;/g, '"');
     passengers = passengers.replace(/True/g, true);
@@ -161,7 +160,7 @@
         <form method="POST" id="airline_booking" action="">
             {% csrf_token %}
             <div class="row">
-                <div class="col-lg-12" id="show_loading_booking_airline">
+                <div class="col-lg-12" id="show_loading_booking_airline" hidden>
                     <div class="center-div">
                         <div>
                             <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
@@ -202,8 +201,11 @@
                          {% trans 'Issued Booking' %}
                     </button>
                     {% endif %}
-                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq" hidden>
-
+                    <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq">
+                        <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="after_sales_next_btn();" style="width:100%;">
+                            Next
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>
                     </div>
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
@@ -236,12 +238,10 @@
     airline_detail('request_new');
     get_airline_review_after_sales();
     booker_id = '{{airline_getbooking.booker.seq_id}}';
+    order_number = '{{airline_getbooking.order_number}}';
     state = '{{airline_getbooking.state}}';
-    {% if page == 'ssr' %}
-    sell_ssrs_after_sales();
-    {% elif page == 'seat' %}
-    assign_seats_after_sales();
-    {% endif %}
+    page = '{{page}}';
+
     document.getElementById('payment_acq').hidden = false;
 </script>
 <!-- loader -->

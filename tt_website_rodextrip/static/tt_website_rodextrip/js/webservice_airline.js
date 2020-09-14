@@ -5130,9 +5130,9 @@ function gotoForm(){
 function sell_after_sales(){
     show_loading();
     please_wait_transaction();
-    if(after_sales_type == 'ssr'){
+    if(page == 'ssr'){
         sell_ssrs_after_sales();
-    }else if(after_sales_type == 'seat'){
+    }else if(page == 'seat'){
         assign_seats_after_sales();
     }
 }
@@ -5151,8 +5151,11 @@ function sell_ssrs_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                if(state == 'issued')
+                if(state == 'issued'){
                     get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
+                }else{
+                    update_booking_after_sales();
+                }
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
@@ -5182,6 +5185,31 @@ function sell_ssrs_after_sales(){
     });
 }
 
+function after_sales_next_btn(){
+    text = 'Are you sure you want to change ';
+    if(page == 'ssr')
+        text+= 'SSR?';
+    else if(page == 'seat')
+        text+= 'Seat?';
+    Swal.fire({
+      title: text,
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        if(page == 'ssr'){
+            sell_ssrs_after_sales();
+        }else if(page == 'seat'){
+            assign_seats_after_sales();
+        }
+      }
+    })
+
+}
+
 function assign_seats_after_sales(){
     getToken();
     $.ajax({
@@ -5196,19 +5224,23 @@ function assign_seats_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                if(state == 'issued')
+                if(state == 'issued'){
                     get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
+                }else
+                    update_booking_after_sales();
            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                 auto_logout();
            }else{
                 Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline seat after sales </span>' + msg.result.error_msg,
+                  title: 'Error please try again!',
+                  type: 'warning',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Yes'
+                }).then((result) => {
+                  window.location = '/airline/booking/'+btoa(order_number);
                 })
-                $('.loader-rodextrip').fadeOut();
-                $('.btn-next').removeClass('running');
-                $('.btn-next').prop('disabled', false);
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -5259,13 +5291,15 @@ function update_booking_after_sales(){
                     auto_logout();
                }else{
                     Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline update booking </span>' + msg.result.error_msg,
+                      title: 'Error please try again!',
+                      type: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Yes'
+                    }).then((result) => {
+                      window.location = '/airline/booking/'+btoa(order_number);
                     })
-                    $('.loader-rodextrip').fadeOut();
-                    $('.btn-next').removeClass('running');
-                    $('.btn-next').prop('disabled', false);
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
