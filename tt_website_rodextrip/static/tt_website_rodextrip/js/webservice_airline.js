@@ -6961,7 +6961,7 @@ function sell_journey_reissue_construct(){
 
                            }
                            get_price_itinerary_reissue_request(airline_response);
-                           get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, '', 'billing',signature,'airline_reissue');
+                           get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                            document.getElementById('payment_acq').hidden = false;
                        }else{
                            Swal.fire({
