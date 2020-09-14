@@ -142,7 +142,7 @@ def get_auto_complete(request):
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
-        for rec in find_hotel_ilike(req['name'].lower(), record_cache, limit, ['city']):
+        for rec in find_hotel_ilike(req['name'].lower(), record_cache, limit, []):
             if len(record_json) < limit:
                 # if rec['type'] != 'hotel':
                 #     record_json.append(rec['name'] + ' - ' + rec['type'])
