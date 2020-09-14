@@ -1240,7 +1240,6 @@ def review_after_sales(request):
                     if len(sell_ssrs) > 0:
                         request.session['airline_ssr_request'] = sell_ssrs
                     sell_ssrs = []
-                    after_sales_type = 'ssr'
                 except:
                     print('airline no ssr')
 
@@ -1278,7 +1277,6 @@ def review_after_sales(request):
                                 })
                             pax_request = []
                     request.session['airline_seat_request'] = segment_seat_request
-                    after_sales_type = 'seat'
                 except:
                     print('airline no seatmap')
 
@@ -1309,7 +1307,6 @@ def review_after_sales(request):
                 'phone_code': phone_code,
                 'back_page': request.META.get('HTTP_REFERER'),
                 'airline_carriers': airline_carriers,
-                'after_sales_type': after_sales_type,
                 'goto': goto,
                 'airline_getbooking': request.session['airline_get_booking_response']['result']['response'],
                 'additional_price': float(additional_price_input.split(' ')[len(additional_price_input.split(' '))-1]),
