@@ -906,7 +906,7 @@ function set_price(val, type, product_type){
     else if(type == 'airline_reissue')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline_after_sales')
-        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="sell_after_sales();" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Proceed Request <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'hotel_review')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_hotel(1);" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'activity_review')
