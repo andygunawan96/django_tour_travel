@@ -111,9 +111,12 @@ def login(request):
 
 
 def get_auto_complete(request):
-    def find_hotel_ilike(search_str, record_cache, limit=10):
+    def find_hotel_ilike(search_str, record_cache, limit=10, search_type=[]):
         hotel_list = []
         for rec in record_cache:
+            if search_type:
+                if rec['type'] not in search_type:
+                    continue
             if len(hotel_list) == limit:
                 return hotel_list
             is_true = True
@@ -139,10 +142,11 @@ def get_auto_complete(request):
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
-        for rec in find_hotel_ilike(req['name'].lower(), record_cache, limit):
+        for rec in find_hotel_ilike(req['name'].lower(), record_cache, limit, ['city']):
             if len(record_json) < limit:
-                if rec['type'] != 'hotel':
-                    record_json.append(rec['name'] + ' - ' + rec['type'])
+                # if rec['type'] != 'hotel':
+                #     record_json.append(rec['name'] + ' - ' + rec['type'])
+                record_json.append(rec['name'] + ' - ' + rec['type'])
             else:
                 break
 

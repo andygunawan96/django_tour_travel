@@ -3516,7 +3516,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
-            if(msg.result.response.state == 'issued' || msg.result.response.state == 'reschedule'){
+            if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled'){
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){}
@@ -5152,7 +5152,7 @@ function sell_ssrs_after_sales(){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(state == 'issued'){
-                    get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
+                    get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
                 }else{
                     update_booking_after_sales();
                 }
@@ -7238,7 +7238,7 @@ function airline_get_booking_refund(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
-            if(msg.result.response.state == 'issued' || msg.result.response.state == 'reschedule'){
+            if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled'){
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){}
