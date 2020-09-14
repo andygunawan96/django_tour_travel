@@ -61,11 +61,11 @@ function get_config_ppob(){
                         text+=`<input type="radio" name="bills_type" value="`+i+`">`;
                     }
                     if(i == 'bpjs'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:60px; height:60px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:60px; height:60px; padding:0px;"><br/>`;
                     }else if(i == 'pln'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:60px; height:60px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:60px; height:60px; padding:0px;"><br/>`;
                     }else if(i == 'e-voucher'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:60px; height:60px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/evoucher.png" style="width:60px; height:60px; padding:0px;"><br/>`;
                     }
                 text+=`<div style="text-align:center;"><span style="font-size:15px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
                 </label>`;
