@@ -5151,7 +5151,9 @@ function sell_ssrs_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                if(state == 'issued'){
+                if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
+                    //$("#waitingTransaction").modal('hide');
+                    //document.getElementById('show_loading_booking_airline').hidden = false;
                     get_payment_acq('Issued',booker_id, order_number, 'billing',signature,'airline_after_sales');
                 }else{
                     update_booking_after_sales();
@@ -5200,6 +5202,8 @@ function after_sales_next_btn(){
       confirmButtonText: 'Yes'
     }).then((result) => {
       if (result.value) {
+        //show_loading();
+        //please_wait_transaction();
         if(page == 'ssr'){
             sell_ssrs_after_sales();
         }else if(page == 'seat'){
@@ -5224,7 +5228,9 @@ function assign_seats_after_sales(){
        success: function(msg) {
            console.log(msg);
            if(msg.result.error_code == 0){
-                if(state == 'issued'){
+                if(state == 'issued' || state == 'reissue' || state == 'rescheduled'){
+                    //$("#waitingTransaction").modal('hide');
+                    //document.getElementById('show_loading_booking_airline').hidden = false;
                     get_payment_acq('Issued',booker_id, '', 'billing',signature,'airline_after_sales');
                 }else
                     update_booking_after_sales();
