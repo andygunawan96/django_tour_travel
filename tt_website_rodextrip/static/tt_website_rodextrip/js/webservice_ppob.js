@@ -64,6 +64,8 @@ function get_config_ppob(){
                         text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:60px; height:60px;"><br/>`;
                     }else if(i == 'pln'){
                         text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:60px; height:60px;"><br/>`;
+                    }else if(i == 'e-voucher'){
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:60px; height:60px;"><br/>`;
                     }
                 text+=`<div style="text-align:center;"><span style="font-size:15px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
                 </label>`;
@@ -156,6 +158,7 @@ function search_ppob(){
     customer_number = '';
     amount_of_month = 0;
     total = 0;
+    e_voucher = '';
     error_log = '';
     customer_number = document.getElementById('bpjs_number').value;
     customer_email = '';
@@ -196,7 +199,7 @@ function search_ppob(){
                 }
             }
         }
-    }else{
+    }else if(bill_type == 'pln'){
         product_code = document.getElementById('pln_type').value;
         if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
             if(check_pln_prepaid(customer_number) == true){
@@ -295,10 +298,48 @@ function search_ppob(){
                 }
             }
         }
+    }else if(bill_type == 'e-voucher'){
+        product_code = document.getElementById('e-voucher_type').value;
+        if(document.getElementById('e-voucher_type').options[document.getElementById('e-voucher_type').selectedIndex].text == 'Prepaid Mobile'){
+            if(check_evoucher(customer_number) == true){
+                for(i in ppob_data.product_data){
+                    if(check_break == false){
+                        for(j in ppob_data.product_data[i]){
+                            if(ppob_data.product_data[i][j].name == document.getElementById('e-voucher_type').options[document.getElementById('e-voucher_type').selectedIndex].text){
+                                if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }else{
+                        break;
+                    }
+                }
+            }else{
+                for(i in ppob_data.product_data){
+                    if(check_break == false){
+                        for(j in ppob_data.product_data[i]){
+                            if(ppob_data.product_data[i][j].name == document.getElementById('e-voucher_type').options[document.getElementById('e-voucher_type').selectedIndex].text){
+                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                check_break = true;
+                                break;
+                            }
+                        }
+                    }else{
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     try{
         total = document.getElementById('pln_nominal').value
+    }catch(err){}
+    try{
+        e_voucher = document.getElementById('e-voucher_nominal').value
     }catch(err){}
     try{
         customer_email = document.getElementById('customer_email').value
@@ -323,6 +364,7 @@ function search_ppob(){
                 'provider': search_provider_ppob,
                 'signature': signature,
                 'total': total,
+                'e_voucher_code': e_voucher,
                 'amount_of_month': amount_of_month,
                 'customer_email': customer_email
            },

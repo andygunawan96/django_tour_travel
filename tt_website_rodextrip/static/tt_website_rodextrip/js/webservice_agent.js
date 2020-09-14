@@ -2291,6 +2291,15 @@ function check_pln_postpaid(value){
     }
 }
 
+function check_evoucher(value){
+    var checknumber = "^08[1-9]{2}[0-9]{5,9}$";
+    if(value.match(checknumber)!=null){
+        return true
+    }else{
+        return false;
+    }
+}
+
 function check_email(value){
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(value)
