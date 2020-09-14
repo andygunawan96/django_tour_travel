@@ -3516,7 +3516,7 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
 
-            if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled'){
+            if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled' || msg.result.response.state == 'reissue'){
                 try{
                     document.getElementById('voucher_discount').style.display = 'none';
                 }catch(err){}
@@ -5339,16 +5339,16 @@ function reissued_btn(){
                 <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reset">
             </div><br/>`;
     for(i in airline_get_detail.result.response.provider_bookings){
-        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
-            text += `<div id="reissue_`+j+`">`;
-            text += `<input type='hidden' id="pnr`+j+`" value=`+airline_get_detail.result.response.provider_bookings[i].pnr+`>`;
+        text += `<div id="reissue_`+i+`">`;
+            text += `<input type='hidden' id="pnr`+i+`" value=`+airline_get_detail.result.response.provider_bookings[i].pnr+`>`;
             text += `<div class="row">
                        <div class="col-lg-10 col-xs-10">`;
                 text+=`</div>
                        <div class="col-lg-2 col-xs-2">
-                        <label onclick="delete_reissue('reissue_`+j+`')">X</label>
+                        <label onclick="delete_reissue('reissue_`+i+`')">X</label>
                        </div>
                    </div>`;
+        for(j in airline_get_detail.result.response.provider_bookings[i].journeys){
             for(k in airline_get_detail.result.response.provider_bookings[i].journeys[j].segments){
                 //kasih silang kasih reset
                 text+=`<h5>`+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_name+' '+airline_get_detail.result.response.provider_bookings[i].journeys[j].segments[k].carrier_number+`</h5>`;

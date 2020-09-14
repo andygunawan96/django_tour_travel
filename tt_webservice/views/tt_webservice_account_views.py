@@ -189,7 +189,7 @@ def signup_user(request):
         "password": '',
     }
 
-    res = util.send_request(url=url+'account', data=data, headers=headers, method='POST', timeout=10)
+    res = util.send_request(url=url+'account', data=data, headers=headers, method='POST', timeout=30)
     try:
         if res['result']['error_code'] == 0:
             _logger.info("CREATE USER SUCCESS SIGNATURE " + res['result']['response']['signature'])
