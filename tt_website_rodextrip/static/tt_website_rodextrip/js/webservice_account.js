@@ -239,6 +239,7 @@ function get_transactions_notification(val){
                                 <hr>
                             </div>`;
                     }catch(err){}
+                    $(".bell_notif").removeClass("infinite");
                 }else{
                     for(i in msg.result.response){
                         for(j in msg.result.response[i]){
@@ -311,6 +312,7 @@ function get_transactions_notification(val){
                                     </div>`;
                             }catch(err){}
                         }catch(err){}
+                        $(".bell_notif").removeClass("infinite");
                     }
                 }
                 setTimeout(function() {
