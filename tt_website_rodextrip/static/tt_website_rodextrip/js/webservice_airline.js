@@ -100,6 +100,7 @@ function airline_signin(data,type=''){
                airline_signature = msg.result.response.signature;
                signature = msg.result.response.signature;
                if(data == ''){
+                   get_provider_list('search');
                    get_carrier_providers();
 
                }else if(data != '' && type == ''){
@@ -1372,7 +1373,7 @@ function get_price_itinerary_request(){
        data: {
           "promo_codes": JSON.stringify(promotion_code_list),
           "journeys_booking": JSON.stringify(journey),
-          'signature': airline_signature,
+          'signature': signature,
           'separate_journey': separate,
        },
        success: function(resJson) {
@@ -2130,7 +2131,7 @@ function get_fare_rules(){
             'action': 'get_fare_rules',
        },
        data: {
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -2234,7 +2235,7 @@ function airline_sell_journeys(){
             'action': 'sell_journeys',
        },
        data: {
-            'signature': airline_signature,
+            'signature': signature,
        },
        success: function(msg) {
            console.log(msg);
@@ -2290,7 +2291,7 @@ function get_seat_availability(type){
             'action': 'get_seat_availability',
        },
        data: {
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -2331,7 +2332,7 @@ function get_post_seat_availability(){
             'action': 'get_post_seat_availability',
        },
        data: {
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -2377,7 +2378,7 @@ function get_post_ssr_availability(){
             'action': 'get_post_ssr_availability',
        },
        data: {
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -2681,7 +2682,7 @@ function get_ssr_availability(type){
             'action': 'get_ssr_availability',
        },
        data: {
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -2718,7 +2719,7 @@ function get_ff_availability(type){
             'action': 'get_ff_availability',
        },
        data: {
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
             console.log(msg);
@@ -2728,11 +2729,11 @@ function get_ff_availability(type){
             }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
                 window.location.href='/airline/ssr';
             else if(type == 'request_new_ssr')
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline ff availability </span>' + msg.result.error_msg,
-                    })
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline ff availability </span>' + msg.result.error_msg,
+                })
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){
@@ -3430,7 +3431,7 @@ function airline_get_booking(data){
        },
        data: {
             'order_number': data,
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
@@ -4366,7 +4367,16 @@ function airline_get_booking(data){
                                 <h5> Refund</h5>
                             <hr/>`;
                     for(i in msg.result.response.refund_list){
-                        text += `<div style="text-align:left">
+                        text += `
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-weight:500;font-size:15px;">`+msg.result.response.refund_list[i].reschedule_number+`</span></div>
+                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-weight:500;font-size:15px;">State: `+msg.result.response.refund_list[i].state+`</span>
+                                    </div>
+                                 </div>
+
+                                 <div style="text-align:left">
                                     <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.refund_list[i].pnr+` </span>
                                  </div>
                                  <div class="row" style="margin-bottom:5px;">
@@ -5146,7 +5156,7 @@ function sell_ssrs_after_sales(){
             'action': 'sell_post_ssrs',
        },
        data: {
-            'signature': airline_signature
+            'signature': signature
        },
        success: function(msg) {
            console.log(msg);
@@ -5267,7 +5277,7 @@ function assign_seats_after_sales(){
 
 function update_booking_after_sales(){
     data = {};
-    data['signature'] = airline_signature;
+    data['signature'] = signature;
     error_log = '';
     if($("[name='radio_payment_type']").val() != undefined){
         data['seq_id'] = payment_acq2[payment_method][selected].seq_id;

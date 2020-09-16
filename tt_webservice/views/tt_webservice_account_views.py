@@ -306,11 +306,11 @@ def get_balance(request):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_balance",
-                "signature": request.session['signature'],
+                "signature": request.POST['signature'],
             }
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
-        time.sleep(0.5)
+        time.sleep(1.5)
         try:
             res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
             request.session['get_balance_session'] = res
@@ -343,8 +343,8 @@ def get_balance(request):
                         "action": "get_balance",
                         "signature": request.POST['signature'],
                     }
+                    time.sleep(1.5)
                     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-                    time.sleep(1)
                     request.session['get_balance_session'] = res
                     _logger.info(json.dumps(request.session['get_balance_session']))
                     request.session.modified = True
@@ -362,12 +362,12 @@ def get_balance(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_balance",
-                    "signature": request.session['signature'],
+                    "signature": request.POST['signature'],
                 }
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
+            time.sleep(1.5)
             res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-            time.sleep(1)
             request.session['get_balance_session'] = res
             _logger.info(json.dumps(request.session['get_balance_session']))
             request.session.modified = True
