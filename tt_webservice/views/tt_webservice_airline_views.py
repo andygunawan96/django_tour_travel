@@ -200,15 +200,12 @@ def login(request):
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            if 'airline_signature' in request.session:
-                del request.session['airline_signature']
+            time.sleep(2)
             request.session['airline_signature'] = res['result']['response']['signature']
-            if 'signature' in request.session:
-                del request.session['signature']
             request.session['signature'] = res['result']['response']['signature']
             _logger.info(json.dumps(request.session['airline_signature']))
-            request.session.modified = True
             _logger.info("SIGNIN AIRLINE SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            request.session.modified = True
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -1589,7 +1586,6 @@ def get_booking(request):
                                         'destination_name': destination['name'],
                                     })
                                     break
-            time.sleep(5)
             response = copy.deepcopy(res)
             for rec in response['result']['response']['provider_bookings']:
                 rec['error_msg'] = ''

@@ -381,7 +381,6 @@ def get_public_holiday(request):
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }
-
         res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
     except Exception as e:
         res = {
