@@ -7836,3 +7836,26 @@ ul.edit_tabs li.current .image-rounded-icon{
         display:none;
     }
 }
+
+.radio-label {
+    padding-right:15px;
+    cursor:pointer;
+}
+
+.radio-label  > input {
+  display:none;
+}
+
+.radio-label  > .div_label{
+  cursor:pointer;
+  padding:10px;
+  min-height:90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align:center;
+}
+
+.radio-label > input:checked + .div_label{
+  border:2px solid red !important;
+}

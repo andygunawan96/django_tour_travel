@@ -61,13 +61,13 @@ function get_config_ppob(){
                         text+=`<input type="radio" name="bills_type" value="`+i+`">`;
                     }
                     if(i == 'bpjs'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:60px; height:60px; padding:0px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:70px; height:70px; padding:5px;"><br/>`;
                     }else if(i == 'pln'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:60px; height:60px; padding:0px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:70px; height:70px; padding:5px;"><br/>`;
                     }else if(i == 'e-voucher'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/evoucher.png" style="width:60px; height:60px; padding:0px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/evoucher.png" style="width:70px; height:70px; padding:5px;"><br/>`;
                     }
-                text+=`<div style="text-align:center;"><span style="font-size:15px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
+                text+=`<div style="text-align:center;"><span style="font-size:14px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
                 </label>`;
 
                 //text +=`<label class="radio-button-custom" style="margin-bottom:0px;">
@@ -164,16 +164,29 @@ function search_ppob(){
     customer_email = '';
     check_break = false;
     if(bill_type == 'bpjs'){
-        product_code = document.getElementById('bpjs_type').value;
+        var radios = document.getElementsByName('bpjs_type');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                product_code = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+
         amount_of_month = document.getElementById('bpjs_month').value;
-        if(document.getElementById('bpjs_type').options[document.getElementById('bpjs_type').selectedIndex].text == 'BPJS Kesehatan'){
+        if($bpjs_type_name == 'BPJS Kesehatan'){
             if(check_number(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('bpjs_type').options[document.getElementById('bpjs_type').selectedIndex].text){
+                            if(ppob_data.product_data[i][j].name == $bpjs_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    }else{
+                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    }
                                     check_break = true;
                                     break;
                                 }
@@ -187,10 +200,16 @@ function search_ppob(){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('bpjs_type').options[document.getElementById('bpjs_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
-                                check_break = true;
-                                break;
+                            if(ppob_data.product_data[i][j].name == $bpjs_type_name){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }else{
+                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }
                             }
                         }
                     }else{
@@ -200,15 +219,28 @@ function search_ppob(){
             }
         }
     }else if(bill_type == 'pln'){
-        product_code = document.getElementById('pln_type').value;
-        if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Prepaid'){
+        var radios = document.getElementsByName('pln_type');
+        for (var j = 0, length = radios.length; j < length; j++) {
+            if (radios[j].checked) {
+                // do whatever you want with the checked radio
+                product_code = radios[j].value;
+                // only one radio can be logically checked, don't check the rest
+                break;
+            }
+        }
+
+        if($pln_type_name == 'PLN Prepaid'){
             if(check_pln_prepaid(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
+                            if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    }else{
+                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    }
                                     check_break = true;
                                     break;
                                 }
@@ -222,10 +254,16 @@ function search_ppob(){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
-                                check_break = true;
-                                break;
+                            if(ppob_data.product_data[i][j].name == $pln_type_name){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }else{
+                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }
                             }
                         }
                     }else{
@@ -233,14 +271,18 @@ function search_ppob(){
                     }
                 }
             }
-        }else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Postpaid'){
+        }else if($pln_type_name == 'PLN Postpaid'){
             if(check_pln_postpaid(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
+                            if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    }else{
+                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    }
                                     check_break = true;
                                     break;
                                 }
@@ -254,10 +296,16 @@ function search_ppob(){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
-                                check_break = true;
-                                break;
+                            if(ppob_data.product_data[i][j].name == $pln_type_name){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }else{
+                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }
                             }
                         }
                     }else{
@@ -265,14 +313,18 @@ function search_ppob(){
                     }
                 }
             }
-        }else if(document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text == 'PLN Non Tagihan'){
+        }else if($pln_type_name == 'PLN Non Tagihan'){
             if(check_pln_non_tagihan(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
+                            if(ppob_data.product_data[i][j].name == $pln_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    }else{
+                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    }
                                     check_break = true;
                                     break;
                                 }
@@ -286,10 +338,16 @@ function search_ppob(){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('pln_type').options[document.getElementById('pln_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
-                                check_break = true;
-                                break;
+                            if(ppob_data.product_data[i][j].name == $pln_type_name){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }else{
+                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }
                             }
                         }
                     }else{
@@ -299,15 +357,27 @@ function search_ppob(){
             }
         }
     }else if(bill_type == 'e-voucher'){
-        product_code = document.getElementById('e-voucher_type').value;
-        if(document.getElementById('e-voucher_type').options[document.getElementById('e-voucher_type').selectedIndex].text == 'Prepaid Mobile'){
+        var radios = document.getElementsByName('e-voucher_type');
+        for (var co = 0, length = radios.length; co < length; co++) {
+            if (radios[co].checked) {
+                product_code = radios[co].value;
+                break;
+            }
+        }
+
+        //product_code = document.getElementById('e-voucher_type').value;
+        if($evoucher_type_name == 'Prepaid Mobile'){
             if(check_evoucher(customer_number) == true){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('e-voucher_type').options[document.getElementById('e-voucher_type').selectedIndex].text){
+                            if(ppob_data.product_data[i][j].name == $evoucher_type_name){
                                 if(customer_number.length < ppob_data.product_data[i][j].min_cust_number || customer_number.length > ppob_data.product_data[i][j].max_cust_number){
-                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                        error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    }else{
+                                        error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    }
                                     check_break = true;
                                     break;
                                 }
@@ -321,10 +391,16 @@ function search_ppob(){
                 for(i in ppob_data.product_data){
                     if(check_break == false){
                         for(j in ppob_data.product_data[i]){
-                            if(ppob_data.product_data[i][j].name == document.getElementById('e-voucher_type').options[document.getElementById('e-voucher_type').selectedIndex].text){
-                                error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
-                                check_break = true;
-                                break;
+                            if(ppob_data.product_data[i][j].name == $evoucher_type_name){
+                                if(ppob_data.product_data[i][j].min_cust_number != ppob_data.product_data[i][j].max_cust_number){
+                                    error_log += 'Please check customer number must between '+ppob_data.product_data[i][j].min_cust_number+ ' to '+ ppob_data.product_data[i][j].max_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }else{
+                                    error_log += 'Please check customer number must '+ppob_data.product_data[i][j].min_cust_number+'\n';
+                                    check_break = true;
+                                    break;
+                                }
                             }
                         }
                     }else{
@@ -339,7 +415,18 @@ function search_ppob(){
         total = document.getElementById('pln_nominal').value
     }catch(err){}
     try{
-        e_voucher = document.getElementById('e-voucher_nominal').value
+        if($evoucher_type_name == 'Prepaid Mobile'){
+            var radios_nominal = document.getElementsByName('e-voucher_nominal');
+            for (var k = 0, length = radios_nominal.length; k < length; k++) {
+                if (radios_nominal[k].checked) {
+                    e_voucher = radios_nominal[k].value;
+                    break;
+                }
+            }
+            if (e_voucher == ''){
+                error_log += 'Please choose voucher!';
+            }
+        }
     }catch(err){}
     try{
         customer_email = document.getElementById('customer_email').value
