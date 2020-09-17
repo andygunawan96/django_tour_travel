@@ -1639,7 +1639,7 @@ function check_hp_number(){
             }else if(code_voucher == "SM"){
                 text_img = '<img src="/static/tt_website_rodextrip/images/icon/smartfren.png" style="width:auto; height:50px;">';
             }else{
-                text_img = `<h5 style="color:red;">Maaf, operator tidak tersedia untuk nomor tersebut.</h5>`;
+                text_img = `<h5 style="color:`+color+`;">Maaf, operator tidak tersedia untuk nomor tersebut.</h5>`;
             }
             document.getElementById('img_operator').innerHTML = text_img;
             checking_number = 1;

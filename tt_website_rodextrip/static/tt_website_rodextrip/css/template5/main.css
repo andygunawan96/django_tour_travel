@@ -7632,11 +7632,11 @@ ul.edit_tabs li.current .image-rounded-icon{
 .radio-img  > img{
   cursor:pointer;
   padding:10px;
-  border:2px solid white;
+  border:3px solid #cdcdcd;
 }
 
 .radio-img  > input:checked + img{
-  border:2px solid orange;
+  border:3px solid orange;
 }
 
 
