@@ -65,7 +65,7 @@ Licence URI: http://www.os-templates.com/template-terms
           background: -moz-linear-gradient(0deg,rgba(0, 0, 0, 0.4),rgba(0, 0, 0, 0.4)),url("{{background}}") !important;
           background-attachment: fixed !important;
           background-position: center !important;
-          background-size: auto !important;
+          background-size: 100% !important;
           background-repeat: no-repeat !important;
         }
         .price-area {
@@ -192,6 +192,15 @@ Licence URI: http://www.os-templates.com/template-terms
             font-size:15px;
             font-weight:700;
         }
+        .radio-label  > .div_label{
+            border:2px solid {{text_color}};
+        }
+
+        .radio-label > input:checked + .div_label{
+            border:2px solid {{text_color}} !important;
+            background: {{color}};
+        }
+
         .nav-tabs .nav-link.active, .nav-tabs .nav-item.show .nav-link {
             background-color: {{tab_color}} !important;
         }

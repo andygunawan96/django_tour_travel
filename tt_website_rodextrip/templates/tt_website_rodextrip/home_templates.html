@@ -935,7 +935,7 @@
                             {% endif %}
                             {% if "ppob" in provider %}
                             <div class="tab-pane fade" id="bills" role="tabpanel" aria-labelledby="bills-tab">
-                                <form action="" method="POST" class="form-wrap" id="bill_searchForm" onsubmit="return search_train_validation()">
+                                <form action="" method="POST" class="form-wrap" id="bill_searchForm">
                                     {% csrf_token %}
                                     <div class="row">
                                         <div class="col-lg-12" id="radio_bill_search" style="padding:0px; text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
@@ -1057,7 +1057,7 @@
                                     <div class="row">
                                         <div class="col-lg-12 col-sm-12 col-md-12">
                                             <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">
-                                                Rodexshop
+                                                Go to Rodexshop
                                                 <div class="ld ld-ring ld-cycle"></div>
                                             </button>
                                         </div>
@@ -2521,7 +2521,7 @@
                         {% endif %}
                         {% if "ppob" in provider %}
                         <div id="tab-bills" class="tab-content">
-                            <form action="{% url 'tt_website_rodextrip:passport_search'%}" class="form-wrap" id="passport_searchForm" method="post">
+                            <form action="" class="form-wrap" id="bill_searchForm" method="post">
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-lg-12" id="radio_bill_search" style="text-align:left;margin-bottom:10px;" onchange="set_container_bill();">
@@ -2640,10 +2640,12 @@
                             <form method="POST" class="form-wrap">
                                 <div class="row">
                                     <div class="col-lg-12 col-sm-12 col-md-12">
-                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">
-                                            Rodexshop
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </button>
+                                        <center>
+                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">
+                                                Go to Rodexshop
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </button>
+                                        </center>
                                     </div>
                                 </div>
                             </form>
@@ -2662,12 +2664,15 @@
                         </button>
                     </div>
                     {% endif %}
-                    <div id="big_banner" style="margin-top:30px; padding-bottom:15px;">
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div id="big_banner" style="margin-top:30px; padding-bottom:15px;">
 
-                    </div>
                 </div>
             </div>
         </div>
+
     </section>
 
 <!--    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}-->
@@ -2727,10 +2732,6 @@
                             </button>
                         </div>
                     </div>
-
-            </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                 </div>
             </div>
         </div>
@@ -3823,10 +3824,12 @@
                                 <form method="POST" class="form-wrap">
                                     <div class="row">
                                         <div class="col-lg-12 col-sm-12 col-md-12">
-                                            <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">
-                                                Rodexshop
-                                                <div class="ld ld-ring ld-cycle"></div>
-                                            </button>
+                                            <center>
+                                                <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">
+                                                    Go to Rodexshop
+                                                    <div class="ld ld-ring ld-cycle"></div>
+                                                </button>
+                                            </center>
                                         </div>
                                     </div>
                                 </form>
@@ -5035,10 +5038,12 @@
                                     <form method="POST" class="form-wrap">
                                         <div class="row">
                                             <div class="col-lg-12 col-sm-12 col-md-12">
-                                                <button class="button-search primary-btn ld-ext-right" type="button" onclick="window.open('https://rodexshop.id')" value="Submit">
-                                                    Rodexshop
-                                                    <div class="ld ld-ring ld-cycle"></div>
-                                                </button>
+                                                <center>
+                                                    <button class="button-search primary-btn ld-ext-right" type="button" onclick="window.open('https://rodexshop.id')" value="Submit">
+                                                        Go to Rodexshop
+                                                        <div class="ld ld-ring ld-cycle"></div>
+                                                    </button>
+                                                </center>
                                             </div>
                                         </div>
                                     </form>
@@ -5091,10 +5096,6 @@
                             </button>
                         </div>
                     </div>
-
-            </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                 </div>
             </div>
         </div>
@@ -6227,10 +6228,12 @@
                                         <form method="POST" class="form-wrap">
                                             <div class="row">
                                                 <div class="col-lg-12 col-sm-12 col-md-12">
-                                                    <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">
-                                                        Rodexshop
-                                                        <div class="ld ld-ring ld-cycle"></div>
-                                                    </button>
+                                                    <center>
+                                                        <button class="button-search primary-btn ld-ext-right" id="btn-search-event" onclick="window.open('https://rodexshop.id');" type="button" value="Submit">
+                                                            Go to Rodexshop
+                                                            <div class="ld ld-ring ld-cycle"></div>
+                                                        </button>
+                                                    </center>
                                                 </div>
                                             </div>
                                         </form>
@@ -6282,10 +6285,6 @@
                             </button>
                         </div>
                     </div>
-
-            </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{% trans 'Close' %}</button>
                 </div>
             </div>
         </div>
