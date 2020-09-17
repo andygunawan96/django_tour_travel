@@ -3447,6 +3447,7 @@ function airline_get_booking(data){
            airline_get_detail = msg;
            get_payment = false;
            document.getElementById('airline_reissue_div').innerHTML = '';
+           time_now = moment().format('YYYY-MM-DD');
            //get booking view edit here
            if(msg.result.error_code == 0){
             var text = '';
@@ -3516,6 +3517,10 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
+            last_date = '';
+            for(i in msg.result.response.provider_bookings){
+                last_date = msg.result.response.provider_bookings[i].departure_date.substr(0,10);
+            }
 
             if(msg.result.response.state == 'issued' || msg.result.response.state == 'rescheduled' || msg.result.response.state == 'reissue'){
                 try{
@@ -3528,23 +3533,25 @@ function airline_get_booking(data){
                    check_cancel = 0;
                    check_reschedule = 0;
                    check_ff = 0;
-                   for(i in msg.result.response.provider_bookings){
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule){
-                            check_reschedule = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_ssr){
-                            check_ssr = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_seat){
-                            check_seat = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_frequent_flyer){
-                            check_ff = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel){
-                            check_cancel = 1;
-                        }
+                   if(last_date != '' && time_now < last_date){
+                       for(i in msg.result.response.provider_bookings){
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_reschedule){
+                                check_reschedule = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_ssr){
+                                check_ssr = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_seat){
+                                check_seat = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_frequent_flyer){
+                                check_ff = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_issued_cancel){
+                                check_cancel = 1;
+                            }
 
+                       }
                    }
                    if(check_reschedule){
                         document.getElementById('reissued').hidden = false;
@@ -3598,23 +3605,25 @@ function airline_get_booking(data){
                    check_cancel = 0;
                    check_reschedule = 0;
                    check_ff = 0;
-                   for(i in msg.result.response.provider_bookings){
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_reschedule){
-                            check_reschedule = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_ssr){
-                            check_ssr = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_seat){
-                            check_seat = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_frequent_flyer){
-                            check_ff = 1;
-                        }
-                        if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_cancel){
-                            check_cancel = 1;
-                        }
+                   if(last_date != '' && time_now < last_date){
+                       for(i in msg.result.response.provider_bookings){
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_reschedule){
+                                check_reschedule = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_ssr){
+                                check_ssr = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_seat){
+                                check_seat = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_frequent_flyer){
+                                check_ff = 1;
+                            }
+                            if(provider_list_data[msg.result.response.provider_bookings[i].provider].is_post_booked_cancel){
+                                check_cancel = 1;
+                            }
 
+                       }
                    }
                    if(check_reschedule){
                         document.getElementById('reissued').hidden = false;

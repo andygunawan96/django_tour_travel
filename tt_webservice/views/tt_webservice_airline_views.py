@@ -1021,6 +1021,7 @@ def sell_journeys(request):
         if res['result']['error_code'] == 0:
             request.session['sell_journey'+request.POST['signature']] = res
             request.session['sell_journey_data'+request.POST['signature']] = data
+            request.session.modified = True
             _logger.info("SUCCESS sell_journeys AIRLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR sell_journeys_airline AIRLINE SIGNATURE " + request.POST['signature'])
