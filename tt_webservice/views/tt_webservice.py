@@ -1,0 +1,14 @@
+from django.contrib.sessions.models import Session
+import time
+
+def set_session(request, session_key, data, depth = 1):
+    if session_key in request.session:
+        del request.session[session_key]
+    time.sleep(0.1)
+    request.session[session_key] = data
+    request.session.save()
+    request.session.modified = True
+    if session_key in Session.objects.filter(session_key=request.session.session_key).all()[0].get_decoded():
+        pass
+    elif depth < 10:
+        set_session(request, session_key, data, depth+1)

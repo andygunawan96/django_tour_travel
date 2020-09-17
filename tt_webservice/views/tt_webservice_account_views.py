@@ -14,6 +14,7 @@ from django.core.files.storage import FileSystemStorage
 
 _logger = logging.getLogger("rodextrip_logger")
 from .tt_webservice_views import *
+from .tt_webservice import *
 import time
 month = {
     'Jan': '01',
@@ -310,12 +311,10 @@ def get_balance(request):
             }
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
-        time.sleep(1.5)
         try:
             res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-            request.session['get_balance_session'] = res
+            set_session(request, 'get_balance_session', res)
             _logger.info(json.dumps(request.session['get_balance_session']))
-            request.session.modified = True
             if res['result']['error_code'] == 0:
                 time_check.set_new_time_out('balance')
                 time_check.set_first_time('balance')
@@ -343,11 +342,9 @@ def get_balance(request):
                         "action": "get_balance",
                         "signature": request.POST['signature'],
                     }
-                    time.sleep(1.5)
                     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-                    request.session['get_balance_session'] = res
+                    set_session(request, 'get_balance_session', res)
                     _logger.info(json.dumps(request.session['get_balance_session']))
-                    request.session.modified = True
                     time_check.set_new_time_out('balance')
                     time_check.set_first_time('balance')
                 except Exception as e:
@@ -366,11 +363,9 @@ def get_balance(request):
                 }
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
-            time.sleep(1.5)
             res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-            request.session['get_balance_session'] = res
+            set_session(request, 'get_balance_session', res)
             _logger.info(json.dumps(request.session['get_balance_session']))
-            request.session.modified = True
             time_check.set_new_time_out('balance')
             time_check.set_first_time('balance')
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -421,8 +416,7 @@ def get_transactions(request):
 
         res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
         if int(request.POST['offset']) == 0:
-            time.sleep(1)
-            request.session['get_transactions_session'] = res
+            set_session(request, 'get_transactions_session', res)
             _logger.info(json.dumps(request.session['get_transactions_session']))
             request.session.modified = True
         time_check.set_new_time_out('transaction')
@@ -463,10 +457,8 @@ def get_transactions(request):
                 }
                 res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                 if int(request.POST['offset']) == 300:
-                    time.sleep(1)
-                    request.session['get_transactions_session'] = res
+                    set_session(request, 'get_transactions_session', res)
                     _logger.info(json.dumps(request.session['get_transactions_session']))
-                    request.session.modified = True
                 time_check.set_new_time_out('transaction')
                 time_check.set_first_time('transaction')
             except Exception as e:
