@@ -61,13 +61,13 @@ function get_config_ppob(){
                         text+=`<input type="radio" name="bills_type" value="`+i+`">`;
                     }
                     if(i == 'bpjs'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:70px; height:70px; padding:5px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/bpjs.png" style="width:70px; height:70px; padding:0px;"><br/>`;
                     }else if(i == 'pln'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:70px; height:70px; padding:5px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/pln.png" style="width:70px; height:70px; padding:0px;"><br/>`;
                     }else if(i == 'e-voucher'){
-                        text+=`<img src="/static/tt_website_rodextrip/images/icon/evoucher.png" style="width:70px; height:70px; padding:5px;"><br/>`;
+                        text+=`<img src="/static/tt_website_rodextrip/images/icon/evoucher.png" style="width:70px; height:70px; padding:0px;"><br/>`;
                     }
-                text+=`<div style="text-align:center;"><span style="font-size:14px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
+                text+=`<div style="text-align:center; margin-top:5px;"><span style="font-size:13px; color:`+text_color+`;">`+i.toString().toUpperCase()+`</span></div>
                 </label>`;
 
                 //text +=`<label class="radio-button-custom" style="margin-bottom:0px;">
