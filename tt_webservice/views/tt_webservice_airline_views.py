@@ -1590,7 +1590,9 @@ def get_booking(request):
             response = copy.deepcopy(res)
             for rec in response['result']['response']['provider_bookings']:
                 rec['error_msg'] = ''
+            time.sleep(5) #coba tracing lagi
             request.session['airline_get_booking_response'] = response
+            request.session.modified = True
             _logger.info(json.dumps(request.session['airline_get_booking_response']))
 
             _logger.info("SUCCESS get_booking AIRLINE SIGNATURE " + request.POST['signature'])
