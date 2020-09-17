@@ -12,6 +12,7 @@ import random
 import json
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 import base64
@@ -272,7 +273,8 @@ def search(request):
                     'carrier_codes': [],
                     'counter': request.POST['counter']
                 }
-                request.session['airline_carriers_request'] = airline_carriers
+                set_session(request, 'airline_carriers_request', airline_carriers)
+
                 request.session.modified = True
             except:
                 airline_request = request.session['airline_request']
@@ -299,8 +301,9 @@ def search(request):
                         break
 
             airline_request['flight'] = flight
-            request.session['airline_request'] = airline_request
-            request.session['airline_mc_counter'] = 0
+            set_session(request, 'airline_request', airline_request)
+            set_session(request, 'airline_mc_counter', 0)
+
             # get_balance(request)
 
             # airline
@@ -381,7 +384,7 @@ def passenger(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
         except:
             pass
 
@@ -563,21 +566,41 @@ def ssr(request):
                         title_booker = 'MRS'
                     else:
                         title_booker = 'MS'
-                request.session['airline_create_passengers'] = {
+                airline_create_passengers = {
                     'booker': {
-                        "first_name": request.session['airline_get_booking_response']['result']['response']['booker']['first_name'],
-                        "last_name": request.session['airline_get_booking_response']['result']['response']['booker']['last_name'],
+                        "first_name":
+                            request.session['airline_get_booking_response']['result']['response']['booker'][
+                                'first_name'],
+                        "last_name":
+                            request.session['airline_get_booking_response']['result']['response']['booker'][
+                                'last_name'],
                         "title": title_booker,
-                        "email": request.session['airline_get_booking_response']['result']['response']['booker']['email'],
-                        "calling_code": request.session['airline_get_booking_response']['result']['response']['booker']['phones'][len(request.session['airline_get_booking_response']['result']['response']['booker']['phones'])-1]['calling_code'],
-                        "mobile": request.session['airline_get_booking_response']['result']['response']['booker']['phones'][len(request.session['airline_get_booking_response']['result']['response']['booker']['phones'])-1]['calling_number'],
-                        "nationality_name": request.session['airline_get_booking_response']['result']['response']['booker']['nationality_name'],
-                        "contact_seq_id": request.session['airline_get_booking_response']['result']['response']['booker']['seq_id']
+                        "email":
+                            request.session['airline_get_booking_response']['result']['response']['booker'][
+                                'email'],
+                        "calling_code":
+                            request.session['airline_get_booking_response']['result']['response']['booker'][
+                                'phones'][len(
+                                request.session['airline_get_booking_response']['result']['response']['booker'][
+                                    'phones']) - 1]['calling_code'],
+                        "mobile":
+                            request.session['airline_get_booking_response']['result']['response']['booker'][
+                                'phones'][len(
+                                request.session['airline_get_booking_response']['result']['response']['booker'][
+                                    'phones']) - 1]['calling_number'],
+                        "nationality_name":
+                            request.session['airline_get_booking_response']['result']['response']['booker'][
+                                'nationality_name'],
+                        "contact_seq_id":
+                            request.session['airline_get_booking_response']['result']['response']['booker'][
+                                'seq_id']
                     },
                     'adult': adult,
                     'child': child,
                     'infant': infant
                 }
+                set_session(request, 'airline_create_passengers', airline_create_passengers)
+
                 passenger = []
                 for pax in adult:
                     passenger.append(pax)
@@ -726,21 +749,31 @@ def seat_map(request):
                         title_booker = 'MRS'
                     else:
                         title_booker = 'MS'
-                request.session['airline_create_passengers'] = {
+                airline_create_passengers = {
                     'booker': {
-                        "first_name": request.session['airline_get_booking_response']['result']['response']['booker']['first_name'],
-                        "last_name": request.session['airline_get_booking_response']['result']['response']['booker']['last_name'],
+                        "first_name": request.session['airline_get_booking_response']['result']['response']['booker'][
+                            'first_name'],
+                        "last_name": request.session['airline_get_booking_response']['result']['response']['booker'][
+                            'last_name'],
                         "title": title_booker,
                         "email": request.session['airline_get_booking_response']['result']['response']['booker']['email'],
-                        "calling_code": request.session['airline_get_booking_response']['result']['response']['booker']['phones'][len(request.session['airline_get_booking_response']['result']['response']['booker']['phones'])-1]['calling_code'],
-                        "mobile": request.session['airline_get_booking_response']['result']['response']['booker']['phones'][len(request.session['airline_get_booking_response']['result']['response']['booker']['phones'])-1]['calling_number'],
-                        "nationality_code": request.session['airline_get_booking_response']['result']['response']['booker']['nationality_name'],
-                        "contact_seq_id": request.session['airline_get_booking_response']['result']['response']['booker']['seq_id']
+                        "calling_code":
+                            request.session['airline_get_booking_response']['result']['response']['booker']['phones'][len(
+                                request.session['airline_get_booking_response']['result']['response']['booker'][
+                                    'phones']) - 1]['calling_code'],
+                        "mobile": request.session['airline_get_booking_response']['result']['response']['booker']['phones'][
+                            len(request.session['airline_get_booking_response']['result']['response']['booker'][
+                                    'phones']) - 1]['calling_number'],
+                        "nationality_code": request.session['airline_get_booking_response']['result']['response']['booker'][
+                            'nationality_name'],
+                        "contact_seq_id": request.session['airline_get_booking_response']['result']['response']['booker'][
+                            'seq_id']
                     },
                     'adult': adult,
                     'child': child,
                     'infant': infant
                 }
+                set_session(request, 'airline_create_passengers', airline_create_passengers)
                 passenger = []
                 for pax in adult:
                     passenger.append(pax)
@@ -908,8 +941,7 @@ def review(request):
                             })
                         sell_ssrs_request = []
                     if len(sell_ssrs) > 0:
-                        request.session['airline_ssr_request'] = sell_ssrs
-                        request.session.modified = True
+                        set_session(request, 'airline_ssr_request', sell_ssrs)
                     sell_ssrs = []
                 except:
                     print('airline no ssr')
@@ -944,15 +976,15 @@ def review(request):
                                     'passengers': pax_request
                                 })
                             pax_request = []
-                    request.session['airline_seat_request'] = segment_seat_request
-                    request.session.modified = True
+                    set_session(request, 'airline_seat_request', segment_seat_request)
+
                 except:
                     print('airline no seatmap')
 
 
             if request.META.get('HTTP_REFERER').split('/')[len(request.META.get('HTTP_REFERER').split('/'))-1] == 'passenger':
-                request.session['airline_ssr_request'] = {}
-                request.session['airline_seat_request'] = {}
+                set_session(request, 'airline_seat_request', {})
+                set_session(request, 'airline_ssr_request', {})
                 adult = []
                 child = []
                 infant = []
@@ -1118,14 +1150,15 @@ def review(request):
                         "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                         "identity_type": "passport",
                     })
-
-                request.session['airline_create_passengers'] = {
+                airline_create_passengers = {
                     'booker': booker,
                     'adult': adult,
                     'child': child,
                     'infant': infant,
                     'contact': contact
                 }
+                set_session(request, 'airline_create_passengers', airline_create_passengers)
+
                 request.session.modified = True
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
                 for pax in passenger:
@@ -1276,7 +1309,7 @@ def review_after_sales(request):
                                     'passengers': pax_request
                                 })
                             pax_request = []
-                    request.session['airline_seat_request'] = segment_seat_request
+                    set_session(request, 'airline_seat_request', segment_seat_request)
                 except:
                     print('airline no seatmap')
 
@@ -1347,9 +1380,9 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            request.session['airline_order_number'] = base64.b64decode(order_number).decode('ascii')
+            set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            request.session['airline_order_number'] = order_number
+            set_session(request, 'airline_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
@@ -1366,8 +1399,6 @@ def booking(request, order_number):
 def refund(request, order_number):
     try:
         javascript_version = get_javascript_version()
-        if 'airline_create_passengers' in request.session:
-            del request.session['airline_create_passengers']
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
@@ -1382,9 +1413,9 @@ def refund(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            request.session['airline_order_number'] = base64.b64decode(order_number).decode('ascii')
+            set_session(request, 'airline_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            request.session['airline_order_number'] = order_number
+            set_session(request, 'airline_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},
