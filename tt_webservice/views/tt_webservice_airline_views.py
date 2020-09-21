@@ -164,6 +164,8 @@ def api_models(request):
             res = sell_journey_reissue_construct(request, False, 1)
         elif req_data['action'] == 'command_cryptic':
             res = command_cryptic(request)
+        elif req_data['action'] == 'get_refund_itinerary':
+            res = get_refund_itinerary(request)
 
         # elif req_data['action'] == 'get_buy_information':
         #     res = get_buy_information(request)
@@ -1981,6 +1983,30 @@ def command_cryptic(request):
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     return res
 
+def get_refund_itinerary(request):
+    # nanti ganti ke get_ssr_availability
+    try:
+        data = {
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_refund_itinerary",
+            "signature": request.POST['signature'],
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+
+    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
+    try:
+        if res['result']['error_code'] == 0:
+            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
+        else:
+            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
 
 # POST
 def get_post_ssr_availability(request):
