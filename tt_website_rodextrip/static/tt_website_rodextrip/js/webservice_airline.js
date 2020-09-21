@@ -4560,6 +4560,87 @@ function cancel_btn_location(){
     window.location= "/airline/booking/"+btoa(airline_get_detail.result.response.order_number)+"/refund";
 }
 
+function check_refund_btn(){
+    show_loading();
+    please_wait_transaction();
+    getToken();
+    $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'get_refund_itinerary',
+           },
+           data: {
+               'order_number': airline_get_detail.result.response.order_number,
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log("Refund");
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   //update ticket
+                   document.getElementById('refund_detail').hidden = false;
+                   $text = '<h5>Refund:<h5>';
+                   for (i in msg.result.response.provider_bookings){
+                       $text +=  msg.result.response.provider_bookings[i].pnr;
+                       $text += '\nVendor Charge Fee:' + getrupiah(msg.result.response.provider_bookings[i].penalty_amount);
+                       $text += '\nAdmin Fee:' + getrupiah(msg.result.response.provider_bookings[i].admin_fee);
+                       $text += 'Grand Total: IDR '+ getrupiah(msg.result.response.provider_bookings[i].penalty_amount + msg.result.response.provider_bookings[i].admin_fee) + '\n\nPrices and availability may change at any time';
+                   }
+                   document.getElementById('refund_detail').innerHTML = $text;
+                   document.getElementById('show_loading_booking_airline').hidden = false;
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline cancel </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+
+                    $("#waitingTransaction").modal('hide');
+                    document.getElementById("overlay-div-box").style.display = "none";
+
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    $("#waitingTransaction").modal('hide');
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+                }
+           },timeout: 300000
+        });
+}
+
 function cancel_btn(){
     Swal.fire({
       title: 'Are you sure want to Cancel this booking?',
@@ -7282,8 +7363,9 @@ function airline_get_booking_refund(data){
                    }
                    if(check_cancel){
                         document.getElementById('cancel').hidden = false;
-                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Refund Booking"><hr/>`;
-                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Refund All Booking">`;
+                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_btn();" value="Check Refund Price"><hr/>`;
+                        document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
+                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Refund Booking">`;
                    }
                }catch(err){
                 console.log(err);
