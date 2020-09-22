@@ -83,8 +83,8 @@ def login(request):
             "api_key": api_key,
             # "co_user": request.session['username'],
             # "co_password": request.session['password'],
-            "co_user": request.session['username'] or user_default,
-            "co_password": request.session['password'] or password_default,
+            "co_user": request.session.get('username') or user_default,
+            "co_password": request.session.get('password') or password_default,
             "co_uid": ""
         }
         headers = {
@@ -368,7 +368,7 @@ def get_booking(request):
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "get_booking",
-            "signature": request.session['train_signature'],
+            "signature": request.POST['signature'],
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())

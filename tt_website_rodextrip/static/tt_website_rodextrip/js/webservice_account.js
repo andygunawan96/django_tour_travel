@@ -53,6 +53,7 @@ function get_balance(val){
            },
            success: function(msg) {
             console.log(msg);
+            time = 300;
             if(msg.result.error_code == 0){
                 balance = parseInt(msg.result.response.balance);
                 credit_limit = parseInt(msg.result.response.credit_limit);

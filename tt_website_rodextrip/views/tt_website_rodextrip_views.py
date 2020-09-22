@@ -350,7 +350,8 @@ def payment_method(request, provider, order_number):
         'time_limit': time_limit,
         'nomor_rekening': nomor_rekening,
         'amount': amount,
-        'create_date': create_date
+        'create_date': create_date,
+        'signature': request.session['signature']
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
 

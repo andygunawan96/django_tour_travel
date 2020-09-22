@@ -46,8 +46,8 @@ def login(request,func):
             "user": user_global,
             "password": password_global,
             "api_key": api_key,
-            "co_user": request.session['username'] or user_default,
-            "co_password": request.session['password'] or password_default,
+            "co_user": request.session.get('username') or user_default,
+            "co_password": request.session.get('password') or password_default,
             "co_uid": ""
         }
     except Exception as e:

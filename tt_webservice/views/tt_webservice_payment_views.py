@@ -49,6 +49,8 @@ def api_models(request):
             res = testing_payment_webhook(request)
         elif req_data['action'] == 'get_order_number':
             res = get_order_number(request)
+        elif req_data['action'] == 'get_merchant_info':
+            res = get_merchant_info(request)
         elif req_data['action'] == 'check_payment_payment_method':
             res = check_payment_payment_method(request)
         else:
@@ -139,6 +141,22 @@ def get_order_number(request):
         }
         res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
     except:
+        res = 0
+    return res
+
+def get_merchant_info(request):
+    try:
+        data = {
+            'provider': 'espay'
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "merchant_info",
+            "signature": request.POST['signature']
+        }
+        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+    except Exception as e:
         res = 0
     return res
 

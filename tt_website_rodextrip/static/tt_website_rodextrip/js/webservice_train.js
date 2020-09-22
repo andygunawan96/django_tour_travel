@@ -426,7 +426,8 @@ function train_get_booking(data){
             'action': 'get_booking',
        },
        data: {
-            'order_number': data
+            'order_number': data,
+            'signature': signature
        },
        success: function(msg) {
        console.log(msg);
