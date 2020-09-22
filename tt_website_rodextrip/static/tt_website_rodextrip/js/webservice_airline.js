@@ -6812,7 +6812,7 @@ function get_chosen_ticket(type='all'){
     document.getElementById('airline_reissue_div').innerHTML = text;
 }
 
-function get_price_itinerary_reissue_request(airline_response){
+function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
     //ganti dari response
     text = '';
     total_price = 0;
@@ -6955,7 +6955,7 @@ function get_price_itinerary_reissue_request(airline_response){
                 if(airline_response[i].segments[j].fares.length > 0){
                     for(k in airline_response[i].segments[j].fares[0].service_charge_summary){
                         commission += airline_response[i].segments[j].fares[0].service_charge_summary[k].total_commission;
-                        price = airline_response[i].segments[j].fares[0].service_charge_summary[k].total_price;
+                        price = airline_response[i].segments[j].fares[0].service_charge_summary[k].total_fare;
                         currency = airline_response[i].segments[j].fares[0].service_charge_summary[k].service_charges[0].currency;
 
                     }
@@ -6994,17 +6994,26 @@ function get_price_itinerary_reissue_request(airline_response){
         <hr/>
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
+                <span style="font-size:14px; font-weight: bold;"><b>Admin Fee</b></span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
+                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(Math.ceil(total_admin_fee))+`</b></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:left;">
                 <span style="font-size:14px; font-weight: bold;"><b>Total</b></span>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="text-align:right;">
-                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(Math.ceil(total_price))+`</b></span>
+                <span style="font-size:14px; font-weight: bold;"><b>`+currency+` `+getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee))+`</b></span>
             </div>
         </div>
     </div>
     <div class="col-lg-12" style="padding-bottom:10px;">
     <hr/>
     <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-    $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price)) + '\nPrices and availability may change at any time';
+    $text += 'Admin Fee: IDR '+ getrupiah(Math.ceil(total_admin_fee)) + '\n';
+    $text += 'Grand Total: IDR '+ getrupiah(Math.ceil(total_price) + Math.ceil(total_admin_fee)) + '\nPrices and availability may change at any time';
     share_data();
     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
     if (isMobile) {
@@ -7112,7 +7121,7 @@ function sell_journey_reissue_construct(){
                            for(i=0;i<airline_response.length;i++){
 
                            }
-                           get_price_itinerary_reissue_request(airline_response);
+                           get_price_itinerary_reissue_request(airline_response, msg.result.response.total_admin_fee);
                            get_payment_acq('Issued',airline_get_detail.result.response.booker.seq_id, airline_get_detail.result.response.order_number, 'billing',signature,'airline_reissue');
                            document.getElementById('payment_acq').hidden = false;
                        }else{
