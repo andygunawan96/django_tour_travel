@@ -1524,7 +1524,7 @@ function update_service_charge(type){
                 if(type == 'booking'){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
-                    train_get_booking(repricing_order_number);
+                    event_get_booking(repricing_order_number);
                 }else{
                     price_arr_repricing = {};
                     pax_type_repricing = [];

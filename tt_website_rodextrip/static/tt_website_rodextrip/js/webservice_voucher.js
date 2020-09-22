@@ -52,23 +52,34 @@ function set_voucher(type){
 
 function check_voucher(){
     if(document.getElementById('voucher_code').value != ''){
-        provider_type_id = window.location.href.split('/')[window.location.href.split('/').length-2];
+        provider_type_id = window.location.href.split('/')[window.location.href.split('/').length-2 + 5 - window.location.href.split('/').length];
         provider_id = [];
+        order_number = '';
         if(provider_type_id == 'visa'){
-            provider_id = ['visa_rodextrip']
+            try{
+                provider_id = ['visa_rodextrip']
+                order_number = visa.journey.name;
+            }catch(err){}
         }else if(provider_type_id == 'airline'){
             try{
                 //booking
                 for(i in airline_get_detail.result.response.provider_bookings){
                     provider_id.push(airline_get_detail.result.response.provider_bookings[i].provider)
                 }
+
             }catch(err){
                 //review
                 for(i in price_itinerary.price_itinerary_provider)
                     provider_id.push(price_itinerary.price_itinerary_provider[i].provider)
             }
+            try{
+                order_number = airline_get_detail.result.response.order_number;
+            }catch(err){}
         }else if(provider_type_id == 'train'){
-
+            provider_id = ['kai'];
+            try{
+                order_number = train_get_detail.result.response.order_number;
+            }catch(err){}
         }else if(provider_type_id == 'activity'){
             try{
                 provider_id.push(response.provider)
@@ -76,17 +87,26 @@ function check_voucher(){
 //                console.log(act_get_booking.result.response.provider);
                 provider_id.push(act_get_booking.result.response.provider);
             }
+            try{
+                order_number = act_get_booking.result.response.order_number;
+            }catch(err){}
         }else if(provider_type_id == 'tour'){
             try{
                 provider_id.push(provider);
             }catch(err){
                 provider_id.push(tr_get_booking.result.response.provider);
             }
+            try{
+                order_number = tr_get_booking.result.response.order_number;
+            }catch(err){}
             //pending RESPONSE BELOM FIX
 //            console.log(price_data);
 //            console.log(grand_total);
         }else if(provider_type_id == 'hotel'){
             provider_id.push(hotel_pick_provider.provider);
+            try{
+                order_number = hotel_get_detail.result.response.booking_name;
+            }catch(err){}
         }
         voucher_reference = document.getElementById('voucher_code').value; //lalala.testing
 //        voucher_reference = "TEST001";
@@ -100,7 +120,8 @@ function check_voucher(){
                 'signature': signature,
                 'provider_type_id': provider_type_id,
                 'provider_id': JSON.stringify(provider_id),
-                'voucher_reference': voucher_reference
+                'voucher_reference': voucher_reference,
+                'order_number': order_number
            },
            success: function(msg) {
                 voucher_code = voucher_reference;

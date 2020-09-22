@@ -290,7 +290,7 @@ def get_account(request):
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['user_account'] = res['result']['response']
+        set_session(request, 'user_account', res['result']['response'])
         if res['result']['error_code'] == 0:
             _logger.info("get_account_account SUCCESS SIGNATURE " + request.POST['signature'])
         else:
@@ -515,9 +515,8 @@ def get_top_up_quota(request):
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['top_up_amount'] = res['result']['response']
+        set_session(request, 'top_up_amount', res['result']['response'])
         _logger.info(json.dumps(request.session['top_up_amount']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
             _logger.info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
         else:
@@ -540,9 +539,8 @@ def get_top_up_amount(request):
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['top_up_amount'] = res['result']['response']
+        set_session(request, 'top_up_amount', res['result']['response'])
         _logger.info(json.dumps(request.session['top_up_amount']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
             _logger.info("get_top_up_amount_account SUCCESS SIGNATURE " + request.POST['signature'])
         else:

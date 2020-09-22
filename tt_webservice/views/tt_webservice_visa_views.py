@@ -10,6 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 import time
 _logger = logging.getLogger("rodextrip_logger")
@@ -110,13 +111,9 @@ def login(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        time.sleep(1)
-        request.session['visa_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
-        if request.session.get('visa_search'):
-            del request.session['visa_search']
+        set_session(request, 'visa_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['visa_signature']))
-        request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -249,16 +246,15 @@ def search(request):
                 if visa_list:
                     visa_list['result']['response'].append(list_of_visa)
             if visa_list:
-                request.session['visa_search'] = visa_list
+                set_session(request, 'visa_search', visa_list)
             else:
-                request.session['visa_search'] = res
-            request.session['list_of_visa_type'] = {
+                set_session(request, 'visa_search', res)
+            set_session(request, 'list_of_visa_type', {
                 'entry_type': entry_type,
                 'visa_type': visa_type,
                 'process_type': process_type
-            }
+            })
             _logger.info(json.dumps(request.session['visa_search']))
-            request.session.modified = True
             _logger.info("SUCCESS search VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR search_visa TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -516,9 +512,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            request.session['visa_upsell_'+request.POST['signature']] = total_upsell
+            set_session(request, 'visa_upsell_' + request.POST['signature'], total_upsell)
             _logger.info(json.dumps(request.session['visa_upsell_' + request.POST['signature']]))
-            request.session.modified = True
             _logger.info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge VISA SIGNATURE " + request.POST['signature'])

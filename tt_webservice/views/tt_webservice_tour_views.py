@@ -9,6 +9,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 _logger = logging.getLogger("rodextrip_logger")
 
@@ -113,10 +114,9 @@ def login(request):
     }
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        request.session['tour_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
+        set_session(request, 'tour_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['tour_signature']))
-        request.session.modified = True
         _logger.info(
             "SIGNIN TOUR SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
@@ -198,6 +198,7 @@ def get_data(request):
 def search(request):
     try:
         request.session['tour_request'] = json.loads(request.POST['search_request'])
+        set_session(request, 'tour_request', json.loads(request.POST['search_request']))
         data = {
             'country_id': request.session['tour_request']['country_id'],
             'city_id': request.session['tour_request']['city_id'],
@@ -242,8 +243,8 @@ def search(request):
             counter += 1
 
         request.session['tour_search'] = data_tour
+        set_session(request, 'tour_search', data_tour)
         _logger.info(json.dumps(request.session['tour_search']))
-        request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -319,9 +320,8 @@ def get_pricing(request):
                         request.session['tour_pick']['arrival_date'].split('-')[0]),
                 }
             })
-        request.session['tour_price'] = res
+        set_session(request, 'tour_price', res)
         _logger.info(json.dumps(request.session['tour_price']))
-        request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -593,9 +593,8 @@ def commit_booking(request):
 
     res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=300)
     if res['result']['error_code'] == 0:
-        request.session['tour_order_number'] = res['result']['response']['order_number']
+        set_session(request, 'tour_order_number', res['result']['response']['order_number'])
         _logger.info(json.dumps(request.session['tour_order_number']))
-        request.session.modified = True
 
     return res
 
@@ -645,9 +644,8 @@ def get_booking(request):
                 res['result']['response']['arrival_date'].split('-')[0])
             res['result']['response']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['departure_date'])
             res['result']['response']['arrival_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['arrival_date'])
-            request.session['tour_get_booking_response'] = res
+            set_session(request, 'tour_get_booking_response', res)
             _logger.info(json.dumps(request.session['tour_get_booking_response']))
-            request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -738,9 +736,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            request.session['tour_upsell_'+request.POST['signature']] = total_upsell
+            set_session(request, 'tour_upsell_'+request.POST['signature'], total_upsell)
             _logger.info(json.dumps(request.session['tour_upsell_' + request.POST['signature']]))
-            request.session.modified = True
             _logger.info("SUCCESS update_service_charge TOUR SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge TOUR SIGNATURE " + request.POST['signature'])

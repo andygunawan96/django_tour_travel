@@ -14,6 +14,7 @@ import copy
 from io import BytesIO
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from .tt_website_rodextrip_views import *
 _logger = logging.getLogger("rodextrip_logger")
 
@@ -121,7 +122,7 @@ def search(request):
                     'sub_category': request.POST.get('activity_sub_category') and int(request.POST['activity_sub_category']) or 0,
                 }
             except:
-                request.session['activity_search_request'] = request.session['activity_search_request']
+                set_session(request, 'activity_search_request', request.session['activity_search_request'])
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -168,14 +169,13 @@ def detail(request):
             values = get_data_template(request, 'search')
 
             try:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
-                request.session['activity_pick_seq'] = int(request.POST['sequence'])
-                request.session['activity_pick'] = json.loads(request.POST['activity_pick'])
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                set_session(request, 'activity_pick_seq', int(request.POST['sequence']))
+                set_session(request, 'activity_pick', json.loads(request.POST['activity_pick']))
             except:
-                request.session['time_limit'] = request.session['time_limit']
-                request.session['activity_pick_seq'] = request.session['activity_pick_seq']
-                request.session['activity_pick'] = request.session['activity_pick']
-
+                set_session(request, 'time_limit', request.session['time_limit'])
+                set_session(request, 'activity_pick_seq', request.session['activity_pick_seq'])
+                set_session(request, 'activity_pick', request.session['activity_pick'])
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -234,8 +234,8 @@ def passenger(request):
             # get_balance(request)
 
             try:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
-                request.session['activity_request'] = {
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                set_session(request, 'activity_request', {
                     'activity_uuid': request.POST['activity_uuid'],
                     'activity_type_pick': request.POST['activity_type_pick'],
                     'activity_date_pick': request.POST['activity_date_pick'],
@@ -244,10 +244,10 @@ def passenger(request):
                     'event_pick': request.POST['event_pick'],
                     'activity_types_data': json.loads(request.POST['details_data']),
                     'activity_date_data': json.loads(request.POST['activity_date_data']),
-                }
+                })
             except:
-                request.session['time_limit'] = request.session['time_limit']
-                request.session['activity_request'] = request.session['activity_request']
+                set_session(request, 'time_limit', request.session['time_limit'])
+                set_session(request, 'time_limit', request.session['activity_request'])
 
             try:
                 pax_count = {}
@@ -414,7 +414,7 @@ def passenger(request):
                                 "name": perbooking['name']
                             })
 
-                request.session['activity_pax_data'] = {
+                set_session(request, 'activity_pax_data', {
                     'pax_count': pax_count,
                     'adult': adult,
                     'child': child,
@@ -422,25 +422,24 @@ def passenger(request):
                     'senior': senior,
                     'booker_min_age': booker_min_age,
                     'booker_max_age': booker_max_age,
-                }
-                request.session['activity_perbooking'] = perbooking_list
-                request.session['activity_upload'] = upload
-                request.session['activity_details_data'] = json.loads(request.POST['details_data'])
-                request.session['activity_type_pick'] = int(request.POST['activity_type_pick'])
-                request.session['activity_timeslot'] = request.POST['activity_timeslot']
-                request.session['additional_price_input'] = request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0
-                request.session['activity_date_pick'] = int(request.POST['activity_date_pick'])
-                request.session['activity_event_pick'] = int(request.POST['event_pick'])
+                })
+                set_session(request, 'activity_perbooking', perbooking_list)
+                set_session(request, 'activity_upload', upload)
+                set_session(request, 'activity_details_data', json.loads(request.POST['details_data']))
+                set_session(request, 'activity_type_pick', int(request.POST['activity_type_pick']))
+                set_session(request, 'activity_timeslot', request.POST['activity_timeslot'])
+                set_session(request, 'additional_price_input', request.POST.get('additional_price_input') and request.POST['additional_price_input'] or 0)
+                set_session(request, 'activity_date_pick', int(request.POST['activity_date_pick']))
+                set_session(request, 'activity_event_pick', int(request.POST['event_pick']))
             except:
-                request.session['activity_pax_data'] = request.session['activity_pax_data']
-                request.session['activity_perbooking'] = request.session['activity_perbooking']
-                request.session['activity_upload'] = request.session['activity_upload']
-                request.session['activity_details_data'] = request.session['activity_details_data']
-                request.session['activity_type_pick'] = request.session['activity_type_pick']
-                request.session['activity_timeslot'] = request.session['activity_timeslot']
-                request.session['additional_price_input'] = request.session['additional_price_input']
-                request.session['activity_date_pick'] = request.session['activity_date_pick']
-                request.session['activity_event_pick'] = request.session['activity_event_pick']
+                set_session(request, 'activity_perbooking', request.session['activity_perbooking'])
+                set_session(request, 'activity_upload', request.session['activity_upload'])
+                set_session(request, 'activity_details_data', request.session['activity_details_data'])
+                set_session(request, 'activity_type_pick', request.session['activity_type_pick'])
+                set_session(request, 'activity_timeslot', request.session['activity_timeslot'])
+                set_session(request, 'additional_price_input', request.session['additional_price_input'])
+                set_session(request, 'activity_date_pick', request.session['activity_date_pick'])
+                set_session(request, 'activity_event_pick', request.session['activity_event_pick'])
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -521,8 +520,7 @@ def review(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
             values = get_data_template(request)
-
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
             booker = {
                 'title': request.POST['booker_title'],
@@ -1199,8 +1197,7 @@ def review(request):
                 if perpax_list_temp:
                     perpax_list.append(perpax_list_temp)
                 perpax_list_temp = []
-
-            request.session['activity_perpax'] = perpax_list
+            set_session(request, 'activity_perpax', perpax_list)
 
             for rec in adult:
                 all_pax.append(rec)
@@ -1287,7 +1284,7 @@ def review(request):
                 "event_seq": event_id,
             }
 
-            request.session['activity_review_booking'] = {
+            set_session(request, 'activity_review_booking', {
                 'all_pax': all_pax,
                 'contacts': contact,
                 'booker': booker,
@@ -1298,7 +1295,7 @@ def review(request):
                 'skus': skus,
                 'upload_value': upload,
                 'search_request': search_request
-            }
+            })
 
             printout_rec = {
                 "type": "activity",
@@ -1315,8 +1312,7 @@ def review(request):
                     }
                 ],
             }
-
-            request.session['activity_json_printout' + request.session['activity_signature']] = printout_rec
+            set_session(request, 'activity_json_printout' + request.session['activity_signature'], printout_rec)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -1374,9 +1370,9 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            request.session['activity_order_number'] = base64.b64decode(order_number).decode('ascii')
+            set_session(request, 'activity_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            request.session['activity_order_number'] = order_number
+            set_session(request, 'activity_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'order_number': request.session['activity_order_number'],

@@ -76,8 +76,6 @@ def get_voucher(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['visa_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
         _logger.info(json.dumps(request.session['signature']))
         request.session.modified = True
     except Exception as e:
@@ -99,16 +97,14 @@ def set_voucher(request):
             'date': datetime.now().strftime('%Y-%m-%d'),
             'provider_type': 'airline',
             'provider': 'amadeus',
-            'purchase_amount': 0
+            'purchase_amount': 0,
+            'order_number': request.POST['order_number']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
     try:
-        request.session['visa_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
-        _logger.info(json.dumps(request.session['signature']))
-        request.session.modified = True
+        _logger.info(json.dumps(request.POST['signature']))
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -128,6 +124,7 @@ def check_voucher(request):
             'date': datetime.now().strftime('%Y-%m-%d'),
             'provider_type': request.POST['provider_type_id'],
             'provider': json.loads(request.POST['provider_id']),
+            'order_number': request.POST['order_number']
             # 'purchase_amount': 0
         }
     except Exception as e:

@@ -10,6 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 import time
 _logger = logging.getLogger("rodextrip_logger")
@@ -108,11 +109,9 @@ def login(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        time.sleep(1)
-        request.session['bills_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
+        set_session(request, 'bills_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['bills_signature']))
-        request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -199,8 +198,7 @@ def search(request):
             data.update({
                 'e_voucher_code': request.POST['e_voucher_code']
             })
-
-        request.session['ppob_search_request'] = data
+        set_session(request, 'ppob_search_request', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -212,7 +210,7 @@ def search(request):
     res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            request.session['ppob_search_response'] = res
+            set_session(request, 'ppob_search_response', res)
             request.session.modified = True
             pass
         else:
@@ -282,12 +280,11 @@ def get_booking(request):
     res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            time.sleep(1)
             for rec in res['result']['response']['provider_booking']:
                 if len(rec['bill_data']):
                     for rec1 in rec['bill_data']:
                         rec1['period_date'] = parse_date_ppob(rec1['period'])
-            request.session['bills_get_booking_response'] = res
+            set_session(request, 'bills_get_booking_response', res)
             request.session.modified = True
             _logger.info("SUCCESS get_booking VISA SIGNATURE " + request.POST['signature'])
         else:
@@ -389,8 +386,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            request.session['visa_upsell_'+request.POST['signature']] = total_upsell
-            _logger.info(json.dumps(request.session['visa_upsell_' + request.POST['signature']]))
+            set_session(request, 'bills_upsell' + request.POST['signature'], total_upsell)
+            _logger.info(json.dumps(request.session['bills_upsell_' + request.POST['signature']]))
             request.session.modified = True
             _logger.info("SUCCESS update_service_charge VISA SIGNATURE " + request.POST['signature'])
         else:

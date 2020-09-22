@@ -10,6 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 _logger = logging.getLogger("rodextrip_logger")
 
 month = {
@@ -99,10 +100,9 @@ def login(request):
     }
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        request.session['activity_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
+        set_session(request, 'activity_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['activity_signature']))
-        request.session.modified = True
         _logger.info("SIGNIN ACTIVITY SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -136,7 +136,7 @@ def get_data(request):
 
 def search(request):
     try:
-        request.session['activity_search_request'] = json.loads(request.POST['search_request'])
+        set_session(request, 'activity_search_request', json.loads(request.POST['search_request']))
         data = {
             'query': request.session['activity_search_request']['query'].replace('&amp;', '&'),
             'country': request.session['activity_search_request']['country'],
@@ -162,10 +162,8 @@ def search(request):
                 'sequence': counter
             })
             counter += 1
-
-        request.session['activity_search'] = res['result']['response']
+        set_session(request, 'activity_search', res['result']['response'])
         _logger.info(json.dumps(request.session['activity_search']))
-        request.session.modified = True
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
@@ -197,8 +195,7 @@ def get_details(request):
                     option.update({
                         'price_pick': 0
                     })
-
-            request.session['activity_detail'] = res['response']
+            set_session(request, 'activity_detail', res['response'])
             _logger.info(json.dumps(request.session['activity_detail']))
             request.session.modified = True
     except:
@@ -224,9 +221,8 @@ def get_pricing(request):
     }
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST')
-    request.session['activity_price'] = res
+    set_session(request, 'activity_price', res)
     _logger.info(json.dumps(request.session['activity_price']))
-    request.session.modified = True
     return res
 
 
@@ -534,9 +530,8 @@ def commit_booking(request):
 
     res = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=300)
     if res['result']['error_code'] == 0:
-        request.session['activity_order_number'] = res['result']['response']['order_number']
+        set_session(request, 'activity_order_number', res['result']['response']['order_number'])
         _logger.info(json.dumps(request.session['activity_order_number']))
-        request.session.modified = True
     return res
 
 
@@ -557,7 +552,7 @@ def get_booking(request):
         res['result']['response'].update({
             'visit_date': new_visit_date
         })
-        request.session['activity_get_booking_response'] = res
+        set_session(request, 'activity_get_booking_response', res)
         _logger.info(json.dumps(request.session['activity_get_booking_response']))
         request.session.modified = True
     except Exception as e:
@@ -626,9 +621,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            request.session['activity_upsell_'+request.POST['signature']] = total_upsell
+            set_session(request, 'activity_upsell_'+request.POST['signature'], total_upsell)
             _logger.info(json.dumps(request.session['activity_upsell_' + request.POST['signature']]))
-            request.session.modified = True
             _logger.info("SUCCESS update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge ACTIVITY SIGNATURE " + request.POST['signature'])

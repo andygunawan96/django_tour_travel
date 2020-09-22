@@ -12,6 +12,7 @@ import random
 import json
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 import base64
@@ -92,12 +93,12 @@ def search(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             try:
-                request.session['event_request'] = {
+                set_session(request, 'event_request', {
                     'event_name': request.POST['event_name_id'],
                     'city_id': False,
                     'category_name': request.POST['category_event'],
                     'is_online': request.POST.get('include_online'), #Checkbox klo disi baru di POST
-                }
+                })
                 request.session.modified = True
             except:
                 print('error')
@@ -137,8 +138,7 @@ def search_category(request, category_name):
             phone_code = sorted(phone_code)
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-            request.session['time_limit'] = 1200
-
+            set_session(request, 'time_limit', 1200)
             try:
                 request.session['event_request'].update({
                     'event_name': '',
@@ -182,13 +182,12 @@ def detail(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
             if request.POST:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-
-                request.session['event_code'] = json.loads(request.POST['event_code'])
+                set_session(request, 'event_code', json.loads(request.POST['event_code']))
             except:
                 pass
             data = request.session['event_code']
@@ -223,13 +222,12 @@ def vendor(request):
             values = get_data_template(request, 'search')
             airline_country = response['result']['response']['airline']['country']
             if request.POST:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
-
-                request.session['event_code'] = json.loads(request.POST['event_code'])
+                set_session(request, 'event_code', json.loads(request.POST['event_code']))
             except:
                 pass
             values.update({
@@ -258,7 +256,7 @@ def contact_passengers(request):
             values = get_data_template(request)
 
             if request.POST:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -289,7 +287,7 @@ def contact_passengers(request):
                 else:
                     break
 
-            request.session['event_option_code' + request.session['event_signature']] = opt_code
+            set_session(request, 'event_option_code' + request.session['event_signature'], opt_code)
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -329,8 +327,8 @@ def review(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
-            request.session['special_req_event'] = request.POST['special_req_event']
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            set_session(request, 'special_req_event', request.POST['special_req_event'])
 
             adult = []
             contact = []
@@ -427,12 +425,11 @@ def review(request):
                     "address": request.session.get('company_details') and request.session['company_details']['address'] or '',
                     'is_also_booker': True
                 })
-
-            request.session['event_review_pax'] = {
+            set_session(request, 'event_review_pax', {
                 'booker': booker,
                 'contact': contact,
                 'adult': adult,
-            }
+            })
 
             question_answer = []
             for a in request.POST.keys():
@@ -465,7 +462,7 @@ def review(request):
                                 new_ans += request.POST[a1] + ', '
                         c_obj['answer'][-1]['ans'] = new_ans[:-2]
 
-            request.session['event_extra_question' + request.session['event_signature']] = question_answer
+            set_session(request, 'event_extra_question' + request.session['event_signature'], question_answer)
 
             print_json = json.dumps({
                 "type": "event",
@@ -474,7 +471,7 @@ def review(request):
                 "price_detail": [],
                 "price_lines": question_answer,
             })
-            request.session['event_json_printout' + request.session['event_signature']] = print_json
+            set_session(request, 'event_json_printout' + request.session['event_signature'], print_json)
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -509,10 +506,12 @@ def booking(request, order_number):
     try:
         javascript_version = get_javascript_version()
         values = get_data_template(request)
+        if 'user_account' not in request.session:
+            signin_btc(request)
         try:
-            request.session['event_order_number'] = base64.b64decode(order_number).decode('ascii')
+            set_session(request, 'event_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            request.session['event_order_number'] = order_number
+            set_session(request, 'event_order_number', order_number)
         if 'user_account' not in request.session:
             signin_btc(request)
         values.update({

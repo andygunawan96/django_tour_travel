@@ -9,6 +9,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 _logger = logging.getLogger("rodextrip_logger")
 
@@ -96,10 +97,9 @@ def login(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "session", data=data, headers=headers, method='POST')
     try:
-        request.session['train_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
+        set_session(request, 'train_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['train_signature']))
-        request.session.modified = True
 
         _logger.info("SIGNIN TRAIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
     except Exception as e:
@@ -152,7 +152,7 @@ def search(request):
         for line in file:
             response = json.loads(line)
         file.close()
-        request.session['train_request'] = json.loads(request.POST['search_request'])
+        set_session(request, 'train_request', json.loads(request.POST['search_request']))
         for country in response:
             train_destinations.append({
                 'code': country['code'],
@@ -339,9 +339,8 @@ def commit_booking(request):
     res = util.send_request(url=url + 'booking/train', data=data, headers=headers, method='POST', timeout=480)
     try:
         if res['result']['error_code'] == 0:
-            request.session['train_order_number'] = res['result']['response']['order_number']
+            set_session(request, 'train_order_number', res['result']['response']['order_number'])
             _logger.info(json.dumps(request.session['train_order_number']))
-            request.session.modified = True
             _logger.info("SUCCESS commit_booking TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR commit_booking_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -433,9 +432,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            request.session['train_upsell_'+request.POST['signature']] = total_upsell
+            set_session(request, 'train_upsell_'+request.POST['signature'], total_upsell)
             _logger.info(json.dumps(request.session['train_upsell' + request.POST['signature']]))
-            request.session.modified = True
             _logger.info("SUCCESS update_service_charge TRAIN SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_train TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

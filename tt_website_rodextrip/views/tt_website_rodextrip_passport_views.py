@@ -9,6 +9,7 @@ from rest_framework import authentication, permissions
 from tools import path_util
 from .tt_website_rodextrip_views import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from django.utils import translation
 import json
 import base64
@@ -95,7 +96,7 @@ def search(request):
                     'passport_apply_type': request.POST['passport_apply_type'],
                     'consulate': request.POST['consulate'],
                 }
-                request.session['passport_request'] = passport_request
+                set_session(request, 'passport_request', passport_request)
             except:
                 passport_request = request.session['passport_request']
 
@@ -129,6 +130,7 @@ def passenger(request):
             response = get_cache_data(cache_version)
             values = get_data_template(request)
 
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             request.session['time_limit'] = int(request.POST['time_limit_input'])
             request.session['passport_search']['result']['response']['list_of_passport'] = json.loads(request.POST['passport_list'])
             list_passport = request.session['passport_search']
@@ -199,9 +201,9 @@ def passenger(request):
                 if check == 1:
                     sell.append(rec)
 
-            request.session['passport_sell'] = sell
-            request.session['passport_passenger'] = pax
-            request.session['passport_search'] = list_passport
+            set_session(request, 'passport_sell', sell)
+            set_session(request, 'passport_passenger', pax)
+            set_session(request, 'passport_search', list_passport)
             list_of_passport = json.loads(json.dumps(request.session['passport_search']['result']['response']))
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -246,7 +248,7 @@ def review(request):
             phone_code = sorted(phone_code)
             values = get_data_template(request)
 
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
             # get_balance(request)
             adult = []
@@ -351,12 +353,11 @@ def review(request):
                     'contact_seq_id': request.POST['booker_id'],
                     'is_booker': True
                 })
-
-            request.session['passport_create_passengers'] = {
+            set_session(request, 'passport_create_passengers', {
                 'booker': booker,
                 'adult': adult,
                 'contact': contact
-            }
+            })
             pax = request.session['passport_create_passengers']
 
             count = 1
@@ -404,7 +405,10 @@ def booking(request, order_number):
             signin_btc(request)
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        request.session['passport_order_number'] = base64.b64decode(order_number).decode('ascii')
+        try:
+            set_session(request, 'passport_order_number', base64.b64decode(order_number).decode('ascii'))
+        except:
+            set_session(request, 'passport_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},

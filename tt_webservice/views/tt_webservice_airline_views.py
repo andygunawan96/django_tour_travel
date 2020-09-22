@@ -1569,6 +1569,7 @@ def get_booking(request):
             response = copy.deepcopy(res)
             for rec in response['result']['response']['provider_bookings']:
                 rec['error_msg'] = ''
+            time.sleep(2)
             set_session(request, 'airline_get_booking_response', response)
 
             _logger.info(json.dumps(request.session['airline_get_booking_response']))
