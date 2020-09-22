@@ -8,6 +8,7 @@ import base64
 from io import BytesIO
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from .tt_website_rodextrip_views import *
 _logger = logging.getLogger("rodextrip_logger")
 
@@ -131,7 +132,7 @@ def search(request):
             ]
 
             try:
-                request.session['tour_request'] = {
+                set_session(request, 'tour_request', {
                     'tour_query': request.POST.get('tour_query') and request.POST['tour_query'] or '',
                     'country_id': request.POST.get('tour_countries') != '0' and int(request.POST['tour_countries']) or 0,
                     'city_id': request.POST.get('tour_cities') != '0' and int(request.POST['tour_cities']) or 0,
@@ -139,9 +140,9 @@ def search(request):
                     'year': request.POST['tour_dest_year'],
                     'limit': 25,
                     'offset': 0,
-                }
+                })
             except:
-                request.session['tour_request'] = request.session['tour_request']
+                set_session(request, 'tour_request', request.session['tour_request'])
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'username': request.session['user_account'],
@@ -187,14 +188,14 @@ def detail(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             try:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
-                request.session['tour_pick'] = json.loads(request.POST['tour_pick'])
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                set_session(request, 'tour_pick', json.loads(request.POST['tour_pick']))
                 request.session['tour_pick'].update({
                     'departure_date_f': str(request.session['tour_search'][int(request.POST['sequence'])]['departure_date_f'])
                 })
             except:
-                request.session['time_limit'] = request.session['time_limit']
-                request.session['tour_pick'] = request.session['tour_pick']
+                set_session(request, 'time_limit', request.session['time_limit'])
+                set_session(request, 'tour_pick', request.session['tour_pick'])
 
             dest_month_data = [
                 {'value': '00', 'string': 'All Months'},
@@ -253,9 +254,9 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
             try:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             except:
-                request.session['time_limit'] = request.session['time_limit']
+                set_session(request, 'time_limit', request.session['time_limit'])
 
             # agent
             adult_title = ['MR', 'MRS', 'MS']
@@ -271,9 +272,9 @@ def passenger(request):
 
             # pax
             try:
-                request.session['tour_room_mapping'] = {
+                set_session(request, 'tour_room_mapping', {
                     'room_amount': request.POST['room_amount']
-                }
+                })
             except:
                 request.session['tour_room_mapping']['room_amount'] = request.session['tour_room_mapping']['room_amount']
 
@@ -289,13 +290,13 @@ def passenger(request):
                     adult_amt += int(request.POST['adult_tour_room_' + str(r+1)])
                     child_amt += int(request.POST['child_tour_room_' + str(r+1)])
                     infant_amt += int(request.POST['infant_tour_room_' + str(r+1)])
-                request.session['tour_pax_amount'] = {
+                set_session(request, 'tour_pax_amount', {
                     'adult_amt': adult_amt,
                     'child_amt': child_amt,
                     'infant_amt': infant_amt,
-                }
+                })
             except:
-                request.session['tour_pax_amount'] = request.session['tour_pax_amount']
+                set_session(request, 'tour_pax_amount', request.session['tour_pax_amount'])
 
             try:
                 for i in range(request.session['tour_pax_amount']['adult_amt']):
@@ -316,17 +317,17 @@ def passenger(request):
                 print('no infant')
 
             try:
-                request.session['tour_data'] = json.loads(request.POST['tour_data'])
+                set_session(request, 'tour_data', json.loads(request.POST['tour_data']))
             except:
-                request.session['tour_data'] = request.session['tour_data']
+                set_session(request, 'tour_data', request.session['tour_data'])
 
             try:
-                request.session['tour_dept_return_data'] = {
+                set_session(request, 'tour_dept_return_data', {
                     'departure': request.POST.get('departure_date_tour2') and request.POST['departure_date_tour2'] or request.session['tour_pick']['departure_date'],
                     'return': request.POST.get('arrival_date_tour2') and request.POST['arrival_date_tour2'] or request.session['tour_pick']['arrival_date']
-                }
+                })
             except:
-                request.session['tour_dept_return_data'] = request.session['tour_dept_return_data']
+                set_session(request, 'tour_dept_return_data', request.session['tour_dept_return_data'])
 
             dept = request.session['tour_dept_return_data']['departure']
             arr = request.session['tour_dept_return_data']['return']
@@ -369,17 +370,16 @@ def passenger(request):
                     'render_pax_per_room': render_pax_per_room
                 })
             except:
-                request.session['tour_room_mapping'] = request.session['tour_room_mapping']
+                set_session(request, 'tour_room_mapping', request.session['tour_room_mapping'])
 
-            request.session['tour_booking_data'] = {
+            set_session(request, 'tour_booking_data', {
                 'room_list': request.session['tour_room_mapping']['render_pax_per_room'],
                 'room_amount': request.session['tour_room_mapping']['room_amount'],
                 'adult': request.session['tour_pax_amount']['adult_amt'],
                 'child': request.session['tour_pax_amount']['child_amt'],
                 'infant': request.session['tour_pax_amount']['infant_amt'],
                 'tour_data': request.session['tour_pick'],
-            }
-
+            })
 
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
@@ -429,7 +429,7 @@ def review(request):
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
 
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             adult = []
             child = []
             infant = []
@@ -622,7 +622,7 @@ def review(request):
                 'total_pax_all': temp_idx,
             })
 
-            request.session['tour_booking_data'] = temp_booking_data
+            set_session(request, 'tour_booking_data', temp_booking_data)
 
             printout_prices = []
             for temp_prices in request.session['tour_price']['result']['response']['service_charges']:
@@ -693,7 +693,10 @@ def booking(request, order_number):
             signin_btc(request)
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-        request.session['tour_order_number'] = base64.b64decode(order_number).decode('ascii')
+        try:
+            set_session(request, 'tour_order_number', base64.b64decode(order_number).decode('ascii'))
+        except:
+            set_session(request, 'tour_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},

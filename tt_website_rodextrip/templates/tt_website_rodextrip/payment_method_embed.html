@@ -195,13 +195,23 @@ SGOSignature.receiveForm();
                 <span><b>9.</b> Masukkan <i>PIN m-BCA</i> Anda dan tekan OK/YES </span><br>
                 <span><b>10.</b> Setelah beberapa saat, Anda akan menerima message yang berisi informasi transaksi transfer Anda Berhasil atau Gagal.</span><br><br>
             </div>
-            <div class="text-center" style="margin-top:10px;">
-                <button class="btn btn-lg btn-default" id="btn_done" onclick="">Selesai</button>
+            <div class="row" style="margin-top:10px;">
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <button class="btn btn-lg btn-default" id="btn_done" >{% trans 'Check Status Reservation'%}</button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="text-center">
+                        <button class="btn btn-lg btn-default" id="btn_create_reservation" onclick="window.location='/';">{% trans 'Create New Reservation'%}</button>
+                    </div>
+                </div>
+
             </div><br>
         </div>
         <script>
             url_callback = '{{espay_api_key_callback_url}}'+'{{provider_type}}'+'/booking/'+btoa(order_number);
-            document.getElementById("btn_done").onclick = function() {window.location.assign(url_callback); }
+            document.getElementById("btn_done").onclick = function() {window.location='/{{provider_type}}'+'/booking/'+btoa(order_number); }
         </script>
 
     </div>

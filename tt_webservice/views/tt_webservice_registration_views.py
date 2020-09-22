@@ -10,6 +10,7 @@ import logging
 import base64
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 import time
 import copy
 _logger = logging.getLogger("rodextrip_logger")
@@ -53,10 +54,8 @@ def login(request,func):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        time.sleep(1)
-        request.session['signature'] = res['result']['response']['signature']
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['signature']))
-        request.session.modified = True
         if func == 'get_config':
             res = get_config(request)
         elif func == 'register':
@@ -175,9 +174,8 @@ def register(request):
         res = login(request, 'register')
     try:
         if res['result']['error_code'] == 0:
-            request.session['register_done_data'] = copy.deepcopy(request.session['registration_request'])
-            request.session['register_result_done'] = res
-            request.session.modified = True
+            set_session(request, 'register_done_data', copy.deepcopy(request.session['registration_request']))
+            set_session(request, 'register_result_done', res)
             _logger.info("SUCCESS create_agent_agent_regis SIGNATURE " + request.session['signature'])
         else:
             _logger.error("ERROR create_agent_agent_regis SIGNATURE " + request.session['signature'] + ' ' + json.dumps(res))

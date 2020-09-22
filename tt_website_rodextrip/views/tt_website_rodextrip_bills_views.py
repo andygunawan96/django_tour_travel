@@ -12,6 +12,7 @@ import random
 import json
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 import base64
@@ -101,9 +102,9 @@ def booking(request, order_number):
         if translation.LANGUAGE_SESSION_KEY in request.session:
             del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
         try:
-            request.session['bills_order_number'] = base64.b64decode(order_number).decode('ascii')
+            set_session(request, 'bills_order_number', base64.b64decode(order_number).decode('ascii'))
         except:
-            request.session['bills_order_number'] = order_number
+            set_session(request, 'bills_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'username': request.session.get('user_account') or {'co_user_login': ''},

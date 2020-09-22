@@ -9,6 +9,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 _logger = logging.getLogger("rodextrip_logger")
 
@@ -92,10 +93,9 @@ def signin(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        request.session['issued_offline_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
+        set_session(request, 'issued_offline_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['issued_offline_signature']))
-        request.session.modified = True
 
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -214,7 +214,7 @@ def set_data_issued_offline(request):
 
         if request.POST['type'] == 'airline':
             data_issued_offline["sector_type"] = request.POST['sector_type']
-        request.session['sell_journey_io'] = data_issued_offline
+        set_session(request, 'sell_journey_io', data_issued_offline)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
@@ -511,9 +511,8 @@ def get_booking(request):
                         line.update({
                             'check_out': convert_string_to_date_to_string_front_end(line['check_out']),
                         })
-            request.session['offline_get_booking_response'] = res
+            set_session(request, 'offline_get_booking_response', res)
             _logger.info(json.dumps(request.session['offline_get_booking_response']))
-            request.session.modified = True
             _logger.info("SUCCESS get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR get_booking ISSUED OFFLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

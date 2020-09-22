@@ -12,6 +12,7 @@ import random
 import json
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 import base64
@@ -106,7 +107,7 @@ def search(request):
                 child_age = []
                 for i in range(int(request.POST['hotel_child'])):
                     child_age.append(int(request.POST['hotel_child_age' + str(i + 1)]))
-                request.session['hotel_request'] = {
+                set_session(request, 'hotel_request', {
                     'destination': request.POST['hotel_id_destination'],
                     'guest_nationality': request.POST['hotel_id_nationality'],
                     'nationality': request.POST['hotel_id_nationality'].split(' - ')[0],
@@ -119,8 +120,7 @@ def search(request):
                     'adult': int(request.POST['hotel_adult']),
                     'child': int(request.POST['hotel_child']),
                     'child_age': child_age
-                }
-                request.session.modified = True
+                })
             except:
                 print('error')
             values.update({
@@ -159,13 +159,11 @@ def detail(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
-
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
             try:
                 if translation.LANGUAGE_SESSION_KEY in request.session:
                     del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-
-                request.session['hotel_detail'] = json.loads(request.POST['hotel_detail'])
+                set_session(request, 'hotel_detail', json.loads(request.POST['hotel_detail']))
             except:
                 pass
             data = request.session['hotel_request']
@@ -228,8 +226,7 @@ def passengers(request):
             cache_version = get_cache_version()
             response = get_cache_data(cache_version)
             values = get_data_template(request)
-
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
@@ -257,7 +254,7 @@ def passengers(request):
                 'check_in': request.POST.get('checkin_date') and str(datetime.strptime(request.POST['checkin_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkin_date'],
                 'check_out': request.POST.get('checkout_date') and str(datetime.strptime(request.POST['checkout_date'], '%d %b %Y'))[:10] or request.session['hotel_request']['checkout_date'],
             })
-            request.session['hotel_room_pick'] = json.loads(request.POST['hotel_detail_send'])
+            set_session(request, 'hotel_room_pick', json.loads(request.POST['hotel_detail_send']))
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'countries': airline_country,
@@ -311,7 +308,7 @@ def review(request):
             spc_req += request.POST.get('late_co') and 'Late CheckOut: ' + request.POST['late_co'] + '; ' or ''
 
             request.session['hotel_request'].update({'special_request': spc_req})
-            request.session['time_limit'] = int(request.POST['time_limit_input'])
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
 
             adult = []
             child = []
@@ -439,13 +436,12 @@ def review(request):
                     'additional_info': ["Room: 1", "SpecialReq:" + request.session['hotel_request']['special_request']],
                 })
 
-
-            request.session['hotel_review_pax'] = {
+            set_session(request, 'hotel_review_pax', {
                 'booker': booker,
                 'contact': contact,
                 'adult': adult,
                 'child': child,
-            }
+            })
 
             print_json = json.dumps({
                 "type": "hotel",
@@ -470,7 +466,7 @@ def review(request):
                    }
                for rec in request.session['hotel_room_pick']['rooms']],
             })
-            request.session['hotel_json_printout' + request.session['hotel_signature']] = print_json
+            set_session(request, 'hotel_json_printout' + request.session['hotel_signature'], print_json)
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'booker': booker,
@@ -507,7 +503,12 @@ def booking(request, order_number):
     try:
         javascript_version = get_javascript_version()
         values = get_data_template(request)
-        request.session['hotel_order_number'] = base64.b64decode(order_number).decode('ascii')
+        if 'user_account' not in request.session:
+            signin_btc(request)
+        try:
+            set_session(request, 'hotel_order_number', base64.b64decode(order_number).decode('ascii'))
+        except:
+            set_session(request, 'hotel_order_number', order_number)
         if 'user_account' not in request.session:
             signin_btc(request)
         values.update({

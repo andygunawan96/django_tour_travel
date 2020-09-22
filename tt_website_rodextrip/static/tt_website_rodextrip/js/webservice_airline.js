@@ -3979,7 +3979,7 @@ function airline_get_booking(data){
                         <td class="list-of-passenger-left">`+(1)+`</td>
                         <td>`+title+` `+msg.result.response.booker.name+`</td>
                         <td>`+msg.result.response.booker.email+`</td>
-                        <td>`+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_code+' - '+msg.result.response.booker.phones[msg.result.response.booker.phones.length-1].calling_number+`</td>
+                        <td>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</td>
                     </tr>
 
                 </table>
@@ -4587,6 +4587,7 @@ function check_refund_btn(){
                        $text += '\nAdmin Fee:' + getrupiah(msg.result.response.provider_bookings[i].admin_fee);
                        $text += 'Grand Total: IDR '+ getrupiah(msg.result.response.provider_bookings[i].penalty_amount + msg.result.response.provider_bookings[i].admin_fee) + '\n\nPrices and availability may change at any time';
                    }
+                   //cancel_btn();
                    document.getElementById('refund_detail').innerHTML = $text;
                    document.getElementById('show_loading_booking_airline').hidden = false;
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
@@ -7363,9 +7364,9 @@ function airline_get_booking_refund(data){
                    }
                    if(check_cancel){
                         document.getElementById('cancel').hidden = false;
-                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_btn();" value="Check Refund Price"><hr/>`;
+                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
-                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Refund Booking">`;
+                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_btn();" value="Check Refund Price Booking">`;
                    }
                }catch(err){
                 console.log(err);

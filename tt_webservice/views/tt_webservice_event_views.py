@@ -10,6 +10,7 @@ import copy
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 import time
 _logger = logging.getLogger("rodextrip_logger")
@@ -110,15 +111,9 @@ def login(request):
 
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        time.sleep(1)
-        if 'event_signature' in request.session:
-            del request.session['event_signature']
-        request.session['event_signature'] = res['result']['response']['signature']
-        if 'signature' in request.session:
-            del request.session['signature']
-        request.session['signature'] = res['result']['response']['signature']
+        set_session(request, 'event_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['event_signature']))
-        request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -145,7 +140,7 @@ def get_config(request):
                     event.set_first_time('auto_complete')
             except Exception as e:
                 _logger.info(
-                    "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
+                    "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
                 file = open(var_log_path() + "event_cache_data.txt", "r")
                 for line in file:
@@ -232,28 +227,27 @@ def search(request):
             'is_online': request.POST.get('is_online') or False,
             'category': request.POST.get('category') and request.POST['category'] or '',
         }
-        request.session['event_request_data'] = data
+        set_session(request, 'event_request_data', data)
         headers = {
             "Accept": "application/json,text/html,application/xml",
             "Content-Type": "application/json",
             "action": "search",
-            "signature": request.session['signature']
+            "signature": request.POST['signature']
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
-    request.session['event_response_search'] = res
+    set_session(request, 'event_response_search', res)
     try:
         counter = 0
         sequence = 0
         if res['result']['error_code'] == 0:
-            signature = copy.deepcopy(request.session['event_signature'])
-            request.session['event_error'] = {
+            signature = copy.deepcopy(request.POST['signature'])
+            set_session(request, 'event_error', {
                 'error_code': res['result']['error_code'],
                 'signature': signature
-            }
+            })
             _logger.info(json.dumps(request.session['event_error']))
-            request.session.modified = True
         else:
             _logger.error("ERROR search_event SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
     except Exception as e:
@@ -276,15 +270,13 @@ def detail(request):
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
-    request.session['event_detail'] = res
+    set_session(request, 'event_detail', res)
     try:
-        signature = copy.deepcopy(request.session['signature'])
-        request.session['event_error'] = {
+        signature = copy.deepcopy(request.POST['signature'])
+        set_session(request, 'event_error', {
             'error_code': res['result']['error_code'],
             'signature': signature
-        }
-        _logger.info(json.dumps(request.session['hotel_error']))
-        request.session.modified = True
+        })
         if res['result']['error_code'] == 0:
             _logger.info("get_details_event SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -311,13 +303,12 @@ def extra_question(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST')
     try:
-        signature = copy.deepcopy(request.session['event_signature'])
-        request.session['event_error'] = {
+        signature = copy.deepcopy(request.POST['signature'])
+        set_session(request, 'event_error', {
             'error_code': res['result']['error_code'],
             'signature': signature
-        }
+        })
         _logger.info(json.dumps(request.session['hotel_error']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
             _logger.info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
         else:
@@ -395,9 +386,9 @@ def create_booking(request):
 
     try:
         if res['result']['error_code'] == 0:
-            _logger.info("create_booking EVENT SUCCESS SIGNATURE " + request.session['hotel_signature'])
+            _logger.info("create_booking EVENT SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("create_booking EVENT ERROR SIGNATURE " + request.session['hotel_signature'] + ' ' + json.dumps(res))
+            _logger.error("create_booking EVENT ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -421,9 +412,8 @@ def get_booking(request):
 
     try:
         _logger.info(json.dumps(request.session['hotel_provision']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
-            request.session['event_get_booking_response'] = res
+            set_session(request, 'event_get_booking_response', res)
             res['result']['response'].update({
                 'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
                 'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
@@ -484,18 +474,17 @@ def issued_booking(request):
     res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
 
     try:
-        request.session['event_booking'] = res['result']['response']
-        signature = copy.deepcopy(request.session['hotel_signature'])
-        request.session['event_error'] = {
+        set_session(request, 'event_booking', res['result']['response'])
+        signature = copy.deepcopy(request.POST['signature'])
+        set_session(request, 'event_error', {
             'error_code': res['result']['error_code'],
             'signature': signature
-        }
+        })
         _logger.info(json.dumps(request.session['event_booking']))
-        request.session.modified = True
         if res['result']['error_code'] == 0:
-            _logger.info("Event Issued SUCCESS SIGNATURE " + request.session['event_signature'])
+            _logger.info("Event Issued SUCCESS SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("event_issued EVENT ERROR SIGNATURE " + request.session['event_signature'] + ' ' + json.dumps(res))
+            _logger.error("event_issued EVENT ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
@@ -525,9 +514,9 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
+            set_session(request, 'event_upsell_'+request.POST['signature'], total_upsell)
             request.session['event_upsell_'+request.POST['signature']] = total_upsell
-            _logger.info(json.dumps(request.session['hotel_upsell_' + request.POST['signature']]))
-            request.session.modified = True
+            _logger.info(json.dumps(request.session['event_upsell_' + request.POST['signature']]))
             _logger.info("SUCCESS update_service_charge EVENT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge_event EVENT SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))

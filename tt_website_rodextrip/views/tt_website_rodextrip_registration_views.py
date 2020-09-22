@@ -101,7 +101,7 @@ def register_agent(request):
                 check = False
             counter = counter + 1
 
-        request.session['registration_request'] = {
+        set_session(request, 'registration_request', {
             'company': {
                 'company_type': request.POST['radio_company_type'],
                 'business_license': request.POST.get('business_license') and request.POST['business_license'] or '',
@@ -122,7 +122,7 @@ def register_agent(request):
                 'social_media': request.POST['social_media'] and request.POST['social_media'] or '',
                 'agent_type': request.POST['agent_type'] and request.POST['agent_type'] or '',
             },
-        }
+        })
 
         values.update({
             'username': request.session.get('user_account') or {'co_user_login': ''},

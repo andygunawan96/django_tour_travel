@@ -10,6 +10,7 @@ import json
 import logging
 import traceback
 from .tt_webservice_views import *
+from .tt_webservice import *
 from .tt_webservice_voucher_views import *
 import time
 _logger = logging.getLogger("rodextrip_logger")
@@ -110,13 +111,9 @@ def login(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     res = util.send_request(url=url + 'session', data=data, headers=headers, method='POST')
     try:
-        time.sleep(1)
-        request.session['passport_signature'] = res['result']['response']['signature']
-        request.session['signature'] = res['result']['response']['signature']
-        if request.session.get('passport_search'):
-            del request.session['passport_search']
+        set_session(request, 'passport_signature', res['result']['response']['signature'])
+        set_session(request, 'signature', res['result']['response']['signature'])
         _logger.info(json.dumps(request.session['passport_signature']))
-        request.session.modified = True
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
 
@@ -179,12 +176,9 @@ def search(request):
     res = util.send_request(url=url + 'booking/passport', data=data, headers=headers, method='POST')
     try:
         if res['result']['error_code'] == 0:
-            if request.session.get('passport_search'):
-                request.session['passport_search'] = request.session.get('passport_search')
-            else:
-                request.session['passport_search'] = res
+            set_session(request, 'passport_search', res)
+
             _logger.info(json.dumps(request.session['passport_search']))
-            request.session.modified = True
             _logger.info("SUCCESS search PASSPORT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR search_passport TRAIN SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -443,9 +437,8 @@ def update_service_charge(request):
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
                     total_upsell += pricing['amount']
-            request.session['passport_upsell_'+request.POST['signature']] = total_upsell
+            set_session(request, 'passport_upsell_'+request.POST['signature'], total_upsell)
             _logger.info(json.dumps(request.session['passport_upsell_' + request.POST['signature']]))
-            request.session.modified = True
             _logger.info("SUCCESS update_service_charge PASSPORT SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("ERROR update_service_charge PASSPORT SIGNATURE " + request.POST['signature'])

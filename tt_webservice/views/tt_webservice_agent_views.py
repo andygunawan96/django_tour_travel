@@ -7,6 +7,7 @@ from ..static.tt_webservice.url import *
 from dateutil.relativedelta import *
 import json
 from .tt_webservice_views import *
+from .tt_webservice import *
 import logging
 import traceback
 _logger = logging.getLogger("rodextrip_logger")
@@ -51,8 +52,6 @@ def api_models(request):
             res = delete_session(request)
         elif req_data['action'] == 'static_path_url_server':
             res = get_url_static_path()
-        elif req_data['action'] == 'get_agent_booker':
-            res = get_agent_passenger(request)
         elif req_data['action'] == 'get_customer_list':
             res = get_customer_list(request)
         elif req_data['action'] == 'update_cache':
@@ -69,22 +68,6 @@ def api_models(request):
             res = del_passenger_cache(request)
         elif req_data['action'] == 'get_passenger_cache':
             res = get_passenger_cache(request)
-        elif req_data['action'] == 'get_agent_booking':
-            res = get_agent_booking(request)
-        elif req_data['action'] == 'get_top_up_history':
-            res = get_top_up(request)
-        elif req_data['action'] == 'get_top_up_amount':
-            res = get_top_up_amount(request)
-        elif req_data['action'] == 'create_top_up':
-            res = create_top_up(request)
-        elif req_data['action'] == 'top_up_payment':
-            res = top_up_payment(request)
-        elif req_data['action'] == 'get_merchant_info':
-            res = get_merchant_info(request)
-        elif req_data['action'] == 'request_va':
-            res = request_va(request)
-        elif req_data['action'] == 'request_inv_va':
-            res = request_inv_va(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -117,13 +100,14 @@ def signin(request):
             for key in reversed(list(request.session._session.keys())):
                 if key != '_language':
                     del request.session[key]
-            request.session['signature'] = res['result']['response']['signature']
-            request.session['username'] = request.POST.get('username') or user_default
-            request.session['password'] = request.POST.get('password') or password_default
+            set_session(request, 'signature', res['result']['response']['signature'])
+            set_session(request, 'username', request.POST.get('username') or user_default)
+            set_session(request, 'password', request.POST.get('password') or password_default)
+
             if request.POST.get('keep_me_signin') == 'true':
-                request.session['keep_me_signin'] = True
+                set_session(request, 'keep_me_signin', True)
             else:
-                request.session['keep_me_signin'] = False
+                set_session(request, 'keep_me_signin', False)
             data = {}
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -141,7 +125,7 @@ def signin(request):
             #     'template': user_template.template_id,
             #     'desc': user_template.desc
             # })
-            request.session['user_account'] = res_user['result']['response']
+            set_session(request, 'user_account', res_user['result']['response'])
             try:
                 if res['result']['error_code'] == 0:
                     request.session.create()
@@ -158,12 +142,12 @@ def signin(request):
                             provider_type_list = []
                             for provider in provider_type['result']['response']['provider_type_list']:
                                 provider_type_list.append(provider['code'])
-                            request.session['provider'] = provider_type_list
+                            set_session(request, 'provider', provider_type_list)
                         else:
                             # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
-                            request.session['provider'] = []
+                            set_session(request, 'provider', [])
                     except:
-                        request.session['provider'] = []
+                        set_session(request, 'provider', [])
                     _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     javascript_version = get_cache_version()
                     response = get_cache_data(javascript_version)
@@ -236,15 +220,15 @@ def signin_btc(request):
             for key in reversed(list(request.session._session.keys())):
                 if key != '_language':
                     del request.session[key]
-            request.session['signature'] = res['result']['response']['signature']
-            request.session['username'] = request.POST.get('username') or user_default
-            request.session['password'] = request.POST.get('password') or password_default
+            set_session(request, 'signature', res['result']['response']['signature'])
+            set_session(request, 'username', request.POST.get('username') or user_default)
+            set_session(request, 'password', request.POST.get('password') or password_default)
             if request.POST.get('keep_me_signin') == 'true':
-                request.session['keep_me_signin'] = True
+                set_session(request, 'keep_me_signin', True)
             elif request.POST.get('keep_me_signin') == 'false':
-                request.session['keep_me_signin'] = False
+                set_session(request, 'keep_me_signin', False)
             else:
-                request.session['keep_me_signin'] = True #default b2c
+                set_session(request, 'keep_me_signin', True) #default b2c
             data = {}
             headers = {
                 "Accept": "application/json,text/html,application/xml",
@@ -263,7 +247,7 @@ def signin_btc(request):
             #     'desc': user_template.desc
             # })
             res_user['result']['response']['signature'] = res['result']['response']['signature']
-            request.session['user_account'] = res_user['result']['response']
+            set_session(request, 'user_account', res_user['result']['response'])
             try:
                 if res['result']['error_code'] == 0:
                     data = {}
@@ -279,13 +263,12 @@ def signin_btc(request):
                             provider_type_list = []
                             for provider in provider_type['result']['response']['provider_type_list']:
                                 provider_type_list.append(provider['code'])
-                            request.session['provider'] = provider_type_list
-                            request.session.modified = True
+                            set_session(request, 'provider', provider_type_list)
                         else:
                             # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
-                            request.session['provider'] = []
+                            set_session(request, 'provider', [])
                     except:
-                        request.session['provider'] = []
+                        set_session(request, 'provider', [])
                     _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
                     javascript_version = get_cache_version()
                     response = get_cache_data(javascript_version)
@@ -1113,7 +1096,7 @@ def update_customer(request):
                                     pax['identities']['other']['identity_expdate'].split('-')[0]),
                             })
                     break
-            request.session['cache_passengers'] = passenger_cache
+            set_session(request, 'cache_passengers', passenger_cache)
             _logger.info("SUCCESS update_customer_agent SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("update_customer_agent ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
@@ -1133,7 +1116,7 @@ def add_passenger_cache(request):
             passengers.append(add_pax)
     else:
         passengers = [json.loads(request.POST['passenger'])]
-    request.session['cache_passengers'] = passengers
+    set_session(request, 'cache_passengers', passengers)
     if check == 0:
         res = {
             'result': {
@@ -1155,7 +1138,7 @@ def add_passenger_cache(request):
 def del_passenger_cache(request):
     passenger = request.session['cache_passengers']
     passenger.pop(int(request.POST['index']))
-    request.session['cache_passengers'] = passenger
+    set_session(request, 'cache_passengers', passenger)
     res = {
         'result': {
             'error_msg': '',
@@ -1185,202 +1168,3 @@ def get_passenger_cache(request):
         }
         return res
 #BACKEND GA PAKE
-
-def get_agent_booking(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_agent_booking",
-        "signature": request.session['signature'],
-    }
-    data = {
-        "co_uid": int(request.session['co_uid']),
-        "offset": int(request.POST['offset']),
-        "limit": 80,
-        "transport_type": '',
-        "state": ''
-    }
-    res = util.send_request(url=url + 'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def get_top_up(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_top_up",
-        "signature": request.session['signature'],
-    }
-    data = {
-        "co_uid": int(request.session['co_uid']),
-        "offset": int(request.POST['offset']),
-        "limit": 80
-    }
-    res = util.send_request(url=url + 'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def get_top_up_amount(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_top_up_amount",
-        "signature": request.session['signature'],
-    }
-    data = {}
-    res = util.send_request(url=url + 'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def create_top_up(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "create_top_up",
-        "signature": request.session['signature'],
-    }
-
-    data = {
-        "amount_id": request.POST['amount_id'],
-        "qty": int(request.POST['qty']),
-        "agent_id": int(request.session['agent']['id']),
-        "unique_amount": int(request.POST['unique_amount'])
-    }
-    res = util.send_request(url=url + 'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def top_up_payment(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "top_up_payment",
-        "signature": request.session['signature'],
-    }
-
-    data = {
-        "token": request.POST['token'],
-        "acq_id": int(request.POST['acq_id'])
-    }
-    res = util.send_request(url=url + 'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def get_merchant_info(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_merchant_info",
-        "signature": request.session['signature'],
-    }
-
-    data = {}
-    res = util.send_request(url=url + 'payment/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def request_va(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "request_va",
-        "signature": request.session['signature'],
-    }
-
-    data = {}
-    res = util.send_request(url=url + 'payment/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def request_inv_va(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "request_inv_va",
-        "signature": request.session['signature'],
-    }
-
-    data = {
-        'amount': '1000.00',
-        'currency_id': 'IDR',
-        'bank_code': '013',
-        'order_id': 'ANSK128329',
-        'agent_id': int(request.session['agent']['id'])
-    }
-    res = util.send_request(url=url + 'payment/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        pass
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res
-
-def get_agent_passenger(request):
-    headers = {
-        "Accept": "application/json,text/html,application/xml",
-        "Content-Type": "application/json",
-        "action": "get_agent_passenger",
-        "signature": request.session['signature'],
-    }
-
-    data = {
-        "agent_id": request.session['agent']['id'],
-        "co_uid": request.session['co_uid'],
-        "search_param": 'by_string',
-        "search_value": request.POST['search_value']
-    }
-    res = util.send_request(url=url + 'agent/session', data=data,
-                            cookies=request.session['agent_cookie'], headers=headers, method='POST')
-    try:
-        if res['error_code'] == 0:
-            res.update({
-                'response': json.loads(res['response'])
-            })
-            counter = 0
-            for response in res['response']['result']:
-                if request.POST['pax_type'] == '':
-                    response.update({
-                        'sequence': counter
-                    })
-                elif response['pax_type'] == request.POST['pax_type']:
-                    response.update({
-                        'sequence': counter
-                    })
-                    if response['birth_date']:
-                        response.update({
-                            'birth_date': '%s %s %s' % (
-                            response['birth_date'].split('-')[2], month[response['birth_date'].split('-')[1]],
-                            response['birth_date'].split('-')[0]),
-                        })
-                    counter += 1
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
-    return res

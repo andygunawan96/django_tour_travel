@@ -13,6 +13,7 @@ import json
 import base64
 from datetime import *
 from tt_webservice.views.tt_webservice_agent_views import *
+from tt_webservice.views.tt_webservice import *
 from .tt_website_rodextrip_views import *
 from tools.parser import *
 _logger = logging.getLogger("rodextrip_logger")
@@ -138,14 +139,14 @@ def search(request):
                     departure.append(request.POST['train_departure'])
                     origin.append(request.POST['train_origin'])
                     destination.append(request.POST['train_destination'])
-                request.session['train_request'] = {
+                set_session(request, 'train_request', {
                     'direction': direction,
                     'adult': request.POST['train_adult'],
                     'infant': request.POST['train_infant'],
                     'departure': departure,
                     'origin': origin,
                     'destination': destination
-                }
+                })
             except:
                 pass
 
@@ -196,8 +197,8 @@ def passenger(request):
 
 
             try:
-                request.session['time_limit'] = int(request.POST['time_limit_input'])
-                request.session['train_pick'] = json.loads(request.POST['response'])
+                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+                set_session(request, 'train_pick', json.loads(request.POST['response']))
             except:
                 pass
             #pax
@@ -349,13 +350,12 @@ def review(request):
                     "nationality_name": request.POST['infant_nationality' + str(i + 1)],
                     "passenger_seq_id": request.POST['infant_id' + str(i + 1)],
                 })
-
-            request.session['train_create_passengers'] = {
+            set_session(request, 'train_create_passengers', {
                 'booker': booker,
                 'adult': adult,
                 'infant': infant,
                 'contact': contact
-            }
+            })
             schedules = []
             journeys = []
             for journey in request.session['train_pick']:
@@ -368,10 +368,9 @@ def review(request):
                     'provider': journey['provider'],
                 })
                 journeys = []
-
-            request.session['train_booking'] = schedules
+            set_session(request, 'train_booking', schedules)
             try:
-                request.session['time_limit'] = request.POST['time_limit_input']
+                set_session(request, 'time_limit', request.POST['time_limit_input'])
             except:
                 pass
             time_limit = request.session['time_limit']
@@ -406,7 +405,10 @@ def booking(request, order_number):
         values = get_data_template(request)
         if 'user_account' not in request.session:
             signin_btc(request)
-        request.session['train_order_number'] = base64.b64decode(order_number).decode('ascii')
+        try:
+            set_session(request, 'train_order_number', base64.b64decode(order_number).decode('ascii'))
+        except:
+            set_session(request, 'train_order_number', order_number)
         values.update({
             'static_path': path_util.get_static_path(MODEL_NAME),
             'id_types': id_type,
@@ -429,8 +431,8 @@ def seat_map(request):
             javascript_version = get_javascript_version()
             values = get_data_template(request)
             try:
-                request.session['train_seat_map_request'] = json.loads(request.POST['seat_map_request_input'])
-                request.session['train_passenger_request'] = json.loads(request.POST['passenger_input'])
+                set_session(request, 'train_seat_map_request', json.loads(request.POST['seat_map_request_input']))
+                set_session(request, 'train_passenger_request', json.loads(request.POST['passenger_input']))
             except:
                 pass
 
