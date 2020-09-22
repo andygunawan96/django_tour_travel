@@ -30,6 +30,8 @@
 
 <script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
 <script src="{{ static_path }}js/vendor/login_main.js?version={{javascript_version}}"></script>
 <style>
@@ -39,6 +41,7 @@
 </style>
 <title>{{name}} - Payment Method</title>
 <script>
+    signature = `{{signature}}`;
     order_number = `{{order_number}}`;
     order_number = order_number.split('.')[0] + '.' + order_number.split('.')[1];
 </script>

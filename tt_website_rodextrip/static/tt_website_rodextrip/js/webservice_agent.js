@@ -886,7 +886,6 @@ function triggered_balance(val){
         }else{
             if(login_again == true)
                 get_balance(val);
-            time = 300;
         }
     }, 1000);
 
@@ -2759,15 +2758,23 @@ function get_merchant_info(){
     getToken();
     $.ajax({
        type: "POST",
-       url: "/webservice/agent",
+       url: "/webservice/payment",
        headers:{
             'action': 'get_merchant_info',
        },
        data: {
-
+            "signature": signature
        },
        success: function(msg) {
         console.log(msg);
+        text = '<h3>Payment</h3>';
+        for(i in msg.result.response){
+            if(msg.result.response[i].productCode != 'CREDITCARD')
+                text+= `<p><input type="radio" name="bank_code" value="`+msg.result.response[i].bankCode+`"> `+msg.result.response[i].productName+`</p>`
+        }
+        text += `<input type="submit" name="submit" id="submit" value="Submit" style="width: 80px">`;
+        console.log(text);
+        document.getElementById('form_espay').innerHTML = text;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){

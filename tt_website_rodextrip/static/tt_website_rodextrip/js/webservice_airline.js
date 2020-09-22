@@ -4575,21 +4575,72 @@ function check_refund_btn(){
                'signature': signature
            },
            success: function(msg) {
-               console.log("Refund");
+               $("#waitingTransaction").modal('hide');
+               document.getElementById("overlay-div-box").style.display = "none";
                console.log(msg);
+
                if(msg.result.error_code == 0){
                    //update ticket
                    document.getElementById('refund_detail').hidden = false;
-                   $text = '<h5>Refund:<h5>';
+                   text = '<h5>Refund:<h5>';
+                   total = 0;
                    for (i in msg.result.response.provider_bookings){
-                       $text +=  msg.result.response.provider_bookings[i].pnr;
-                       $text += '\nVendor Charge Fee:' + getrupiah(msg.result.response.provider_bookings[i].penalty_amount);
-                       $text += '\nAdmin Fee:' + getrupiah(msg.result.response.provider_bookings[i].admin_fee);
-                       $text += 'Grand Total: IDR '+ getrupiah(msg.result.response.provider_bookings[i].penalty_amount + msg.result.response.provider_bookings[i].admin_fee) + '\n\nPrices and availability may change at any time';
+                       total_price = 0;
+                       currency = '';
+                       for(pax in airline_get_detail.result.response.passengers){
+                            try{
+                                total_price += airline_get_detail.result.response.passengers[pax].total_price[msg.result.response.provider_bookings[i].pnr];
+                                total += airline_get_detail.result.response.passengers[pax].total_price[msg.result.response.provider_bookings[i].pnr];
+                            }catch(err){console.log(err)}
+                            if(currency == '')
+                                currency = airline_get_detail.result.response.passengers[pax].currency;
+                       }
+                       text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].pnr+`</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(total_price))+`</span>
+                            </div>
+                        </div>`;
+                        text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Refund Fee</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].penalty_amount))+`</span>
+                            </div>
+                        </div>`;
+                        text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Admin Fee</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].admin_fee))+`</span>
+                            </div>
+                        </div>`;
+                        total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
                    }
-                   //cancel_btn();
-                   document.getElementById('refund_detail').innerHTML = $text;
-                   document.getElementById('show_loading_booking_airline').hidden = false;
+
+                   text+=`
+                        <hr/>
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Grand Total</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(total))+`</span>
+                            </div>
+                        </div>`;
+
+
+                   document.getElementById('refund_detail').innerHTML = text;
+                   document.getElementById('refund_detail').style.display = 'block';
+                   document.getElementById('full_refund').value = 'Proceed';
+                   document.getElementById('full_refund').onclick = "cancel_btn()";
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                }else{
@@ -7366,7 +7417,7 @@ function airline_get_booking_refund(data){
                         document.getElementById('cancel').hidden = false;
                         document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
-                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_btn();" value="Check Refund Price Booking">`;
+                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_btn();" value="Check Refund Price Booking">`;
                    }
                }catch(err){
                 console.log(err);
@@ -7522,6 +7573,25 @@ function airline_get_booking_refund(data){
                             for(pax in msg.result.response.passengers){
                                 ticket = '';
                                 ff_request = '';
+                                if(i == 0){
+                                    //price
+                                    currency = '';
+                                    for(pnr in msg.result.response.passengers[pax].sale_service_charges){
+                                        total_price = 0;
+                                        for(charge_code in msg.result.response.passengers[pax].sale_service_charges[pnr]){
+                                            if(charge_code != 'RAC'){
+                                                total_price += msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].amount;
+                                                if(currency == '')
+                                                    currency = msg.result.response.passengers[pax].sale_service_charges[pnr][charge_code].currency;
+                                            }
+                                        }
+                                        if(msg.result.response.passengers[pax].hasOwnProperty('total_price') == false)
+                                            msg.result.response.passengers[pax].total_price = {};
+                                        msg.result.response.passengers[pax].total_price[pnr] = total_price
+                                        if(msg.result.response.passengers[pax].hasOwnProperty('currency') == false)
+                                            msg.result.response.passengers[pax].currency = currency;
+                                    }
+                                }
                                 for(provider in msg.result.response.provider_bookings){
                                     try{
                                         ticket += msg.result.response.provider_bookings[provider].tickets[pax].ticket_number;
@@ -7563,6 +7633,7 @@ function airline_get_booking_refund(data){
             text+=`
 
             </div>`;
+            airline_get_detail = msg;
             document.getElementById('airline_booking').innerHTML = text;
 
 //            //detail

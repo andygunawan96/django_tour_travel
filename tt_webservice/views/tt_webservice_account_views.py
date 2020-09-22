@@ -153,8 +153,8 @@ def signin(request):
         "password": password_global,
         "api_key":  api_key,
 
-        "co_user": request.session['username'] or user_default,
-        "co_password": request.session['password'] or password_default,
+        "co_user": request.session.get('username') or user_default,
+        "co_password": request.session.get('password') or password_default,
         "co_uid": ""
     }
 
@@ -307,7 +307,7 @@ def get_balance(request):
                 "Accept": "application/json,text/html,application/xml",
                 "Content-Type": "application/json",
                 "action": "get_balance",
-                "signature": request.POST['signature'],
+                "signature": request.POST.get('signature') or request.session.get('signature'),
             }
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
@@ -340,7 +340,7 @@ def get_balance(request):
                         "Accept": "application/json,text/html,application/xml",
                         "Content-Type": "application/json",
                         "action": "get_balance",
-                        "signature": request.POST['signature'],
+                        "signature": request.POST.get('signature') or request.session.get('signature'),
                     }
                     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
                     set_session(request, 'get_balance_session', res)
@@ -359,7 +359,7 @@ def get_balance(request):
                     "Accept": "application/json,text/html,application/xml",
                     "Content-Type": "application/json",
                     "action": "get_balance",
-                    "signature": request.POST['signature'],
+                    "signature": request.POST.get('signature') or request.session.get('signature'),
                 }
             except Exception as e:
                 _logger.error(str(e) + '\n' + traceback.format_exc())
