@@ -4640,7 +4640,7 @@ function check_refund_btn(){
                    document.getElementById('refund_detail').innerHTML = text;
                    document.getElementById('refund_detail').style.display = 'block';
                    document.getElementById('full_refund').value = 'Proceed';
-                   document.getElementById('full_refund').onclick = "cancel_btn()";
+                   document.getElementById('full_refund').setAttribute('onClick', 'cancel_btn();');
                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
                     auto_logout();
                }else{

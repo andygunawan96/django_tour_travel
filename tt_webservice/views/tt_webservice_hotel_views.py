@@ -316,7 +316,7 @@ def detail(request):
         })
         _logger.info(json.dumps(request.session['hotel_error']))
         if res['result']['error_code'] == 0:
-            _logger.info("get_details_hotel SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            _logger.info("get_details_hotel SUCCESS SIGNATURE " + signature)
         else:
             _logger.error("get_details_hotel ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
