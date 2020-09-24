@@ -51,6 +51,8 @@ def api_models(request):
             res = get_order_number(request)
         elif req_data['action'] == 'get_merchant_info':
             res = get_merchant_info(request)
+        elif req_data['action'] == 'set_payment_method':
+            res = set_payment_method(request)
         elif req_data['action'] == 'check_payment_payment_method':
             res = check_payment_payment_method(request)
         else:
@@ -156,6 +158,29 @@ def get_merchant_info(request):
             "signature": request.POST['signature']
         }
         res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+    except Exception as e:
+        res = 0
+    return res
+
+def set_payment_method(request):
+    try:
+        data = {
+            "provider": "espay",
+            "signature": request.POST['signature'],
+            "order_number": request.POST['order_number'],
+            "bank_code": request.POST['bank_code'],
+            "bank_name": request.POST['bank_name'],
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "set_invoice",
+            "signature": request.POST['signature']
+        }
+        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            res['result']['response']['expired'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['expired'])
+            res['result']['response']['rs_datetime'] = convert_string_to_date_to_string_front_end_with_time(res['result']['response']['rs_datetime'])
     except Exception as e:
         res = 0
     return res

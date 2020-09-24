@@ -16,6 +16,7 @@ urlpatterns.append(re_path('top_up', view.top_up, name="top_up"))
 urlpatterns.append(re_path('contact_us', view.contact_us, name="contact_us"))
 urlpatterns.append(re_path('about_us', view.about_us, name="about_us"))
 urlpatterns.append(re_path('faq', view.faq, name="faq"))
-urlpatterns.append(re_path('dashboard', view.index, name="index"))
-urlpatterns.append(re_path('', view.login, name="login"))
+urlpatterns.append(re_path('login', view.login, name="login"))
+urlpatterns.append(re_path('', view.index, name="index"))
+
 # (?i) buat upper case to lower case bisa detect walaupun uppercase
