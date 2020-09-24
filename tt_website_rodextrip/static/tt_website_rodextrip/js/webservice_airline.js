@@ -3437,19 +3437,20 @@ function airline_get_booking(data){
            console.log(msg);
            $("#waitingTransaction").modal('hide');
            document.getElementById("overlay-div-box").style.display = "none";
-           for(i in msg.result.response.passengers[0].sale_service_charges){
-                for(j in msg.result.response.passengers[0].sale_service_charges[i]){
-                    currency = msg.result.response.passengers[0].sale_service_charges[i][j].currency
-                    break;
-                }
-                break;
-           }
+
            airline_get_detail = msg;
            get_payment = false;
            document.getElementById('airline_reissue_div').innerHTML = '';
            time_now = moment().format('YYYY-MM-DD');
            //get booking view edit here
            if(msg.result.error_code == 0){
+            for(i in msg.result.response.passengers[0].sale_service_charges){
+                for(j in msg.result.response.passengers[0].sale_service_charges[i]){
+                    currency = msg.result.response.passengers[0].sale_service_charges[i][j].currency
+                    break;
+                }
+                break;
+            }
             var text = '';
             $text = '';
             check_provider_booking = 0;

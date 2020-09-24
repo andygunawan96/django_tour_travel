@@ -276,14 +276,14 @@ def no_session_logout(request):
         language = request.session['_language']
     except:
         language = ''
-    return redirect(language+'/')
+    return redirect(language+'/login')
 
 def goto_dashboard(request):
     try:
         language = request.session['_language']
     except:
         language = ''
-    return redirect(language+'/dashboard')
+    return redirect(language+'/')
 
 def testing(request):
     if 'user_account' in request.session._session and 'ticketing' in request.session['user_account']['co_agent_frontend_security']:
@@ -333,11 +333,16 @@ def payment_method(request, provider, order_number):
     nomor_rekening = ''
     amount = ''
     create_date = ''
+    bank_name = ''
+    va_number = ''
+
     data = get_order_number_frontend(data)
     if data['result']['error_code'] == 0:
         time_limit = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['time_limit']))
         nomor_rekening = data['result']['response']['nomor_rekening']
         amount = data['result']['response']['amount']
+        va_number = data['result']['response']['va_number']
+        bank_name = data['result']['response']['bank_name']
         create_date = convert_string_to_date_to_string_front_end_with_time(to_date_now(data['result']['response']['create_date']))
     values.update({
         'static_path': path_util.get_static_path(MODEL_NAME),
@@ -351,6 +356,8 @@ def payment_method(request, provider, order_number):
         'nomor_rekening': nomor_rekening,
         'amount': amount,
         'create_date': create_date,
+        'va_number': va_number,
+        'bank_name': bank_name,
         'signature': request.session['signature']
     })
     return render(request, MODEL_NAME + '/payment_method_embed.html', values)
@@ -382,7 +389,7 @@ def login(request):
                 language = request.session['_language']
             except:
                 language = ''
-            return redirect(language + '/dashboard')
+            return redirect(language + '/')
     else:
         # if 'session' in request:
         if request.session.get('user_account') and 'login' in request.session['user_account'].get('co_agent_frontend_security', []):
@@ -390,13 +397,13 @@ def login(request):
                 language = request.session['_language']
             except:
                 language = ''
-            return redirect(language + '/dashboard')
+            return redirect(language + '/')
         elif values['website_mode'] == 'btc' or values['website_mode'] == 'btc_btb':
             try:
                 language = request.session['_language']
             except:
                 language = ''
-            return redirect(language + '/dashboard')
+            return redirect(language + '/')
         else:
             request.session.delete()
             try:
