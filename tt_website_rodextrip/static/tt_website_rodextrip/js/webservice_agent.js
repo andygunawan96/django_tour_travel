@@ -3565,12 +3565,12 @@ function get_payment_espay(){
                             <div class="row" style="margin-top:10px;">
                                 <div class="col-lg-6">
                                     <div class="text-center">
-                                        <button class="btn btn-lg btn-warning" id="btn_done" > Check Status Reservation </button>
+                                        <button class="btn btn-lg btn-warning" type="button" id="btn_done" > Check Status Reservation </button>
                                     </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="text-center">
-                                        <button class="btn btn-lg btn-warning" id="btn_create_reservation" onclick="window.location='/';"> Create New Reservation </button>
+                                        <button class="btn btn-lg btn-warning" type="button" id="btn_create_reservation" onclick="window.location='/';"> Create New Reservation </button>
                                     </div>
                                 </div>
 
