@@ -16,9 +16,14 @@ function signin_ppob(data){
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 if(data == '')
+                {
                     search_ppob();
+                }
                 else
+                {
+                    get_provider_list();
                     ppob_get_booking(data);
+                }
             }
 
        },
@@ -148,6 +153,32 @@ function get_carrier_providers_ppob(){
                   title: 'Oops!',
                   html: '<span style="color: red;">Error get signature </span>' + errorThrown,
                 })
+            }
+       },timeout: 60000
+    });
+}
+
+function get_provider_list(type){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/ppob",
+       headers:{
+            'action': 'get_provider_description',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           provider_list_data = JSON.parse(msg);
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                   Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error ppob get provider list </span>' + errorThrown,
+                   })
             }
        },timeout: 60000
     });
@@ -654,6 +685,20 @@ function ppob_get_booking(data){
                         $(".issued_booking_btn").show();
                 }catch(err){}
                 check_provider_booking++;
+                try{
+                   check_cancel = 0;
+                   for(i in msg.result.response.provider_booking){
+                        if(provider_list_data[msg.result.response.provider_booking[i].provider].is_post_booked_cancel){
+                            check_cancel = 1;
+                        }
+                   }
+                   if(check_cancel){
+                        document.getElementById('cancel').hidden = false;
+                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                   }
+                }catch(err){
+
+                }
             }
             else{
                 //$(".issued_booking_btn").remove();
@@ -1226,7 +1271,7 @@ function ppob_get_booking(data){
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="airline_issued('`+msg.result.response.order_number+`');">Force Issued</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ppob_issued('`+msg.result.response.order_number+`');">Force Issued</button>
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
@@ -1243,7 +1288,7 @@ function ppob_get_booking(data){
                         </div>
                         <div class="modal-body">
                             <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
-                                <div id="airline_ticket_pick">
+                                <div id="bills_ticket_pick">
 
                                 </div>
                                 <div class="col-sm-12" id="render_ticket_reissue">
@@ -1270,7 +1315,7 @@ function ppob_get_booking(data){
                         </div>
                         <div class="modal-body">
                             <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
-                                <div id="airline_detail">
+                                <div id="bills_detail">
 
                                 </div>
 
@@ -1329,6 +1374,108 @@ function ppob_get_booking(data){
           }
        },timeout: 300000
     });
+}
+
+function cancel_btn(){
+    Swal.fire({
+      title: 'Are you sure want to Cancel this booking?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes'
+    }).then((result) => {
+      if (result.value) {
+        show_loading();
+        please_wait_transaction();
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/ppob",
+           headers:{
+                'action': 'cancel',
+           },
+           data: {
+               'order_number': bills_get_detail.result.response.order_number,
+               'signature': signature
+           },
+           success: function(msg) {
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   //update ticket
+                   window.location = "/ppob/booking/" + bills_get_detail.result.response.order_number;
+                   price_arr_repricing = {};
+                   pax_type_repricing = [];
+                   $("#waitingTransaction").modal('hide');
+                   document.getElementById('show_loading_booking_bills').hidden = false;
+                   document.getElementById('bills_booking').innerHTML = '';
+                   document.getElementById('bills_detail').innerHTML = '';
+                   document.getElementById('payment_acq').innerHTML = '';
+                   document.getElementById('show_loading_booking_bills').style.display = 'block';
+                   document.getElementById('show_loading_booking_bills').hidden = false;
+                   document.getElementById('payment_acq').hidden = true;
+                   document.getElementById("overlay-div-box").style.display = "none";
+                   $(".issued_booking_btn").remove();
+                   ppob_get_booking(bills_get_detail.result.response.order_number);
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error ppob cancel </span>' + msg.result.error_msg,
+                    }).then((result) => {
+                      if (result.value) {
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        document.getElementById('show_loading_booking_bills').hidden = false;
+                        document.getElementById('bills_booking').innerHTML = '';
+                        document.getElementById('bills_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('show_loading_booking_bills').style.display = 'block';
+                        document.getElementById('show_loading_booking_bills').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+
+                        $("#waitingTransaction").modal('hide');
+                        document.getElementById("overlay-div-box").style.display = "none";
+
+                        $('.hold-seat-booking-train').prop('disabled', false);
+                        $('.hold-seat-booking-train').removeClass("running");
+                        ppob_get_booking(bills_get_detail.result.response.order_number);
+                      }
+                    })
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error ppob cancel booking </span>' + errorThrown,
+                    }).then((result) => {
+                      if (result.value) {
+                        price_arr_repricing = {};
+                        pax_type_repricing = [];
+                        document.getElementById('show_loading_booking_bills').hidden = false;
+                        document.getElementById('bills_booking').innerHTML = '';
+                        document.getElementById('bills_detail').innerHTML = '';
+                        document.getElementById('payment_acq').innerHTML = '';
+                        document.getElementById('show_loading_booking_bills').style.display = 'block';
+                        document.getElementById('show_loading_booking_bills').hidden = false;
+                        document.getElementById('payment_acq').hidden = true;
+
+                        $("#waitingTransaction").modal('hide');
+                        document.getElementById("overlay-div-box").style.display = "none";
+                        $('.hold-seat-booking-train').prop('disabled', false);
+                        $('.hold-seat-booking-train').removeClass("running");
+                        ppob_get_booking(bills_get_detail.result.response.order_number);
+                      }
+                    })
+                }
+           },timeout: 300000
+        });
+      }
+    })
 }
 
 function resync_status(){
@@ -1418,6 +1565,7 @@ function ppob_issued(data){
                    document.getElementById('payment_acq').innerHTML = '';
                    document.getElementById('show_loading_booking_bills').style.display = 'block';
                    document.getElementById('show_loading_booking_bills').hidden = false;
+                   document.getElementById('cancel').hidden = true;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
                    $(".issued_booking_btn").remove();
@@ -1438,6 +1586,7 @@ function ppob_issued(data){
                     document.getElementById('payment_acq').innerHTML = '';
                     document.getElementById('show_loading_booking_bills').style.display = 'block';
                     document.getElementById('show_loading_booking_bills').hidden = false;
+                    document.getElementById('cancel').hidden = true;
                     document.getElementById('payment_acq').hidden = true;
 
                     $("#waitingTransaction").modal('hide');
@@ -1463,6 +1612,7 @@ function ppob_issued(data){
                     document.getElementById('payment_acq').innerHTML = '';
                     document.getElementById('show_loading_booking_bills').style.display = 'block';
                     document.getElementById('show_loading_booking_bills').hidden = false;
+                    document.getElementById('cancel').hidden = true;
                     document.getElementById('payment_acq').hidden = true;
                     $("#waitingTransaction").modal('hide');
                     document.getElementById("overlay-div-box").style.display = "none";
