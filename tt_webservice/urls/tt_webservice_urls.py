@@ -18,6 +18,7 @@ from ..views import tt_webservice_voucher_views as VoucherWebserviceView
 from ..views import tt_webservice_printout_views as PrintoutWebserviceView
 from ..views import tt_webservice_ppob_views as PPOBWebserviceView
 from ..views import tt_webservice_event_views as EventWebserviceView
+from ..views import tt_webservice_report_views as ReportWebserviceView
 
 app_name = 'tt_webservice'
 
@@ -41,5 +42,6 @@ urlpatterns = [
     re_path('voucher', VoucherWebserviceView.api_models, name="voucher"),
     re_path('printout', PrintoutWebserviceView.api_models, name="printout"),
     re_path('test', TestWebserviceView.api_models, name="test"),
+    re_path('report', ReportWebserviceView.api_models, name="report"),
     # url(r'^$', views.index),
 ]
