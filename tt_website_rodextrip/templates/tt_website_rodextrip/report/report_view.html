@@ -1,0 +1,112 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
+<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script>
+    signature = `{{signature}}`;
+    static_path_url_server = '{{static_path_url_server}}'
+    name = '';
+
+    try{
+        cache = `{{cache}}`;
+        cache = cache.replace(/&quot;/g, '"');
+        cache = JSON.parse(cache);
+    }catch(err){
+
+    }
+</script>
+
+<style>
+    @media only screen and (min-width: 991px) {
+        #slider_home {
+            margin-top: 88px;
+        }
+    }
+    @media only screen and (max-width: 990px) {
+        #slider_home {
+            margin-top: 0px;
+        }
+        #logo_home {
+            padding-top:10px;
+        }
+    }
+</style>
+<title>{{name}} - {% trans 'Activity' %}</title>
+
+{% if username.co_user_login != '' %}
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+{% include 'tt_website_rodextrip/logout.html' %}
+{% endif %}
+{% include 'tt_website_rodextrip/header.html' %}
+<div class="container mt-3 mb-3">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    IDR
+                    <p id="total_rupiah" style="float:right">Reserve for total rupiah</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <p id="top_up_rupiah">Reserve for top up</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    IDR
+                    <p id="average_rupiah" style="float:right">Reserve for avrg</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <h2>Something Report</h2>
+    <hr>
+    <div class="chart_container">
+        <button class="top_product_button report_button" onclick="javascript:update_chart('top_product_button', $('#chart_top_product'), 'get_report', 'Top Product', 'days');">Days</button>
+        <button class="top_product_button report_button" onclick="javascript:update_chart('top_product_button', $('#chart_top_product'), 'get_report', 'Top Product', 'week');">Week</button>
+        <button class="top_product_button report_button" onclick="javascript:update_chart('top_product_button', $('#chart_top_product'), 'get_report', 'Top Product', 'month');">Month</button>
+
+            <form class="p-3 update_chart" id="top_product" action="/webservice/backend">
+                {% csrf_token %}
+                <input type="hidden" value="chart_top_product" name="field_id">
+                <input type="hidden" value="get_top_product_report" name="action">
+                <label>Start Date</label>
+                <input type="date" name="start_date" id="get_top_product_report_startdate">
+                <label>Until</label>
+                <input type="date" name="until_date" id="get_top_product_report_enddate">
+                <button type="submit">update</button>
+            </form>
+        <canvas id="chart_top_product"></canvas>
+    </div>
+</div>
+<script src="{{ static_path }}js/webservice_report.js?version={{javascript_version}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+    get_peripherals("total_rupiah", "get_total_rupiah");
+    //get_peripherals("top_up_rupiah", "get_top_up_rupiah");
+    get_peripherals("average_rupiah", "get_average_rupiah");
+    get_report($('#chart_top_product'), 'get_transaction_number_report', '# of Transaction Report', "{{type}}");
+</script>
+{% include 'tt_website_rodextrip/footer.html' %}
+{% endblock %}

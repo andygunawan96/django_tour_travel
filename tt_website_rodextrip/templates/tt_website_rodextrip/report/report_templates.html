@@ -1,0 +1,127 @@
+{% extends 'tt_website_rodextrip/template_website_booking.html' %}
+{% load i18n %}
+{% load static from staticfiles %}
+{% block content %}
+<script src="{{ static_path }}js/webservice_agent.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_content.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_token.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_activity.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/webservice_account.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/agent_javascript.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/activity_javascript.js?version={{javascript_version}}"></script>
+<!--<script src="{{ static_path }}js/webservice_bank.js?version={{javascript_version}}"></script>-->
+<script src="{{ static_path }}js/moment.js?version={{javascript_version}}"></script>
+<script src="{{ static_path }}js/daterangepicker.js?version={{javascript_version}}"></script>
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.carousel.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.default.min.css?version={{javascript_version}}">
+<link rel="stylesheet" type="text/css" href="{{ static_path }}login/css/owl.theme.green.min.css?version={{javascript_version}}">
+<script src="{{ static_path }}js/vendor/owl.carousel.min.js?version={{javascript_version}}"></script>
+<script>
+    signature = `{{signature}}`;
+    static_path_url_server = '{{static_path_url_server}}'
+    name = '';
+
+    try{
+        cache = `{{cache}}`;
+        cache = cache.replace(/&quot;/g, '"');
+        cache = JSON.parse(cache);
+    }catch(err){
+
+    }
+</script>
+
+<style>
+    @media only screen and (min-width: 991px) {
+        #slider_home {
+            margin-top: 88px;
+        }
+    }
+    @media only screen and (max-width: 990px) {
+        #slider_home {
+            margin-top: 0px;
+        }
+        #logo_home {
+            padding-top:10px;
+        }
+    }
+</style>
+<title>{{name}} - {% trans 'Activity' %}</title>
+
+{% if username.co_user_login != '' %}
+{% include 'tt_website_rodextrip/plugin_passenger.html' %}
+{% include 'tt_website_rodextrip/logout.html' %}
+{% endif %}
+{% include 'tt_website_rodextrip/header.html' %}
+<section class="testimonial-area section-gap overlay-bg" data-aos="fade-up" style="padding-top:60px; padding-bottom:60px; z-index:1; position:relative; background-image:url('{{static_path}}images/bg_activity.jpg') !important">
+    <div class="container">
+        <div class="card p-3">
+            <div class="row">
+                <div class="col-lg-3 col-6 p-2">
+                    <a href="/report/overall">
+                        <div class="p-3" style="background-color:yellow">
+                            <h3>Overall</h3>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-6 p-2">
+                    <a href="/report/airline">
+                        <div class="p-3" style="background-color:yellow">
+                            <h3>Airline</h3>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-6 p-2">
+                    <a href="/report/activity">
+                        <div class="p-3" style="background-color:yellow">
+                            <h3>Activity</h3>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-6 p-2">
+                    <a href="/report/train">
+                        <div class="p-3" style="background-color:yellow">
+                            <h3>Train</h3>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-6 p-2">
+                    <a href="/report/event">
+                        <div class="p-3" style="background-color:yellow">
+                            <h3>Event</h3>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-lg-3 col-6 p-2">
+                    <a href="/report/hotel">
+                        <div class="p-3" style="background-color:yellow">
+                            <h3>Hotel</h3>
+                        </div>
+                    </a>
+                </div>
+<!--                <div class="col-lg-3 col-6 p-2">-->
+<!--                    <a href="/report/passport">-->
+<!--                        <div class="p-3" style="background-color:yellow">-->
+<!--                            <h3>Passport</h3>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--                <div class="col-lg-3 col-6 p-2">-->
+<!--                    <a href="/report/ppob">-->
+<!--                        <div class="p-3" style="background-color:yellow">-->
+<!--                            <h3>PPOB</h3>-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                </div>-->
+                <div class="col-lg-3 col-6 p-2">
+                    <a href="/report/tour">
+                        <div class="p-3" style="background-color:yellow">
+                            <h3>Tour</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'tt_website_rodextrip/footer.html' %}
+{% endblock %}
