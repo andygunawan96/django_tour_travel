@@ -17,7 +17,10 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
        },
        success: function(msg) {
             console.log(msg);
+            console.log(type);
             payment_acq2 = {};
+            type_render = type;
+            val_render = val;
             try{
                 $("#show_loading_booking_airline").hide();
             }catch(err){}
@@ -29,7 +32,54 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
                     }
                 }
             }
-            if(type == 'top_up')
+            render_payment();
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error payment acq </span>' + errorThrown,
+                })
+            }
+       },timeout: 60000
+    });
+}
+function render_payment(){
+    try{
+        if(payment_acq2){
+//            if(merchant_espay){
+//                for(i in payment_acq2){
+//                    if(i == 'payment_gateway'){
+//                        for(j in payment_acq2[i]){
+//                            console.log(payment_acq2[i][j].name);
+//                            if(payment_acq2[i][j].name == "Payment Gateway"){
+//                                payment_acq_temp = payment_acq2[i].splice(j,1)[0]
+//                                break;
+//                            }
+//                        }
+//                        break;
+//                    }
+//                }
+//                try{
+//                    for(i in payment_acq2){
+//                        if(i == 'payment_gateway'){
+//                            for(j in merchant_espay.result.response){
+//                                if(merchant_espay.result.response[j].productCode != 'CREDITCARD'){
+//                                    payment_acq_temp['bank']['code'] = merchant_espay.result.response[j]['bankCode']
+//                                    payment_acq_temp['bank']['name'] = merchant_espay.result.response[j]['productCode']
+//                                    payment_acq_temp['name'] = merchant_espay.result.response[j]['productName']
+//                                    payment_acq2[i].push(JSON.parse(JSON.stringify(payment_acq_temp)));
+//                                }
+//                            }
+//                            break;
+//                        }
+//                    }
+//                }catch(err){
+//                    console.log(err);
+//                }
+//            }
+            if(type_render == 'top_up')
                 text=`<h4 style="color:`+color+`;">Payment Method</h4><hr/>`;
             else
                 text=`<h4 style="color:`+color+`;">Customer Payment Method</h4><hr/>`;
@@ -42,17 +92,17 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             }else{
                 text+=`<div>`;
             }
-        if(template == 1 || template == 2 || template == 4 || template == 5){
-            text+=`<div class="form-select" id="default-select">`;
-        }else if(template == 3){
-            text+=`<div class="default-select" style="margin-bottom:15px;">`;
-        }
+            if(template == 1 || template == 2 || template == 4 || template == 5){
+                text+=`<div class="form-select" id="default-select">`;
+            }else if(template == 3){
+                text+=`<div class="default-select" style="margin-bottom:15px;">`;
+            }
 
-        if(template == 4){
-            text+=`<select class="nice-select-default rounded payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
-        }else{
-            text+=`<select class="payment_method" id="payment_via" onchange="set_payment('`+val+`','`+type+`');">`;
-        }
+            if(template == 4){
+                text+=`<select class="nice-select-default rounded payment_method" id="payment_via" onchange="set_payment('`+val_render+`','`+type_render+`');">`;
+            }else{
+                text+=`<select class="payment_method" id="payment_via" onchange="set_payment('`+val_render+`','`+type_render+`');">`;
+            }
             for(i in payment_acq2){
                 print = '';
                 if(i == 'va')
@@ -77,21 +127,13 @@ function get_payment_acq(val,booker_seq_id,order_number,transaction_type,signatu
             $("#loading_payment_acq").hide();
 
             $('#payment_via').niceSelect();
-            set_payment(val,type);
-//            focus_box('payment_acq');
-//            document.getElementById('payment_acq').hidden = false;
-       },
-       error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
-                Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: red;">Error payment acq </span>' + errorThrown,
-                })
-            }
-       },timeout: 60000
-    });
+            set_payment(val_render,type_render);
+        //            focus_box('payment_acq');
+        //            document.getElementById('payment_acq').hidden = false;
+        }
+    }catch(err){console.log(err)}
 }
+
 //testing webhook
 function payment(){
     $.ajax({
@@ -941,11 +983,39 @@ function get_payment_order_number(order_number){
        success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                if(payment_acq2[payment_method][selected].name == "Payment Gateway")
-                    window.location.href = '/payment/espay/' + msg.result.response.order_number;
-                else
+                if(payment_acq2[payment_method][selected].account_number == ""){
+//                    window.location.href = '/payment/espay/' + msg.result.response.order_number;
+                    get_order_number_frontend(msg.result.response.order_number);
+                }else
                     window.location.href = '/payment/'+name+'/' + msg.result.response.order_number;
             }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error get signature </span>' + errorThrown,
+                })
+            }
+       },timeout: 60000
+    });
+}
+
+function get_order_number_frontend(order_number){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/payment",
+       headers:{
+            'action': 'get_order_number_frontend',
+       },
+       data: {
+            'order_number': order_number,
+            'signature': signature,
+       },
+       success: function(msg) {
+            console.log(msg);
+            get_payment_espay(msg.result.response.order_number)
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){

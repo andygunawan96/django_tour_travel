@@ -55,6 +55,8 @@ def api_models(request):
             res = set_payment_method(request)
         elif req_data['action'] == 'check_payment_payment_method':
             res = check_payment_payment_method(request)
+        elif req_data['action'] == 'get_order_number_frontend':
+            res = get_order_number_frontend_webservice(request)
         else:
             res = ERR.get_error_api(1001)
     except Exception as e:
@@ -211,6 +213,22 @@ def get_order_number_frontend(req):
             "Content-Type": "application/json",
             "action": "get_payment_acquirer_payment_gateway_frontend",
             "signature": req['signature']
+        }
+        res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
+    except:
+        res = 0
+    return res
+
+def get_order_number_frontend_webservice(request):
+    try:
+        data = {
+            'order_number': request.POST['order_number']
+        }
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_payment_acquirer_payment_gateway_frontend",
+            "signature": request.POST['signature']
         }
         res = util.send_request(url=url + 'payment', data=data, headers=headers, method='POST')
     except:
