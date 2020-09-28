@@ -833,6 +833,100 @@ SGOSignature.receiveForm();
                             </div>
 
                         </div><br>
+                        {% else %}
+                        <h3 style="" class="text-center">PEMBAYARAN ANDA BELUM SELESAI</h3>
+                        <div class="text-center"><span class="sub-label-header">YOUR PAYMENT IS UNCOMPLETED</span></div>
+                        <br>
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+                            <div class="wrapper">
+                                <form class="order-detail-form-atm">
+                                    <label class="header-title">Order Detail</label><br>
+                                    <span class="sub-label-header">Detail Pesanan</span>
+                                    <br> <br>
+                                    <table class="table table-responsive tbl-custom">
+                                        <tbody>
+                                            <tr>
+                                                <td> <b>Nama Merchant</b><br>   <span class="sub-label">Merchant Name</span></td>
+                                                <td>:</td>
+                                                <td>{{name}} </td>
+                                            </tr>
+                                            <tr>
+                                                <td> <b>Nomor Pemesanan</b><br>   <span class="sub-label">Order No</span></td>
+                                                <td>:</td>
+                                                <td> <script>
+                                                        document.write(order_number);
+                                                     </script></td>
+                                            </tr>
+
+                                            <tr>
+                                                <td> <b>Tanggal/Jam Transaksi</b><br> <span class="sub-label">Date/Time Transaction</span>
+                                                </td>
+                                                <td>:</td>
+                                                <td>{{create_date}}</td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="3">
+                                                    <div id="emailresult" style="margin-top: 10px">ERROR PAYMENT</div>
+                                                    <br>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6 col-lg-6">
+
+                            <p class="label-total">Jumlah yang harus Dibayar</p> <span class="sub-label">Total Paid</span>
+
+                            <div class="panel panel-n">
+                                <div class="panel-body-n">
+                                    <script>
+                                        document.write(getrupiah(`{{amount}}`));
+                                    </script>
+                                </div>
+                            </div>
+
+                            <p class="label-total">Nomor VA</p> <span class="sub-label">Virtual Account Number</span>
+
+                            <div class="panel panel-default">
+                                <div class="panel-body-n">
+                                    -
+                                </div>
+                            </div>
+
+                            <p class="label-total">Nama Bank Tujuan</p> <span class="sub-label">Destination Bank Name </span>
+
+                            <div class="panel panel-default">
+                                <div class="panel-body-n">
+                                    -
+                                </div>
+                            </div>
+
+                            <p class="label-total">Pembayaran anda harus sudah dilakukan sebelum time limit</p>
+                            <span class="sub-label">Transfer Due Date</span>
+
+                            <div class="panel panel-default">
+                                <div class="panel-body-n">
+                                    {{time_limit}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:10px;">
+                            <div class="col-lg-6">
+                                <div class="text-center">
+                                    <button class="btn btn-lg btn-warning" type="button" id="btn_done" >{% trans 'Check Status Reservation'%}</button>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="text-center">
+                                    <button class="btn btn-lg btn-warning" type="button" id="btn_create_reservation" onclick="window.location='/';">{% trans 'Create New Reservation'%}</button>
+                                </div>
+                            </div>
+
+                        </div><br>
                         {% endif %}
                     </form>
 
@@ -842,9 +936,8 @@ SGOSignature.receiveForm();
     </div>
 </section>
 <script>
-    {% if bank_name == False %}
-    get_merchant_info();
-    {% endif %}
+    url_callback = '{{espay_api_key_callback_url}}'+'{{provider_type}}'+'/booking/'+btoa(order_number);
+    document.getElementById("btn_done").onclick = function() {window.location='/{{provider_type}}'+'/booking/'+btoa(order_number); }
 </script>
 {% else %}
 <link href="{{ static_path }}css/espay/bootstrap.min.css" media="screen" rel="stylesheet" type="text/css">

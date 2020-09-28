@@ -191,6 +191,11 @@ function check_voucher(){
                                         discount_voucher['discount'] += airline_price[i][j]['fare'] * msg.result.response.voucher_value / 100;
                                     }
                                 }else if(msg.result.response.voucher_type == 'amount'){
+                                    for(j in airline_price[i]){
+                                        //cuman fare
+                                        discount_voucher['discount'] += airline_price[i][j]['fare'];
+                                    }
+                                    if(discount_voucher['discount'] > msg.result.response.voucher_value)
                                     discount_voucher['discount'] = msg.result.response.voucher_value;
                                 }
                                 discount_voucher['currency'] = msg.result.response.voucher_currency;
@@ -202,7 +207,7 @@ function check_voucher(){
                         document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
-                                <h6>Expected discount `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
+                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
                             </div>
                             <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                                 Change Voucher Code

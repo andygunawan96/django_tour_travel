@@ -371,6 +371,7 @@ def login(request):
                 if key != '_language':
                     del request.session[key]
             request.session.modified = True
+            request.session.save()
         try:
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
