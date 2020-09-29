@@ -694,7 +694,7 @@ function ppob_get_booking(data){
                    }
                    if(check_cancel){
                         document.getElementById('cancel').hidden = false;
-                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                        document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();">Cancel Booking <i class="fas fa-times" style="font-size:16px;"/></button>`;
                    }
                 }catch(err){
 
@@ -1224,13 +1224,13 @@ function ppob_get_booking(data){
 
                 <div style="padding-bottom:10px;">
                     <center>
-                        <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                        <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                     </center>
                 </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                 text_detail+=`
                 <div style="margin-bottom:5px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                 </div>`;
                 if(msg.result.response.state == 'fail_issued' || msg.result.response.state == 'fail_refunded')
                 text_detail+=`

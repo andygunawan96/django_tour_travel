@@ -1000,13 +1000,13 @@ function train_get_booking(data){
 
                 <div style="padding-bottom:10px;">
                     <center>
-                        <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                        <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                     </center>
                 </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                     text_detail+=`
                     <div style="margin-bottom:5px;">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                     </div>`;
                 text_detail+=`
             </div>`;
@@ -1022,16 +1022,71 @@ function train_get_booking(data){
             add_repricing();
             document.getElementById('show_title_train').hidden = false;
             document.getElementById('show_loading_booking_train').hidden = true;
-            if(msg.result.response.state == 'booked'){
-                text += `
-                <div>
-                    <input class="primary-btn-ticket" id="train_cancel_booking_btn" style="width:100%;" type="button" onclick="train_cancel_booking();" value="Cancel Booking"/>
-                </div>`;
-            }
             document.getElementById('train_detail').innerHTML = text;
-            if (msg.result.response.state != 'booked'){
-                document.getElementById('issued-breadcrumb').classList.add("active");
+
+            if(msg.result.response.state == 'cancel'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+            }else if(msg.result.response.state == 'cancel2'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+            }else if(msg.result.response.state == 'void'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+            }else if(msg.result.response.state == 'fail_booked'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+            }else if(msg.result.response.state == 'booked'){
+               document.getElementById('cancel').hidden = false;
+               document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" id="train_cancel_booking_btn" type="button" onclick="train_cancel_booking();">Cancel Booking <i class="fas fa-times" style="font-size:16px;"/></button>`;
+               document.getElementById('issued-breadcrumb').classList.add("br-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+            }else if(msg.result.response.state == 'draft'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('Booking-breadcrumb').classList.remove("br-book");
+               document.getElementById('Booking-breadcrumb').classList.add("br-fail");
+               document.getElementById('Booking-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('Booking-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('Booking-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+            }else{
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('issued-breadcrumb').classList.add("active");
+                document.getElementById('cancel').hidden = true;
+                document.getElementById('cancel').innerHTML = '';
+
+               document.getElementById('issued-breadcrumb').classList.add("br-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
             }
+
         }else{
             Swal.fire({
               type: 'error',

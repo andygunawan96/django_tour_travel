@@ -1469,11 +1469,11 @@ function hotel_room_pick_button(){
     text +=`</div>`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text += `<div class="col-lg-12">
-            <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+            <input class="primary-btn-white" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
         </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
-        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
+        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
     </div>`;
     if(agent_security.includes('book_reservation') == true){
     text += `<div class="col-lg-12">`;
@@ -1918,11 +1918,11 @@ function hotel_detail(old_cancellation_policy){
         text +=`</div>`;
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text += `<div class="col-lg-12">
-                <input class="primary-btn" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+                <input class="primary-btn-white" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
             </div>`;
         text += `
         <div class="col-lg-12" style="padding-top:10px;">
-            <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
+            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
         </div>`;
 
 
@@ -2094,7 +2094,7 @@ function get_checked_copy_result(){
     text+=`
     </div>
     <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
     </div>`;
     node.innerHTML = text;
     node.className = "row";

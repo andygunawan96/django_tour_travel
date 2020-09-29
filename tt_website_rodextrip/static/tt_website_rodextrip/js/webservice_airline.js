@@ -2015,12 +2015,12 @@ function get_price_itinerary_request(){
                         </div>`;
                 text+=`
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+                        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
                     </div>
                     <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                    text+=`
-                        <input class="primary-btn" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"><br/>
                     `;
                 text += `</div>`;
                 if(agent_security.includes('book_reservation') == true)
@@ -3479,6 +3479,15 @@ function airline_get_booking(data){
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+            }else if(msg.result.response.state == 'void'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
             }else if(msg.result.response.state == 'fail_booked'){
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");
@@ -3645,7 +3654,7 @@ function airline_get_booking(data){
                    }
                    if(check_cancel){
                         document.getElementById('cancel').hidden = false;
-                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="cancel_btn();" value="Cancel Booking">`;
+                        document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();">Cancel Booking <i class="fas fa-times" style="font-size:16px;"/></button>`;
                    }
                 }catch(err){
 
@@ -4358,13 +4367,13 @@ function airline_get_booking(data){
 
                 <div style="padding-bottom:10px;">
                     <center>
-                        <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                        <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                     </center>
                 </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                 text_detail+=`
                 <div style="margin-bottom:5px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                 </div>
             </div>`;
             }catch(err){}
@@ -7046,14 +7055,14 @@ function get_price_itinerary_reissue_request(airline_response, total_admin_fee){
     text+=`
         <div style="padding-bottom:10px;">
             <center>
-                <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/><br/>
+                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/><br/>
             </center>
         </div>`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text+=`
         <div style="padding-bottom:10px;">
             <center>
-                <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
+                <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
             </center>
         </div>`;
     text+=`</div>`;
@@ -7366,6 +7375,15 @@ function airline_get_booking_refund(data){
                document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
                document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
                document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+            }else if(msg.result.response.state == 'void'){
+               document.getElementById('issued-breadcrumb').classList.remove("br-active");
+               document.getElementById('issued-breadcrumb').classList.add("br-fail");
+               //document.getElementById('issued-breadcrumb').classList.remove("current");
+               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+               document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
             }else if(msg.result.response.state == 'fail_booked'){
                document.getElementById('issued-breadcrumb').classList.remove("br-active");
                document.getElementById('issued-breadcrumb').classList.add("br-fail");

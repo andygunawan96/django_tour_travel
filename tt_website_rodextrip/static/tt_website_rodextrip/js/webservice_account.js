@@ -254,14 +254,10 @@ function get_transactions_notification(val){
                                 hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
                                 if(window.location.href.split('/')[window.location.href.split('/').length-1] == "dashboard" && check_notif < 5){
                                     document.getElementById('notification_div').innerHTML +=`
-                                        <div class="row" id="alert`+check_notif+`">
-                                            <div class="col-sm-6">
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <div class="alert alert-warning" role="alert">
-                                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                  <strong>Hurry pay for this booking!</strong> `+msg.result.response[i][j].order_number + ' - ' + hold_date+`
-                                                </div>
+                                        <div id="alert`+check_notif+`">
+                                            <div class="alert alert-warning" role="alert">
+                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                              <strong>Hurry pay for this booking!</strong> `+msg.result.response[i][j].order_number + ' - ' + hold_date+`
                                             </div>
                                         </div>`;
                                 }

@@ -144,7 +144,7 @@ function get_banner(type,page){
                             text+=`
                             <div class="item">
                                 <center>
-                                    <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                    <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" alt="Rodextrip"/>
                                 </center>
                             </div>`;
                         }
@@ -158,7 +158,7 @@ function get_banner(type,page){
                                         <div class="col-lg-12">
                                             <div class="menu-content">
                                                 <div class="title text-center">
-                                                    <h2>HOT DEALS</h2>
+                                                    <h1>HOT DEALS</h1>
                                                 </div>
                                                 <br/>
                                             </div>
@@ -171,7 +171,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" alt="Rodextrip"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -188,7 +188,7 @@ function get_banner(type,page){
                                     <div class="row">
                                         <div class="col-xs-12">
                                             <div class="section-heading text-center wow fadeInUp" data-wow-delay="100ms" style="margin-bottom:20px;">
-                                                <h2>HOT DEALS</h2>
+                                                <h1>HOT DEALS</h1>
                                             </div>
                                             <div class="owl-carousel-suggest owl-theme">`;
                                             //<div style="background:red; position:absolute; right:0px; padding:5px; z-index:10;">
@@ -199,7 +199,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" alt="Rodextrip"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -247,7 +247,7 @@ function get_banner(type,page){
                                         <div class="col-lg-12">
                                             <div class="row justify-content-center mb-5">
                                                 <div class="col-md-7 text-center border-primary">
-                                                    <h2 class="font-weight-light text-primary" style="color:black !important">HOT DEAL</h2>
+                                                    <h1 class="font-weight-light text-primary" style="color:black !important">HOT DEALS</h1>
                                                 </div>
                                             </div>
                                             <div class="owl-carousel-suggest owl-theme">`;
@@ -259,7 +259,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" alt="Rodextrip"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -277,7 +277,7 @@ function get_banner(type,page){
                                         <div class="col-lg-12">
                                             <div class="menu-content">
                                                 <div class="title text-center">
-                                                    <h2>HOT DEALS</h2>
+                                                    <h1>HOT DEALS</h1>
                                                 </div>
                                                 <br/>
                                             </div>
@@ -290,7 +290,7 @@ function get_banner(type,page){
                                                 <div class="item">
                                                     <div class="single-destination relative">
                                                         <div class="thumb relative">
-                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image"/>
+                                                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" alt="Rodextrip"/>
                                                         </div>
                                                     </div>
                                                 </div>`;
@@ -324,7 +324,7 @@ function get_banner(type,page){
                                                 text+=`
                                                 <div class="item">
                                                     <center>
-                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;"/>
+                                                        <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="max-width:500px; max-height:500px;" alt="Rodextrip"/>
                                                     </center>
                                                 </div>`;
                                             }
@@ -342,7 +342,7 @@ function get_banner(type,page){
                     for(i in msg.result.response){
                         text += `
                         <div class="col-lg-6" style="margin-bottom:25px;">
-                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto;" />
+                            <img src="`+msg.result.response[i].url+`" value="`+msg.result.response[i].seq_id+`" id="`+type+i+`_image" style="height:220px;width:auto;" alt="Rodextrip"/>
                             <div class="row">
                                 <div class="col-lg-6">
                                     <label class="check_box_custom">
@@ -598,7 +598,7 @@ function get_page(data){
                 msg.result.response.body = msg.result.response.body.replace(/&lt;/g, '<');
                 msg.result.response.body = msg.result.response.body.replace(/&gt;/g, '>');
                 document.getElementById('container').innerHTML = msg.result.response.body;
-                document.getElementById('header_page').innerHTML = `<h3 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h3><img src="`+msg.result.response.image_carousel+`" style="height:30vh;" alt="" title="" />`;
+                document.getElementById('header_page').innerHTML = `<h3 style="text-align:center;color:`+color+`">`+msg.result.response.title+`</h3><img src="`+msg.result.response.image_carousel+`" style="height:30vh;" alt="Rodextrip" title="" />`;
 
             }else{
                 document.getElementById('container').innerHTML = 'Page not found';
@@ -693,7 +693,7 @@ function get_dynamic_page(type){
                             text+=`
                             <div class="item" style="text-align:center;" onclick="window.location.href='/page/`+msg.result.response[i].title.split(' ').join('')+`'">
                                 <center>
-                                    <img class="img-fluid" style="height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`" alt="">
+                                    <img class="img-fluid" style="height:360px; width:auto;" src="`+msg.result.response[i].image_carousel+`" alt="Rodextrip">
                                 </center>
                                 <span style="background-color:`+color+`; padding:5px 15px 15px 15px; width:100%; font-size:16px; color:`+text_color+`">`+msg.result.response[i].title+`</span>
                             </div>`;

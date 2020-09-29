@@ -216,14 +216,14 @@ function update_table(type){
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
-                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
+                        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('search');" value="Copy">
                    </div>
                 </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                 text+=`
                 <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12">
-                        <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                    </div>
                 </div>`;
                 if(agent_security.includes('book_reservation') == true)
@@ -345,14 +345,14 @@ function update_table(type){
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
-                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
+                    <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                </div>
             </div>
             `;
@@ -541,14 +541,14 @@ function update_table(type){
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
-                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
+                    <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data('passenger');" value="Copy">
                </div>
             </div>`;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text+=`
             <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
                </div>
             </div>
             `;
@@ -662,7 +662,7 @@ function update_table(type){
         text+=`
         <div class="row" style="margin-top:10px; text-align:center;">
            <div class="col-lg-12" style="padding-bottom:10px;">
-                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
+                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br>
            </div>
         </div>
         `;

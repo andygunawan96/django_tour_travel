@@ -152,7 +152,7 @@ function set_container_bill(){
                         <input type="text" class="form-control virtual_number" name="bpjs_number" id="bpjs_number" onkeyup="check_bpjs_number();" onpaste="setTimeout(check_bpjs_number.bind(null,this),100);" placeholder="Nomor Virtual Account Keluarga / Perusahaan" autocomplete="off"/>
                     </div>
                     <div style="text-align:left;">
-                        <h6 style="color:`+color+`;" id="input_alert" style="display:none;"></h6>
+                        <span style="color:`+color+`; font-size:14px; font-weight:bold;" id="input_alert" style="display:none;"></span>
                     </div>
                 </div>
             `;
@@ -1407,14 +1407,14 @@ function bills_detail(){
         text+=`
         <div style="padding-bottom:10px;">
             <center>
-                <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
             </center>
         </div>`;
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text+=`
             <div style="padding-bottom:10px;">
                 <center>
-                    <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
+                    <input type="button" class="primary-btn-white" style="width:100%;" onclick="show_commission('commission');" id="show_commission_button" value="Show Commission"/><br/>
                 </center>
             </div>`;
         document.getElementById('airline_detail').innerHTML = text;

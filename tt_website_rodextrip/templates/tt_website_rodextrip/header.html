@@ -10,41 +10,11 @@
 <div id="status" class="status on" style="display:none; top:0px; z-index:1000;"></div>
 {%if template == 1%}
 <header id="header">
-    <!--<div class="main-menu-2">-->
-    <!--<div class="container" style="padding-right:0px;">-->
-    <!--<div class="align-items-center justify-content-between d-flex" style="justify-content: flex-end !important;">-->
-    <!--<nav>-->
-    <!--<ul class="nav-menu">-->
-    <!--<li id="phone-detail" style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i> (031) 5662000</a></li>-->
-    <!--<li id="phone-detail-show" style="color:black;"><a href="tel:0315662000" style="font-size:11px;"><i class="fas fa-phone"></i></a></li>-->
-    <!--<li id="email-detail" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; border-right:1px solid black; margin-right:3px;"> <i class="fas fa-envelope"></i> rodextravel@tours</a></li>-->
-    <!--<li id="email-detail-show" style="color:black;"><a href="mailto:rodextravel@tours" style="font-size:11px; border-right:1px solid black; margin-right:3px;"> <i class="fas fa-envelope"></i></a></li>-->
-    <!--&lt;!&ndash;                        <li class="menu-has-children"><a href="#">Template</a>&ndash;&gt;-->
-    <!--&lt;!&ndash;                            <ul>&ndash;&gt;-->
-    <!--&lt;!&ndash;                                <li><a href="jav * ascript:change_template(1);">Template 1</a></li>&ndash;&gt;-->
-    <!--&lt;!&ndash;                                <li><a href="jav * ascript:change_template(2);">Template 2</a></li>&ndash;&gt;-->
-    <!--&lt;!&ndash;                                <li><a href="jav * ascript:change_template(3);">Template 3</a></li>&ndash;&gt;-->
-    <!--&lt;!&ndash;                                <li><a href="jav * ascript:change_template(4);">Template 4</a></li>&ndash;&gt;-->
-    <!--&lt;!&ndash;                                <li><a href="jav * ascript:change_template(5);">Template 5</a></li>&ndash;&gt;-->
-    <!--&lt;!&ndash;                            </ul>&ndash;&gt;-->
-    <!--&lt;!&ndash;                        </li>&ndash;&gt;-->
-    <!--<li class="menu-has-children"><a href="#" style="border-right:1px solid black;"> Language </a>-->
-    <!--<ul>-->
-    <!--<li><a href="#"> ID </a></li>-->
-    <!--<li><a href="#"> ENG</a></li>-->
-    <!--<li><a href="#"> JP </a></li>-->
-    <!--</ul>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</nav>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo">
-                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="" title="" /></a>
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Rodextrip" title="" /></a>
                 </div>
 
                 <nav id="nav-menu-container" >
@@ -87,7 +57,7 @@
                                         {% get_available_languages as LANGUAGES %}
                                         {% get_language_info_list for LANGUAGES as languages %}
                                         {% for language in languages %}
-                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" alt="Rodextrip" style="height:21px; width:21px;"/> {{language.name}}</a></li>
                                         {% endfor %}
                                     </form>
                                 </ul>
@@ -117,7 +87,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" alt="Rodextrip" style="margin-right:10px;" id="user_login"/> {{username.co_user_login}}</a>
                         <ul>
                             <li><a data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                             {% if "admin" in username.co_agent_frontend_security %}
@@ -184,7 +154,6 @@
     </div>
 </header>
 {% elif template == 2 %}
-<!--template2-->
 <header class="header-area">
     <!-- Search Form -->
     <!--    <div class="search-form d-flex align-items-center">-->
@@ -232,7 +201,7 @@
         <div class="classy-nav-container breakpoint-off">
             <div class="container">
                 <nav class="classy-navbar justify-content-between" id="robertoNav">
-                    <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="" title="" /></a>
+                    <a class="nav-brand" href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Rodextrip" title="" /></a>
                     <div style="display:flex;">
                         <i class="fas fa-bell notification-mobile" data-toggle="modal" data-target="#myModalNotification" style="font-size:20px; cursor:pointer; padding-right:15px; padding-top:5px; display:none; color:{{color}};"></i>
                         <div class="classy-navbar-toggler">
@@ -285,7 +254,7 @@
                                                 {% get_available_languages as LANGUAGES %}
                                                 {% get_language_info_list for LANGUAGES as languages %}
                                                 {% for language in languages %}
-                                                <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                                <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="Rodextrip"/> {{language.name}}</a></li>
                                                 {% endfor %}
                                             </form>
                                         </ul>
@@ -320,7 +289,7 @@
                                 </ul>
                             </li>
 
-                            <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                            <li class="notification-mobile" style="display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Rodextrip" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                                 <ul class="dropdown">
                                     <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
 
@@ -398,11 +367,9 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- Nav End -->
+                </nav>
             </div>
-            </nav>
         </div>
-    </div>
     </div>
 </header>
 {% elif template == 3%}
@@ -419,7 +386,7 @@
                 <!--                    </ul>-->
                 <!--                </div>-->
                 <div id="logo" style="padding:15px 0px 15px 15px;">
-                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="" title="" /></a>
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Rodextrip" title="" /></a>
                 </div>
                 <nav id="nav-menu-container">
                     <ul class="nav-menu" id="nav-menu-container_login" {% if username.co_user_login == 'agent_b2c' %} style="display:none;" {% endif %}>
@@ -461,7 +428,7 @@
                                         {% get_available_languages as LANGUAGES %}
                                         {% get_language_info_list for LANGUAGES as languages %}
                                         {% for language in languages %}
-                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="Rodextrip"/> {{language.name}}</a></li>
                                         {% endfor %}
                                     </form>
                                 </ul>
@@ -492,7 +459,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none"><a href="#"><img src="{{static_path}}images/noprofile.png" alt="Rodextrip" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                         <ul>
                             <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
                             {% if "admin" in username.co_agent_frontend_security %}
@@ -547,7 +514,7 @@
             </div>
         </div>
     </div>
-</header><!-- #header -->
+</header>
 {% elif template == 4%}
 <div class="site-mobile-menu">
     <div class="site-mobile-menu-header">
@@ -582,7 +549,7 @@
             <!--        </div>-->
             <div class="row align-items-center">
                 <div class="col-xs-6 col-xl-2">
-                    <h1 class="mb-0 site-logo"><a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="" title="" /></a></h1>
+                    <h1 class="mb-0 site-logo"><a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Rodextrip" title="" /></a></h1>
                 </div>
                 <div class="col-xs-12 col-md-10 d-none d-xl-block">
                     <nav class="site-navigation position-relative text-right" role="navigation">
@@ -626,7 +593,7 @@
                                             {% get_available_languages as LANGUAGES %}
                                             {% get_language_info_list for LANGUAGES as languages %}
                                             {% for language in languages %}
-                                            <li style="padding:15px;"><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                            <li style="padding:15px;"><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="Rodextrip"/> {{language.name}}</a></li>
                                             {% endfor %}
                                         </form>
                                     </ul>
@@ -655,7 +622,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</a>
+                        <li class="has-children notification-mobile" style="display:none;"><a href="#" title="{{username.co_user_login}}"><img src="{{static_path}}images/noprofile.png" alt="Rodextrip" class="image-rounded-profile"/> {{username.co_user_login}}</a>
                             <ul class="dropdown">
                                 <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                                 {% if "admin" in username.co_agent_frontend_security %}
@@ -744,7 +711,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex menu-header-icon">
                 <div id="logo">
-                    <a href="index.html"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="" title="" /></a>
+                    <a href="index.html"><img src="{{logo}}" style="{% if username.co_user_login != 'agent_b2c' %} max-height:40px;max-width:150px;{%else%} max-height:60px;max-width:225px; {%endif%}" alt="Rodextrip" title="" /></a>
                 </div>
                 <div class="menu-header-icon2">
 
@@ -792,7 +759,7 @@
                                         {% get_available_languages as LANGUAGES %}
                                         {% get_language_info_list for LANGUAGES as languages %}
                                         {% for language in languages %}
-                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;"/> {{language.name}}</a></li>
+                                        <li><a href="javascript:change_language('{{language.code}}');"><img src="{% if language.code == 'en' %}{{static_path}}images/lang-global.png{% elif language.code == 'id' %}{{static_path}}images/lang-indonesia.png{% endif %}" style="height:21px; width:21px;" alt="Rodextrip"/> {{language.name}}</a></li>
                                         {% endfor %}
                                     </form>
                                 </ul>
@@ -820,7 +787,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;"/> {{username.co_user_login}}</a>
+                    <li class="menu-has-children notification-mobile" style="padding-right:15px;cursor:pointer; display:none;"><a href="#"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile" style="margin-right:10px;" alt="Rodextrip"/> {{username.co_user_login}}</a>
                         <ul>
                             <li><a data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                             {% if "admin" in username.co_agent_frontend_security %}
@@ -869,7 +836,6 @@
                         </li>
                     </ul>
                 </nav>
-                <!--######## #nav-menu-container -->
             </div>
         </div>
     </div>
@@ -877,7 +843,6 @@
 {%endif%}
 <div class="modal fade" id="myModalNotification" role="dialog" style="z-index:10001;">
     <div class="modal-dialog">
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" style="color:{{text_color}};"> Notification <i class="fas fa-bell"></i></i></h4>
@@ -893,6 +858,10 @@
 </div>
 
 <script>
+    //$('head').append( '<meta property="og:title" content="{{name}}" />' );
+    //$('head').append( '<meta property="og:type" content="website" />' );
+    //$('head').append( '<meta property="og:url" content="https://rodextrip.com" />' );
+
     document.getElementById('backend_btn').href = url;
     document.getElementById('backend_btn2').href = url;
     {% if username.co_user_login != '' %}

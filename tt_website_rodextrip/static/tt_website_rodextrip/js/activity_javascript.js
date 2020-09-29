@@ -409,14 +409,14 @@ function activity_table_detail(){
 
            <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-lg-12">
-                   <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                   <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div>`;
            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                text+=`
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-lg-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                    </div>
                </div>`;
 
@@ -650,14 +650,14 @@ function activity_table_detail2(pagetype){
            text+=`
            <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
-                     <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                     <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
            </div></div></div>`;
            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                text+= `
                <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-xs-12" style="padding-bottom:10px;">
-                        <input type="button" id="show_commission_button" class="primary-btn-ticket" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                        <input type="button" id="show_commission_button" class="primary-btn-white" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                    </div>
                </div>`;
    document.getElementById('activity_detail_table').innerHTML = text;

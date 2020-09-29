@@ -2167,14 +2167,14 @@ function activity_get_booking(data){
              price_text+=`
              <div class="row" style="margin-top:10px; text-align:center;">
                <div class="col-xs-12">
-                    <input type="button" class="primary-btn-ticket" onclick="copy_data();" value="Copy" style="width:100%;"/>
+                    <input type="button" class="primary-btn-white" onclick="copy_data();" value="Copy" style="width:100%;"/>
                </div>
              </div>`;
              if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                  price_text+=`
                  <div class="row" style="margin-top:10px; text-align:center;">
                    <div class="col-xs-12">
-                        <input type="button" class="primary-btn-ticket" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
+                        <input type="button" class="primary-btn-white" id="show_commission_button" value="Show Commission" style="width:100%;" onclick="show_commission();"/>
                    </div>
                  </div>`;
             $test+= '\nGrand Total : IDR '+ getrupiah(Math.ceil(total_price))+'\nPrices and availability may change at any time';

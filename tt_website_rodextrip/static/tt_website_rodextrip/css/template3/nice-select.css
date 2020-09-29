@@ -94,10 +94,11 @@
     box-sizing: border-box;
     margin-top: 4px;
     opacity: 0;
-    overflow: hidden;
     padding: 0;
     pointer-events: none;
     position: absolute;
+    max-height: 200px;
+    overflow: auto;
     top: 100%;
     left: 0;
     -webkit-transform-origin: 50% 0;
