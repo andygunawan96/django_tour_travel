@@ -220,7 +220,8 @@ def search(request):
                 set_session(request, 'hotel_signature', request.session['hotel_error']['signature'])
                 set_session(request, 'hotel_request_data', data)
             except:
-                pass
+                set_session(request, 'hotel_signature', request.session['hotel_signature'])
+                set_session(request, 'hotel_request_data', data)
 
         headers = {
             "Accept": "application/json,text/html,application/xml",

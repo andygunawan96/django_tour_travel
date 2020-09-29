@@ -748,13 +748,12 @@ function hotel_provision(price_code, provider){
             }else if(msg.result.error_code == 4006){
                 document.getElementById('issued_hotel_btn').disabled = false;
             }
-            if (msg.result.response.hotel_norm){
-                for (rec in msg.result.response.hotel_norm){
+            for (rec in msg.result.response.hotel_norm){
+                if (msg.result.response.hotel_norm[rec]){
                     data_print = msg.result.response.hotel_norm[rec].replace(/&lt;/g, '<');
                     data_print = data_print.replace(/&gt;/g, '>');
                     document.getElementById('js_hotel_norms').innerHTML += '<li class="list-group-item">'+ data_print +'</li>';
                 }
-                document.getElementById('js_hotel_norms_container').style.display = 'block';
             }
             if (msg.result.response.cancellation_policy){
                 console.log(msg.result.response.cancellation_policy);
