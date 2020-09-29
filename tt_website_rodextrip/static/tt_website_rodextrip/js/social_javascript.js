@@ -109,6 +109,12 @@ function get_social(type){
                             text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png"/>`;
                         }
                         text+=`</a>`;
+
+                        //if(msg[i][0] == 'Twitter'){
+                        //    $('head').append( '<meta name="twitter:card" content="'+msg[i][0]+'" />' );
+                        //    $('head').append( '<meta name="twitter:site" content="'+msg[i][1]+'" />' );
+                        //    $('head').append( '<meta name="twitter:creator" content="'+msg[i][2]+'" />' );
+                        //}
                     }
                 }
                 document.getElementById('social_footer_div').innerHTML = text;
@@ -138,7 +144,14 @@ function get_social(type){
                         text+=`<br/><a href="`+msg[i][2]+`" target="_blank" style="font-weight:bold;">`+msg[i][2]+`</a></span>`;
                     }
                     text+=`</div></div>`;
+
+                    //if(msg[i][0] == 'Twitter'){
+                    //    $('head').append( '<meta name="twitter:card" content="'+msg[i][0]+'" />' );
+                    //    $('head').append( '<meta name="twitter:site" content="'+msg[i][1]+'" />' );
+                    //    $('head').append( '<meta name="twitter:creator" content="'+msg[i][2]+'" />' );
+                    //}
                 }
+
                 document.getElementById('social_page_div').innerHTML = text;
 
             }else if(type == 'login'){
@@ -158,6 +171,11 @@ function get_social(type){
                         text+=`<img style="margin:0px 5px; height:40px; width:auto;" src="/static/tt_website_rodextrip/img/other.png"/>`;
                     }
                     text+=`</a>`;
+                    //if(msg[i][0] == 'Twitter'){
+                    //    $('head').append( '<meta name="twitter:card" content="'+msg[i][0]+'" />' );
+                    //    $('head').append( '<meta name="twitter:site" content="'+msg[i][1]+'" />' );
+                    //    $('head').append( '<meta name="twitter:creator" content="'+msg[i][2]+'" />' );
+                    //}
                 }
                 document.getElementById('social_login_div').innerHTML = text;
                 document.getElementById('social_login_div2').innerHTML = text;

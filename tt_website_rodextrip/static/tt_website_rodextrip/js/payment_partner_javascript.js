@@ -47,7 +47,7 @@ function get_payment_partner(type){
                     }
                     for(j in sortable){
                         if(sortable[j][1].state == true){
-                            text += `<img title="`+sortable[j][1].title+`" style="margin-bottom:10px; height:40px; width:auto; padding-right:15px;" src="`+sortable[j][1].image_partner+`"/>`;
+                            text += `<img title="`+sortable[j][1].title+`" style="margin-bottom:10px; height:40px; width:auto; padding-right:15px;" src="`+sortable[j][1].image_partner+`" alt="Rodextrip"/>`;
                         }
                     }
                     document.getElementById('payment_partner_footer_div').innerHTML = text;

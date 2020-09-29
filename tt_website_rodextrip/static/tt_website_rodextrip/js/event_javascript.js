@@ -662,13 +662,13 @@ function render_object_from_value(val){
 
     <div style="padding-bottom:10px;">
         <center>
-            <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
         </center>
     </div>`;
     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
         text+=`
         <div style="margin-bottom:5px;">
-            <input class="primary-btn-ticket" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
+            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
         </div>`;
 
     document.getElementById("event_detail_table").innerHTML = text;
@@ -713,11 +713,11 @@ function hotel_room_pick_button(total_commission){
             </div>
         </div>`;
         text += `<div class="col-lg-12">
-            <input class="primary-btn" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
+            <input class="primary-btn-white" id="show_commission_button_event" style="width:100%;" type="button" onclick="show_commission_event();" value="Show Commission"/>
         </div>`;
     text += `
     <div class="col-lg-12" style="padding-top:10px;">
-        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
+        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
     </div>`;
     if(agent_security.includes('book_reservation') == true){
     text += `<div class="col-lg-12">`;

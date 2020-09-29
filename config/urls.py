@@ -32,9 +32,9 @@ urlpatterns = [
 
 urlpatterns += i18n_patterns(
 
-    # url(_(r'^admin/'), admin.site.urls),
-    # url(r'^static/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
-    # url(r'^media(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
+    url((r'^admin/'), admin.site.urls),
+    url(r'^static/(?P<path>.*)$', django.views.static.serve, {'document_root': settings.STATIC_ROOT, 'show_indexes': settings.DEBUG}),
+    url(r'^media(?P<path>.*)$', django.views.static.serve, {'document_root': settings.MEDIA_ROOT}),
     path('webservice', include('tt_webservice.urls')),
     path('', include('tt_website_rodextrip.urls')), #django frontend aja
     # path('tt_base', include('tt_base.urls')),

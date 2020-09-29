@@ -94,7 +94,8 @@
     box-sizing: border-box;
     margin-top: 4px;
     opacity: 0;
-    overflow: hidden;
+    max-height: 200px;
+    overflow: auto;
     padding: 0;
     pointer-events: none;
     position: absolute;

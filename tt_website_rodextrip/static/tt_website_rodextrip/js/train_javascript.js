@@ -762,12 +762,12 @@ function train_get_detail(){
         train_detail_text+=`
         <div class="row">
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">
-                <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+                <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
             </div>
             <div class="col-lg-4 col-md-4 col-sm-4" style="padding-bottom:5px;">`;
             if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                 train_detail_text+=`
-                    <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
                 `;
             train_detail_text += `</div>`;
             if(agent_security.includes('book_reservation') == true)
@@ -1035,12 +1035,12 @@ function train_detail(){
 
     <div class="row">
         <div class="col-lg-12" style="padding-bottom:10px;">
-            <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
+            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy" >
         </div>`;
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text+=`
             <div class="col-lg-12" style="padding-bottom:5px;">
-                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
+                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission();" value="Show Commission"><br/>
             </div>`;
         text+=`
     </div>`;
@@ -2101,7 +2101,7 @@ function get_checked_copy_result(){
     text+=`
     </div>
     <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
+        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data();" value="Copy">
     </div>`;
 
     node.innerHTML = text;

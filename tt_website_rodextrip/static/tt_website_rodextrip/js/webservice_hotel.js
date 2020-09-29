@@ -1458,13 +1458,13 @@ function hotel_get_booking(data){
 
                         <div style="padding-bottom:10px;">
                             <center>
-                                <input type="button" class="primary-btn-ticket" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                                <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
                             </center>
                         </div>`;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                             text_detail+=`
                             <div style="margin-bottom:5px;">
-                                <input class="primary-btn-ticket" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel('commission');" value="Show Commission"/>
+                                <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission_hotel('commission');" value="Show Commission"/>
                             </div>`;
                         text_detail+=`
                     </div>`;
@@ -1610,7 +1610,7 @@ function get_checked_copy_result_room(){
     text+=`
     </div>
     <div class="col-lg-12" id="copy_result">
-        <input class="primary-btn" style="width:100%;" type="button" onclick="copy_data_room();" value="Copy">
+        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data_room();" value="Copy">
     </div>`;
     node.innerHTML = text;
     node.className = "row";
