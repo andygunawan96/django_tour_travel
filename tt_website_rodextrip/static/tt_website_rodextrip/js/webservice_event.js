@@ -1460,27 +1460,28 @@ function gotoForm(){
 function update_service_charge(type){
     repricing_order_number = '';
     if(type == 'booking'){
-//        upsell = []
-//        for(i in train_get_detail.result.response.passengers){
-//            for(j in train_get_detail.result.response.passengers[i].sale_service_charges){
-//                currency = train_get_detail.result.response.passengers[i].sale_service_charges[j].FARE.currency;
-//            }
-//            list_price = []
-//            for(j in list){
-//                if(train_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
-//                    list_price.push({
-//                        'amount': list[j],
-//                        'currency_code': currency
-//                    });
-//                }
-//
-//            }
-//            upsell.push({
-//                'sequence': train_get_detail.result.response.passengers[i].sequence,
-//                'pricing': JSON.parse(JSON.stringify(list_price))
-//            });
-//        }
-//        repricing_order_number = order_number;
+        document.getElementById('event_booking').innerHTML = '';
+        upsell = []
+        for(i in event_get_detail.result.response.passenger){
+            for(j in event_get_detail.result.response.passenger[i].sale_service_charges){
+                currency = event_get_detail.result.response.passenger[i].sale_service_charges[j].FARE.currency;
+            }
+            list_price = []
+            for(j in list){
+                if(event_get_detail.result.response.passenger[i].name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                }
+
+            }
+            upsell.push({
+                'sequence': event_get_detail.result.response.passenger[i].sequence,
+                'pricing': JSON.parse(JSON.stringify(list_price))
+            });
+        }
+        repricing_order_number = event_get_detail.result.response.order_number;
     }else{
         upsell_price = 0;
         upsell = []
