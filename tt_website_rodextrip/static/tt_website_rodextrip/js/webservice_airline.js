@@ -4588,7 +4588,6 @@ function check_refund_btn(){
                $("#waitingTransaction").modal('hide');
                document.getElementById("overlay-div-box").style.display = "none";
                console.log(msg);
-
                if(msg.result.error_code == 0){
                    //update ticket
                    document.getElementById('refund_detail').hidden = false;
@@ -4602,8 +4601,9 @@ function check_refund_btn(){
                                 total_price += airline_get_detail.result.response.passengers[pax].total_price[msg.result.response.provider_bookings[i].pnr];
                                 total += airline_get_detail.result.response.passengers[pax].total_price[msg.result.response.provider_bookings[i].pnr];
                             }catch(err){console.log(err)}
-                            if(currency == '')
+                            if(currency == '' || currency == 'undefined')
                                 currency = airline_get_detail.result.response.passengers[pax].currency;
+                                console.log(airline_get_detail.result.response.passengers[pax].currency);
                        }
                        text+=`
                         <div class="row" style="margin-bottom:5px;">
@@ -4703,6 +4703,142 @@ function check_refund_btn(){
         });
 }
 
+function check_refund_partial_btn(){
+    show_loading();
+    please_wait_transaction();
+    getToken();
+
+    var passengers = [];
+    $('.refund_pax:checkbox:checked').each(function( index ) {
+        //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
+        passengers.push($('.refund_pax:checkbox:checked')[index].id);
+    });
+    //console.log(passengers);
+    $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'get_refund_itinerary',
+           },
+           data: {
+               'order_number': airline_get_detail.result.response.order_number,
+               'signature': signature,
+               'passengers': JSON.stringify(passengers),
+           },
+           success: function(msg) {
+               $("#waitingTransaction").modal('hide');
+               document.getElementById("overlay-div-box").style.display = "none";
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   //update ticket
+                   document.getElementById('refund_detail').hidden = false;
+                   text = '<h5>Refund:<h5>';
+                   total = 0;
+                   total_price = 0;
+                   for (i in msg.result.response.provider_bookings){
+                       currency = msg.result.response.provider_bookings[i].currency;
+                        try{
+                            total_price += msg.result.response.provider_bookings[i].resv_total_price;
+                            total += msg.result.response.provider_bookings[i].resv_total_price;
+                        }catch(err){console.log(err)}
+                       }
+                       text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">`+msg.result.response.provider_bookings[i].pnr+`</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(total_price))+`</span>
+                            </div>
+                        </div>`;
+                        text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Refund Fee</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].penalty_amount))+`</span>
+                            </div>
+                        </div>`;
+                        text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Admin Fee</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(msg.result.response.provider_bookings[i].admin_fee))+`</span>
+                            </div>
+                        </div>`;
+                        total = total - msg.result.response.provider_bookings[i].penalty_amount - msg.result.response.provider_bookings[i].admin_fee;
+
+                   text+=`
+                        <hr/>
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Grand Total</span>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(total))+`</span>
+                            </div>
+                        </div>`;
+
+
+                   document.getElementById('refund_detail').innerHTML = text;
+                   document.getElementById('refund_detail').style.display = 'block';
+                   document.getElementById('full_refund').value = 'Proceed';
+                   document.getElementById('full_refund').setAttribute('onClick', 'cancel_btn();');
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+               }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error airline cancel </span>' + msg.result.error_msg,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+
+                    $("#waitingTransaction").modal('hide');
+                    document.getElementById("overlay-div-box").style.display = "none";
+
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+               }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                if(XMLHttpRequest.status == 500){
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error airline issued </span>' + errorThrown,
+                    })
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('airline_booking').innerHTML = '';
+                    document.getElementById('airline_detail').innerHTML = '';
+                    document.getElementById('payment_acq').innerHTML = '';
+                    document.getElementById('show_loading_booking_airline').style.display = 'block';
+                    document.getElementById('show_loading_booking_airline').hidden = false;
+                    document.getElementById('payment_acq').hidden = true;
+                    $("#waitingTransaction").modal('hide');
+                    document.getElementById("overlay-div-box").style.display = "none";
+                    $('.hold-seat-booking-train').prop('disabled', false);
+                    $('.hold-seat-booking-train').removeClass("running");
+                    airline_get_booking(airline_get_detail.result.response.order_number);
+                }
+           },timeout: 300000
+        });
+}
+
 function cancel_btn(){
     Swal.fire({
       title: 'Are you sure want to Cancel this booking?',
@@ -4716,6 +4852,13 @@ function cancel_btn(){
         show_loading();
         please_wait_transaction();
         getToken();
+
+        var passengers = [];
+        $('.refund_pax:checkbox:checked').each(function( index ) {
+            //console.log( index + ": " + $('.refund_pax:checkbox:checked')[0].id );
+            passengers.push($('.refund_pax:checkbox:checked')[0].id);
+        });
+
         $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -4724,7 +4867,8 @@ function cancel_btn(){
            },
            data: {
                'order_number': airline_get_detail.result.response.order_number,
-               'signature': signature
+               'signature': signature,
+               'passengers': JSON.stringify(passengers),
            },
            success: function(msg) {
                console.log(msg);
@@ -7443,9 +7587,9 @@ function airline_get_booking_refund(data){
                    }
                    if(check_cancel){
                         document.getElementById('cancel').hidden = false;
-                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="" value="Check Refund Price Partial"><hr/>`;
+//                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
                         document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
-                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_btn();" value="Check Refund Price Booking">`;
+                        document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
                    }
                }catch(err){
                 console.log(err);
@@ -7635,7 +7779,7 @@ function airline_get_booking_refund(data){
                                     }
                                 }
                                 text+=`<tr>
-                                    <td class="list-of-passenger-left"><input type="checkbox" id="pnr`+i+`_pax`+pax+`"></td>
+                                    <td class="list-of-passenger-left"><input class="refund_pax" type="checkbox" id="pnr~`+msg.result.response.provider_bookings[i].pnr+`~`+pax+`"></td>
                                     <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                                     <td>`+msg.result.response.passengers[pax].birth_date+`</td>
                                     <td>`+ff_request;
