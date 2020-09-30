@@ -1619,7 +1619,9 @@ def cancel(request):
     # nanti ganti ke get_ssr_availability
     try:
         data = {
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
+            'provider_bookings': [],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1984,11 +1986,42 @@ def command_cryptic(request):
     res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
     return res
 
+
+def compute_pnr_pax_js(paxs):
+    # Input: ['pnr~AABBCC~0','pnr~AABBCC~1','pnr~BBCCDD~0']
+    # Output: [{'pnr':AABBCC, 'pax':[0,1]},{'pnr':BBCCDD, 'pax':[0]},]
+    pnrs = []
+    for rec in json.loads(paxs):
+        rec = rec.split('~')
+        exist = False
+        for pnr in pnrs:
+            if rec[1] == pnr['pnr']:
+                exist = True
+                break
+
+        if not exist:
+            pnr = {'pnr': rec[1], 'pax':[]}
+            pnrs.append(pnr)
+        pnr['pax'].append(rec[2])
+    return pnrs
+
+
+def compute_pax_js(paxs):
+    pax_list = []
+    for rec in json.loads(paxs):
+        rec_pax = rec.split('~')
+        if rec_pax[2] not in pax_list:
+            pax_list.append(rec_pax[2])
+    return [{'passenger_number': int(rec)} for rec in pax_list]
+
+
 def get_refund_itinerary(request):
     # nanti ganti ke get_ssr_availability
     try:
         data = {
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
+            'provider_bookings': [],
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
