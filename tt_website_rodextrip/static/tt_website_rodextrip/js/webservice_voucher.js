@@ -125,6 +125,11 @@ function check_voucher(){
             try{
                 order_number = hotel_get_detail.result.response.booking_name;
             }catch(err){}
+        }else if(provider_type_id == 'event'){
+            provider_id.push('event_internal');
+            try{
+                order_number = hotel_get_detail.result.response.booking_name;
+            }catch(err){}
         }
         voucher_reference = document.getElementById('voucher_code').value; //lalala.testing
 //        voucher_reference = "TEST001";
@@ -325,6 +330,57 @@ function check_voucher(){
                         </div>`;
                         try{
                             set_price('Issued','airline');
+                        }catch(err){}
+                    }else if(provider_type_id == 'event'){
+                        discount_voucher = {
+                            'discount': 0,
+                            'currency': ''
+                        };
+                        try{
+                            if(event_get_detail.result.response.total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                                if(msg.result.response.provider[i].able_to_use == true){
+                                    if(msg.result.response.voucher_type == 'percent'){
+                                        discount_voucher['discount'] += total_price_provider[i].price * msg.result.response.voucher_value / 100;
+
+                                    }else if(msg.result.response.voucher_type == 'amount'){
+                                        if(total_price > msg.result.response.voucher_value)
+                                            discount_voucher['discount'] += msg.result.response.voucher_value;
+                                        else
+                                            discount_voucher['discount'] += event_get_detail.result.response.total_price;
+                                    }
+                                }
+                            }
+                            discount_voucher['currency'] = msg.result.response.voucher_currency;
+                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
+                                discount_voucher['discount'] = msg.result.response.voucher_cap
+                        }catch(err){
+                            if(grand_total_option > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                                if(msg.result.response.voucher_type == 'percent' ){
+                                    discount_voucher['discount'] += grand_total_option * msg.result.response.voucher_value / 100;
+                                }else if(msg.result.response.voucher_type == 'amount'){
+                                    if(grand_total_option > msg.result.response.voucher_value)
+                                        discount_voucher['discount'] = msg.result.response.voucher_value;
+                                    else
+                                        discount_voucher['discount'] = grand_total_option;
+                                }
+                                discount_voucher['currency'] = msg.result.response.voucher_currency;
+                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
+                                    discount_voucher['discount'] = msg.result.response.voucher_cap
+                            }
+                        }
+
+                        document.getElementById('voucher_discount').innerHTML = `
+                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
+                            <div class="alert alert-success" role="alert">
+                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
+                            </div>
+                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
+                                Change Voucher Code
+                            </button>
+                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
+                        </div>`;
+                        try{
+                            set_price('Issued','event');
                         }catch(err){}
                     }else if(provider_type_id == 'activity'){
                         //console.log(grand_total)
