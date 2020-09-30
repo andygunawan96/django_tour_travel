@@ -511,7 +511,7 @@ function render_object(val, new_int){
 
 function render_object_from_value(val){
     var text='';
-    var grand_total_option = 0;
+    grand_total_option = 0;
     var total_commission = 0;
     $text = '';
     var copy_event_name = document.getElementById("product_title").innerHTML;
