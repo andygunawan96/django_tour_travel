@@ -159,7 +159,7 @@ function check_voucher(){
                             for(i in msg.result.response.provider){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += grand_total * msg.result.response.voucher_value / 100;
+                                        discount_voucher['discount'] += price * msg.result.response.voucher_value / 100;
 
                                     }else if(msg.result.response.voucher_type == 'amount'){
                                         if(price > msg.result.response.voucher_value)
@@ -197,17 +197,17 @@ function check_voucher(){
                             'discount': 0,
                             'currency': ''
                         };
-                        if(total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                        if(total_price_for_discount > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                             for(i in msg.result.response.provider){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += grand_total * msg.result.response.voucher_value / 100;
+                                        discount_voucher['discount'] += total_price_for_discount * msg.result.response.voucher_value / 100;
 
                                     }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price > msg.result.response.voucher_value)
+                                        if(total_price_for_discount > msg.result.response.voucher_value)
                                             discount_voucher['discount'] += msg.result.response.voucher_value;
                                         else
-                                            discount_voucher['discount'] += total_price;
+                                            discount_voucher['discount'] += total_price_for_discount;
                                     }
                                 }
                             }
@@ -243,7 +243,7 @@ function check_voucher(){
                             for(i in msg.result.response.provider){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += grand_total * msg.result.response.voucher_value / 100;
+                                        discount_voucher['discount'] += price * msg.result.response.voucher_value / 100;
 
                                     }else if(msg.result.response.voucher_type == 'amount'){
                                         if(price > msg.result.response.voucher_value)
@@ -289,7 +289,10 @@ function check_voucher(){
                                             discount_voucher['discount'] += total_price_provider[i].price * msg.result.response.voucher_value / 100;
 
                                         }else if(msg.result.response.voucher_type == 'amount'){
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
+                                            if(total_price_provider[i].price > msg.result.response.voucher_value)
+                                                discount_voucher['discount'] += msg.result.response.voucher_value;
+                                            else
+                                                discount_voucher['discount'] += total_price_provider[i].price;
                                         }
                                     }
                                 }
@@ -340,7 +343,7 @@ function check_voucher(){
                             if(event_get_detail.result.response.total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += total_price_provider[i].price * msg.result.response.voucher_value / 100;
+                                        discount_voucher['discount'] += event_get_detail.result.response.total_price * msg.result.response.voucher_value / 100;
 
                                     }else if(msg.result.response.voucher_type == 'amount'){
                                         if(total_price > msg.result.response.voucher_value)
@@ -389,16 +392,16 @@ function check_voucher(){
                             'currency': ''
                         };
                         try{
-                            if(total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                            if(total_price_for_discount > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += total_price * msg.result.response.voucher_value / 100;
+                                        discount_voucher['discount'] += total_price_for_discount * msg.result.response.voucher_value / 100;
 
                                     }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price > msg.result.response.voucher_value)
+                                        if(total_price_for_discount > msg.result.response.voucher_value)
                                             discount_voucher['discount'] += msg.result.response.voucher_value;
                                         else
-                                            discount_voucher['discount'] += total_price;
+                                            discount_voucher['discount'] += total_price_for_discount;
                                     }
                                 }
                             }
@@ -444,16 +447,16 @@ function check_voucher(){
                             'currency': ''
                         };
                         try{
-                            if(total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                            if(total_price_for_discount > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += total_price * msg.result.response.voucher_value / 100;
+                                        discount_voucher['discount'] += total_price_for_discount * msg.result.response.voucher_value / 100;
 
                                     }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price > msg.result.response.voucher_value)
+                                        if(total_price_for_discount > msg.result.response.voucher_value)
                                             discount_voucher['discount'] += msg.result.response.voucher_value;
                                         else
-                                            discount_voucher['discount'] += total_price;
+                                            discount_voucher['discount'] += total_price_for_discount;
                                     }
                                 }
                             }
@@ -497,7 +500,6 @@ function check_voucher(){
                             'currency': ''
                         };
                         try{
-
                             if(hotel_get_detail.result.response.total.price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
                                 if(msg.result.response.provider[i].able_to_use == true){
                                     if(msg.result.response.voucher_type == 'percent'){

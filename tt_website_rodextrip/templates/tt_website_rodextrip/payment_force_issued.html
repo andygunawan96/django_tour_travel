@@ -23,7 +23,9 @@
     passengers = passengers.replace(/False/g, false);
     passengers = JSON.parse(passengers);
     voucher_code = '{{voucher_code}}';
-    discount_voucher = JSON.parse(`{{discount_voucher}}`);
+    discount_voucher = `{{discount_voucher}}`;
+    discount_voucher = discount_voucher.replace(/&#39;/g, '"');
+    discount_voucher = JSON.parse(discount_voucher);
     time_limit = {{time_limit}};
     session_time_limit();
     type_payment = `{{payment}}`;

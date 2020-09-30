@@ -4290,10 +4290,10 @@ function airline_get_booking(data){
                         $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                         if(counter_service_charge == 0){
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                            price_provider += parseInt(price.FARE + price.SEAT + price.SSR);
                         }else{
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                            price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                            price_provider += parseInt(price.FARE + price.SSR + price.SEAT);
                         }
                         commission += parseInt(price.RAC);
                     }

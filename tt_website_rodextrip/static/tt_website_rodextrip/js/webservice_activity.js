@@ -2006,6 +2006,7 @@ function activity_get_booking(data){
             tax = 0;
             fare = 0;
             total_price = 0;
+            total_price_for_discount = 0;
             commission = 0;
             service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'DISC'];
 
@@ -2098,10 +2099,12 @@ function activity_get_booking(data){
                     </div>`;
                     if(counter_service_charge == 0){
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.DISC);
+                        total_price_for_discount += parseInt(price.FARE);
                         $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.DISC))+'\n';
                     }else{
                         $test += msg.result.response.passengers[j].name + ' ['+i+'] ' + price.currency+` `+getrupiah(parseInt(price.TAX + price.ROC + price.FARE + price.DISC))+'\n';
                         total_price += parseInt(price.TAX + price.ROC + price.FARE + price.DISC);
+                        total_price_for_discount += parseInt(price.FARE);
                     }
                     commission += parseInt(price.RAC);
                 }
