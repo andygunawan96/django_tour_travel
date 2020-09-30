@@ -455,6 +455,7 @@ function train_get_booking(data){
             }
             total_price_provider = [];
             price_provider = 0;
+            price_provider_for_discount = 0;
             $text = '';
             text = '';
             $text += 'Order Number: '+ msg.result.response.order_number + '\n';
@@ -926,17 +927,20 @@ function train_get_booking(data){
                         if(counter_service_charge == 0){
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
                             price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.CSC);
+                            price_provider_for_discount += parseInt(price.FARE);
                         }else{
                             total_price += parseInt(price.TAX + price.ROC + price.FARE);
                             price_provider += parseInt(price.TAX + price.ROC + price.FARE);
+                            price_provider_for_discount += parseInt(price.FARE);
                         }
                         commission += parseInt(price.RAC);
                     }
                     total_price_provider.push({
                         'pnr': msg.result.response.provider_bookings[i].pnr,
-                        'price': price_provider
+                        'price': price_provider_for_discount
                     })
                     price_provider = 0;
+                    price_provider_for_discount = 0;
                     counter_service_charge++;
                 }catch(err){}
             }

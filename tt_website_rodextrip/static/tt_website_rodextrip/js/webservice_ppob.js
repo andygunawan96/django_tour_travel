@@ -954,6 +954,7 @@ function ppob_get_booking(data){
             tax = 0;
             fare = 0;
             total_price = 0;
+            total_price_for_discount = 0;
             total_price_provider = [];
             price_provider = 0;
             commission = 0;
@@ -1064,9 +1065,11 @@ function ppob_get_booking(data){
                             $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                             if(counter_service_charge == 0){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                total_price_for_discount += parseInt(price.FARE);
                                 price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             }else{
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                total_price_for_discount += parseInt(price.FARE);
                                 price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                             }
                             commission += parseInt(price.RAC);
@@ -1146,9 +1149,11 @@ function ppob_get_booking(data){
                             $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                             if(counter_service_charge == 0){
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                total_price_for_discount += parseInt(price.FARE);
                                 price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
                             }else{
                                 total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                total_price_for_discount += parseInt(price.FARE);
                                 price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
                             }
                             commission += parseInt(price.RAC);
