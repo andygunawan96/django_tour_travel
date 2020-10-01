@@ -1234,12 +1234,12 @@ function ppob_get_booking(data){
                 </div>`;
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                 text_detail+=`
-                <div style="margin-bottom:5px;">
+                <div style="margin-bottom:10px;">
                     <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
                 </div>`;
                 if(msg.result.response.state == 'fail_issued' || msg.result.response.state == 'fail_refunded')
                 text_detail+=`
-                <div style="margin-bottom:5px;">
+                <div style="margin-bottom:10px;">
                     <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="resync_status();" value="Resync"/>
                 </div>`;
                 text+=`
