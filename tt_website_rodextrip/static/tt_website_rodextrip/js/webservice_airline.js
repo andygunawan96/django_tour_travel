@@ -7776,9 +7776,8 @@ function airline_get_booking_refund(data){
                                     }catch(err){
 
                                     }
-                                }
-                                text+=`<tr>
-                                    <td class="list-of-passenger-left"><input class="refund_pax" type="checkbox" id="pnr~`+msg.result.response.provider_bookings[i].pnr+`~`+pax+`"></td>
+                                    text+=`<tr>
+                                    <td class="list-of-passenger-left"><input class="refund_pax" type="checkbox" id="pnr~`+msg.result.response.provider_bookings[provider].pnr+`~`+pax+`"></td>
                                     <td>`+msg.result.response.passengers[pax].title+` `+msg.result.response.passengers[pax].first_name+` `+msg.result.response.passengers[pax].last_name+`</td>
                                     <td>`+msg.result.response.passengers[pax].birth_date+`</td>
                                     <td>`+ff_request;
@@ -7791,6 +7790,8 @@ function airline_get_booking_refund(data){
                                         </div>
                                     </td>
                                 </tr>`;
+                                }
+
                             }
 
                         text+=`</table>`;
