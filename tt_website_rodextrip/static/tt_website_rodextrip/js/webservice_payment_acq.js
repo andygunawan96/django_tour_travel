@@ -177,7 +177,7 @@ function set_payment(val, type){
 
         <label class="radio-button-custom">
             <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>
-            <img width="50px" height="auto" src="`+payment_acq2[payment_method][i].image+`"/></span>
+            <img width="50px" height="auto" alt="Payment" src="`+payment_acq2[payment_method][i].image+`"/></span>
             <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
             <span class="checkmark-radio"></span>
         </label>
@@ -1348,39 +1348,39 @@ function change_top_up_method(){
                             <div class="panel-body" style="margin-top:10px;">
                                 <div class="row">
                                     <div class="col-sm-4 col-md-4 col-lg-4" style=>
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-2.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-2.png">
                                         <p>Masukkan kartu ATM Mandiri dan PIN Anda,</p>
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-3.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-3.png">
                                         <p>Pada ATM Mandiri, pilih menu <strong>Bayar/Beli &gt; Lainnya &gt; Lainnya</strong>,</p>
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-6.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-6.png">
                                         <p>Pilih&nbsp;<strong>Multi Payment</strong>,</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-7.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-7.png">
                                         <p>Masukkan <strong>kode&nbsp;perusahaan</strong>&nbsp;lalu tekan&nbsp;<strong>Benar</strong>,</p>
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-8.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-8.png">
                                         <p>Masukkan 16 digit&nbsp;<strong>Nomor Virtual Account</strong>,</p>
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-9.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-9.png">
                                         <p>Pada layar konfirmasi, pastikan tagihan Anda sudah sesuai,</p>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-10.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-10.png">
                                         <p>Jika sudah sesuai, tekan&nbsp;<strong>1</strong>, lanjutkan dengan menekan&nbsp;<strong>Ya</strong>,</p>
                                     </div>
                                     <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-12.png">
+                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-12.png">
                                         <p>Transaksi Selesai.</p>
                                     </div>
                                 </div>

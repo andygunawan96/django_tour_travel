@@ -1345,7 +1345,7 @@ function sort(tour_dat, exist_check){
         text += `
             <div class="col-lg-12">
                 <div style="text-align:center">
-                    <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="" title="" />
+                    <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="Not Found Tour" title="" />
                     <br/>
                 </div>
                 <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>
@@ -1469,7 +1469,7 @@ function sort(tour_dat, exist_check){
                                     </div>
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg-disabled"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out">
                                     </div>
                                     <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                         <div class="card-body">
@@ -1496,7 +1496,7 @@ function sort(tour_dat, exist_check){
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
                                     </div>
                                     <div class="card card-effect-promotion">
                                         <div class="card-body">
@@ -1527,7 +1527,7 @@ function sort(tour_dat, exist_check){
                                     </div>
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
                                     </div>
                                     <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                         <div class="card-body" style="padding:15px;">
@@ -1555,7 +1555,7 @@ function sort(tour_dat, exist_check){
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
                                     </div>
                                     <div class="card card-effect-promotion">
                                         <div class="card-body" style="padding:15px;">
@@ -1587,7 +1587,7 @@ function sort(tour_dat, exist_check){
                                     </div>
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
                                     </div>
                                     <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                         <div class="card-body" style="padding:15px;">
@@ -1615,7 +1615,7 @@ function sort(tour_dat, exist_check){
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
                                     </div>
                                     <div class="card card-effect-promotion">
                                         <div class="card-body" style="padding:15px;">
@@ -1675,7 +1675,7 @@ function sort(tour_dat, exist_check){
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
                                         <div class="overlay overlay-bg"></div>
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
                                     </div>
                                     <div class="card card-effect-promotion">
                                         <div class="card-body" style="padding:15px;">
@@ -1706,7 +1706,7 @@ function sort(tour_dat, exist_check){
                                         <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                     </div>
                                     <div class="thumb relative">
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out">
                                     </div>
                                     <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                         <div class="card-body" style="padding:15px;">
@@ -1733,7 +1733,7 @@ function sort(tour_dat, exist_check){
                             <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_dat[i].sequence+`')" style="cursor:pointer;">
                                 <div class="single-destination avail-sd relative">
                                     <div class="thumb relative">
-                                        <img class="img-fluid" src="`+img_src+`" alt="">
+                                        <img class="img-fluid" src="`+img_src+`" alt="Tour">
                                     </div>
                                     <div class="card card-effect-promotion">
                                         <div class="card-body" style="padding:15px;">
@@ -1767,7 +1767,7 @@ function sort(tour_dat, exist_check){
             text += `
             <div class="col-lg-12">
                 <div style="text-align:center">
-                    <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="" title="" />
+                    <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" alt="Not Found Tour" style="width:70px; height:70px;" title="" />
                     <br/>
                 </div>
                 <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>

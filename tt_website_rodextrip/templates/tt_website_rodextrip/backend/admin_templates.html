@@ -147,7 +147,7 @@
                                             </div>
                                         </div>
                                         {%if logo %}
-                                        <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                        <img src="{{logo}}" alt="Logo {{name}}" style="max-width:150px;max-height:40px;"/>
                                         {% endif %}
 
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
@@ -168,7 +168,7 @@
                                             </div>
                                         </div>
                                         {%if logo_icon %}
-                                        <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                        <img src="{{logo_icon}}" alt="Logo Title {{name}}" style="max-width:50px;max-height:50px;"/>
                                         {% endif %}
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
@@ -188,7 +188,7 @@
                                             </div>
                                         </div>
                                         {%if background %}
-                                        <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                        <img src="{{background}}" alt="Background" style="max-width:96px;max-height:54px;"/>
                                         {% endif %}
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -208,7 +208,7 @@
                                             </div>
                                         </div>
                                         {%if bg_login %}
-                                        <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                        <img src="{{bg_login}}" alt="Background Login" style="max-width:96px;max-height:54px;"/>
                                         {% endif %}
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -228,7 +228,7 @@
                                             </div>
                                         </div>
                                         {%if bg_search %}
-                                        <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                        <img src="{{bg_search}}" alt="Background Search" style="max-width:96px;max-height:54px;"/>
                                         {% endif %}
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -249,7 +249,7 @@
                                             </div>
                                         </div>
                                         {%if bg_regis %}
-                                        <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                        <img src="{{bg_regis}}" alt="Background Registration" style="max-width:96px;max-height:54px;"/>
                                         {% endif %}
                                         <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                         <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
@@ -433,7 +433,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
-                                                        <img id="paragraph_img" style="height:auto; width:100px; margin-bottom:15px;">
+                                                        <img id="paragraph_img" alt="Paragraph Image" style="height:auto; width:100px; margin-bottom:15px;">
                                                         <label class="check_box_custom" id="paragraph_img_label" style="display:none;">
                                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete Thumbnail' %}</span>
                                                             <input type="checkbox" id="paragraph_img_delete" />
@@ -536,7 +536,7 @@
                                                         <div class="input-container-search-ticket form-select">
                                                             <input type="file" name="image_partner" id="image_partner"/>
                                                         </div>
-                                                        <img id="partner_img" style="height:auto; width:100px;">
+                                                        <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                                         <label class="check_box_custom">
@@ -1056,7 +1056,7 @@
                                         </div>
                                     </div>
                                     {%if logo %}
-                                    <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                    <img src="{{logo}}" alt="Logo {{name}}" style="max-width:150px;max-height:40px;"/>
                                     {% endif %}
 
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
@@ -1077,7 +1077,7 @@
                                         </div>
                                     </div>
                                     {%if logo_icon %}
-                                    <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                    <img src="{{logo_icon}}" alt="Logo Title {{name}}" style="max-width:50px;max-height:50px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
@@ -1097,7 +1097,7 @@
                                         </div>
                                     </div>
                                     {%if background %}
-                                    <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{background}}" alt="Background" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -1117,7 +1117,7 @@
                                         </div>
                                     </div>
                                     {%if bg_login %}
-                                    <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_login}}" alt="Background Login" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -1137,7 +1137,7 @@
                                         </div>
                                     </div>
                                     {%if bg_search %}
-                                    <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_search}}" alt="Background Search" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -1158,7 +1158,7 @@
                                         </div>
                                     </div>
                                     {%if bg_regis %}
-                                    <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_regis}}" alt="Background Registration" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
@@ -1339,7 +1339,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
-                                                        <img id="paragraph_img" style="height:auto; width:100px; margin-bottom:15px;">
+                                                        <img id="paragraph_img" alt="Paragraph Image" style="height:auto; width:100px; margin-bottom:15px;">
                                                         <label class="check_box_custom" id="paragraph_img_label" style="display:none;">
                                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete Thumbnail' %}</span>
                                                             <input type="checkbox" id="paragraph_img_delete" />
@@ -1439,7 +1439,7 @@
                                                         <div class="input-container-search-ticket form-select">
                                                             <input type="file" name="image_partner" id="image_partner"/>
                                                         </div>
-                                                        <img id="partner_img" style="height:auto; width:100px;">
+                                                        <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                                         <label class="check_box_custom">
@@ -1969,7 +1969,7 @@
                                         </div>
                                     </div>
                                     {%if logo %}
-                                    <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                    <img src="{{logo}}" alt="Logo {{name}}" style="max-width:150px;max-height:40px;"/>
                                     {% endif %}
 
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
@@ -1990,7 +1990,7 @@
                                         </div>
                                     </div>
                                     {%if logo_icon %}
-                                    <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                    <img src="{{logo_icon}}" alt="Logo Title {{name}}" style="max-width:50px;max-height:50px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
@@ -2010,7 +2010,7 @@
                                         </div>
                                     </div>
                                     {%if background %}
-                                    <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{background}}" alt="Background" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -2030,7 +2030,7 @@
                                         </div>
                                     </div>
                                     {%if bg_login %}
-                                    <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_login}}" alt="Background Login" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -2050,7 +2050,7 @@
                                         </div>
                                     </div>
                                     {%if bg_search %}
-                                    <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_search}}" alt="Background Search" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -2071,7 +2071,7 @@
                                         </div>
                                     </div>
                                     {%if bg_regis %}
-                                    <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_regis}}" alt="Background Registration" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
@@ -2254,7 +2254,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-xs-6 mt-3">
-                                                    <img id="paragraph_img" style="height:auto; width:100px; margin-bottom:15px;">
+                                                    <img id="paragraph_img" alt="Paragraph Image" style="height:auto; width:100px; margin-bottom:15px;">
                                                     <label class="check_box_custom" id="paragraph_img_label" style="display:none;">
                                                         <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete Thumbnail' %}</span>
                                                         <input type="checkbox" id="paragraph_img_delete" />
@@ -2354,7 +2354,7 @@
                                                     <div class="input-container-search-ticket form-select">
                                                         <input type="file" name="image_partner" id="image_partner"/>
                                                     </div>
-                                                    <img id="partner_img" style="height:auto; width:100px;">
+                                                    <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                 </div>
                                                 <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                                     <label class="check_box_custom">
@@ -2890,7 +2890,7 @@
                                     </div>
                                 </div>
                                 {%if logo %}
-                                <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                <img src="{{logo}}" alt="Logo {{name}}" style="max-width:150px;max-height:40px;"/>
                                 {% endif %}
 
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
@@ -2911,7 +2911,7 @@
                                     </div>
                                 </div>
                                 {%if logo_icon %}
-                                <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                <img src="{{logo_icon}}" alt="Logo Title {{name}}" style="max-width:50px;max-height:50px;"/>
                                 {% endif %}
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
@@ -2931,7 +2931,7 @@
                                     </div>
                                 </div>
                                 {%if background %}
-                                <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                <img src="{{background}}" alt="Background" style="max-width:96px;max-height:54px;"/>
                                 {% endif %}
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -2951,7 +2951,7 @@
                                     </div>
                                 </div>
                                 {%if bg_login %}
-                                <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                <img src="{{bg_login}}" alt="Background Login" style="max-width:96px;max-height:54px;"/>
                                 {% endif %}
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -2971,7 +2971,7 @@
                                     </div>
                                 </div>
                                 {%if bg_search %}
-                                <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                <img src="{{bg_search}}" alt="Background Search" style="max-width:96px;max-height:54px;"/>
                                 {% endif %}
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -2992,7 +2992,7 @@
                                     </div>
                                 </div>
                                 {%if bg_regis %}
-                                <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                <img src="{{bg_regis}}" alt="Background Registration" style="max-width:96px;max-height:54px;"/>
                                 {% endif %}
                                 <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                 <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
@@ -3176,7 +3176,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-xs-6 mt-3">
-                                                <img id="paragraph_img" style="height:auto; width:100px; margin-bottom:15px;">
+                                                <img id="paragraph_img" alt="Paragraph Image" style="height:auto; width:100px; margin-bottom:15px;">
                                                 <label class="check_box_custom" id="paragraph_img_label" style="display:none;">
                                                     <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete Thumbnail' %}</span>
                                                     <input type="checkbox" id="paragraph_img_delete" />
@@ -3278,7 +3278,7 @@
                                                 <div class="input-container-search-ticket form-select">
                                                     <input type="file" name="image_partner" id="image_partner"/>
                                                 </div>
-                                                <img id="partner_img" style="height:auto; width:100px;">
+                                                <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                                 <label class="check_box_custom">
@@ -3815,7 +3815,7 @@
                                         </div>
                                     </div>
                                     {%if logo %}
-                                    <img src="{{logo}}" style="max-width:150px;max-height:40px;"/>
+                                    <img src="{{logo}}" alt="Logo {{name}}" style="max-width:150px;max-height:40px;"/>
                                     {% endif %}
 
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
@@ -3836,7 +3836,7 @@
                                         </div>
                                     </div>
                                     {%if logo_icon %}
-                                    <img src="{{logo_icon}}" style="max-width:50px;max-height:50px;"/>
+                                    <img src="{{logo_icon}}" alt="Logo Title {{name}}" style="max-width:50px;max-height:50px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 50px, Height: 50px</span><br/>
@@ -3856,7 +3856,7 @@
                                         </div>
                                     </div>
                                     {%if background %}
-                                    <img src="{{background}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{background}}" alt="Background" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -3876,7 +3876,7 @@
                                         </div>
                                     </div>
                                     {%if bg_login %}
-                                    <img src="{{bg_login}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_login}}" alt="Background Login" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -3896,7 +3896,7 @@
                                         </div>
                                     </div>
                                     {%if bg_search %}
-                                    <img src="{{bg_search}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_search}}" alt="Background Search" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Width: 1920px, Height: 1080px</span><br/>
@@ -3917,7 +3917,7 @@
                                         </div>
                                     </div>
                                     {%if bg_regis %}
-                                    <img src="{{bg_regis}}" style="max-width:96px;max-height:54px;"/>
+                                    <img src="{{bg_regis}}" alt="Background Registration" style="max-width:96px;max-height:54px;"/>
                                     {% endif %}
                                     <h6 class="mt-2" style="color:{{text_color}};">Recommended Size: </h6>
                                     <span style="color:{{text_color}}">Max.Width: 1110px, Height: Free</span><br/>
@@ -4101,7 +4101,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-xs-6">
-                                                        <img id="paragraph_img" style="height:auto; width:100px; margin-bottom:15px;">
+                                                        <img id="paragraph_img" alt="Paragraph Image" style="height:auto; width:100px; margin-bottom:15px;">
                                                         <label class="check_box_custom" id="paragraph_img_label" style="display:none;">
                                                             <span class="span-search-ticket" style="color:{{text_color}};">{% trans 'Delete Thumbnail' %}</span>
                                                             <input type="checkbox" id="paragraph_img_delete" />
@@ -4203,7 +4203,7 @@
                                                         <div class="input-container-search-ticket form-select">
                                                             <input type="file" name="image_partner" id="image_partner"/>
                                                         </div>
-                                                        <img id="partner_img" style="height:auto; width:100px;">
+                                                        <img id="partner_img" alt="Partner Image" style="height:auto; width:100px;">
                                                     </div>
                                                     <div class="col-lg-12 col-md-12 col-xs-12" style="margin-bottom:15px;">
                                                         <label class="check_box_custom">

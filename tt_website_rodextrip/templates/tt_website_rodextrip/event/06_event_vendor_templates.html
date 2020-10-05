@@ -88,9 +88,9 @@
                     <div style="background-image: url({{static_path}}images/bg_7.jpg); background-position: center; background-repeat: no-repeat; background-size: cover; height:300px; width:100%; border:1px solid #cdcdcd; border-bottom-left-radius: 14px; border-bottom-right-radius: 14px;"></div>
                     <div style="padding:15px; text-align:center;">
                         {% if vendor.vendor_logo != ''%}
-                        <img src="{{vendor.vendor_logo}}" class="image-rounded-profile2"/>
+                        <img src="{{vendor.vendor_logo}}" alt="Logo Vendor" class="image-rounded-profile2"/>
                         {% else %}
-                        <img src="{{static_path}}images/noprofile.png" class="image-rounded-profile2"/>
+                        <img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile2"/>
                         {% endif %}
                         <h5 style="padding-top:10px;">{{vendor.vendor_name}}</h5>
                         <input id="vendor_id" name="vendor_id" type="hidden" value="{{vendor.vendor_id}}"/>
@@ -130,7 +130,7 @@
                 <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; z-index: 2; display:none;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>
+                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</span>
                             <hr/>
                             <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span><br/>
                             <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
@@ -204,7 +204,7 @@
                     <div class="col-lg-12">
                         <div class="center-div">
                             <div>
-                                <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                                <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
                             </div>
                         </div>
                         <div style="text-align:center">

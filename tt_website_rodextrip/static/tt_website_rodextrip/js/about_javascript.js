@@ -51,7 +51,7 @@ function get_about_us(type){
                                             </div>
                                         </div>
                                     </div>`;
-                                    text += `<div class="col-lg-4 col-md-4"><img title="`+sortable[j][1].title+`" style="width:100%; max-height:300px; height:auto;" src="`+sortable[j][1].image_paragraph+`"/></div>`;
+                                    text += `<div class="col-lg-4 col-md-4"><img title="`+sortable[j][1].title+`" alt="`+sortable[j][1].title+`" style="max-width:100%; width:auto; max-height:300px; height:auto;" src="`+sortable[j][1].image_paragraph+`"/></div>`;
                                 }else{
                                     text += `
                                     <div class="col-lg-12">
@@ -65,7 +65,7 @@ function get_about_us(type){
                                 }
                             }else{
                                 if(sortable[j][1].image_paragraph != '/media/image_about_us/'){
-                                    text += `<div class="col-lg-4 col-md-4"><img title="`+sortable[j][1].title+`" style="width:100%; max-height:300px; height:auto;" src="`+sortable[j][1].image_paragraph+`"/></div>`;
+                                    text += `<div class="col-lg-4 col-md-4"><img title="`+sortable[j][1].title+`" alt="`+sortable[j][1].title+`" style="width:100%; width:auto; max-height:300px; height:auto;" src="`+sortable[j][1].image_paragraph+`"/></div>`;
                                     text += `
                                     <div class="col-lg-8 col-md-8">
                                         <div style="min-height:150px;">

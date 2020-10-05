@@ -969,13 +969,13 @@ function get_customer_list(passenger, number, product){
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
                                             if(msg.result.response[i].title == "MR"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
                                             }
                                             else if(msg.result.response[i].title == "MRS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
                                             }
                                             else if(msg.result.response[i].title == "MS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
                                             }
                                     response+=`
                                         </div>
@@ -1145,21 +1145,21 @@ function get_customer_list(passenger, number, product){
                                     <div class="row">
                                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
                                             if(msg.result.response[i].face_image.length > 0)
-                                                response+=`<img src="`+msg.result.response[i].face_image[0]+`" style="width:100%;">`;
+                                                response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:100%;">`;
                                             else if(msg.result.response[i].title == "MR"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
                                             }
                                             else if(msg.result.response[i].title == "MRS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
                                             }
                                             else if(msg.result.response[i].title == "MS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
                                             }
                                             else if(msg.result.response[i].title == "MSTR"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:100%;">`;
                                             }
                                             else if(msg.result.response[i].title == "MISS"){
-                                                response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" style="width:100%;">`;
+                                                response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:100%;">`;
                                             }
                                     response+=`
                                         </div>
@@ -3066,21 +3066,21 @@ function get_passenger_cache(){
                             <div class="row">
                                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
                                     if(msg.result.response[i].face_image.length > 0)
-                                        response+=`<img src="`+msg.result.response[i].face_image[0]+`" style="width:100%;">`;
+                                        response+=`<img src="`+msg.result.response[i].face_image[0]+`" alt="User" style="width:100%;">`;
                                     else if(msg.result.response[i].title == "MR"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" style="width:100%;">`;
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mr.png" alt="User MR" style="width:100%;">`;
                                     }
                                     else if(msg.result.response[i].title == "MRS"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" style="width:100%;">`;
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mrs.png" alt="User MRS" style="width:100%;">`;
                                     }
                                     else if(msg.result.response[i].title == "MS"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" style="width:100%;">`;
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_ms.png" alt="User MS" style="width:100%;">`;
                                     }
                                     else if(msg.result.response[i].title == "MSTR"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" style="width:100%;">`;
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_mistr.png" alt="User MSTR" style="width:100%;">`;
                                     }
                                     else if(msg.result.response[i].title == "MISS"){
-                                        response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" style="width:100%;">`;
+                                        response+=`<img src="/static/tt_website_rodextrip/img/user_miss.png" alt="User MISS" style="width:100%;">`;
                                     }
                             response+=`
                                 </div>
@@ -3322,7 +3322,7 @@ function edit_passenger_cache(val){
     if(passenger_data_cache[val].face_image.length != 0)
     text+= `
             <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                <img src="`+passenger_data_cache[val].face_image[0]+`" value="`+passenger_data_cache[val].face_image[1]+`" id="avatar_image" style="height:220px;width:auto" />
+                <img src="`+passenger_data_cache[val].face_image[0]+`" alt="Passenger" value="`+passenger_data_cache[val].face_image[1]+`" id="avatar_image" style="height:220px;width:auto" />
 
                 <div class="row" style="justify-content:space-around">
                     <div class="checkbox" style="display: block;">
@@ -3345,7 +3345,7 @@ function edit_passenger_cache(val){
             for(j in passenger_data_cache[val].identities[i].identity_images){
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
 
                         <div class="row" style="justify-content:space-around">
                             <div class="checkbox" style="display: block;">
@@ -3367,7 +3367,7 @@ function edit_passenger_cache(val){
             for(j in passenger_data_cache[val].identities[i].identity_images)
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
 
                         <div class="row" style="justify-content:space-around">
                             <div class="checkbox" style="display: block;">
@@ -3410,7 +3410,7 @@ function edit_passenger_cache(val){
             for(j in passenger_data_cache[val].identities.identity_images)
                 text+= `
                     <div style="height:220px;margin-bottom:25px;margin-right:10px;">
-                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
+                        <img src="`+passenger_data_cache[val].identities[i].identity_images[j][0]+`" alt="Passenger" value="`+passenger_data_cache[val].identities[i].identity_images[j][1]+`" id="`+i+j+`_image" style="height:220px;width:auto" />
 
                         <div class="row" style="justify-content:space-around">
                             <div class="checkbox" style="display: block;">

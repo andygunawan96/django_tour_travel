@@ -98,15 +98,15 @@ function get_social(type){
                     for(i in msg){
                         text += `<a href="`+msg[i][2]+`" title="`+msg[i][1]+`" target="_blank">`;
                         if(msg[i][0] == "Facebook"){
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png"/>`;
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook"/>`;
                         }else if(msg[i][0] == "Instagram"){
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/instagram.png"/>`;
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/instagram.png" alt="Instagram"/>`;
                         }else if(msg[i][0] == "Twitter"){
-                            text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png"/>`;
+                            text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter"/>`;
                         }else if(msg[i][0] == "Youtube"){
-                            text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png"/>`;
+                            text+=`<img style="margin-bottom:10px; height:25px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png" alt="Youtube"/>`;
                         }else if(msg[i][0] == "Other"){
-                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png"/>`;
+                            text+=`<img style="margin-bottom:10px; height:30px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`;
                         }
                         text+=`</a>`;
 
@@ -127,15 +127,15 @@ function get_social(type){
                 for(i in msg){
                     text += `<div class="col-sm-6 col-md-6 col-lg-6 mb-3"><div style="height:80px; border: 1px solid #cdcdcd; padding:15px; border-radius:7px;">`;
                     if(msg[i][0] == "Facebook"){
-                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png"/>`;
+                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook"/>`;
                     }else if(msg[i][0] == "Instagram"){
-                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/instagram.png"/>`;
+                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/instagram.png" alt="Instagram"/>`;
                     }else if(msg[i][0] == "Twitter"){
-                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png"/>`;
+                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter"/>`;
                     }else if(msg[i][0] == "Youtube"){
-                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png"/>`;
+                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/youtube.png" alt="Youtube"/>`;
                     }else if(msg[i][0] == "Other"){
-                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png"/>`;
+                        text+=`<img style="margin-bottom:10px; height:40px; width:auto; padding-right:10px;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`;
                     }
                     text+=`<span style="position:absolute;">`+msg[i][0]+``;
                     if(msg[i][1] != ''){
@@ -162,13 +162,15 @@ function get_social(type){
                 for(i in msg){
                     text += `<a href="`+msg[i][1]+`" target="_blank">`;
                     if(msg[i][0] == "Facebook"){
-                        text+=`<img style="margin:0px 5px; height:40px; width:auto;" src="/static/tt_website_rodextrip/img/facebook.png"/>`;
+                        text+=`<img style="margin:0px 5px; height:40px; width:auto;" src="/static/tt_website_rodextrip/img/facebook.png" alt="Facebook"/>`;
                     }else if(msg[i][0] == "Instagram"){
-                        text+=`<img style="margin:0px 5px; height:40px; width:auto;" src="/static/tt_website_rodextrip/img/instagram.png"/>`;
+                        text+=`<img style="margin:0px 5px; height:40px; width:auto;" src="/static/tt_website_rodextrip/img/instagram.png" alt="Facebook"/>`;
                     }else if(msg[i][0] == "Twitter"){
-                        text+=`<img style="margin:0px 5px; height:35px; width:auto;" src="/static/tt_website_rodextrip/img/twitter.png"/>`;
+                        text+=`<img style="margin:0px 5px; height:35px; width:auto;" src="/static/tt_website_rodextrip/img/twitter.png" alt="Twitter"/>`;
+                    }else if(msg[i][0] == "Youtube"){
+                        text+=`<img style="margin:0px 5px; height:35px; width:auto;" src="/static/tt_website_rodextrip/img/youtube.png" alt="Youtube"/>`;
                     }else if(msg[i][0] == "Other"){
-                        text+=`<img style="margin:0px 5px; height:40px; width:auto;" src="/static/tt_website_rodextrip/img/other.png"/>`;
+                        text+=`<img style="margin:0px 5px; height:40px; width:auto;" src="/static/tt_website_rodextrip/img/other.png" alt="Other"/>`;
                     }
                     text+=`</a>`;
                     //if(msg[i][0] == 'Twitter'){

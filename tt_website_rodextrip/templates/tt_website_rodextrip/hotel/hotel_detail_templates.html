@@ -915,7 +915,7 @@
                                                         {% for i in response.images %}
                                                         <div class="item" style="cursor:zoom-in; float:none; display:inline-block;">
                                                             <center>
-                                                                <img class="img-fluid zoom-img" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto;" alt="">
+                                                                <img class="img-fluid zoom-img" src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="margin: auto;">
                                                             </center>
                                                         </div>
                                                         {% endfor %}
@@ -928,7 +928,7 @@
                                                     <div class="owl-carousel-hotel-modal owl-theme">
                                                         {% for i in response.images %}
                                                         <div class="item" style="cursor:pointer;">
-                                                            <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="max-width:100%; height:90px;">
+                                                            <img class="img-fluid" src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="max-width:100%; height:90px;">
                                                         </div>
                                                         {% endfor %}
                                                     </div>
@@ -948,7 +948,7 @@
                                         {% for i in response.images %}
                                         <div class="item" style="cursor:pointer; float:none;">
                                             <center>
-                                                <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                                <img class="img-fluid" src="{{i.url}}" alt="Hotel" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
                                             </center>
                                         </div>
                                         {% endfor %}
@@ -958,7 +958,7 @@
                                     <div class="owl-carousel-hotel-img owl-theme">
                                         <div class="item" style="float:none; display:inline-block; border:1px solid #cdcdcd;">
                                             <center>
-                                                <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg">
+                                                <img class="img-fluid" alt="No Image Hotel" src="{{static_path}}/images/no pic/no_image_hotel.jpeg">
                                             </center>
                                         </div>
                                     </div>
@@ -972,12 +972,12 @@
                                 {% for i in response.images %}
                                 {% if forloop.counter < 4 %}
                                 <div class="col-lg-12 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
-                                    <img class="img-fluid" src="{{i.url}}" style="width:100%; height:110px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
+                                    <img class="img-fluid" alt="Hotel" src="{{i.url}}" style="width:100%; height:110px; cursor:pointer;" data-toggle="modal" data-target="#openImage" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
                                 </div>
                                 {% elif forloop.counter == 4%}
                                 <div class="col-lg-12 col-md-3 col-sm-6 col-xs-6" style="padding-bottom:15px;">
                                     <div class="dark-img" style="cursor:pointer;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});">
-                                        <img class="img-fluid" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="width:100%; height:110px;">
+                                        <img class="img-fluid" alt="Hotel More" src="{{i.url}}" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg';" style="width:100%; height:110px;">
                                     </div>
                                     <span class="text-block-img" style="cursor:pointer; color:{{text_color}}; font-size:12px; text-align:center;" data-toggle="modal" data-target="#openImage" onclick="go_to_owl_carousel({{forloop.counter}}, {{response.images|length}});"><i class="fas fa-images" style="font-size:18px;"></i><br/>({{response.images|length}})</span>
                                 </div>
@@ -985,7 +985,7 @@
                                 {% endfor %}
                                 {% else %}
                                 <div class="col-lg-3">
-                                    <img class="img-fluid" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
+                                    <img class="img-fluid" alt="No Image Hotel" src="{{static_path}}/images/no pic/no_image_hotel.jpeg" style="max-width:100%; height:75px; border:1px solid #cdcdcd;">
                                 </div>
                                 {% endif %}
                             </div>
@@ -1173,7 +1173,7 @@
                                 <div class="col-lg-12">
                                     <div class="center-div">
                                         <div>
-                                            <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                                            <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
                                         </div>
                                     </div>
                                     <div style="text-align:center">

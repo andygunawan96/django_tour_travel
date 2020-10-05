@@ -1031,7 +1031,7 @@ function get_booking_offline(data){
                         <div class="row">
                             <div class="col-lg-12">
                                 <div style="padding:10px; background-color:white;">
-                                <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
+                                <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Reservasi Detail"/></h5>
                                 <hr/>`;
                             check = 0;
                             flight_counter = 1;
@@ -1063,9 +1063,9 @@ function get_booking_offline(data){
                                 <div class="row">
                                     <div class="col-lg-4">`;
                                     if(msg.result.response.offline_provider_type == 'airline')
-                                        text += `<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.lines[i].carrier_code+`.png"/>`;
+                                        text += `<img data-toggle="tooltip" alt="`+msg.result.response.lines[i].carrier+`" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="`+static_path_url_server+`/public/airline_logo/`+msg.result.response.lines[i].carrier_code+`.png"/>`;
                                     else if(msg.result.response.offline_provider_type == 'train')
-                                        text += `<img data-toggle="tooltip" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>`;
+                                        text += `<img data-toggle="tooltip" alt="`+msg.result.response.lines[i].carrier+`" style="width:50px; height:50px;" title="`+msg.result.response.lines[i].carrier+`" class="airline-logo" src="/static/tt_website_rodextrip/img/icon/kai.png"/>`;
 
                                     text+=`<h5>`+msg.result.response.lines[i].carrier+' '+msg.result.response.lines[i].carrier_number+`</h5>
                                         <span>Class : `+msg.result.response.lines[i].class+` ( Class of service `+msg.result.response.lines[i].subclass+` )</span><br/>
@@ -1079,10 +1079,10 @@ function get_booking_offline(data){
                                                         <td style="padding-left:15px;">`;
                                                         if(msg.result.response.offline_provider_type == 'airline')
                                                         text+=`
-                                                            <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>`;
+                                                            <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="Issued Offline Airline" style="width:20px; height:20px;"/>`;
                                                         else if(msg.result.response.offline_provider_type == 'train')
                                                         text+=`
-                                                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" style="width:20px; height:20px;"/>`;
+                                                            <img src="/static/tt_website_rodextrip/img/icon/train-01.png" alt="Issued Offline Train" style="width:20px; height:20px;"/>`;
                                                         text+=`
                                                         </td>
                                                         <td style="height:30px;padding:0 15px;width:100%">
@@ -1123,7 +1123,7 @@ function get_booking_offline(data){
                         <div class="row">
                             <div class="col-lg-12">
                                 <div style="padding:10px; background-color:white;">
-                                <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png"/></h5>
+                                <h5> Reservation Detail <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Reservation Detail"/></h5>
                                 <hr/>`;
                             check = 0;
                             flight_counter = 1;
@@ -1547,7 +1547,7 @@ function get_booking_offline(data){
                         </div>
                     </div>`;
                     if(msg.result.response.state == 'booked')
-                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
                         <hr/>
@@ -1556,16 +1556,16 @@ function get_booking_offline(data){
                         var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                         if (isMobile) {
                             text_detail+=`
-                                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                <a href="mailto:?subject=This is the issued offline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                <a href="mailto:?subject=This is the issued offline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                         } else {
                             text_detail+=`
-                                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                <a href="mailto:?subject=This is the issued offline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                <a href="mailto:?subject=This is the issued offline price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                         }
 
                     text_detail+=`
