@@ -592,10 +592,15 @@ function ppob_get_booking(data){
            console.log(msg);
            bills_get_detail = msg;
            get_payment = false;
+           $("#waitingTransaction").modal('hide');
            //get booking view edit here
            if(msg.result.error_code == 0){
             var text = '';
             $text = '';
+            csc = 0;
+            for(i in msg.result.response.passengers){
+                csc += msg.result.response.passengers[i].channel_service_charges.amount;
+            }
             check_provider_booking = 0;
             if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
                 tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
@@ -1003,7 +1008,7 @@ function ppob_get_booking(data){
                         msg.result.response.provider_booking[i].bill_details.push({
                             "customer_name": "Service Charges",
                             "currency": currency,
-                            "total": roc
+                            "total": roc + csc
                         })
                         for(j in msg.result.response.provider_booking[i].bill_details){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
@@ -1087,7 +1092,7 @@ function ppob_get_booking(data){
                         msg.result.response.provider_booking[i].bill_data.push({
                             "period_date": "Service Charges",
                             "currency": currency,
-                            "total": roc
+                            "total": roc + csc
                         })
                         for(j in msg.result.response.provider_booking[i].bill_data){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
