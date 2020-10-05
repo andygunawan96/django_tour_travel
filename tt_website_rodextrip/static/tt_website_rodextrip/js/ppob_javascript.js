@@ -1064,9 +1064,9 @@ function bills_detail(){
                 carrier_code_list = Array.from(new Set(price_itinerary.price_itinerary_provider[i].journeys[j].carrier_code_list))
                 for(k in carrier_code_list) //print gambar airline
                     try{
-                        text+=`<img data-toggle="tooltip" title="`+airline_carriers[0][carrier_code_list[k]]+`" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" alt="`+airline_carriers[0][carrier_code_list[k]]+`" title="`+airline_carriers[0][carrier_code_list[k]]+`" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                     }catch(err){
-                        text+=`<img data-toggle="tooltip" title="" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
+                        text+=`<img data-toggle="tooltip" alt="PPOB" title="" style="margin-top:10px; width:50px; height:50px;" src="`+static_path_url_server+`/public/airline_logo/`+carrier_code_list[k]+`.png"><span> </span>`;
                     }
 
                 for(k in price_itinerary.price_itinerary_provider[i].journeys[j].segments){
@@ -1086,7 +1086,7 @@ function bills_detail(){
                                 <tr>
                                     <td class="airport-code"><h5>`+price_itinerary.price_itinerary_provider[i].journeys[j].segments[k].departure_date.split(' - ')[1]+`</h5></td>
                                     <td style="padding-left:15px;">
-                                        <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" style="width:20px; height:20px;"/>
+                                        <img src="/static/tt_website_rodextrip/img/icon/airlines-01.png" alt="PPOB" style="width:20px; height:20px;"/>
                                     </td>
                                     <td style="height:30px;padding:0 15px;width:100%">
                                         <div style="display:inline-block;position:relative;width:100%">
@@ -1342,7 +1342,7 @@ function bills_detail(){
             //repricing
         }
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
-            text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+            text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         }
         text+=`
         <div class="row">
@@ -1380,16 +1380,16 @@ function bills_detail(){
                 var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                 if (isMobile) {
                     text+=`
-                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                        <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                        <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                        <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                        <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                 } else {
                     text+=`
-                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                        <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                        <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                        <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                        <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                        <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                 }
 
             text+=`
@@ -1629,15 +1629,15 @@ function check_hp_number(){
             }
             document.getElementById('e-voucher_nominal_div').innerHTML = text_nominal;
             if(code_voucher == "TSEL"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/telkomsel.png" style="width:auto; height:60px;">';
+                text_img = '<img src="/static/tt_website_rodextrip/images/icon/telkomsel.png" style="width:auto; height:60px;" alt="'+name+' Telkomsel">';
             }else if(code_voucher == "ISAT"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/indosat.png" style="width:auto; height:60px;">';
+                text_img = '<img src="/static/tt_website_rodextrip/images/icon/indosat.png" style="width:auto; height:60px;" alt="'+name+' Indosat">';
             }else if(code_voucher == "XL"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/xl.png" style="width:auto; height:60px;">';
+                text_img = '<img src="/static/tt_website_rodextrip/images/icon/xl.png" style="width:auto; height:60px;" alt="'+name+' XL">';
             }else if(code_voucher == "TR"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/three.png" style="width:auto; height:60px;">';
+                text_img = '<img src="/static/tt_website_rodextrip/images/icon/three.png" style="width:auto; height:60px;" alt="'+name+' Tri">';
             }else if(code_voucher == "SM"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/smartfren.png" style="width:auto; height:50px;">';
+                text_img = '<img src="/static/tt_website_rodextrip/images/icon/smartfren.png" style="width:auto; height:50px;"alt="'+name+' Smartfren">';
             }else{
                 text_img = `<h5 style="color:`+color+`;">Maaf, operator tidak tersedia untuk nomor tersebut.</h5>`;
             }

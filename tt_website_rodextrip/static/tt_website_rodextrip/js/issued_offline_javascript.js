@@ -471,7 +471,7 @@ function add_table_of_line(type){
                         text+=`<i class="fas fa-plane-departure"></i>`;
                     }
                     else{
-                        text+=`<img src="static/tt_website_rodextrip/img/icon/train-01.png" style="height:15px; width:auto;"/>`;
+                        text+=`<img src="static/tt_website_rodextrip/img/icon/train-01.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
                     }
                     text+=` Origin</span>
                     <div class="input-container-search-ticket">
@@ -484,7 +484,7 @@ function add_table_of_line(type){
                         text+=`<i class="fas fa-plane-arrival"></i>`;
                     }
                     else{
-                        text+=`<img src="static/tt_website_rodextrip/img/icon/train-02.png" style="height:15px; width:auto;"/>`;
+                        text+=`<img src="static/tt_website_rodextrip/img/icon/train-02.png" alt="Issued Offline" style="height:15px; width:auto;"/>`;
                     }
                     text+=` Destination
                     </span>

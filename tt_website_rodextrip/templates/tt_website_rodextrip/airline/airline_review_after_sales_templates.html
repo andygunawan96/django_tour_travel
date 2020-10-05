@@ -118,7 +118,7 @@
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
                 <div id="logo" class="col-lg-2 col-md-2 col-sm-2">
-                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="" title="" /></a>
+                    <a href="{% url 'tt_website_rodextrip:index'%}"><img src="{{logo}}" style="max-height:40px;max-width:150px;" alt="Logo {{name}}" title="{{name}}" /></a>
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-10" style="display:flex; padding-top:5px; padding-left:15px;">
                     <div class="breadcrumbs-rdx br-done" onclick="location.href='{% url 'tt_website_rodextrip:index'%}';">
@@ -163,7 +163,7 @@
                 <div class="col-lg-12" id="show_loading_booking_airline" hidden>
                     <div class="center-div">
                         <div>
-                            <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                            <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
                         </div>
                     </div>
                     <div style="text-align:center">

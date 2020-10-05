@@ -338,7 +338,7 @@
                 <div class="row" id="info_user_search" style="padding-top:15px; padding-bottom:5px; position: sticky; top: 51px; z-index: 2; display:none;">
                     <div class="col-lg-12">
                         <div style="padding:10px; background:white; border:1px solid #cdcdcd;">
-                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" class="image-rounded-profile"/> {{username.co_user_login}}</span>
+                            <span title="{{username.co_user_login}}" style="font-size:14px; font-weight:600; cursor:text; color:black; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width:150px;"><img src="{{static_path}}images/noprofile.png" alt="Photo Profile" class="image-rounded-profile"/> {{username.co_user_login}}</span>
                             <hr/>
                             <span id="balance_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span><br/>
                             <span id="credit_search" style="font-size:13px; font-weight:500; padding-right:10px;"></span>
@@ -418,7 +418,7 @@
                     <div class="col-lg-12">
                         <div class="center-div">
                             <div>
-                                <img src="{{static_path}}img/loading-screen-white.gif" style="height:25px; width:25px;"/>
+                                <img src="{{static_path}}img/loading-screen-white.gif" alt="Loading Screen" style="height:25px; width:25px;"/>
                             </div>
                         </div>
                         <div style="text-align:center">
@@ -493,7 +493,7 @@
             try{
                 if(item.image_url.length != 0){
                     var autocomplete_event = '<div style="padding: 10px 10px 10px 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+' - '+item.type+'" data-val="'+search+'"><div style="display:inline-block;">';
-                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
+                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';" alt="Event"></div>`;
                     autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
                     if(item.locations.length != 0){
                         autocomplete_event += '<span style="display:block; font-size:13px;"><i class="fas fa-map-marker-alt" style="padding-right:5px;"></i>';
@@ -516,7 +516,7 @@
                 }
                 else{
                     var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="'+item.name+' - '+item.type+'" data-lang="'+item.name+'" data-val="'+search+'"><div style="display:inline-block;">';
-                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
+                    autocomplete_event += `<img src="`+item.image_url[0]+`" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';" alt="Event"></div>`;
                     autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+item.name.replace(re, "<b>$1</b>")+ '</span>';
                     if(item.locations.length != 0){
                         autocomplete_event += '<i class="fas fa-map-marker-alt"></i><span style="padding-left:5px; font-size:13px;">';
@@ -539,7 +539,7 @@
                 }
             }catch(err){
                 var autocomplete_event = '<div style="padding: 10px;" class="autocomplete-suggestion" data-langname="" data-lang="" data-val="'+search+'"><div style="display:inline-block;">';
-                autocomplete_event += `<img src="/static/tt_website_rodextrip/images/no pic/no-event.png" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';"></div>`;
+                autocomplete_event += `<img src="/static/tt_website_rodextrip/images/no pic/no-event.png" style="max-width:70px;" onerror="this.src='/static/tt_website_rodextrip/images/no pic/no-event.png';" alt="Not Found Event"></div>`;
                 autocomplete_event += '<div style="display:inline-block; position:absolute; margin-left:10px;"><p><span style="display:block; font-size:13px;">'+ search + '</span>';
                 autocomplete_event += '</div></div>';
                 return autocomplete_event;

@@ -203,7 +203,7 @@ function tour_search(){
                     text += `
                         <div class="col-lg-12">
                             <div style="text-align:center">
-                                <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="" title="" />
+                                <img src="/static/tt_website_rodextrip/images/nofound/no-tour.png" style="width:70px; height:70px;" alt="Not Found Tour" title="" />
                                 <br/>
                             </div>
                             <center><div class="alert alert-warning" role="alert" style="margin-top:15px; border:1px solid #cdcdcd;"><h6><i class="fas fa-search-minus"></i> Oops! Tour not found. Please try again or search another tour. </h6></div></center>
@@ -250,7 +250,7 @@ function tour_search(){
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg-disabled"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                                 <div class="card-body">
@@ -277,7 +277,7 @@ function tour_search(){
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body">
@@ -309,7 +309,7 @@ function tour_search(){
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                                 <div class="card-body" style="padding:15px;">
@@ -337,7 +337,7 @@ function tour_search(){
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body" style="padding:15px;">
@@ -369,7 +369,7 @@ function tour_search(){
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg overlay-bg-disabled"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                                 <div class="card-body" style="padding:15px;">
@@ -397,7 +397,7 @@ function tour_search(){
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body" style="padding:15px;">
@@ -428,7 +428,7 @@ function tour_search(){
                                                 <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                                 <div class="card-body" style="padding:15px;">
@@ -456,7 +456,7 @@ function tour_search(){
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
                                                 <div class="overlay overlay-bg"></div>
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body" style="padding:15px;">
@@ -487,7 +487,7 @@ function tour_search(){
                                                 <h5 style="color:`+text_color+`;">SOLD OUT</h5>
                                             </div>
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour Sold Out" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion" style="background: rgba(150, 150, 150, 0.5) !important;">
                                                 <div class="card-body" style="padding:15px;">
@@ -514,7 +514,7 @@ function tour_search(){
                                     <div class="single-post-area mb-30" onclick="go_to_detail('`+tour_data[i].sequence+`')" style="cursor:pointer;">
                                         <div class="single-destination avail-sd relative">
                                             <div class="thumb relative" style="margin: auto; width:100%; height:100%; background-image: url('`+static_path_url_server+`/public/tour_packages/not_found.png'); background-size: 100%; 100%;">
-                                                <img class="img-fluid" src="`+img_src+`" alt="" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
+                                                <img class="img-fluid" src="`+img_src+`" alt="Tour" style="margin: auto; width:100%; height:100%; overflow: auto; object-fit: fill;">
                                             </div>
                                             <div class="card card-effect-promotion">
                                                 <div class="card-body" style="padding:15px;">
@@ -687,7 +687,7 @@ function tour_get_details(tour_code, tour_provider){
                     <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">
-                                <img class="img-fluid zoom-img" src="`+tour_data.images_obj[j].url+`" alt="">
+                                <img class="img-fluid zoom-img" src="`+tour_data.images_obj[j].url+`" alt="Tour">
                             </div>
                         </div>
                     </div>`;
@@ -698,7 +698,7 @@ function tour_get_details(tour_code, tour_provider){
                     <div class="item">
                         <div class="single-destination relative">
                             <div class="thumb relative">
-                                <img class="img-fluid zoom-img" src="`+static_path_url_server+`/public/tour_packages/not_found.png" alt="">
+                                <img class="img-fluid zoom-img" src="`+static_path_url_server+`/public/tour_packages/not_found.png" alt="Not Found Tour">
                             </div>
                         </div>
                     </div>`;
@@ -736,7 +736,7 @@ function tour_get_details(tour_code, tour_provider){
                                     if (tour_data.itinerary_ids[it_idx].items[it_item].image){
                                         itinerary_text += `
                                         <span id="show_image_itinerary`+it_idx+``+it_item+`" onclick="showImageItinerary(`+it_idx+`,`+it_item+`);" style="color:`+color+`; font-weight:700; cursor:pointer;">Show image</span>
-                                        <img id="image_itinerary`+it_idx+``+it_item+`" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: 200px; height: 200px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
+                                        <img id="image_itinerary`+it_idx+``+it_item+`" alt="Tour" src="`+tour_data.itinerary_ids[it_idx].items[it_item].image+`" style="width: 200px; height: 200px; border:1px solid #cdcdcd; object-fit: cover; display:none;"/>`;
                                     }
 
                                     itinerary_text += `</div>`;
@@ -768,13 +768,13 @@ function tour_get_details(tour_code, tour_provider){
                                 <td class="hidden-xs">`;
                         if (tour_data.flight_segments[k].carrier_code)
                         {
-                            flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" title="`+tour_data.flight_segments[k].carrier_id+`" width="50" height="50"/>`;
+                            flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" alt="`+tour_data.flight_segments[k].carrier_id+`" title="`+tour_data.flight_segments[k].carrier_id+`" width="50" height="50"/>`;
                         }
 
 //                            flight_details_text += `</td><td class="hidden-sm hidden-md hidden-lg hidden-xl">`;
 //                            if (tour_data.flight_segments[k].carrier_code)
 //                            {
-//                                flight_details_text += `<img src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" width="40" height="40"/>`+tour_data.flight_segments[k].carrier_code;
+//                                flight_details_text += `<img alt="" src="`+static_path_url_server+`/public/airline_logo/` + tour_data.flight_segments[k].carrier_code + `.png" width="40" height="40"/>`+tour_data.flight_segments[k].carrier_code;
 //                            }
 
                         flight_details_text += `</td>`;
@@ -1869,7 +1869,7 @@ function tour_get_booking(order_number)
              </div>`;
              if(msg.result.response.state == 'booked')
              price_text+=`
-             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+             <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
              price_text+=`<div class="row">
                 <div class="col-lg-12" style="padding-bottom:10px;">
                     <hr/>
@@ -1878,16 +1878,16 @@ function tour_get_booking(order_number)
                     var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                     if (isMobile) {
                         price_text+=`
-                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                     } else {
                         price_text+=`
-                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                            <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                     }
 
                 price_text+=`
@@ -2180,7 +2180,7 @@ function table_price_update(msg,type){
     '\nPrices and availability may change at any time';
     price_txt += `<hr style="padding:0px;">`;
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
-        price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+        price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     try{
         console.log(upsell_price);
@@ -2209,16 +2209,16 @@ function table_price_update(msg,type){
                             var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
                             if (isMobile) {
                                 price_txt+=`
-                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                    <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                                    <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                             } else {
                                 price_txt+=`
-                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png"/></a>
-                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png"/></a>
-                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png"/></a>
-                                    <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png"/></a>`;
+                                    <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                    <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                    <a href="mailto:?subject=This is the tour price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
                             }
 
                         price_txt+=`
