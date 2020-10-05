@@ -599,7 +599,11 @@ function ppob_get_booking(data){
             $text = '';
             csc = 0;
             for(i in msg.result.response.passengers){
-                csc += msg.result.response.passengers[i].channel_service_charges.amount;
+                try{
+                    csc += msg.result.response.passengers[i].channel_service_charges.amount;
+                }catch(err){
+
+                }
             }
             check_provider_booking = 0;
             if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
