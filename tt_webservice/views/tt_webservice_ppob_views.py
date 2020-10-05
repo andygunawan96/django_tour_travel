@@ -471,7 +471,7 @@ def update_service_charge(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    res = util.send_request(url=url + 'booking/visa', data=data, headers=headers, method='POST', timeout=300)
+    res = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST', timeout=300)
     try:
         if res['result']['error_code'] == 0:
             total_upsell = 0

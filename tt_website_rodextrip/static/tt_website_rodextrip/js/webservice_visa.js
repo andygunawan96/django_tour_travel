@@ -1117,6 +1117,7 @@ function visa_get_data(data){
                     </div>
                 </div>`;
                 document.getElementById('visa_booking').innerHTML = text;
+                $("#waitingTransaction").modal('hide');
                 update_table('booking');
             }
        },
@@ -1205,9 +1206,10 @@ function update_service_charge(type){
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
+                        visa_get_data(repricing_order_number);
                         price_arr_repricing = {};
                         pax_type_repricing = [];
-                        visa_get_data(repricing_order_number);
+                        please_wait_transaction();
                     }else{
                         price_arr_repricing = {};
                         pax_type_repricing = [];

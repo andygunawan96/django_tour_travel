@@ -125,46 +125,51 @@ def signin(request):
             #     'template': user_template.template_id,
             #     'desc': user_template.desc
             # })
-            set_session(request, 'user_account', res_user['result']['response'])
-            try:
-                if res['result']['error_code'] == 0:
-                    request.session.create()
-                    data = {}
-                    headers = {
-                        "Accept": "application/json,text/html,application/xml",
-                        "Content-Type": "application/json",
-                        "action": "get_provider_type_list",
-                        "signature": res['result']['response']['signature']
-                    }
-                    provider_type = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-                    try:
-                        if provider_type['result']['error_code'] == 0:
-                            provider_type_list = []
-                            for provider in provider_type['result']['response']['provider_type_list']:
-                                provider_type_list.append(provider['code'])
-                            set_session(request, 'provider', provider_type_list)
-                        else:
-                            # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
+            if 'login' in res_user['result']['response']['co_agent_frontend_security']:
+                set_session(request, 'user_account', res_user['result']['response'])
+                try:
+                    if res['result']['error_code'] == 0:
+                        request.session.create()
+                        data = {}
+                        headers = {
+                            "Accept": "application/json,text/html,application/xml",
+                            "Content-Type": "application/json",
+                            "action": "get_provider_type_list",
+                            "signature": res['result']['response']['signature']
+                        }
+                        provider_type = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+                        try:
+                            if provider_type['result']['error_code'] == 0:
+                                provider_type_list = []
+                                for provider in provider_type['result']['response']['provider_type_list']:
+                                    provider_type_list.append(provider['code'])
+                                set_session(request, 'provider', provider_type_list)
+                            else:
+                                # request.session['provider'] = ['airline', 'train', 'visa', 'activity', 'tour', 'hotel']
+                                set_session(request, 'provider', [])
+                        except:
                             set_session(request, 'provider', [])
-                    except:
-                        set_session(request, 'provider', [])
-                    _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
-                    javascript_version = get_cache_version()
-                    response = get_cache_data(javascript_version)
+                        _logger.info("SIGNIN SUCCESS SIGNATURE " + res['result']['response']['signature'])
+                        javascript_version = get_cache_version()
+                        response = get_cache_data(javascript_version)
 
-                    res['result']['response'].update({
-                        # 'visa': response['result']['response']['visa'],
-                        # 'issued_offline': response['result']['response']['issued_offline'],
-                        # 'train': response['result']['response']['train'],
-                        'activity': response['result']['response']['activity'],
-                        'tour': response['result']['response']['tour'],
-                        'airline': response['result']['response']['airline'],
-                        # 'hotel_config': response['result']['response']['hotel_config'],
-                    })
-                    logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
-            except:
-                get_new_cache(res['result']['response']['signature'])
-                request.session.create()
+                        res['result']['response'].update({
+                            # 'visa': response['result']['response']['visa'],
+                            # 'issued_offline': response['result']['response']['issued_offline'],
+                            # 'train': response['result']['response']['train'],
+                            'activity': response['result']['response']['activity'],
+                            'tour': response['result']['response']['tour'],
+                            'airline': response['result']['response']['airline'],
+                            # 'hotel_config': response['result']['response']['hotel_config'],
+                        })
+                        logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
+                except:
+                    get_new_cache(res['result']['response']['signature'])
+                    request.session.create()
+            else:
+                res_user['result']['error_code'] = 500
+                res_user['result']['error_msg'] = 'Permission Denied'
+
         else:
             _logger.error('ERROR SIGNIN_agent SOMETHING WHEN WRONG ' + json.dumps(res))
 

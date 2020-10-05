@@ -1,5 +1,5 @@
 price_type = [];
-
+total_price_provider = []
 additional_price = 0;
 
 airline_choose = 0;
@@ -3476,6 +3476,10 @@ function airline_detail(type){
                                         $text += airline_request.adult + ' Adult Fare @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].ADT.fare))+'\n';
                                         $text += airline_request.adult + ' Adult Tax @'+ airline_price[price_counter].ADT.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                         price = 0;
+                                        total_price_provider.push({
+                                            'provider': price_itinerary.price_itinerary_provider[i].provider,
+                                            'price': airline_price[price_counter].ADT
+                                        });
                                     }
                                 }catch(err){
 
@@ -3511,6 +3515,10 @@ function airline_detail(type){
                                         $text += airline_request.child + ' Child Fare @'+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].CHD.fare))+'\n';
                                         $text += airline_request.child + ' Child Tax @'+ airline_price[price_counter].CHD.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                         price = 0;
+                                        total_price_provider.push({
+                                            'provider': price_itinerary.price_itinerary_provider[i].provider,
+                                            'price': airline_price[price_counter].CHD
+                                        });
                                     }
                                 }catch(err){
 
@@ -3551,6 +3559,10 @@ function airline_detail(type){
                                         $text += airline_request.infant + ' Infant Fare @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(airline_price[price_counter].INF.fare+price))+'\n';
                                         $text += airline_request.infant + ' Infant Tax @'+ airline_price[price_counter].INF.currency +' '+getrupiah(Math.ceil(price))+'\n';
                                         price = 0;
+                                        total_price_provider.push({
+                                            'provider': price_itinerary.price_itinerary_provider[i].provider,
+                                            'price': airline_price[price_counter].INF
+                                        });
                                     }
                                 }catch(err){
 
@@ -3620,7 +3632,6 @@ function airline_detail(type){
             tax = 0;
             fare = 0;
             total_price = 0;
-            total_price_provider = [];
             price_provider = 0;
             commission = 0;
             service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];

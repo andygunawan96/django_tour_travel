@@ -159,7 +159,7 @@ function event_get_booking(data){
        success: function(msg) {
             console.log('Get Booking');
             console.log(msg);
-            document.getElementById('show_loading_booking_airline').hidden = true;
+            $("#waitingTransaction").modal('hide');
             try{
                 //======================= Resv =========================
                 if(msg.result.error_code == 0){
@@ -1523,6 +1523,7 @@ function update_service_charge(type){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
+                    please_wait_transaction();
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     event_get_booking(repricing_order_number);
@@ -1539,7 +1540,7 @@ function update_service_charge(type){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error airline service charge </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error event service charge </span>' + msg.result.error_msg,
                 })
            }
        },
@@ -1548,7 +1549,7 @@ function update_service_charge(type){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: red;">Error airline service charge </span>' + errorThrown,
+                  html: '<span style="color: red;">Error event service charge </span>' + errorThrown,
                 })
             }
        },timeout: 480000

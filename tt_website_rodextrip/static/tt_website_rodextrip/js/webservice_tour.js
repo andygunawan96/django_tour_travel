@@ -1389,6 +1389,7 @@ function update_service_charge(type){
                 if(type == 'booking'){
                     price_arr_repricing = {};
                     pax_type_repricing = [];
+                    please_wait_transaction();
                     tour_get_booking(repricing_order_number);
                 }else{
                     price_arr_repricing = {};
@@ -1438,6 +1439,7 @@ function tour_get_booking(order_number)
            tour_order_number = order_number;
            tr_get_booking = msg;
            $('#loading-search-tour').hide();
+           $("#waitingTransaction").modal('hide');
            var book_obj = msg.result.response;
            var tour_package = msg.result.response.tour_details;
            var passengers = msg.result.response.passengers;
@@ -1835,6 +1837,11 @@ function tour_get_booking(order_number)
                         total_price_for_discount += parseInt(price.FARE);
                     }
                     commission += parseInt(price.RAC);
+                    total_price_provider.push({
+                        'pnr': msg.result.response.pnr,
+                        'provider': msg.result.response.provider,
+                        'price': JSON.parse(JSON.stringify(price))
+                    });
                 }
                 counter_service_charge++;
             }
@@ -2016,6 +2023,15 @@ function table_price_update(msg,type){
         text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
         document.getElementById('repricing_div').innerHTML = text_repricing;
         //repricing
+        price_discount = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+        for(i in msg.result.response.service_charges){
+            price_discount[msg.result.response.service_charges[i].charge_type] += msg.result.response.service_charges[i].total;
+        }
+        total_price_provider.push({
+            'provider': provider,
+            'price': price_discount
+        });
+
     }
     grand_total = 0;
     var grand_commission = 0;
