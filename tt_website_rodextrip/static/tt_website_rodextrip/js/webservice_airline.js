@@ -4176,7 +4176,6 @@ function airline_get_booking(data){
             fare = 0;
             total_price = 0;
             total_price_provider = [];
-            price_provider = 0;
             commission = 0;
             service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
             text_detail=`
@@ -4290,18 +4289,16 @@ function airline_get_booking(data){
                         $text += currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
                         if(counter_service_charge == 0){
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            price_provider += parseInt(price.FARE + price.SEAT + price.SSR);
                         }else{
                             total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                            price_provider += parseInt(price.FARE + price.SSR + price.SEAT);
                         }
                         commission += parseInt(price.RAC);
+                        total_price_provider.push({
+                            'pnr': msg.result.response.provider_bookings[i].pnr,
+                            'provider': msg.result.response.provider_bookings[i].provider,
+                            'price': JSON.parse(JSON.stringify(price))
+                        });
                     }
-                    total_price_provider.push({
-                        'pnr': msg.result.response.provider_bookings[i].pnr,
-                        'price': price_provider
-                    })
-                    price_provider = 0;
                     counter_service_charge++;
                 }catch(err){console.log(err);}
             }
@@ -5370,6 +5367,7 @@ function update_service_charge(type){
            if(msg.result.error_code == 0){
                 try{
                     if(type == 'booking'){
+                        please_wait_transaction();
                         airline_get_booking(repricing_order_number);
                         price_arr_repricing = {};
                         pax_type_repricing = [];
@@ -5603,7 +5601,7 @@ function update_booking_after_sales(){
                     auto_logout();
                }else{
                     Swal.fire({
-                      title: 'Error please try again!',
+                      title: 'Error '+msg.result.error_msg+', please try again!',
                       type: 'warning',
                       showCancelButton: true,
                       confirmButtonColor: '#3085d6',

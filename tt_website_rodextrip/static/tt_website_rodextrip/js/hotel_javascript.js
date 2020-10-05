@@ -1793,6 +1793,22 @@ function hotel_detail(old_cancellation_policy){
         text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
         document.getElementById('repricing_div').innerHTML = text_repricing;
         //repricing
+
+        price_discount = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+        for(i in hotel_price.rooms){
+            for(j in hotel_price.rooms[i].nightly_prices){
+                for(k in hotel_price.rooms[i].nightly_prices[j].service_charges){
+                    price_discount[hotel_price.rooms[i].nightly_prices[j].service_charges[k].charge_type] += hotel_price.rooms[i].nightly_prices[j].service_charges[k].total;
+
+                }
+
+            }
+
+        }
+        total_price_provider.push({
+            'provider': hotel_price.provider,
+            'price': price_discount
+        });
     }
 
     //console.log(old_cancellation_policy);

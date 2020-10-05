@@ -1116,7 +1116,7 @@ function hotel_get_booking(data){
        },
        success: function(msg) {
             console.log(msg);
-            document.getElementById('show_loading_booking_airline').hidden = true;
+            $("#waitingTransaction").modal('hide');
             try{
                 if(msg.result.error_code == 0){
                     hotel_get_detail = msg;
@@ -1694,14 +1694,13 @@ function update_service_charge(type){
     if(type == 'booking'){
         document.getElementById('hotel_booking').innerHTML = '';
         upsell = []
-        hotel_get_detail = msg;
         for(i in hotel_get_detail.result.response.hotel_rooms){
             currency = hotel_get_detail.result.response.hotel_rooms[i].currency;
         }
         for(i in hotel_get_detail.result.response.passengers){
             list_price = []
             for(j in list){
-                if(hotel_get_detail.result.response.passengers[i].name == document.getElementById('selection_pax'+j).value){
+                if(hotel_get_detail.result.response.passengers[i].title + ' ' + hotel_get_detail.result.response.passengers[i].first_name + ' ' + hotel_get_detail.result.response.passengers[i].last_name == document.getElementById('selection_pax'+j).value){
                     list_price.push({
                         'amount': list[j],
                         'currency_code': currency
@@ -1710,11 +1709,11 @@ function update_service_charge(type){
 
             }
             upsell.push({
-                'sequence': i,
+                'sequence': parseInt(i),
                 'pricing': JSON.parse(JSON.stringify(list_price))
             });
         }
-        repricing_order_number = hotel_get_booking.result.response.booking_name;
+        repricing_order_number = hotel_get_detail.result.response.booking_name;
     }else{
         upsell_price = 0;
         upsell = []
@@ -1771,6 +1770,7 @@ function update_service_charge(type){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
+                    please_wait_transaction();
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     hotel_get_booking(repricing_order_number);

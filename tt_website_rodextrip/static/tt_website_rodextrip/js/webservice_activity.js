@@ -1509,6 +1509,7 @@ function update_service_charge(type){
            console.log(msg);
            if(msg.result.error_code == 0){
                 if(type == 'booking'){
+                    please_wait_transaction();
                     price_arr_repricing = {};
                     pax_type_repricing = [];
                     activity_get_booking(repricing_order_number);
@@ -1558,6 +1559,7 @@ function activity_get_booking(data){
        act_order_number = data;
        act_get_booking = msg;
        $('#loading-search-activity').hide();
+       $("#waitingTransaction").modal('hide');
         if(msg.result.error_code == 0){
             tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
             localTime  = moment.utc(tes).toDate();

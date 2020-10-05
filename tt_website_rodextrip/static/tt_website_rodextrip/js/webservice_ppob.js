@@ -990,6 +990,15 @@ function ppob_get_booking(data){
                         if(msg.result.response.provider_booking[i].service_charges[j].charge_type == 'ROC')
                             roc += msg.result.response.provider_booking[i].service_charges[j].amount;
                     }
+                    price_discount = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                    for(j in msg.result.response.provider_booking[i].service_charges){
+                        price_discount[msg.result.response.provider_booking[i].service_charges[j].charge_type] += msg.result.response.provider_booking[i].service_charges[j].total
+                    }
+                    total_price_provider.push({
+                        'pnr': msg.result.response.provider_booking[i].pnr,
+                        'provider': msg.result.response.provider_booking[i].provider,
+                        'price': JSON.parse(JSON.stringify(price_discount))
+                    });
                     if(msg.result.response.provider_booking[i].bill_details.length != 0){
                         msg.result.response.provider_booking[i].bill_details.push({
                             "customer_name": "Service Charges",
@@ -1159,10 +1168,6 @@ function ppob_get_booking(data){
                             commission += parseInt(price.RAC);
                         }
                     }
-                    total_price_provider.push({
-                        'pnr': msg.result.response.provider_bookings[i].pnr,
-                        'price': price_provider
-                    })
                     price_provider = 0;
                     counter_service_charge++;
                 }catch(err){}
@@ -1629,4 +1634,92 @@ function ppob_issued(data){
         });
       }
     })
+}
+
+function update_service_charge(type){
+    repricing_order_number = '';
+    if(type == 'booking'){
+        upsell = []
+        list_price = [];
+        for(j in list){
+            list_price.push({
+                'amount': list[j],
+                'currency_code': 'IDR'
+            });
+        }
+        upsell.push({
+            'sequence': 0,
+            'pricing': JSON.parse(JSON.stringify(list_price))
+        });
+        repricing_order_number = bills_get_detail.result.response.order_number;
+    }else{
+        upsell_price = 0;
+        upsell = []
+        counter_pax = -1;
+        currency = 'IDR';
+        for(i in all_pax){
+            list_price = [];
+            for(j in list){
+                if(all_pax[i].first_name+all_pax[i].last_name == document.getElementById('selection_pax'+j).value){
+                    list_price.push({
+                        'amount': list[j],
+                        'currency_code': currency
+                    });
+                    upsell_price += list[j];
+                }
+            }
+            counter_pax++;
+            if(list_price.length != 0)
+                upsell.push({
+                    'sequence': counter_pax,
+                    'pricing': JSON.parse(JSON.stringify(list_price))
+                });
+        }
+    }
+    $.ajax({
+       type: "POST",
+       url: "/webservice/ppob",
+       headers:{
+            'action': 'update_service_charge',
+       },
+       data: {
+           'order_number': JSON.stringify(repricing_order_number),
+           'passengers': JSON.stringify(upsell),
+           'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           if(msg.result.error_code == 0){
+                if(type == 'booking'){
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    please_wait_transaction();
+                    ppob_get_booking(repricing_order_number);
+                }else{
+                    price_arr_repricing = {};
+                    pax_type_repricing = [];
+                    get_price_itinerary_cache('review');
+                }
+
+                $('#myModalRepricing').modal('hide');
+           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                auto_logout();
+           }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error bill update service charge </span>' + msg.result.error_msg,
+                })
+           }
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+            if(XMLHttpRequest.status == 500){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: red;">Error bill update service charge </span>' + errorThrown,
+                })
+            }
+       },timeout: 60000
+    });
 }

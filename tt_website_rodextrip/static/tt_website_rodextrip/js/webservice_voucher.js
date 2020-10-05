@@ -1,5 +1,6 @@
 discount_voucher = {};
 voucher_code = '';
+total_price_provider = [];
 function get_voucher(){
     $.ajax({
        type: "POST",
@@ -192,49 +193,8 @@ function check_voucher(){
                         try{
                             set_price('Issued','visa');
                         }catch(err){}
-                    }else if(provider_type_id == 'ppob'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        if(total_price_for_discount > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                            for(i in msg.result.response.provider){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += total_price_for_discount * msg.result.response.voucher_value / 100;
-
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price_for_discount > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += total_price_for_discount;
-                                    }
-                                }
-                            }
-                            discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                discount_voucher['discount'] = msg.result.response.voucher_cap
-                        }
-
-                        discount_voucher['currency'] = msg.result.response.voucher_currency;
-                        if(msg.result.response.voucher_cap != false && discount > msg.result.response.voucher_cap)
-                            discount = msg.result.response.voucher_cap
-
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','visa');
-                        }catch(err){}
-                    }else if(provider_type_id == 'passport'){
+                    }
+                    else if(provider_type_id == 'passport'){
                         discount_voucher = {
                             'discount': 0,
                             'currency': ''
@@ -276,65 +236,8 @@ function check_voucher(){
                         try{
                             set_price('Issued','visa');
                         }catch(err){}
-                    }else if(provider_type_id == 'airline'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        try{
-                            for(i in airline_get_detail.result.response.provider_bookings){
-                                if(total_price_provider[i].price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                    if(msg.result.response.provider[i].able_to_use == true){
-                                        if(msg.result.response.voucher_type == 'percent'){
-                                            discount_voucher['discount'] += total_price_provider[i].price * msg.result.response.voucher_value / 100;
-
-                                        }else if(msg.result.response.voucher_type == 'amount'){
-                                            if(total_price_provider[i].price > msg.result.response.voucher_value)
-                                                discount_voucher['discount'] += msg.result.response.voucher_value;
-                                            else
-                                                discount_voucher['discount'] += total_price_provider[i].price;
-                                        }
-                                    }
-                                }
-                                discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                    discount_voucher['discount'] = msg.result.response.voucher_cap
-                            }
-                        }catch(err){
-                            if(total_price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                if(msg.result.response.voucher_type == 'percent' ){
-                                    for(j in airline_price[i]){
-                                        //cuman fare
-                                        discount_voucher['discount'] += airline_price[i][j]['fare'] * msg.result.response.voucher_value / 100;
-                                    }
-                                }else if(msg.result.response.voucher_type == 'amount'){
-                                    for(j in airline_price[i]){
-                                        //cuman fare
-                                        discount_voucher['discount'] += airline_price[i][j]['fare'];
-                                    }
-                                    if(discount_voucher['discount'] > msg.result.response.voucher_value)
-                                        discount_voucher['discount'] = msg.result.response.voucher_value;
-                                }
-                                discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                    discount_voucher['discount'] = msg.result.response.voucher_cap
-                            }
-                        }
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','airline');
-                        }catch(err){}
-                    }else if(provider_type_id == 'event'){
+                    }
+                    else if(provider_type_id == 'event'){
                         discount_voucher = {
                             'discount': 0,
                             'currency': ''
@@ -385,193 +288,81 @@ function check_voucher(){
                         try{
                             set_price('Issued','event');
                         }catch(err){}
-                    }else if(provider_type_id == 'activity'){
-                        //console.log(grand_total)
+                    }
+                    else{
                         discount_voucher = {
                             'discount': 0,
                             'currency': ''
                         };
-                        try{
-                            if(total_price_for_discount > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += total_price_for_discount * msg.result.response.voucher_value / 100;
-
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price_for_discount > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += total_price_for_discount;
-                                    }
-                                }
-                            }
-                            discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                discount_voucher['discount'] = msg.result.response.voucher_cap
-                        }catch(err){
-                            if(grand_total > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                for(i in msg.result.response.provider){
-                                    if(msg.result.response.provider[i].able_to_use == true){
-                                        if(msg.result.response.voucher_type == 'percent'){
-                                            discount_voucher['discount'] += grand_total * msg.result.response.voucher_value / 100;
-
-                                        }else if(msg.result.response.voucher_type == 'amount'){
-                                            if(grand_total > msg.result.response.voucher_value)
-                                                discount_voucher['discount'] += msg.result.response.voucher_value;
-                                            else
-                                                discount_voucher['discount'] += grand_total;
-                                        }
-                                    }
-                                }
-                                discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                    discount_voucher['discount'] = msg.result.response.voucher_cap
-                            }
-                        }
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','activity');
-                        }catch(err){}
-                    }else if(provider_type_id == 'tour'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        try{
-                            if(total_price_for_discount > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += total_price_for_discount * msg.result.response.voucher_value / 100;
-
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price_for_discount > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += total_price_for_discount;
-                                    }
-                                }
-                            }
-                            discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                discount_voucher['discount'] = msg.result.response.voucher_cap
-                        }catch(err){
-                            //review
-                            if(grand_total > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
+                        for(i in msg.result.response.provider){
+                            if(msg.result.response.provider[i].able_to_use == true){
+                                total_price_discount = 0;
+                                disc = 0;
                                 if(msg.result.response.voucher_type == 'percent' ){
-                                    discount_voucher['discount'] += grand_total * msg.result.response.voucher_value / 100;
-
-                                }else if(msg.result.response.voucher_type == 'amount'){
-                                    if(grand_total > msg.result.response.voucher_value)
-                                        discount_voucher['discount'] = msg.result.response.voucher_value;
-                                    else
-                                        discount_voucher['discount'] = grand_total;
-                                }
-                                discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                    discount_voucher['discount'] = msg.result.response.voucher_cap
-                            }
-                        }
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','tour');
-                        }catch(err){}
-                    }else if(provider_type_id == 'hotel'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        try{
-                            if(hotel_get_detail.result.response.total.price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += hotel_get_detail.result.response.total * msg.result.response.voucher_value / 100;
-
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(hotel_get_detail.result.response.total > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += hotel_get_detail.result.response.total;
-                                    }
-                                }
-                            }
-                            discount_voucher['currency'] = msg.result.response.voucher_currency;
-                            if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                discount_voucher['discount'] = msg.result.response.voucher_cap
-                        }catch(err){
-                            if(hotel_price.price_total > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                for(i in msg.result.response.provider){
-                                    if(msg.result.response.provider[i].able_to_use == true){
-                                        if(msg.result.response.voucher_type == 'percent'){
-                                            discount_voucher['discount'] += hotel_price.price_total * msg.result.response.voucher_value / 100;
-
-                                        }else if(msg.result.response.voucher_type == 'amount'){
-                                            if(hotel_price.price_total > msg.result.response.voucher_value)
-                                                discount_voucher['discount'] += msg.result.response.voucher_value;
-                                            else
-                                                discount_voucher['discount'] += hotel_price.price_total;
+                                    if(msg.result.response.voucher_effect_all){
+                                        for(j in total_price_provider){
+                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                                for(k in total_price_provider[j].price){
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                        disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
+                                                        total_price_discount += total_price_provider[j].price[k];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }else{
+                                        for(j in total_price_provider){
+                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                                for(k in total_price_provider[j].price){
+                                                    if(k == 'fare'){
+                                                        disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
+                                                    }
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                        total_price_discount += total_price_provider[j].price[k];
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
-                                }
-                                discount_voucher['currency'] = msg.result.response.voucher_currency;
-                                if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
-                                    discount_voucher['discount'] = msg.result.response.voucher_cap
-                            }
-                        }
-
-                        document.getElementById('voucher_discount').innerHTML = `
-                        <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
-                            <div class="alert alert-success" role="alert">
-                                <h6>Discount up to `+msg.result.response.voucher_currency+` `+getrupiah(discount_voucher['discount'])+`</h6>
-                            </div>
-                            <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
-                                Change Voucher Code
-                            </button>
-                            <h6><span style="color:red">* </span>This will be use if you issued</h6>
-                        </div>`;
-                        try{
-                            set_price('Issued','hotel');
-                        }catch(err){}
-                    }else if(provider_type_id == 'train'){
-                        discount_voucher = {
-                            'discount': 0,
-                            'currency': ''
-                        };
-                        for(i in train_get_detail.result.response.provider_bookings){
-                            if(total_price_provider[i].price > msg.result.response.voucher_minimum_purchase || msg.result.response.voucher_minimum_purchase == false){
-                                if(msg.result.response.provider[i].able_to_use == true){
-                                    if(msg.result.response.voucher_type == 'percent'){
-                                        discount_voucher['discount'] += total_price_provider[i].price * msg.result.response.voucher_value / 100;
-
-                                    }else if(msg.result.response.voucher_type == 'amount'){
-                                        if(total_price_provider[i].price > msg.result.response.voucher_value)
-                                            discount_voucher['discount'] += msg.result.response.voucher_value;
-                                        else
-                                            discount_voucher['discount'] += total_price_provider[i].price;
+                                }else if(msg.result.response.voucher_type == 'amount'){
+                                    if(msg.result.response.voucher_effect_all){
+                                        for(j in total_price_provider){
+                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                                for(k in total_price_provider[j].price){
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                        disc += total_price_provider[j].price[k];
+                                                        total_price_discount += total_price_provider[j].price[k];
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }else{
+                                        for(j in total_price_provider){
+                                            if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
+                                                for(k in total_price_provider[j].price){
+                                                    if(k == 'fare'){
+                                                        disc += total_price_provider[j].price[k];
+                                                    }
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                        total_price_discount += total_price_provider[j].price[k];
+                                                    }
+                                                }
+                                            }
+                                        }
                                     }
+
                                 }
+                                if(msg.result.response.voucher_minimum_purchase == false || total_price_discount > msg.result.response.voucher_minimum_purchase)
+                                    discount_voucher['discount'] = disc
+                                if(discount_voucher['discount'] > msg.result.response.voucher_value && msg.result.response.voucher_type == 'amount')
+                                    discount_voucher['discount'] = msg.result.response.voucher_value;
+                                discount_voucher['currency'] = msg.result.response.voucher_currency;
+
                             }
                         }
                         if(msg.result.response.voucher_cap != false && discount_voucher['discount'] > msg.result.response.voucher_cap)
                             discount_voucher['discount'] = msg.result.response.voucher_cap
+
                         document.getElementById('voucher_discount').innerHTML = `
                         <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                             <div class="alert alert-success" role="alert">
@@ -583,7 +374,18 @@ function check_voucher(){
                             <h6><span style="color:red">* </span>This will be use if you issued</h6>
                         </div>`;
                         try{
-                            set_price('Issued','train');
+                            if(provider_type_id == 'ppob')
+                                set_price('Issued','ppob');
+                            else if(provider_type_id == 'airline')
+                                set_price('Issued','airline');
+                            else if(provider_type_id == 'activity')
+                                set_price('Issued','activity');
+                            else if(provider_type_id == 'tour')
+                                set_price('Issued','tour');
+                            else if(provider_type_id == 'train')
+                                set_price('Issued','train');
+                            else if(provider_type_id == 'hotel')
+                                set_price('Issued','hotel');
                         }catch(err){}
                     }
                 }else{

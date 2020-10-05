@@ -640,6 +640,7 @@ function passport_get_data(data){
        },
        success: function(msg) {
             console.log(msg);
+            $("#waitingTransaction").modal('hide');
             if(msg.result.error_code == 0){
                 passport = msg.result.response;
                 var cur_state = msg.result.response.journey.state;
@@ -1150,6 +1151,7 @@ function update_service_charge(type){
                         price_arr_repricing = {};
                         pax_type_repricing = [];
                         passport_get_data(repricing_order_number);
+                        please_wait_transaction();
                     }else{
                         price_arr_repricing = {};
                         pax_type_repricing = [];
