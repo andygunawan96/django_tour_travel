@@ -459,7 +459,7 @@ def update_service_charge(request):
     # nanti ganti ke get_ssr_availability
     try:
         data = {
-            'order_number': request.POST['order_number'],
+            'order_number': json.loads(request.POST['order_number']),
             'passengers': json.loads(request.POST['passengers'])
         }
         headers = {
