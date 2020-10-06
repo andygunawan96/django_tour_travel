@@ -1476,7 +1476,15 @@ function hotel_get_booking(data){
                 }else{
                     //swal
                 }
-            }catch(err){console.log(err)}
+            }catch(err){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error hotel booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                }).then((result) => {
+                  window.location.href = '/reservation';
+                })
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){

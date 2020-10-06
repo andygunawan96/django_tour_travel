@@ -595,802 +595,820 @@ function ppob_get_booking(data){
            bills_get_detail = msg;
            get_payment = false;
            $("#waitingTransaction").modal('hide');
-           //get booking view edit here
-           if(msg.result.error_code == 0){
-            var text = '';
-            $text = '';
-            csc = 0;
-            for(i in msg.result.response.passengers){
-                try{
-                    csc += msg.result.response.passengers[i].channel_service_charges.amount;
-                }catch(err){}
-            }
-            check_provider_booking = 0;
-            if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
-                tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
-                localTime  = moment.utc(tes).toDate();
-                msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
-                var now = moment();
-                var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
-            }
-            if(msg.result.response.state == 'cancel'){
-               document.getElementById('issued-breadcrumb').classList.remove("br-active");
-               document.getElementById('issued-breadcrumb').classList.add("br-fail");
-               //document.getElementById('issued-breadcrumb').classList.remove("current");
-               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
-            }else if(msg.result.response.state == 'cancel2'){
-               document.getElementById('issued-breadcrumb').classList.remove("br-active");
-               document.getElementById('issued-breadcrumb').classList.add("br-fail");
-               //document.getElementById('issued-breadcrumb').classList.remove("current");
-               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-            }else if(msg.result.response.state == 'fail_booked'){
-               document.getElementById('issued-breadcrumb').classList.remove("br-active");
-               document.getElementById('issued-breadcrumb').classList.add("br-fail");
-               //document.getElementById('issued-breadcrumb').classList.remove("current");
-               //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
-            }else if(msg.result.response.state == 'booked'){
-               try{
-                   if(now.diff(hold_date_time, 'minutes')<0)
-                       check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'bills', signature, msg.result.response.payment_acquirer_number);
-                   get_payment = true;
-//                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-                   document.getElementById('voucher_div').style.display = '';
-                   //document.getElementById('issued-breadcrumb').classList.remove("active");
-                   //document.getElementById('issued-breadcrumb').classList.add("current");
+           try{
+               //get booking view edit here
+               if(msg.result.error_code == 0){
+                var text = '';
+                $text = '';
+                csc = 0;
+                for(i in msg.result.response.passengers){
+                    try{
+                        csc += msg.result.response.passengers[i].channel_service_charges.amount;
+                    }catch(err){}
+                }
+                check_provider_booking = 0;
+                if(msg.result.response.hold_date != false && msg.result.response.hold_date != ''){
+                    tes = moment.utc(msg.result.response.hold_date).format('YYYY-MM-DD HH:mm:ss')
+                    localTime  = moment.utc(tes).toDate();
+                    msg.result.response.hold_date = moment(localTime).format('DD MMM YYYY HH:mm');
+                    var now = moment();
+                    var hold_date_time = moment(msg.result.response.hold_date, "DD MMM YYYY HH:mm");
+                }
+                if(msg.result.response.state == 'cancel'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                }else if(msg.result.response.state == 'cancel2'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                }else if(msg.result.response.state == 'fail_booked'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('header_issued').innerHTML = `Fail <i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('issued-breadcrumb-span').innerHTML = `Fail (Book)`;
+                }else if(msg.result.response.state == 'booked'){
+                   try{
+                       if(now.diff(hold_date_time, 'minutes')<0)
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'bills', signature, msg.result.response.payment_acquirer_number);
+                       get_payment = true;
+    //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                       document.getElementById('voucher_div').style.display = '';
+                       //document.getElementById('issued-breadcrumb').classList.remove("active");
+                       //document.getElementById('issued-breadcrumb').classList.add("current");
+                       document.getElementById('issued-breadcrumb').classList.add("br-active");
+                       document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                   }catch(err){}
+                }else if(msg.result.response.state == 'draft'){
+                   document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                   document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                   document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                   document.getElementById('Booking-breadcrumb').classList.remove("br-book");
+                   document.getElementById('Booking-breadcrumb').classList.add("br-fail");
+                   document.getElementById('Booking-breadcrumb-icon').classList.remove("br-icon-active");
+                   document.getElementById('Booking-breadcrumb-icon').classList.add("br-icon-fail");
+                   document.getElementById('Booking-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                }else{
+                   //document.getElementById('issued-breadcrumb').classList.remove("current");
+                   //document.getElementById('issued-breadcrumb').classList.add("active");
                    document.getElementById('issued-breadcrumb').classList.add("br-active");
                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-               }catch(err){}
-            }else if(msg.result.response.state == 'draft'){
-               document.getElementById('issued-breadcrumb').classList.remove("br-active");
-               document.getElementById('issued-breadcrumb').classList.add("br-fail");
-               document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-               document.getElementById('Booking-breadcrumb').classList.remove("br-book");
-               document.getElementById('Booking-breadcrumb').classList.add("br-fail");
-               document.getElementById('Booking-breadcrumb-icon').classList.remove("br-icon-active");
-               document.getElementById('Booking-breadcrumb-icon').classList.add("br-icon-fail");
-               document.getElementById('Booking-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-            }else{
-               //document.getElementById('issued-breadcrumb').classList.remove("current");
-               //document.getElementById('issued-breadcrumb').classList.add("active");
-               document.getElementById('issued-breadcrumb').classList.add("br-active");
-               document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-               document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-            }
-
-            if(msg.result.response.state == 'issued'){
-                try{
-                    document.getElementById('voucher_discount').style.display = 'none';
-                }catch(err){}
-               //tanya ko sam kalau nyalain
-//                document.getElementById('ssr_request_after_sales').hidden = false;
-//                document.getElementById('ssr_request_after_sales').innerHTML = `
-//                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">
-//                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
-//                document.getElementById('reissued').hidden = false;
-//                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
-                provider_list = [];
-                for(i in msg.result.response.provider_bookings){
-                    provider_list.push(msg.result.response.provider_bookings[i].provider);
+                   document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
                 }
 
-            }
-            if(msg.result.response.state == 'booked'){
-                try{
-                    if(now.diff(hold_date_time, 'minutes')<0)
-                        $(".issued_booking_btn").show();
-                }catch(err){}
-                check_provider_booking++;
-                try{
-                   check_cancel = 0;
-                   for(i in msg.result.response.provider_booking){
-                        if(provider_list_data[msg.result.response.provider_booking[i].provider].is_post_booked_cancel){
-                            check_cancel = 1;
-                        }
-                   }
-                   if(check_cancel){
-                        document.getElementById('cancel').hidden = false;
-                        document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();">Cancel Booking <i class="fas fa-times" style="font-size:16px;"/></button>`;
-                   }
-                }catch(err){
+                if(msg.result.response.state == 'issued'){
+                    try{
+                        document.getElementById('voucher_discount').style.display = 'none';
+                    }catch(err){}
+                   //tanya ko sam kalau nyalain
+    //                document.getElementById('ssr_request_after_sales').hidden = false;
+    //                document.getElementById('ssr_request_after_sales').innerHTML = `
+    //                        <input class="primary-btn-ticket" style="width:100%;margin-bottom:10px;" type="button" onclick="set_new_request_ssr()" value="Request New SSR">
+    //                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="set_new_request_seat()" value="Request New Seat">`;
+    //                document.getElementById('reissued').hidden = false;
+    //                document.getElementById('reissued').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="reissued_btn();" value="Reissued">`;
+                    provider_list = [];
+                    for(i in msg.result.response.provider_bookings){
+                        provider_list.push(msg.result.response.provider_bookings[i].provider);
+                    }
 
                 }
-            }
-            else{
-                //$(".issued_booking_btn").remove();
-                $('.loader-rodextrip').fadeOut();
-                $("#waitingTransaction").modal('hide');
-            }
-
-            $text += 'Order Number: '+ msg.result.response.order_number + '\n';
-
-            //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
-            $text += msg.result.response.state_description + '\n';
-            var localTime;
-            currency = ''
-            for(j in msg.result.response.provider_booking[0].service_charges){
-                if(currency == ''){
-                    currency = msg.result.response.provider_booking[0].service_charges[j].currency;
-                    break;
-                }
-            }
-            text += `
-            <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
-                <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
-                <table style="width:100%;">
-                    <tr>
-                        <th>PNR</th>
-                        <th>Hold Date</th>
-                        <th>Status</th>
-                    </tr>`;
-                    printed_hold_date = false;
-                    for(i in msg.result.response.provider_booking){
-                        if(msg.result.response.state == 'booked' && printed_hold_date == false){
-                            if(get_payment == false){
-                               check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'bills', signature, msg.result.response.payment_acquirer_number);
-                               get_payment = true;
+                if(msg.result.response.state == 'booked'){
+                    try{
+                        if(now.diff(hold_date_time, 'minutes')<0)
+                            $(".issued_booking_btn").show();
+                    }catch(err){}
+                    check_provider_booking++;
+                    try{
+                       check_cancel = 0;
+                       for(i in msg.result.response.provider_booking){
+                            if(provider_list_data[msg.result.response.provider_booking[i].provider].is_post_booked_cancel){
+                                check_cancel = 1;
                             }
-//                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
-//                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
-                            $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
-                            try{
-                                if(now.diff(hold_date_time, 'minutes')<0)
-                                    $(".issued_booking_btn").show();
-                            }catch(err){}
-                            check_provider_booking++;
-                            printed_hold_date = true;
-                        }
-                        //datetime utc to local
-                        if(msg.result.response.provider_booking[i].error_msg.length != 0 && msg.result.response.state != 'issued')
-                            text += `<div class="alert alert-danger">
-                                `+msg.result.response.provider_booking[i].error_msg+`
-                                <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
-                            </div>`;
-                        //
-                        text+=`<tr>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                            text+=`
-                                <td>`+msg.result.response.provider_booking[i].pnr+`</td>`;
-                        else
-                            text += `<td> - </td>`;
-                        text+=`
-                            <td>`+msg.result.response.hold_date+`</td>
-                            <td id='pnr'>`+msg.result.response.state_description+`</td>
+                       }
+                       if(check_cancel){
+                            document.getElementById('cancel').hidden = false;
+                            document.getElementById('cancel').innerHTML = `<button class="primary-btn-white" style="width:100%;" type="button" onclick="cancel_btn();">Cancel Booking <i class="fas fa-times" style="font-size:16px;"/></button>`;
+                       }
+                    }catch(err){
+
+                    }
+                }
+                else{
+                    //$(".issued_booking_btn").remove();
+                    $('.loader-rodextrip').fadeOut();
+                    $("#waitingTransaction").modal('hide');
+                }
+
+                $text += 'Order Number: '+ msg.result.response.order_number + '\n';
+
+                //$text += 'Hold Date: ' + msg.result.response.hold_date + '\n';
+                $text += msg.result.response.state_description + '\n';
+                var localTime;
+                currency = ''
+                for(j in msg.result.response.provider_booking[0].service_charges){
+                    if(currency == ''){
+                        currency = msg.result.response.provider_booking[0].service_charges[j].currency;
+                        break;
+                    }
+                }
+                text += `
+                <div class="col-lg-12" style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-bottom:20px;">
+                    <h6>Order Number : `+msg.result.response.order_number+`</h6><br/>
+                    <table style="width:100%;">
+                        <tr>
+                            <th>PNR</th>
+                            <th>Hold Date</th>
+                            <th>Status</th>
                         </tr>`;
-                    }
-                    if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
-                        $text += msg.result.response.state_description+'\n';
-                        check_provider_booking++;
-                        $(".issued_booking_btn").remove();
-                    }
-                    $text +='\n';
-            text+=`</table>
-            </div>
-
-            <div style="background-color:white; border:1px solid #cdcdcd;">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div style="padding:10px; background-color:white;">
-                        <h5> Bill Details <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Bills Detail"/></h5>
-                        <hr/>`;
-                    check = 0;
-                    flight_counter = 1;
-                    for(i in msg.result.response.provider_booking){
-                        $text += 'Booking Code: ' + msg.result.response.provider_booking[i].pnr+'\n';
-                        if(i != 0){
-                            text+=`<hr/>`;
-                        }
-                        text+=`<h5>PNR: `+msg.result.response.provider_booking[i].pnr+`</h5>`;
-                        flight_counter++;
-                        text+=`<div class="row">
-                                <div class="col-lg-4">
-                                    <span style="font-weight:500;">Type</span><br/>
-                                    <span style="font-weight:500;">Number</span><br/>
-                                    <span style="font-weight:500;">Name</span>
-                                </div>
-                                <div class="col-lg-8">
-                                    <span>`+msg.result.response.provider_booking[i].carrier_name+`</span><br/>
-                                    <span>`+msg.result.response.provider_booking[i].customer_number+`</span><br/>
-                                    <span>`+msg.result.response.provider_booking[i].customer_name+`</span>
-                                </div>
-                               </div>`;
-                    }
-                    text+=`
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-            if(msg.result.response.provider_booking[0].bill_details.length != 0){
-            text+=`
-
-
-            <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                <h5> List of Family</h5>
-                <hr/>
-                <table style="width:100%" id="list-of-passenger">
-                    <tr>
-                        <th style="width:5%;" class="list-of-passenger-left">No</th>
-                        <th style="width:30%;">Name</th>
-                        <th style="width:20%;">Number</th>
-                        <th style="width:25%;">Total</th>
-                    </tr>`;
-                    passenger_count = 1;
-                    for(i in msg.result.response.provider_booking){
-                        for(j in msg.result.response.provider_booking[i].bill_details){
-                            text+=`<tr>
-                                <td class="list-of-passenger-left">`+(passenger_count)+`</td>
-                                <td>`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</td>
-                                <td>`+msg.result.response.provider_booking[i].bill_details[j].customer_number+`</td>
-                                <td>`+currency+` `+getrupiah(msg.result.response.provider_booking[i].bill_details[j].total)+`</td>
+                        printed_hold_date = false;
+                        for(i in msg.result.response.provider_booking){
+                            if(msg.result.response.state == 'booked' && printed_hold_date == false){
+                                if(get_payment == false){
+                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'bills', signature, msg.result.response.payment_acquirer_number);
+                                   get_payment = true;
+                                }
+    //                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
+    //                            get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
+                                $text += 'Please make payment before '+ msg.result.response.hold_date + `\n`;
+                                try{
+                                    if(now.diff(hold_date_time, 'minutes')<0)
+                                        $(".issued_booking_btn").show();
+                                }catch(err){}
+                                check_provider_booking++;
+                                printed_hold_date = true;
+                            }
+                            //datetime utc to local
+                            if(msg.result.response.provider_booking[i].error_msg.length != 0 && msg.result.response.state != 'issued')
+                                text += `<div class="alert alert-danger">
+                                    `+msg.result.response.provider_booking[i].error_msg+`
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close" style="margin-top:-1.9vh;">x</a>
+                                </div>`;
+                            //
+                            text+=`<tr>`;
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                                text+=`
+                                    <td>`+msg.result.response.provider_booking[i].pnr+`</td>`;
+                            else
+                                text += `<td> - </td>`;
+                            text+=`
+                                <td>`+msg.result.response.hold_date+`</td>
+                                <td id='pnr'>`+msg.result.response.state_description+`</td>
                             </tr>`;
-                            passenger_count++;
                         }
-                    }
-
+                        if(check_provider_booking == 0 && msg.result.response.state != 'issued'){
+                            $text += msg.result.response.state_description+'\n';
+                            check_provider_booking++;
+                            $(".issued_booking_btn").remove();
+                        }
+                        $text +='\n';
                 text+=`</table>
-            </div>`;
-            }
-
-            if(msg.result.response.provider_booking[0].description != ''){
-            text+=`
-            <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
-                <h5> Additional Information</h5>
-                <hr/>
-                `+msg.result.response.provider_booking[0].description+`
-            </div>
-            `;
-
-            }
-
-            text+=`
-
-            <div class="row" style="margin-top:20px;">
-                <div class="col-lg-4" style="padding-bottom:10px;">`;
-                    if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                        if (msg.result.response.state == 'booked'){
-                            text+=`
-                            <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;" hidden>
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </a>`;
-                        }else if (msg.result.response.state == 'issued'){
-                            text+=`
-                            <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','ppob');"/>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </a>`;
-                        }
-                    }
-                    text+=`
                 </div>
-                <div class="col-lg-4" style="padding-bottom:10px;">`;
-                    if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                        if (msg.result.response.state  == 'booked'){
-                            text+=`
-                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','ppob');" />
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </a>`;
+
+                <div style="background-color:white; border:1px solid #cdcdcd;">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div style="padding:10px; background-color:white;">
+                            <h5> Bill Details <img style="width:18px;" src="/static/tt_website_rodextrip/images/icon/plane.png" alt="Bills Detail"/></h5>
+                            <hr/>`;
+                        check = 0;
+                        flight_counter = 1;
+                        for(i in msg.result.response.provider_booking){
+                            $text += 'Booking Code: ' + msg.result.response.provider_booking[i].pnr+'\n';
+                            if(i != 0){
+                                text+=`<hr/>`;
+                            }
+                            text+=`<h5>PNR: `+msg.result.response.provider_booking[i].pnr+`</h5>`;
+                            flight_counter++;
+                            text+=`<div class="row">
+                                    <div class="col-lg-4">
+                                        <span style="font-weight:500;">Type</span><br/>
+                                        <span style="font-weight:500;">Number</span><br/>
+                                        <span style="font-weight:500;">Name</span>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <span>`+msg.result.response.provider_booking[i].carrier_name+`</span><br/>
+                                        <span>`+msg.result.response.provider_booking[i].customer_number+`</span><br/>
+                                        <span>`+msg.result.response.provider_booking[i].customer_name+`</span>
+                                    </div>
+                                   </div>`;
                         }
-                    }
                         text+=`
-                </div>
-                <div class="col-lg-4" style="padding-bottom:10px;">`;
-                    if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
-                        if (msg.result.response.state  == 'booked'){
-                            text+=`
-                            <a class="issued-booking-train ld-ext-right" id="print_invoice" style="color:`+text_color+`;" hidden>
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </a>`;
-                        }
-                        else if (msg.result.response.state == 'issued'){
-                            text+=`
-                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </a>`;
-                            // modal invoice
-                            text+=`
-                                <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                    <div class="modal-dialog">
-
-                                      <!-- Modal content-->
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
-                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                        <span class="control-label" for="Name">Name</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                        <span class="control-label" for="Additional Information">Additional Information</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                        <span class="control-label" for="Address">Address</span>
-                                                        <div class="input-container-search-ticket">
-                                                            <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                            <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br/>
-                                                <div style="text-align:right;">
-                                                    <span>Don't want to edit? just submit</span>
-                                                    <br/>
-                                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','ppob');"/>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    }
-                        text+=`
-                    </a>
-                </div>
-            </div>`;
-            document.getElementById('bills_booking').innerHTML = text;
-
-            //detail
-            text = '';
-            tax = 0;
-            fare = 0;
-            total_price = 0;
-            total_price_for_discount = 0;
-            total_price_provider = [];
-            price_provider = 0;
-            commission = 0;
-            service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
-            text_detail=`
-            <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
-                <h5> Price Detail</h5>
-            <hr/>`;
-
-            //repricing
-            type_amount_repricing = ['Repricing'];
-            //repricing
-            counter_service_charge = 0;
-            $text += '\nPrice:\n';
-            for(i in msg.result.response.provider_booking){
-                try{
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
-                        text_detail+=`
-                            <div style="text-align:left">
-                                <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_booking[i].pnr+` </span>
-                            </div>`;
-                    rac = 0;
-                    currency = '';
-                    roc = 0;
-                    pax = msg.result.response.provider_booking[i].bill_details.length;
-                    if(pax == 0)
-                        pax = msg.result.response.provider_booking[i].bill_data.length;
-                    for(j in msg.result.response.passengers){
-                        for(k in msg.result.response.passengers[j].sale_service_charges){
-                            for(l in msg.result.response.passengers[j].sale_service_charges[k]){
-                                if(currency == '')
-                                    currency = msg.result.response.passengers[j].sale_service_charges[k][l].currency;
-                                if(l == 'RAC')
-                                    rac += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
-                                if(l == 'ROC' || l == 'TAX')
-                                    roc += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
-                            }
-                        }
-                    }
-                    price_discount = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                    for(j in msg.result.response.passengers){
-                        for(k in msg.result.response.passengers[j].sale_service_charges){
-                            price_discount[k] += msg.result.response.passengers[j].sale_service_charges[k].amount
-                        }
-                    }
-                    total_price_provider.push({
-                        'pnr': msg.result.response.provider_booking[i].pnr,
-                        'provider': msg.result.response.provider_booking[i].provider,
-                        'price': JSON.parse(JSON.stringify(price_discount))
-                    });
-                    if(msg.result.response.provider_booking[i].bill_details.length != 0){
-                        msg.result.response.provider_booking[i].bill_details.push({
-                            "customer_name": "Service Charges",
-                            "currency": currency,
-                            "total": roc
-                        })
-                        if(csc != 0)
-                            msg.result.response.provider_booking[i].bill_details.push({
-                                "customer_name": "Other Service Charges",
-                                "currency": currency,
-                                "total": csc
-                            })
-                        for(j in msg.result.response.provider_booking[i].bill_details){
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                            price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
-                            if(rac != 0)
-                                price['RAC'] = rac / pax;
-                            else
-                                price['RAC'] = 0;
-                            price['currency'] = currency;
-                            //repricing
-                            check = 0;
-                            for(k in pax_type_repricing){
-                                if(pax_type_repricing[k][0] == msg.result.response.provider_booking[i].bill_details[j].customer_name)
-                                    check = 1;
-                            }
-                            if(check == 0){
-                                pax_type_repricing.push([msg.result.response.provider_booking[i].bill_details[j].customer_name, msg.result.response.provider_booking[i].bill_details[j].customer_name]);
-                                price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name] = {
-                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
-                            }else{
-                                price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name] = {
-                                    'Fare': price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                    'Tax': price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name]['Tax'] + price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
-                            }
-                            text_repricing = `
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-lg-3">Price</div>
-                                    <div class="col-lg-3">Repricing</div>
-                                    <div class="col-lg-3">Total</div>
-                                </div>
-                            </div>`;
-                            for(k in price_arr_repricing){
-                               text_repricing += `
-                               <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="adult">
-                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                        <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                        if(price_arr_repricing[k].Repricing == 0)
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                        else
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                                    </div>
-                                </div>`;
-                            }
-                            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                            document.getElementById('repricing_div').innerHTML = text_repricing;
-                            //repricing
-
-                            text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</span>`;
-                                text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
-                                </div>
-                            </div>`;
-                            $text += msg.result.response.provider_booking[i].bill_details[j].customer_name + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
-
-                            $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                            if(counter_service_charge == 0){
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                                total_price_for_discount += parseInt(price.FARE);
-                                price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            }else{
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                                total_price_for_discount += parseInt(price.FARE);
-                                price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                            }
-                            commission += parseInt(price.RAC);
-                        }
-                    }else{
-                        msg.result.response.provider_booking[i].bill_data.push({
-                            "period_date": "Service Charges",
-                            "currency": currency,
-                            "total": roc
-                        })
-                        if(csc != 0)
-                            msg.result.response.provider_booking[i].bill_data.push({
-                                "period_date": "Other Service Charges",
-                                "currency": currency,
-                                "total": csc
-                            })
-                        for(j in msg.result.response.provider_booking[i].bill_data){
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                            price['FARE'] = msg.result.response.provider_booking[i].bill_data[j].total;
-                            if(rac != 0)
-                                price['RAC'] = rac / pax;
-                            else
-                                price['RAC'] = 0;
-                            price['currency'] = currency;
-                            //repricing
-                            check = 0;
-                            for(k in pax_type_repricing){
-                                if(pax_type_repricing[k][0] == msg.result.response.provider_booking[i].bill_data[j].period_date)
-                                    check = 1;
-                            }
-                            if(check == 0){
-                                pax_type_repricing.push([msg.result.response.provider_booking[i].bill_data[j].period_date, msg.result.response.provider_booking[i].bill_data[j].period_date]);
-                                price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].period_date] = {
-                                    'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
-                                    'Tax': price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
-                            }else{
-                                price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].period_date] = {
-                                    'Fare': price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].pnr]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
-                                    'Tax': price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].pnr]['Tax'] + price['TAX'] + price['ROC'],
-                                    'Repricing': price['CSC']
-                                }
-                            }
-                            text_repricing = `
-                            <div class="col-lg-12">
-                                <div style="padding:5px;" class="row">
-                                    <div class="col-lg-3"></div>
-                                    <div class="col-lg-3">Price</div>
-                                    <div class="col-lg-3">Repricing</div>
-                                    <div class="col-lg-3">Total</div>
-                                </div>
-                            </div>`;
-                            for(k in price_arr_repricing){
-                               text_repricing += `
-                               <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row" id="adult">
-                                        <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
-                                        <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
-                                        if(price_arr_repricing[k].Repricing == 0)
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
-                                        else
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
-                                        text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
-                                    </div>
-                                </div>`;
-                            }
-                            text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                            document.getElementById('repricing_div').innerHTML = text_repricing;
-                            //repricing
-
-                            text_detail+=`
-                            <div class="row" style="margin-bottom:5px;">
-                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                    <span style="font-size:12px;">`+msg.result.response.provider_booking[i].bill_data[j].period_date+`</span>`;
-                                text_detail+=`</div>
-                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
-                                </div>
-                            </div>`;
-                            $text += msg.result.response.provider_booking[i].bill_data[j].period_date + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
-
-                            $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
-                            if(counter_service_charge == 0){
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                                total_price_for_discount += parseInt(price.FARE);
-                                price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
-                            }else{
-                                total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                                total_price_for_discount += parseInt(price.FARE);
-                                price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
-                            }
-                            commission += parseInt(price.RAC);
-                        }
-                    }
-                    price_provider = 0;
-                    counter_service_charge++;
-                }catch(err){}
-            }
-            try{
-                bills_get_detail.result.response.total_price = total_price;
-                $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
-                if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
-                    $text += '\n\nPrices and availability may change at any time';
-                }
-                text_detail+=`
-                <div>
-                    <hr/>
-                </div>
-                <div class="row" style="margin-bottom:10px;">
-                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                        <span style="font-size:13px; font-weight: bold;">Grand Total</span>
-                    </div>
-                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                        <span style="font-size:13px; font-weight: bold;">`;
-                        try{
-                            text_detail+= price.currency+` `+getrupiah(total_price);
-                        }catch(err){
-
-                        }
-                        text_detail+= `</span>
-                    </div>
-                </div>`;
-                if(msg.result.response.state == 'booked')
-                    text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
-                text_detail+=`<div class="row">
-                <div class="col-lg-12" style="padding-bottom:10px;">
-                    <hr/>
-                    <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-                    share_data();
-                    var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-                    if (isMobile) {
-                        text_detail+=`
-                            <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                            <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                            <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-                    } else {
-                        text_detail+=`
-                            <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                            <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                            <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                            <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-                    }
-
-                text_detail+=`
-                    </div>
-                </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-                    text_detail+=`
-                    <div class="row" id="show_commission" style="display:none;">
-                        <div class="col-lg-12 col-xs-12" style="text-align:center;">
-                            <div class="alert alert-success">
-                                <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(rac)*-1)+`</span><br>
                             </div>
                         </div>
-                    </div>`;
-                text_detail+=`<center>
-
-                <div style="padding-bottom:10px;">
-                    <center>
-                        <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
-                    </center>
+                    </div>
                 </div>`;
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-                text_detail+=`
-                <div style="margin-bottom:10px;">
-                    <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
-                </div>`;
-                if(msg.result.response.state == 'fail_issued' || msg.result.response.state == 'fail_refunded')
-                text_detail+=`
-                <div style="margin-bottom:10px;">
-                    <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="resync_status();" value="Resync"/>
-                </div>`;
+                if(msg.result.response.provider_booking[0].bill_details.length != 0){
                 text+=`
-            </div>`;
-            }catch(err){}
-            document.getElementById('bills_detail').innerHTML = text_detail;
-            $("#show_loading_booking_bills").hide();
 
-            //
-            text = `
-            <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
-                                <div class="col-sm-12">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div style="text-align:center" id="old_price">
+                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                    <h5> List of Family</h5>
+                    <hr/>
+                    <table style="width:100%" id="list-of-passenger">
+                        <tr>
+                            <th style="width:5%;" class="list-of-passenger-left">No</th>
+                            <th style="width:30%;">Name</th>
+                            <th style="width:20%;">Number</th>
+                            <th style="width:25%;">Total</th>
+                        </tr>`;
+                        passenger_count = 1;
+                        for(i in msg.result.response.provider_booking){
+                            for(j in msg.result.response.provider_booking[i].bill_details){
+                                text+=`<tr>
+                                    <td class="list-of-passenger-left">`+(passenger_count)+`</td>
+                                    <td>`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</td>
+                                    <td>`+msg.result.response.provider_booking[i].bill_details[j].customer_number+`</td>
+                                    <td>`+currency+` `+getrupiah(msg.result.response.provider_booking[i].bill_details[j].total)+`</td>
+                                </tr>`;
+                                passenger_count++;
+                            }
+                        }
+
+                    text+=`</table>
+                </div>`;
+                }
+
+                if(msg.result.response.provider_booking[0].description != ''){
+                text+=`
+                <div style="border:1px solid #cdcdcd; padding:10px; background-color:white; margin-top:20px;">
+                    <h5> Additional Information</h5>
+                    <hr/>
+                    `+msg.result.response.provider_booking[0].description+`
+                </div>
+                `;
+
+                }
+
+                text+=`
+
+                <div class="row" style="margin-top:20px;">
+                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            if (msg.result.response.state == 'booked'){
+                                text+=`
+                                <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;" hidden>
+                                    <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick=""/>
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </a>`;
+                            }else if (msg.result.response.state == 'issued'){
+                                text+=`
+                                <a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                    <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.order_number+`', 'ticket','ppob');"/>
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </a>`;
+                            }
+                        }
+                        text+=`
+                    </div>
+                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            if (msg.result.response.state  == 'booked'){
+                                text+=`
+                                <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                    <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Print Form" onclick="get_printout('`+msg.result.response.order_number+`', 'itinerary','ppob');" />
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </a>`;
+                            }
+                        }
+                            text+=`
+                    </div>
+                    <div class="col-lg-4" style="padding-bottom:10px;">`;
+                        if(msg.result.response.state != 'cancel' && msg.result.response.state != 'cancel2'){
+                            if (msg.result.response.state  == 'booked'){
+                                text+=`
+                                <a class="issued-booking-train ld-ext-right" id="print_invoice" style="color:`+text_color+`;" hidden>
+                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" value="Issued" onclick=""/>
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </a>`;
+                            }
+                            else if (msg.result.response.state == 'issued'){
+                                text+=`
+                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                    <div class="ld ld-ring ld-cycle"></div>
+                                </a>`;
+                                // modal invoice
+                                text+=`
+                                    <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                        <div class="modal-dialog">
+
+                                          <!-- Modal content-->
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <div class="row">
+                                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                            <span class="control-label" for="Name">Name</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                            <span class="control-label" for="Additional Information">Additional Information</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                            <span class="control-label" for="Address">Address</span>
+                                                            <div class="input-container-search-ticket">
+                                                                <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <br/>
+                                                    <div style="text-align:right;">
+                                                        <span>Don't want to edit? just submit</span>
+                                                        <br/>
+                                                        <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.order_number+`', 'invoice','ppob');"/>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="text-align:center" id="new_price">
+                                    </div>
+                                `;
+                            }
+                        }
+                            text+=`
+                        </a>
+                    </div>
+                </div>`;
+                document.getElementById('bills_booking').innerHTML = text;
+
+                //detail
+                text = '';
+                tax = 0;
+                fare = 0;
+                total_price = 0;
+                total_price_for_discount = 0;
+                total_price_provider = [];
+                price_provider = 0;
+                commission = 0;
+                service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
+                text_detail=`
+                <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
+                    <h5> Price Detail</h5>
+                <hr/>`;
+
+                //repricing
+                type_amount_repricing = ['Repricing'];
+                //repricing
+                counter_service_charge = 0;
+                $text += '\nPrice:\n';
+                for(i in msg.result.response.provider_booking){
+                    try{
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
+                            text_detail+=`
+                                <div style="text-align:left">
+                                    <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.provider_booking[i].pnr+` </span>
+                                </div>`;
+                        rac = 0;
+                        currency = '';
+                        roc = 0;
+                        pax = msg.result.response.provider_booking[i].bill_details.length;
+                        if(pax == 0)
+                            pax = msg.result.response.provider_booking[i].bill_data.length;
+                        for(j in msg.result.response.passengers){
+                            for(k in msg.result.response.passengers[j].sale_service_charges){
+                                for(l in msg.result.response.passengers[j].sale_service_charges[k]){
+                                    if(currency == '')
+                                        currency = msg.result.response.passengers[j].sale_service_charges[k][l].currency;
+                                    if(l == 'RAC')
+                                        rac += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
+                                    if(l == 'ROC' || l == 'TAX')
+                                        roc += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
+                                }
+                            }
+                        }
+                        price_discount = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                        for(j in msg.result.response.passengers){
+                            for(k in msg.result.response.passengers[j].sale_service_charges){
+                                price_discount[k] += msg.result.response.passengers[j].sale_service_charges[k].amount
+                            }
+                        }
+                        total_price_provider.push({
+                            'pnr': msg.result.response.provider_booking[i].pnr,
+                            'provider': msg.result.response.provider_booking[i].provider,
+                            'price': JSON.parse(JSON.stringify(price_discount))
+                        });
+                        if(msg.result.response.provider_booking[i].bill_details.length != 0){
+                            msg.result.response.provider_booking[i].bill_details.push({
+                                "customer_name": "Service Charges",
+                                "currency": currency,
+                                "total": roc
+                            })
+                            if(csc != 0)
+                                msg.result.response.provider_booking[i].bill_details.push({
+                                    "customer_name": "Other Service Charges",
+                                    "currency": currency,
+                                    "total": csc
+                                })
+                            for(j in msg.result.response.provider_booking[i].bill_details){
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
+                                if(rac != 0)
+                                    price['RAC'] = rac / pax;
+                                else
+                                    price['RAC'] = 0;
+                                price['currency'] = currency;
+                                //repricing
+                                check = 0;
+                                for(k in pax_type_repricing){
+                                    if(pax_type_repricing[k][0] == msg.result.response.provider_booking[i].bill_details[j].customer_name)
+                                        check = 1;
+                                }
+                                if(check == 0){
+                                    pax_type_repricing.push([msg.result.response.provider_booking[i].bill_details[j].customer_name, msg.result.response.provider_booking[i].bill_details[j].customer_name]);
+                                    price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name] = {
+                                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                        'Tax': price['TAX'] + price['ROC'],
+                                        'Repricing': price['CSC']
+                                    }
+                                }else{
+                                    price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name] = {
+                                        'Fare': price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
+                                        'Tax': price_arr_repricing[msg.result.response.provider_booking[i].bill_details[j].customer_name]['Tax'] + price['TAX'] + price['ROC'],
+                                        'Repricing': price['CSC']
+                                    }
+                                }
+                                text_repricing = `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3">Price</div>
+                                        <div class="col-lg-3">Repricing</div>
+                                        <div class="col-lg-3">Total</div>
+                                    </div>
+                                </div>`;
+                                for(k in price_arr_repricing){
+                                   text_repricing += `
+                                   <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="adult">
+                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                                            <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                            if(price_arr_repricing[k].Repricing == 0)
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                            else
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                                        </div>
+                                    </div>`;
+                                }
+                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                document.getElementById('repricing_div').innerHTML = text_repricing;
+                                //repricing
+
+                                text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                                    </div>
+                                </div>`;
+                                $text += msg.result.response.provider_booking[i].bill_details[j].customer_name + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
+
+                                $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                                if(counter_service_charge == 0){
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                    total_price_for_discount += parseInt(price.FARE);
+                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                }else{
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                    total_price_for_discount += parseInt(price.FARE);
+                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                }
+                                commission += parseInt(price.RAC);
+                            }
+                        }else{
+                            msg.result.response.provider_booking[i].bill_data.push({
+                                "period_date": "Service Charges",
+                                "currency": currency,
+                                "total": roc
+                            })
+                            if(csc != 0)
+                                msg.result.response.provider_booking[i].bill_data.push({
+                                    "period_date": "Other Service Charges",
+                                    "currency": currency,
+                                    "total": csc
+                                })
+                            for(j in msg.result.response.provider_booking[i].bill_data){
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
+                                price['FARE'] = msg.result.response.provider_booking[i].bill_data[j].total;
+                                if(rac != 0)
+                                    price['RAC'] = rac / pax;
+                                else
+                                    price['RAC'] = 0;
+                                price['currency'] = currency;
+                                //repricing
+                                check = 0;
+                                for(k in pax_type_repricing){
+                                    if(pax_type_repricing[k][0] == msg.result.response.provider_booking[i].bill_data[j].period_date)
+                                        check = 1;
+                                }
+                                if(check == 0){
+                                    pax_type_repricing.push([msg.result.response.provider_booking[i].bill_data[j].period_date, msg.result.response.provider_booking[i].bill_data[j].period_date]);
+                                    price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].period_date] = {
+                                        'Fare': price['FARE'] + price['SSR'] + price['SEAT'] + price['DISC'],
+                                        'Tax': price['TAX'] + price['ROC'],
+                                        'Repricing': price['CSC']
+                                    }
+                                }else{
+                                    price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].period_date] = {
+                                        'Fare': price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].pnr]['Fare'] + price['FARE'] + price['DISC'] + price['SSR'] + price['SEAT'],
+                                        'Tax': price_arr_repricing[msg.result.response.provider_booking[i].bill_data[j].pnr]['Tax'] + price['TAX'] + price['ROC'],
+                                        'Repricing': price['CSC']
+                                    }
+                                }
+                                text_repricing = `
+                                <div class="col-lg-12">
+                                    <div style="padding:5px;" class="row">
+                                        <div class="col-lg-3"></div>
+                                        <div class="col-lg-3">Price</div>
+                                        <div class="col-lg-3">Repricing</div>
+                                        <div class="col-lg-3">Total</div>
+                                    </div>
+                                </div>`;
+                                for(k in price_arr_repricing){
+                                   text_repricing += `
+                                   <div class="col-lg-12">
+                                        <div style="padding:5px;" class="row" id="adult">
+                                            <div class="col-lg-3" id="`+j+`_`+k+`">`+k+`</div>
+                                            <div class="col-lg-3" id="`+k+`_price">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax)+`</div>`;
+                                            if(price_arr_repricing[k].Repricing == 0)
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">-</div>`;
+                                            else
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_repricing">`+getrupiah(price_arr_repricing[k].Repricing)+`</div>`;
+                                            text_repricing+=`<div class="col-lg-3" id="`+k+`_total">`+getrupiah(price_arr_repricing[k].Fare + price_arr_repricing[k].Tax + price_arr_repricing[k].Repricing)+`</div>
+                                        </div>
+                                    </div>`;
+                                }
+                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                document.getElementById('repricing_div').innerHTML = text_repricing;
+                                //repricing
+
+                                text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">`+msg.result.response.provider_booking[i].bill_data[j].period_date+`</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                                    </div>
+                                </div>`;
+                                $text += msg.result.response.provider_booking[i].bill_data[j].period_date + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
+
+                                $text += price.currency+` `+getrupiah(parseInt(price.FARE + price.SSR + price.SEAT + price.TAX + price.ROC + price.CSC + price.DISC))+'\n';
+                                if(counter_service_charge == 0){
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                    total_price_for_discount += parseInt(price.FARE);
+                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SEAT + price.CSC + price.SSR + price.DISC);
+                                }else{
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                    total_price_for_discount += parseInt(price.FARE);
+                                    price_provider += parseInt(price.TAX + price.ROC + price.FARE + price.SSR + price.SEAT + price.DISC);
+                                }
+                                commission += parseInt(price.RAC);
+                            }
+                        }
+                        price_provider = 0;
+                        counter_service_charge++;
+                    }catch(err){}
+                }
+                try{
+                    bills_get_detail.result.response.total_price = total_price;
+                    $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+                    if(check_provider_booking != 0 && msg.result.response.state == 'booked'){
+                        $text += '\n\nPrices and availability may change at any time';
+                    }
+                    text_detail+=`
+                    <div>
+                        <hr/>
+                    </div>
+                    <div class="row" style="margin-bottom:10px;">
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px; font-weight: bold;">Grand Total</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px; font-weight: bold;">`;
+                            try{
+                                text_detail+= price.currency+` `+getrupiah(total_price);
+                            }catch(err){
+
+                            }
+                            text_detail+= `</span>
+                        </div>
+                    </div>`;
+                    if(msg.result.response.state == 'booked')
+                        text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+                    text_detail+=`<div class="row">
+                    <div class="col-lg-12" style="padding-bottom:10px;">
+                        <hr/>
+                        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+                        share_data();
+                        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+                        if (isMobile) {
+                            text_detail+=`
+                                <a href="https://wa.me/?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                <a href="line://msg/text/`+ $text_share +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                        } else {
+                            text_detail+=`
+                                <a href="https://web.whatsapp.com/send?text=`+ $text_share +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                                <a href="https://telegram.me/share/url?text=`+ $text_share +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                                <a href="mailto:?subject=This is the bill price detail&amp;body=`+ $text_share +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+                        }
+
+                    text_detail+=`
+                        </div>
+                    </div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        text_detail+=`
+                        <div class="row" id="show_commission" style="display:none;">
+                            <div class="col-lg-12 col-xs-12" style="text-align:center;">
+                                <div class="alert alert-success">
+                                    <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(rac)*-1)+`</span><br>
+                                </div>
+                            </div>
+                        </div>`;
+                    text_detail+=`<center>
+
+                    <div style="padding-bottom:10px;">
+                        <center>
+                            <input type="button" class="primary-btn-white" style="width:100%;" onclick="copy_data();" value="Copy"/>
+                        </center>
+                    </div>`;
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    text_detail+=`
+                    <div style="margin-bottom:10px;">
+                        <input class="primary-btn-white" id="show_commission_button" style="width:100%;" type="button" onclick="show_commission('commission');" value="Show Commission"/>
+                    </div>`;
+                    if(msg.result.response.state == 'fail_issued' || msg.result.response.state == 'fail_refunded')
+                    text_detail+=`
+                    <div style="margin-bottom:10px;">
+                        <input class="primary-btn-ticket" style="width:100%;" type="button" onclick="resync_status();" value="Resync"/>
+                    </div>`;
+                    text+=`
+                </div>`;
+                }catch(err){}
+                document.getElementById('bills_detail').innerHTML = text_detail;
+                $("#show_loading_booking_bills").hide();
+
+                //
+                text = `
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <div style="text-align:center" id="old_price">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <div style="text-align:center" id="new_price">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ppob_issued('`+msg.result.response.order_number+`');">Force Issued</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal fade" id="myModal_reissue" role="dialog">
-                <div class="modal-dialog">
-
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color:`+text_color+`;">Ticket <i class="fas fa-money"></i></h4>
-                            <button type="button" class="close" onclick="dismiss_reissue();">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
-                                <div id="bills_ticket_pick">
-
-                                </div>
-                                <div class="col-sm-12" id="render_ticket_reissue">
-
-                                </div>
-
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="ppob_issued('`+msg.result.response.order_number+`');">Force Issued</button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        </div>
                     </div>
                 </div>
-            </div>
+                <div class="modal fade" id="myModal_reissue" role="dialog">
+                    <div class="modal-dialog">
 
-            <div class="modal fade" id="myModal_price_itinerary" role="dialog">
-                <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:`+text_color+`;">Ticket <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" onclick="dismiss_reissue();">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                    <div id="bills_ticket_pick">
 
-                    <!-- Modal content-->
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
-                            <button type="button" class="close" onclick="dismiss_reissue_get_price();">&times;</button>
-                        </div>
-                        <div class="modal-body">
-                            <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
-                                <div id="bills_detail">
+                                    </div>
+                                    <div class="col-sm-12" id="render_ticket_reissue">
+
+                                    </div>
 
                                 </div>
-
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            `;
-            //
-            document.getElementById('bills_booking').innerHTML += text;
-            document.getElementById('show_title_bills').hidden = false;
-            document.getElementById('show_loading_booking_bills').hidden = true;
-            add_repricing();
-            if (msg.result.response.state != 'booked'){
-//                document.getElementById('issued-breadcrumb').classList.add("active");
-            }
 
-           }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-               auto_logout();
-           }else{
-                text += `<div class="alert alert-danger">
-                        <h5>
-                            `+msg.result.error_code+`
-                        </h5>
-                        `+msg.result.error_msg+`
-                    </div>`;
-                document.getElementById('bills_booking').innerHTML = text;
-                Swal.fire({
+                <div class="modal fade" id="myModal_price_itinerary" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="color:`+text_color+`;">Price Change <i class="fas fa-money"></i></h4>
+                                <button type="button" class="close" onclick="dismiss_reissue_get_price();">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div id="search_result" style="overflow:auto;height:300px;margin-top:20px;">
+                                    <div id="bills_detail">
+
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                //
+                document.getElementById('bills_booking').innerHTML += text;
+                document.getElementById('show_title_bills').hidden = false;
+                document.getElementById('show_loading_booking_bills').hidden = true;
+                add_repricing();
+                if (msg.result.response.state != 'booked'){
+    //                document.getElementById('issued-breadcrumb').classList.add("active");
+                }
+
+               }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                   auto_logout();
+               }else{
+                    text += `<div class="alert alert-danger">
+                            <h5>
+                                `+msg.result.error_code+`
+                            </h5>
+                            `+msg.result.error_msg+`
+                        </div>`;
+                    document.getElementById('bills_booking').innerHTML = text;
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error bills booking </span>' + msg.result.error_msg,
+                    })
+                    $('#show_loading_booking_bills').hide();
+                    $('.loader-rodextrip').fadeOut();
+               }
+           }catch(err){
+               text += `<div class="alert alert-danger">
+                            <h5>
+                                Error
+                            </h5>
+                        </div>`;
+               document.getElementById('bills_booking').innerHTML = text;
+               $('#show_loading_booking_bills').hide();
+               $('.loader-rodextrip').fadeOut();
+               Swal.fire({
                   type: 'error',
                   title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error bills booking </span>' + msg.result.error_msg,
+                  html: '<span style="color: #ff9900;">Error bills booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                }).then((result) => {
+                  window.location.href = '/reservation';
                 })
-                $('#show_loading_booking_bills').hide();
-                $('.loader-rodextrip').fadeOut();
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

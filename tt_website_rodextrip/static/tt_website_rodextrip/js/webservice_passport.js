@@ -641,299 +641,328 @@ function passport_get_data(data){
        success: function(msg) {
             console.log(msg);
             $("#waitingTransaction").modal('hide');
-            if(msg.result.error_code == 0){
-                passport = msg.result.response;
-                var cur_state = msg.result.response.journey.state;
-                var cur_state_passport= msg.result.response.journey.state_passport;
-                if(cur_state == 'booked'){
-                    conv_status = 'Booked';
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
-                }
-                else if(cur_state == 'issued'){
-                    conv_status = 'Issued';
-                    document.getElementById('issued-breadcrumb').classList.add("br-active");
-                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
-                }
-                else if(cur_state == 'cancel'){
-                    conv_status = 'Cancelled';
-                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                    document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
-                }
-                else if(cur_state == 'cancel2'){
-                    conv_status = 'Expired';
-                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                    document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
-                }
-                else if(cur_state == 'fail_issued'){
-                    conv_status = 'Fail Issued';
-                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                    document.getElementById('issued-breadcrumb').classList.add("br-fail");
-                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
-                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
-                    document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
-                    document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
-                }
-                else{
-                    conv_status = 'Pending';
-                    document.getElementById('issued-breadcrumb').classList.remove("br-active");
-                    document.getElementById('issued-breadcrumb').classList.add("br-pending");
-                    document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
-                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
-                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
-                    document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
-                    document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
-                }
+            try{
+                if(msg.result.error_code == 0){
+                    passport = msg.result.response;
+                    var cur_state = msg.result.response.journey.state;
+                    var cur_state_passport= msg.result.response.journey.state_passport;
+                    if(cur_state == 'booked'){
+                        conv_status = 'Booked';
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
+                    }
+                    else if(cur_state == 'issued'){
+                        conv_status = 'Issued';
+                        document.getElementById('issued-breadcrumb').classList.add("br-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + cur_state.charAt(0).toUpperCase()+cur_state.slice(1).toLowerCase();
+                    }
+                    else if(cur_state == 'cancel'){
+                        conv_status = 'Cancelled';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Cancelled`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                    }
+                    else if(cur_state == 'cancel2'){
+                        conv_status = 'Expired';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Expired`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                    }
+                    else if(cur_state == 'fail_issued'){
+                        conv_status = 'Fail Issued';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-fail");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-fail");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-times"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Fail Issued`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Been ' + conv_status;
+                        document.getElementById('order_state').innerHTML = 'Your Order Has Failed, Please Try Again';
+                    }
+                    else{
+                        conv_status = 'Pending';
+                        document.getElementById('issued-breadcrumb').classList.remove("br-active");
+                        document.getElementById('issued-breadcrumb').classList.add("br-pending");
+                        document.getElementById('issued-breadcrumb-icon').classList.remove("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-pending");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-clock"></i>`;
+                        document.getElementById('issued-breadcrumb-span').innerHTML = `Pending`;
+                        document.getElementById('order_state').innerHTML = 'Your Order Is Currently ' + conv_status;
+                    }
 
-                conv_status_passport = {
-                    'confirm': 'Confirm to HO',
-                    'validate': 'Validated bo HO',
-                    'to_vendor': 'Sent to Vendor',
-                    'vendor_process': 'Proceed by Vendor',
-                    'cancel': 'Cancelled',
-                    'payment': 'Payment',
-                    'in_process': 'In Process',
-                    'partial_proceed': 'Partial Proceed',
-                    'proceed': 'Proceed',
-                    'delivered': 'Delivered to HO',
-                    'ready': 'Ready',
-                    'done': 'Done',
-                    'expired': 'Expired'
-                }
+                    conv_status_passport = {
+                        'confirm': 'Confirm to HO',
+                        'validate': 'Validated bo HO',
+                        'to_vendor': 'Sent to Vendor',
+                        'vendor_process': 'Proceed by Vendor',
+                        'cancel': 'Cancelled',
+                        'payment': 'Payment',
+                        'in_process': 'In Process',
+                        'partial_proceed': 'Partial Proceed',
+                        'proceed': 'Proceed',
+                        'delivered': 'Delivered to HO',
+                        'ready': 'Ready',
+                        'done': 'Done',
+                        'expired': 'Expired'
+                    }
 
-                text= `<div class="row">
-                        <div class="col-lg-12">
-                            <div id="passport_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
-                                <h6>Order Number : `+passport.journey.name+`</h6><br/>
-                                 <table style="width:100%;">
-                                    <tr>
-                                        <th>Passport Status</th>
-                                        <th>Order Status</th>
-                                    </tr>
-                                    <tr>
-                                        <td>`+passport.journey.state_passport+`</td>
-                                        <td>`+conv_status+`</td>
-                                    </tr>
-                                 </table>
+                    text= `<div class="row">
+                            <div class="col-lg-12">
+                                <div id="passport_booking_detail" style="border:1px solid #cdcdcd; padding:10px; background-color:white">
+                                    <h6>Order Number : `+passport.journey.name+`</h6><br/>
+                                     <table style="width:100%;">
+                                        <tr>
+                                            <th>Passport Status</th>
+                                            <th>Order Status</th>
+                                        </tr>
+                                        <tr>
+                                            <td>`+passport.journey.state_passport+`</td>
+                                            <td>`+conv_status+`</td>
+                                        </tr>
+                                     </table>
+                                </div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
 
-                text += `
-                    <div class="row">
+                    text += `
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="tour_booking_info" style="padding:10px; margin-top: 10px; background-color:white; border:1px solid #cdcdcd;">
+                                    <h4> Passport Information </h4>
+                                    <hr/>
+                                    <h4>Process Date</h4>
+                                    <span><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    `+passport.journey.in_process_date+`
+                                    </span>
+                                    <br/>
+                                    <br/>
+                                    <span>Payment Status: `+passport.journey.payment_status+`</span>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>`;
+
+                    /* contact*/
+                    text+=`<div class="row" style="margin-top: 10px;">
                         <div class="col-lg-12">
-                            <div id="tour_booking_info" style="padding:10px; margin-top: 10px; background-color:white; border:1px solid #cdcdcd;">
-                                <h4> Passport Information </h4>
+                            <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
+                                <h4>List of Contact(s)</h4>
                                 <hr/>
-                                <h4>Process Date</h4>
-                                <span><i class="fa fa-calendar" aria-hidden="true"></i>
-                                `+passport.journey.in_process_date+`
-                                </span>
-                                <br/>
-                                <br/>
-                                <span>Payment Status: `+passport.journey.payment_status+`</span>
-                                <br/>
+                                <table style="width:100%;" id="list-of-passenger">
+                                    <tr>
+                                        <th style="width:7%;" class="list-of-passenger-left">No</th>
+                                        <th style="width:28%;">Name</th>
+                                        <th style="width:28%;">Email</th>
+                                        <th style="width:18%;">Phone Number</th>
+                                    </tr>
+                                    <tr>
+                                        <td class="list-of-passenger-left">`+1+`</td>
+                                        <td>`+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
+                                        <td>`+msg.result.response.contact.email+`</td>
+                                        <td>`+msg.result.response.contact.phone+`</td>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
                     </div>`;
 
-                /* contact*/
-                text+=`<div class="row" style="margin-top: 10px;">
-                    <div class="col-lg-12">
-                        <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
-                            <h4>List of Contact(s)</h4>
-                            <hr/>
-                            <table style="width:100%;" id="list-of-passenger">
-                                <tr>
-                                    <th style="width:7%;" class="list-of-passenger-left">No</th>
-                                    <th style="width:28%;">Name</th>
-                                    <th style="width:28%;">Email</th>
-                                    <th style="width:18%;">Phone Number</th>
-                                </tr>
-                                <tr>
-                                    <td class="list-of-passenger-left">`+1+`</td>
-                                    <td>`+msg.result.response.contact.title+` `+msg.result.response.contact.name+`</td>
-                                    <td>`+msg.result.response.contact.email+`</td>
-                                    <td>`+msg.result.response.contact.phone+`</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>`;
+                    /*pax*/
+                    text+=`
+                    <div class="row" style="margin-top: 10px;">
+                        <div class="col-lg-12">
+                            <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
+                                <h4>List of Passenger(s)</h4>
+                                <hr/>`;
+                                type_amount_repricing = ['Repricing'];
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                                for(i in msg.result.response.passengers){
+                                    for(j in msg.result.response.passengers[i].passport.price){
+                                        if(j == 'TOTAL'){
+                                            price['FARE'] += msg.result.response.passengers[i].passport.price[j].amount;
+                                            price['currency'] += msg.result.response.passengers[i].passport.price[j].currency;
+                                        }else if(j == 'RAC'){
+                                            price[j] += msg.result.response.passengers[i].passport.price[j].amount;
+                                            price['currency'] += msg.result.response.passengers[i].passport.price[j].currency;
+                                        }else if(j == 'CSC'){
+                                            price['CSC'] = msg.result.response.passengers[i].passport.price[j].amount;
 
-                /*pax*/
-                text+=`
-                <div class="row" style="margin-top: 10px;">
-                    <div class="col-lg-12">
-                        <div style="border:1px solid #cdcdcd; background-color:white; padding:10px;">
-                            <h4>List of Passenger(s)</h4>
-                            <hr/>`;
-                            type_amount_repricing = ['Repricing'];
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
-                            for(i in msg.result.response.passengers){
-                                for(j in msg.result.response.passengers[i].passport.price){
-                                    if(j == 'TOTAL'){
-                                        price['FARE'] += msg.result.response.passengers[i].passport.price[j].amount;
-                                        price['currency'] += msg.result.response.passengers[i].passport.price[j].currency;
-                                    }else if(j == 'RAC'){
-                                        price[j] += msg.result.response.passengers[i].passport.price[j].amount;
-                                        price['currency'] += msg.result.response.passengers[i].passport.price[j].currency;
-                                    }else if(j == 'CSC'){
-                                        price['CSC'] = msg.result.response.passengers[i].passport.price[j].amount;
-
+                                        }
                                     }
-                                }
-                                //repricing
-                                check = 0;
-                                for(j in pax_type_repricing){
-                                    if(pax_type_repricing[j][0] == msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name)
-                                        check = 1;
-                                }
-                                if(check == 0){
-                                    pax_type_repricing.push([msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name, msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]);
-                                    price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
-                                        'Fare': price['FARE'],
-                                        'Tax': price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
+                                    //repricing
+                                    check = 0;
+                                    for(j in pax_type_repricing){
+                                        if(pax_type_repricing[j][0] == msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name)
+                                            check = 1;
                                     }
-                                }else{
-                                    price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
-                                        'Fare': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Fare'] + price['FARE'],
-                                        'Tax': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Tax'] + price['TAX'] + price['ROC'],
-                                        'Repricing': price['CSC']
+                                    if(check == 0){
+                                        pax_type_repricing.push([msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name, msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]);
+                                        price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
+                                            'Fare': price['FARE'],
+                                            'Tax': price['TAX'] + price['ROC'],
+                                            'Repricing': price['CSC']
+                                        }
+                                    }else{
+                                        price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name] = {
+                                            'Fare': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Fare'] + price['FARE'],
+                                            'Tax': price_arr_repricing[msg.result.response.passengers[i].first_name + ' ' + msg.result.response.passengers[i].last_name]['Tax'] + price['TAX'] + price['ROC'],
+                                            'Repricing': price['CSC']
+                                        }
                                     }
-                                }
-                                text_repricing = `
-                                <div class="col-lg-12">
-                                    <div style="padding:5px;" class="row">
-                                        <div class="col-lg-3"></div>
-                                        <div class="col-lg-3">Price</div>
-                                        <div class="col-lg-3">Repricing</div>
-                                        <div class="col-lg-3">Total</div>
-                                    </div>
-                                </div>`;
-                                for(j in price_arr_repricing){
-                                   text_repricing += `
-                                   <div class="col-lg-12">
+                                    text_repricing = `
+                                    <div class="col-lg-12">
                                         <div style="padding:5px;" class="row">
-                                            <div class="col-lg-3" id="`+j+`">`+j+`</div>
-                                            <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
-                                            <div class="col-lg-3" id="`+j+`_repricing">-</div>
-                                            <div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
+                                            <div class="col-lg-3"></div>
+                                            <div class="col-lg-3">Price</div>
+                                            <div class="col-lg-3">Repricing</div>
+                                            <div class="col-lg-3">Total</div>
                                         </div>
                                     </div>`;
-                                }
-                                text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
-                                document.getElementById('repricing_div').innerHTML = text_repricing;
-                                //repricing
-
-                                text+=`<div class="row">
-                                    <div class="col-lg-12" style="margin-bottom:10px;">
-                                        <div class="row">
-                                            <div class="col-lg-6">
-                                                <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</h6>`;
-                                                if(parseInt(msg.result.response.passengers[i].age) > 12)
-                                         text+=`<span>Adult - `;
-                                                else if(parseInt(msg.result.response.passengers[i].age) > 3)
-                                         text+=`<span>Child - `;
-                                                else
-                                         text+=`<span>Infant - `;
-                                                text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
-                                     text+=`</div>
-                                            <div class="col-lg-6" style="text-align:right;">
-                                                <h6>Package</h6>
-                                                <span>`+msg.result.response.passengers[i].passport.passport_type+`/`+msg.result.response.passengers[i].passport.apply_type+`/`+msg.result.response.passengers[i].passport.process_type+`</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>`;
-                                if(msg.result.response.passengers[i].passport.requirement.length > 0){
-                                    text+=`
-                                    <div class="row" style="margin-top:10px;">
-                                        <div class="col-lg-12">
-                                            <div class="row" id="adult_required{{counter}}">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:10px;">
-                                                    <h6>Required</h6>
-                                                </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
-                                                    <h6>Original</h6>
-                                                </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
-                                                    <h6>Copy</h6>
-                                                </div>`;
-                                            for(j in msg.result.response.passengers[i].passport.requirement){
-                                                if(template == 1){
-                                                    text+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
-                                                }else if(template == 2 || template == 3){
-                                                    text+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
-                                                }else if(template == 4 || template == 5){
-                                                    text+=`
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
-                                                }
-                                                text+=`
-                                                    <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].passport.requirement[j].name+`</b></label><br/>
-                                                </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                                    if(msg.result.response.passengers[i].passport.requirement[j].is_original == false){
-                                                        text+=`
-                                                        <label class="check_box_custom">
-                                                            <span style="font-size:13px;"></span>
-                                                            <input type="checkbox" disabled/>
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>`;
-                                                    }else if(msg.result.response.passengers[i].passport.requirement[j].is_original == true){
-                                                        text+=`
-                                                        <label class="check_box_custom">
-                                                            <span style="font-size:13px;"></span>
-                                                            <input type="checkbox" disabled checked/>
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>`;
-                                                    }
-                                                text+=`
-                                                </div>
-                                                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
-                                                    if(msg.result.response.passengers[i].passport.requirement[j].is_copy == false){
-                                                        text+=`
-                                                        <label class="check_box_custom">
-                                                            <span style="font-size:13px;"></span>
-                                                            <input type="checkbox" disabled/>
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>`;
-                                                    }else if(msg.result.response.passengers[i].passport.requirement[j].is_copy == true){
-                                                        text+=`
-                                                        <label class="check_box_custom">
-                                                            <span style="font-size:13px;"></span>
-                                                            <input type="checkbox" disabled checked/>
-                                                            <span class="check_box_span_custom"></span>
-                                                        </label>`;
-                                                    }
-                                                text+=`
-                                                </div>`;
-                                            }
-                                            text+=`
+                                    for(j in price_arr_repricing){
+                                       text_repricing += `
+                                       <div class="col-lg-12">
+                                            <div style="padding:5px;" class="row">
+                                                <div class="col-lg-3" id="`+j+`">`+j+`</div>
+                                                <div class="col-lg-3" id="`+j+`_price">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
+                                                <div class="col-lg-3" id="`+j+`_repricing">-</div>
+                                                <div class="col-lg-3" id="`+j+`_total">`+getrupiah(price_arr_repricing[j].Fare + price_arr_repricing[j].Tax)+`</div>
                                             </div>
                                         </div>`;
                                     }
-                                    try{
-                                        if(msg.result.response.passengers[i].passport.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
+                                    text_repricing += `<div id='repricing_button' class="col-lg-12" style="text-align:center;"></div>`;
+                                    document.getElementById('repricing_div').innerHTML = text_repricing;
+                                    //repricing
+
+                                    text+=`<div class="row">
+                                        <div class="col-lg-12" style="margin-bottom:10px;">
+                                            <div class="row">
+                                                <div class="col-lg-6">
+                                                    <h6>`+parseInt(parseInt(i)+1)+`. `+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</h6>`;
+                                                    if(parseInt(msg.result.response.passengers[i].age) > 12)
+                                             text+=`<span>Adult - `;
+                                                    else if(parseInt(msg.result.response.passengers[i].age) > 3)
+                                             text+=`<span>Child - `;
+                                                    else
+                                             text+=`<span>Infant - `;
+                                                    text+=`Birth Date: `+msg.result.response.passengers[i].birth_date+`</span>`;
+                                         text+=`</div>
+                                                <div class="col-lg-6" style="text-align:right;">
+                                                    <h6>Package</h6>
+                                                    <span>`+msg.result.response.passengers[i].passport.passport_type+`/`+msg.result.response.passengers[i].passport.apply_type+`/`+msg.result.response.passengers[i].passport.process_type+`</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                    if(msg.result.response.passengers[i].passport.requirement.length > 0){
+                                        text+=`
+                                        <div class="row" style="margin-top:10px;">
+                                            <div class="col-lg-12">
+                                                <div class="row" id="adult_required{{counter}}">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:10px;">
+                                                        <h6>Required</h6>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                        <h6>Original</h6>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="margin-bottom:10px;">
+                                                        <h6>Copy</h6>
+                                                    </div>`;
+                                                for(j in msg.result.response.passengers[i].passport.requirement){
+                                                    if(template == 1){
+                                                        text+=`
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">`;
+                                                    }else if(template == 2 || template == 3){
+                                                        text+=`
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:20px;">`;
+                                                    }else if(template == 4 || template == 5){
+                                                        text+=`
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" style="margin-bottom:15px;">`;
+                                                    }
+                                                    text+=`
+                                                        <label><b>`+parseInt(parseInt(j)+1)+` `+msg.result.response.passengers[i].passport.requirement[j].name+`</b></label><br/>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                        if(msg.result.response.passengers[i].passport.requirement[j].is_original == false){
+                                                            text+=`
+                                                            <label class="check_box_custom">
+                                                                <span style="font-size:13px;"></span>
+                                                                <input type="checkbox" disabled/>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>`;
+                                                        }else if(msg.result.response.passengers[i].passport.requirement[j].is_original == true){
+                                                            text+=`
+                                                            <label class="check_box_custom">
+                                                                <span style="font-size:13px;"></span>
+                                                                <input type="checkbox" disabled checked/>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>`;
+                                                        }
+                                                    text+=`
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">`;
+                                                        if(msg.result.response.passengers[i].passport.requirement[j].is_copy == false){
+                                                            text+=`
+                                                            <label class="check_box_custom">
+                                                                <span style="font-size:13px;"></span>
+                                                                <input type="checkbox" disabled/>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>`;
+                                                        }else if(msg.result.response.passengers[i].passport.requirement[j].is_copy == true){
+                                                            text+=`
+                                                            <label class="check_box_custom">
+                                                                <span style="font-size:13px;"></span>
+                                                                <input type="checkbox" disabled checked/>
+                                                                <span class="check_box_span_custom"></span>
+                                                            </label>`;
+                                                        }
+                                                    text+=`
+                                                    </div>`;
+                                                }
+                                                text+=`
+                                                </div>
+                                            </div>`;
+                                        }
+                                        try{
+                                            if(msg.result.response.passengers[i].passport.hasOwnProperty('interview') == true && msg.result.response.passengers[i].visa.interview.interview_list.length > 0 ){
+                                            text+=`
+                                            <div class="col-lg-12" style="margin-top:15px;">
+                                                <h6>Interview</h6>
+                                                <table style="width:100%;" id="list-of-passenger">
+                                                    <tr>
+                                                        <th>No</th>
+                                                        <th>Location</th>
+                                                        <th>Meeting Point</th>
+                                                        <th>Employee</th>
+                                                        <th>Date time</th>
+                                                        <th>Required</th>
+                                                    </tr>`;
+                                                    for(j in msg.result.response.passengers[i].passport.interview.interview_list){
+                                                        text+=`
+                                                    <tr>
+                                                        <td>`+parseInt(parseInt(j)+1)+`</td>
+                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].location+`</td>
+                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].meeting_point+`</td>
+                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].ho_employee+`</td>
+                                                        <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].datetime+`</td>
+                                                        <td>`+msg.result.response.passengers[i].passport.interview.needs+`</td>
+                                                    </tr>`;
+                                                    }
+                                                text+=`</table>
+                                                </div>`;
+                                            }
+                                        }catch(err){}
+                                        if(msg.result.response.passengers[i].passport.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].passport.biometrics.biometrics_list.length > 0 ){
                                         text+=`
                                         <div class="col-lg-12" style="margin-top:15px;">
-                                            <h6>Interview</h6>
+                                            <h6>Biometrics</h6>
                                             <table style="width:100%;" id="list-of-passenger">
                                                 <tr>
                                                     <th>No</th>
@@ -943,124 +972,105 @@ function passport_get_data(data){
                                                     <th>Date time</th>
                                                     <th>Required</th>
                                                 </tr>`;
-                                                for(j in msg.result.response.passengers[i].passport.interview.interview_list){
+                                                for(j in msg.result.response.passengers[i].passport.biometrics.biometrics_list){
                                                     text+=`
                                                 <tr>
                                                     <td>`+parseInt(parseInt(j)+1)+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].location+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].meeting_point+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].ho_employee+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.interview.interview_list[j].datetime+`</td>
-                                                    <td>`+msg.result.response.passengers[i].passport.interview.needs+`</td>
-                                                </tr>`;
+                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].location+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].meeting_point+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].ho_employee+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].datetime+`</td>
+                                                    <td>`+msg.result.response.passengers[i].passport.biometrics.needs+`</td>
+                                                </tr>`
                                                 }
                                             text+=`</table>
-                                            </div>`;
-                                        }
-                                    }catch(err){}
-                                    if(msg.result.response.passengers[i].passport.hasOwnProperty('biometrics') == true && msg.result.response.passengers[i].passport.biometrics.biometrics_list.length > 0 ){
+                                        </div>`;
+                                    }
                                     text+=`
-                                    <div class="col-lg-12" style="margin-top:15px;">
-                                        <h6>Biometrics</h6>
-                                        <table style="width:100%;" id="list-of-passenger">
-                                            <tr>
-                                                <th>No</th>
-                                                <th>Location</th>
-                                                <th>Meeting Point</th>
-                                                <th>Employee</th>
-                                                <th>Date time</th>
-                                                <th>Required</th>
-                                            </tr>`;
-                                            for(j in msg.result.response.passengers[i].passport.biometrics.biometrics_list){
-                                                text+=`
-                                            <tr>
-                                                <td>`+parseInt(parseInt(j)+1)+`</td>
-                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].location+`</td>
-                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].meeting_point+`</td>
-                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].ho_employee+`</td>
-                                                <td>`+msg.result.response.passengers[i].passport.biometrics.biometrics_list[j].datetime+`</td>
-                                                <td>`+msg.result.response.passengers[i].passport.biometrics.needs+`</td>
-                                            </tr>`
-                                            }
-                                        text+=`</table>
-                                    </div>`;
-                                }
-                                text+=`
-                                </div>
-                                <div class="row" style="margin-top:10px;">
-                                    <div class="col-lg-4">`;
-                                    text+=`</div>
-                                    <div class="col-lg-4">`;
-                                    if(passport.journey.state == 'booked')
-                                    text+=`
-                                        <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                            <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','passport');" />
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </a>`;
-                                        text+=`
                                     </div>
-                                    <div class="col-lg-4">`;
-                                    if(passport.journey.state == 'issued')
+                                    <div class="row" style="margin-top:10px;">
+                                        <div class="col-lg-4">`;
+                                        text+=`</div>
+                                        <div class="col-lg-4">`;
+                                        if(passport.journey.state == 'booked')
                                         text+=`
-                                        <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                            <div class="ld ld-ring ld-cycle"></div>
-                                        </a>
-                                        <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                            <div class="modal-dialog">
+                                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Itinerary" onclick="get_printout('`+msg.result.response.journey.name+`', 'itinerary','passport');" />
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </a>`;
+                                            text+=`
+                                        </div>
+                                        <div class="col-lg-4">`;
+                                        if(passport.journey.state == 'issued')
+                                            text+=`
+                                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </a>
+                                            <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                                <div class="modal-dialog">
 
-                                              <!-- Modal content-->
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
-                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <div class="row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                                <span class="control-label" for="Name">Name</span>
-                                                                <div class="input-container-search-ticket">
-                                                                    <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                <span class="control-label" for="Additional Information">Additional Information</span>
-                                                                <div class="input-container-search-ticket">
-                                                                    <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                                <span class="control-label" for="Address">Address</span>
-                                                                <div class="input-container-search-ticket">
-                                                                    <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                                    <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                                </div>
-                                                            </div>
+                                                  <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         </div>
-                                                        <br/>
-                                                        <div style="text-align:right;">
-                                                            <span>Don't want to edit? just submit</span>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                                    <span class="control-label" for="Name">Name</span>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <span class="control-label" for="Additional Information">Additional Information</span>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                                    <span class="control-label" for="Address">Address</span>
+                                                                    <div class="input-container-search-ticket">
+                                                                        <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                                        <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                             <br/>
-                                                            <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','passport');"/>
+                                                            <div style="text-align:right;">
+                                                                <span>Don't want to edit? just submit</span>
+                                                                <br/>
+                                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.journey.name+`', 'invoice','passport');"/>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        <div class="modal-footer">
+                                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </div>`;
-                                        text+=`
+                                            </div>`;
+                                            text+=`
+                                        </div>
                                     </div>
-                                </div>
-                            <hr/>`;
-                            }
-                            text+=`
+                                <hr/>`;
+                                }
+                                text+=`
+                            </div>
                         </div>
-                    </div>
-                </div>`;
-                document.getElementById('passport_booking').innerHTML = text;
-                update_table('booking');
+                    </div>`;
+                    document.getElementById('passport_booking').innerHTML = text;
+                    update_table('booking');
+                }
+            }catch(err){
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error passport booking </span> Please try again in 1 - 5 minutes later or contact customer service' ,
+                }).then((result) => {
+                  window.location.href = '/reservation';
+                })
             }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
