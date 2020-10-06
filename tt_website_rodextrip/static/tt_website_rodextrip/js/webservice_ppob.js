@@ -493,14 +493,16 @@ function search_ppob(){
                     currency = '';
                     total_price = 0;
                     commission = 0;
-                    for(i in msg.result.response.provider_booking){
-                        for(j in msg.result.response.provider_booking[i].service_charges){
-                            if(currency == '')
-                                currency = msg.result.response.provider_booking[0].service_charges[i].currency
-                            if(msg.result.response.provider_booking[i].service_charges[j].charge_type != 'RAC')
-                                total_price += msg.result.response.provider_booking[i].service_charges[j].amount;
-                            else
-                                commission += msg.result.response.provider_booking[i].service_charges[j].amount;
+                    for(i in msg.result.response.passengers){
+                        for(j in msg.result.response.passengers[i].sale_service_charges){
+                            for(k in msg.result.response.passengers[i].sale_service_charges[j]){
+                                if(currency == '')
+                                    currency = msg.result.response.passengers[i].sale_service_charges[j][k].currency
+                                if(k != 'RAC')
+                                    total_price += msg.result.response.passengers[i].sale_service_charges[j][k].amount;
+                                else
+                                    commission += msg.result.response.passengers[i].sale_service_charges[j][k].amount;
+                            }
                         }
                     }
                     //open modal
@@ -989,17 +991,23 @@ function ppob_get_booking(data){
                     pax = msg.result.response.provider_booking[i].bill_details.length;
                     if(pax == 0)
                         pax = msg.result.response.provider_booking[i].bill_data.length;
-                    for(j in msg.result.response.provider_booking[i].service_charges){
-                        if(currency == '')
-                            currency = msg.result.response.provider_booking[i].service_charges[j].currency;
-                        if(msg.result.response.provider_booking[i].service_charges[j].charge_type == 'RAC')
-                            rac += msg.result.response.provider_booking[i].service_charges[j].amount;
-                        if(msg.result.response.provider_booking[i].service_charges[j].charge_type == 'ROC')
-                            roc += msg.result.response.provider_booking[i].service_charges[j].amount;
+                    for(j in msg.result.response.passengers){
+                        for(k in msg.result.response.passengers[j].sale_service_charges){
+                            for(l in msg.result.response.passengers[j].sale_service_charges[k]){
+                                if(currency == '')
+                                    currency = msg.result.response.passengers[j].sale_service_charges[k][l].currency;
+                                if(l == 'RAC')
+                                    rac += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
+                                if(l == 'ROC')
+                                    roc += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
+                            }
+                        }
                     }
                     price_discount = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
-                    for(j in msg.result.response.provider_booking[i].service_charges){
-                        price_discount[msg.result.response.provider_booking[i].service_charges[j].charge_type] += msg.result.response.provider_booking[i].service_charges[j].total
+                    for(j in msg.result.response.passengers){
+                        for(k in msg.result.response.passengers[j].sale_service_charges){
+                            price_discount[k] += msg.result.response.passengers[j].sale_service_charges[k].amount
+                        }
                     }
                     total_price_provider.push({
                         'pnr': msg.result.response.provider_booking[i].pnr,
@@ -1010,7 +1018,7 @@ function ppob_get_booking(data){
                         msg.result.response.provider_booking[i].bill_details.push({
                             "customer_name": "Service Charges",
                             "currency": currency,
-                            "total": roc + csc
+                            "total": roc
                         })
                         msg.result.response.provider_booking[i].bill_details.push({
                             "customer_name": "Other Service Charges",
@@ -1078,7 +1086,7 @@ function ppob_get_booking(data){
                                     <span style="font-size:12px;">`+msg.result.response.provider_booking[i].bill_details[j].customer_name+`</span>`;
                                 text_detail+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                                    <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
                                 </div>
                             </div>`;
                             $text += msg.result.response.provider_booking[i].bill_details[j].customer_name + ' ['+msg.result.response.provider_booking[i].pnr+'] ';
@@ -1099,7 +1107,7 @@ function ppob_get_booking(data){
                         msg.result.response.provider_booking[i].bill_data.push({
                             "period_date": "Service Charges",
                             "currency": currency,
-                            "total": roc + csc
+                            "total": roc
                         })
                         msg.result.response.provider_booking[i].bill_data.push({
                             "period_date": "Other Service Charges",
