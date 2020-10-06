@@ -998,7 +998,7 @@ function ppob_get_booking(data){
                                     currency = msg.result.response.passengers[j].sale_service_charges[k][l].currency;
                                 if(l == 'RAC')
                                     rac += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
-                                if(l == 'ROC')
+                                if(l == 'ROC' || l == 'TAX')
                                     roc += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
                             }
                         }
@@ -1020,11 +1020,12 @@ function ppob_get_booking(data){
                             "currency": currency,
                             "total": roc
                         })
-                        msg.result.response.provider_booking[i].bill_details.push({
-                            "customer_name": "Other Service Charges",
-                            "currency": currency,
-                            "total": csc
-                        })
+                        if(csc != 0)
+                            msg.result.response.provider_booking[i].bill_details.push({
+                                "customer_name": "Other Service Charges",
+                                "currency": currency,
+                                "total": csc
+                            })
                         for(j in msg.result.response.provider_booking[i].bill_details){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             price['FARE'] = msg.result.response.provider_booking[i].bill_details[j].total;
@@ -1109,11 +1110,12 @@ function ppob_get_booking(data){
                             "currency": currency,
                             "total": roc
                         })
-                        msg.result.response.provider_booking[i].bill_data.push({
-                            "period_date": "Other Service Charges",
-                            "currency": currency,
-                            "total": csc
-                        })
+                        if(csc != 0)
+                            msg.result.response.provider_booking[i].bill_data.push({
+                                "period_date": "Other Service Charges",
+                                "currency": currency,
+                                "total": csc
+                            })
                         for(j in msg.result.response.provider_booking[i].bill_data){
                             price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0,'SEAT':0};
                             price['FARE'] = msg.result.response.provider_booking[i].bill_data[j].total;
