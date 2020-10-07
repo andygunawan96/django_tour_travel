@@ -100,6 +100,7 @@ def signin(request):
             for key in reversed(list(request.session._session.keys())):
                 if key != '_language':
                     del request.session[key]
+            request.session.create()
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)
@@ -129,7 +130,6 @@ def signin(request):
                 set_session(request, 'user_account', res_user['result']['response'])
                 try:
                     if res['result']['error_code'] == 0:
-                        request.session.create()
                         data = {}
                         headers = {
                             "Accept": "application/json,text/html,application/xml",
@@ -225,6 +225,7 @@ def signin_btc(request):
             for key in reversed(list(request.session._session.keys())):
                 if key != '_language':
                     del request.session[key]
+            request.session.create()
             set_session(request, 'signature', res['result']['response']['signature'])
             set_session(request, 'username', request.POST.get('username') or user_default)
             set_session(request, 'password', request.POST.get('password') or password_default)

@@ -3989,9 +3989,13 @@ function airline_get_booking(data){
                         text+=`<tr>
                             <td class="list-of-passenger-left">`+(1)+`</td>
                             <td>`+title+` `+msg.result.response.booker.name+`</td>
-                            <td>`+msg.result.response.booker.email+`</td>
-                            <td>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</td>
-                        </tr>
+                            <td>`+msg.result.response.booker.email+`</td>`;
+                        if(msg.result.response.booker.phones.length > 0)
+                        text+=`
+                            <td>`+msg.result.response.booker.phones[0].calling_code+' - '+msg.result.response.booker.phones[0].calling_number+`</td>`;
+                        else
+                        text+=`<td></td>`;
+                        text+=`</tr>
 
                     </table>
                 </div>
