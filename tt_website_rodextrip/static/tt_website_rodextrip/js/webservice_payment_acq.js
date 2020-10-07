@@ -176,8 +176,13 @@ function set_payment(val, type){
         text+=`
 
         <label class="radio-button-custom">
-            <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>
-            <img width="50px" height="auto" alt="Payment" src="`+payment_acq2[payment_method][i].image+`"/></span>
+            <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>`;
+
+        if(payment_acq2[payment_method][i].image){
+            text+=`<img width="50px" height="auto" alt="Logo `+payment_acq2[payment_method][i].name+`" src="`+payment_acq2[payment_method][i].image+`"/></span>`;
+        }
+
+        text+=`
             <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
             <span class="checkmark-radio"></span>
         </label>
@@ -930,7 +935,7 @@ function set_price(val, type, product_type){
     if(type == 'top_up' && payment_method != 'va')
         text += `<button type="button" id="submit_top_up" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="commit_top_up();" style="width:100%;">Submit <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(payment_method == 'payment_gateway')
-        text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="get_payment_order_number('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
+        text += `<button type="button" id="payment_gtw" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="get_payment_order_number('`+order_number_id+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'visa')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="visa_pre_create_booking(1);" style="width:100%;">Request Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'passport')
@@ -969,6 +974,9 @@ function goto_embed_payment_method(provider, order_number){
 }
 
 function get_payment_order_number(order_number){
+     $('#payment_gtw').prop('disabled', true);
+     $('#payment_gtw').addClass("running");
+
     $.ajax({
        type: "POST",
        url: "/webservice/payment",

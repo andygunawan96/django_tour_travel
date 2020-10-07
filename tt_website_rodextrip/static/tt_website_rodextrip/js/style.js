@@ -2549,3 +2549,20 @@ function scroll_menu_horizontal(type, target){
         }
     }
 }
+
+function div_dropdown(type){
+    var general_down = document.getElementById('down_'+type);
+    var general_up = document.getElementById('up_'+type);
+    var general_show = document.getElementById('div_'+type);
+
+    if (general_down.style.display === "none") {
+        general_up.style.display = "none";
+        general_down.style.display = "inline-block";
+        general_show.style.display = "none";
+    }
+    else {
+        general_up.style.display = "inline-block";
+        general_down.style.display = "none";
+        general_show.style.display = "block";
+    }
+}

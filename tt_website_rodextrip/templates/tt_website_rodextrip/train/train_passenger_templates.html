@@ -732,7 +732,7 @@
     </div>
 </section>
 {% elif template == 2 %}
-<header class="header_breadcrumb" style="position:sticky; top:0px; z-index:100; border-bottom:1px solid #cdcdcd; background:white;">
+<header class="header_breadcrumb" style="border-bottom:1px solid #cdcdcd; background:white;">
     <div class="main-menu">
         <div class="container">
             <div class="row align-items-center justify-content-between d-flex">
@@ -755,7 +755,7 @@
         </div>
     </div>
 </header>
-<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative; z-index:200;">
+<section class="destinations-area" style="padding-top:30px; padding-bottom:40px; background:#f7f7f7; position:relative;">
     <div class="container">
         <div class="hotel-search-form-area" style="padding:unset; position:unset;">
             <div class="hotel-search-form" style="background-color:unset; box-shadow:unset; padding:unset;">
@@ -906,13 +906,11 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
-                                                            {% for country in countries %}
-                                                            <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
+                                                    <select class="form-control js-example-basic-single" name="booker_nationality_id" style="width:100%;" id="booker_nationality_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('booker_nationality');change_booker_value('train');" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.code}}" {% if country.code == 'ID'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                     <input type="hidden" name="booker_nationality" id="booker_nationality" />
                                                 </div>
                                             </div>
@@ -1120,13 +1118,11 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
-                                                            {% for country in countries %}
-                                                            <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
+                                                    <select class="form-control js-example-basic-single" name="adult_nationality{{forloop.counter}}_id" style="width:100%;" id="adult_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('adult_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                     <input type="hidden" name="adult_nationality{{forloop.counter}}" id="adult_nationality{{forloop.counter}}" />
                                                 </div>
                                             </div>
@@ -1134,7 +1130,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                    <input type="text" class="form-control date-picker-birth" style="background:white;" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                     <input type="hidden" class="form-control" name="adult_years_old{{forloop.counter}}" id="adult_years_old{{forloop.counter}}">
                                                 </div>
                                             </div>
@@ -1142,13 +1138,11 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'ID Type' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <div class="form-select" id="default-select">
-                                                        <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
-                                                            {% for id_type in id_types%}
-                                                            <option value="{{id_type.0}}">{{id_type.1}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
+                                                    <select id='adult_id_type{{forloop.counter}}' name='adult_id_type{{forloop.counter}}' onchange="id_type_change('adult',{{forloop.counter}})">
+                                                        {% for id_type in id_types%}
+                                                        <option value="{{id_type.0}}">{{id_type.1}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -1162,7 +1156,7 @@
                                                 <label id="adult_passport_number_required{{forloop.counter}}" style="color:{{text_color}}">*</label>
                                                 <label>{% trans 'ID Expired Date' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control date-picker-passport" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
+                                                    <input type="text" class="form-control date-picker-passport" style="background:white;" name="adult_passport_expired_date{{forloop.counter}}" id="adult_passport_expired_date{{forloop.counter}}" placeholder="{% trans 'ID Expired Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'ID Expired Date '" autocomplete="off" readonly>
                                                     <button type="button" class="primary-delete-date" onclick="delete_expired_date('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
 
                                                 </div>
@@ -1171,14 +1165,12 @@
                                                 <label id="adult_country_of_issued_required{{forloop.counter}}_id" style="color:{{text_color}}">*</label>
                                                 <label>{% trans 'Country of Issued' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
-                                                            <option value="">{% trans 'Country of Issued' %}</option>
-                                                            {% for country in countries %}
-                                                            <option value="{{country.name}}">{{country.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
+                                                    <select class="form-control js-example-basic-single" name="adult_country_of_issued{{forloop.counter}}_id" style="width:100%;" id="adult_country_of_issued{{forloop.counter}}_id" placeholder="{% trans 'Country of Issued' %}" onchange="auto_complete('adult_country_of_issued{{forloop.counter}}')" class="nice-select-default">
+                                                        <option value="">{% trans 'Country of Issued' %}</option>
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}">{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                     <button type="button" class="primary-delete-date" onclick="delete_country_of_issued('adult', {{forloop.counter}})"><i class="fa fa-trash-alt" style="color:#E92B2B;font-size:20px;"></i></button>
                                                     <input type="hidden" name="adult_country_of_issued{{forloop.counter}}" id="adult_country_of_issued{{forloop.counter}}" />
                                                 </div>
@@ -1353,13 +1345,11 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Nationality' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <div class="form-select">
-                                                        <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
-                                                            {% for country in countries %}
-                                                            <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
-                                                            {% endfor %}
-                                                        </select>
-                                                    </div>
+                                                    <select class="form-control js-example-basic-single" name="infant_nationality{{forloop.counter}}_id" style="width:100%;" id="infant_nationality{{forloop.counter}}_id" placeholder="{% trans 'Nationality' %}" onchange="auto_complete('infant_nationality{{forloop.counter}}')" class="nice-select-default">
+                                                        {% for country in countries %}
+                                                        <option value="{{country.name}}" {% if country.name == 'Indonesia'%} selected {%endif%}>{{country.name}}</option>
+                                                        {% endfor %}
+                                                    </select>
                                                     <input type="hidden" name="infant_nationality{{forloop.counter}}" id="infant_nationality{{forloop.counter}}" />
                                                 </div>
 
@@ -1368,7 +1358,7 @@
                                                 <label style="color:red">*</label>
                                                 <label>{% trans 'Birth Date' %}</label>
                                                 <div class="input-container-search-ticket">
-                                                    <input type="text" class="form-control date-picker-birth" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
+                                                    <input type="text" class="form-control date-picker-birth" style="background:white;" name="infant_birth_date{{forloop.counter}}" id="infant_birth_date{{forloop.counter}}" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
                                                 </div>
                                             </div>
                                         </div>
