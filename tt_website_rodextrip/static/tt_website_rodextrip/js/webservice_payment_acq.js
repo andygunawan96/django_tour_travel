@@ -901,7 +901,7 @@ function set_price(val, type, product_type){
                         <span>Discount:</span>
                     </div>
                     <div class='col-sm-6' style='text-align:right;'>
-                        <span>`+discount_voucher['currency']+` `+getrupiah(discount_voucher['discount'])+`</span>
+                        <span>`+discount_voucher['currency']+` -`+getrupiah(discount_voucher['discount'])+`</span>
                     </div>`;
                 payment_total = payment_acq2[payment_method][selected].total_amount - discount_voucher['discount'];
             }else{

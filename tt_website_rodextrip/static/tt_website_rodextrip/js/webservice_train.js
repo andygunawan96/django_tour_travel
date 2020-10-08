@@ -837,9 +837,11 @@ function train_get_booking(data){
                 type_amount_repricing = ['Repricing'];
                 //repricing
                 counter_service_charge = 0;
+                disc = 0;
                 $text += '\nPrice:\n';
                 for(i in msg.result.response.provider_bookings){
                     try{
+                        csc = 0;
                         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                             text_detail+=`
                                 <div style="text-align:left">
@@ -852,9 +854,10 @@ function train_get_booking(data){
                                 if(price['currency'] == '')
                                     price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.provider_bookings[i].pnr][k].currency;
                             }
+                            disc -= price['DISC'];
                             try{
                                 price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-
+                                csc += msg.result.response.passengers[j].channel_service_charges.amount;
                             }catch(err){}
                             //repricing
                             check = 0;
@@ -909,7 +912,7 @@ function train_get_booking(data){
                                     <span style="font-size:12px;">`+msg.result.response.passengers[j].name+`</span>`;
                                 text_detail+=`</div>
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.SSR + price.SEAT + price.DISC))+`</span>
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.SSR + price.SEAT))+`</span>
                                 </div>
                             </div>`;
                             $text += msg.result.response.passengers[j].title +' '+ msg.result.response.passengers[j].name + ' ['+msg.result.response.provider_bookings[i].pnr+'] ';
@@ -946,6 +949,17 @@ function train_get_booking(data){
                                 'price': JSON.parse(JSON.stringify(price))
                             });
                         }
+                        if(csc != 0){
+                            text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">Other service charges</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+                                    </div>
+                                </div>`;
+                        }
                         counter_service_charge++;
                     }catch(err){}
                 }
@@ -953,6 +967,17 @@ function train_get_booking(data){
                     $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
                     if(msg.result.response.state == 'booked')
                     $text += '\n\nPrices and availability may change at any time';
+                    if(disc != 0){
+                        text_detail+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Discount</span>`;
+                                text_detail+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
+                                </div>
+                            </div>`;
+                    }
                     text_detail+=`
                     <div>
                         <hr/>
@@ -964,7 +989,10 @@ function train_get_booking(data){
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px; font-weight: bold;">`;
                             try{
-                                text_detail+= price.currency+` `+getrupiah(total_price);
+                                if(total_price != 0)
+                                    text_detail+= price.currency+` `+getrupiah(total_price);
+                                else
+                                    text_detail+= 'Free';
                             }catch(err){
 
                             }

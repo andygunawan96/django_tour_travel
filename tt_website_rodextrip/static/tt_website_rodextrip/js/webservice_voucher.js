@@ -303,7 +303,7 @@ function check_voucher(){
                                         for(j in total_price_provider){
                                             if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
                                                 for(k in total_price_provider[j].price){
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
                                                         disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
                                                         total_price_discount += total_price_provider[j].price[k];
                                                     }
@@ -314,10 +314,10 @@ function check_voucher(){
                                         for(j in total_price_provider){
                                             if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
                                                 for(k in total_price_provider[j].price){
-                                                    if(k == 'fare'){
+                                                    if(k == 'fare' || k == 'FARE'){
                                                         disc += total_price_provider[j].price[k] * msg.result.response.voucher_value / 100;
                                                     }
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
                                                         total_price_discount += total_price_provider[j].price[k];
                                                     }
                                                 }
@@ -329,7 +329,7 @@ function check_voucher(){
                                         for(j in total_price_provider){
                                             if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
                                                 for(k in total_price_provider[j].price){
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
                                                         disc += total_price_provider[j].price[k];
                                                         total_price_discount += total_price_provider[j].price[k];
                                                     }
@@ -340,10 +340,10 @@ function check_voucher(){
                                         for(j in total_price_provider){
                                             if(msg.result.response.provider[i].provider == total_price_provider[j].provider){
                                                 for(k in total_price_provider[j].price){
-                                                    if(k == 'fare'){
+                                                    if(k == 'fare' || k == 'FARE'){
                                                         disc += total_price_provider[j].price[k];
                                                     }
-                                                    if(k != 'currency' && k != 'RAC' && k != 'rac'){
+                                                    if(k != 'currency' && k != 'RAC' && k != 'rac' && k != 'CSC' && k != 'csc'){
                                                         total_price_discount += total_price_provider[j].price[k];
                                                     }
                                                 }

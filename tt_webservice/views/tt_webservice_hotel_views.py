@@ -571,13 +571,14 @@ def get_booking(request):
         _logger.info(json.dumps(request.session['hotel_provision']))
         if res['result']['error_code'] == 0:
             res['result']['response'].update({
-                'from_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['from_date']),
-                'to_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['to_date'])
+                'checkin_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['checkin_date']),
+                'checkout_date': convert_string_to_date_to_string_front_end_with_date(res['result']['response']['checkout_date'])
             })
             for room in res['result']['response']['hotel_rooms']:
-                room.update({
-                    'date': convert_string_to_date_to_string_front_end_with_date(room['date'].split(' ')[0])
-                })
+                for date in room['dates']:
+                    date.update({
+                        'date': convert_string_to_date_to_string_front_end_with_date(date['date'].split(' ')[0])
+                    })
             for pax in res['result']['response']['passengers']:
                 pax.update({
                     'birth_date': convert_string_to_date_to_string_front_end(pax['birth_date'])
@@ -612,12 +613,12 @@ def update_service_charge(request):
             total_upsell = 0
             for upsell in data['passengers']:
                 for pricing in upsell['pricing']:
-                    total_upsell += pricing['amount']
+                    total_upsell += int(pricing['amount'])
             set_session(request, 'hotel_upsell_'+request.POST['signature'], total_upsell)
             _logger.info(json.dumps(request.session['hotel_upsell_' + request.POST['signature']]))
-            _logger.info("SUCCESS update_service_charge AIRLINE SIGNATURE " + request.POST['signature'])
+            _logger.info("SUCCESS update_service_charge HOTEL SIGNATURE " + request.POST['signature'])
         else:
-            _logger.error("ERROR update_service_charge_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
+            _logger.error("ERROR update_service_charge_airline HOTEL SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
