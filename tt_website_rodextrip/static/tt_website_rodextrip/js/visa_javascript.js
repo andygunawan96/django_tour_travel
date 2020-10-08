@@ -560,6 +560,8 @@ function update_table(type){
         price = 0;
         price_pax = 0;
         commission = 0;
+        disc = 0;
+        csc = 0;
         currency = '';
 
         $text = '';
@@ -607,7 +609,10 @@ function update_table(type){
                     commission += (visa.passengers[i].visa.price[j].amount) *-1;
                 }else if(visa.passengers[i].visa.price[j].charge_code == 'csc'){
                     price += visa.passengers[i].visa.price[j].amount;
-                    price_pax += visa.passengers[i].visa.price[j].amount;
+                    csc += visa.passengers[i].visa.price[j].amount;
+                }else if(visa.passengers[i].visa.price[j].charge_code == 'disc'){
+                    price += visa.passengers[i].visa.price[j].amount;
+                    disc -= visa.passengers[i].visa.price[j].amount;
                 }
             }
             $text += 'Price '+ visa.passengers[i].visa.price[j].currency + ' ' + getrupiah(price_pax) + '\n';
@@ -620,7 +625,28 @@ function update_table(type){
         }
 
         text+=`</table>`;
-
+        if(csc != 0){
+            text+=`
+                <div class="row" style="margin-bottom:5px;">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                        <span style="font-size:12px;">Other service charges</span>`;
+                    text+=`</div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(csc))+`</span>
+                    </div>
+                </div>`;
+        }
+        if(disc != 0){
+            text+=`
+                <div class="row" style="margin-bottom:5px;">
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                        <span style="font-size:12px;">Discount</span>`;
+                    text+=`</div>
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                        <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(disc))+`</span>
+                    </div>
+                </div>`;
+        }
         text+=`
             <div class="row" style="padding-bottom:15px;">
                 <div class="col-lg-12">

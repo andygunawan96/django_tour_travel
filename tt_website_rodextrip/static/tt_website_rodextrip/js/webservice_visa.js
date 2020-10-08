@@ -839,7 +839,7 @@ function visa_get_data(data){
                                 <h4>List of Passenger(s)</h4>
                                 <hr/>`;
                                 type_amount_repricing = ['Repricing'];
-                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0};
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0,'DISC':0};
                                 for(i in msg.result.response.passengers){
                                     for(j in msg.result.response.passengers[i].visa.price){
                                         if(j == 'TOTAL'){
@@ -850,7 +850,8 @@ function visa_get_data(data){
                                             price['currency'] += msg.result.response.passengers[i].visa.price[j].currency;
                                         }else if(j == 'CSC'){
                                             price['CSC'] = msg.result.response.passengers[i].visa.price[j].amount;
-
+                                        }else{
+                                            price[j] += msg.result.response.passengers[i].visa.price[j].amount;
                                         }
                                     }
                                     //repricing

@@ -2017,6 +2017,7 @@ function activity_get_booking(data){
                 type_amount_repricing = ['Repricing'];
                 //repricing
                 counter_service_charge = 0;
+                disc = 0;
                 $test += '\nPrice:\n';
                 for(i in msg.result.response.passengers[0].sale_service_charges){
                     if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
@@ -2024,15 +2025,17 @@ function activity_get_booking(data){
                             <div style="text-align:left">
                                 <span style="font-weight:500; font-size:14px;">PNR: `+i+` </span>
                             </div>`;
+                    csc = 0;
                     for(j in msg.result.response.passengers){
                         price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'DISC': 0};
                         for(k in msg.result.response.passengers[j].sale_service_charges[i]){
                             price[k] += msg.result.response.passengers[j].sale_service_charges[i][k].amount;
                             price['currency'] = msg.result.response.passengers[j].sale_service_charges[i][k].currency;
                         }
+                        disc -= price['DISC']
                         try{
                             price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
-
+                            csc += msg.result.response.passengers[j].channel_service_charges.amount;
                         }catch(err){
 
                         }
@@ -2092,10 +2095,10 @@ function activity_get_booking(data){
 
                             if(counter_service_charge == 0){
                             price_text+=`
-                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.CSC + price.DISC))+`</span>`;
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
                             }else{
                                 price_text+=`
-                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC + price.DISC))+`</span>`;
+                                <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(price.FARE + price.TAX + price.ROC))+`</span>`;
                             }
                             price_text+=`
                             </div>
@@ -2111,6 +2114,17 @@ function activity_get_booking(data){
                         }
                         commission += parseInt(price.RAC);
                     }
+                    if(csc != 0){
+                        price_text+=`
+                            <div class="row" style="margin-bottom:5px;">
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                    <span style="font-size:12px;">Other service charges</span>`;
+                                price_text+=`</div>
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                    <span style="font-size:13px;">`+price.currency+` `+getrupiah(parseInt(csc))+`</span>
+                                </div>
+                            </div>`;
+                    }
                     counter_service_charge++;
                 }
 
@@ -2125,6 +2139,17 @@ function activity_get_booking(data){
     //                $test += 'Additional price IDR '+getrupiah(msg.result.response.price_itinerary.additional_charge_total)+'\n';
     //           }
                grand_total = total_price;
+               if(disc != 0){
+                    price_text+=`
+                        <div class="row" style="margin-bottom:5px;">
+                            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                <span style="font-size:12px;">Discount</span>`;
+                            price_text+=`</div>
+                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                <span style="font-size:13px;">`+price.currency+` -`+getrupiah(parseInt(disc))+`</span>
+                            </div>
+                        </div>`;
+                }
                price_text+= `
                  <hr style="padding:0px;">
                  <div class="row">

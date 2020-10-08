@@ -535,6 +535,16 @@ function activity_table_detail2(pagetype){
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku][passenger[low_sku_id]].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku][passenger[low_sku_id]].commission_price;
+                   price_discount = {"currency": ''};
+                   for(i in skus[sku][passenger[low_sku_id]].service_charges){
+                        if(price_discount.hasOwnProperty(skus[sku][passenger[low_sku_id]].service_charges[i].charge_type) == true)
+                            price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                        else
+                            price_discount[skus[sku][passenger[low_sku_id]].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                        if(price_discount['currency'] == '')
+                            price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
+                   }
+                   total_price_provider.push({"price":price_discount,"provider":response.provider});
                }
                else
                {
@@ -543,6 +553,16 @@ function activity_table_detail2(pagetype){
                    $test += passenger[low_sku_id].toString() + ' ' + skus[sku].sku_title + ' Price @IDR ' + getrupiah(skus[sku]['1'].sale_price)+'\n';
                    grand_total += parseInt(passenger[low_sku_id]) * skus[sku]['1'].sale_price;
                    grand_commission += parseInt(passenger[low_sku_id]) * skus[sku]['1'].commission_price;
+                   price_discount = {"currency": ''};
+                   for(i in skus[sku]['1'].service_charges){
+                        if(price_discount.hasOwnProperty(skus[sku]['1'].service_charges[i].charge_type) == true)
+                            price_discount[skus[sku]['1'].service_charges[i].charge_type] += skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                        else
+                            price_discount[skus[sku]['1'].service_charges[i].charge_type] = skus[sku][passenger[low_sku_id]].service_charges[i].total;
+                        if(price_discount['currency'] == '')
+                            price_discount['currency'] = skus[sku][passenger[low_sku_id]].service_charges[i].currency;
+                   }
+                   total_price_provider.push({"price":price_discount,"provider":response.provider});
                }
                text+= `</span></div></div>`;
            }

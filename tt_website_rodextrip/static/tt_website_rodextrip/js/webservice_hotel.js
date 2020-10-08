@@ -1121,10 +1121,10 @@ function hotel_get_booking(data){
                 if(msg.result.error_code == 0){
                     hotel_get_detail = msg;
                     $text = '';
-                    $text += 'Order Number: '+ msg.result.response.booking_name + '\n';
-                    $text += msg.result.response.status + '\n';
+                    $text += 'Order Number: '+ msg.result.response.order_number + '\n';
+                    $text += msg.result.response.state + '\n';
                     text = `
-                        <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.booking_name+`</h6><br/>
+                        <h6 class="carrier_code_template">Order Number : </h6><h6>`+msg.result.response.order_number+`</h6><br/>
                         <table style="width:100%;">
                             <tr>
                                 <th class="carrier_code_template">Booking Code</th>
@@ -1133,13 +1133,13 @@ function hotel_get_booking(data){
                             for(i in msg.result.response.hotel_rooms){
                                 text+=`
                                     <tr>`;
-                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                                     text+=`
                                         <td>`+msg.result.response.hotel_rooms[i].prov_issued_code+`</td>`;
                                 else
                                     text+= `<td> - </td>`;
                                 text+=`
-                                        <td>`+msg.result.response.status.charAt(0).toUpperCase()+msg.result.response.status.slice(1).toLowerCase()+`</td>
+                                        <td>`+msg.result.response.state.charAt(0).toUpperCase()+msg.result.response.state.slice(1).toLowerCase()+`</td>
                                     </tr>
                                 `;
                             }
@@ -1167,14 +1167,14 @@ function hotel_get_booking(data){
 
                    text+=`<div class="row">
                             <div class="col-sm-6">
-                                <span class="carrier_code_template">Check In: </span><span>`+msg.result.response.from_date+`</span><br/>
+                                <span class="carrier_code_template">Check In: </span><span>`+msg.result.response.checkin_date+`</span><br/>
                             </div>
                             <div class="col-sm-6" style='text-align:right'>
-                                <span class="carrier_code_template">Check Out: </span><span>`+msg.result.response.to_date+`</span><br/>
+                                <span class="carrier_code_template">Check Out: </span><span>`+msg.result.response.checkout_date+`</span><br/>
                             </div>
                           </div>`;
                    document.getElementById('hotel_booking').innerHTML = text;
-                   if(msg.result.response.status == 'booked'){
+                   if(msg.result.response.state == 'booked'){
                        check_payment_payment_method(msg.result.response.booking_name, 'Issued', '', 'billing', 'hotel', signature, {});
                        $(".issued_booking_btn").show();
                    }
@@ -1196,7 +1196,10 @@ function hotel_get_booking(data){
                         text+=`
                             <tr>
                                 <td>`+oioi+`</td>
-                                <td>`+msg.result.response.hotel_rooms[i].date+`</td>
+                                <td>`;
+                                for(j in msg.result.response.hotel_rooms[i].dates)
+                                text+=msg.result.response.hotel_rooms[i].dates[j].date;
+                                text+=`</td>
                                 <td>`+msg.result.response.hotel_rooms[i].room_name;
                                  if(msg.result.response.hotel_rooms[i].room_type != '')
                                     text+=`(`+msg.result.response.hotel_rooms[i].room_type+`)`;
@@ -1221,21 +1224,19 @@ function hotel_get_booking(data){
                             <tr>
                                 <th class="">No</th>
                                 <th class="">Name</th>
-                                <th class="">Pax Type</th>
                                 <th class="">Birth Date</th>
                             </tr>`;
                             for(i in msg.result.response.passengers){
                                 var new_int = parseInt(i)+1;
                                 text+=`<tr>
                                     <td>`+ new_int +`</td>
-                                    <td><span>`+msg.result.response.passengers[i].title+` `+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</span></td>
-                                    <td><span>`+msg.result.response.passengers[i].pax_type+`</span></td>
+                                    <td><span>`+msg.result.response.passengers[i].first_name+` `+msg.result.response.passengers[i].last_name+`</span></td>
                                     <td><span>`+msg.result.response.passengers[i].birth_date+`</span></td>
                                 </tr>`;
                             }
                    text+=`</table>`;
                    document.getElementById('hotel_passenger').innerHTML = text;
-                    if(msg.result.response.status == 'issued'){
+                    if(msg.result.response.state == 'issued'){
                     document.getElementById('issued-breadcrumb').classList.add("br-active");
                     document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
                     document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
@@ -1311,6 +1312,9 @@ function hotel_get_booking(data){
                     total_price_provider = [];
                     price_provider = 0;
                     commission = 0;
+                    disc = 0;
+                    csc = 0;
+                    currency = '';
                     service_charge = ['FARE', 'RAC', 'ROC', 'TAX', 'SSR', 'DISC'];
                     text_detail=`
                     <div style="background-color:white; padding:10px; border: 1px solid #cdcdcd; margin-bottom:15px;">
@@ -1324,16 +1328,35 @@ function hotel_get_booking(data){
                     $text += '\nPrice:\n';
                     for(i in msg.result.response.hotel_rooms){
                         try{
-                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.status == 'issued')
+                            if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false || msg.result.response.state == 'issued')
                                 text_detail+=`
                                     <div style="text-align:left">
                                         <span style="font-weight:500; font-size:14px;">PNR: `+msg.result.response.hotel_rooms[i].prov_issued_code+` </span>
                                     </div>`;
-                            price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0};
-                            price['FARE'] = msg.result.response.hotel_rooms[i].room_rate;
-                            price['currency'] = msg.result.response.hotel_rooms[i].currency;
-                            price['CSC'] = 0;
-                            total_price_provider = msg.result.response.hotel_rooms[i].room_rate;
+
+                            for(j in msg.result.response.passengers){
+                                price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0};
+                                for(k in msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)]){
+                                    price[k] += msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)][k].amount;
+                                    if(price['currency'] == ''){
+                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)][k].currency;
+                                        currency = msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)][k].currency;
+                                    }
+                                }
+                                disc -= price['DISC'];
+                                try{
+                                    csc += price['CSC'];
+                                    price['CSC'] = msg.result.response.passengers[j].channel_service_charges.amount;
+                                }catch(err){}
+                                if(price['FARE'] != 0){
+                                    total_price_provider.push({
+                                        'provider': msg.result.response.hotel_rooms[i].provider,
+                                        'price': price
+                                    })
+                                    total_price += parseInt(price.TAX + price.ROC + price.FARE + price.CSC + price.DISC);
+
+                                }
+                            }
                             for(j in msg.result.response.passengers){
                                 pax_type_repricing.push([msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name, msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name]);
                                 price_arr_repricing[msg.result.response.passengers[j].title+' '+msg.result.response.passengers[j].first_name+' '+msg.result.response.passengers[j].last_name] = {
@@ -1373,14 +1396,30 @@ function hotel_get_booking(data){
                                 text_detail+=`
                                 <div class="row" style="margin-bottom:5px;">
                                     <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
-                                        <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].date+`</span>`;
+                                        <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].room_name+`</span><br/>
+                                        <span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].room_type+`</span><br/>`;
+                                        for(j in msg.result.response.hotel_rooms[i].dates){
+                                            text_detail+=`<span style="font-size:12px;">`+msg.result.response.hotel_rooms[i].dates[j].date+`</span><br/>`;
+                                        }
                                     text_detail+=`</div>
                                     <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
-                                        <span style="font-size:13px;">`+price.currency+` `+getrupiah(total_price_provider)+`</span>
+                                        <br/>`;
+                                        for(j in msg.result.response.hotel_rooms[i].dates){
+                                            text_detail+=`<br/>`;
+                                        }
+                                        try{
+                                        text_detail+=`
+                                        <span style="font-size:13px;">`+total_price_provider[i].price.currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+`</span>`;
+                                        }catch(err){}
+                                        text_detail+=`
                                     </div>
                                 </div>`;
-                                $text += msg.result.response.hotel_rooms[i].date + ' ';
-                                $text += price.currency+` `+getrupiah(total_price_provider)+'\n';
+                                try{
+                                    for(j in msg.result.response.hotel_rooms[i].dates){
+                                        $text += msg.result.response.hotel_rooms[i].dates[j].date + ' ';
+                                    }
+                                    $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
+                                }catch(err){}
                                 if(counter_service_charge == 0){
                                     total_price += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
                                     price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
@@ -1389,17 +1428,36 @@ function hotel_get_booking(data){
                                     price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
                                 }
                                 commission += parseInt(price.RAC);
-
-                            total_price_provider.push({
-                                'pnr': msg.result.response.hotel_rooms[i].prov_issued_code,
-                                'price': price_provider
-                            })
                             price_provider = 0;
                             counter_service_charge++;
-                        }catch(err){}
+                        }catch(err){console.log(err);}
                     }
                     try{
-                        $text += 'Grand Total: '+price.currency+' '+ getrupiah(total_price);
+                        if(csc != 0){
+                            text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">Other service charges</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+currency+` `+getrupiah(parseInt(csc))+`</span>
+                                    </div>
+                                </div>`;
+                            $text += 'Other service charges: '+currency+' '+ getrupiah(csc)+'\n';
+                        }
+                        if(disc != 0){
+                            text_detail+=`
+                                <div class="row" style="margin-bottom:5px;">
+                                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" style="text-align:left;">
+                                        <span style="font-size:12px;">Discount</span>`;
+                                    text_detail+=`</div>
+                                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5" style="text-align:right;">
+                                        <span style="font-size:13px;">`+currency+` -`+getrupiah(parseInt(disc))+`</span>
+                                    </div>
+                                </div>`;
+                            $text += 'Discount: '+currency+' '+ getrupiah(disc)+'\n';
+                        }
+                        $text += 'Grand Total: '+currency+' '+ getrupiah(total_price);
                         text_detail+=`
                         <div>
                             <hr/>
@@ -1411,14 +1469,14 @@ function hotel_get_booking(data){
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span style="font-size:13px; font-weight: bold;">`;
                                 try{
-                                    text_detail+= price.currency+` `+getrupiah(total_price);
+                                    text_detail+= currency+` `+getrupiah(total_price);
                                 }catch(err){
 
                                 }
                                 text_detail+= `</span>
                             </div>
                         </div>`;
-                        if(msg.result.response.status != 'issued')
+                        if(msg.result.response.state != 'issued')
                             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
