@@ -419,6 +419,8 @@ function train_create_booking(val){
 function train_get_booking(data){
     price_arr_repricing = {};
     get_balance('false');
+    document.getElementById('cancel').hidden = true;
+    document.getElementById('cancel').innerHTML = '';
     $.ajax({
        type: "POST",
        url: "/webservice/train",
