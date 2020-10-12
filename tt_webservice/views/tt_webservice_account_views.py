@@ -301,73 +301,22 @@ def get_account(request):
 
 def get_balance(request):
     if request.POST['using_cache'] == 'false':
-        try:
-            data = {}
-            headers = {
-                "Accept": "application/json,text/html,application/xml",
-                "Content-Type": "application/json",
-                "action": "get_balance",
-                "signature": request.POST.get('signature') or request.session.get('signature'),
-            }
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-        try:
-            res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-            set_session(request, 'get_balance_session', res)
-            _logger.info(json.dumps(request.session['get_balance_session']))
-            if res['result']['error_code'] == 0:
-                time_check.set_new_time_out('balance')
-                time_check.set_first_time('balance')
-        except ERR.RequestException as e:
-            _logger.error('get_balance', 'Request Error' + '\n' + e.message + '\n' + traceback.format_exc())
-
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            #get balance ulang
-            res = get_balance(request)
-            request.session['get_balance_session'] = res
-            request.session.modified = True
-            if res['result']['error_code'] == 0:
-                time_check.set_new_time_out('balance')
-                time_check.set_first_time('balance')
+        get_balance_request(request)
     else:
         try:
             date_time = datetime.now() - time_check.get_time_balance
             if date_time.seconds >= 300 or time_check.get_time_balance_first_time == True:
-                try:
-                    data = {}
-                    headers = {
-                        "Accept": "application/json,text/html,application/xml",
-                        "Content-Type": "application/json",
-                        "action": "get_balance",
-                        "signature": request.POST.get('signature') or request.session.get('signature'),
-                    }
-                    res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-                    set_session(request, 'get_balance_session', res)
-                    _logger.info(json.dumps(request.session['get_balance_session']))
-                    time_check.set_new_time_out('balance')
-                    time_check.set_first_time('balance')
-                except Exception as e:
-                    res = request.session['get_balance_session']
-                    _logger.error(str(e) + '\n' + traceback.format_exc())
+                get_balance_request(request)
             else:
-                res = request.session['get_balance_session']
+                if request.session.get('get_balance_session'):
+                    if request.session['get_balance_session']['result'].get('error_code') == 0:
+                        res = request.session['get_balance_session']
+                    else:
+                        res = get_balance_request(request)
+                else:
+                    res = get_balance_request(request)
         except Exception as e:
-            try:
-                data = {}
-                headers = {
-                    "Accept": "application/json,text/html,application/xml",
-                    "Content-Type": "application/json",
-                    "action": "get_balance",
-                    "signature": request.POST.get('signature') or request.session.get('signature'),
-                }
-            except Exception as e:
-                _logger.error(str(e) + '\n' + traceback.format_exc())
-            res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST')
-            set_session(request, 'get_balance_session', res)
-            _logger.info(json.dumps(request.session['get_balance_session']))
-            time_check.set_new_time_out('balance')
-            time_check.set_first_time('balance')
+            res = get_balance_request(request)
             _logger.error(str(e) + '\n' + traceback.format_exc())
     try:
         if res['result']['error_code'] == 0:
@@ -376,6 +325,38 @@ def get_balance(request):
             _logger.error("get_balance_account ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
+    return res
+
+def get_balance_request(request):
+    res = {}
+    try:
+        data = {}
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_balance",
+            "signature": request.POST.get('signature') or request.session.get('signature'),
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    try:
+        res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=60)
+        set_session(request, 'get_balance_session', res)
+        _logger.info(json.dumps(request.session['get_balance_session']))
+        if res['result']['error_code'] == 0:
+            time_check.set_new_time_out('balance')
+            time_check.set_first_time('balance')
+    except ERR.RequestException as e:
+        _logger.error('get_balance', 'Request Error' + '\n' + e.message + '\n' + traceback.format_exc())
+
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        # get balance ulang
+        request.session['get_balance_session'] = res
+        request.session.modified = True
+        if res['result']['error_code'] == 0:
+            time_check.set_new_time_out('balance')
+            time_check.set_first_time('balance')
     return res
 
 def get_transactions(request):
@@ -585,7 +566,7 @@ def get_top_up(request):
 def submit_top_up(request):
     try:
         data = {
-            'amount': request.POST['amount'],
+            'amount': int(request.POST['amount']),
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
