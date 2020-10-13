@@ -2368,7 +2368,7 @@ function go_to_owl_carousel_bottom(counter, co_i){
         }
     }
     else{
-        text_img+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" alt="`+name+`Not Found Hotel" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
+        text_img+=`<img src="/static/tt_website_rodextrip/images/no pic/no_image_hotel.jpeg" alt="Not Found Hotel" width="60" height="60" style="margin-right:10px; border-radius:4px; border:1px solid #cdcdcd;">`;
     }
     text_img += `</div>`;
     document.getElementById("viewImageHotelBottom").innerHTML = text_img;

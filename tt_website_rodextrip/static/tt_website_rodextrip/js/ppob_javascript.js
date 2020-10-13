@@ -1552,16 +1552,22 @@ function check_bpjs_number(){
     }
 }
 
-
-
 function check_hp_number(){
     var temp_value = "";
+    var temp_number = ""; // nyimpen nomor 4 digit pertama
     var value_hp_number = String($(".hp_number").val());
     for (var co = 0; co < value_hp_number.length; co++) {
         if(co < 4){
             temp_value = temp_value + value_hp_number.charAt(co);
         }
     }
+
+    if(checking_number == 1){
+        if(temp_number != temp_value){
+            checking_number = 0;
+        }
+    }
+
     if ( value_hp_number.length >= 4 ){
         min_input = 0;
         max_input = 0;
@@ -1599,49 +1605,68 @@ function check_hp_number(){
             text_img = '';
             code_voucher = '';
             code_includes = false;
+            temp_number = temp_value;
             for(j in nominal_number_list){
                 if (temp_value == nominal_number_list[j][0]){
                     code_voucher = nominal_number_list[j][1];
                     break;
                 }
             }
-            if(code_voucher != ''){
-                text_nominal+=`<div class="col-lg-12 mb-3"><h6 style="color:`+text_color+`">Choose Voucher</h6></div>`;
-            }
-            for(i in ppob_data.available_prepaid_mobile){
-                if(code_voucher != ''){
-                    code_includes = i.includes(code_voucher);
-                    if(code_includes == true){
-                        if(template != 3){
-                            text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
-                        }else{
-                            text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
-                        }
 
-                        text_nominal+=`
-                            <label class="radio-label" style="padding:unset; width:100%;">
-                                <input type="radio" name="e-voucher_nominal" value="`+i+`">
-                                <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[i]+`</span></div>
-                            </label>
-                        </div>`;
+            text_img+=`
+            <div class="row">
+                <div class="col-lg-12">`;
+                if(code_voucher != ''){
+                    text_img+=`<label class="radio-img">`;
+                    if(code_voucher == "TSEL"){
+                        text_img+=`
+                        <input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/telkomsel.png" alt="Telkomsel" style="width:auto; height:60px; padding:0px;">`;
+                    }else if(code_voucher == "ISAT"){
+                        text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/indosat.png" alt="Indosat" style="width:auto; height:60px; padding:0px;">`;
+                    }else if(code_voucher == "XL"){
+                        text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/xl.png" alt="XL" style="width:auto; height:60px; padding:0px;">`;
+                    }else if(code_voucher == "TR"){
+                        text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/tri.png" alt="Tri" style="width:auto; height:60px; padding:0px;">`;
+                    }else if(code_voucher == "SM"){
+                        text_img+=`<input type="radio" checked="checked" name="voucher-type" value="pulsa" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/smartfren.png" alt="Smartfren" style="width:auto; height:60px; padding:0px;">`;
                     }
+                    text_img+=`</label>`;
+
+                    text_img+=`
+                    <label class="radio-img">
+                        <input type="radio" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
+                    </label>`;
+
+                    text_img+=`
+                    <label class="radio-img">
+                        <input type="radio" name="voucher-type" value="gopay" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
+                    </label>`;
                 }
-            }
-            document.getElementById('e-voucher_nominal_div').innerHTML = text_nominal;
-            if(code_voucher == "TSEL"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/telkomsel.png" style="width:auto; height:60px;" alt="'+name+' Telkomsel">';
-            }else if(code_voucher == "ISAT"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/indosat.png" style="width:auto; height:60px;" alt="'+name+' Indosat">';
-            }else if(code_voucher == "XL"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/xl.png" style="width:auto; height:60px;" alt="'+name+' XL">';
-            }else if(code_voucher == "TR"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/three.png" style="width:auto; height:60px;" alt="'+name+' Tri">';
-            }else if(code_voucher == "SM"){
-                text_img = '<img src="/static/tt_website_rodextrip/images/icon/smartfren.png" style="width:auto; height:50px;"alt="'+name+' Smartfren">';
-            }else{
-                text_img = `<h5 style="color:`+color+`;">Maaf, operator tidak tersedia untuk nomor tersebut.</h5>`;
-            }
+                else{
+                    text_img+=`
+                    <label class="radio-img">
+                        <input type="radio" checked="checked" name="voucher-type" value="ovo" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/ovo.png" alt="OVO" style="width:auto; height:60px; padding:0px;">
+                    </label>`;
+
+                    text_img+=`
+                    <label class="radio-img">
+                        <input type="radio" name="voucher-type" value="gopay" onchange="set_evoucher_type();">
+                        <img src="/static/tt_website_rodextrip/images/icon/gopay.png" alt="GO-PAY" style="width:auto; height:60px; padding:0px;">
+                    </label>`;
+                }
+            text_img+=`</div>
+            </div>`;
             document.getElementById('img_operator').innerHTML = text_img;
+            set_evoucher_type(ppob_data.available_prepaid_mobile);
+
             checking_number = 1;
         }
     }else if ( value_hp_number.length < 4){
@@ -1651,4 +1676,82 @@ function check_hp_number(){
         document.getElementById("input_alert").style.display = "none";
         checking_number = 0;
     }
+}
+
+function set_evoucher_type(){
+    text_nominal = '';
+    code_includes = false;
+
+    var radios_set = document.getElementsByName('voucher-type');
+    for (var j = 0, length = radios_set.length; j < length; j++) {
+        if (radios_set[j].checked) {
+            // do whatever you want with the checked radio
+            v_type = radios_set[j].value;
+            // only one radio can be logically checked, don't check the rest
+            break;
+        }
+    }
+
+    text_nominal+=`<div class="col-lg-12 mb-3"><h6 style="color:`+text_color+`">Choose Voucher</h6></div>`;
+
+    if(v_type == 'pulsa'){
+        for(i in ppob_data.available_prepaid_mobile){
+            if(code_voucher != ''){
+                code_includes = i.includes(code_voucher);
+                if(code_includes == true){
+                    if(template != 3){
+                        text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                    }else{
+                        text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                    }
+
+                    text_nominal+=`
+                        <label class="radio-label" style="padding:unset; width:100%;">
+                            <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                            <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[i]+`</span></div>
+                        </label>
+                    </div>`;
+                }
+            }
+        }
+    }else if(v_type == 'ovo'){
+        for(i in ppob_data.available_prepaid_mobile){
+            code_includes = i.includes("OVO");
+            if(code_includes == true){
+                if(template != 3){
+                    text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                }else{
+                    text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                }
+
+                text_nominal+=`
+                    <label class="radio-label" style="padding:unset; width:100%;">
+                        <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                        <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[i]+`</span></div>
+                    </label>
+                </div>`;
+            }
+        }
+    }else if(v_type == 'gopay'){
+        for(i in ppob_data.available_prepaid_mobile){
+            code_includes = i.includes("GP");
+            if(code_includes == true){
+                if(template != 3){
+                    text_nominal+=`<div class="col-xs-6 col-sm-4 col-md-4 col-lg-3 mb-3">`;
+                }else{
+                    text_nominal+=`<div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 mb-3">`;
+                }
+
+                text_nominal+=`
+                    <label class="radio-label" style="padding:unset; width:100%;">
+                        <input type="radio" name="e-voucher_nominal" value="`+i+`">
+                        <div class="div_label"><span style="color:`+text_color+`;">`+ppob_data.available_prepaid_mobile[i]+`</span></div>
+                    </label>
+                </div>`;
+            }
+        }
+    }
+
+    document.getElementById('e-voucher_nominal_div').innerHTML = text_nominal;
+
 }
