@@ -1336,11 +1336,11 @@ function hotel_get_booking(data){
 
                             for(j in msg.result.response.passengers){
                                 price = {'FARE': 0, 'RAC': 0, 'ROC': 0, 'TAX':0 , 'currency': '', 'CSC': 0, 'SSR': 0, 'DISC': 0};
-                                for(k in msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)]){
-                                    price[k] += msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)][k].amount;
+                                for(k in msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code]){
+                                    price[k] += msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code][k].amount;
                                     if(price['currency'] == ''){
-                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)][k].currency;
-                                        currency = msg.result.response.passengers[j].sale_service_charges[parseInt(msg.result.response.hotel_rooms[i].prov_issued_code)][k].currency;
+                                        price['currency'] = msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code][k].currency;
+                                        currency = msg.result.response.passengers[j].sale_service_charges[msg.result.response.hotel_rooms[i].prov_issued_code][k].currency;
                                     }
                                 }
                                 disc -= price['DISC'];
