@@ -301,12 +301,12 @@ def get_account(request):
 
 def get_balance(request):
     if request.POST['using_cache'] == 'false':
-        get_balance_request(request)
+        res = get_balance_request(request)
     else:
         try:
             date_time = datetime.now() - time_check.get_time_balance
             if date_time.seconds >= 300 or time_check.get_time_balance_first_time == True:
-                get_balance_request(request)
+                res = get_balance_request(request)
             else:
                 if request.session.get('get_balance_session'):
                     if request.session['get_balance_session']['result'].get('error_code') == 0:
