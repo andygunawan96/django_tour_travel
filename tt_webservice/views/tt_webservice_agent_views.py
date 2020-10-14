@@ -561,6 +561,65 @@ def get_new_cache(signature):
         res_cache_ppob = util.send_request(url=url + 'booking/ppob', data=data, headers=headers, method='POST',
                                            timeout=120)
 
+        #banner
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_banner",
+            "signature": signature,
+        }
+        data = {
+            'type': 'big_banner'
+        }
+        res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            try:
+                file = open(var_log_path() + "big_banner_cache" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+                _logger.info("big_banner RENEW SUCCESS SIGNATURE " + signature)
+            except Exception as e:
+                _logger.error(
+                    'ERROR big banner file \n' + str(e) + '\n' + traceback.format_exc())
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_banner",
+            "signature": signature,
+        }
+        data = {
+            'type': 'small_banner'
+        }
+        res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            try:
+                file = open(var_log_path() + "small_banner_cache" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+                _logger.info("small_banner RENEW SUCCESS SIGNATURE " + signature)
+            except Exception as e:
+                _logger.error(
+                    'ERROR small banner file \n' + str(e) + '\n' + traceback.format_exc())
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_banner",
+            "signature": signature,
+        }
+        data = {
+            'type': 'promotion'
+        }
+        res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+        if res['result']['error_code'] == 0:
+            try:
+                file = open(var_log_path() + "promotion_banner_cache" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+                _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + signature)
+            except Exception as e:
+                _logger.error(
+                    'ERROR promotion banner file \n' + str(e) + '\n' + traceback.format_exc())
+
         # check sebelum masukkan ke cache
         try:
             if res_country_airline['result']['error_code'] == 0:

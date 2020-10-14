@@ -98,8 +98,6 @@ airline = provider_airline(datetime.now())
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
-        _logger.info(msg=req_data['action'])
-        print(req_data['action'])
         if req_data['action'] == 'signin':
             res = login(request)
         elif req_data['action'] == 'get_data':

@@ -64,6 +64,37 @@ data_bca = {
     'api_secret': 'aa7d2816-32a1-4779-beb2-4a04fa063cd4'
 }
 
+class provider_time:
+    def __init__(self, name):
+        self.get_time_holiday = name
+        self.get_time_holiday_first_time = True
+        self.get_time_banner_small = name
+        self.get_time_banner_small_first_time = True
+        self.get_time_banner_big = name
+        self.get_time_banner_big_first_time = True
+        self.get_time_banner_promotion = name
+        self.get_time_banner_promotion_first_time = True
+    def set_new_time_out(self, val):
+        if val == 'holiday':
+            self.get_time_holiday = datetime.now()
+        elif val == 'big_banner':
+            self.get_time_banner_big = datetime.now()
+        elif val == 'small_banner':
+            self.get_time_banner_small = datetime.now()
+        elif val == 'promotion_banner':
+            self.get_time_banner_promotion = datetime.now()
+    def set_first_time(self,val):
+        if val == 'holiday':
+            self.get_time_holiday_first_time = False
+        elif val == 'big_banner':
+            self.get_time_banner_big_first_time = False
+        elif val == 'small_banner':
+            self.get_time_banner_small_first_time = False
+        elif val == 'promotion_banner':
+            self.get_time_banner_promotion_first_time = False
+
+provider_time_obj = provider_time(datetime.now())
+
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -275,20 +306,84 @@ def get_banner(request):
         }
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    date_time = datetime.now()
+    if request.POST['type'] == 'big_banner':
+        date_time -= provider_time_obj.get_time_banner_big
+        first = provider_time_obj.get_time_banner_big_first_time
+    elif request.POST['type'] == 'small_banner':
+        date_time -= provider_time_obj.get_time_banner_small
+        first = provider_time_obj.get_time_banner_small_first_time
+    elif request.POST['type'] == 'promotion':
+        date_time -= provider_time_obj.get_time_banner_promotion
+        first = provider_time_obj.get_time_banner_promotion_first_time
+    if date_time.seconds >= 300 or first == True:
+        res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
+        try:
+            if res['result']['error_code'] == 0:
+                if request.POST['type'] == 'big_banner':
+                    try:
+                        file = open(var_log_path() + "big_banner_cache" + ".txt", "w+")
+                        file.write(json.dumps(res))
+                        file.close()
+                        _logger.info("big_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                        provider_time_obj.set_new_time_out('big_banner')
+                        provider_time_obj.set_first_time('big_banner')
+                    except Exception as e:
+                        _logger.error(
+                            'ERROR big banner file \n' + str(e) + '\n' + traceback.format_exc())
+                elif request.POST['type'] == 'small_banner':
+                    try:
+                        file = open(var_log_path() + "small_banner_cache" + ".txt", "w+")
+                        file.write(json.dumps(res))
+                        file.close()
+                        _logger.info("small_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                        provider_time_obj.set_new_time_out('small_banner')
+                        provider_time_obj.set_first_time('small_banner')
+                    except Exception as e:
+                        _logger.error(
+                            'ERROR small banner file \n' + str(e) + '\n' + traceback.format_exc())
+                elif request.POST['type'] == 'promotion':
+                    try:
+                        file = open(var_log_path() + "promotion_banner_cache" + ".txt", "w+")
+                        file.write(json.dumps(res))
+                        file.close()
+                        _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                        provider_time_obj.set_new_time_out('promotion_banner')
+                        provider_time_obj.set_first_time('promotion_banner')
+                    except Exception as e:
+                        _logger.error(
+                            'ERROR promotion banner file \n' + str(e) + '\n' + traceback.format_exc())
+                _logger.info("SUCCESS get_banner_content SIGNATURE " + request.POST['signature'])
+            else:
+                _logger.error("ERROR get_banner_content SIGNATURE " + request.POST['signature'])
 
-    res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
-    try:
-        if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS get_banner_content SIGNATURE " + request.POST['signature'])
-        else:
-            _logger.error("ERROR get_banner_content SIGNATURE " + request.POST['signature'])
-        # request.session['signature'] = res['result']['response']['signature']
-        # if func == 'get_config':
-        #     get_config(request)
-        # elif func == 'register':
-        #     register(request)
-    except Exception as e:
-        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+        except Exception as e:
+            _logger.error(msg=str(e) + '\n' + traceback.format_exc())
+    else:
+        if request.POST['type'] == 'big_banner':
+            try:
+                file = open(var_log_path() + "big_banner_cache.txt", "r")
+                for line in file:
+                    res = json.loads(line)
+                file.close()
+            except Exception as e:
+                _logger.error('ERROR big_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
+        elif request.POST['type'] == 'small_banner':
+            try:
+                file = open(var_log_path() + "small_banner_cache.txt", "r")
+                for line in file:
+                    res = json.loads(line)
+                file.close()
+            except Exception as e:
+                _logger.error('ERROR small_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
+        elif request.POST['type'] == 'promotion':
+            try:
+                file = open(var_log_path() + "promotion_banner_cache.txt", "r")
+                for line in file:
+                    res = json.loads(line)
+                file.close()
+            except Exception as e:
+                _logger.error('ERROR promotion_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 
@@ -381,7 +476,26 @@ def get_public_holiday(request):
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }
-        res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+        date_time = datetime.now() - provider_time_obj.get_time_holiday
+        if date_time.seconds >= 300 or provider_time_obj.get_time_holiday_first_time == True:
+            res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
+            try:
+                file = open(var_log_path() + "get_holiday_cache" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+                _logger.info("get_public_holiday RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+                provider_time_obj.set_new_time_out('holiday')
+                provider_time_obj.set_first_time('holiday')
+            except Exception as e:
+                _logger.error('ERROR get_public_holiday file \n' + str(e) + '\n' + traceback.format_exc())
+        else:
+            try:
+                file = open(var_log_path() + "get_holiday_cache.txt", "r")
+                for line in file:
+                    res = json.loads(line)
+                file.close()
+            except Exception as e:
+                _logger.error('ERROR get_holiday_cache file\n' + str(e) + '\n' + traceback.format_exc())
     except Exception as e:
         res = {
             'result': {
