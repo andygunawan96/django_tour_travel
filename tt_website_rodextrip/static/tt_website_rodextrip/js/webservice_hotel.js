@@ -1420,15 +1420,7 @@ function hotel_get_booking(data){
                                     }
                                     $text += currency+` `+getrupiah(parseInt(total_price_provider[i].price.FARE + total_price_provider[i].price.TAX + total_price_provider[i].price.ROC))+'\n';
                                 }catch(err){}
-                                if(counter_service_charge == 0){
-                                    total_price += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
-                                    price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.CSC + price.SSR + price.DISC);
-                                }else{
-                                    total_price += parseFloat(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
-                                    price_provider += parseFloat(price.TAX + price.ROC + price.FARE + price.SSR + price.DISC);
-                                }
                                 commission += parseInt(price.RAC);
-                            price_provider = 0;
                             counter_service_charge++;
                         }catch(err){console.log(err);}
                     }
