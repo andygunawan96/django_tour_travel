@@ -56,6 +56,21 @@ cabin_class_list = {
     'First': 'F',
 }
 
+class provider_visa:
+    def __init__(self, name):
+        self.get_time_provider_visa = name
+        self.get_time_provider_visa_first_time = True
+    def set_new_time_out(self, val):
+        if val == 'provider':
+            self.get_time_provider_visa= datetime.now()
+
+    def set_first_time(self,val):
+        if val == 'provider':
+            self.get_time_provider_visa_first_time = False
+
+
+provider_visa_obj = provider_visa(datetime.now())
+
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -132,14 +147,36 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
-    try:
-        if res['result']['error_code'] == 0:
-            _logger.info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
-        else:
-            _logger.info("get_providers VISA ERROR SIGNATURE " + request.POST['signature'])
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
+    date_time = datetime.now() - provider_visa_obj.get_time_provider_visa
+    if date_time.seconds >= 300 or provider_visa_obj.get_time_provider_visa_first_time == True:
+        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        try:
+            if res['result']['error_code'] == 0:
+                file = open(var_log_path() + "visa_provider" + ".txt", "w+")
+                file.write(json.dumps(res))
+                file.close()
+                provider_visa_obj.set_new_time_out('provider')
+                provider_visa_obj.set_first_time('provider')
+                _logger.info("get_providers VISA RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            else:
+                try:
+                    file = open(var_log_path()+"visa_provider.txt", "r")
+                    for line in file:
+                        res = json.loads(line)
+                    file.close()
+                    _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    _logger.info("get_provider_list VISA ERROR SIGNATURE " + request.POST['signature'])
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            file = open(var_log_path()+"visa_provider.txt", "r")
+            for line in file:
+                res = json.loads(line)
+            file.close()
+        except Exception as e:
+            _logger.error('ERROR get_provider_list visa file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_config(request):
