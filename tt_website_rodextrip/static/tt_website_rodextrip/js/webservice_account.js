@@ -38,81 +38,51 @@ function signin_rodextrip(type){
 
 function get_balance(val){
     using_cache = '';
-    if(val != undefined)
-        using_cache = val;
-    if(typeof signature !== 'undefined'){
-        $.ajax({
-           type: "POST",
-           url: "/webservice/account",
-           headers:{
-                'action': 'get_balance',
-           },
-           data: {
-                'signature': signature,
-                'using_cache': using_cache
-           },
-           success: function(msg) {
-            console.log(msg);
-            time = 300;
-            if(msg.result.error_code == 0){
-                balance = parseInt(msg.result.response.balance);
-                credit_limit = parseInt(msg.result.response.credit_limit);
-                text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
-                try{
-                    document.getElementById("balance").innerHTML = text;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
+        if(val != undefined)
+            using_cache = val;
+        if(typeof signature !== 'undefined'){
+            $.ajax({
+               type: "POST",
+               url: "/webservice/account",
+               headers:{
+                    'action': 'get_balance',
+               },
+               data: {
+                    'signature': signature,
+                    'using_cache': using_cache
+               },
+               success: function(msg) {
+                console.log(msg);
+                time = 300;
+                if(msg.result.error_code == 0){
+                    balance = parseInt(msg.result.response.balance);
+                    credit_limit = parseInt(msg.result.response.credit_limit);
+                    text = `Balance: `+msg.result.response.currency_code + ' ' + getrupiah(balance)+``;
                     try{
-                        document.getElementById("balance_mob").innerHTML = text;
+                        document.getElementById("balance").innerHTML = text;
+                        try{
+                            document.getElementById("balance_mob").innerHTML = text;
+                        }catch(err){}
+                        try{
+                            document.getElementById("balance_search").innerHTML = text;
+                        }catch(err){}
                     }catch(err){}
+                    text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
                     try{
-                        document.getElementById("balance_search").innerHTML = text;
+                        document.getElementById("credit_limit").innerHTML = text;
+                        try{
+                            document.getElementById("credit_mob").innerHTML = text;
+                        }catch(err){}
+                        try{
+                            document.getElementById("credit_search").innerHTML = text;
+                        }catch(err){}
                     }catch(err){}
-                }catch(err){}
-                text = `Credit Limit: `+msg.result.response.currency_code+ ' ' + getrupiah(credit_limit)+``;
-                try{
-                    document.getElementById("credit_limit").innerHTML = text;
-                    try{
-                        document.getElementById("credit_mob").innerHTML = text;
-                    }catch(err){}
-                    try{
-                        document.getElementById("credit_search").innerHTML = text;
-                    }catch(err){}
-                }catch(err){}
-                //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
-            }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
-                auto_logout();
-            }else{
-              text = `Balance: Timeout`;
-              try{
-                document.getElementById("balance").innerHTML = text;
-                try{
-                    document.getElementById("balance_mob").innerHTML = text;
-                }catch(err){}
-                try{
-                    document.getElementById("balance_search").innerHTML = text;
-                }catch(err){}
-              }catch(err){}
-              text = `Credit Limit: Timeout`;
-              try{
-                document.getElementById("credit_limit").innerHTML = text;
-                try{
-                    document.getElementById("credit_mob").innerHTML = text;
-                }catch(err){}
-                try{
-                    document.getElementById("credit_search").innerHTML = text;
-                }catch(err){}
-              }catch(err){}
-              Swal.fire({
-                  type: 'error',
-                  title: 'Oops!',
-                  html: '<span style="color: #ff9900;">Error get balance </span>' + msg.result.error_msg,
-              })
-            }
-            get_transactions_notification(val);
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-              if(XMLHttpRequest.status == 500){
-                  auto_logout();
-                  text = `Balance: Failed`;
+                    //document.getElementById('balance').value = msg.result.response.balance + msg.result.response.credit_limit;
+                }else if(msg.result.error_code == 4003 || msg.result.error_code == 4002){
+                    auto_logout();
+                }else{
+                  text = `Balance: Timeout`;
                   try{
                     document.getElementById("balance").innerHTML = text;
                     try{
@@ -122,7 +92,7 @@ function get_balance(val){
                         document.getElementById("balance_search").innerHTML = text;
                     }catch(err){}
                   }catch(err){}
-                  text = `Credit Limit: Failed`;
+                  text = `Credit Limit: Timeout`;
                   try{
                     document.getElementById("credit_limit").innerHTML = text;
                     try{
@@ -132,11 +102,43 @@ function get_balance(val){
                         document.getElementById("credit_search").innerHTML = text;
                     }catch(err){}
                   }catch(err){}
-              }
-           },timeout: 60000
-        });
-    }else{
+                  Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: #ff9900;">Error get balance </span>' + msg.result.error_msg,
+                  })
+                }
+                get_transactions_notification(val);
+               },
+               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                  if(XMLHttpRequest.status == 500){
+                      auto_logout();
+                      text = `Balance: Failed`;
+                      try{
+                        document.getElementById("balance").innerHTML = text;
+                        try{
+                            document.getElementById("balance_mob").innerHTML = text;
+                        }catch(err){}
+                        try{
+                            document.getElementById("balance_search").innerHTML = text;
+                        }catch(err){}
+                      }catch(err){}
+                      text = `Credit Limit: Failed`;
+                      try{
+                        document.getElementById("credit_limit").innerHTML = text;
+                        try{
+                            document.getElementById("credit_mob").innerHTML = text;
+                        }catch(err){}
+                        try{
+                            document.getElementById("credit_search").innerHTML = text;
+                        }catch(err){}
+                      }catch(err){}
+                  }
+               },timeout: 60000
+            });
+        }else{
 
+        }
     }
 }
 
