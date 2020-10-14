@@ -4074,7 +4074,7 @@ function check_passenger(adult, child, infant){
                 if(document.getElementById('adult_ff_request'+i+'_'+j).value != '' && document.getElementById('adult_ff_request'+i+'_'+j).value != 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value == ''){
                     error_log+= 'Please fill Frequent Flyer Number '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_number'+i+'_'+j).style['border-color'] = 'red';
-                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && && document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
+                }else if(document.getElementById('adult_ff_request'+i+'_'+j).value == '' && document.getElementById('adult_ff_request'+i+'_'+j).value == 'Frequent Flyer Program' && document.getElementById('adult_ff_number'+i+'_'+j).value != ''){
                     error_log+= 'Please fill Frequent Flyer Program '+j+' for passenger adult '+i+'!</br>\n';
                     document.getElementById('adult_ff_request'+i+'_'+j).style['border-color'] = 'red';
                 }else{
