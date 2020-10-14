@@ -16,10 +16,7 @@
     signature = '{{signature}}';
     dest_country = {{dest_country}};
     dest_city = {{dest_city}};
-    tour_id = '{{response.id}}';
-    tour_code = '{{response.tour_code}}';
-    tour_provider = '{{response.provider}}';
-    tour_fare_code = '{{response.provider_fare_code}}';
+    tour_code = '{{tour_code}}';
 
     time_limit = {{time_limit}};
     session_time_limit();
@@ -43,7 +40,7 @@
 {% include 'tt_website_rodextrip/header.html' %}
 <div id="overlay-search-box" onclick="off_overlay()" style="z-index:90;"></div>
 
-<title id="title_search">{{name}} {% trans 'Tour' %} - {% trans 'Detail' %} {{response.name}}</title>
+<title id="title_search">{{name}} {% trans 'Tour' %} {% trans 'Detail' %} - </title>
 
 {% if username.co_user_login != 'agent_b2c' %}
 <section id="info_user_search" style="position: fixed; z-index:1050; width: 300px; top:0px; right:15px;" hidden>
@@ -793,7 +790,7 @@
                             </div>
                             <div class="col-lg-8 col-md-8">
                                 <div id="country_list_tour">
-                                    <span style="font-size:22px; font-weight:bold; color:black;">{{response.name}}</span>
+                                    <span id="main_tour_name" style="font-size:22px; font-weight:bold; color:black;"></span>
 
                                 </div>
                                 <div id="print_doc_btn_div" style="margin-top: 15px;">
@@ -809,11 +806,9 @@
                             <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
                                 <a class="tab-menu-activity active" data-toggle="tab" href="#itinerary"><i class="fa fa-list-ul" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> {% trans 'Itinerary' %}</span></a>
                             </li>
-                            {% if response.flight == 'include'%}
                             <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
                                 <a class="tab-menu-activity" data-toggle="tab" href="#flight_details"><i class="fa fa-plane" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> {% trans 'Flight Details' %}</span></a>
                             </li>
-                            {% endif %}
                             <li class="li-activity" style="display: inline-block !important; width: 135px; text-align: center; margin: 0px -2px 0px 0px !important;">
                                 <a class="tab-menu-activity" data-toggle="tab" href="#other_info"><i class="fa fa-info-circle" aria-hidden="true" title="details" style="font-size: 18px;"></i><span class="hidden-xs"> {% trans 'Tour Info' %}</span></a>
                             </li>
@@ -822,11 +817,9 @@
                             <div id="itinerary" class="tab-pane fade in active show">
 
                             </div>
-                            {% if response.flight == 'include'%}
                             <div id="flight_details" class="tab-pane fade" style="overflow: scroll;">
 
                             </div>
-                            {% endif %}
                             <div id="other_info" class="tab-pane fade">
 
                             </div>
@@ -835,9 +828,7 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
                             <ul class="tabs" style="background:white;">
                                 <li class="tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                {% if response.flight == 'include'%}
                                 <li class="tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                {% endif %}
                                 <li class="tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
                             </ul>
                         </div>
@@ -847,13 +838,11 @@
 
                                 </div>
                             </div>
-                            {% if response.flight == 'include'%}
                             <div id="tab-flight" class="tab-content">
                                 <div id="flight_details" style="overflow: scroll;">
 
                                 </div>
                             </div>
-                            {% endif %}
                             <div id="tab-other" class="tab-content">
                                 <div id="other_info">
 
@@ -864,9 +853,7 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
                             <ul class="create_tabs" style="background:white;">
                                 <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                {% if response.flight == 'include'%}
                                 <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                {% endif %}
                                 <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
                             </ul>
                         </div>
@@ -876,13 +863,11 @@
 
                                 </div>
                             </div>
-                            {% if response.flight == 'include'%}
                             <div id="tab-flight" class="create_tab-content">
                                 <div id="flight_details" style="overflow: scroll;">
 
                                 </div>
                             </div>
-                            {% endif %}
                             <div id="tab-other" class="create_tab-content">
                                 <div id="other_info">
 
@@ -893,9 +878,7 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
                             <ul class="create_tabs" style="background:white;">
                                 <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                {% if response.flight == 'include'%}
                                 <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                {% endif %}
                                 <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
                             </ul>
                         </div>
@@ -905,13 +888,11 @@
 
                                 </div>
                             </div>
-                            {% if response.flight == 'include'%}
                             <div id="tab-flight" class="create_tab-content">
                                 <div id="flight_details" style="overflow: scroll;">
 
                                 </div>
                             </div>
-                            {% endif %}
                             <div id="tab-other" class="create_tab-content">
                                 <div id="other_info">
 
@@ -922,9 +903,7 @@
                         <div class="style-scrollbar" style="overflow:auto; white-space:nowrap; background: white;">
                             <ul class="create_tabs" style="background:white;">
                                 <li class="create_tab-link current" data-tab="tab-itinerary"><label>{% trans 'Itinerary' %}</label></li>
-                                {% if response.flight == 'include'%}
                                 <li class="create_tab-link" data-tab="tab-flight"><label>{% trans 'Flight Details' %}</label></li>
-                                {% endif %}
                                 <li class="create_tab-link" data-tab="tab-other"><label>{% trans 'Tour Info' %}</label></li>
                             </ul>
                         </div>
@@ -934,13 +913,11 @@
 
                                 </div>
                             </div>
-                            {% if response.flight == 'include'%}
                             <div id="tab-flight" class="create_tab-content">
                                 <div id="flight_details" style="overflow: scroll;">
 
                                 </div>
                             </div>
-                            {% endif %}
                             <div id="tab-other" class="create_tab-content">
                                 <div id="other_info">
 
@@ -981,8 +958,8 @@
                                         <div style="background-color:white; padding:10px; border:1px solid #cdcdcd;" id="tour_detail">
                                             <h4> {% trans 'Price Detail' %} </h4>
                                             <hr/>
-                                            <span id="product_title" style="font-weight: bold;">{{response.name}}</span>
-                                            <br/><span id="product_date" style="font-size:13px; font-weight:500;">{{response.departure_date_str}} - {{response.arrival_date_str}}</span>
+                                            <span id="product_title" style="font-weight: bold;"></span>
+                                            <br/><span id="product_date" style="font-size:13px; font-weight:500;"></span>
                                             <br/><br/>
                                             <div id="loading-price-tour" style="margin-bottom:20px;">
                                                 <div class="col-lg-12">
@@ -1033,7 +1010,7 @@
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">{% trans 'Room Available' %} Available</h5>
+                            <h5 class="modal-title">{% trans 'Room Available' %}</h5>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -1111,8 +1088,15 @@
                 $("#tour_query").trigger("blur");
             }
         });
-        // tour_get_details(tour_code);
-        tour_get_details(tour_code, tour_provider);
+
+        if (signature != '')
+        {
+            tour_get_details(tour_code);
+        }
+        else
+        {
+            tour_login(tour_code, 'get_details');
+        }
 
         $('#product-tour').click(function(e){
             $('html, body').animate({

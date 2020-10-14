@@ -242,7 +242,6 @@ def search(request):
             data_tour.append(i)
             counter += 1
 
-        request.session['tour_search'] = data_tour
         set_session(request, 'tour_search', data_tour)
         _logger.info(json.dumps(request.session['tour_search']))
     except Exception as e:
@@ -255,8 +254,6 @@ def get_details(request):
     try:
         data = {
             'tour_code': request.POST['tour_code'],
-            'provider': request.POST['provider'],
-            'fare_code': request.POST['fare_code']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -279,6 +276,7 @@ def get_details(request):
             res['result']['response']['selected_tour']['arrival_date'].split('-')[0])
         res['result']['response']['selected_tour']['departure_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['selected_tour']['departure_date'])
         res['result']['response']['selected_tour']['arrival_date_f'] = convert_string_to_date_to_string_front_end_with_date(res['result']['response']['selected_tour']['arrival_date'])
+        set_session(request, 'tour_pick', res['result']['response']['selected_tour'])
     except Exception as e:
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     return res
@@ -288,7 +286,6 @@ def get_pricing(request):
     try:
         data = {
             'provider': request.session['tour_pick']['provider'],
-            "fare_code": request.session['tour_pick']['provider_fare_code'],
             'req': json.loads(request.POST['req']),
         }
         headers = {
@@ -372,7 +369,6 @@ def sell_tour(request):
         "child": request.session['tour_booking_data']['child'],
         "infant": request.session['tour_booking_data']['infant'],
         'provider': request.session['tour_pick']['provider'],
-        "fare_code": request.session['tour_pick']['provider_fare_code'],
     }
     headers = {
         "Accept": "application/json,text/html,application/xml",
@@ -692,7 +688,6 @@ def issued_booking(request):
 def get_payment_rules(request):
     data = {
         'provider': request.session['tour_pick']['provider'],
-        "fare_code": request.session['tour_pick']['provider_fare_code'],
         'tour_code': request.POST['tour_code']
     }
     headers = {

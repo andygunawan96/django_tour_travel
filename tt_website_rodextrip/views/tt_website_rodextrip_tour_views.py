@@ -169,76 +169,86 @@ def search(request):
         return no_session_logout(request)
 
 
-def detail(request):
-    if 'user_account' in request.session._session:
+def detail(request, tour_code):
+    try:
+        javascript_version = get_javascript_version()
+        cache_version = get_cache_version()
+        values = get_data_template(request, 'search')
+        if 'user_account' not in request.session:
+            signin_btc(request)
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
+        response = get_cache_data(cache_version)
+        airline_country = response['result']['response']['airline']['country']
+        phone_code = []
+        for i in airline_country:
+            if i['phone_code'] not in phone_code:
+                phone_code.append(i['phone_code'])
+        phone_code = sorted(phone_code)
+
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
+
         try:
-            javascript_version = get_javascript_version()
-            cache_version = get_cache_version()
-            response = get_cache_data(cache_version)
-            airline_country = response['result']['response']['airline']['country']
-            phone_code = []
-            for i in airline_country:
-                if i['phone_code'] not in phone_code:
-                    phone_code.append(i['phone_code'])
-            phone_code = sorted(phone_code)
-
-            values = get_data_template(request, 'search')
-
-            if translation.LANGUAGE_SESSION_KEY in request.session:
-                del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
-
-            try:
-                set_session(request, 'time_limit', int(request.POST['time_limit_input']))
-                set_session(request, 'tour_pick', json.loads(request.POST['tour_pick']))
-                request.session['tour_pick'].update({
-                    'departure_date_f': str(request.session['tour_search'][int(request.POST['sequence'])]['departure_date_f'])
-                })
-            except:
+            set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+        except:
+            if request.session.get('time_limit'):
                 set_session(request, 'time_limit', request.session['time_limit'])
-                set_session(request, 'tour_pick', request.session['tour_pick'])
+            else:
+                set_session(request, 'time_limit', 1200)
 
-            dest_month_data = [
-                {'value': '00', 'string': 'All Months'},
-                {'value': '01', 'string': 'January'},
-                {'value': '02', 'string': 'February'},
-                {'value': '03', 'string': 'March'},
-                {'value': '04', 'string': 'April'},
-                {'value': '05', 'string': 'May'},
-                {'value': '06', 'string': 'June'},
-                {'value': '07', 'string': 'July'},
-                {'value': '08', 'string': 'August'},
-                {'value': '09', 'string': 'September'},
-                {'value': '10', 'string': 'October'},
-                {'value': '11', 'string': 'November'},
-                {'value': '12', 'string': 'December'},
-            ]
+        dest_month_data = [
+            {'value': '00', 'string': 'All Months'},
+            {'value': '01', 'string': 'January'},
+            {'value': '02', 'string': 'February'},
+            {'value': '03', 'string': 'March'},
+            {'value': '04', 'string': 'April'},
+            {'value': '05', 'string': 'May'},
+            {'value': '06', 'string': 'June'},
+            {'value': '07', 'string': 'July'},
+            {'value': '08', 'string': 'August'},
+            {'value': '09', 'string': 'September'},
+            {'value': '10', 'string': 'October'},
+            {'value': '11', 'string': 'November'},
+            {'value': '12', 'string': 'December'},
+        ]
 
-            values.update({
-                'static_path': path_util.get_static_path(MODEL_NAME),
-                # 'response': request.session['tour_search'][int(request.POST['sequence'])],
-                'response': request.session['tour_pick'],
-                'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
-                'countries': airline_country,
-                'phone_code': phone_code,
-                'query': request.session['tour_request']['tour_query'],
-                'dest_country': request.session['tour_request']['country_id'],
-                'dest_city': request.session['tour_request']['city_id'],
-                'dest_year': request.session['tour_request']['year'],
-                'dest_month': request.session['tour_request']['month'],
-                'dest_month_data': dest_month_data,
-                'username': request.session['user_account'],
-                'javascript_version': javascript_version,
-                'signature': request.session['tour_signature'],
-                'time_limit': request.session['time_limit'],
-                'static_path_url_server': get_url_static_path(),
+        if not request.session.get('tour_request'):
+            set_session(request, 'tour_request', {
+                'tour_query': '',
+                'country_id': 0,
+                'city_id': 0,
+                'month': '00',
+                'year': '0000',
+                'limit': 25,
+                'offset': 0,
             })
-        except Exception as e:
-            _logger.error(str(e) + '\n' + traceback.format_exc())
-            raise Exception('Make response code 500!')
 
-        return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
-    else:
-        return no_session_logout(request)
+        values.update({
+            'static_path': path_util.get_static_path(MODEL_NAME),
+            # 'response': request.session['tour_search'][int(request.POST['sequence'])],
+            # 'response': request.session['tour_pick'],
+            'titles': ['MR', 'MRS', 'MS', 'MSTR', 'MISS'],
+            'countries': airline_country,
+            'phone_code': phone_code,
+            'tour_code': tour_code,
+            'query': request.session['tour_request']['tour_query'],
+            'dest_country': request.session['tour_request']['country_id'],
+            'dest_city': request.session['tour_request']['city_id'],
+            'dest_year': request.session['tour_request']['year'],
+            'dest_month': request.session['tour_request']['month'],
+            'dest_month_data': dest_month_data,
+            'username': request.session['user_account'],
+            'javascript_version': javascript_version,
+            'signature': request.session.get('tour_signature') and request.session['tour_signature'] or '',
+            'time_limit': request.session.get('time_limit') and request.session['time_limit'] or 1200,
+            'static_path_url_server': get_url_static_path(),
+        })
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+        raise Exception('Make response code 500!')
+
+    return render(request, MODEL_NAME+'/tour/tour_detail_templates.html', values)
 
 
 def passenger(request):

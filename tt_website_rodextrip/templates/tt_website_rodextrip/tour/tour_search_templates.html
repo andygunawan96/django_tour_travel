@@ -864,8 +864,8 @@
                 pick = JSON.stringify(tour_data[i]).replace(/'/g,'');
                 document.getElementById(`csrf`+i).innerHTML = `{% csrf_token %}`;
                 document.getElementById(`csrf`+i).innerHTML += `<input type='hidden' value='`+pick+`' name='tour_pick'/>`;
-                document.getElementById('myForm'+i).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
-                document.getElementById('myForm'+i).submit();
+                document.getElementById('tour_select_form'+i).innerHTML += `<input type='hidden' value='`+time_limit+`' name='time_limit_input'/>`;
+                document.getElementById('tour_select_form'+i).submit();
             }
         }
     }
