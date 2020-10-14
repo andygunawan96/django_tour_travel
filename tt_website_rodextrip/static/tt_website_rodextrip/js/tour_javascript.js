@@ -312,7 +312,6 @@ function add_tour_room(key_accomodation){
 }
 
 function render_room_tour_field(idx, room_data, key_accomodation) {
-    var package_id = tour_id;
     var room_lib = {
         'double': 'Double/Twin',
         'triple': 'Triple'
@@ -1850,7 +1849,6 @@ function tour_table_detail()
         room_ids_list = [];
         $('#btnDeleteRooms').removeClass("hide");
         $('#total-price-container').removeClass("hide");
-        var package_id = tour_id;
         for (i=0; i < room_amount; i++)
         {
             temp_room_id = {

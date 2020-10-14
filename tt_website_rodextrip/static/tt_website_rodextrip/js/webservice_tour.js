@@ -4,7 +4,7 @@ high_price_slider = 0;
 low_price_slider = 99999999;
 step_slider = 0;
 
-function tour_login(data){
+function tour_login(data, type=''){
     //document.getElementById('activity_category').value.split(' - ')[1]
     getToken();
     $.ajax({
@@ -19,10 +19,12 @@ function tour_login(data){
        success: function(msg) {
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
-               if(data == ''){
+               if(type == '' || data == ''){
                    tour_search();
-               }else if(data != ''){
+               }else if(type == 'get_booking'){
                    tour_get_booking(data);
+               }else if(type == 'get_details'){
+                   tour_get_details(data);
                }
            }else{
                Swal.fire({
@@ -234,7 +236,7 @@ function tour_search(){
                    text+=`
 
                    <div class="col-lg-4 col-md-6">
-                        <form action='/tour/detail' method='POST' id='myForm`+tour_data[i].sequence+`'>
+                        <form action='/tour/detail/`+tour_data[i].tour_code+`' method='POST' id='tour_select_form`+tour_data[i].sequence+`'>
                             <div id='csrf`+tour_data[i].sequence+`'></div>
                             <input type='hidden' value='`+JSON.stringify(tour_data[i]).replace(/[']/g, /["]/g)+`'/>
                             <input id='uuid`+tour_data[i].sequence+`' name='uuid' type='hidden' value='`+tour_data[i].id+`'/>
@@ -602,7 +604,7 @@ function tour_search(){
     });
 }
 
-function tour_get_details(tour_code, tour_provider){
+function tour_get_details(tour_code){
     getToken();
     $.ajax({
        type: "POST",
@@ -612,12 +614,11 @@ function tour_get_details(tour_code, tour_provider){
        },
        data: {
            'tour_code': tour_code,
-           'provider': tour_provider,
-           'fare_code': tour_fare_code,
            'signature': signature
        },
        success: function(msg) {
         console.log(msg);
+           var prod_date_text = '';
            var country_text = '';
            var print_doc_text = '';
            var image_text = '';
@@ -630,11 +631,10 @@ function tour_get_details(tour_code, tour_provider){
            var index = 0;
            var total_additional_price = 0;
            var total_additional_amount = 0;
-           var package_id = 0;
            data=[]
            if(msg.result.error_code == 0){
                tour_data = msg.result.response.selected_tour;
-                package_id = tour_data.id;
+                prod_date_text += tour_data.departure_date_str + ' - ' + tour_data.arrival_date_str;
                 country_text += `<br/><span style="font-weight: bold; color: black; font-size: 16px;"> <i class="fa fa-map-marker" aria-hidden="true"></i>`;
                 for (j in tour_data.country_names)
                 {
@@ -820,6 +820,10 @@ function tour_get_details(tour_code, tour_provider){
                 }
 
                document.getElementById('tour_data').value = JSON.stringify(tour_data).replace(/'/g,'');
+               document.getElementById('title_search').innerHTML += tour_data.name;
+               document.getElementById('main_tour_name').innerHTML += tour_data.name;
+               document.getElementById('product_title').innerHTML += tour_data.name;
+               document.getElementById('product_date').innerHTML += prod_date_text;
                document.getElementById('tour_carousel').innerHTML += image_text;
                document.getElementById('country_list_tour').innerHTML += country_text;
                document.getElementById('print_doc_btn_div').innerHTML += print_doc_text;
@@ -856,9 +860,20 @@ function tour_get_details(tour_code, tour_provider){
                         }
                     }
                 });
+               include_flight = 0;
                if (include_flight == 1)
                {
                    document.getElementById('flight_details').innerHTML += flight_details_text;
+               }
+               else
+               {
+                   document.getElementById('flight_details').innerHTML = `
+                        <div class="row" style="margin:0px;">
+                            <table class="table table-condensed" style="width:100%;">
+                                <tr><th>This tour does not include flights.</th></tr>
+                            </table>
+                        </div>
+                   `;
                }
            }else{
                 Swal.fire({
