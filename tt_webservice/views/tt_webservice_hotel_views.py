@@ -567,7 +567,6 @@ def get_booking(request):
 
     try:
         set_session(request, 'hotel_provision', res)
-        request.session['hotel_provision'] = res
         _logger.info(json.dumps(request.session['hotel_provision']))
         if res['result']['error_code'] == 0:
             res['result']['response'].update({
@@ -583,7 +582,7 @@ def get_booking(request):
                 pax.update({
                     'birth_date': convert_string_to_date_to_string_front_end(pax['birth_date'])
                 })
-            _logger.info("get_booking_hotel HOTEL SUCCESS SIGNATURE " + res['result']['response']['signature'])
+            _logger.info("get_booking_hotel HOTEL SUCCESS SIGNATURE " + request.POST['signature'])
         else:
             _logger.error("get_booking_hotel HOTEL ERROR SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
     except Exception as e:
