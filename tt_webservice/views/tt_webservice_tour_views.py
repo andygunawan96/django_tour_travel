@@ -286,7 +286,8 @@ def get_pricing(request):
     try:
         data = {
             'provider': request.session['tour_pick']['provider'],
-            'req': json.loads(request.POST['req']),
+            'tour_code': request.POST['tour_code'],
+            'room_list': json.loads(request.POST['room_list'])
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
