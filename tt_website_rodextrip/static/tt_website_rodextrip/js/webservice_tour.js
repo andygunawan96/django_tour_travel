@@ -2003,6 +2003,7 @@ function tour_get_booking(order_number)
 }
 
 function get_price_itinerary(request,type) {
+    dict_req = JSON.parse(request)
     $.ajax({
        type: "POST",
        url: "/webservice/tour",
@@ -2010,7 +2011,8 @@ function get_price_itinerary(request,type) {
             'action': 'get_pricing',
        },
        data: {
-           'req': request
+           'tour_code': dict_req.tour_code,
+           'room_list': JSON.stringify(dict_req.room_list)
        },
        success: function(msg) {
             console.log(msg);
