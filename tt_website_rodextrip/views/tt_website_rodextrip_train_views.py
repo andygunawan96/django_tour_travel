@@ -439,7 +439,7 @@ def seat_map(request):
             values.update({
                 'static_path': path_util.get_static_path(MODEL_NAME),
                 'paxs': request.session['train_passenger_request'],
-                'order_number': request.session['train_order_number'],
+                'order_number': request.POST['order_number'],
                 'username': request.session['user_account'],
                 'signature': request.session['train_signature'],
                 # 'co_uid': request.session['co_uid'],
