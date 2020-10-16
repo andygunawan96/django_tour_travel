@@ -1415,6 +1415,7 @@ function train_cancel_booking(){
             if(msg.result.error_code == 0){
                price_arr_repricing = {};
                pax_type_repricing = [];
+               train_get_booking(order_number);
                document.getElementById('show_loading_booking_train').hidden = true;
                document.getElementById('train_booking').innerHTML = '';
                document.getElementById('train_detail').innerHTML = '';
@@ -1423,12 +1424,12 @@ function train_cancel_booking(){
                document.getElementById('show_loading_booking_train').hidden = false;
                document.getElementById('payment_acq').hidden = true;
                document.getElementById("overlay-div-box").style.display = "none";
-               document.getElementById("issued_btn_train").style.display = "none";
                try{
                     document.getElementById('voucher_discount').style.display = 'none';
                }catch(err){}
-               train_get_booking(order_number);
-
+               try{
+                    document.getElementById("issued_btn_train").style.display = "none";
+               }catch(err){}
             }else{
                 Swal.fire({
                   type: 'error',
