@@ -1600,7 +1600,7 @@ function change_top_up_method(){
                     <!-- Modal content-->
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h4 class="modal-title" style="color:{{text_color}};">Term & Condition </h4>
+                            <h4 class="modal-title" style="color:`+text_color+`;">Term & Condition </h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
                         <div class="modal-body">
@@ -1609,6 +1609,7 @@ function change_top_up_method(){
                                     <h6>BANK TRANSFER / CASH</h6>
                                     <li>1. Before you click SUBMIT, please make sure you have inputted the correct amount of TOP UP. If there is a mismatch data, such as the transferred amount/bank account is different from the requested amount/bank account, so the TOP UP will be approved by tomorrow (D+1).<br></li>
                                     <li>2. Bank Transfer / CASH TOP UP can be used on Monday-Sunday: 8 AM - 8 PM (GMT +7)<br></li>
+                                    <li>3. Bank Transfer (BCA or Mandiri) auto validate in 15 minutes<br></li>
                                     <h6>National Holiday included</h6>
                                     <h6>For CASH you have to send money to RODEX HO (Jl. Raya Darmo 177 B Surabaya)</h6><br/>
                                     <h6>VIRTUAL ACCOUNT</h6>
