@@ -711,6 +711,7 @@ function train_get_booking(data){
                                     <input type="button" id="button-choose-print" class="primary-btn hold-seat-booking-train ld-ext-right" style="width:100%;color:`+text_color+`;" value="Seat Map" onclick="set_seat_map();"/>
                                     <input id='passenger_input' name="passenger_input" type="hidden"/>
                                     <input id='seat_map_request_input' name="seat_map_request_input" type="hidden"/>
+                                    <input id='order_number' name="order_number" value="`+msg.result.response.order_number+`" type="hidden"/>
                                 </form>`;
                             }else if(msg.result.response.state == 'issued'){
                                 text+=`
