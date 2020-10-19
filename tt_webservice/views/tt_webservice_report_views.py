@@ -16,9 +16,11 @@ import time
 def api_models(request):
     try:
         req_data = util.get_api_request_data(request)
-        if req_data['action'] == 'get_report':
+        if req_data['action'] == 'get_top_product_report':
             res = get_report(request)
-        elif req_data['action'] == 'update_chart_content':
+        elif req_data['action'] == 'get_report_alles':
+            res = get_report(request)
+        elif req_data['action'] == 'update_chart':
             res = update_report(request)
         elif req_data['action'] == 'get_total_rupiah':
             res = get_total_rupiah(request)
@@ -39,38 +41,16 @@ def get_report(request):
     }
 
     type = request.POST['type']
-    if type == 'default':
-        data = {
-            "end_date": datetime.strftime(datetime.now(), '%Y-%m-%d'),
-            "start_date": datetime.strftime(datetime.now() - timedelta(days=100), '%Y-%m-%d'),
-            'report_type': request.POST['report_of'],
-            'agent_seq_id': 'Ani',
-            'agent_type_seq_id': 'Budi'
-        }
-    elif type == 'days':
-        data = {
-            "end_date": datetime.strftime(datetime.now(), '%Y-%m-%d'),
-            "start_date": datetime.strftime(datetime.now() - timedelta(days=7), '%Y-%m-%d'),
-            'report_type': request.POST['report_of'],
-            'agent_seq_id': 'Ani',
-            'agent_type_seq_id': 'Budi'
-        }
-    elif type == 'month':
-        data = {
-            "end_date": datetime.strftime(datetime.now(), '%Y-%m-%d'),
-            "start_date": datetime.strftime(datetime.now() - timedelta(days=30), '%Y-%m-%d'),
-            'report_type': request.POST['report_of'],
-            'agent_seq_id': 'Ani',
-            'agent_type_seq_id': 'Budi'
-        }
-    elif type == 'quarter':
-        data = {
-            "end_date": datetime.strftime(datetime.now(), '%Y-%m-%d'),
-            "start_date": datetime.strftime(datetime.now() - timedelta(days=100), '%Y-%m-%d'),
-            'report_type': request.POST['report_of'],
-            'agent_seq_id': 'Ani',
-            'agent_type_seq_id': 'Budi'
-        }
+    start_date = datetime.strftime(datetime.now() - timedelta(days=30), '%Y-%m-%d')
+    end_date = datetime.strftime(datetime.now(), '%Y-%m-%d')
+    data = {
+        "end_date": end_date,
+        "start_date": start_date,
+        'report_type': request.POST['report_of'],
+        'agent_seq_id': 'Ani',
+        'agent_type_seq_id': 'Budi'
+    }
+
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=1000)
 
     report_type = request.POST['report_of']
@@ -91,15 +71,10 @@ def get_report(request):
     else:
         print("Hello")
 
-    # return_label = extract_data.keys()
-    # return_data = extract_data.items()
-
-    # to_return = {
-    #     'label': return_label,
-    #     'data': return_data,
-    # }
     to_return = {
-        'raw_data': res
+        'raw_data': res,
+        'start_date': start_date,
+        'end_date': end_date,
     }
 
     return to_return
@@ -108,18 +83,25 @@ def update_report(request):
     headers = {
         "Accept": "application/json,text/html,application/xml",
         "Content-Type": "application/json",
-        "action": "get_report",
+        "action": "get_report_json",
         "signature": request.POST['signature']
     }
 
     data = {
-        "start_time": "something",
-        "end_time": "something",
-        'type': ""
+        "start_date": request.POST['start_date'],
+        "end_date": request.POST['until_date'],
+        'report_type': request.POST['report_of'],
+        'agent_seq_id': 'Ani',
+        'agent_type_seq_id': 'Budi'
     }
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=120)
-    return res
+    to_return = {
+        'raw_data': res,
+        'start_date': request.POST['start_date'],
+        'end_date': request.POST['until_date'],
+    }
+    return to_return
 
 def get_total_rupiah(request):
     headers = {

@@ -41,7 +41,7 @@ def report_main(request):
     else:
         return no_session_logout(request)
 
-def report_view(request, type):
+def report_view(request):
     if 'user_account' in request.session._session:
         try:
             values = get_data_template(request)
@@ -53,8 +53,7 @@ def report_view(request, type):
                 'javascript_version': javascript_version,
                 'static_path_url_server': get_url_static_path(),
                 'signature': request.session['signature'],
-                'username': request.session['user_account'],
-                'type': type,
+                'username': request.session['user_account']
             })
         except Exception as e:
             _logger.error(str(e) + '\n' + traceback.format_exc())
