@@ -41,21 +41,6 @@ month = {
 
 }
 
-class provider_train:
-    def __init__(self, name):
-        self.get_time_provider_train = name
-        self.get_time_provider_train_first_time = True
-    def set_new_time_out(self, val):
-        if val == 'provider':
-            self.get_time_provider_train = datetime.now()
-
-    def set_first_time(self,val):
-        if val == 'provider':
-            self.get_time_provider_train_first_time = False
-
-
-provider_train_obj = provider_train(datetime.now())
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -135,23 +120,33 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - provider_train_obj.get_time_provider_train
-    if date_time.seconds >= 300 or provider_train_obj.get_time_provider_train_first_time == True:
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("train_provider")
+    if file:
+        res = json.loads(file)
+        try:
+            date_time -= parse_load_cache(res['result']['datetime'])
+        except:
+            pass
+    get = False
+    try:
+        if date_time.seconds >= 300:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                file = open(var_log_path() + "train_provider" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
-                provider_train_obj.set_new_time_out('provider')
-                provider_train_obj.set_first_time('provider')
+                #datetime
+                res['result']['datetime'] = parse_save_cache(datetime.now())
+                write_cache_with_folder(json.dumps(res), "train_provider")
                 _logger.info("get_providers TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = open(var_log_path()+"train_provider.txt", "r")
-                    for line in file:
-                        res = json.loads(line)
-                    file.close()
+                    file = read_cache_with_folder_path("train_provider")
+                    if file:
+                        res = json.loads(file)
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list TRAIN ERROR SIGNATURE " + request.POST['signature'])
@@ -160,20 +155,18 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open(var_log_path()+"train_provider.txt", "r")
-            for line in file:
-                res = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("train_provider")
+            if file:
+                res = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
     return res
 
 def get_data(request):
     try:
-        file = open(var_log_path()+"train_cache_data.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("train_cache_data")
+        if file:
+            response = json.loads(file)
 
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data TRAIN SIGNATURE " + request.POST['signature'])
@@ -186,10 +179,9 @@ def search(request):
     #train
     try:
         train_destinations = []
-        file = open(var_log_path() + "train_cache_data.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("train_cache_data")
+        if file:
+            response = json.loads(file)
         set_session(request, 'train_request', json.loads(request.POST['search_request']))
         for country in response:
             train_destinations.append({
@@ -390,10 +382,9 @@ def commit_booking(request):
 def get_booking(request):
     try:
         train_destinations = []
-        file = open(var_log_path() + "train_cache_data.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("train_cache_data")
+        if file:
+            response = json.loads(file)
         for country in response:
             train_destinations.append({
                 'code': country['code'],

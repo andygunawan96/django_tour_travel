@@ -200,13 +200,14 @@
                     <button class="primary-btn issued_booking_btn" type="button" style="width:100%; display:none;" onclick="focus_box('payment_acq');">
                          {% trans 'Issued Booking' %}
                     </button>
-                    {% endif %}
+
                     <div style="background-color:white; padding:10px; border:1px solid {{color}};margin-top:10px; position:relative;" id="payment_acq">
                         <button class="next-loading-booking primary-btn hold-seat-booking-train ld-ext-right" type="button" value="Hold Booking" onclick="after_sales_next_btn();" style="width:100%;">
                             Next
                             <div class="ld ld-ring ld-cycle"></div>
                         </button>
                     </div>
+                    {% endif %}
                     <textarea id="data_copy" name="data_copy" rows="4" hidden></textarea>
                 </div>
                 {% if airline_getbooking.state == 'booked' %}

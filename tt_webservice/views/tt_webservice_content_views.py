@@ -64,37 +64,6 @@ data_bca = {
     'api_secret': 'aa7d2816-32a1-4779-beb2-4a04fa063cd4'
 }
 
-class provider_time:
-    def __init__(self, name):
-        self.get_time_holiday = name
-        self.get_time_holiday_first_time = True
-        self.get_time_banner_small = name
-        self.get_time_banner_small_first_time = True
-        self.get_time_banner_big = name
-        self.get_time_banner_big_first_time = True
-        self.get_time_banner_promotion = name
-        self.get_time_banner_promotion_first_time = True
-    def set_new_time_out(self, val):
-        if val == 'holiday':
-            self.get_time_holiday = datetime.now()
-        elif val == 'big_banner':
-            self.get_time_banner_big = datetime.now()
-        elif val == 'small_banner':
-            self.get_time_banner_small = datetime.now()
-        elif val == 'promotion_banner':
-            self.get_time_banner_promotion = datetime.now()
-    def set_first_time(self,val):
-        if val == 'holiday':
-            self.get_time_holiday_first_time = False
-        elif val == 'big_banner':
-            self.get_time_banner_big_first_time = False
-        elif val == 'small_banner':
-            self.get_time_banner_small_first_time = False
-        elif val == 'promotion_banner':
-            self.get_time_banner_promotion_first_time = False
-
-provider_time_obj = provider_time(datetime.now())
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -308,48 +277,62 @@ def get_banner(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     date_time = datetime.now()
     if request.POST['type'] == 'big_banner':
-        date_time -= provider_time_obj.get_time_banner_big
-        first = provider_time_obj.get_time_banner_big_first_time
+        file = read_cache_with_folder_path("big_banner_cache")
+        if file:
+            res = json.loads(file)
+            try:
+                date_time -= parse_load_cache(res['result']['datetime'])
+            except:
+                pass
+
     elif request.POST['type'] == 'small_banner':
-        date_time -= provider_time_obj.get_time_banner_small
-        first = provider_time_obj.get_time_banner_small_first_time
+        file = read_cache_with_folder_path("small_banner_cache")
+        if file:
+            res = json.loads(file)
+            try:
+                date_time -= parse_load_cache(res['result']['datetime'])
+            except:
+                pass
     elif request.POST['type'] == 'promotion':
-        date_time -= provider_time_obj.get_time_banner_promotion
-        first = provider_time_obj.get_time_banner_promotion_first_time
-    if date_time.seconds >= 300 or first == True:
+        file = read_cache_with_folder_path("promotion_banner_cache")
+        if file:
+            res = json.loads(file)
+            try:
+                date_time -= parse_load_cache(res['result']['datetime'])
+            except:
+                pass
+    get = False
+    try:
+        if date_time.seconds >= 86400:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
+                res['result']['datetime'] = parse_save_cache(datetime.now())
                 if request.POST['type'] == 'big_banner':
                     try:
-                        file = open(var_log_path() + "big_banner_cache" + ".txt", "w+")
-                        file.write(json.dumps(res))
-                        file.close()
+                        #tambah datetime
+                        write_cache_with_folder(json.dumps(res), "big_banner_cache")
                         _logger.info("big_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
-                        provider_time_obj.set_new_time_out('big_banner')
-                        provider_time_obj.set_first_time('big_banner')
                     except Exception as e:
                         _logger.error(
                             'ERROR big banner file \n' + str(e) + '\n' + traceback.format_exc())
                 elif request.POST['type'] == 'small_banner':
                     try:
-                        file = open(var_log_path() + "small_banner_cache" + ".txt", "w+")
-                        file.write(json.dumps(res))
-                        file.close()
+                        #tambah datetime
+                        write_cache_with_folder(json.dumps(res), "small_banner_cache")
                         _logger.info("small_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
-                        provider_time_obj.set_new_time_out('small_banner')
-                        provider_time_obj.set_first_time('small_banner')
                     except Exception as e:
                         _logger.error(
                             'ERROR small banner file \n' + str(e) + '\n' + traceback.format_exc())
                 elif request.POST['type'] == 'promotion':
                     try:
-                        file = open(var_log_path() + "promotion_banner_cache" + ".txt", "w+")
-                        file.write(json.dumps(res))
-                        file.close()
+                        #tambah datetime
+                        write_cache_with_folder(json.dumps(res), "promotion_banner_cache")
                         _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
-                        provider_time_obj.set_new_time_out('promotion_banner')
-                        provider_time_obj.set_first_time('promotion_banner')
                     except Exception as e:
                         _logger.error(
                             'ERROR promotion banner file \n' + str(e) + '\n' + traceback.format_exc())
@@ -362,26 +345,23 @@ def get_banner(request):
     else:
         if request.POST['type'] == 'big_banner':
             try:
-                file = open(var_log_path() + "big_banner_cache.txt", "r")
-                for line in file:
-                    res = json.loads(line)
-                file.close()
+                file = read_cache_with_folder_path("big_banner_cache")
+                if file:
+                    res = json.loads(file)
             except Exception as e:
                 _logger.error('ERROR big_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
         elif request.POST['type'] == 'small_banner':
             try:
-                file = open(var_log_path() + "small_banner_cache.txt", "r")
-                for line in file:
-                    res = json.loads(line)
-                file.close()
+                file = read_cache_with_folder_path("small_banner_cache")
+                if file:
+                    res = json.loads(file)
             except Exception as e:
                 _logger.error('ERROR small_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
         elif request.POST['type'] == 'promotion':
             try:
-                file = open(var_log_path() + "promotion_banner_cache.txt", "r")
-                for line in file:
-                    res = json.loads(line)
-                file.close()
+                file = read_cache_with_folder_path("promotion_banner_cache")
+                if file:
+                    res = json.loads(file)
             except Exception as e:
                 _logger.error('ERROR promotion_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -476,24 +456,31 @@ def get_public_holiday(request):
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }
-        date_time = datetime.now() - provider_time_obj.get_time_holiday
-        if date_time.seconds >= 300 or provider_time_obj.get_time_holiday_first_time == True:
+        date_time = datetime.now()
+        file = read_cache_with_folder_path("get_holiday_cache")
+        if file:
+            res = json.loads(file)
+            date_time -= parse_load_cache(res['result']['datetime'])
+        get = False
+        try:
+            if date_time.seconds >= 86400:
+                get = True
+        except:
+            get = True
+        if get == True:
             res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
             try:
-                file = open(var_log_path() + "get_holiday_cache" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
+                #tambah datetime
+                res['result']['datetime'] = parse_save_cache(datetime.now())
+                write_cache_with_folder(json.dumps(res), "get_holiday_cache")
                 _logger.info("get_public_holiday RENEW SUCCESS SIGNATURE " + request.POST['signature'])
-                provider_time_obj.set_new_time_out('holiday')
-                provider_time_obj.set_first_time('holiday')
             except Exception as e:
                 _logger.error('ERROR get_public_holiday file \n' + str(e) + '\n' + traceback.format_exc())
         else:
             try:
-                file = open(var_log_path() + "get_holiday_cache.txt", "r")
-                for line in file:
-                    res = json.loads(line)
-                file.close()
+                file = read_cache_with_folder_path("get_holiday_cache")
+                if file:
+                    res = json.loads(file)
             except Exception as e:
                 _logger.error('ERROR get_holiday_cache file\n' + str(e) + '\n' + traceback.format_exc())
     except Exception as e:
@@ -513,30 +500,30 @@ def get_dynamic_page(request):
         if not os.path.exists("/var/log/django/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
         for data in os.listdir('/var/log/django/page_dynamic'):
-            file = open('/var/log/django/page_dynamic/' + data, "r")
-            state = ''
-            title = ''
-            body = ''
-            image_carousel = ''
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line.split('\n')[0] == 'false':
-                        state = False
-                    else:
-                        state = True
-                elif idx == 1:
-                    title = line.split('\n')[0]
-                elif idx == 2:
-                    body = json.loads(line.split('\n')[0])
-                elif idx == 3:
-                    image_carousel = line.split('\n')[0]
-            file.close()
-            response.append({
-                "state": bool(state),
-                "title": title,
-                "body": body,
-                "image_carousel": image_carousel
-            })
+            file = read_cache_without_folder_path("page_dynamic/"+data[:-4])
+            if file:
+                state = ''
+                title = ''
+                body = ''
+                image_carousel = ''
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 0:
+                        if line.split('\n')[0] == 'false':
+                            state = False
+                        else:
+                            state = True
+                    elif idx == 1:
+                        title = line.split('\n')[0]
+                    elif idx == 2:
+                        body = json.loads(line.split('\n')[0])
+                    elif idx == 3:
+                        image_carousel = line.split('\n')[0]
+                response.append({
+                    "state": bool(state),
+                    "title": title,
+                    "body": body,
+                    "image_carousel": image_carousel
+                })
         res = {
             'result': {
                 'error_code': 0,
@@ -559,30 +546,31 @@ def get_dynamic_page_detail(request):
     try:
         if not os.path.exists("/var/log/django/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
-        file = open('/var/log/django/page_dynamic/' + request.POST['data'] + '.txt', "r")
-        state = ''
-        title = ''
-        body = ''
-        image_carousel = ''
-        for idx, line in enumerate(file):
-            if idx == 0:
-                if line.split('\n')[0] == 'false':
-                    state = False
-                else:
-                    state = True
-            elif idx == 1:
-                title = line.split('\n')[0]
-            elif idx == 2:
-                body = json.loads(line.split('\n')[0])
-            elif idx == 3:
-                image_carousel = line.split('\n')[0]
-        file.close()
-        response = {
-            "state": bool(state),
-            "title": title,
-            "body": body,
-            "image_carousel": image_carousel
-        }
+        response = {}
+        file = read_cache_without_folder_path("page_dynamic/" + request.POST['data'])
+        if file:
+            state = ''
+            title = ''
+            body = ''
+            image_carousel = ''
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 0:
+                    if line.split('\n')[0] == 'false':
+                        state = False
+                    else:
+                        state = True
+                elif idx == 1:
+                    title = line.split('\n')[0]
+                elif idx == 2:
+                    body = json.loads(line.split('\n')[0])
+                elif idx == 3:
+                    image_carousel = line.split('\n')[0]
+            response = {
+                "state": bool(state),
+                "title": title,
+                "body": body,
+                "image_carousel": image_carousel
+            }
         res = {
             'result': {
                 'error_code': 0,
@@ -611,16 +599,17 @@ def delete_dynamic_page(request):
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
-            file = open('/var/log/django/page_dynamic/' + rec, "r")
-            for idx, line in enumerate(file):
-                if idx == 3:
-                    line = line.split('\n')[0]
-                    line = line.split('/')
-                    line.pop(0)
-                    line.pop(0)
-                    line.pop(0)
-                    line = '/'.join(line)
-                    image_list.append(line)
+            file = read_cache_without_folder_path("page_dynamic/" + rec)
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 3:
+                        line = line.split('\n')[0]
+                        line = line.split('/')
+                        line.pop(0)
+                        line.pop(0)
+                        line.pop(0)
+                        line = '/'.join(line)
+                        image_list.append(line)
         for data in os.listdir(fs.location):
             if not data in image_list:
                 os.remove(fs.base_location + '/image_dynamic/' + data)
@@ -674,20 +663,19 @@ def set_dynamic_page(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
-            file = open('/var/log/django/page_dynamic/' + "".join(title.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "page_dynamic/" + "".join(title.split(' ')))
         #replace
         else:
             if filename == '':
-                file = open('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])], "r")
-                for idx, line in enumerate(file):
-                    if idx == 3:
-                        text = line.split('\n')[0].split('/')
-                        text.pop(0)
-                        text.pop(0)
-                        text.pop(0)
-                        filename = "/".join(text)
+                file = read_cache_without_folder_path("page_dynamic/" + data[int(request.POST['page_number'])])
+                if file:
+                    for idx, line in enumerate(file.split('\n')):
+                        if idx == 3:
+                            text = line.split('\n')[0].split('/')
+                            text.pop(0)
+                            text.pop(0)
+                            text.pop(0)
+                            filename = "/".join(text)
             os.remove('/var/log/django/page_dynamic/' + data[int(request.POST['page_number'])])
             data = os.listdir('/var/log/django/page_dynamic')
             while True:
@@ -700,21 +688,20 @@ def set_dynamic_page(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + title + '\n' + request.POST['body'] + '\n' + fs.base_url + "image_dynamic/" + filename
-            file = open('/var/log/django/page_dynamic/' + "".join(title.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "page_dynamic/" + "".join(title.split(' ')))
         #check image
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
-            file = open('/var/log/django/page_dynamic/' + rec, "r")
-            for idx, line in enumerate(file):
-                if idx == 3:
-                    text = line.split('\n')[0].split('/')
-                    text.pop(0)
-                    text.pop(0)
-                    text.pop(0)
-                    image_list.append("/".join(text))
+            file = read_cache_without_folder_path("page_dynamic/" + rec[:-4])
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 3:
+                        text = line.split('\n')[0].split('/')
+                        text.pop(0)
+                        text.pop(0)
+                        text.pop(0)
+                        image_list.append("/".join(text))
         for data in os.listdir(fs.location):
             if not data in image_list:
                 os.remove(fs.location + '/' + data)

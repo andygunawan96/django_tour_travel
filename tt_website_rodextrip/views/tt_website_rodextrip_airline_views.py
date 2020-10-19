@@ -104,20 +104,17 @@ def search(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
             # airline
-            file = open(var_log_path()+"airline_destination.txt", "r")
-            for line in file:
-                airline_destinations = json.loads(line)
-            file.close()
-            file = open(var_log_path() + "get_airline_carriers.txt", "r")
-            for line in file:
-                carrier = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("airline_destination")
+            if file:
+                airline_destinations = json.loads(file)
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                carrier = json.loads(file)
             airline_destinations = []
             try:
-                file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-                for line in file:
-                    response = json.loads(line)
-                file.close()
+                file = read_cache_with_folder_path("get_airline_active_carriers")
+                if file:
+                    response = json.loads(file)
             except Exception as e:
                 _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
             values = get_data_template(request, 'search')
@@ -352,10 +349,9 @@ def passenger(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            for line in file:
-                carrier = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                carrier = json.loads(file)
 
             values = get_data_template(request)
 
@@ -454,9 +450,10 @@ def ssr(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            carrier = json.loads(file.read())
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                carrier = json.loads(file)
+
 
             values = get_data_template(request)
 
@@ -664,10 +661,9 @@ def seat_map(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            for line in file:
-                carrier = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                carrier = json.loads(file)
 
             values = get_data_template(request)
 
@@ -859,10 +855,9 @@ def seat_map_public(request, signature=-1):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        file = open(var_log_path()+"get_airline_carriers.txt", "r")
-        for line in file:
-            carrier = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("get_airline_carriers")
+        if file:
+            carrier = json.loads(file)
 
         values = get_data_template(request)
 
@@ -1165,10 +1160,9 @@ def review(request):
                     pax['ssr_list'] = []
             else:
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            for line in file:
-                airline_carriers = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                airline_carriers = json.loads(file)
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             additional_price_input = ''
@@ -1326,10 +1320,9 @@ def review_after_sales(request):
             except:
                 additional_price_input = 0
 
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            for line in file:
-                airline_carriers = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                airline_carriers = json.loads(file)
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
@@ -1369,10 +1362,9 @@ def booking(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            for line in file:
-                airline_carriers = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                airline_carriers = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)
@@ -1402,10 +1394,9 @@ def refund(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            for line in file:
-                airline_carriers = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                airline_carriers = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)

@@ -43,18 +43,6 @@ month = {
 
 }
 
-class provider_event:
-    def __init__(self, name):
-        self.get_time_auto_complete_event = name
-        self.get_time_auto_complete_event_first_time = True
-    def set_new_time_out(self, val):
-        if val == 'auto_complete':
-            self.get_time_auto_complete_event = datetime.now()
-    def set_first_time(self,val):
-        if val == 'auto_complete':
-            self.get_time_auto_complete_event_first_time = False
-
-event = provider_event(datetime.now())
 
 @api_view(['GET', 'POST'])
 def api_models(request):
@@ -128,24 +116,34 @@ def get_config(request):
             "action": "get_config",
             "signature": request.POST['signature']
         }
-        date_time = datetime.now() - event.get_time_auto_complete_event
-        if date_time.seconds >= 1800 or event.get_time_auto_complete_event_first_time == True:
+        date_time = datetime.now()
+        file = read_cache_with_folder_path("event_cache_data")
+        if file:
+            res = json.loads(file)
+            try:
+                date_time -= parse_load_cache(res['datetime'])
+            except:
+                pass
+        get = False
+        try:
+            if date_time.seconds >= 300:
+                get = True
+        except:
+            get = True
+        if get == True:
             res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
             try:
                 if res['result']['error_code'] == 0:
-                    file = open(var_log_path() + "event_cache_data.txt", "w+")
-                    file.write(json.dumps(res['result']['response']))
-                    file.close()
-                    event.set_new_time_out('auto_complete')
-                    event.set_first_time('auto_complete')
+                    res['result']['response']['datetime'] = parse_save_cache(datetime.now())
+                    write_cache_with_folder(json.dumps(res['result']['response']), "event_cache_data")
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
-                file = open(var_log_path() + "event_cache_data.txt", "r")
-                for line in file:
-                    response = json.loads(line)
-                file.close()
+                file = read_cache_with_folder_path("event_cache_data")
+                if file:
+                    for line in file:
+                        response = json.loads(line)
                 res = {
                     'result': {
                         'error_code': 0,
@@ -154,10 +152,10 @@ def get_config(request):
                     }
                 }
         else:
-            file = open(var_log_path() + "event_cache_data.txt", "r")
-            for line in file:
-                response = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("event_cache_data")
+            if file:
+                for line in file:
+                    response = json.loads(line)
             res = {
                 'result': {
                     'error_code': 0,
@@ -196,10 +194,10 @@ def get_auto_complete(request):
     limit = 25
     req = request.POST
     try:
-        file = open(var_log_path()+"hotel_cache_data.txt", "r")
-        for line in file:
-            record_cache = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("hotel_cache_data")
+        if file:
+            for line in file:
+                record_cache = json.loads(line)
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):

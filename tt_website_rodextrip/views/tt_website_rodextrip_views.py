@@ -437,19 +437,21 @@ def admin(request):
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                         else:
-                            file = open(var_log_path()+"data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 0:
-                                    text = line + '\n'
-                            file.close()
+                            file = read_cache_with_folder_path("data_cache_template")
+                            if file:
+                                for idx, line in enumerate(file.split('\n')):
+                                    if idx == 0:
+                                        text = line + '\n'
                     except:
                         try:
-                            file = open(var_log_path()+"data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 0:
-                                    text = line
-                                    break
-                            file.close()
+                            file = read_cache_with_folder_path("data_cache_template")
+                            if file:
+                                for idx, line in enumerate(file.split('\n')):
+                                    if idx == 0:
+                                        text = line
+                                        break
+                            else:
+                                text += '\n'
                         except:
                             text += '\n'
                             pass
@@ -466,19 +468,19 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
 
                     except:
-                        check = 0
                         try:
-                            file = open(var_log_path() + "data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 4:
-                                    text += line
-                                    check = 1
-                                    break
-                            file.close()
+                            file = read_cache_with_folder_path("data_cache_template")
+                            if file:
+                                for idx, line in enumerate(file.split('\n')):
+                                    if idx == 4:
+                                        text += line
+                                        check = 1
+                                        break
+                            else:
+                                text += '\n'
                         except:
                             pass
-                        if check == 0:
-                            text += '\n'
+
                     try:
                         if request.POST.get('empty_image_login'):
                             text += '\n'
@@ -487,19 +489,18 @@ def admin(request):
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                     except:
-                        check = 0
                         try:
-                            file = open(var_log_path() + "data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 5:
-                                    text += line
-                                    check = 1
-                                    break
-                            file.close()
+                            file = read_cache_with_folder_path("data_cache_template")
+                            if file:
+                                for idx, line in enumerate(file.split('\n')):
+                                    if idx == 5:
+                                        text += line
+                                        check = 1
+                                        break
+                            else:
+                                text += '\n'
                         except:
                             pass
-                        if check == 0:
-                            text += '\n'
 
                     try:
                         if request.POST.get('empty_image_search'):
@@ -509,19 +510,18 @@ def admin(request):
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                     except:
-                        check = 0
                         try:
-                            file = open(var_log_path() + "data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 6:
-                                    text += line
-                                    check = 1
-                                    break
-                            file.close()
+                            file = read_cache_with_folder_path("data_cache_template")
+                            if file:
+                                for idx, line in enumerate(file.split('\n')):
+                                    if idx == 6:
+                                        text += line
+                                        check = 1
+                                        break
+                            else:
+                                text += '\n'
                         except:
                             pass
-                        if check == 0:
-                            text += '\n'
                     text += request.POST['tawk_chat'] + '\n'
                     text += request.POST['tawk_code'] + '\n'
                     text += "#" + request.POST['text_pick'] + '\n'
@@ -538,19 +538,18 @@ def admin(request):
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                     except:
-                        check = 0
                         try:
-                            file = open(var_log_path() + "data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 11:
-                                    text += line
-                                    check = 1
-                                    break
-                            file.close()
+                            file = read_cache_with_folder_path("data_cache_template")
+                            if file:
+                                for idx, line in enumerate(file.split('\n')):
+                                    if idx == 11:
+                                        text += line
+                                        check = 1
+                                        break
+                            else:
+                                text += '\n'
                         except:
                             pass
-                        if check == 0:
-                            text += '\n'
                     try:
                         if request.POST.get('empty_image_regis'):
                             text += '\n'
@@ -559,28 +558,26 @@ def admin(request):
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                     except:
-                        check = 0
                         try:
-                            file = open(var_log_path() + "data_cache_template.txt", "r")
-                            for idx, line in enumerate(file):
-                                if idx == 12:
-                                    text += line
-                                    check = 1
-                                    break
-                            file.close()
+                            file = read_cache_with_folder_path("data_cache_template")
+                            if file:
+                                for idx, line in enumerate(file.split('\n')):
+                                    if idx == 12:
+                                        text += line
+                                        check = 1
+                                        break
+                            else:
+                                text += '\n'
                         except:
                             pass
-                        if check == 0:
-                            text += '\n'
                     text += request.POST['espay_key'] + '\n'
                     text += request.POST['espay_key_callback_url'] + '\n'
                     text += request.POST['backend_url'] + '\n'
                     text += request.POST['website_mode'] + '\n'
                     text += request.POST['espay_script'] + '\n'
                     text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n'))
-                    file = open(var_log_path()+'data_cache_template.txt', "w+")
-                    file.write(text)
-                    file.close()
+
+                    write_cache_with_folder(text, "data_cache_template")
                     temp = text.split('\n')
                     for idx, rec in enumerate(temp):
                         try:
@@ -642,10 +639,9 @@ def reservation(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-            for line in file:
-                airline_carriers = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_active_carriers")
+            if file:
+                airline_carriers = json.loads(file)
 
             values = get_data_template(request)
 
@@ -687,10 +683,10 @@ def highlight_setting(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-            for line in file:
-                airline_carriers = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_active_carriers")
+            if file:
+                for line in file:
+                    airline_carriers = json.loads(line)
 
             values = get_data_template(request)
 
@@ -864,29 +860,30 @@ def top_up_history(request):
         return no_session_logout(request)
 
 def get_javascript_version():
+    javascript_version = 0
     try:
-        file = open(var_log_path()+"javascript_version.txt", "r")
-        javascript_version = int(file.read())
-        file.close()
+        file = read_cache_with_folder_path("javascript_version")
+        if file:
+            javascript_version = int(file)
     except Exception as e:
         _logger.error('ERROR javascript_version file\n' + str(e) + '\n' + traceback.format_exc())
     return javascript_version
 
 def get_cache_version():
+    cache_version = 0
     try:
-        file = open(var_log_path()+"cache_version.txt", "r")
-        cache_version = int(file.read())
-        file.close()
+        file = read_cache_with_folder_path("cache_version")
+        if file:
+            cache_version = int(file)
     except Exception as e:
         _logger.error('ERROR cache_version file\n' + str(e) + '\n' + traceback.format_exc())
     return cache_version
 
 def get_cache_data(javascript_version):
     try:
-        file = open(var_log_path()+"version" + str(javascript_version) + ".txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("version" + str(javascript_version))
+        if file:
+            response = json.loads(file)
     except Exception as e:
         response = {}
         _logger.error('ERROR version cache file\n' + str(e) + '\n' + traceback.format_exc())
@@ -938,103 +935,103 @@ def get_data_template(request, type='home', provider_type = []):
             except:
                 provider_type = []
 
-        file = open(var_log_path()+"data_cache_template.txt", "r")
-        for idx, line in enumerate(file):
-            if idx == 0:
-                if line == '\n':
-                    logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
-                else:
-                    logo = line.split('\n')[0]
-            elif idx == 1:
-                if line != '\n':
-                    template = int(line)
-            elif idx == 2:
-                if line != '\n':
-                    color = line.split('\n')[0]
-            elif idx == 3:
-                if line != '\n':
-                    website_name = line.split('\n')[0]
-            elif idx == 4 and type == 'home' or type == 'admin' and idx == 4:
-                if line != '\n':
-                    background = line.split('\n')[0]
-            elif idx == 5 and type == 'login' or type == 'admin' and idx == 5:
-                if line != '\n':
-                    if type == 'admin':
-                        bg_login = line.split('\n')[0]
+        file = read_cache_with_folder_path("data_cache_template")
+        if file:
+            for idx, line in enumerate(file.split('\n')):
+                if idx == 0:
+                    if line == '':
+                        logo = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
                     else:
+                        logo = line.split('\n')[0]
+                elif idx == 1:
+                    if line != '':
+                        template = int(line)
+                elif idx == 2:
+                    if line != '':
+                        color = line.split('\n')[0]
+                elif idx == 3:
+                    if line != '':
+                        website_name = line.split('\n')[0]
+                elif idx == 4 and type == 'home' or type == 'admin' and idx == 4:
+                    if line != '':
                         background = line.split('\n')[0]
-            elif idx == 6 and type == 'search' or type == 'admin' and idx == 6:
-                if line != '\n':
-                    if type == 'admin':
-                        bg_search = line.split('\n')[0]
+                elif idx == 5 and type == 'login' or type == 'admin' and idx == 5:
+                    if line != '':
+                        if type == 'admin':
+                            bg_login = line.split('\n')[0]
+                        else:
+                            background = line.split('\n')[0]
+                elif idx == 6 and type == 'search' or type == 'admin' and idx == 6:
+                    if line != '':
+                        if type == 'admin':
+                            bg_search = line.split('\n')[0]
+                        else:
+                            background = line.split('\n')[0]
+                elif idx == 7:
+                    if line != '':
+                        tawk_chat = int(line)
+                elif idx == 8:
+                    if line != '':
+                        tawk_code = line.split('\n')[0]
+                elif idx == 9:
+                    if line != '':
+                        text_color = line.split('\n')[0]
+                elif idx == 10:
+                    if line != '':
+                        if line.split('\n')[0] == 'none':
+                            tab_color = 'transparent'
+                        else:
+                            tab_color = line.split('\n')[0]
+                elif idx == 11:
+                    if line == '':
+                        logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
                     else:
-                        background = line.split('\n')[0]
-            elif idx == 7:
-                if line != '\n':
-                    tawk_chat = int(line)
-            elif idx == 8:
-                if line != '\n':
-                    tawk_code = line.split('\n')[0]
-            elif idx == 9:
-                if line != '\n':
-                    text_color = line.split('\n')[0]
-            elif idx == 10:
-                if line != '\n':
-                    if line.split('\n')[0] == 'none':
-                        tab_color = 'transparent'
+                        logo_icon = line.split('\n')[0]
+                elif idx == 12 and type == 'registration' or type == 'admin' and idx == 12:
+                    if line != '':
+                        if type == 'admin':
+                            bg_regis = line.split('\n')[0]
+                        else:
+                            background = line.split('\n')[0]
                     else:
-                        tab_color = line.split('\n')[0]
-            elif idx == 11:
-                if line == '\n':
-                    logo_icon = '/static/tt_website_rodextrip/images/icon/LOGO_RODEXTRIP.png'
-                else:
-                    logo_icon = line.split('\n')[0]
-            elif idx == 12 and type == 'registration' or type == 'admin' and idx == 12:
-                if line != '\n':
-                    if type == 'admin':
-                        bg_regis = line.split('\n')[0]
+                        if type == 'admin':
+                            bg_regis = 'https://www.skytors.id/web/image/28381'
+                        else:
+                            background = 'https://www.skytors.id/web/image/28381'
+                elif idx == 13:
+                    if line == '':
+                        espay_api_key = ''
                     else:
-                        background = line.split('\n')[0]
-                else:
-                    if type == 'admin':
-                        bg_regis = 'https://www.skytors.id/web/image/28381'
+                        espay_api_key = line.split('\n')[0]
+                elif idx == 14:
+                    if line == '':
+                        espay_api_key_callback_url = ''
                     else:
-                        background = 'https://www.skytors.id/web/image/28381'
-            elif idx == 13:
-                if line == '\n':
-                    espay_api_key = ''
-                else:
-                    espay_api_key = line.split('\n')[0]
-            elif idx == 14:
-                if line == '\n':
-                    espay_api_key_callback_url = ''
-                else:
-                    espay_api_key_callback_url = line.split('\n')[0]
-            elif idx == 15:
-                if line == '\n':
-                    backend_url = ''
-                else:
-                    backend_url = line.split('\n')[0]
-            elif idx == 16:
-                if line == '\n':
-                    pass
-                else:
-                    website_mode = line.split('\n')[0]
-            elif idx == 17:
-                if line == '\n':
-                    pass
-                else:
-                    script_espay = line.split('\n')[0]
-            elif idx == 18:
-                if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
-                    contact_us = '\n'.join(line.split('<br>')[:-1])
-                else:
-                    contact_us = '\n'.join(line.split('<br>'))
-        if color == '':
-            color = '#f15a22'
-        file.close()
-        if len(background.split('\n')) > 1:
-            background = background.split('\n')[0]
+                        espay_api_key_callback_url = line.split('\n')[0]
+                elif idx == 15:
+                    if line == '':
+                        backend_url = ''
+                    else:
+                        backend_url = line.split('\n')[0]
+                elif idx == 16:
+                    if line == '':
+                        pass
+                    else:
+                        website_mode = line.split('\n')[0]
+                elif idx == 17:
+                    if line == '':
+                        pass
+                    else:
+                        script_espay = line.split('\n')[0]
+                elif idx == 18:
+                    if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
+                        contact_us = '\n'.join(line.split('<br>')[:-1])
+                    else:
+                        contact_us = '\n'.join(line.split('<br>'))
+            if color == '':
+                color = '#f15a22'
+            if len(background.split('\n')) > 1:
+                background = background.split('\n')[0]
     except Exception as e:
         _logger.error('ERROR GET CACHE TEMPLATE DJANGO RUN USING DEFAULT\n' + str(e) + '\n' + traceback.format_exc())
     return {
@@ -1070,11 +1067,11 @@ def get_data_template(request, type='home', provider_type = []):
 def contact_us(request):
     data = []
     try:
-        file = open(var_log_path() + "contact_data.txt", "r")
-        for line in file:
-            if line != '\n':
-                data.append(line.split('~'))
-        file.close()
+        file = read_cache_with_folder_path("contact_data")
+        if file:
+            for line in file:
+                if line != '\n':
+                    data.append(line.split('~'))
     except:
         pass
     # values = {
@@ -1120,11 +1117,11 @@ def contact_us(request):
 def faq(request):
     data = []
     try:
-        file = open(var_log_path() + "faq_data.txt", "r")
-        for line in file:
-            if line != '\n':
-                data.append(line.split('~'))
-        file.close()
+        file = read_cache_with_folder_path("faq_data")
+        if file:
+            for line in file:
+                if line != '\n':
+                    data.append(line.split('~'))
     except:
         pass
     # values = {

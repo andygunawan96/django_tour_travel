@@ -135,10 +135,10 @@ def get_auto_complete(request):
     limit = 25
     req = request.POST
     try:
-        file = open(var_log_path()+"hotel_cache_data.txt", "r")
-        for line in file:
-            record_cache = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("hotel_cache_data")
+        if file:
+            for line in file:
+                record_cache = json.loads(line)
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):

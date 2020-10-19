@@ -56,19 +56,6 @@ cabin_class_list = {
     'First': 'F',
 }
 
-class provider_ppob:
-    def __init__(self, name):
-        self.get_time_provider_list_data = name
-        self.get_time_provider_list_data_first_time = True
-    def set_new_time_out(self, val):
-        if val == 'provider_list_data':
-            self.get_time_provider_list_data = datetime.now()
-    def set_first_time(self,val):
-        if val == 'provider_list_data':
-            self.get_time_provider_list_data_first_time = False
-
-ppob = provider_ppob(datetime.now())
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -196,27 +183,38 @@ def get_provider_description(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    date_time = datetime.now() - ppob.get_time_provider_list_data
-    if date_time.seconds >= 300 or ppob.get_time_provider_list_data_first_time == True:
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("passport_provider")
+    if file:
+        res = json.loads(file)
+        try:
+            date_time -= parse_load_cache(res['result']['datetime'])
+        except:
+            pass
+    get = False
+    try:
+        if date_time.seconds >= 300:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                ppob.set_new_time_out('provider_list_data')
-                ppob.set_first_time('provider_list_data')
                 temp = {}
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
+                res['result']['datetime'] = parse_save_cache(datetime.now())
                 res = json.dumps(temp)
-                file = open(var_log_path()+"get_list_provider_data_ppob.txt", "w+")
-                file.write(res)
-                file.close()
+                #datetime
+                write_cache_with_folder(json.dumps(res), "get_list_provider_data_ppob")
                 _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = open(var_log_path()+"get_list_provider_data_ppob.txt", "r")
-                    for line in file:
-                        res = line
-                    file.close()
+                    file = read_cache_with_folder_path("get_list_provider_data_ppob")
+                    if file:
+                        for line in file:
+                            res = line
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -224,10 +222,10 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open(var_log_path()+"get_list_provider_data_ppob.txt", "r")
-            for line in file:
-                res = line
-            file.close()
+            file = read_cache_with_folder_path("get_list_provider_data_ppob")
+            if file:
+                for line in file:
+                    res = line
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
