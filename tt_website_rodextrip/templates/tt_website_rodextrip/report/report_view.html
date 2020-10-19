@@ -65,7 +65,7 @@
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <p id="top_up_rupiah">Reserve for top up</p>
+                    <p id="top_up_rupiah">Reserve for top up [coming soon]</p>
                 </div>
             </div>
         </div>
@@ -80,33 +80,76 @@
     </div>
 </div>
 <div class="container">
-    <h2>Something Report</h2>
+    <h2>Overall Report</h2>
     <hr>
     <div class="chart_container">
-        <button class="top_product_button report_button" onclick="javascript:update_chart('top_product_button', $('#chart_top_product'), 'get_report', 'Top Product', 'days');">Days</button>
-        <button class="top_product_button report_button" onclick="javascript:update_chart('top_product_button', $('#chart_top_product'), 'get_report', 'Top Product', 'week');">Week</button>
-        <button class="top_product_button report_button" onclick="javascript:update_chart('top_product_button', $('#chart_top_product'), 'get_report', 'Top Product', 'month');">Month</button>
+        <div class="filter">
+<!--    function update_chart(button_class, canvas_id, action, report_title, report_of, type="days") -->
+<!--        <button class="airline_button report_button" onclick="javascript:update_chart('airline_button', $('#chart_airline'), 'get_overall_airline_report', 'Airline', 'overall_airline', 'days');">Days</button>-->
+<!--        <button class="airline_button report_button" onclick="javascript:update_chart('airline_button', $('#chart_airline'), 'get_overall_airline_report', 'Airline', 'overall_airline', 'month');">Month</button>-->
+<!--        <button class="airline_button report_button" onclick="javascript:update_chart('airline_button', $('#chart_airline'), 'get_overall_airline_report', 'Airline', 'overall_airline', 'quarter');">Quarter</button>-->
 
-            <form class="p-3 update_chart" id="top_product" action="/webservice/backend">
+            <form class="p-3 update_chart" id="report_form" action="/webservice/report">
                 {% csrf_token %}
-                <input type="hidden" value="chart_top_product" name="field_id">
-                <input type="hidden" value="get_top_product_report" name="action">
+                <input type="hidden" value="chart_report" name="field_id" id="field_id">
+                <input type="hidden" value="get_report" name="action">
+                <label> Additional Filter</label>
+                <select name="report_of" class="form-control mb-3">
+                    <option value="overall" selected>Overall</option>
+                    <option value="overall_airline">Airline</option>
+                    <option value="overall_activity">Activity</option>
+                    <option value="overall_event">Event</option>
+                    <option value="overall_hotel">Hotel</option>
+                    <option value="overall_tour">Tour</option>
+                    <option value="overall_train">Train</option>
+                    <option value="overall_visa">Visa</option>
+                    <option value="overall_offline">Offline</option>
+                </select>
                 <label>Start Date</label>
-                <input type="date" name="start_date" id="get_top_product_report_startdate">
+                <input type="date" name="start_date" id="get_report_startdate">
                 <label>Until</label>
-                <input type="date" name="until_date" id="get_top_product_report_enddate">
-                <button type="submit">update</button>
+                <input type="date" name="until_date" id="get_report_enddate">
+                <label>Group by</label>
+                <select name="group_by" id="group_by" style="display: inline">
+                    <option value="date" selected>Date</option>
+                    <option value="month">Month</option>
+                </select>
+                <button type="submit" id="update_chart_button">update</button>
             </form>
-        <canvas id="chart_top_product"></canvas>
+        </div>
+        <canvas id="chart_report"></canvas>
     </div>
 </div>
+
+<!--<div class="container">-->
+<!--    <h2>Overview</h2>-->
+<!--    <hr>-->
+<!--    <div id="overview_content">-->
+        <!-- function update_chart(button_class, canvas_id, action, report_title, report_of, type="days") -->
+<!--        <button class="train_button report_button" onclick="javascript::update_chart('train_button', $('#chart_train'), 'get_overall_train_report', 'Train Report', 'overall_train', 'days')">Days</button>-->
+<!--        <button class="train_button report_button" onclick="javascript::update_chart('train_button', $('#chart_train'), 'get_overall_train_report', 'Train Report', 'overall_train', 'month')">Month</button>-->
+<!--        <button class="train_button report_button" onclick="javascript::update_chart('train_button', $('#chart_train'), 'get_overall_train_report', 'Train Report', 'overall_train', 'quarter')">Quarter</button>-->
+<!--        <form class="p-3 update_chart" id="train_form" action="/webservice/report">-->
+<!--            {% csrf_token %}-->
+<!--            <input type="hidden" value="chart_train" name="field_id">-->
+<!--            <input type="hidden" value="get_train_report" name="action">-->
+<!--            <label>Start Date</label>-->
+<!--            <input type="date" name="start_date" id="get_train_report_startdate">-->
+<!--            <label>Until</label>-->
+<!--            <input type="date" name="until_date" id="get_train_report_enddate">-->
+<!--            <button type="submit">update</button>-->
+<!--        </form>-->
+<!--        <canvas id="overview_chart"></canvas>-->
+<!--    </div>-->
+<!--</div>-->
+
 <script src="{{ static_path }}js/webservice_report.js?version={{javascript_version}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script>
-    get_peripherals("total_rupiah", "get_total_rupiah");
+    //get_peripherals("total_rupiah", "get_total_rupiah");
     //get_peripherals("top_up_rupiah", "get_top_up_rupiah");
-    get_peripherals("average_rupiah", "get_average_rupiah");
-    get_report($('#chart_top_product'), 'get_transaction_number_report', '# of Transaction Report', "{{type}}");
+    //get_peripherals("average_rupiah", "get_average_rupiah");
+    get_report_overall();
 </script>
 {% include 'tt_website_rodextrip/footer.html' %}
 {% endblock %}
