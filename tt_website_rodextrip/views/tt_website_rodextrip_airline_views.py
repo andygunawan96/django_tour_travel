@@ -121,12 +121,15 @@ def search(request):
 
             airline_carriers = {'All': {'name': 'All', 'code': 'all','is_excluded_from_b2c': False}}
             for i in response:
-                airline_carriers[i] = {
-                    'name': response[i]['name'],
-                    'code': response[i]['code'],
-                    'icao': response[i]['icao'],
-                    'call_sign': response[i]['call_sign']
-                }
+                try:
+                    airline_carriers[i] = {
+                        'name': response[i]['name'],
+                        'code': response[i]['code'],
+                        'icao': response[i]['icao'],
+                        'call_sign': response[i]['call_sign']
+                    }
+                except Exception as e:
+                    _logger.error(str(e) + '\n' + traceback.format_exc())
 
             airline_cabin_class_list = [
                 {
@@ -205,16 +208,19 @@ def search(request):
                         airline_carriers = []
                         airline_carrier = {'All': {'name': 'All', 'code': 'all', 'is_favorite': False}}
                         for j in response:
-                            airline_carrier[j] = {
-                                'name': response[j]['name'],
-                                'display_name': response[j]['display_name'],
-                                'code': response[j]['code'],
-                                'icao': response[j]['icao'],
-                                'call_sign': response[j]['call_sign'],
-                                'is_favorite': response[j]['is_favorite'],
-                                'provider': response[j]['provider'],
-                                'is_excluded_from_b2c': response[j]['is_excluded_from_b2c']
-                            }
+                            try:
+                                airline_carrier[j] = {
+                                    'name': response[j]['name'],
+                                    'display_name': response[j]['display_name'],
+                                    'code': response[j]['code'],
+                                    'icao': response[j]['icao'],
+                                    'call_sign': response[j]['call_sign'],
+                                    'is_favorite': response[j]['is_favorite'],
+                                    'provider': response[j]['provider'],
+                                    'is_excluded_from_b2c': response[j]['is_excluded_from_b2c']
+                                }
+                            except Exception as e:
+                                _logger.error(str(e) + '\n' + traceback.format_exc())
                         airline_carriers.append(airline_carrier)
                         airline_carrier = []
 

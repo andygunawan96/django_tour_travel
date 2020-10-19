@@ -318,7 +318,7 @@ def get_carrier_providers(request):
     if file:
         res = json.loads(file)
         try:
-            date_time -= parse_load_cache(res['result']['datetime'])
+            date_time -= parse_load_cache(res['datetime'])
         except:
             pass
     get = False
@@ -331,7 +331,7 @@ def get_carrier_providers(request):
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['datetime'] = parse_save_cache(datetime.now())
+                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
                 res = json.dumps(res['result']['response'])
                 write_cache_with_folder(res, "get_list_provider")
                 _logger.info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
@@ -372,7 +372,7 @@ def get_carriers(request):
     if file:
         res = json.loads(file)
         try:
-            date_time -= parse_load_cache(res['result']['datetime'])
+            date_time -= parse_load_cache(res['datetime'])
         except:
             pass
     get = False
@@ -385,8 +385,8 @@ def get_carriers(request):
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
+                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
                 res = res['result']['response']
-                res['result']['datetime'] = parse_save_cache(datetime.now())
                 write_cache_with_folder(json.dumps(res), "get_airline_carriers")
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
@@ -427,7 +427,7 @@ def get_carriers_search(request):
     if file:
         res = json.loads(file)
         try:
-            date_time -= parse_load_cache(res['result']['datetime'])
+            date_time -= parse_load_cache(res['datetime'])
         except:
             pass
     get = False
@@ -440,8 +440,8 @@ def get_carriers_search(request):
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
+                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
                 res = res['result']['response']
-                res['result']['datetime'] = parse_save_cache(datetime.now())
                 write_cache_with_folder(json.dumps(res), "get_airline_active_carriers")
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
@@ -484,7 +484,7 @@ def get_provider_description(request):
     if file:
         res = json.loads(file)
         try:
-            date_time -= parse_load_cache(res['result']['datetime'])
+            date_time -= parse_load_cache(res['datetime'])
         except:
             pass
     get = False
@@ -500,7 +500,7 @@ def get_provider_description(request):
                 temp = {}
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
-                res['result']['datetime'] = parse_save_cache(datetime.now())
+                temp['datetime'] = parse_save_cache(datetime.now())
                 res = json.dumps(temp)
                 write_cache_with_folder(json.dumps(res), "get_list_provider_data")
                 _logger.info("get_provider_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
