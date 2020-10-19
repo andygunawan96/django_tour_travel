@@ -1,7 +1,7 @@
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from tools import util, ERR
+from tools import util, ERR, parser
 from datetime import datetime
 from ..static.tt_webservice.url import *
 from dateutil.relativedelta import *
@@ -163,7 +163,7 @@ def signin(request):
                             # 'hotel_config': response['result']['response']['hotel_config'],
                         })
                         logging.getLogger("info_logger").error("SUCCESS SIGNIN USE CACHE IN TXT!")
-                except:
+                except Exception as e:
                     get_new_cache(res['result']['response']['signature'])
                     request.session.create()
             else:
@@ -346,9 +346,7 @@ def get_new_cache(signature):
                             'country': country['name'],
                             'city': destination['city']
                         })
-                file = open(var_log_path() + "train_cache_data.txt", "w+")
-                file.write(json.dumps(destination_train))
-                file.close()
+                write_cache_with_folder(json.dumps(destination_train), "train_cache_data")
             else:
                 _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + res_destination_train['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
@@ -388,9 +386,7 @@ def get_new_cache(signature):
         res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_hotel['result']['error_code'] == 0:
-                file = open(var_log_path() + "hotel_cache_data.txt", "w+")
-                file.write(res_cache_hotel['result']['response'])
-                file.close()
+                write_cache_with_folder(res_cache_hotel['result']['response'], "hotel_cache_data")
         except Exception as e:
             _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(
                     e) + '\n' + traceback.format_exc())
@@ -504,9 +500,7 @@ def get_new_cache(signature):
         res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_activity['result']['error_code'] == 0:
-                file = open(var_log_path() + "activity_cache_data.txt", "w+")
-                file.write(json.dumps(res_cache_activity['result']['response']))
-                file.close()
+                write_cache_with_folder(json.dumps(res_cache_activity['result']['response']), "activity_cache_data")
         except Exception as e:
             _logger.info(
                 "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity) + '\n' + str(
@@ -539,9 +533,7 @@ def get_new_cache(signature):
         res_cache_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_tour['result']['error_code'] == 0:
-                file = open(var_log_path() + "tour_cache_data.txt", "w+")
-                file.write(json.dumps(res_cache_tour['result']['response']))
-                file.close()
+                write_cache_with_folder(json.dumps(res_cache_tour['result']['response']), "tour_cache_data")
         except Exception as e:
             _logger.info(
                 "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res_cache_tour) + '\n' + str(
@@ -574,9 +566,8 @@ def get_new_cache(signature):
         res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
         if res['result']['error_code'] == 0:
             try:
-                file = open(var_log_path() + "big_banner_cache" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
+                res['result']['datetime'] = parser.parse_save_cache(datetime.now())
+                write_cache_with_folder(json.dumps(res), "big_banner_cache")
                 _logger.info("big_banner RENEW SUCCESS SIGNATURE " + signature)
             except Exception as e:
                 _logger.error(
@@ -593,9 +584,8 @@ def get_new_cache(signature):
         res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
         if res['result']['error_code'] == 0:
             try:
-                file = open(var_log_path() + "small_banner_cache" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
+                res['result']['datetime'] = parser.parse_save_cache(datetime.now())
+                write_cache_with_folder(json.dumps(res), "small_banner_cache")
                 _logger.info("small_banner RENEW SUCCESS SIGNATURE " + signature)
             except Exception as e:
                 _logger.error(
@@ -612,9 +602,8 @@ def get_new_cache(signature):
         res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
         if res['result']['error_code'] == 0:
             try:
-                file = open(var_log_path() + "promotion_banner_cache" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
+                res['result']['datetime'] = parser.parse_save_cache(datetime.now())
+                write_cache_with_folder(json.dumps(res), "promotion_banner_cache")
                 _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + signature)
             except Exception as e:
                 _logger.error(
@@ -669,54 +658,49 @@ def get_new_cache(signature):
         }
 
         # cache airline popular
-        file = open(var_log_path() + "popular_destination_airline_cache.txt", "r")
-        popular_airline = json.loads(file.read())
-        file.close()
-        popular = []
-        average = []
-        for country in res_destination_airline['result']['response']:
-            for destination in country['destinations']:
-                try:
-                    if popular_airline.get(destination['code']) == True:
-                        popular.append({
-                            'name': destination['name'],
-                            'code': destination['code'],
-                            'city': destination['city'],
-                            'country': country['name']
-                        })
-                    else:
+        file = read_cache_with_folder_path("popular_destination_airline_cache")
+        if file:
+            popular_airline = json.loads(file)
+            popular = []
+            average = []
+            for country in res_destination_airline['result']['response']:
+                for destination in country['destinations']:
+                    try:
+                        if popular_airline.get(destination['code']) == True:
+                            popular.append({
+                                'name': destination['name'],
+                                'code': destination['code'],
+                                'city': destination['city'],
+                                'country': country['name']
+                            })
+                        else:
+                            average.append({
+                                'name': destination['name'],
+                                'code': destination['code'],
+                                'city': destination['city'],
+                                'country': country['name']
+                            })
+                    except:
                         average.append({
                             'name': destination['name'],
                             'code': destination['code'],
                             'city': destination['city'],
                             'country': country['name']
                         })
-                except:
-                    average.append({
-                        'name': destination['name'],
-                        'code': destination['code'],
-                        'city': destination['city'],
-                        'country': country['name']
-                    })
         popular = popular + average
 
-        file = open(var_log_path() + "airline_destination.txt", "w+")
-        file.write(json.dumps(popular))
-        file.close()
-
-        file = open(var_log_path() + "cache_version.txt", "r")
-        cache_version = int(file.read()) + 1
-        file.close()
-        file = open(var_log_path() + "version" + str(cache_version) + ".txt", "w+")
-        file.write(json.dumps(res))
-        file.close()
-        file = open(var_log_path() + "cache_version.txt", "w+")
-        file.write(str(cache_version))
-        file.close()
-
-
+        write_cache_with_folder(json.dumps(popular), "airline_destination")
+        file = read_cache_with_folder_path("cache_version")
+        if file:
+            cache_version = int(file) + 1
+        else:
+            cache_version = 1
+        write_cache_with_folder(json.dumps(res), "version" + str(cache_version))
+        write_cache_with_folder(str(cache_version), "cache_version")
+        logging.getLogger("info_logger").error("DONE GENERATE NEW CACHE!")
         return True
-    except:
+    except Exception as e:
+        _logger.error(msg=str(e) + '\n' + traceback.format_exc())
         return False
 
     # cache airline popular

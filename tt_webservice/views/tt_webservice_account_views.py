@@ -679,20 +679,18 @@ def set_highlight_url(request):
                     data += '\n'
                 data += '%s %s' % (rec[0], rec[1])
 
-    file = open(var_log_path() + "highlight_data.txt", "w+")
-    file.write(data)
-    file.close()
+    write_cache_with_folder(data, "highlight_data")
+
     return 0
 
 
 def get_highlight_url(request):
     data = []
     try:
-        file = open(var_log_path() + "highlight_data.txt", "r")
-        for line in file:
-            if line != '\n':
+        file = read_cache_with_folder_path("highlight_data")
+        if file:
+            for line in file.split('\n'):
                 data.append(line.split(' '))
-        file.close()
     except:
         pass
     return data
@@ -710,20 +708,16 @@ def set_contact_url(request):
                     data += '\n'
                 data += '%s:contact:%s:contact:%s' % (rec[0], rec[1], rec[2])
 
-    file = open(var_log_path() + "contact_data.txt", "w+")
-    file.write(data)
-    file.close()
+        write_cache_with_folder(data, "contact_data")
     return 0
 
 
 def get_contact_url(request):
     data = []
     try:
-        file = open(var_log_path() + "contact_data.txt", "r")
-        for line in file:
-            if line != '\n':
+        file = read_cache_with_folder_path("contact_data")
+        for line in file.split('\n'):
                 data.append(line.split(':contact:'))
-        file.close()
     except:
         pass
     return data
@@ -741,20 +735,16 @@ def set_social_url(request):
                     data += '\n'
                 data += '%s:social:%s:social:%s' % (rec[0], rec[1], rec[2])
 
-    file = open(var_log_path() + "social_data.txt", "w+")
-    file.write(data)
-    file.close()
+        write_cache_with_folder(data, "social_data")
     return 0
 
 
 def get_social_url(request):
     data = []
     try:
-        file = open(var_log_path() + "social_data.txt", "r")
-        for line in file:
-            if line != '\n':
+        file = read_cache_with_folder_path("social_data")
+        for line in file.split('\n'):
                 data.append(line.split(':social:'))
-        file.close()
     except:
         pass
     return data
@@ -766,12 +756,12 @@ def get_payment_partner(request):
         if not os.path.exists("/var/log/django/payment_partner"):
             os.mkdir('/var/log/django/payment_partner')
         for data in os.listdir('/var/log/django/payment_partner'):
-            file = open('/var/log/django/payment_partner/' + data, "r")
+            file = read_cache_without_folder_path("payment_partner/"+data[:-4])
             state = ''
             sequence = ''
             title = ''
             image_partner = ''
-            for idx, line in enumerate(file):
+            for idx, line in enumerate(file.split('\n')):
                 if idx == 0:
                     if line.split('\n')[0] == 'false':
                         state = False
@@ -783,7 +773,6 @@ def get_payment_partner(request):
                     title = line.split('\n')[0]
                 elif idx == 3:
                     image_partner = line.split('\n')[0]
-            file.close()
             response.append({
                 "state": bool(state),
                 "sequence": sequence,
@@ -819,8 +808,8 @@ def delete_payment_partner(request):
         data = os.listdir('/var/log/django/payment_partner')
         image_list = []
         for rec in data:
-            file = open('/var/log/django/payment_partner/' + rec, "r")
-            for idx, line in enumerate(file):
+            file = read_cache_without_folder_path("payment_partner/" + rec[:-4])
+            for idx, line in enumerate(file.split('\n')):
                 if idx == 3:
                     line = line.split('\n')[0]
                     line = line.split('/')
@@ -885,14 +874,12 @@ def set_payment_partner(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
-            file = open('/var/log/django/payment_partner/' + "".join(title.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "payment_partner/"+"".join(title.split(' ')))
         #replace
         else:
             if filename == '':
-                file = open('/var/log/django/payment_partner/' + data[int(request.POST['partner_number'])], "r")
-                for idx, line in enumerate(file):
+                file = read_cache_without_folder_path("payment_partner/" + data[int(request.POST['partner_number'])])
+                for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
                         text = line.split('\n')[0].split('/')
                         text.pop(0)
@@ -911,21 +898,20 @@ def set_payment_partner(request):
                         title += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + fs.base_url + "image_payment_partner/" + filename
-            file = open('/var/log/django/payment_partner/' + "".join(title.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "payment_partner/"+"".join(title.split(' ')))
         #check image
         data = os.listdir('/var/log/django/payment_partner')
         image_list = []
         for rec in data:
-            file = open('/var/log/django/payment_partner/' + rec, "r")
-            for idx, line in enumerate(file):
-                if idx == 3:
-                    text = line.split('\n')[0].split('/')
-                    text.pop(0)
-                    text.pop(0)
-                    text.pop(0)
-                    image_list.append("/".join(text))
+            file = read_cache_without_folder_path("payment_partner/" + rec[:-4])
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 3:
+                        text = line.split('\n')[0].split('/')
+                        text.pop(0)
+                        text.pop(0)
+                        text.pop(0)
+                        image_list.append("/".join(text))
         for data in os.listdir(fs.location):
             if not data in image_list:
                 os.remove(fs.location + '/' + data)
@@ -959,34 +945,34 @@ def get_about_us(request):
         if not os.path.exists("/var/log/django/about_us"):
             os.mkdir('/var/log/django/about_us')
         for data in os.listdir('/var/log/django/about_us'):
-            file = open('/var/log/django/about_us/' + data, "r")
-            state = ''
-            sequence = ''
-            title = ''
-            body = ''
-            image_paragraph = ''
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line.split('\n')[0] == 'false':
-                        state = False
-                    else:
-                        state = True
-                elif idx == 1:
-                    sequence = line.split('\n')[0]
-                elif idx == 2:
-                    title = line.split('\n')[0]
-                elif idx == 3:
-                    body = json.loads(line.split('\n')[0])
-                elif idx == 4:
-                    image_paragraph = line.split('\n')[0]
-            file.close()
-            response.append({
-                "state": bool(state),
-                "sequence": sequence,
-                "title": title,
-                "body": body,
-                "image_paragraph": image_paragraph
-            })
+            file = read_cache_without_folder_path("about_us/" + data[:-4])
+            if file:
+                state = ''
+                sequence = ''
+                title = ''
+                body = ''
+                image_paragraph = ''
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 0:
+                        if line.split('\n')[0] == 'false':
+                            state = False
+                        else:
+                            state = True
+                    elif idx == 1:
+                        sequence = line.split('\n')[0]
+                    elif idx == 2:
+                        title = line.split('\n')[0]
+                    elif idx == 3:
+                        body = json.loads(line.split('\n')[0])
+                    elif idx == 4:
+                        image_paragraph = line.split('\n')[0]
+                response.append({
+                    "state": bool(state),
+                    "sequence": sequence,
+                    "title": title,
+                    "body": body,
+                    "image_paragraph": image_paragraph
+                })
         res = {
             'result': {
                 'error_code': 0,
@@ -1016,16 +1002,17 @@ def delete_about_us(request):
         data = os.listdir('/var/log/django/about_us')
         image_list = []
         for rec in data:
-            file = open('/var/log/django/about_us/' + rec, "r")
-            for idx, line in enumerate(file):
-                if idx == 4:
-                    line = line.split('\n')[0]
-                    line = line.split('/')
-                    line.pop(0)
-                    line.pop(0)
-                    line.pop(0)
-                    line = '/'.join(line)
-                    image_list.append(line)
+            file = read_cache_without_folder_path("about_us/" + rec[:-4])
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 4:
+                        line = line.split('\n')[0]
+                        line = line.split('/')
+                        line.pop(0)
+                        line.pop(0)
+                        line.pop(0)
+                        line = '/'.join(line)
+                        image_list.append(line)
         for data in os.listdir(fs.location):
             if not data in image_list:
                 os.remove(fs.base_location + '/image_about_us/' + data)
@@ -1083,21 +1070,20 @@ def set_about_us(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
-            file = open('/var/log/django/about_us/' + "".join(sequence.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "about_us/"+"".join(sequence.split(' ')))
         #replace
         else:
             if request.POST['delete_img'] == 'false':
                 if filename == '':
-                    file = open('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])], "r")
-                    for idx, line in enumerate(file):
-                        if idx == 4:
-                            text = line.split('\n')[0].split('/')
-                            text.pop(0)
-                            text.pop(0)
-                            text.pop(0)
-                            filename = "/".join(text)
+                    file = read_cache_without_folder_path("about_us/" + data[int(request.POST['paragraph_number'])])
+                    if file:
+                        for idx, line in enumerate(file.split('\n')):
+                            if idx == 4:
+                                text = line.split('\n')[0].split('/')
+                                text.pop(0)
+                                text.pop(0)
+                                text.pop(0)
+                                filename = "/".join(text)
             else:
                 filename = ''
             os.remove('/var/log/django/about_us/' + data[int(request.POST['paragraph_number'])])
@@ -1112,21 +1098,20 @@ def set_about_us(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + fs.base_url + "image_about_us/" + filename
-            file = open('/var/log/django/about_us/' + "".join(sequence.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "about_us/" + "".join(sequence.split(' ')))
         #check image
         data = os.listdir('/var/log/django/about_us')
         image_list = []
         for rec in data:
-            file = open('/var/log/django/about_us/' + rec, "r")
-            for idx, line in enumerate(file):
-                if idx == 4:
-                    text = line.split('\n')[0].split('/')
-                    text.pop(0)
-                    text.pop(0)
-                    text.pop(0)
-                    image_list.append("/".join(text))
+            file = read_cache_without_folder_path("about_us/" + rec[:-4])
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 4:
+                        text = line.split('\n')[0].split('/')
+                        text.pop(0)
+                        text.pop(0)
+                        text.pop(0)
+                        image_list.append("/".join(text))
         for data in os.listdir(fs.location):
             if not data in image_list:
                 os.remove(fs.location + '/' + data)
@@ -1160,30 +1145,30 @@ def get_faq(request):
         if not os.path.exists("/var/log/django/faq"):
             os.mkdir('/var/log/django/faq')
         for data in os.listdir('/var/log/django/faq'):
-            file = open('/var/log/django/faq/' + data, "r")
-            state = ''
-            sequence = ''
-            title = ''
-            body = ''
-            for idx, line in enumerate(file):
-                if idx == 0:
-                    if line.split('\n')[0] == 'false':
-                        state = False
-                    else:
-                        state = True
-                elif idx == 1:
-                    sequence = line.split('\n')[0]
-                elif idx == 2:
-                    title = line.split('\n')[0]
-                elif idx == 3:
-                    body = json.loads(line.split('\n')[0])
-            file.close()
-            response.append({
-                "state": bool(state),
-                "sequence": sequence,
-                "title": title,
-                "body": body,
-            })
+            file = read_cache_without_folder_path("faq/" + data[:-4])
+            if file:
+                state = ''
+                sequence = ''
+                title = ''
+                body = ''
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 0:
+                        if line.split('\n')[0] == 'false':
+                            state = False
+                        else:
+                            state = True
+                    elif idx == 1:
+                        sequence = line.split('\n')[0]
+                    elif idx == 2:
+                        title = line.split('\n')[0]
+                    elif idx == 3:
+                        body = json.loads(line.split('\n')[0])
+                response.append({
+                    "state": bool(state),
+                    "sequence": sequence,
+                    "title": title,
+                    "body": body,
+                })
         res = {
             'result': {
                 'error_code': 0,
@@ -1209,15 +1194,16 @@ def delete_faq(request):
         os.remove('/var/log/django/faq/' + data[int(request.POST['faq_number'])])
         data = os.listdir('/var/log/django/faq')
         for rec in data:
-            file = open('/var/log/django/faq/' + rec, "r")
-            for idx, line in enumerate(file):
-                if idx == 4:
-                    line = line.split('\n')[0]
-                    line = line.split('/')
-                    line.pop(0)
-                    line.pop(0)
-                    line.pop(0)
-                    line = '/'.join(line)
+            file = read_cache_without_folder_path("faq/" + rec[:-4])
+            if file:
+                for idx, line in enumerate(file.split('\n')):
+                    if idx == 4:
+                        line = line.split('\n')[0]
+                        line = line.split('/')
+                        line.pop(0)
+                        line.pop(0)
+                        line.pop(0)
+                        line = '/'.join(line)
         res = {
             'result': {
                 'error_code': 0,
@@ -1262,20 +1248,19 @@ def set_faq(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
-            file = open('/var/log/django/faq/' + "".join(sequence.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "faq/" + "".join(sequence.split(' ')))
         #replace
         else:
             if filename == '':
-                file = open('/var/log/django/faq/' + data[int(request.POST['faq_number'])], "r")
-                for idx, line in enumerate(file):
-                    if idx == 4:
-                        text = line.split('\n')[0].split('/')
-                        text.pop(0)
-                        text.pop(0)
-                        text.pop(0)
-                        filename = "/".join(text)
+                file = read_cache_without_folder_path("faq/" + data[int(request.POST['faq_number'])])
+                if file:
+                    for idx, line in enumerate(file.split('\n')):
+                        if idx == 4:
+                            text = line.split('\n')[0].split('/')
+                            text.pop(0)
+                            text.pop(0)
+                            text.pop(0)
+                            filename = "/".join(text)
             os.remove('/var/log/django/faq/' + data[int(request.POST['faq_number'])])
             data = os.listdir('/var/log/django/faq')
             while True:
@@ -1288,9 +1273,7 @@ def set_faq(request):
                         sequence += str(counter)
                     break
             text = request.POST['state'] + '\n' + sequence + '\n' + title + '\n' + body + '\n' + filename
-            file = open('/var/log/django/faq/' + "".join(sequence.split(' ')) + ".txt", "w+")
-            file.write(text)
-            file.close()
+            write_cache(text, "faq/" + "".join(sequence.split(' ')))
 
         res = {
             'result': {

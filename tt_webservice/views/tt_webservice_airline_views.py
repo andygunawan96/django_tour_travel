@@ -57,43 +57,6 @@ cabin_class_list = {
     'First': 'F',
 }
 
-class provider_airline:
-    def __init__(self, name):
-        self.get_time_provider_airline = name
-        self.get_time_provider_airline_first_time = True
-        self.get_time_carrier_airline = name
-        self.get_time_carrier_airline_first_time = True
-        self.get_time_carrier_airline_cache = name
-        self.get_time_carrier_airline_cache_first_time = True
-        self.get_time_carrier_airline_cache_text = name
-        self.get_time_carrier_airline_cache_text_first_time = True
-        self.get_time_provider_list_data = name
-        self.get_time_provider_list_data_first_time = True
-    def set_new_time_out(self, val):
-        if val == 'provider':
-            self.get_time_provider_airline = datetime.now()
-        elif val == 'carrier':
-            self.get_time_carrier_airline = datetime.now()
-        elif val == 'carrier_cache':
-            self.get_time_carrier_airline_cache = datetime.now()
-        elif val == 'carrier_cache_text':
-            self.get_time_carrier_airline_cache_text = datetime.now()
-        elif val == 'provider_list_data':
-            self.get_time_provider_list_data = datetime.now()
-    def set_first_time(self,val):
-        if val == 'provider':
-            self.get_time_provider_airline_first_time = False
-        elif val == 'carrier':
-            self.get_time_carrier_airline_first_time = False
-        elif val == 'carrier_cache':
-            self.get_time_carrier_airline_cache_first_time = False
-        elif val == 'carrier_cache_text':
-            self.get_time_carrier_airline_cache_text_first_time = False
-        elif val == 'provider_list_data':
-            self.get_time_provider_list_data_first_time = False
-
-airline = provider_airline(datetime.now())
-
 @api_view(['GET', 'POST'])
 def api_models(request):
     try:
@@ -228,16 +191,24 @@ def get_carrier_code_list(request):
             "action": "get_carriers",
             "signature": signature
         }
-        date_time = datetime.now() - airline.get_time_carrier_airline
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    if date_time.seconds >= 300 or airline.get_time_carrier_airline_cache_text_first_time == True:
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("get_airline_active_carriers")
+    if file:
+        res = json.loads(file)
+        date_time -= parse_load_cache(res['result']['datetime'])
+    get = False
+    try:
+        if date_time.seconds >= 86400:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                airline.set_new_time_out('carrier_cache_text')
-                airline.set_first_time('carrier_cache_text')
                 res = res['result']['response']
                 res.update({
                     'GA1': {
@@ -305,18 +276,16 @@ def get_carrier_code_list(request):
 
                 res = fav
                 try:
-                    file = open(var_log_path()+"get_airline_active_carriers" + ".txt", "w+")
-                    file.write(json.dumps(res))
-                    file.close()
+                    res['result']['datetime'] = parse_save_cache(datetime.now())
+                    write_cache_with_folder(json.dumps(res), "get_airline_active_carriers")
                     _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_airline_active_carriers file \n' + str(e) + '\n' + traceback.format_exc())
             else:
                 try:
-                    file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-                    for line in file:
-                        res = json.loads(line)
-                    file.close()
+                    file = read_cache_with_folder_path("get_airline_active_carriers")
+                    if file:
+                        res = json.loads(file)
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -324,10 +293,9 @@ def get_carrier_code_list(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-            for line in file:
-                res = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_active_carriers")
+            if file:
+                res = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -345,24 +313,33 @@ def get_carrier_providers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - airline.get_time_provider_airline
-    if date_time.seconds >= 300 or airline.get_time_provider_airline_first_time == True:
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("get_list_provider")
+    if file:
+        res = json.loads(file)
+        try:
+            date_time -= parse_load_cache(res['result']['datetime'])
+        except:
+            pass
+    get = False
+    try:
+        if date_time.seconds >= 300:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                airline.set_new_time_out('provider')
-                airline.set_first_time('provider')
+                res['result']['datetime'] = parse_save_cache(datetime.now())
                 res = json.dumps(res['result']['response'])
-                file = open(var_log_path()+"get_list_provider.txt", "w+")
-                file.write(res)
-                file.close()
+                write_cache_with_folder(res, "get_list_provider")
                 _logger.info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = open(var_log_path()+"get_list_provider.txt", "r")
-                    for line in file:
-                        res = line
-                    file.close()
+                    file = read_cache_with_folder_path("get_list_provider")
+                    if file:
+                        res = file
                     _logger.info("get_carrier_providers ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carrier_provider file\n' + str(e) + '\n' + traceback.format_exc())
@@ -370,10 +347,9 @@ def get_carrier_providers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open(var_log_path()+"get_list_provider.txt", "r")
-            for line in file:
-                res = line
-            file.close()
+            file = read_cache_with_folder_path("get_list_provider")
+            if file:
+                res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -391,24 +367,33 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - airline.get_time_carrier_airline
-    if date_time.seconds >= 300 or airline.get_time_carrier_airline_first_time == True:
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("get_airline_carriers")
+    if file:
+        res = json.loads(file)
+        try:
+            date_time -= parse_load_cache(res['result']['datetime'])
+        except:
+            pass
+    get = False
+    try:
+        if date_time.seconds >= 300:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                airline.set_new_time_out('carrier')
-                airline.set_first_time('carrier')
                 res = res['result']['response']
-                file = open(var_log_path()+"get_airline_carriers" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
+                res['result']['datetime'] = parse_save_cache(datetime.now())
+                write_cache_with_folder(json.dumps(res), "get_airline_carriers")
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-                    for line in file:
-                        res = json.loads(line)
-                    file.close()
+                    file = read_cache_with_folder_path("get_airline_carriers")
+                    if file:
+                        res = json.loads(file)
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -416,10 +401,9 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open(var_log_path()+"get_airline_carriers.txt", "r")
-            for line in file:
-                res = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_carriers")
+            if file:
+                res = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -438,89 +422,34 @@ def get_carriers_search(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - airline.get_time_carrier_airline
-    if date_time.seconds >= 300 or airline.get_time_carrier_airline_first_time == True:
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("get_airline_active_carriers")
+    if file:
+        res = json.loads(file)
+        try:
+            date_time -= parse_load_cache(res['result']['datetime'])
+        except:
+            pass
+    get = False
+    try:
+        if date_time.seconds >= 300:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                airline.set_new_time_out('carrier')
-                airline.set_first_time('carrier')
                 res = res['result']['response']
-                # res.update({
-                #     'GA1': {
-                #         'name': 'Garuda Indonesia - AGS',
-                #         'code': 'GA1',
-                #         'icao': 'GIA',
-                #         'call_sign': 'INDONESIA',
-                #         'provider_type': 'airline',
-                #         'active': True,
-                #         'is_favorite': False
-                #     },
-                #     # 'GA2': {
-                #     #     'name': 'Garuda Indonesia - Althea',
-                #     #     'code': 'GA2',
-                #     #     'icao': 'GIA',
-                #     #     'call_sign': 'INDONESIA',
-                #     #     'provider_type': 'airline',
-                #     #     'active': True,
-                #     #     'is_favorite': False
-                #     # },
-                #     'GA3': {
-                #         'name': 'Garuda Indonesia - Amadeus (GDS)',
-                #         'code': 'GA3',
-                #         'icao': 'GIA',
-                #         'call_sign': 'INDONESIA',
-                #         'provider_type': 'airline',
-                #         'active': True,
-                #         'is_favorite': False
-                #     },
-                #     # 'SQ1': {
-                #     #     'name': 'Singapore Airlines - NDC',
-                #     #     'code': 'SQ1',
-                #     #     'icao': 'SIA',
-                #     #     'call_sign': 'SINGAPORE',
-                #     #     'provider_type': 'airline',
-                #     #     'active': True,
-                #     #     'is_favorite': True
-                #     # },
-                #     'SQ2': {
-                #         'name': 'Singapore Airlines - Amadeus (GDS)',
-                #         'code': 'SQ2',
-                #         'icao': 'SIA',
-                #         'call_sign': 'SINGAPORE',
-                #         'provider_type': 'airline',
-                #         'active': True,
-                #         'is_favorite': True
-                #     }
-                # })
-                # fav = {}
-                # carrier_code_list = {}
-                # for key in res:
-                #     if res[key]['is_favorite'] == True:
-                #         fav.update({
-                #             key: res[key]
-                #         })
-                #     else:
-                #         carrier_code_list.update({
-                #             res[key]['name']: key
-                #         })
-                #
-                # for key in sorted(carrier_code_list):
-                #     fav.update({
-                #         carrier_code_list[key]: res[carrier_code_list[key]]
-                #     })
-                #
-                # res = fav
-                file = open(var_log_path()+"get_airline_active_carriers" + ".txt", "w+")
-                file.write(json.dumps(res))
-                file.close()
+                res['result']['datetime'] = parse_save_cache(datetime.now())
+                write_cache_with_folder(json.dumps(res), "get_airline_active_carriers")
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-                    for line in file:
-                        res = json.loads(line)
-                    file.close()
+                    file = read_cache_with_folder_path("get_airline_active_carriers")
+                    if file:
+                        for line in file:
+                            res = json.loads(line)
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -528,10 +457,10 @@ def get_carriers_search(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open(var_log_path()+"get_airline_active_carriers.txt", "r")
-            for line in file:
-                res = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("get_airline_active_carriers")
+            if file:
+                for line in file:
+                    res = json.loads(line)
         except Exception as e:
             _logger.error('ERROR get_airline_active_carrier file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -550,27 +479,36 @@ def get_provider_description(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now() - airline.get_time_provider_airline
-    if date_time.seconds >= 300 or airline.get_time_provider_list_data_first_time == True:
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("get_list_provider_data")
+    if file:
+        res = json.loads(file)
+        try:
+            date_time -= parse_load_cache(res['result']['datetime'])
+        except:
+            pass
+    get = False
+    try:
+        if date_time.seconds >= 300:
+            get = True
+    except:
+        get = True
+    if get == True:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                airline.set_new_time_out('provider_list_data')
-                airline.set_first_time('provider_list_data')
                 temp = {}
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
+                res['result']['datetime'] = parse_save_cache(datetime.now())
                 res = json.dumps(temp)
-                file = open(var_log_path()+"get_list_provider_data.txt", "w+")
-                file.write(res)
-                file.close()
+                write_cache_with_folder(json.dumps(res), "get_list_provider_data")
                 _logger.info("get_provider_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
-                    file = open(var_log_path()+"get_list_provider_data.txt", "r")
-                    for line in file:
-                        res = line
-                    file.close()
+                    file = read_cache_with_folder_path("get_list_provider_data")
+                    if file:
+                        res = json.loads(file)
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -578,10 +516,9 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = open(var_log_path()+"get_list_provider_data.txt", "r")
-            for line in file:
-                res = line
-            file.close()
+            file = read_cache_with_folder_path("get_list_provider_data")
+            if file:
+                    res = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -591,10 +528,9 @@ def search2(request):
     try:
         # airline
         airline_destinations = []
-        file = open(var_log_path()+"airline_destination.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("airline_destination")
+        if file:
+            response = json.loads(file)
         for country in response:
             airline_destinations.append({
                 'code': country['code'],
@@ -765,10 +701,9 @@ def search2(request):
 
 def get_data(request):
     try:
-        file = open(var_log_path()+"airline_destination.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("airline_destination")
+        if file:
+            response = json.loads(file)
 
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data AIRLINE SIGNATURE " + request.POST['signature'])
@@ -780,10 +715,9 @@ def get_price_itinerary(request, boolean, counter):
     try:
         #baru
         airline_destinations = []
-        file = open(var_log_path()+"airline_destination.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("airline_destination")
+        if file:
+            response = json.loads(file)
         for country in response:
             airline_destinations.append({
                 'code': country['code'],
@@ -1383,10 +1317,9 @@ def get_booking(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        file = open(var_log_path()+"airline_destination.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("airline_destination")
+        if file:
+            response = json.loads(file)
         airline_destinations = []
         for country in response:
             airline_destinations.append({
@@ -1709,10 +1642,9 @@ def reissue(request):
     try:
         if res['result']['error_code'] == 0:
             airline_destinations = []
-            file = open(var_log_path()+"airline_destination.txt", "r")
-            for line in file:
-                response = json.loads(line)
-            file.close()
+            file = read_cache_with_folder_path("airline_destination")
+            if file:
+                response = json.loads(file)
             for country in response:
                 airline_destinations.append({
                     'code': country['code'],
@@ -1875,10 +1807,9 @@ def sell_journey_reissue_construct(request,boolean, counter):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = open(var_log_path() + "airline_destination.txt", "r")
-        for line in file:
-            response = json.loads(line)
-        file.close()
+        file = read_cache_with_folder_path("airline_destination")
+        if file:
+            response = json.loads(file)
         for country in response:
             airline_destinations.append({
                 'code': country['code'],
