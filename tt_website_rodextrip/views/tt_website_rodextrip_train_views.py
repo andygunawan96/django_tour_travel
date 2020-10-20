@@ -201,6 +201,11 @@ def passenger(request):
                 set_session(request, 'train_pick', json.loads(request.POST['response']))
             except:
                 pass
+
+            file = read_cache_with_folder_path("get_train_carriers")
+            if file:
+                carrier = json.loads(file)
+
             #pax
             adult = []
             infant = []
@@ -217,6 +222,7 @@ def passenger(request):
                 'phone_code': phone_code,
                 'adults': adult,
                 'infants': infant,
+                'train_carriers': carrier,
                 'adult_title': adult_title,
                 'infant_title': infant_title,
                 'train_request': request.session['train_request'],

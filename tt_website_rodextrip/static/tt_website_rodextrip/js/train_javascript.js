@@ -1199,12 +1199,13 @@ function check_passenger(adult, infant){
            }
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
-       }
-       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+       }if(birth_date_required == true){
+           if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+               error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+           }
        }if(document.getElementById('adult_nationality'+i).value == ''){
            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';

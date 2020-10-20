@@ -19,6 +19,7 @@ function tour_login(data, type=''){
        success: function(msg) {
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
+               get_carriers_tour();
                if(type == '' || data == ''){
                    tour_search();
                }else if(type == 'get_booking'){
@@ -48,6 +49,26 @@ function tour_login(data, type=''){
                     $('#loading-search-tour').hide();
                 }catch(err){}
             }
+       },timeout: 60000
+    });
+}
+
+function get_carriers_tour(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/tour",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           tour_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
        },timeout: 60000
     });
 }

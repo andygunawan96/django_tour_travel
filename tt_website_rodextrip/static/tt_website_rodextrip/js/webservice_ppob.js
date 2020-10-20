@@ -51,7 +51,7 @@ function get_config_ppob(){
        data: {},
        success: function(msg) {
             console.log(msg);
-//            get_carriers_ppob();
+            get_carriers_ppob();
             ppob_data = msg;
             text = '';
             counter = 0;

@@ -75,6 +75,7 @@ function passport_signin(data){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
+                get_carriers_passport();
                 if(data == ''){
                     passport_get_config_provider();
                 }else if(data != ''){
@@ -103,6 +104,26 @@ function passport_signin(data){
                   html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
                 })
             }
+       },timeout: 60000
+    });
+}
+
+function get_carriers_passport(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/passport",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           passport_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
        },timeout: 60000
     });
 }
