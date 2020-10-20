@@ -158,8 +158,7 @@ def get_config_provider(request):
                 try:
                     file = read_cache_with_folder_path("passport_provider")
                     if file:
-                        for line in file:
-                            res = json.loads(line)
+                        res = json.loads(file)
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list PASSPORT ERROR SIGNATURE " + request.POST['signature'])
@@ -169,8 +168,7 @@ def get_config_provider(request):
         try:
             file = read_cache_with_folder_path("passport_provider")
             if file:
-                for line in file:
-                    res = json.loads(line)
+                res = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_provider_list passport file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -196,7 +194,7 @@ def search(request):
             "passport_type": request.POST['passport_type'],
             "apply_type": request.POST['apply_type'],
             "immigration_consulate": request.POST['immigration_consulate'],
-            "provider": 'passport_internal'
+            "provider": request.POST['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

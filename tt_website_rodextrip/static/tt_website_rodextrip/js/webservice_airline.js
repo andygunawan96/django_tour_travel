@@ -1141,23 +1141,48 @@ function get_price_itinerary(val){
             break;
         }
     }
-    if(airline_pick_list.length != 0 && auto_combo_price_flag == true){
-        for(i in airline_pick_list){
-            for(j in airline_pick_list[i].segments){
-                for(k in airline_pick_list[i].segments[j].fares){
-                    try{
-                        if(airline_pick_list[i].segments[j].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_data_filter[val].journey_ref_id)].journey_flight_refs[i].fare_flight_refs[j].fare_ref_id){
-                            airline_pick_list[i].segments[j].fare_pick = parseInt(k);
-                            break;
+    if(airline_pick_list.length != 0){
+        Swal.fire({
+          title: 'Auto combo price?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        }).then((result) => {
+            if(result.value == true){
+                if(airline_pick_list.length != 0 && auto_combo_price_flag == true){
+                    for(i in airline_pick_list){
+                        for(j in airline_pick_list[i].segments){
+                            for(k in airline_pick_list[i].segments[j].fares){
+                                try{
+                                    if(airline_pick_list[i].segments[j].fares[k].fare_ref_id == airline_recommendations_journey[airline_recommendations_list.indexOf(airline_data_filter[val].journey_ref_id)].journey_flight_refs[i].fare_flight_refs[j].fare_ref_id){
+                                        airline_pick_list[i].segments[j].fare_pick = parseInt(k);
+                                        break;
+                                    }
+                                }catch(err){}
+                            }
                         }
-                    }catch(err){}
+                    }
                 }
+                airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
+                value_pick.push(val);
+            }else{
+                airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
+                value_pick.push(val);
             }
-        }
+            set_segment_provider_get_itinenary(segment, provider, val);
+        })
+    }else{
+        airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
+        value_pick.push(val);
+        set_segment_provider_get_itinenary(segment, provider, val);
     }
-    airline_pick_list.push(JSON.parse(JSON.stringify(airline_data_filter[val])));
-    value_pick.push(val);
 
+
+}
+
+function set_segment_provider_get_itinenary(segment, provider, val){
     price = 0;
     if(airline_request.direction == 'OW'){
         journey.push({'segments':segment, 'provider': provider});
@@ -1280,8 +1305,7 @@ function get_price_itinerary(val){
             airline_pick_mc('all');
         else
             airline_pick_mc('change');
-        set_automatic_combo_price()
-//        get_price_itinerary_request();
+        set_automatic_combo_price();
     }
 }
 

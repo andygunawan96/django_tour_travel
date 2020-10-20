@@ -184,11 +184,11 @@ def get_provider_description(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
     date_time = datetime.now()
-    file = read_cache_with_folder_path("passport_provider")
+    file = read_cache_with_folder_path("get_list_provider_data_ppob")
     if file:
         res = json.loads(file)
         try:
-            date_time -= parse_load_cache(res['result']['datetime'])
+            date_time -= parse_load_cache(res['datetime'])
         except:
             pass
     get = False
@@ -204,17 +204,16 @@ def get_provider_description(request):
                 temp = {}
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
-                res['result']['datetime'] = parse_save_cache(datetime.now())
+                temp['datetime'] = parse_save_cache(datetime.now())
                 res = json.dumps(temp)
                 #datetime
-                write_cache_with_folder(json.dumps(res), "get_list_provider_data_ppob")
+                write_cache_with_folder(res, "get_list_provider_data_ppob")
                 _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache_with_folder_path("get_list_provider_data_ppob")
                     if file:
-                        for line in file:
-                            res = line
+                        res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
@@ -224,8 +223,7 @@ def get_provider_description(request):
         try:
             file = read_cache_with_folder_path("get_list_provider_data_ppob")
             if file:
-                for line in file:
-                    res = line
+                res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res

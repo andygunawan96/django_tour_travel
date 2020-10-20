@@ -76,7 +76,7 @@ function passport_signin(data){
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 if(data == ''){
-                    search_passport();
+                    passport_get_config_provider();
                 }else if(data != ''){
                     passport_get_data(data);
                 }
@@ -122,7 +122,7 @@ function passport_get_config_provider(){
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
                 for(i in msg.result.response.providers){
-                    search_visa(msg.result.response.providers[i].provider)
+                    search_passport(msg.result.response.providers[i].provider);
                 }
             }else{
                Swal.fire({
@@ -151,7 +151,7 @@ function passport_get_config_provider(){
     });
 }
 
-function search_passport(){
+function search_passport(provider){
     counter_passport = 0;
     $.ajax({
        type: "POST",
@@ -163,6 +163,7 @@ function search_passport(){
             'passport_type': document.getElementById('passport_type').value,
             'apply_type': document.getElementById('passport_apply_type').value,
             'immigration_consulate': document.getElementById('consulate').value,
+            'provider': provider,
             'signature': signature,
        },
        success: function(msg) {

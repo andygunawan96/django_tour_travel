@@ -685,8 +685,7 @@ def highlight_setting(request):
 
             file = read_cache_with_folder_path("get_airline_active_carriers")
             if file:
-                for line in file:
-                    airline_carriers = json.loads(line)
+                airline_carriers = json.loads(file)
 
             values = get_data_template(request)
 
@@ -1069,7 +1068,7 @@ def contact_us(request):
     try:
         file = read_cache_with_folder_path("contact_data")
         if file:
-            for line in file:
+            for line in file.split('\n'):
                 if line != '\n':
                     data.append(line.split('~'))
     except:
@@ -1119,7 +1118,7 @@ def faq(request):
     try:
         file = read_cache_with_folder_path("faq_data")
         if file:
-            for line in file:
+            for line in file.split('\n'):
                 if line != '\n':
                     data.append(line.split('~'))
     except:

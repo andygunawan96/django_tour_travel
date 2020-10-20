@@ -31,8 +31,7 @@ def issued_offline(request):
             try:
                 file = read_cache_with_folder_path("airline_destination")
                 if file:
-                    for line in file:
-                        airline_destinations = json.loads(line)
+                    airline_destinations = json.loads(file)
             except Exception as e:
                 _logger.error('ERROR get_destination airline file\n' + str(e) + '\n' + traceback.format_exc())
             # train_destination = response['result']['response']['train']

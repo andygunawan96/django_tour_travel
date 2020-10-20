@@ -142,8 +142,7 @@ def get_config(request):
                         e) + '\n' + traceback.format_exc())
                 file = read_cache_with_folder_path("event_cache_data")
                 if file:
-                    for line in file:
-                        response = json.loads(line)
+                    response = json.loads(file)
                 res = {
                     'result': {
                         'error_code': 0,
@@ -154,8 +153,7 @@ def get_config(request):
         else:
             file = read_cache_with_folder_path("event_cache_data")
             if file:
-                for line in file:
-                    response = json.loads(line)
+                response = json.loads(file)
             res = {
                 'result': {
                     'error_code': 0,
@@ -196,8 +194,7 @@ def get_auto_complete(request):
     try:
         file = read_cache_with_folder_path("hotel_cache_data")
         if file:
-            for line in file:
-                record_cache = json.loads(line)
+            record_cache = json.loads(file)
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
