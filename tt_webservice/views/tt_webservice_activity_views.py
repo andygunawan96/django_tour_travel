@@ -667,8 +667,7 @@ def get_auto_complete(request):
     try:
         file = read_cache_with_folder_path("activity_cache_data")
         if file:
-            for line in file:
-                record_cache = json.loads(line)
+            record_cache = json.loads(file)
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):

@@ -80,7 +80,7 @@ function visa_signin(data){
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
                 if(data == ''){
-                    search_visa();
+                    visa_get_config_provider();
                 }else if(data != ''){
                     visa_get_data(data);
                 }
@@ -155,7 +155,7 @@ function visa_get_config_provider(){
     });
 }
 
-function search_visa(){
+function search_visa(provider){
     counter_visa = 0;
     $.ajax({
        type: "POST",
@@ -168,6 +168,7 @@ function search_visa(){
             'departure_date': document.getElementById('visa_departure').value,
             'consulate': document.getElementById('visa_consulate_id_hidden').value,
             'signature': signature,
+            'provider': provider,
        },
        success: function(msg) {
             console.log(msg);

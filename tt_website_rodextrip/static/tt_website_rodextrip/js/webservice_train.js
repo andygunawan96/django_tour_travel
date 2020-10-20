@@ -1408,7 +1408,6 @@ function train_cancel_booking(){
            data: {
                 'order_number': order_number,
                 'signature': signature
-
            },
            success: function(msg) {
            console.log(msg);

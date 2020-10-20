@@ -202,7 +202,7 @@ def search(request):
             "destination": destination,
             "consulate": consulate,
             "departure_date": departure_date,
-            "provider": 'visa_internal'
+            "provider": request.POST['provider']
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

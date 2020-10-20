@@ -448,8 +448,7 @@ def get_carriers_search(request):
                 try:
                     file = read_cache_with_folder_path("get_airline_active_carriers")
                     if file:
-                        for line in file:
-                            res = json.loads(line)
+                        res = json.loads(file)
                     _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -459,8 +458,7 @@ def get_carriers_search(request):
         try:
             file = read_cache_with_folder_path("get_airline_active_carriers")
             if file:
-                for line in file:
-                    res = json.loads(line)
+                res = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_airline_active_carrier file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -518,7 +516,7 @@ def get_provider_description(request):
         try:
             file = read_cache_with_folder_path("get_list_provider_data")
             if file:
-                    res = json.loads(file)
+                res = json.loads(file)
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
