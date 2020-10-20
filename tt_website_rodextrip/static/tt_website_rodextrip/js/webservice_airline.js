@@ -417,9 +417,9 @@ function get_provider_list(type){
        },
        success: function(msg) {
            console.log(msg);
-           provider_list_data = JSON.parse(msg);
+           provider_list_data = msg;
 
-           airline_carriers_full = JSON.parse(msg);
+           airline_carriers_full = msg;
            if(type == 'review'){
                 check_ssr = 0;
                 check_seat = 0;
