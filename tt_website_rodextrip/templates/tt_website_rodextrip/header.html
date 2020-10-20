@@ -93,6 +93,9 @@
                             {% if "admin" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                             {% endif %}
+                            {% if "report" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                            {% endif %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
                             <li>
