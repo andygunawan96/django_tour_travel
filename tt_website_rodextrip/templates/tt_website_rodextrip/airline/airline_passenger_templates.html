@@ -56,6 +56,16 @@
     airline_carriers = airline_carriers.replace(/False/g, 'false');
     airline_carriers = airline_carriers.replace(/True/g, 'true');
     airline_carriers = JSON.parse(airline_carriers);
+    birth_date_required = false;
+    for(j in airline_pick){
+       for(k in airline_pick[j].journeys){
+            for(l in airline_pick[j].journeys[k].carrier_code_list){
+               if(birth_date_required == false){
+                    birth_date_required = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].is_adult_birth_date_required;
+               }
+            }
+       }
+    }
     airline_request = `{{airline_request}}`;
     airline_request = JSON.parse(airline_request.replace(/&#39;/g, '"'));
     ff_request = `{{ff_request}}`;
@@ -491,7 +501,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <script>
+                                                if(birth_date_required == true)
+                                                    document.write(`<label style="color:red">*</label>`);
+                                            </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -1460,7 +1473,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                                    <label style="color:red">*</label>
+                                                    <script>
+                                                        if(birth_date_required == true)
+                                                            document.write(`<label style="color:red">*</label>`);
+                                                    </script>
                                                     <label>{% trans 'Birth Date' %}</label>
                                                     <div class="input-container-search-ticket">
                                                         <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -2294,7 +2310,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <script>
+                                                if(birth_date_required == true)
+                                                    document.write(`<label style="color:red">*</label>`);
+                                            </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="form-group">
                                                 <input style="background:white;" type="text" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -3254,7 +3273,10 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
-                                        <label style="color:red">*</label>
+                                        <script>
+                                            if(birth_date_required == true)
+                                                document.write(`<label style="color:red">*</label>`);
+                                        </script>
                                         <label>{% trans 'Birth Date' %}</label>
                                         <div class="input-container-search-ticket">
                                             <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -4219,7 +4241,10 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-6 col-md-6 col-sm-6">
-                                            <label style="color:red">*</label>
+                                            <script>
+                                                if(birth_date_required == true)
+                                                    document.write(`<label style="color:red">*</label>`);
+                                            </script>
                                             <label>{% trans 'Birth Date' %}</label>
                                             <div class="input-container-search-ticket">
                                                 <input type="text" style="background:white;" class="form-control date-picker-birth" name="adult_birth_date{{forloop.counter}}" id="adult_birth_date{{forloop.counter}}" onchange="check_years_old({{forloop.counter}})" placeholder="{% trans 'Birth Date' %} " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Birth Date '" autocomplete="off" readonly>
@@ -4817,7 +4842,7 @@
                   format: 'DD MMM YYYY',
               }
           });
-          //$('input[name="adult_birth_date'+i+'"]').val("");
+          $('input[name="adult_birth_date'+i+'"]').val("");
 
           $('input[name="adult_passport_expired_date'+i+'"]').daterangepicker({
               singleDatePicker: true,

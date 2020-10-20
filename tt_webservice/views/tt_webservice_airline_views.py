@@ -499,8 +499,8 @@ def get_provider_description(request):
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
                 temp['datetime'] = parse_save_cache(datetime.now())
-                res = json.dumps(temp)
-                write_cache_with_folder(res, "get_list_provider_data")
+                res = temp
+                write_cache_with_folder(json.dumps(res), "get_list_provider_data")
                 _logger.info("get_provider_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
@@ -1109,11 +1109,12 @@ def update_passengers(request):
                             if pax['identity_country_of_issued_name'] == country['name']:
                                 pax['identity_country_of_issued_code'] = country['code']
                                 break
-                    pax.update({
-                        'birth_date': '%s-%s-%s' % (
-                            pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                            pax['birth_date'].split(' ')[0]),
-                    })
+                    if pax['birth_date'] != '':
+                        pax.update({
+                            'birth_date': '%s-%s-%s' % (
+                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                                pax['birth_date'].split(' ')[0]),
+                        })
                     if pax['identity_expdate'] != '':
                         pax.update({
                             'identity_expdate': '%s-%s-%s' % (

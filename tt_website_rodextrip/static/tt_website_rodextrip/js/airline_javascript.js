@@ -3924,10 +3924,16 @@ function check_passenger(adult, child, infant){
     error_log = '';
     //check booker jika teropong
     length_name = 100;
+    birth_date_required = false;
     for(j in airline_pick){
-       for(k in airline_pick[j].carrier_code_list){
-           if(length_name > airline_carriers[airline_pick[j].carrier_code_list[k]].adult_length_name)
-               length_name = airline_carriers[airline_pick[j].carrier_code_list[k]].adult_length_name;
+       for(k in airline_pick[j].journeys){
+            for(l in airline_pick[j].journeys[k].carrier_code_list){
+                if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
+                    length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
+                if(birth_date_required == false){
+                    birth_date_required = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].is_adult_birth_date_required;
+                }
+            }
        }
     }
     try{
@@ -4027,11 +4033,13 @@ function check_passenger(adult, child, infant){
        }else{
            document.getElementById('adult_last_name'+i).style['border-color'] = '#EFEFEF';
        }
-       if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
-           error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
-           document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
-       }else{
-           document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+       if(birth_date_required == true){
+           if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+               error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+               document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+           }else{
+               document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+           }
        }if(document.getElementById('adult_nationality'+i).value == ''){
            error_log+= 'Please fill nationality for passenger adult '+i+'!</br>\n';
            document.getElementById('adult_nationality'+i).style['border-color'] = 'red';
@@ -4056,6 +4064,13 @@ function check_passenger(adult, child, infant){
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = 'red';
            }else{
                document.getElementById('adult_country_of_issued'+i).style['border-color'] = '#EFEFEF';
+           }if(birth_date_required == false){
+               if(check_date(document.getElementById('adult_birth_date'+i).value)==false){
+                   error_log+= 'Birth date wrong for passenger adult '+i+'!</br>\n';
+                   document.getElementById('adult_birth_date'+i).style['border-color'] = 'red';
+               }else{
+                   document.getElementById('adult_birth_date'+i).style['border-color'] = '#EFEFEF';
+               }
            }
        }if(document.getElementById('adult_cp'+i).checked == true){
             if(check_email(document.getElementById('adult_email'+i).value)==false){
@@ -4086,12 +4101,14 @@ function check_passenger(adult, child, infant){
    }
    //child
    length_name = 100;
-    for(j in airline_pick){
-       for(k in airline_pick[j].carrier_code_list){
-           if(length_name > airline_carriers[airline_pick[j].carrier_code_list[k]].child_length_name)
-               length_name = airline_carriers[airline_pick[j].carrier_code_list[k]].child_length_name;
+   for(j in airline_pick){
+       for(k in airline_pick[j].journeys){
+            for(l in airline_pick[j].journeys[k].carrier_code_list){
+                if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name)
+                    length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].child_length_name;
+            }
        }
-    }
+   }
 
    for(i=1;i<=child;i++){
        if(check_name(document.getElementById('child_title'+i).value,
@@ -4168,12 +4185,14 @@ function check_passenger(adult, child, infant){
 
    //infant
    length_name = 100;
-    for(j in airline_pick){
-       for(k in airline_pick[j].carrier_code_list){
-           if(length_name > airline_carriers[airline_pick[j].carrier_code_list[k]].infant_length_name)
-               length_name = airline_carriers[airline_pick[j].carrier_code_list[k]].infant_length_name;
+   for(j in airline_pick){
+       for(k in airline_pick[j].journeys){
+            for(l in airline_pick[j].journeys[k].carrier_code_list){
+                if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name)
+                    length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].infant_length_name;
+            }
        }
-    }
+   }
 
    for(i=1;i<=infant;i++){
        if(check_name(document.getElementById('infant_title'+i).value,
