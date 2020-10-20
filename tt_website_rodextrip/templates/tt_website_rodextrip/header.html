@@ -77,6 +77,9 @@
                             {% if "admin" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                             {% endif %}
+                            {% if "report" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                            {% endif %}
                             <li><a href="" id="backend_btn">Backend</a></li>
                             <!--<li><a href="javascript:test_ledger(10);">Test Ledger</a></li>-->
 
@@ -283,6 +286,9 @@
                                     {% if "admin" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                     {% endif %}
+                                    {% if "report" in username.co_agent_frontend_security %}
+                                    <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                                    {% endif %}
                                     <li><a href="" id="backend_btn">Backend</a></li>
                                     <li style="z-index:5;">
                                         <a>
@@ -298,6 +304,9 @@
 
                                     {% if "admin" in username.co_agent_frontend_security %}
                                     <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                    {% endif %}
+                                    {% if "report" in username.co_agent_frontend_security %}
+                                    <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                     {% endif %}
                                     <li class="pt5"><a href="" id="backend_btn2">Backend</a></li>
                                     <li style="z-index:5;">
@@ -452,6 +461,9 @@
                             {% if "admin" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                             {% endif %}
+                            {% if "report" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                            {% endif %}
                             <li><a href="" id="backend_btn">Backend</a></li>
                             <li>
                                 <center>
@@ -467,6 +479,9 @@
                             <li><a data-toggle="modal" data-target="#myModalb2c">Sign Up</a></li>
                             {% if "admin" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            {% if "report" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             <li>
@@ -617,6 +632,9 @@
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                                 {% endif %}
+                                {% if "report" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                                {% endif %}
                                 <li><a href="" id="backend_btn">Backend</a></li>
                                 <li>
                                     <a>
@@ -630,6 +648,9 @@
                                 <li><a style="cursor:pointer;" data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                                 {% if "admin" in username.co_agent_frontend_security %}
                                 <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                                {% endif %}
+                                {% if "report" in username.co_agent_frontend_security %}
+                                <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                                 {% endif %}
                                 <li><a href="" id="backend_btn2">Backend</a></li>
                                 <li>
@@ -782,6 +803,9 @@
                             {% if "admin" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
                             {% endif %}
+                            {% if "report" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
+                            {% endif %}
                             <li><a href="" id="backend_btn">Backend</a></li>
                             <li>
                                 <a>
@@ -795,6 +819,9 @@
                             <li><a data-toggle="modal" data-target="#myModalb2c">{% trans 'Sign Up' %}</a></li>
                             {% if "admin" in username.co_agent_frontend_security %}
                             <li><a href="{% url 'tt_website_rodextrip:admin'%}">Admin</a></li>
+                            {% endif %}
+                            {% if "report" in username.co_agent_frontend_security %}
+                            <li><a href="{% url 'tt_website_rodextrip:report'%}">Report</a></li>
                             {% endif %}
                             <li><a href="" id="backend_btn2">Backend</a></li>
                             <li>

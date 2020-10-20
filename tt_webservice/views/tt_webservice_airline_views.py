@@ -500,7 +500,7 @@ def get_provider_description(request):
                     temp[i['provider']] = i
                 temp['datetime'] = parse_save_cache(datetime.now())
                 res = json.dumps(temp)
-                write_cache_with_folder(json.dumps(res), "get_list_provider_data")
+                write_cache_with_folder(res, "get_list_provider_data")
                 _logger.info("get_provider_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
