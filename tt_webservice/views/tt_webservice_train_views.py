@@ -360,11 +360,12 @@ def commit_booking(request):
                             if pax['nationality_name'] == country['name']:
                                 pax['nationality_code'] = country['code']
                                 break
-                    pax.update({
-                        'birth_date': '%s-%s-%s' % (
-                            pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
-                            pax['birth_date'].split(' ')[0]),
-                    })
+                    if pax['birth_date'] != '':
+                        pax.update({
+                            'birth_date': '%s-%s-%s' % (
+                                pax['birth_date'].split(' ')[2], month[pax['birth_date'].split(' ')[1]],
+                                pax['birth_date'].split(' ')[0]),
+                        })
                     if pax['pax_type'] == 'ADT':
                         try:
                             pax.update({

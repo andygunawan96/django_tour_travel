@@ -3916,19 +3916,14 @@ function check_passenger(adult, child, infant){
     error_log = '';
     //check booker jika teropong
     length_name = 100;
-    birth_date_required = false;
     for(j in airline_pick){
        for(k in airline_pick[j].journeys){
             for(l in airline_pick[j].journeys[k].carrier_code_list){
                 if(length_name > airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name)
                     length_name = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].adult_length_name;
-                if(birth_date_required == false){
-                    birth_date_required = airline_carriers[airline_pick[j].journeys[k].carrier_code_list[l]].is_adult_birth_date_required;
-                }
             }
        }
     }
-    birth_date_required = false;
     try{
         for(i in passenger_data_pick){
             if(passenger_data_pick[i].sequence != 'booker'){
