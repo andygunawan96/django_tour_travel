@@ -340,7 +340,7 @@ def get_details(request):
 def get_pricing(request):
     try:
         data = {
-            'provider': request.session['tour_pick']['provider'],
+            'provider': request.POST.get('provider', ''),
             'tour_code': request.POST['tour_code'],
             'room_list': json.loads(request.POST['room_list'])
         }

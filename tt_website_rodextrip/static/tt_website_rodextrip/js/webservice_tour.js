@@ -2033,7 +2033,8 @@ function get_price_itinerary(request,type) {
        },
        data: {
            'tour_code': dict_req.tour_code,
-           'room_list': JSON.stringify(dict_req.room_list)
+           'room_list': JSON.stringify(dict_req.room_list),
+           'provider': tour_data.provider
        },
        success: function(msg) {
             console.log(msg);
