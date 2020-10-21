@@ -16,8 +16,13 @@ Licence URI: http://www.os-templates.com/template-terms
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
-      gtag('config', 'G-EH738DZXER');
+      {% if 'b2c_limitation' not in username.co_user_name != '' %}
+          {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
+          gtag('config', 'G-EH738DZXER_test_b2b');
+          {% else %}
+          gtag('config', 'G-EH738DZXER_test_b2c');
+          {% endif %}
+      {% endif %}
     </script>
     <meta charset="utf-8">
 <!--    <meta name="description" content="Rodextrip adalah agensi yang terbaik bergerak di bidang tour & travel sejak 1945. Jual tiket pesawat, kereta, hotel murah. Urus visa dan passport jadi lebih mudah.">-->
