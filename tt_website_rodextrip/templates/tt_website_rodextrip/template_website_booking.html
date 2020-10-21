@@ -18,9 +18,9 @@ Licence URI: http://www.os-templates.com/template-terms
       gtag('js', new Date());
       {% if username.co_user_name != '' %}
           {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-          gtag('config', 'G-EH738DZXER_test_b2b');
+          gtag('config', `{{b2b}}`);
           {% else %}
-          gtag('config', 'G-EH738DZXER_test_b2c');
+          gtag('config', `{{b2c}}`);
           {% endif %}
       {% endif %}
     </script>
