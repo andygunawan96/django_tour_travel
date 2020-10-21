@@ -577,6 +577,7 @@ def admin(request):
                     text += request.POST['espay_script'] + '\n'
                     text += request.POST['google_b2b'] + '\n'
                     text += request.POST['google_b2c'] + '\n'
+                    text += request.POST['google_analytics'] + '\n'
                     text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n'))
 
                     write_cache_with_folder(text, "data_cache_template")
@@ -917,6 +918,7 @@ def get_data_template(request, type='home', provider_type = []):
     bg_regis = ''
     b2b = ''
     b2c = ''
+    google_analytics = ''
     try:
         if type != 'login':
             if request.session.get('keep_me_signin') == True:
@@ -1037,6 +1039,11 @@ def get_data_template(request, type='home', provider_type = []):
                     else:
                         b2c = line.split('\n')[0]
                 elif idx == 20:
+                    if line == '':
+                        pass
+                    else:
+                        google_analytics = line.split('\n')[0]
+                elif idx == 21:
                     if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
                         contact_us = '\n'.join(line.split('<br>')[:-1])
                     else:
@@ -1075,7 +1082,9 @@ def get_data_template(request, type='home', provider_type = []):
         'bg_search': bg_search,
         'bg_regis': bg_regis,
         'b2b': b2b,
-        'b2c': b2c
+        'b2c': b2c,
+        'google_analytics': google_analytics
+
     }
 
 
