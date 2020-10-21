@@ -6530,7 +6530,6 @@ function get_price_itinerary_reissue(val){
             }
         }
         if(airline_pick_list.length == journey_booking_length){
-            console.log('lllll')
             sell_journey_reissue_construct();
             //tampil getprice
         }
