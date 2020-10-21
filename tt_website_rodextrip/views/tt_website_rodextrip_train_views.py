@@ -270,7 +270,7 @@ def review(request):
                     "first_name": request.POST['adult_first_name' + str(i + 1)],
                     "last_name": request.POST['adult_last_name' + str(i + 1)],
                     "title": request.POST['adult_title' + str(i + 1)],
-                    "birth_date": request.POST['adult_birth_date' + str(i + 1)],
+                    "birth_date": request.POST.get('adult_birth_date' + str(i + 1)),
                     "nationality_name": request.POST['adult_nationality' + str(i + 1)],
                     "identity_country_of_issued_name": request.POST['adult_country_of_issued' + str(i + 1)],
                     "identity_expdate": request.POST['adult_passport_expired_date' + str(i + 1)],
