@@ -518,25 +518,40 @@ def ssr(request):
                 infant = []
                 child = []
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
-                    if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 > 2:
-                        pax_type = ''
-                        if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
-                            adult.append({
-                                "pax_type": 'CHD',
-                                "first_name": pax['first_name'],
-                                "last_name": pax['last_name'],
-                                "title": pax['title'],
-                                "birth_date": pax['birth_date'],
-                                "nationality_code": pax['nationality_code'],
-                                "passport_number": pax['identity_number'],
-                                "passport_expdate": pax['identity_expdate'],
-                                "country_of_issued_code": pax['identity_country_of_issued_code'],
-                                "identity_type": pax['identity_type'],
-                                "passenger_id": pax['sequence']
-                            })
+                    if pax.get('birth_date'):
+                        if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 > 2:
+                            pax_type = ''
+                            if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
+                                adult.append({
+                                    "pax_type": 'CHD',
+                                    "first_name": pax['first_name'],
+                                    "last_name": pax['last_name'],
+                                    "title": pax['title'],
+                                    "birth_date": pax['birth_date'],
+                                    "nationality_code": pax['nationality_code'],
+                                    "passport_number": pax['identity_number'],
+                                    "passport_expdate": pax['identity_expdate'],
+                                    "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                    "identity_type": pax['identity_type'],
+                                    "passenger_id": pax['sequence']
+                                })
+                            else:
+                                adult.append({
+                                    "pax_type": 'ADT',
+                                    "first_name": pax['first_name'],
+                                    "last_name": pax['last_name'],
+                                    "title": pax['title'],
+                                    "birth_date": pax['birth_date'],
+                                    "nationality_code": pax['nationality_code'],
+                                    "passport_number": pax['identity_number'],
+                                    "passport_expdate": pax['identity_expdate'],
+                                    "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                    "identity_type": pax['identity_type'],
+                                    "passenger_id": pax['sequence']
+                                })
                         else:
                             adult.append({
-                                "pax_type": 'ADT',
+                                "pax_type": 'INF',
                                 "first_name": pax['first_name'],
                                 "last_name": pax['last_name'],
                                 "title": pax['title'],
@@ -550,7 +565,7 @@ def ssr(request):
                             })
                     else:
                         adult.append({
-                            "pax_type": 'INF',
+                            "pax_type": 'ADT',
                             "first_name": pax['first_name'],
                             "last_name": pax['last_name'],
                             "title": pax['title'],
@@ -702,23 +717,38 @@ def seat_map(request):
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
                     if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 > 2:
                         pax_type = ''
-                        if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
-                            adult.append({
-                                "pax_type": 'CHD',
-                                "first_name": pax['first_name'],
-                                "last_name": pax['last_name'],
-                                "title": pax['title'],
-                                "birth_date": pax['birth_date'],
-                                "nationality_code": pax['nationality_code'],
-                                "passport_number": pax['identity_number'],
-                                "passport_expdate": pax['identity_expdate'],
-                                "country_of_issued_code": pax['identity_country_of_issued_code'],
-                                "identity_type": pax['identity_type'],
-                                "passenger_id": pax['sequence']
-                            })
+                        if pax.get('birth_date'):
+                            if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
+                                adult.append({
+                                    "pax_type": 'CHD',
+                                    "first_name": pax['first_name'],
+                                    "last_name": pax['last_name'],
+                                    "title": pax['title'],
+                                    "birth_date": pax['birth_date'],
+                                    "nationality_code": pax['nationality_code'],
+                                    "passport_number": pax['identity_number'],
+                                    "passport_expdate": pax['identity_expdate'],
+                                    "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                    "identity_type": pax['identity_type'],
+                                    "passenger_id": pax['sequence']
+                                })
+                            else:
+                                adult.append({
+                                    "pax_type": 'ADT',
+                                    "first_name": pax['first_name'],
+                                    "last_name": pax['last_name'],
+                                    "title": pax['title'],
+                                    "birth_date": pax['birth_date'],
+                                    "nationality_code": pax['nationality_code'],
+                                    "passport_number": pax['identity_number'],
+                                    "passport_expdate": pax['identity_expdate'],
+                                    "country_of_issued_code": pax['identity_country_of_issued_code'],
+                                    "identity_type": pax['identity_type'],
+                                    "passenger_id": pax['sequence']
+                                })
                         else:
                             adult.append({
-                                "pax_type": 'ADT',
+                                "pax_type": 'INF',
                                 "first_name": pax['first_name'],
                                 "last_name": pax['last_name'],
                                 "title": pax['title'],
@@ -732,7 +762,7 @@ def seat_map(request):
                             })
                     else:
                         adult.append({
-                            "pax_type": 'INF',
+                            "pax_type": 'ADT',
                             "first_name": pax['first_name'],
                             "last_name": pax['last_name'],
                             "title": pax['title'],
