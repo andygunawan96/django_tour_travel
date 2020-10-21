@@ -448,7 +448,7 @@ def admin(request):
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 0:
-                                        text = line
+                                        text = line + '\n'
                                         break
                             else:
                                 text += '\n'
@@ -473,7 +473,7 @@ def admin(request):
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 4:
-                                        text += line
+                                        text += line + '\n'
                                         check = 1
                                         break
                             else:
@@ -494,7 +494,7 @@ def admin(request):
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 5:
-                                        text += line
+                                        text += line + '\n'
                                         check = 1
                                         break
                             else:
@@ -515,7 +515,7 @@ def admin(request):
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 6:
-                                        text += line
+                                        text += line + '\n'
                                         check = 1
                                         break
                             else:
@@ -543,7 +543,7 @@ def admin(request):
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 11:
-                                        text += line
+                                        text += line + '\n'
                                         check = 1
                                         break
                             else:
@@ -563,7 +563,7 @@ def admin(request):
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 12:
-                                        text += line
+                                        text += line + '\n'
                                         check = 1
                                         break
                             else:

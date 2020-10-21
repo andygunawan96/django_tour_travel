@@ -16,7 +16,7 @@ Licence URI: http://www.os-templates.com/template-terms
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      {% if 'b2c_limitation' not in username.co_user_name != '' %}
+      {% if username.co_user_name != '' %}
           {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
           gtag('config', 'G-EH738DZXER_test_b2b');
           {% else %}
