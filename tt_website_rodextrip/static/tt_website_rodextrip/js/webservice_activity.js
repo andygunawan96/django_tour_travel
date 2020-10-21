@@ -53,6 +53,7 @@ function activity_login(data){
 
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
+               get_carriers_activity();
                if(data == ''){
                    activity_search()
                }else if(data != ''){
@@ -78,6 +79,26 @@ function activity_login(data){
                   html: '<span style="color: red;">Error activity login </span>' + errorThrown,
                 })
             }
+       },timeout: 60000
+    });
+}
+
+function get_carriers_activity(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/activity",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           activity_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
        },timeout: 60000
     });
 }

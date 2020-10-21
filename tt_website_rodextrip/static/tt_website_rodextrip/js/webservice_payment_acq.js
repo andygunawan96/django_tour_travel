@@ -188,7 +188,7 @@ function set_payment(val, type){
         </label>
         <br/>`;
     }
-    text += '<div id="set_price"></div>'
+    text += '<div id="set_detail"></div><br/><div id="set_price"></div>'
     document.getElementById('payment_description').innerHTML = text;
 }
 
@@ -204,6 +204,7 @@ function set_price(val, type, product_type){
         }
     }
     text = '';
+    document.getElementById('set_detail').innerHTML = `<i>`+payment_acq2[payment_method][selected].description_msg +'</i>';
     text += ` <h6 style="padding-bottom:10px;">2. Payment Detail: </h6>`;
     if(payment_method != 'credit_limit')
         text+=`<div class='row'>

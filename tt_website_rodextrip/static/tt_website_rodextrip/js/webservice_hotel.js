@@ -95,6 +95,7 @@ function hotel_signin(data){
            console.log(msg);
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
+               get_carriers_hotel();
                if(data == ''){
                     get_top_facility();
 
@@ -124,6 +125,26 @@ function hotel_signin(data){
               }catch(err){}
             }
        },timeout: 120000
+    });
+}
+
+function get_carriers_hotel(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/hotel",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           hotel_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
     });
 }
 

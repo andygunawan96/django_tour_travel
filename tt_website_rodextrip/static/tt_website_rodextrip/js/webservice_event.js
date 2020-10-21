@@ -632,6 +632,7 @@ function event_signin(data){
            console.log(msg);
            if(msg.result.error_code == 0){
                signature = msg.result.response.signature;
+               get_carriers_event();
                if(data != ''){
                     event_get_booking(data);
                }else{
@@ -662,6 +663,27 @@ function event_signin(data){
        },timeout: 120000
     });
 }
+
+function get_carriers_event(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/event",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           event_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
+    });
+}
+
 //signin jadi 1 sama search
 function event_search(){
     $.ajax({

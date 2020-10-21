@@ -79,6 +79,7 @@ function visa_signin(data){
        success: function(msg) {
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
+                get_carriers_visa();
                 if(data == ''){
                     visa_get_config_provider();
                 }else if(data != ''){
@@ -107,6 +108,26 @@ function visa_signin(data){
                   html: '<span style="color: red;">Error visa signin </span>' + errorThrown,
                 })
             }
+       },timeout: 60000
+    });
+}
+
+function get_carriers_visa(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/visa",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           visa_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
        },timeout: 60000
     });
 }

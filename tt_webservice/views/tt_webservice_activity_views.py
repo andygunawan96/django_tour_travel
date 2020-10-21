@@ -49,6 +49,8 @@ def api_models(request):
             res = login(request)
         elif req_data['action'] == 'get_data':
             res = get_data(request)
+        elif req_data['action'] == 'get_carriers':
+            res = get_carriers(request)
         elif req_data['action'] == 'search':
             res = search(request)
         elif req_data['action'] == 'get_details':
@@ -108,6 +110,60 @@ def login(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
+def get_carriers(request):
+    try:
+        headers = {
+            "Accept": "application/json,text/html,application/xml",
+            "Content-Type": "application/json",
+            "action": "get_carriers",
+            "signature": request.POST['signature']
+        }
+        data = {
+            "provider_type": 'activity'
+        }
+    except Exception as e:
+        _logger.error(str(e) + '\n' + traceback.format_exc())
+    date_time = datetime.now()
+    file = read_cache_with_folder_path("get_activity_carriers")
+    if file:
+        res = json.loads(file)
+        try:
+            date_time -= parse_load_cache(res['datetime'])
+        except:
+            pass
+    get = False
+    try:
+        if date_time.seconds >= 300:
+            get = True
+    except:
+        get = True
+    if get == True:
+        res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
+        try:
+            if res['result']['error_code'] == 0:
+                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
+                res = res['result']['response']
+                write_cache_with_folder(json.dumps(res), "get_activity_carriers")
+                _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
+            else:
+                try:
+                    file = read_cache_with_folder_path("get_activity_carriers")
+                    if file:
+                        res = json.loads(file)
+                    _logger.info("get_carriers AIRLINE ERROR USE CACHE SIGNATURE " + request.POST['signature'])
+                except Exception as e:
+                    _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+        except Exception as e:
+            _logger.error(str(e) + '\n' + traceback.format_exc())
+    else:
+        try:
+            file = read_cache_with_folder_path("get_activity_carriers")
+            if file:
+                res = json.loads(file)
+        except Exception as e:
+            _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
+
+    return res
 
 def get_data(request):
     try:

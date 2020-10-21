@@ -54,6 +54,7 @@ function train_signin(data){
             console.log(msg);
             if(msg.result.error_code == 0){
                 signature = msg.result.response.signature;
+                get_carriers_train();
                 if(data == '')
                     train_get_config_provider();
 //                    train_search(msg.result.response.signature);
@@ -112,6 +113,26 @@ function get_train_config(){
                 alert(errorThrown);
            }
        }
+    });
+}
+
+function get_carriers_train(){
+    $.ajax({
+       type: "POST",
+       url: "/webservice/train",
+       headers:{
+            'action': 'get_carriers',
+       },
+       data: {
+            'signature': signature
+       },
+       success: function(msg) {
+           console.log(msg);
+           train_carriers = msg;
+       },
+       error: function(XMLHttpRequest, textStatus, errorThrown) {
+
+       },timeout: 60000
     });
 }
 
