@@ -172,21 +172,22 @@ function set_payment(val, type){
             <span class="checkmark-radio"></span>
         </label>
         <br/>`;
-        else
-        text+=`
+        else{
+            text+=`
 
-        <label class="radio-button-custom">
-            <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>`;
+            <label class="radio-button-custom">
+                <span style="font-size:14px; font-weight:500;">`+payment_acq2[payment_method][i].name+`<br>`;
 
-        if(payment_acq2[payment_method][i].image){
-            text+=`<img width="50px" height="auto" alt="Logo `+payment_acq2[payment_method][i].name+`" src="`+payment_acq2[payment_method][i].image+`"/></span>`;
+            if(payment_acq2[payment_method][i].image){
+                text+=`<img width="50px" height="auto" alt="Logo `+payment_acq2[payment_method][i].name+`" src="`+payment_acq2[payment_method][i].image+`"/></span>`;
+            }
+
+            text+=`
+                <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
+                <span class="checkmark-radio"></span>
+            </label>
+            <br/>`;
         }
-
-        text+=`
-            <input type="radio" name="radio_payment_type" value="`+i+`" onclick="set_price('`+val+`','`+type+`');">
-            <span class="checkmark-radio"></span>
-        </label>
-        <br/>`;
     }
     text += '<div id="set_detail"></div><br/><div id="set_price"></div>'
     document.getElementById('payment_description').innerHTML = text;
@@ -204,7 +205,8 @@ function set_price(val, type, product_type){
         }
     }
     text = '';
-    document.getElementById('set_detail').innerHTML = `<i>`+payment_acq2[payment_method][selected].description_msg +'</i>';
+    if(+payment_acq2[payment_method][selected].hasOwnProperty('description_msg') == true)
+        document.getElementById('set_detail').innerHTML = `<i>`+payment_acq2[payment_method][selected].description_msg +'</i>';
     text += ` <h6 style="padding-bottom:10px;">2. Payment Detail: </h6>`;
     if(payment_method != 'credit_limit')
         text+=`<div class='row'>

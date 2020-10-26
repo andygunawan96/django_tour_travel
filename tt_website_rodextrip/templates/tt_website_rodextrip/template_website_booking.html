@@ -17,10 +17,13 @@ Licence URI: http://www.os-templates.com/template-terms
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       {% if username.co_user_name != '' %}
+          //gtag('config', `{{google_analytics}}`);
           {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-          gtag('config', `{{b2b}}`);
+          //gtag('config', `{{google_analytics}}`,{'custom_map': {'metric1': 'metric_name'}});
+          gtag('event', 'agent_type', {'metric_name': 'b2b'});
           {% else %}
-          gtag('config', `{{b2c}}`);
+          //gtag('config', `{{google_analytics}}`,{'custom_map': {'metric1': 'metric_name'}});
+          gtag('event', 'agent_type', {'metric_name': 'b2c'});
           {% endif %}
       {% endif %}
     </script>
