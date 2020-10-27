@@ -10,23 +10,23 @@ Licence URI: http://www.os-templates.com/template-terms
 -->
 <html>
 <head>
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id={{google_analytics}}"></script>
+
+     <!--Global site tag (gtag.js) - Google Analytics-->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      {% if username.co_user_name != '' %}
-          //gtag('config', `{{google_analytics}}`);
-          {% if 'b2c_limitation' not in username.co_agent_frontend_security %}
-          //gtag('config', `{{google_analytics}}`,{'custom_map': {'metric1': 'metric_name'}});
-          gtag('event', 'agent_type', {'metric_name': 'b2b'});
-          {% else %}
-          //gtag('config', `{{google_analytics}}`,{'custom_map': {'metric1': 'metric_name'}});
-          gtag('event', 'agent_type', {'metric_name': 'b2c'});
-          {% endif %}
-      {% endif %}
+        google_analytics = '{{google_analytics}}';
     </script>
+    {%if '{{google_analytics}}' != ''%}
+        <script async src="https://www.googletagmanager.com/gtag/js?id={{google_analytics}}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', '{{google_analytics}}');
+        </script>
+    {% endif %}
+
+
     <meta charset="utf-8">
 <!--    <meta name="description" content="Rodextrip adalah agensi yang terbaik bergerak di bidang tour & travel sejak 1945. Jual tiket pesawat, kereta, hotel murah. Urus visa dan passport jadi lebih mudah.">-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">

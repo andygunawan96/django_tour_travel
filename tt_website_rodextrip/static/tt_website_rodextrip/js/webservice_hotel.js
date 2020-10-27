@@ -178,6 +178,8 @@ function hotel_search(){
        success: function(msg) {
            $('#loading-search-hotel').hide();
            console.log(msg);
+           if(google_analytics != '')
+               gtag('event', 'hotel_search', {});
            try{
                 if(msg.result.error_code==0){
                     hotel_data = msg.result.response;
@@ -1053,6 +1055,12 @@ function hotel_issued_booking(val){
        },
        data: data,
        success: function(msg) {
+            if(google_analytics != ''){
+                if(data.hasOwnProperty('member') == true)
+                    gtag('event', 'hotel_issued', {});
+                else
+                    gtag('event', 'hotel_hold_booking', {});
+            }
             console.log('Result');
             console.log(msg);
             try{

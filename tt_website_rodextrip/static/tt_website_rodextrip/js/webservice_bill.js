@@ -325,6 +325,8 @@ function search_ppob(){
            success: function(msg) {
                 console.log(msg);
                 bill_response = msg;
+                if(google_analytics != '')
+                    gtag('event', 'bill_hold_booking', {});
                 if(msg.result.error_code == 0){
                     currency = '';
                     total_price = 0;
@@ -1277,6 +1279,9 @@ function bills_issued(data){
            },
            success: function(msg) {
                console.log(msg);
+               if(google_analytics != '')
+                   if(data.hasOwnProperty('member') == true)
+                        gtag('event', 'bill_issued', {});
                if(msg.result.error_code == 0){
                    //update ticket
                    price_arr_repricing = {};

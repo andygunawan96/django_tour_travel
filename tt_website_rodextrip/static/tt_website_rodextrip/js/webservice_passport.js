@@ -140,6 +140,8 @@ function passport_get_config_provider(){
        },
        success: function(msg) {
             provider_search++;
+            if(google_analytics != '')
+                gtag('event', 'passport_search', {});
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
                 for(i in msg.result.response.providers){
@@ -616,6 +618,12 @@ function passport_commit_booking(){
        data: data,
        success: function(msg) {
             console.log(msg);
+            if(google_analytics != ''){
+                if(data.hasOwnProperty('member') == true)
+                    gtag('event', 'passport_issued', {});
+                else
+                    gtag('event', 'passport_hold_booking', {});
+            }
             if(msg.result.error_code == 0){
 //                document.getElementById('order_number').value = msg.result.response.journey.name;
 //                document.getElementById('visa_booking').submit();

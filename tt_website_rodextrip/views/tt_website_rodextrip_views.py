@@ -230,7 +230,7 @@ def index(request):
                             raise Exception('Make response code 500!')
                         return render(request, MODEL_NAME + '/home_templates.html', values)
                         # return render(request, MODEL_NAME + '/testing.html', {})
-                    except:
+                    except Exception as e:
                         if request.session._session:
                             for key in reversed(list(request.session._session.keys())):
                                 if key != '_language':
@@ -575,8 +575,6 @@ def admin(request):
                     text += request.POST['backend_url'] + '\n'
                     text += request.POST['website_mode'] + '\n'
                     text += request.POST['espay_script'] + '\n'
-                    text += request.POST['google_b2b'] + '\n'
-                    text += request.POST['google_b2c'] + '\n'
                     text += request.POST['google_analytics'] + '\n'
                     text += '<br>'.join(''.join(request.POST['contact_us'].split('\r')).split('\n'))
 
@@ -916,8 +914,6 @@ def get_data_template(request, type='home', provider_type = []):
     bg_login = ''
     bg_search = ''
     bg_regis = ''
-    b2b = ''
-    b2c = ''
     google_analytics = ''
     try:
         if type != 'login':
@@ -1032,18 +1028,8 @@ def get_data_template(request, type='home', provider_type = []):
                     if line == '':
                         pass
                     else:
-                        b2b = line.split('\n')[0]
-                elif idx == 19:
-                    if line == '':
-                        pass
-                    else:
-                        b2c = line.split('\n')[0]
-                elif idx == 20:
-                    if line == '':
-                        pass
-                    else:
                         google_analytics = line.split('\n')[0]
-                elif idx == 21:
+                elif idx == 19:
                     if line.split('<br>')[len(line.split('<br>'))-1] == '\n':
                         contact_us = '\n'.join(line.split('<br>')[:-1])
                     else:
@@ -1081,8 +1067,6 @@ def get_data_template(request, type='home', provider_type = []):
         'bg_login': bg_login,
         'bg_search': bg_search,
         'bg_regis': bg_regis,
-        'b2b': b2b,
-        'b2c': b2c,
         'google_analytics': google_analytics
 
     }
