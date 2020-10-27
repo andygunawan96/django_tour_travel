@@ -52,20 +52,54 @@
 {% include 'tt_website_rodextrip/logout.html' %}
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
+<!-- container for "the" form -->
 <div class="container mt-3 mb-3">
+<div class="card">
+    <div class="card-body">
+        <h3 style="padding-left: 1rem; padding-top:1rem">Report Selector</h3>
+        <form class="p-3 update_chart" id="report_form" action="/webservice/report">
+            {% csrf_token %}
+            <input type="hidden" value="get_report" name="action">
+            <select name="report_of" class="form-control mb-3">
+                <option value="overall" selected>Overall</option>
+                <option value="overall_airline">Airline</option>
+                <option value="overall_activity">Activity</option>
+                <option value="overall_event">Event</option>
+                <option value="overall_hotel">Hotel</option>
+                <option value="overall_tour">Tour</option>
+                <option value="overall_train">Train</option>
+                <option value="overall_visa">Visa</option>
+                <option value="overall_offline">Offline</option>
+            </select>
+            <label>Start Date</label>
+            <input type="date" name="start_date" id="get_report_startdate">
+            <label>Until</label>
+            <input type="date" name="until_date" id="get_report_enddate">
+<!--            <label>Group by</label>-->
+            <select name="group_by" id="group_by" style="display: inline" hidden>
+                <option value="date" selected>Date</option>
+                <option value="month">Month</option>
+            </select>
+            <button type="submit" id="update_chart_button" style="margin-left:1rem">update</button>
+        </form>
+    </div>
+</div>
+</div>
+
+<div class="container mb-3">
     <div class="row">
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    IDR
-                    <p id="total_rupiah" style="float:right">Reserve for total rupiah</p>
+                    <p id="total_data">Reserve for number of data[coming soon]</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4">
             <div class="card">
                 <div class="card-body">
-                    <p id="top_up_rupiah">Reserve for top up [coming soon]</p>
+                    IDR
+                    <p id="total_rupiah" style="float:right">Reserve for total rupiah</p>
                 </div>
             </div>
         </div>
@@ -79,69 +113,40 @@
         </div>
     </div>
 </div>
+
 <div class="container">
     <h2>Overall Report</h2>
     <hr>
     <div class="chart_container">
-        <div class="filter">
-<!--    function update_chart(button_class, canvas_id, action, report_title, report_of, type="days") -->
-<!--        <button class="airline_button report_button" onclick="javascript:update_chart('airline_button', $('#chart_airline'), 'get_overall_airline_report', 'Airline', 'overall_airline', 'days');">Days</button>-->
-<!--        <button class="airline_button report_button" onclick="javascript:update_chart('airline_button', $('#chart_airline'), 'get_overall_airline_report', 'Airline', 'overall_airline', 'month');">Month</button>-->
-<!--        <button class="airline_button report_button" onclick="javascript:update_chart('airline_button', $('#chart_airline'), 'get_overall_airline_report', 'Airline', 'overall_airline', 'quarter');">Quarter</button>-->
-
-            <form class="p-3 update_chart" id="report_form" action="/webservice/report">
-                {% csrf_token %}
-                <input type="hidden" value="chart_report" name="field_id" id="field_id">
-                <input type="hidden" value="get_report" name="action">
-                <label> Additional Filter</label>
-                <select name="report_of" class="form-control mb-3">
-                    <option value="overall" selected>Overall</option>
-                    <option value="overall_airline">Airline</option>
-                    <option value="overall_activity">Activity</option>
-                    <option value="overall_event">Event</option>
-                    <option value="overall_hotel">Hotel</option>
-                    <option value="overall_tour">Tour</option>
-                    <option value="overall_train">Train</option>
-                    <option value="overall_visa">Visa</option>
-                    <option value="overall_offline">Offline</option>
-                </select>
-                <label>Start Date</label>
-                <input type="date" name="start_date" id="get_report_startdate">
-                <label>Until</label>
-                <input type="date" name="until_date" id="get_report_enddate">
-                <label>Group by</label>
-                <select name="group_by" id="group_by" style="display: inline">
-                    <option value="date" selected>Date</option>
-                    <option value="month">Month</option>
-                </select>
-                <button type="submit" id="update_chart_button">update</button>
-            </form>
+        <div id="first_graph">
+            <canvas id="first_chart_report"></canvas>
         </div>
-        <canvas id="chart_report"></canvas>
+    </div>
+    <div class="chart_container">
+        <div id="second_graph">
+            <canvas id="second_chart_report"></canvas>
+        </div>
+    </div>
+    <div class="chart_container">
+        <div id="third_graph">
+            <canvas id="third_chart_report"></canvas>
+        </div>
     </div>
 </div>
 
-<!--<div class="container">-->
-<!--    <h2>Overview</h2>-->
-<!--    <hr>-->
-<!--    <div id="overview_content">-->
-        <!-- function update_chart(button_class, canvas_id, action, report_title, report_of, type="days") -->
-<!--        <button class="train_button report_button" onclick="javascript::update_chart('train_button', $('#chart_train'), 'get_overall_train_report', 'Train Report', 'overall_train', 'days')">Days</button>-->
-<!--        <button class="train_button report_button" onclick="javascript::update_chart('train_button', $('#chart_train'), 'get_overall_train_report', 'Train Report', 'overall_train', 'month')">Month</button>-->
-<!--        <button class="train_button report_button" onclick="javascript::update_chart('train_button', $('#chart_train'), 'get_overall_train_report', 'Train Report', 'overall_train', 'quarter')">Quarter</button>-->
-<!--        <form class="p-3 update_chart" id="train_form" action="/webservice/report">-->
-<!--            {% csrf_token %}-->
-<!--            <input type="hidden" value="chart_train" name="field_id">-->
-<!--            <input type="hidden" value="get_train_report" name="action">-->
-<!--            <label>Start Date</label>-->
-<!--            <input type="date" name="start_date" id="get_train_report_startdate">-->
-<!--            <label>Until</label>-->
-<!--            <input type="date" name="until_date" id="get_train_report_enddate">-->
-<!--            <button type="submit">update</button>-->
-<!--        </form>-->
-<!--        <canvas id="overview_chart"></canvas>-->
-<!--    </div>-->
-<!--</div>-->
+<div class="container">
+    <h2>Overview</h2>
+    <hr>
+    <div id="first_overview_content">
+
+    </div>
+    <div id="second_overview_content">
+
+    </div>
+    <div id="third_overview_content">
+
+    </div>
+</div>
 
 <script src="{{ static_path }}js/webservice_report.js?version={{javascript_version}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
