@@ -1012,6 +1012,12 @@ function passport_get_data(data){
                                     </div>
                                     <div class="row" style="margin-top:10px;">
                                         <div class="col-lg-4">`;
+                                        if(passport.journey.state == 'booked' || passport.journey.state == 'issued')
+                                        text+=`
+                                            <a class="print-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                                <input type="button" class="primary-btn" id="button-print-print" style="width:100%;" value="Passport Handling" onclick="get_printout('`+msg.result.response.journey.name+`', 'passport_cust','passport');" />
+                                                <div class="ld ld-ring ld-cycle"></div>
+                                            </a>`;
                                         text+=`</div>
                                         <div class="col-lg-4">`;
                                         if(passport.journey.state == 'booked')
