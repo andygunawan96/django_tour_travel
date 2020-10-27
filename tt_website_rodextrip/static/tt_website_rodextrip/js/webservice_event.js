@@ -701,6 +701,8 @@ function event_search(){
        success: function(msg) {
 //           console.log('Result');
 //           console.log(msg);
+           if(google_analytics != '')
+               gtag('event', 'event_search', {});
            event_search_result = [];
            var temp = [];
            try{
@@ -1268,45 +1270,47 @@ function event_create_booking(val,a){
             'action': 'create_booking',
        },
        data: {
-            'event_code': 'band001',
-            'provider': 'event_internal',
-            'event_option_codes': [
-                {
-                    'option_code': 'Sil-01',
-                    'extra_question': [
-                        {'question_id': '1','answer': 'Yes',},
-                        {'question_id': '2','answer': 'No',},
-                        {'question_id': '3','answer': '123',}
-                    ]
-                },
-                {
-                    'option_code': 'Sil-01',
-                    'extra_question': [
-                        {'question_id': '1','answer': 'No',},
-                        {'question_id': '2','answer': 'No',},
-                        {'question_id': '3','answer': '6',}
-                    ]
-                },
-                {
-                    'option_code': 'Pla-03',
-                    'extra_question': [
-                        {'question_id': '1','answer': 'No',},
-                        {'question_id': '2','answer': 'Yes',},
-                        {'question_id': '3','answer': '7',}
-                    ]
-                },
-            ],
-            'event_extra_question': '',
+//            'event_code': 'band001',
+//            'provider': 'event_internal',
+//            'event_option_codes': [
+//                {
+//                    'option_code': 'Sil-01',
+//                    'extra_question': [
+//                        {'question_id': '1','answer': 'Yes',},
+//                        {'question_id': '2','answer': 'No',},
+//                        {'question_id': '3','answer': '123',}
+//                    ]
+//                },
+//                {
+//                    'option_code': 'Sil-01',
+//                    'extra_question': [
+//                        {'question_id': '1','answer': 'No',},
+//                        {'question_id': '2','answer': 'No',},
+//                        {'question_id': '3','answer': '6',}
+//                    ]
+//                },
+//                {
+//                    'option_code': 'Pla-03',
+//                    'extra_question': [
+//                        {'question_id': '1','answer': 'No',},
+//                        {'question_id': '2','answer': 'Yes',},
+//                        {'question_id': '3','answer': '7',}
+//                    ]
+//                },
+//            ],
+//            'event_extra_question': '',
             'special_request': '',
             'force_issued': '0',
             'signature': signature
        },
        success: function(msg) {
         console.log(msg);
+        if(google_analytics != '')
+            gtag('event', 'event_hold_booking', {});
         if(msg.result.error_code == 0){
             if(val == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
-                    send_url_booking('airline', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    send_url_booking('event', btoa(msg.result.response.order_number), msg.result.response.order_number);
                     document.getElementById('order_number').value = msg.result.response.order_number;
                     document.getElementById('event_issued').submit();
                 }else{
@@ -1360,6 +1364,8 @@ function event_issued(data){
            },
            success: function(msg) {
                console.log(msg);
+               if(google_analytics != '')
+                   gtag('event', 'event_issued', {});
                if(msg.result.error_code == 0){
                    //update ticket
                    price_arr_repricing = {};

@@ -314,6 +314,8 @@ function activity_search(){
        },
        success: function(msg) {
         console.log(msg);
+        if(google_analytics != '')
+           gtag('event', 'activity_search', {});
            var text = '';
            var counter = 0;
            document.getElementById('activity_ticket').innerHTML = "";
@@ -1293,6 +1295,12 @@ function activity_commit_booking(val){
        data: data,
        success: function(msg) {
         console.log(msg);
+        if(google_analytics != ''){
+            if(data.hasOwnProperty('member') == true)
+                gtag('event', 'activity_issued', {});
+            else
+                gtag('event', 'activity_hold_booking', {});
+        }
         if(msg.result.error_code == 0){
             if(val == 0){
                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
@@ -1363,6 +1371,8 @@ function activity_issued_booking(order_number)
        },
        success: function(msg) {
            console.log(msg);
+           if(google_analytics != '')
+               gtag('event', 'activity_issued', {});
            if(msg.result.error_code == 0){
                var booking_num = msg.result.response.order_number;
                if (booking_num)

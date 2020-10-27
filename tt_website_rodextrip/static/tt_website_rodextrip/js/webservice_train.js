@@ -149,6 +149,8 @@ function train_get_config_provider(){
        success: function(msg) {
             console.log(msg);
             counter_train_provider = 0;
+            if(google_analytics != '')
+                gtag('event', 'train_search', {});
             if(msg.result.error_code == 0){
                 provider_length = msg.result.response.providers.length;
                 for(i in msg.result.response.providers){
@@ -381,6 +383,12 @@ function train_create_booking(val){
        data: data,
        success: function(msg) {
        console.log(msg);
+       if(google_analytics != ''){
+           if(data.hasOwnProperty('member') == true)
+                gtag('event', 'train_issued', {});
+           else
+                gtag('event', 'train_hold_booking', {});
+       }
         if(msg.result.error_code == 0){
             //send order number
             if(val == 0){
@@ -1267,6 +1275,8 @@ function train_issued(data){
            },
            success: function(msg) {
                console.log(msg);
+               if(google_analytics != '')
+                   gtag('event', 'train_issued', {});
                if(msg.result.error_code == 0){
                    //update ticket
                    price_arr_repricing = {};

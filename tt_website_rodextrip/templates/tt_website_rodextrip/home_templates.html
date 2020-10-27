@@ -52,6 +52,11 @@
 
     }
     airline_carriers = [];
+    {% if username.co_user_name != '' and '{{google_analytics}}' != '' %}
+        {% if 'b2c_limitation' in username.co_agent_frontend_security %}
+          gtag('event', 'b2c', {'agent_type':'b2c'});
+        {% endif %}
+    {% endif %}
 </script>
 
 <style>

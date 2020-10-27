@@ -488,6 +488,8 @@ function search_ppob(){
            },
            success: function(msg) {
                 console.log(msg);
+                if(google_analytics != '')
+                    gtag('event', 'ppob_hold_booking', {});
                 bill_response = msg;
                 if(msg.result.error_code == 0){
                     currency = '';
@@ -1609,6 +1611,8 @@ function ppob_issued(data){
            },
            success: function(msg) {
                console.log(msg);
+               if(google_analytics != '')
+                   gtag('event', 'ppob_issued', {});
                if(msg.result.error_code == 0){
                    //update ticket
                    price_arr_repricing = {};

@@ -215,6 +215,8 @@ function tour_search(){
        },
        success: function(msg) {
         console.log(msg);
+        if(google_analytics != '')
+            gtag('event', 'tour_search', {});
            var text = '';
            var counter = 0;
            data=[]
@@ -1138,6 +1140,12 @@ function commit_booking_tour(val)
        data: data,
        success: function(msg) {
            console.log(msg);
+           if(google_analytics != ''){
+               if(data.hasOwnProperty('member') == true)
+                   gtag('event', 'tour_issued', {});
+               else
+                   gtag('event', 'tour_hold_booking', {});
+           }
            if(msg.result.error_code == 0){
                var booking_num = msg.result.response.order_number;
                if(val == 1){
@@ -1274,6 +1282,8 @@ function tour_issued_booking(order_number)
        },
        success: function(msg) {
            console.log(msg);
+           if(google_analytics != '')
+               gtag('event', 'tour_issued', {});
            if(msg.result.error_code == 0){
                var booking_num = msg.result.response.order_number;
                if (booking_num)

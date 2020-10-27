@@ -145,6 +145,12 @@ function signin(){
            },
            success: function(msg) {
             console.log(msg);
+            if(google_analytics != ''){
+                if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
+                    gtag('event', 'b2c', {'agent_type':'b2c'});
+                else
+                    gtag('event', 'b2b', {'agent_type':'b2b'});
+            }
             if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
                 gotoForm();
                 let timerInterval
@@ -272,7 +278,12 @@ function signin_btc(){
            success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                //gotoForm();
+                if(google_analytics != ''){
+                    if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        gtag('event', 'b2c', {'agent_type':'b2c'});
+                    else
+                        gtag('event', 'b2b', {'agent_type':'b2b'});
+                }
                 console.log($('#username').val());
                 try{
                     document.getElementById('nav-menu-container_no_login').style.display = 'none';

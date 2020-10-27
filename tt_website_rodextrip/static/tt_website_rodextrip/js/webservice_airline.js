@@ -590,6 +590,8 @@ function carrier_to_provider(){
     count_progress_bar_airline = 0;
     send_search_to_api();
     get_carriers();
+    if(google_analytics != '')
+        gtag('event', 'airline_search', {});
 //    document.getElementById('airline_list').innerHTML = '';
     document.getElementById('airline_list2').innerHTML = '';
 }
@@ -3117,6 +3119,12 @@ function airline_commit_booking(val){
        data: data,
        success: function(msg) {
            console.log(msg);
+           if(google_analytics != ''){
+               if(data.hasOwnProperty('member') == true)
+                   gtag('event', 'airline_issued', {});
+               else
+                   gtag('event', 'airline_hold_booking', {});
+           }
            if(msg.result.error_code == 0){
                //send order number
                if(val == 0){
@@ -3277,6 +3285,12 @@ function airline_force_commit_booking(val){
        data: data,
        success: function(msg) {
            console.log(msg);
+           if(google_analytics != ''){
+               if(data.hasOwnProperty('member') == true)
+                   gtag('event', 'airline_issued', {});
+               else
+                   gtag('event', 'airline_hold_booking', {});
+           }
            if(msg.result.error_code == 0){
                //send order number
                if(val == 0){
@@ -5034,6 +5048,8 @@ function airline_issued(data){
            },
            success: function(msg) {
                console.log(msg);
+               if(google_analytics != '')
+                   gtag('event', 'airline_issued', {});
                if(msg.result.error_code == 0){
                    //update ticket
                    price_arr_repricing = {};
