@@ -1582,7 +1582,7 @@ function get_booking_offline(data){
                                                 <span style="font-size:13px; font-weight:bold;">Commission</span>
                                             </div>
                                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
-                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(msg.result.response.commission)*-1)+`</span>
+                                                <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(msg.result.response.commission))+`</span>
                                             </div>
                                         </div>`;
                                         if(msg.result.response.hasOwnProperty('agent_nta') == true || msg.result.response.hasOwnProperty('total_nta') == true){
