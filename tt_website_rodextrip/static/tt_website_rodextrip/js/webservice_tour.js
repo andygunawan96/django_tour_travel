@@ -1968,7 +1968,30 @@ function tour_get_booking(order_number)
                      <div class="row" id="show_commission" style="display:none;">
                         <div class="col-lg-12 col-xs-12" style="text-align:center;">
                             <div class="alert alert-success">
-                                <span style="font-size:13px; font-weight: bold;">Your Commission: IDR `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                                <div class="row">
+                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px; font-weight:bold;">Commission</span>
+                                    </div>
+                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
+                                    </div>
+                                </div>`;
+                                if(msg.result.response.hasOwnProperty('agent_nta') == true || msg.result.response.hasOwnProperty('total_nta') == true){
+                                    total_nta = 0;
+                                    if(msg.result.response.hasOwnProperty('agent_nta') == true)
+                                        total_nta = msg.result.response.agent_nta;
+                                    else
+                                        total_nta = msg.result.response.total_nta;
+                                    price_text+=`<div class="row">
+                                    <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                        <span style="font-size:13px; font-weight:bold;">Total NTA</span>
+                                    </div>
+                                    <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                        <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                    </div>
+                                </div>`;
+                                }
+                                price_text+=`
                             </div>
                         </div>
                      </div>`;
