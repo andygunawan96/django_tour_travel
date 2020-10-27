@@ -1031,6 +1031,7 @@ function train_get_booking(data){
                             text_detail+= `</span>
                         </div>
                     </div>`;
+
                     if(msg.result.response.state == 'booked')
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     text_detail+=`<div class="row">
@@ -1061,7 +1062,30 @@ function train_get_booking(data){
                         <div class="row" id="show_commission" style="display:none;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
                                 <div class="alert alert-success">
-                                    <span style="font-size:13px; font-weight:bold;">Your Commission: `+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span><br>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">Commission</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(parseInt(commission)*-1)+`</span>
+                                        </div>
+                                    </div>`;
+                                    if(msg.result.response.hasOwnProperty('agent_nta') == true || msg.result.response.hasOwnProperty('total_nta') == true){
+                                        total_nta = 0;
+                                        if(msg.result.response.hasOwnProperty('agent_nta') == true)
+                                            total_nta = msg.result.response.agent_nta;
+                                        else
+                                            total_nta = msg.result.response.total_nta;
+                                        text_detail+=`<div class="row">
+                                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                            <span style="font-size:13px; font-weight:bold;">Total NTA</span>
+                                        </div>
+                                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                            <span style="font-size:13px; font-weight:bold;">`+price.currency+` `+getrupiah(total_nta)+`</span>
+                                        </div>
+                                    </div>`;
+                                    }
+                                    text_detail+=`
                                 </div>
                             </div>
                         </div>`;

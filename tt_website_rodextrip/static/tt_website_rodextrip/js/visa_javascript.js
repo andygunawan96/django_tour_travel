@@ -659,6 +659,7 @@ function update_table(type){
                     <h6>`+currency+` `+getrupiah(price)+`</h6>
                 </div>
             </div>`;
+
         $text += `\nGrand total `+currency+` `+getrupiah(price);
         try{
             display = document.getElementById('show_commission').style.display;
@@ -667,15 +668,39 @@ function update_table(type){
         }
         if(visa.journey.state == 'booked')
         text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:30px; height:30px;"/></i></div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
             text+=`
             <div class="row" id="show_commission" style="display: `+display+`;">
                 <div class="col-lg-12" style="text-align:center;">
                     <div class="alert alert-success">
-                        <span style="font-size:13px; font-weight:bold;">Your Commission: `+currency+` `+getrupiah(commission)+`</span><br>
+                        <div class="row">
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight:bold;">Commission</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(parseInt(commission))+`</span>
+                            </div>
+                        </div>`;
+                        if(visa.hasOwnProperty('agent_nta') == true || visa.hasOwnProperty('total_nta') == true){
+                            total_nta = 0;
+                            if(visa.hasOwnProperty('agent_nta') == true)
+                                total_nta = visa.agent_nta;
+                            else
+                                total_nta = visa.total_nta;
+                            text+=`<div class="row">
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight:bold;">Total NTA</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
+                            </div>
+                        </div>`;
+                        }
+                        text+=`
                     </div>
                 </div>
             </div>`;
+        }
         text+=`
         <div class="row" style="margin-top:10px; text-align:center;">
            <div class="col-lg-12">
