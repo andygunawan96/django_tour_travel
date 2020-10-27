@@ -681,15 +681,24 @@ function update_table(type){
                                 <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(parseInt(commission))+`</span>
                             </div>
                         </div>`;
-                        if(visa.hasOwnProperty('agent_nta') == true || visa.hasOwnProperty('total_nta') == true){
+                        if(visa.hasOwnProperty('agent_nta') == true){
                             total_nta = 0;
-                            if(visa.hasOwnProperty('agent_nta') == true)
-                                total_nta = visa.agent_nta;
-                            else
-                                total_nta = visa.total_nta;
+                            total_nta = visa.agent_nta;
                             text+=`<div class="row">
                             <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                                <span style="font-size:13px; font-weight:bold;">Total NTA</span>
+                                <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+                            </div>
+                            <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                                <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
+                            </div>
+                        </div>`;
+                        }
+                        if(visa.hasOwnProperty('total_nta') == true){
+                            total_nta = 0;
+                            total_nta = visa.total_nta;
+                            text+=`<div class="row">
+                            <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                                <span style="font-size:13px; font-weight:bold;">HO NTA</span>
                             </div>
                             <div class="col-lg-6 col-xs-6" style="text-align:right;">
                                 <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>

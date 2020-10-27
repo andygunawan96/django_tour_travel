@@ -656,15 +656,24 @@ function update_table(type){
                             <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(parseInt(commission))+`</span>
                         </div>
                     </div>`;
-                    if(passport.hasOwnProperty('agent_nta') == true || passport.hasOwnProperty('total_nta') == true){
+                    if(passport.hasOwnProperty('agent_nta') == true){
                         total_nta = 0;
-                        if(passport.hasOwnProperty('agent_nta') == true)
-                            total_nta = passport.agent_nta;
-                        else
-                            total_nta = passport.total_nta;
+                        total_nta = passport.agent_nta;
                         text+=`<div class="row">
                         <div class="col-lg-6 col-xs-6" style="text-align:left;">
-                            <span style="font-size:13px; font-weight:bold;">Total NTA</span>
+                            <span style="font-size:13px; font-weight:bold;">Agent NTA</span>
+                        </div>
+                        <div class="col-lg-6 col-xs-6" style="text-align:right;">
+                            <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
+                        </div>
+                    </div>`;
+                    }
+                    if(passport.hasOwnProperty('total_nta') == true){
+                        total_nta = 0;
+                        total_nta = passport.total_nta;
+                        text+=`<div class="row">
+                        <div class="col-lg-6 col-xs-6" style="text-align:left;">
+                            <span style="font-size:13px; font-weight:bold;">HO NTA</span>
                         </div>
                         <div class="col-lg-6 col-xs-6" style="text-align:right;">
                             <span style="font-size:13px; font-weight:bold;">`+currency+` `+getrupiah(total_nta)+`</span>
