@@ -333,8 +333,6 @@ def search(request):
                     visa_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['visa_type'])
                 if list_of_visa['type']['process_type'] not in process_type[list_of_visa['pax_type'][1].lower()]:
                     process_type[list_of_visa['pax_type'][1].lower()].append(list_of_visa['type']['process_type'])
-                if visa_list:
-                    visa_list['result']['response'].append(list_of_visa)
             if visa_list:
                 set_session(request, 'visa_search', visa_list)
             else:

@@ -1217,7 +1217,7 @@ function change_top_up_method(){
                         <div class="panel-heading-sgo" role="tab" id="headingFive">
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                                    MANDIRI Mobile Banking
+                                    BCA Mobile Banking
                                 </a>
                             </h4>
                         </div>
@@ -1238,7 +1238,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Buka Aplikasi&nbsp;<strong>Mandiri Mobile Banking</strong>,
+                                                                            1. Buka Aplikasi&nbsp;<strong>BCA Mobile</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1251,7 +1251,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Lakukan&nbsp;<strong>log in</strong>&nbsp;dengan akun Mandiri Mobile Banking,
+                                                                            2. Login ke akun&nbsp;<strong>m-BCA</strong>&nbsp; Anda.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1264,7 +1264,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Pilih menu&nbsp;<strong>Bayar &gt; Lainnya</strong>,
+                                                                            3. Pilih&nbsp;<strong>BCA Virtual Account</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1277,7 +1277,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Pilih penyedia layanan&nbsp;<strong>Transferpay</strong>,
+                                                                            4. Masukkan nomor&nbsp;<strong>Virtual Account</strong> yang tertera.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1290,7 +1290,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Masukkan 16 digit&nbsp;<strong>Nomor Virtual Account</strong>,
+                                                                            5. Masukkan&nbsp;<strong>Nominal top-up</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1303,33 +1303,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Pada layar konfirmasi, pastikan tagihan Anda sudah sesuai,
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            7. Jika sudah sesuai, masukkan&nbsp;<strong>OTP</strong>&nbsp;dan&nbsp;<strong>Pin SMS Banking</strong>, lalu klik&nbsp;<strong>OK</strong>,
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            8. Transaksi Selesai.
+                                                                            6. Ikuti instruksi untuk menyelesaikan transaksi.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1351,49 +1325,106 @@ function change_top_up_method(){
                         <div class="panel-heading-sgo" role="tab" id="headingThree">
                             <h4 class="panel-title">
                                 <a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    ATM MANDIRI
+                                    Klik BCA
                                 </a>
                             </h4>
                         </div>
-                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" style="height: auto;">
-                            <div class="panel-body" style="margin-top:10px;">
-                                <div class="row">
-                                    <div class="col-sm-4 col-md-4 col-lg-4" style=>
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-2.png">
-                                        <p>Masukkan kartu ATM Mandiri dan PIN Anda,</p>
-                                    </div>
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-3.png">
-                                        <p>Pada ATM Mandiri, pilih menu <strong>Bayar/Beli &gt; Lainnya &gt; Lainnya</strong>,</p>
-                                    </div>
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-6.png">
-                                        <p>Pilih&nbsp;<strong>Multi Payment</strong>,</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-7.png">
-                                        <p>Masukkan <strong>kode&nbsp;perusahaan</strong>&nbsp;lalu tekan&nbsp;<strong>Benar</strong>,</p>
-                                    </div>
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-8.png">
-                                        <p>Masukkan 16 digit&nbsp;<strong>Nomor Virtual Account</strong>,</p>
-                                    </div>
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-9.png">
-                                        <p>Pada layar konfirmasi, pastikan tagihan Anda sudah sesuai,</p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-10.png">
-                                        <p>Jika sudah sesuai, tekan&nbsp;<strong>1</strong>, lanjutkan dengan menekan&nbsp;<strong>Ya</strong>,</p>
-                                    </div>
-                                    <div class="col-sm-4 col-md-4 col-lg-4">
-                                        <img class="img-thumbnail" alt="Mandiri VA" src="/static/tt_website_rodextrip/images/espay/step-mandiriva-12.png">
-                                        <p>Transaksi Selesai.</p>
-                                    </div>
+                        <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree" style="height: 0px;">
+                            <div class="panel-body">
+                                <div style="margin:0px auto;max-width:600px;">
+                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                    <!--[if mso | IE]>
+                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+                                            <![endif]-->
+                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                            <tbody>
+
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            1. Login ke akun&nbsp;<strong>Klik BCA</strong> Anda.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            2. Pilih menu&nbsp;<strong>Transfer Dana</strong>&nbsp;.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            3. Pilih&nbsp;<strong>Transfer ke BCA Virtual Account</strong>.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            4. Masukkan nomor&nbsp;<strong>Virtual Account</strong> yang tertera.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            5. Masukkan&nbsp;<strong>Nominal top-up</strong>.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            6. Ikuti instruksi untuk menyelesaikan transaksi.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--[if mso | IE]>
+                                            </td></tr></table>
+                                            <![endif]-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -1402,7 +1433,7 @@ function change_top_up_method(){
                         <div class="panel-heading-sgo" role="tab" id="headingFour">
                             <h4 class="panel-title">
                                 <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                                    MANDIRI Internet Banking
+                                    MANDIRI Online
                                 </a>
                             </h4>
                         </div>
@@ -1423,7 +1454,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            1. Masuk ke situs <a href="https://ib.bankmandiri.co.id">https://ib.bankmandiri.co.id</a>,
+                                                                            1. Login ke akun&nbsp;<strong>Mandiri Online</strong> Anda.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1436,7 +1467,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            2. Lakukan&nbsp;<strong>log in</strong>&nbsp;dengan akun&nbsp;<strong>Mandiri Internet Banking</strong>&nbsp;Anda,
+                                                                            2. Pilih menu&nbsp;<strong>Pembayaran</strong>&nbsp;.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1449,7 +1480,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            3. Klik menu&nbsp;<strong>Bayar &gt; Multi Payment</strong>,
+                                                                            3. Pilih menu&nbsp;<strong>Buat Pembayaran Baru</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1462,7 +1493,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            4. Pada kolom&nbsp;<strong>penyedia jasa</strong>&nbsp;pilih&nbsp;<strong>Transferpay</strong>,
+                                                                            4. Pilih menu&nbsp;<strong>Multipayment</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1475,7 +1506,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            5. Masukan 16 digit&nbsp;<strong>Nomor Virtual Account</strong>&nbsp;pada kolom&nbsp;<strong>Kode Bayar</strong>,
+                                                                            5. Pilih&nbsp;<strong>Espay</strong> dan masukkan nomor &nbsp;<strong>Virtual Account</strong> yang tertera.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1488,7 +1519,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            6. Pada layar konfirmasi, pastikan tagihan Anda sudah sesuai,
+                                                                            6. Masukkan&nbsp;<strong>Nominal top-up</strong>.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1501,20 +1532,7 @@ function change_top_up_method(){
                                                                 <tr>
                                                                     <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
                                                                         <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            7. Jika sudah sesuai,&nbsp;<strong>checklist kotak tagihan</strong>&nbsp;dan klik&nbsp;<strong>Lanjutkan</strong>,
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
-                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
-                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
-                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
-                                                                            8. Transaksi Selesai.
+                                                                            7. Ikuti instruksi untuk menyelesaikan transaksi.
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -1532,7 +1550,114 @@ function change_top_up_method(){
                             </div>
                         </div>
                     </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading-sgo" role="tab" id="headingTwo">
+                            <h4 class="panel-title">
+                                <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    MANDIRI Internet
+                                </a>
+                            </h4>
+                        </div>
+                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo" style="height: 0px;">
+                            <div class="panel-body">
+                                <div style="margin:0px auto;max-width:600px;">
+                                    <table role="presentation" cellpadding="0" cellspacing="0" style="font-size:0px;width:100%;" align="center" border="0">
+                                        <tbody>
+                                            <tr>
+                                                <td style="text-align:center;vertical-align:top;direction:ltr;font-size:0px;padding:20px 0px;">
+                                                    <!--[if mso | IE]>
+                                            <table role="presentation" border="0" cellpadding="0" cellspacing="0"><tr><td style="vertical-align:top;width:600px;">
+                                            <![endif]-->
+                                                    <div class="mj-column-per-100 outlook-group-fix" style="vertical-align:top;display:inline-block;direction:ltr;font-size:13px;text-align:left;width:100%;">
+                                                        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                                                            <tbody>
 
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            1. Login ke akun&nbsp;<strong>Mandiri Internet</strong> Anda.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            2. Pilih menu&nbsp;<strong>Pembayaran</strong>&nbsp;.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            3. Pilih menu&nbsp;<strong>Multipayment</strong>.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            4. Pilih&nbsp;<strong>Espay</strong> dan masukkan nomor &nbsp;<strong>Virtual Account</strong> yang tertera.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            5. Masukkan&nbsp;<strong>Nominal top-up</strong>.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;">
+                                                                        <p style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;"></p>
+                                                                        <!--[if mso | IE]><table role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="font-size:1px;margin:0px auto;border-top:1px dashed lightgrey;width:100%;" width="600"><tr><td style="height:0;line-height:0;">&nbsp;</td></tr></table><![endif]-->
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td style="word-break:break-word;font-size:0px;padding:10px 25px;" align="left">
+                                                                        <div class="" style="cursor:auto;color:#000000;font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:22px;text-align:left;">
+                                                                            6. Ikuti instruksi untuk menyelesaikan transaksi.
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!--[if mso | IE]>
+                                            </td></tr></table>
+                                            <![endif]-->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
 
 

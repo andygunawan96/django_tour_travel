@@ -1392,6 +1392,7 @@ function hotel_room_pick(key){
     $text2 = ''+ get_name_hotel +' *'+ get_rating_hotel +'\n';
     $text2 += 'Address: '+ get_address_hotel +'\n';
     $text2 += get_date_hotel +'\n\n';
+    total_price_hotel = 0;
     for(i in hotel_room.rooms){
         text += '<h5>'+ hotel_room.rooms[i].description + '</h5>';
         //text += '<span> '+ hotel_room.rooms[i].category + '<span><br/>';
@@ -1424,7 +1425,7 @@ function hotel_room_pick(key){
         </div>
         <div class="col-lg-6" style="text-align:right;">
             <span style="font-weight:bold;">IDR `+ getrupiah(hotel_room.rooms[i].price_total) +`</span><br/>
-            <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
+            <span style="font-weight:500;">(for 1 room, `+total_night+` night)</span>
         </div>`;
         if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
             text+=`
@@ -1434,10 +1435,21 @@ function hotel_room_pick(key){
                 </div>
             </div>`;
         text += `</div>`;
-
+        total_price_hotel += hotel_room.rooms[i].price_total;
         $text2 += 'Total: IDR '+getrupiah(hotel_room.rooms[i].price_total) + ' ';
-        $text2 += '(for '+ total_room +' room, ' +total_night+ 'night) \n\n';
+        $text2 += '(for 1 room, ' +total_night+ 'night) \n\n';
     }
+    $text2 += 'Grand Total: IDR '+getrupiah(total_price_hotel)+'(for '+total_room+' room, ' +total_night+ 'night) \n\n';
+    text += `<hr/>`;
+    text += `<div class="row">`;
+    text += `<div class="col-lg-6">
+            <span style="font-weight:bold;font-size:15px;">Grand Total</span>
+        </div>
+        <div class="col-lg-6" style="text-align:right;">
+            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel) +`</span><br/>
+            <span style="font-weight:500;">(for `+total_room+` room, `+total_night+` night)</span>
+        </div>
+    </div>`;
 
     document.getElementById('button'+key).innerHTML = 'Chosen';
     document.getElementById('button'+key).classList.remove("primary-btn-custom");
@@ -1743,6 +1755,8 @@ function check_passenger(adult, child){
 }
 
 function hotel_detail(old_cancellation_policy){
+    total_price_hotel = 0;
+    commission = 0;
     if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
         tax = 0;
         fare = 0;
@@ -1870,6 +1884,8 @@ function hotel_detail(old_cancellation_policy){
         }
         try{
             grand_total_price = parseFloat(hotel_price.rooms[i].price_total);
+            total_price_hotel += grand_total_price;
+            commission += parseInt(hotel_price.rooms[i].commission) *-1;
         }catch(err){}
         text += `<div class="col-lg-12"><hr/></div>`;
         if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
@@ -1893,13 +1909,7 @@ function hotel_detail(old_cancellation_policy){
         <div class="col-lg-6" style="text-align:right;">
             <span style="font-weight:bold;">IDR `+ getrupiah(grand_total_price) +`</span>
         </div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-            text+=`
-            <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
-                <div class="alert alert-success">
-                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(parseInt(hotel_price.rooms[i].commission) *-1) +`</span><br>
-                </div>
-            </div>`;
+
         try{
             if(adult.length > 0){
                 $text2 += '\nPassengers\n'
@@ -1912,42 +1922,60 @@ function hotel_detail(old_cancellation_policy){
             }
             $text2 += '\n';
         }catch(err){}
-        $text2 += 'Grand Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n';
-
-        text += `<div class="col-lg-12" style="padding-bottom:15px;">
-            <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
-            share_data2();
-            var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-            if (isMobile) {
-                text+=`
-                    <a href="https://wa.me/?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                    <a href="line://msg/text/`+ $text_share2 +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                    <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-            } else {
-                text+=`
-                    <a href="https://web.whatsapp.com/send?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
-                    <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share2 +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
-                    <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share2" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
-                    <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
-            }
-        text +=`</div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
-            text += `<div class="col-lg-12">
-                <input class="primary-btn-white" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
-            </div>`;
-        text += `
-        <div class="col-lg-12" style="padding-top:10px;">
-            <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
-        </div>`;
-
-
-        text += `</div>`;
+        $text2 += 'Total: IDR ' + getrupiah(hotel_price.rooms[i].price_total) + '\n';
+        text += `</div><br/>`;
     }
+    text += `<div class="row">
+        <div class="col-lg-6">
+            <span style="font-weight:bold;font-size:15px;">Grand Total</span>
+        </div>
+        <div class="col-lg-6" style="text-align:right;">
+            <span style="font-weight:bold;font-size:15px;">IDR `+ getrupiah(total_price_hotel) +`</span>
+        </div>
+    </div>`;
+    $text2 += 'Grand Total: IDR ' + getrupiah(total_price_hotel) + '\n';
+    text += `<div class="row"><div class="col-lg-12" style="padding-bottom:15px;">
+        <span style="font-size:14px; font-weight:bold;">Share This on:</span><br/>`;
+        share_data2();
+        var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        if (isMobile) {
+            text+=`
+                <a href="https://wa.me/?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                <a href="line://msg/text/`+ $text_share2 +`" target="_blank" title="Share by Line" style="padding-right:5px;"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+        } else {
+            text+=`
+                <a href="https://web.whatsapp.com/send?text=`+ $text_share2 +`" data-action="share/whatsapp/share" title="Share by Whatsapp" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/whatsapp.png" alt="Whatsapp"/></a>
+                <a href="https://social-plugins.line.me/lineit/share?text=`+ $text_share2 +`" title="Share by Line" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/line.png" alt="Line"/></a>
+                <a href="https://telegram.me/share/url?text=`+ $text_share2 +`&url=Share2" title="Share by Telegram" style="padding-right:5px;"  target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/telegram.png" alt="Telegram"/></a>
+                <a href="mailto:?subject=This is the hotel price detail&amp;body=`+ $text_share2 +`" title="Share by Email" style="padding-right:5px;" target="_blank"><img style="height:30px; width:auto;" src="/static/tt_website_rodextrip/img/email.png" alt="Email"/></a>`;
+        }
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`<br/>
+            <div class="col-lg-12 col-xs-12" style="text-align:center; display:none;" id="show_commission_hotel">
+                <div class="alert alert-success">
+                    <span style="font-size:13px; font-weight:bold;">Your Commission: IDR `+ getrupiah(commission) +`</span><br>
+                </div>
+            </div>`;
+    text +=`</div></div>`;
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        text += `<div class="col-lg-12">
+            <input class="primary-btn-white" id="show_commission_button_hotel" style="width:100%;" type="button" onclick="show_commission_hotel();" value="Show Commission"/>
+        </div>`;
+    text += `
+    <div class="col-lg-12" style="padding-top:10px;">
+        <input class="primary-btn-white" style="width:100%;" type="button" onclick="copy_data2();" value="Copy">
+    </div>`;
+
+
+    text += `</div>`;
     //console.log(text);
     try{
         document.getElementById('old_cancellation_policy').innerHTML = old_cancellation_text;
         document.getElementById('new_cancellation_policy').innerHTML = new_cancellation_text;
+    }catch(err){console.log(err);}
+    try{
         document.getElementById('hotel_detail').innerHTML = text;
     }catch(err){}
 }
@@ -2159,13 +2187,24 @@ function delete_checked_copy_result(id){
 function copy_data(){
     try{
         get_checked_copy_result();
-    }catch(err){}
-    document.getElementById('data_copy').innerHTML = $text;
-    document.getElementById('data_copy').hidden = false;
-    var el = document.getElementById('data_copy');
+    }catch(err){console.log(err)}
+    console.log($text);
+    console.log('lalala');
+
+    const el = document.createElement('textarea');
+    el.value = $text;
+    document.body.appendChild(el);
     el.select();
     document.execCommand('copy');
-    document.getElementById('data_copy').hidden = true;
+    document.body.removeChild(el);
+
+    //di get booking hotel ga jalan
+//    document.getElementById('data_copy').innerHTML = $text;
+//    document.getElementById('data_copy').hidden = false;
+//    var el = document.getElementById('data_copy');
+//    el.select();
+//    document.execCommand('copy');
+//    document.getElementById('data_copy').hidden = true;
 
     const Toast = Swal.mixin({
       toast: true,
