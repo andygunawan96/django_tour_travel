@@ -89,7 +89,13 @@ function add_repricing_number(val){
     console.log('here');
     var amount = document.getElementById('calculation'+val).value.split(',');
     amount = amount.join('');
-    document.getElementById('calculation'+val).value = getrupiah(amount);
+    console.log(amount);
+    if(amount.match('%')){
+        amount = amount.split('%')[0];
+        document.getElementById('calculation'+val).value = getrupiah(amount) + '%';
+    }else{
+        document.getElementById('calculation'+val).value = getrupiah(amount);
+    }
 }
 
 function delete_table_of_equation(){
