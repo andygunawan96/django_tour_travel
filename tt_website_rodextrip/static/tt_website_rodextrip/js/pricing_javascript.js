@@ -37,7 +37,7 @@ function show_repricing(){
     $("#myModalRepricing").modal();
 }
 
-function add_table_of_equation(){
+function add_table_of_equation(percentage=true){
     text= '';
     var node = document.createElement("div");
     text += `
@@ -67,8 +67,12 @@ function add_table_of_equation(){
         </div>
     </div>`;
     text += `
-        <div class="col-lg-4" style="padding:0px;">
-            <span style="font-size:11px;">Price (number or percentage)</span><br/>
+        <div class="col-lg-4" style="padding:0px;">`;
+        text+=`
+            <span style="font-size:11px;">Price (number`;
+            if(percentage==true)
+                text+=` or percentage`;
+            text+=`)</span><br/>
             <div class="banner-right">
                 <div class="form-wrap" style="padding:0px;">
                     <div class="input-container-search-ticket">
