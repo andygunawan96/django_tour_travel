@@ -387,8 +387,11 @@ def passenger(request):
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             #CHECK INI
             set_session(request, 'time_limit', int(request.POST['time_limit_input']))
+            set_session(request, 'signature', request.POST['signature'])
+            set_session(request, 'airline_signature', request.POST['signature'])
+            signature = request.POST['signature']
         except:
-            pass
+            signature = request.session['airline_signature']
 
         is_lionair = False
         is_international = False
@@ -429,7 +432,7 @@ def passenger(request):
                 'id_types': id_type,
                 'username': request.session['user_account'],
                 'javascript_version': javascript_version,
-                'signature': request.session['airline_signature'],
+                'signature': signature,
                 'time_limit': request.session['time_limit'],
                 'static_path_url_server': get_url_static_path(),
                 # 'co_uid': request.session['co_uid'],

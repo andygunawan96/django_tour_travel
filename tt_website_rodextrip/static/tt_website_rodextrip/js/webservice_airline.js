@@ -2751,6 +2751,7 @@ function get_ff_availability(type){
             console.log(msg);
             if(type == ''){
                 document.getElementById('time_limit_input').value = time_limit;
+                document.getElementById('signature').value = signature;
                 document.getElementById('go_to_passenger').submit();
             }else if(type == 'request_new_ssr' && msg.result.error_code == 0)
                 window.location.href='/airline/ssr';
