@@ -40,7 +40,6 @@ def get_report(request):
         "signature": request.POST['signature']
     }
 
-    type = request.POST['type']
     start_date = datetime.strftime(datetime.now() - timedelta(days=30), '%Y-%m-%d')
     end_date = datetime.strftime(datetime.now(), '%Y-%m-%d')
     data = {
@@ -52,24 +51,6 @@ def get_report(request):
     }
 
     res = util.send_request(url=url + 'account', data=data, headers=headers, method='POST', timeout=1000)
-
-    report_type = request.POST['report_of']
-    if report_type == 'overall':
-        print("Hello")
-    elif report_type == 'airline':
-        print("Hello")
-    elif report_type == 'train':
-        print("Hello")
-    elif report_type == 'hotel':
-        print("Hello")
-    elif report_type == 'tour':
-        print("Hello")
-    elif report_type == 'activity':
-        print("hello")
-        # return_label = res['result']['response']['overall_graph']['label']
-        # return_data = res['result']['response']['overall_graph']['data']
-    else:
-        print("Hello")
 
     to_return = {
         'raw_data': res,
