@@ -937,7 +937,7 @@ def get_data_template(request, type='home', provider_type = []):
             except:
                 provider_type = []
 
-        file = read_cache_with_folder_path("data_cache_template")
+        file = read_cache_with_folder_path("data_cache_template", 90911)
         if file:
             for idx, line in enumerate(file.split('\n')):
                 if idx == 0:

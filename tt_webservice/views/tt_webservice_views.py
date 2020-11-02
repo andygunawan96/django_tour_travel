@@ -75,17 +75,18 @@ def read_cache_without_folder_path(file_name, time=300):
         data = file.read()
         file.close()
         if data:
-            res = json.loads('data')
-            if res.get('data'):
-                delta_time = date_time - parse_load_cache(res['datetime'])
-                if delta_time.seconds <= time:
-                    return res['data']
-                elif time != 90911:
-                    return res['data']
+            try:
+                res = json.loads(data)
+                if res.get('data'):
+                    delta_time = date_time - parse_load_cache(res['datetime'])
+                    if delta_time.seconds <= time or time != 90911:
+                        return res['data']
+                    else:
+                        return False
                 else:
-                    return False
-            else:
-                return res
+                    return res
+            except:
+                return data
     except Exception as e:
         return False
 
@@ -96,17 +97,18 @@ def read_cache_with_folder_path(file_name, time=300):
         data = file.read()
         file.close()
         if data:
-            res = json.loads(data)
-            if res.get('data'):
-                delta_time = date_time - parse_load_cache(res['datetime'])
-                if delta_time.seconds <= time:
-                    return res['data']
-                elif time != 90911:
-                    return res['data']
+            try:
+                res = json.loads(data)
+                if res.get('data'):
+                    delta_time = date_time - parse_load_cache(res['datetime'])
+                    if delta_time.seconds <= time or time != 90911:
+                        return res['data']
+                    else:
+                        return False
                 else:
-                    return False
-            else:
-                return res
+                    return res
+            except:
+                return data
 
     except Exception as e:
         return False
