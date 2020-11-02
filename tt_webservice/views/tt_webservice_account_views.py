@@ -687,7 +687,7 @@ def set_highlight_url(request):
 def get_highlight_url(request):
     data = []
     try:
-        file = read_cache_with_folder_path("highlight_data")
+        file = read_cache_with_folder_path("highlight_data", 90911)
         if file:
             for line in file.split('\n'):
                 data.append(line.split(' '))
@@ -715,7 +715,7 @@ def set_contact_url(request):
 def get_contact_url(request):
     data = []
     try:
-        file = read_cache_with_folder_path("contact_data")
+        file = read_cache_with_folder_path("contact_data", 90911)
         for line in file.split('\n'):
             data.append(line.split(':contact:'))
     except:
@@ -742,7 +742,7 @@ def set_social_url(request):
 def get_social_url(request):
     data = []
     try:
-        file = read_cache_with_folder_path("social_data")
+        file = read_cache_with_folder_path("social_data", 90911)
         for line in file.split('\n'):
             data.append(line.split(':social:'))
     except:
@@ -756,7 +756,7 @@ def get_payment_partner(request):
         if not os.path.exists("/var/log/django/payment_partner"):
             os.mkdir('/var/log/django/payment_partner')
         for data in os.listdir('/var/log/django/payment_partner'):
-            file = read_cache_without_folder_path("payment_partner/"+data[:-4])
+            file = read_cache_without_folder_path("payment_partner/"+data[:-4], 90911)
             state = ''
             sequence = ''
             title = ''
@@ -808,7 +808,7 @@ def delete_payment_partner(request):
         data = os.listdir('/var/log/django/payment_partner')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("payment_partner/" + rec[:-4])
+            file = read_cache_without_folder_path("payment_partner/" + rec[:-4], 90911)
             for idx, line in enumerate(file.split('\n')):
                 if idx == 3:
                     line = line.split('\n')[0]
@@ -878,7 +878,7 @@ def set_payment_partner(request):
         #replace
         else:
             if filename == '':
-                file = read_cache_without_folder_path("payment_partner/" + data[int(request.POST['partner_number'])][:-4])
+                file = read_cache_without_folder_path("payment_partner/" + data[int(request.POST['partner_number'])][:-4], 90911)
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
                         text = line.split('\n')[0].split('/')
@@ -903,7 +903,7 @@ def set_payment_partner(request):
         data = os.listdir('/var/log/django/payment_partner')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("payment_partner/" + rec[:-4])
+            file = read_cache_without_folder_path("payment_partner/" + rec[:-4], 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
@@ -945,7 +945,7 @@ def get_about_us(request):
         if not os.path.exists("/var/log/django/about_us"):
             os.mkdir('/var/log/django/about_us')
         for data in os.listdir('/var/log/django/about_us'):
-            file = read_cache_without_folder_path("about_us/" + data[:-4])
+            file = read_cache_without_folder_path("about_us/" + data[:-4], 90911)
             if file:
                 state = ''
                 sequence = ''
@@ -1002,7 +1002,7 @@ def delete_about_us(request):
         data = os.listdir('/var/log/django/about_us')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("about_us/" + rec[:-4])
+            file = read_cache_without_folder_path("about_us/" + rec[:-4], 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1075,7 +1075,7 @@ def set_about_us(request):
         else:
             if request.POST['delete_img'] == 'false':
                 if filename == '':
-                    file = read_cache_without_folder_path("about_us/" + data[int(request.POST['paragraph_number'])][:-4])
+                    file = read_cache_without_folder_path("about_us/" + data[int(request.POST['paragraph_number'])][:-4], 90911)
                     if file:
                         for idx, line in enumerate(file.split('\n')):
                             if idx == 4:
@@ -1103,7 +1103,7 @@ def set_about_us(request):
         data = os.listdir('/var/log/django/about_us')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("about_us/" + rec[:-4])
+            file = read_cache_without_folder_path("about_us/" + rec[:-4], 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1145,7 +1145,7 @@ def get_faq(request):
         if not os.path.exists("/var/log/django/faq"):
             os.mkdir('/var/log/django/faq')
         for data in os.listdir('/var/log/django/faq'):
-            file = read_cache_without_folder_path("faq/" + data[:-4])
+            file = read_cache_without_folder_path("faq/" + data[:-4], 90911)
             if file:
                 state = ''
                 sequence = ''
@@ -1194,7 +1194,7 @@ def delete_faq(request):
         os.remove('/var/log/django/faq/' + data[int(request.POST['faq_number'])])
         data = os.listdir('/var/log/django/faq')
         for rec in data:
-            file = read_cache_without_folder_path("faq/" + rec[:-4])
+            file = read_cache_without_folder_path("faq/" + rec[:-4], 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 4:
@@ -1252,7 +1252,7 @@ def set_faq(request):
         #replace
         else:
             if filename == '':
-                file = read_cache_without_folder_path("faq/" + data[int(request.POST['faq_number'])])
+                file = read_cache_without_folder_path("faq/" + data[int(request.POST['faq_number'])], 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 4:

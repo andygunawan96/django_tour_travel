@@ -277,11 +277,11 @@ def get_banner(request):
         _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     date_time = datetime.now()
     if request.POST['type'] == 'big_banner':
-        file = read_cache_with_folder_path("big_banner_cache")
+        file = read_cache_with_folder_path("big_banner_cache", 86400)
     elif request.POST['type'] == 'small_banner':
-        file = read_cache_with_folder_path("small_banner_cache")
+        file = read_cache_with_folder_path("small_banner_cache", 86400)
     elif request.POST['type'] == 'promotion':
-        file = read_cache_with_folder_path("promotion_banner_cache")
+        file = read_cache_with_folder_path("promotion_banner_cache", 86400)
     if not file:
         res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
         try:
@@ -317,27 +317,7 @@ def get_banner(request):
         except Exception as e:
             _logger.error(msg=str(e) + '\n' + traceback.format_exc())
     else:
-        if request.POST['type'] == 'big_banner':
-            try:
-                file = read_cache_with_folder_path("big_banner_cache")
-                if file:
-                    res = file
-            except Exception as e:
-                _logger.error('ERROR big_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
-        elif request.POST['type'] == 'small_banner':
-            try:
-                file = read_cache_with_folder_path("small_banner_cache")
-                if file:
-                    res = file
-            except Exception as e:
-                _logger.error('ERROR small_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
-        elif request.POST['type'] == 'promotion':
-            try:
-                file = read_cache_with_folder_path("promotion_banner_cache")
-                if file:
-                    res = file
-            except Exception as e:
-                _logger.error('ERROR promotion_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
+        res = file
     return res
 
 
@@ -430,7 +410,7 @@ def get_public_holiday(request):
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }
-        file = read_cache_with_folder_path("get_holiday_cache")
+        file = read_cache_with_folder_path("get_holiday_cache", 86400)
         if not file:
             res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
             try:
@@ -441,9 +421,7 @@ def get_public_holiday(request):
                 _logger.error('ERROR get_public_holiday file \n' + str(e) + '\n' + traceback.format_exc())
         else:
             try:
-                file = read_cache_with_folder_path("get_holiday_cache")
-                if file:
-                    res = file
+                res = file
             except Exception as e:
                 _logger.error('ERROR get_holiday_cache file\n' + str(e) + '\n' + traceback.format_exc())
     except Exception as e:
@@ -463,7 +441,7 @@ def get_dynamic_page(request):
         if not os.path.exists("/var/log/django/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
         for data in os.listdir('/var/log/django/page_dynamic'):
-            file = read_cache_without_folder_path("page_dynamic/"+data[:-4])
+            file = read_cache_without_folder_path("page_dynamic/"+data[:-4], 90911)
             if file:
                 state = ''
                 title = ''
@@ -510,7 +488,7 @@ def get_dynamic_page_detail(request):
         if not os.path.exists("/var/log/django/page_dynamic"):
             os.mkdir('/var/log/django/page_dynamic')
         response = {}
-        file = read_cache_without_folder_path("page_dynamic/" + request.POST['data'])
+        file = read_cache_without_folder_path("page_dynamic/" + request.POST['data'], 90911)
         if file:
             state = ''
             title = ''
@@ -562,7 +540,7 @@ def delete_dynamic_page(request):
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("page_dynamic/" + rec)
+            file = read_cache_without_folder_path("page_dynamic/" + rec, 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
@@ -630,7 +608,7 @@ def set_dynamic_page(request):
         #replace
         else:
             if filename == '':
-                file = read_cache_without_folder_path("page_dynamic/" + data[int(request.POST['page_number'])])
+                file = read_cache_without_folder_path("page_dynamic/" + data[int(request.POST['page_number'])], 90911)
                 if file:
                     for idx, line in enumerate(file.split('\n')):
                         if idx == 3:
@@ -656,7 +634,7 @@ def set_dynamic_page(request):
         data = os.listdir('/var/log/django/page_dynamic')
         image_list = []
         for rec in data:
-            file = read_cache_without_folder_path("page_dynamic/" + rec[:-4])
+            file = read_cache_without_folder_path("page_dynamic/" + rec[:-4], 90911)
             if file:
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:

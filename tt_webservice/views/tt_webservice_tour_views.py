@@ -145,9 +145,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_tour_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_tour_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -166,13 +164,13 @@ def get_auto_complete_gateway(request):
             "name": '',
             "limit": 9999
         }
-        file = read_cache_with_folder_path("tour_cache_data")
+        file = read_cache_with_folder_path("tour_cache_data", 1800)
         if not file:
             res = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=120)
             try:
                 if res['result']['error_code'] == 0:
                     #datetime
-                    write_cache_with_folder(json.dumps(res['result']['response']), "tour_cache_data")
+                    write_cache_with_folder(res['result']['response'], "tour_cache_data")
                     res = {
                         'result': {
                             'error_code': 0,
@@ -787,7 +785,7 @@ def get_auto_complete(request):
     limit = 25
     req = request.POST
     try:
-        file = read_cache_with_folder_path("tour_cache_data")
+        file = read_cache_with_folder_path("tour_cache_data", 1800)
         if file:
             record_cache = file
 

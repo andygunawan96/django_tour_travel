@@ -143,9 +143,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("train_provider")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -163,7 +161,6 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_train_carriers")
     if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -184,9 +181,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_train_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_train_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -194,7 +189,7 @@ def get_carriers(request):
 
 def get_data(request):
     try:
-        file = read_cache_with_folder_path("train_cache_data")
+        file = read_cache_with_folder_path("train_cache_data", 90911)
         if file:
             response = file
 
@@ -209,7 +204,7 @@ def search(request):
     #train
     try:
         train_destinations = []
-        file = read_cache_with_folder_path("train_cache_data")
+        file = read_cache_with_folder_path("train_cache_data", 90911)
         if file:
             response = file
         set_session(request, 'train_request', json.loads(request.POST['search_request']))
@@ -413,7 +408,7 @@ def commit_booking(request):
 def get_booking(request):
     try:
         train_destinations = []
-        file = read_cache_with_folder_path("train_cache_data")
+        file = read_cache_with_folder_path("train_cache_data", 90911)
         if file:
             response = file
         for country in response:

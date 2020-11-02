@@ -438,14 +438,14 @@ def admin(request):
                             filename = fs.save(file.name, file)
                             text += fs.base_url + filename + '\n'
                         else:
-                            file = read_cache_with_folder_path("data_cache_template")
+                            file = read_cache_with_folder_path("data_cache_template", 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 0:
                                         text = line + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template")
+                            file = read_cache_with_folder_path("data_cache_template", 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 0:
@@ -470,7 +470,7 @@ def admin(request):
 
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template")
+                            file = read_cache_with_folder_path("data_cache_template", 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 4:
@@ -491,7 +491,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template")
+                            file = read_cache_with_folder_path("data_cache_template", 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 5:
@@ -512,7 +512,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template")
+                            file = read_cache_with_folder_path("data_cache_template", 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 6:
@@ -540,7 +540,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template")
+                            file = read_cache_with_folder_path("data_cache_template", 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 11:
@@ -560,7 +560,7 @@ def admin(request):
                             text += fs.base_url + filename + '\n'
                     except:
                         try:
-                            file = read_cache_with_folder_path("data_cache_template")
+                            file = read_cache_with_folder_path("data_cache_template", 90911)
                             if file:
                                 for idx, line in enumerate(file.split('\n')):
                                     if idx == 12:
@@ -863,7 +863,7 @@ def top_up_history(request):
 def get_javascript_version():
     javascript_version = 0
     try:
-        file = read_cache_with_folder_path("javascript_version")
+        file = read_cache_with_folder_path("javascript_version", 90911)
         if file:
             javascript_version = int(file)
     except Exception as e:
@@ -873,7 +873,7 @@ def get_javascript_version():
 def get_cache_version():
     cache_version = 0
     try:
-        file = read_cache_with_folder_path("cache_version")
+        file = read_cache_with_folder_path("cache_version", 90911)
         if file:
             cache_version = int(file)
     except Exception as e:
@@ -1076,7 +1076,7 @@ def get_data_template(request, type='home', provider_type = []):
 def contact_us(request):
     data = []
     try:
-        file = read_cache_with_folder_path("contact_data")
+        file = read_cache_with_folder_path("contact_data", 90911)
         if file:
             for line in file.split('\n'):
                 if line != '\n':
@@ -1126,7 +1126,7 @@ def contact_us(request):
 def faq(request):
     data = []
     try:
-        file = read_cache_with_folder_path("faq_data")
+        file = read_cache_with_folder_path("faq_data", 90911)
         if file:
             for line in file.split('\n'):
                 if line != '\n':

@@ -123,7 +123,6 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_activity_carriers")
     if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -708,7 +707,7 @@ def get_auto_complete(request):
     limit = 25
     req = request.POST
     try:
-        file = read_cache_with_folder_path("activity_cache_data")
+        file = read_cache_with_folder_path("activity_cache_data", 86400)
         if file:
             record_cache = file
 

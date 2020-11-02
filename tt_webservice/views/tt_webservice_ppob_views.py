@@ -147,9 +147,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_ppob_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -181,9 +179,7 @@ def get_carrier_providers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_ppob_carriers_provider")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -212,6 +208,7 @@ def get_provider_description(request):
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
                 #datetime
+                res = temp
                 write_cache_with_folder(temp, "get_list_provider_data_ppob")
                 _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
@@ -226,9 +223,7 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_list_provider_data_ppob")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res

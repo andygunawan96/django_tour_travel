@@ -500,7 +500,7 @@ def get_new_cache(signature):
         res_cache_activity = util.send_request(url=url + 'booking/activity', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_activity['result']['error_code'] == 0:
-                write_cache_with_folder(json.dumps(res_cache_activity['result']['response']), "activity_cache_data")
+                write_cache_with_folder(res_cache_activity['result']['response'], "activity_cache_data")
         except Exception as e:
             _logger.info(
                 "ERROR GET CACHE FROM ACTIVITY SEARCH AUTOCOMPLETE" + json.dumps(res_cache_activity) + '\n' + str(
@@ -533,7 +533,7 @@ def get_new_cache(signature):
         res_cache_tour = util.send_request(url=url + 'booking/tour', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_tour['result']['error_code'] == 0:
-                write_cache_with_folder(json.dumps(res_cache_tour['result']['response']), "tour_cache_data")
+                write_cache_with_folder(res_cache_tour['result']['response'], "tour_cache_data")
         except Exception as e:
             _logger.info(
                 "ERROR GET CACHE FROM TOUR SEARCH AUTOCOMPLETE" + json.dumps(res_cache_tour) + '\n' + str(
@@ -638,7 +638,6 @@ def get_new_cache(signature):
                 'response': {
                     'visa': res_config_visa.get('result') and res_config_visa['result']['response'] or False,
                     'passport': res_config_passport.get('result') and res_config_passport['result']['response'] or False,
-                # belum di install
                     'issued_offline': res_config_issued_offline.get('result') and res_config_issued_offline['result']['response'] or False,  # belum di install
                     # 'train': res_origin_train['result']['response'],
                     'activity': res_config_activity.get('result') and res_config_activity['result']['response'] or False,
