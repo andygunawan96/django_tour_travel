@@ -154,9 +154,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_visa_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -187,8 +185,7 @@ def get_config_provider(request):
                 try:
                     file = read_cache_with_folder_path("visa_provider")
                     if file:
-                        for line in file:
-                            res = line
+                        res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list VISA ERROR SIGNATURE " + request.POST['signature'])
@@ -196,10 +193,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("visa_provider")
-            if file:
-                for line in file:
-                    res = line
+            res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list visa file\n' + str(e) + '\n' + traceback.format_exc())
     return res

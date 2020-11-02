@@ -140,7 +140,7 @@ def get_carriers(request):
         try:
             if res['result']['error_code'] == 0:
                 res = res['result']['response']
-                write_cache_with_folder(json.dumps(res), "get_passport_carriers")
+                write_cache_with_folder(res, "get_passport_carriers")
                 _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
@@ -154,9 +154,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_passport_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -195,9 +193,7 @@ def get_config_provider(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("passport_provider")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list passport file\n' + str(e) + '\n' + traceback.format_exc())
     return res

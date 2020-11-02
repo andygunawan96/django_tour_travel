@@ -194,7 +194,6 @@ def get_carrier_code_list(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_airline_active_carriers")
     if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -283,9 +282,7 @@ def get_carrier_code_list(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_airline_active_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -323,9 +320,7 @@ def get_carrier_providers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_list_provider")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -343,7 +338,6 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_airline_carriers")
     if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -364,9 +358,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_airline_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -429,6 +421,7 @@ def get_provider_description(request):
                 temp = {}
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
+                res = temp
                 write_cache_with_folder(temp, "get_list_provider_data")
                 _logger.info("get_provider_list AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
@@ -443,9 +436,7 @@ def get_provider_description(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_list_provider_data")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_list_provider_data file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -455,7 +446,7 @@ def search2(request):
     try:
         # airline
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination")
+        file = read_cache_with_folder_path("airline_destination", 90911)
         if file:
             response = file
         for country in response:
@@ -637,7 +628,7 @@ def search2(request):
 
 def get_data(request):
     try:
-        file = read_cache_with_folder_path("airline_destination")
+        file = read_cache_with_folder_path("airline_destination", 90911)
         if file:
             response = file
 
@@ -651,7 +642,7 @@ def get_price_itinerary(request, boolean, counter):
     try:
         #baru
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination")
+        file = read_cache_with_folder_path("airline_destination", 90911)
         if file:
             response = file
         for country in response:
@@ -1261,7 +1252,7 @@ def get_booking(request):
     try:
         javascript_version = get_cache_version()
         response = get_cache_data(javascript_version)
-        file = read_cache_with_folder_path("airline_destination")
+        file = read_cache_with_folder_path("airline_destination", 90911)
         if file:
             response = file
         airline_destinations = []
@@ -1586,7 +1577,7 @@ def reissue(request):
     try:
         if res['result']['error_code'] == 0:
             airline_destinations = []
-            file = read_cache_with_folder_path("airline_destination")
+            file = read_cache_with_folder_path("airline_destination", 90911)
             if file:
                 response = file
             for country in response:
@@ -1751,7 +1742,7 @@ def sell_journey_reissue_construct(request,boolean, counter):
 
     if res['result']['error_code'] == 0:
         airline_destinations = []
-        file = read_cache_with_folder_path("airline_destination")
+        file = read_cache_with_folder_path("airline_destination", 90911)
         if file:
             response = file
         for country in response:

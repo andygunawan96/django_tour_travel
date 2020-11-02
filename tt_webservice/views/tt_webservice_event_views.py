@@ -122,7 +122,6 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_event_carriers")
     if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
@@ -143,9 +142,7 @@ def get_carriers(request):
             _logger.error(str(e) + '\n' + traceback.format_exc())
     else:
         try:
-            file = read_cache_with_folder_path("get_event_carriers")
-            if file:
-                res = file
+            res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -160,8 +157,7 @@ def get_config(request):
             "action": "get_config",
             "signature": request.POST['signature']
         }
-        date_time = datetime.now()
-        file = read_cache_with_folder_path("event_cache_data")
+        file = read_cache_with_folder_path("event_cache_data", 86400)
         if not file:
             res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
             try:
@@ -171,7 +167,7 @@ def get_config(request):
                 _logger.info(
                     "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(
                         e) + '\n' + traceback.format_exc())
-                file = read_cache_with_folder_path("event_cache_data")
+                file = read_cache_with_folder_path("event_cache_data", 86400)
                 if file:
                     response = file
                 res = {
@@ -182,9 +178,7 @@ def get_config(request):
                     }
                 }
         else:
-            file = read_cache_with_folder_path("event_cache_data")
-            if file:
-                response = file
+            response = file
             res = {
                 'result': {
                     'error_code': 0,
@@ -223,7 +217,7 @@ def get_auto_complete(request):
     limit = 25
     req = request.POST
     try:
-        file = read_cache_with_folder_path("hotel_cache_data")
+        file = read_cache_with_folder_path("hotel_cache_data", 90911)
         if file:
             record_cache = file
 

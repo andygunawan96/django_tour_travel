@@ -556,26 +556,26 @@ function search_ppob(){
 function bills_ppob(){
     $('.btn-next').addClass("running");
     $('.btn-next').prop('disabled', true);
-//    if(user_login.co_agent_frontend_security.includes('b2c_limitation')){
-//        document.getElementById("passengers").value = JSON.stringify({"booker":{"booker_seq_id":bill_response.result.response.booker.seq_id}});
-//        document.getElementById("signature").value = signature;
-//        document.getElementById("provider").value = 'ppob';
-//        document.getElementById("type").value = 'bills';
-//        document.getElementById("voucher_code").value = '';
-//        document.getElementById("discount").value = JSON.stringify({});
-//        document.getElementById("session_time_input").value = 600;
-//        send_url_booking('bills', btoa(bill_response.result.response.order_number), bill_response.result.response.order_number);
-//        document.getElementById('order_number').value = bill_response.result.response.order_number;
-//        document.getElementById('ppob_issued').submit();
-//    }else{
-//        document.getElementById('bill_searchForm').innerHTML+= '<input type="hidden" name="order_number" value='+bill_response.result.response.order_number+'>';
-//        document.getElementById('bill_searchForm').action = '/ppob/booking/' + btoa(bill_response.result.response.order_number);
-//        document.getElementById('bill_searchForm').submit();
-//    }
+    if(user_login.co_agent_frontend_security.includes('b2c_limitation')){
+        document.getElementById("passengers").value = JSON.stringify({"booker":{"booker_seq_id":bill_response.result.response.booker.seq_id}});
+        document.getElementById("signature").value = signature;
+        document.getElementById("provider").value = 'ppob';
+        document.getElementById("type").value = 'ppob';
+        document.getElementById("voucher_code").value = '';
+        document.getElementById("discount").value = JSON.stringify({});
+        document.getElementById("session_time_input").value = 600;
+        send_url_booking('bills', btoa(bill_response.result.response.order_number), bill_response.result.response.order_number);
+        document.getElementById('order_number').value = bill_response.result.response.order_number;
+        document.getElementById('ppob_issued').submit();
+    }else{
+        document.getElementById('bill_searchForm').innerHTML+= '<input type="hidden" name="order_number" value='+bill_response.result.response.order_number+'>';
+        document.getElementById('bill_searchForm').action = '/ppob/booking/' + btoa(bill_response.result.response.order_number);
+        document.getElementById('bill_searchForm').submit();
+    }
     //testing
-    document.getElementById('bill_searchForm').innerHTML+= '<input type="hidden" name="order_number" value='+bill_response.result.response.order_number+'>';
-    document.getElementById('bill_searchForm').action = '/ppob/booking/' + btoa(bill_response.result.response.order_number);
-    document.getElementById('bill_searchForm').submit();
+//    document.getElementById('bill_searchForm').innerHTML+= '<input type="hidden" name="order_number" value='+bill_response.result.response.order_number+'>';
+//    document.getElementById('bill_searchForm').action = '/ppob/booking/' + btoa(bill_response.result.response.order_number);
+//    document.getElementById('bill_searchForm').submit();
 
 }
 

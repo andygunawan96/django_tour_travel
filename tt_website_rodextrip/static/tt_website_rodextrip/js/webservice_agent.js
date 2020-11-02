@@ -209,7 +209,7 @@ function signin(){
                       html: '<span style="color: red;">Error signin </span>' + errorThrown,
                     })
                 }
-           },timeout: 10000
+           },timeout: 60000
         });
     }
 }
