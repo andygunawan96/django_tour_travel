@@ -3,6 +3,7 @@ var airline_data_show = [];
 var airline_data_filter = [];
 var airline_pick_list = [];
 var airline_provider_list_mc = [];
+last_session = '';
 var airline_cookie = '';
 var airline_sid = '';
 var dep_price = [];
@@ -81,6 +82,188 @@ function can_book(departure, arrival){
 
 function get_city(){
 
+}
+
+function airline_redirect_signup(type){
+    if(type != 'signin'){
+        getToken();
+        $.ajax({
+           type: "POST",
+           url: "/webservice/airline",
+           headers:{
+                'action': 'signin',
+           },
+    //       url: "{% url 'tt_backend_rodextrip:social_media_tree_update' %}",
+           data: {},
+           success: function(msg) {
+           try{
+               console.log(msg);
+               if(msg.result.error_code == 0){
+                   airline_signature = msg.result.response.signature;
+                   signature = msg.result.response.signature;
+
+                    if(type != 'search'){
+                        $.ajax({
+                           type: "POST",
+                           url: "/webservice/airline",
+                           headers:{
+                                'action': 'search',
+                           },
+                           data: {
+                               'use_cache': true,
+                               'signature': signature
+                           },
+                           success: function(msg) {
+                           console.log(msg);
+                               if(msg.error_code == 0){
+                                    if(type != 'get_price'){
+                                        $.ajax({
+                                           type: "POST",
+                                           url: "/webservice/airline",
+                                           headers:{
+                                                'action': 'get_price_itinerary',
+                                           },
+                                           data: {
+                                              'use_cache': true,
+                                              'signature': signature
+                                           },
+                                           success: function(resJson) {
+                                                $.ajax({
+                                                   type: "POST",
+                                                   url: "/webservice/airline",
+                                                   headers:{
+                                                        'action': 'get_fare_rules',
+                                                   },
+                                                   data: {
+                                                        'signature': signature
+                                                   },
+                                                   success: function(msg) {
+                                                        if(msg.result.error_code == 0){
+                                                            if(type != 'sell_journeys'){
+                                                                $.ajax({
+                                                                   type: "POST",
+                                                                   url: "/webservice/airline",
+                                                                   headers:{
+                                                                        'action': 'sell_journeys',
+                                                                   },
+                                                                   data: {
+                                                                        'signature': signature,
+                                                                   },
+                                                                   success: function(msg) {
+                                                                       console.log(msg);
+                                                                       if(msg.result.error_code == 0){
+                                                                            $.ajax({
+                                                                               type: "POST",
+                                                                               url: "/webservice/airline",
+                                                                               headers:{
+                                                                                    'action': 'get_seat_availability',
+                                                                               },
+                                                                               data: {
+                                                                                    'signature': signature
+                                                                               },
+                                                                               success: function(msg) {
+                                                                                    console.log(msg);
+                                                                                    $.ajax({
+                                                                                       type: "POST",
+                                                                                       url: "/webservice/airline",
+                                                                                       headers:{
+                                                                                            'action': 'get_ssr_availability',
+                                                                                       },
+                                                                                       data: {
+                                                                                            'signature': signature
+                                                                                       },
+                                                                                       success: function(msg) {
+                                                                                            console.log(msg);
+
+                                                                                       },
+                                                                                       error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                            if(XMLHttpRequest.status == 500){
+                                                                                                $.ajax({
+                                                                                                   type: "POST",
+                                                                                                   url: "/webservice/airline",
+                                                                                                   headers:{
+                                                                                                        'action': 'get_ff_availability',
+                                                                                                   },
+                                                                                                   data: {
+                                                                                                        'signature': signature
+                                                                                                   },
+                                                                                                   success: function(msg) {
+                                                                                                        console.log(msg);
+
+                                                                                                   },
+                                                                                                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                                        if(XMLHttpRequest.status == 500){
+
+                                                                                                        }
+                                                                                                   },timeout: 60000
+                                                                                                });
+                                                                                            }
+                                                                                       },timeout: 60000
+                                                                                    });
+                                                                               },
+                                                                               error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                                    if(XMLHttpRequest.status == 500){
+
+                                                                                    }
+                                                                               },timeout: 60000
+                                                                            });
+                                                                       }
+                                                                   },
+                                                                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                                        if(XMLHttpRequest.status == 500){
+
+                                                                        }
+                                                                   },timeout: 60000
+                                                                });
+                                                            }
+                                                        }
+                                                   },
+                                                   error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                                       if(XMLHttpRequest.status == 500){
+
+                                                       }
+                                                   },timeout: 60000
+                                                });
+                                           },
+                                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                               if(XMLHttpRequest.status == 500){
+
+                                                }
+                                           },timeout: 120000
+                                        });
+                                    }
+                               }
+                           },
+                           error: function(XMLHttpRequest, textStatus, errorThrown) {
+                                if(XMLHttpRequest.status == 500){
+
+                                }
+                           },timeout: 120000 // sets timeout to 120 seconds
+                        });
+                    }
+               }
+           }catch(err){
+               console.log(err)
+            }
+           },
+           error: function(XMLHttpRequest, textStatus, errorThrown) {
+              if(XMLHttpRequest.status == 500){
+                  $("#barFlightSearch").hide();
+                  $("#waitFlightSearch").hide();
+
+                  Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">Error airline signin </span>' + errorThrown,
+                  })
+                  $('.loader-rodextrip').fadeOut();
+                  try{
+                    $("#show_loading_booking_airline").hide();
+                  }catch(err){}
+              }
+           },timeout: 60000
+        });
+    }
 }
 
 function airline_signin(data,type=''){
@@ -697,6 +880,7 @@ function airline_search(provider,carrier_codes){
     document.getElementById("airlines_ticket").innerHTML = '';
     getToken();
     count_progress_bar_airline++;
+    last_session = 'get_price';
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -1390,6 +1574,7 @@ function get_price_itinerary_request(){
     }
 
     document.getElementById("airlines_ticket").innerHTML = '';
+    last_session = 'sell_journeys';
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -2161,6 +2346,7 @@ function get_fare_rules(){
        },
        success: function(msg) {
             console.log(msg);
+            last_session = 'sell_journeys';
             count_fare = 0;
             text_fare = '';
             if(msg.result.error_code == 0){
@@ -2371,6 +2557,8 @@ function get_post_seat_availability(){
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline no request new seat available</span>',
                     })
+                    $('.loader-rodextrip').fadeOut();
+                    $('#show_loading_booking_airline').hide();
                 }
             }else{
                 Swal.fire({
@@ -2416,18 +2604,24 @@ function get_post_ssr_availability(){
                 }
                 if(check_ssr == 1)
                     window.location.href='/airline/ssr';
-                else
+                else{
                     Swal.fire({
                       type: 'error',
                       title: 'Oops!',
                       html: '<span style="color: #ff9900;">Error airline no request new ssr available</span>',
-                    })
-            }else
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: #ff9900;">Error airline ssr availability </span>' + msg.result.error_msg,
-                    })
+                    });
+                    $('.loader-rodextrip').fadeOut();
+                    $('#show_loading_booking_airline').hide();
+                }
+            }else{
+                Swal.fire({
+                  type: 'error',
+                  title: 'Oops!',
+                  html: '<span style="color: #ff9900;">Error airline ssr availability </span>' + msg.result.error_msg,
+                })
+                $('.loader-rodextrip').fadeOut();
+                $('#show_loading_booking_airline').hide();
+            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){
@@ -4396,7 +4590,7 @@ function airline_get_booking(data){
                             text_detail+= `</span>
                         </div>
                     </div>`;
-                    if(msg.result.response.state == 'booked')
+                    if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
@@ -4421,7 +4615,7 @@ function airline_get_booking(data){
                     text_detail+=`
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text_detail+=`
                         <div class="row" id="show_commission" style="display:none;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -4462,6 +4656,7 @@ function airline_get_booking(data){
                                 </div>
                             </div>
                         </div>`;
+                    }
                     text_detail+=`<center>
 
                     <div style="padding-bottom:10px;">

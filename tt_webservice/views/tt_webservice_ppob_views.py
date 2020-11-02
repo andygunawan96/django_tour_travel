@@ -134,26 +134,12 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_ppob_carriers")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['result']['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['datetime'] = parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "get_ppob_carriers")
+                write_cache_with_folder(res, "get_ppob_carriers")
                 _logger.info("get_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 _logger.info("get_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
@@ -163,7 +149,7 @@ def get_carriers(request):
         try:
             file = read_cache_with_folder_path("get_ppob_carriers")
             if file:
-                res = json.loads(file)
+                res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -182,21 +168,8 @@ def get_carrier_providers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_ppob_carriers_provider")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['result']['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
@@ -211,7 +184,7 @@ def get_carrier_providers(request):
         try:
             file = read_cache_with_folder_path("get_ppob_carriers_provider")
             if file:
-                res = json.loads(file)
+                res = file
         except Exception as e:
             _logger.error('ERROR get_ppob_carriers file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -231,31 +204,16 @@ def get_provider_description(request):
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
 
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_list_provider_data_ppob")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
                 temp = {}
                 for i in res['result']['response']['providers']:
                     temp[i['provider']] = i
-                temp['datetime'] = parse_save_cache(datetime.now())
-                res = json.dumps(temp)
                 #datetime
-                write_cache_with_folder(res, "get_list_provider_data_ppob")
+                write_cache_with_folder(temp, "get_list_provider_data_ppob")
                 _logger.info("get_provider_list PPOB RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:

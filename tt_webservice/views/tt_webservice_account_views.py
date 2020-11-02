@@ -717,7 +717,7 @@ def get_contact_url(request):
     try:
         file = read_cache_with_folder_path("contact_data")
         for line in file.split('\n'):
-                data.append(line.split(':contact:'))
+            data.append(line.split(':contact:'))
     except:
         pass
     return data
@@ -744,7 +744,7 @@ def get_social_url(request):
     try:
         file = read_cache_with_folder_path("social_data")
         for line in file.split('\n'):
-                data.append(line.split(':social:'))
+            data.append(line.split(':social:'))
     except:
         pass
     return data

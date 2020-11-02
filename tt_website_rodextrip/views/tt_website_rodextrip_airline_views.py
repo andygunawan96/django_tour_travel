@@ -106,15 +106,15 @@ def search(request):
             # airline
             file = read_cache_with_folder_path("airline_destination")
             if file:
-                airline_destinations = json.loads(file)
+                airline_destinations = file
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                carrier = json.loads(file)
+                carrier = file
             airline_destinations = []
             try:
                 file = read_cache_with_folder_path("get_airline_active_carriers")
                 if file:
-                    response = json.loads(file)
+                    response = file
             except Exception as e:
                 _logger.error('ERROR get_airline_active_carriers file\n' + str(e) + '\n' + traceback.format_exc())
             values = get_data_template(request, 'search')
@@ -163,16 +163,19 @@ def search(request):
                         airline_carriers = []
                         airline_carrier = {'All': {'name': 'All', 'code': 'all'}}
                         for j in response:
-                            airline_carrier[j] = {
-                                'name': response[j]['name'],
-                                'code': response[j]['code'],
-                                'display_name': response[j]['display_name'],
-                                'icao': response[j]['icao'],
-                                'call_sign': response[j]['call_sign'],
-                                'is_favorite': response[j]['is_favorite'],
-                                'provider': response[j]['provider'],
-                                'is_excluded_from_b2c': response[j]['is_excluded_from_b2c']
-                            }
+                            try:
+                                airline_carrier[j] = {
+                                    'name': response[j]['name'],
+                                    'code': response[j]['code'],
+                                    'display_name': response[j]['display_name'],
+                                    'icao': response[j]['icao'],
+                                    'call_sign': response[j]['call_sign'],
+                                    'is_favorite': response[j]['is_favorite'],
+                                    'provider': response[j]['provider'],
+                                    'is_excluded_from_b2c': response[j].get('is_excluded_from_b2c')
+                                }
+                            except Exception as e:
+                                _logger.error(str(e) + '\n' + traceback.format_exc())
                         airline_carriers.append(airline_carrier)
                         airline_carrier = []
 
@@ -256,7 +259,8 @@ def search(request):
                         elif request.POST['radio_airline_type'] == 'oneway':
                             direction = 'OW'
                             return_date.append(request.POST['airline_departure'])
-                except:
+                except Exception as e:
+
                     direction = 'OW'
                     return_date = request.POST['airline_departure']
                     print('airline no return')
@@ -357,7 +361,7 @@ def passenger(request):
             phone_code = sorted(phone_code)
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                carrier = json.loads(file)
+                carrier = file
 
             values = get_data_template(request)
 
@@ -461,7 +465,7 @@ def ssr(request):
             phone_code = sorted(phone_code)
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                carrier = json.loads(file)
+                carrier = file
 
 
             values = get_data_template(request)
@@ -687,7 +691,7 @@ def seat_map(request):
             phone_code = sorted(phone_code)
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                carrier = json.loads(file)
+                carrier = file
 
             values = get_data_template(request)
 
@@ -718,7 +722,7 @@ def seat_map(request):
                 infant = []
                 child = []
                 for pax in request.session['airline_get_booking_response']['result']['response']['passengers']:
-                    if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 > 2:
+                    if pax.get('birth_date') and (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 > 2:
                         pax_type = ''
                         if pax.get('birth_date'):
                             if (datetime.now() - datetime.strptime(pax['birth_date'], '%d %b %Y')).days / 365 < 12:
@@ -896,7 +900,7 @@ def seat_map_public(request, signature=-1):
         phone_code = sorted(phone_code)
         file = read_cache_with_folder_path("get_airline_carriers")
         if file:
-            carrier = json.loads(file)
+            carrier = file
 
         values = get_data_template(request)
 
@@ -1201,7 +1205,7 @@ def review(request):
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                airline_carriers = json.loads(file)
+                airline_carriers = file
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY] #get language from browser
             additional_price_input = ''
@@ -1361,7 +1365,7 @@ def review_after_sales(request):
 
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                airline_carriers = json.loads(file)
+                airline_carriers = file
 
             if translation.LANGUAGE_SESSION_KEY in request.session:
                 del request.session[translation.LANGUAGE_SESSION_KEY]  # get language from browser
@@ -1403,7 +1407,7 @@ def booking(request, order_number):
         try:
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                airline_carriers = json.loads(file)
+                airline_carriers = file
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)
@@ -1435,7 +1439,7 @@ def refund(request, order_number):
         try:
             file = read_cache_with_folder_path("get_airline_carriers")
             if file:
-                airline_carriers = json.loads(file)
+                airline_carriers = file
         except Exception as e:
             _logger.error('ERROR get_airline_carriers file\n' + str(e) + '\n' + traceback.format_exc())
         values = get_data_template(request)

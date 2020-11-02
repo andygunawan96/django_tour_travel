@@ -996,7 +996,7 @@ function bills_get_booking(data){
                             text_detail+= `</span>
                         </div>
                     </div>`;
-                    if(msg.result.response.state == 'booked')
+                    if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
@@ -1021,7 +1021,7 @@ function bills_get_booking(data){
                     text_detail+=`
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text_detail+=`
                         <div class="row" id="show_commission" style="display:none;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -1062,6 +1062,7 @@ function bills_get_booking(data){
                                 </div>
                             </div>
                         </div>`;
+                    }
                     text_detail+=`<center>
 
                     <div style="padding-bottom:10px;">

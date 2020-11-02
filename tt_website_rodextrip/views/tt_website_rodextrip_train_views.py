@@ -204,7 +204,7 @@ def passenger(request):
 
             file = read_cache_with_folder_path("get_train_carriers")
             if file:
-                carrier = json.loads(file)
+                carrier = file
 
             #pax
             adult = []

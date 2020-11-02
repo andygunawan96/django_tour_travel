@@ -278,44 +278,18 @@ def get_banner(request):
     date_time = datetime.now()
     if request.POST['type'] == 'big_banner':
         file = read_cache_with_folder_path("big_banner_cache")
-        if file:
-            res = json.loads(file)
-            try:
-                date_time -= parse_load_cache(res['result']['datetime'])
-            except:
-                pass
-
     elif request.POST['type'] == 'small_banner':
         file = read_cache_with_folder_path("small_banner_cache")
-        if file:
-            res = json.loads(file)
-            try:
-                date_time -= parse_load_cache(res['result']['datetime'])
-            except:
-                pass
     elif request.POST['type'] == 'promotion':
         file = read_cache_with_folder_path("promotion_banner_cache")
-        if file:
-            res = json.loads(file)
-            try:
-                date_time -= parse_load_cache(res['result']['datetime'])
-            except:
-                pass
-    get = False
-    try:
-        if date_time.seconds >= 86400:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url+"content", data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['datetime'] = parse_save_cache(datetime.now())
                 if request.POST['type'] == 'big_banner':
                     try:
                         #tambah datetime
-                        write_cache_with_folder(json.dumps(res), "big_banner_cache")
+                        write_cache_with_folder(res, "big_banner_cache")
                         _logger.info("big_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -323,7 +297,7 @@ def get_banner(request):
                 elif request.POST['type'] == 'small_banner':
                     try:
                         #tambah datetime
-                        write_cache_with_folder(json.dumps(res), "small_banner_cache")
+                        write_cache_with_folder(res, "small_banner_cache")
                         _logger.info("small_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -331,7 +305,7 @@ def get_banner(request):
                 elif request.POST['type'] == 'promotion':
                     try:
                         #tambah datetime
-                        write_cache_with_folder(json.dumps(res), "promotion_banner_cache")
+                        write_cache_with_folder(res, "promotion_banner_cache")
                         _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + request.POST['signature'])
                     except Exception as e:
                         _logger.error(
@@ -347,21 +321,21 @@ def get_banner(request):
             try:
                 file = read_cache_with_folder_path("big_banner_cache")
                 if file:
-                    res = json.loads(file)
+                    res = file
             except Exception as e:
                 _logger.error('ERROR big_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
         elif request.POST['type'] == 'small_banner':
             try:
                 file = read_cache_with_folder_path("small_banner_cache")
                 if file:
-                    res = json.loads(file)
+                    res = file
             except Exception as e:
                 _logger.error('ERROR small_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
         elif request.POST['type'] == 'promotion':
             try:
                 file = read_cache_with_folder_path("promotion_banner_cache")
                 if file:
-                    res = json.loads(file)
+                    res = file
             except Exception as e:
                 _logger.error('ERROR promotion_banner_cache file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -456,23 +430,12 @@ def get_public_holiday(request):
             'start_date': request.POST['start_date'],
             'end_date': request.POST.get('end_date') and request.POST['end_date'] or False,
         }
-        date_time = datetime.now()
         file = read_cache_with_folder_path("get_holiday_cache")
-        if file:
-            res = json.loads(file)
-            date_time -= parse_load_cache(res['result']['datetime'])
-        get = False
-        try:
-            if date_time.seconds >= 86400:
-                get = True
-        except:
-            get = True
-        if get == True:
+        if not file:
             res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
             try:
                 #tambah datetime
-                res['result']['datetime'] = parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "get_holiday_cache")
+                write_cache_with_folder(res, "get_holiday_cache")
                 _logger.info("get_public_holiday RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             except Exception as e:
                 _logger.error('ERROR get_public_holiday file \n' + str(e) + '\n' + traceback.format_exc())
@@ -480,7 +443,7 @@ def get_public_holiday(request):
             try:
                 file = read_cache_with_folder_path("get_holiday_cache")
                 if file:
-                    res = json.loads(file)
+                    res = file
             except Exception as e:
                 _logger.error('ERROR get_holiday_cache file\n' + str(e) + '\n' + traceback.format_exc())
     except Exception as e:

@@ -1208,7 +1208,7 @@ function hotel_get_booking(data){
                           </div>`;
                    document.getElementById('hotel_booking').innerHTML = text;
                    if(msg.result.response.state == 'booked'){
-                       check_payment_payment_method(msg.result.response.booking_name, 'Issued', '', 'billing', 'hotel', signature, {});
+                       check_payment_payment_method(msg.result.response.order_number, 'Issued', '', 'billing', 'hotel', signature, msg.result.response.payment_acquirer_number);
                        $(".issued_booking_btn").show();
                    }
                    text = `
@@ -1254,6 +1254,7 @@ function hotel_get_booking(data){
                         }
                         text+=`</table>`;
                    document.getElementById('hotel_list_room').innerHTML = text;
+                   text = '';
                    text=`
                         <h5>List of Guest(s)</h5>
                         <hr/>
@@ -1272,75 +1273,77 @@ function hotel_get_booking(data){
                                 </tr>`;
                             }
                    text+=`</table>`;
+                   console.log(text);
                    document.getElementById('hotel_passenger').innerHTML = text;
                     if(msg.result.response.state == 'issued'){
-                    document.getElementById('issued-breadcrumb').classList.add("br-active");
-                    document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
-                    document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
+                        document.getElementById('issued-breadcrumb').classList.add("br-active");
+                        document.getElementById('issued-breadcrumb-icon').classList.add("br-icon-active");
+                        document.getElementById('issued-breadcrumb-icon').innerHTML = `<i class="fas fa-check"></i>`;
 
-                    text=`<div class="col-sm-4">
-                                <!--<a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                    <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.booking_name+`', 'ticket','hotel');"/>
+                        text=`<div class="col-sm-4">
+                                    <!--<a href="#" id="seat-map-link" class="hold-seat-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                        <input type="button" id="button-choose-print" class="primary-btn" style="width:100%;" value="Print Ticket" onclick="get_printout('`+msg.result.response.booking_name+`', 'ticket','hotel');"/>
+                                        <div class="ld ld-ring ld-cycle"></div>
+                                    </a>-->
+                               </div>`;
+                        text+=`
+                            <div class="col-sm-4">
+                            </div>
+                            <div class="col-sm-4">
+                                <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
+                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
                                     <div class="ld ld-ring ld-cycle"></div>
-                                </a>-->
-                           </div>`;
-                    text+=`
-                        <div class="col-sm-4">
-                        </div>
-                        <div class="col-sm-4">
-                            <a class="issued-booking-train ld-ext-right" style="color:`+text_color+`;">
-                                <input type="button" class="primary-btn" id="button-issued-print" style="width:100%;" data-toggle="modal" data-target="#printInvoice" value="Print Invoice"/>
-                                <div class="ld ld-ring ld-cycle"></div>
-                            </a>`;
-                        // modal invoice
-                    text+=`
-                            <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
-                                <div class="modal-dialog">
+                                </a>`;
+                            // modal invoice
+                        text+=`
+                                <div class="modal fade" id="printInvoice" role="dialog" data-keyboard="false">
+                                    <div class="modal-dialog">
 
-                                  <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <div class="row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                    <span class="control-label" for="Name">Name</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                    <span class="control-label" for="Additional Information">Additional Information</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                                                    <span class="control-label" for="Address">Address</span>
-                                                    <div class="input-container-search-ticket">
-                                                        <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
-                                                        <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
-                                                    </div>
-                                                </div>
+                                      <!-- Modal content-->
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" style="color:`+text_color+`">Invoice</h4>
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
-                                            <br/>
-                                            <div style="text-align:right;">
-                                                <span>Don't want to edit? just submit</span>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                                        <span class="control-label" for="Name">Name</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_name" placeholder="Name" required="1"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <span class="control-label" for="Additional Information">Additional Information</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <textarea style="width:100%;" rows="4" id="additional_information" name="additional_information" placeholder="Additional Information"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                        <span class="control-label" for="Address">Address</span>
+                                                        <div class="input-container-search-ticket">
+                                                            <textarea style="width:100%;" rows="4" id="bill_address" name="bill_address" placeholder="Address"></textarea>
+                                                            <!--<input type="text" class="form-control o_website_form_input" id="bill_name" name="bill_address" placeholder="Address" required="1"/>-->
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <br/>
-                                                <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.booking_name+`', 'invoice','hotel');"/>
+                                                <div style="text-align:right;">
+                                                    <span>Don't want to edit? just submit</span>
+                                                    <br/>
+                                                    <input type="button" class="primary-btn" id="button-issued-print" style="width:30%;" value="Submit" onclick="get_printout('`+msg.result.response.booking_name+`', 'invoice','hotel');"/>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
+                        document.getElementById('hotel_btn_printout').innerHTML = text;
                     }
-                    document.getElementById('hotel_btn_printout').innerHTML = text;
+
                    //detail
                     text = '';
                     tax = 0;
@@ -1507,7 +1510,7 @@ function hotel_get_booking(data){
                                 text_detail+= `</span>
                             </div>
                         </div>`;
-                        if(msg.result.response.state != 'issued')
+                        if(msg.result.response.state != 'issued' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                             text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                         text_detail+=`<div class="row">
                         <div class="col-lg-12" style="padding-bottom:10px;">
@@ -1532,7 +1535,7 @@ function hotel_get_booking(data){
                         text_detail+=`
                             </div>
                         </div>`;
-                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                             text_detail+=`
                             <div class="row" id="show_commission_hotel" style="display:none;">
                                 <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -1572,6 +1575,7 @@ function hotel_get_booking(data){
                                     text_detail+=`</div>
                                 </div>
                             </div>`;
+                        }
                         text_detail+=`<center>
 
                         <div style="padding-bottom:10px;">
