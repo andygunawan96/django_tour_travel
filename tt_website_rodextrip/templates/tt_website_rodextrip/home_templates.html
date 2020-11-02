@@ -6727,6 +6727,12 @@
       $("#hotel_checkin").val(moment().subtract(-1, 'days').format('DD MMM YYYY'));
       $("#hotel_checkout").val(moment().subtract(-2, 'days').format('DD MMM YYYY'));
       {% endif %}
+      get_banner('big_banner','home');
+      get_banner('small_banner','home');
+      {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
+      get_dynamic_page('home');
+      {% endif %}
+      get_banner('promotion','home');
       var now = moment().format('DD MMM YYYY');
         {% if "airline" in provider %}
             try{
@@ -6881,15 +6887,7 @@
 
     }
     {%endif%}
-    //bank_get_balance();
-    //get_transaction();
-    get_banner('big_banner','home');
-    //get_voucher();
-    get_banner('small_banner','home');
-    {% if website_mode == 'btc' or website_mode == 'btc_btb' %}
-    get_dynamic_page('home');
-    {% endif %}
-    get_banner('promotion','home');
+
 </script>
 
 {% endblock %}
