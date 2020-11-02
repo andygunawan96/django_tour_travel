@@ -129,7 +129,6 @@ def get_carriers(request):
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
                 res = res['result']['response']
                 write_cache_with_folder(res, "get_activity_carriers")
                 _logger.info("get_carriers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])

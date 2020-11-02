@@ -181,8 +181,7 @@ def get_config_provider(request):
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                res['result']['datetime'] = parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "passport_provider")
+                write_cache_with_folder(res, "passport_provider")
                 _logger.info("get_providers PASSPORT RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:

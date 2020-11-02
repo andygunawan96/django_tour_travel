@@ -346,7 +346,7 @@ def get_new_cache(signature):
                             'country': country['name'],
                             'city': destination['city']
                         })
-                write_cache_with_folder(json.dumps(destination_train), "train_cache_data")
+                write_cache_with_folder(destination_train, "train_cache_data")
             else:
                 _logger.info("ERROR GET CACHE FROM TRAIN SEARCH AUTOCOMPLETE" + res_destination_train['result']['error_msg'] + '\n' + traceback.format_exc())
         except Exception as e:
@@ -566,8 +566,7 @@ def get_new_cache(signature):
         res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
         if res['result']['error_code'] == 0:
             try:
-                res['result']['datetime'] = parser.parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "big_banner_cache")
+                write_cache_with_folder(res, "big_banner_cache")
                 _logger.info("big_banner RENEW SUCCESS SIGNATURE " + signature)
             except Exception as e:
                 _logger.error(
@@ -584,8 +583,7 @@ def get_new_cache(signature):
         res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
         if res['result']['error_code'] == 0:
             try:
-                res['result']['datetime'] = parser.parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "small_banner_cache")
+                write_cache_with_folder(res, "small_banner_cache")
                 _logger.info("small_banner RENEW SUCCESS SIGNATURE " + signature)
             except Exception as e:
                 _logger.error(
@@ -602,8 +600,7 @@ def get_new_cache(signature):
         res = util.send_request(url=url + "content", data=data, headers=headers, method='POST')
         if res['result']['error_code'] == 0:
             try:
-                res['result']['datetime'] = parser.parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "promotion_banner_cache")
+                write_cache_with_folder(res, "promotion_banner_cache")
                 _logger.info("promotion_banner RENEW SUCCESS SIGNATURE " + signature)
             except Exception as e:
                 _logger.error(
