@@ -134,25 +134,11 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_passport_carriers")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
                 res = res['result']['response']
                 write_cache_with_folder(json.dumps(res), "get_passport_carriers")
                 _logger.info("get_carriers HOTEL RENEW SUCCESS SIGNATURE " + request.POST['signature'])
@@ -160,7 +146,7 @@ def get_carriers(request):
                 try:
                     file = read_cache_with_folder_path("get_passport_carriers")
                     if file:
-                        res = json.loads(file)
+                        res = file
                     _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -170,7 +156,7 @@ def get_carriers(request):
         try:
             file = read_cache_with_folder_path("get_passport_carriers")
             if file:
-                res = json.loads(file)
+                res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -189,21 +175,8 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("passport_provider")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['result']['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
@@ -215,7 +188,7 @@ def get_config_provider(request):
                 try:
                     file = read_cache_with_folder_path("passport_provider")
                     if file:
-                        res = json.loads(file)
+                        res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list PASSPORT ERROR SIGNATURE " + request.POST['signature'])
@@ -225,7 +198,7 @@ def get_config_provider(request):
         try:
             file = read_cache_with_folder_path("passport_provider")
             if file:
-                res = json.loads(file)
+                res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list passport file\n' + str(e) + '\n' + traceback.format_exc())
     return res

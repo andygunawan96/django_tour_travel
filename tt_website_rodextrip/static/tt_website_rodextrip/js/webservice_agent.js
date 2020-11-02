@@ -145,12 +145,14 @@ function signin(){
            },
            success: function(msg) {
             console.log(msg);
-            if(google_analytics != ''){
-                if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
-                    gtag('event', 'b2c', {'agent_type':'b2c'});
-                else
-                    gtag('event', 'b2b', {'agent_type':'b2b'});
-            }
+            try{
+                if(google_analytics != ''){
+                    if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        gtag('event', 'b2c', {'agent_type':'b2c'});
+                    else
+                        gtag('event', 'b2b', {'agent_type':'b2b'});
+                }
+            }catch(err){}
             if(msg.result.error_code == 0 && msg.result.response.co_agent_frontend_security.includes('login') == true){
                 gotoForm();
                 let timerInterval
@@ -278,13 +280,14 @@ function signin_btc(){
            success: function(msg) {
             console.log(msg);
             if(msg.result.error_code == 0){
-                if(google_analytics != ''){
-                    if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
-                        gtag('event', 'b2c', {'agent_type':'b2c'});
-                    else
-                        gtag('event', 'b2b', {'agent_type':'b2b'});
-                }
-                console.log($('#username').val());
+                try{
+                    if(google_analytics != ''){
+                        if(msg.result.response.co_agent_frontend_security.includes('b2c_limitation') == true)
+                            gtag('event', 'b2c', {'agent_type':'b2c'});
+                        else
+                            gtag('event', 'b2b', {'agent_type':'b2b'});
+                    }
+                }catch(err){}
                 try{
                     document.getElementById('nav-menu-container_no_login').style.display = 'none';
                     document.getElementById('nav-menu-container_login').style.display = 'block';
@@ -295,8 +298,11 @@ function signin_btc(){
                     triggered_balance(false);
                     get_balance(false);
                 }catch(err){}
-//                if(window.location.href.split('/')[window.location.href.split('/').length-1] != 'dashboard')
+                if(window.location.href.split('/')[window.location.href.split('/').length-1] == ''){
                     window.location.href = '/';
+                }else if(window.location.href.split('/')[window.location.href.split('/').length-2] == 'airline'){
+                    airline_redirect_signup(last_session);
+                }
                 let timerInterval;
                 Swal.fire({
                   type: 'success',
@@ -541,6 +547,12 @@ function signup_b2c(){
                       title: 'Create User!',
                       text: 'Please check your email',
                     });
+                }else{
+                    Swal.fire({
+                      type: 'error',
+                      title: 'Oops!',
+                      html: '<span style="color: red;">'+msg.result.error_msg+' </span>',
+                    })
                 }
 
            },

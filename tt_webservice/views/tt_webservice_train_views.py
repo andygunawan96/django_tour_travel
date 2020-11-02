@@ -122,33 +122,19 @@ def get_config_provider(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("train_provider")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['result']['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
                 #datetime
-                res['result']['datetime'] = parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "train_provider")
+                write_cache_with_folder(res, "train_provider")
                 _logger.info("get_providers TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache_with_folder_path("train_provider")
                     if file:
-                        res = json.loads(file)
+                        res = file
                     _logger.info("get_provider_list ERROR USE CACHE SUCCESS SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.info("get_provider_list TRAIN ERROR SIGNATURE " + request.POST['signature'])
@@ -159,7 +145,7 @@ def get_config_provider(request):
         try:
             file = read_cache_with_folder_path("train_provider")
             if file:
-                res = json.loads(file)
+                res = file
         except Exception as e:
             _logger.error('ERROR get_provider_list train file\n' + str(e) + '\n' + traceback.format_exc())
     return res
@@ -179,31 +165,18 @@ def get_carriers(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     date_time = datetime.now()
     file = read_cache_with_folder_path("get_train_carriers")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
                 res = res['result']['response']
-                write_cache_with_folder(json.dumps(res), "get_train_carriers")
+                write_cache_with_folder(res, "get_train_carriers")
                 _logger.info("get_carriers TRAIN RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 try:
                     file = read_cache_with_folder_path("get_train_carriers")
                     if file:
-                        res = json.loads(file)
+                        res = file
                     _logger.info("get_carriers TRAIN ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -213,7 +186,7 @@ def get_carriers(request):
         try:
             file = read_cache_with_folder_path("get_train_carriers")
             if file:
-                res = json.loads(file)
+                res = file
         except Exception as e:
             _logger.error('ERROR get_train_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -223,7 +196,7 @@ def get_data(request):
     try:
         file = read_cache_with_folder_path("train_cache_data")
         if file:
-            response = json.loads(file)
+            response = file
 
         # res = search2(request)
         logging.getLogger("error_info").error("SUCCESS get_data TRAIN SIGNATURE " + request.POST['signature'])
@@ -238,7 +211,7 @@ def search(request):
         train_destinations = []
         file = read_cache_with_folder_path("train_cache_data")
         if file:
-            response = json.loads(file)
+            response = file
         set_session(request, 'train_request', json.loads(request.POST['search_request']))
         for country in response:
             train_destinations.append({
@@ -442,7 +415,7 @@ def get_booking(request):
         train_destinations = []
         file = read_cache_with_folder_path("train_cache_data")
         if file:
-            response = json.loads(file)
+            response = file
         for country in response:
             train_destinations.append({
                 'code': country['code'],

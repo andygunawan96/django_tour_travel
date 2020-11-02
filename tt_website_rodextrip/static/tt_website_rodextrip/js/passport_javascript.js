@@ -484,7 +484,8 @@ function update_table(type){
                 text+=`</div></div>`;
             }
         }catch(err){}
-        text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+            text+=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
         try{
             grand_total_price = price;
             grand_total_price += upsell_price;
@@ -643,7 +644,7 @@ function update_table(type){
         }
         if(passport.journey.state == 'booked')
             text+=`<div style="text-align:right; cursor:pointer; padding-bottom:10px;" onclick="show_repricing();"><i class="image-rounded-icon"><img src="/static/tt_website_rodextrip/img/bank.png" style="width:30px; height:30px;" alt="Bank"/></i></div>`;
-        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+        if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
         text+=`
         <div class="row" id="show_commission" style="display: `+display+`;">
             <div class="col-lg-12" style="text-align:center;">
@@ -684,6 +685,7 @@ function update_table(type){
                 </div>
             </div>
         </div>`;
+        }
         text+=`
         <div class="row" style="margin-top:10px; text-align:center;">
            <div class="col-lg-12">

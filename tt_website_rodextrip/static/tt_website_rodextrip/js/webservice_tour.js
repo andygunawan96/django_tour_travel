@@ -1937,7 +1937,7 @@ function tour_get_booking(order_number)
                            <span style="font-weight:bold">IDR `+getrupiah(Math.ceil(total_price))+`</span>
                       </div>
                  </div>`;
-                 if(msg.result.response.state == 'booked')
+                 if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                  price_text+=`
                  <div style="text-align:right; padding-bottom:10px; margin-top:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                  price_text+=`<div class="row">
@@ -1963,7 +1963,7 @@ function tour_get_booking(order_number)
                     price_text+=`
                     </div>
                  </div>`;
-                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                 if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                     price_text+=`
                      <div class="row" id="show_commission" style="display:none;">
                         <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -2004,6 +2004,7 @@ function tour_get_booking(order_number)
                             </div>
                         </div>
                      </div>`;
+                 }
                  price_text+=`
 
                  <div class="row" style="margin-top:10px; text-align:center;">
@@ -2293,7 +2294,7 @@ function table_price_update(msg,type){
     $test += '\nGrand Total : IDR '+ getrupiah(grand_total)+
     '\nPrices and availability may change at any time';
     price_txt += `<hr style="padding:0px;">`;
-    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+    if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
         price_txt +=`<div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
     }
     try{

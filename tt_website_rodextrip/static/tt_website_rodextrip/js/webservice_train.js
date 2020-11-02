@@ -391,24 +391,30 @@ function train_create_booking(val){
        }
         if(msg.result.error_code == 0){
             //send order number
-            if(val == 0){
-                $('.hold-seat-booking-train').removeClass("running");
-                $('.hold-seat-booking-train').attr("disabled", false);
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
-                    send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                    document.getElementById('order_number').value = msg.result.response.order_number;
-                    document.getElementById('train_issued').submit();
+            if(msg.result.response.state == 'booked'){
+                if(val == 0){
+                    $('.hold-seat-booking-train').removeClass("running");
+                    $('.hold-seat-booking-train').attr("disabled", false);
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true){
+                        send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                        document.getElementById('order_number').value = msg.result.response.order_number;
+                        document.getElementById('train_issued').submit();
+                    }else{
+                        document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                        document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
+                        document.getElementById('train_booking').submit();
+                    }
                 }else{
-                    document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
-                    document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
-                    document.getElementById('train_booking').submit();
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
+                        send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
+                    document.getElementById('order_number').value = msg.result.response.order_number;
+                    document.getElementById('issued').action = '/train/booking/' + btoa(msg.result.response.order_number);
+                    document.getElementById('issued').submit();
                 }
             }else{
-                if(user_login.co_agent_frontend_security.includes('b2c_limitation') == true)
-                    send_url_booking('train', btoa(msg.result.response.order_number), msg.result.response.order_number);
-                document.getElementById('order_number').value = msg.result.response.order_number;
-                document.getElementById('issued').action = '/train/booking/' + btoa(msg.result.response.order_number);
-                document.getElementById('issued').submit();
+                document.getElementById('train_booking').innerHTML+= '<input type="hidden" name="order_number" value='+msg.result.response.order_number+'>';
+                document.getElementById('train_booking').action = '/train/booking/' + btoa(msg.result.response.order_number);
+                document.getElementById('train_booking').submit();
             }
 //            gotoForm();
         }else{
@@ -1032,7 +1038,7 @@ function train_get_booking(data){
                         </div>
                     </div>`;
 
-                    if(msg.result.response.state == 'booked')
+                    if(msg.result.response.state == 'booked' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
                         text_detail+=`<div style="text-align:right; padding-bottom:10px;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div>`;
                     text_detail+=`<div class="row">
                     <div class="col-lg-12" style="padding-bottom:10px;">
@@ -1057,7 +1063,7 @@ function train_get_booking(data){
                     text_detail+=`
                         </div>
                     </div>`;
-                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false)
+                    if(user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
                         text_detail+=`
                         <div class="row" id="show_commission" style="display:none;">
                             <div class="col-lg-12 col-xs-12" style="text-align:center;">
@@ -1098,6 +1104,7 @@ function train_get_booking(data){
                                 </div>
                             </div>
                         </div>`;
+                    }
                     text_detail+=`<center>
 
                     <div style="padding-bottom:10px;">

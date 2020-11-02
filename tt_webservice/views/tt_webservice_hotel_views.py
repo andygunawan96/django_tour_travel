@@ -124,21 +124,8 @@ def get_carriers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_hotel_carriers")
-    if file:
-        res = json.loads(file)
-        try:
-            date_time -= parse_load_cache(res['datetime'])
-        except:
-            pass
-    get = False
-    try:
-        if date_time.seconds >= 300:
-            get = True
-    except:
-        get = True
-    if get == True:
+    if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
@@ -150,7 +137,7 @@ def get_carriers(request):
                 try:
                     file = read_cache_with_folder_path("get_hotel_carriers")
                     if file:
-                        res = json.loads(file)
+                        res = file
                     _logger.info("get_carriers HOTEL ERROR USE CACHE SIGNATURE " + request.POST['signature'])
                 except Exception as e:
                     _logger.error('ERROR get_carriers file\n' + str(e) + '\n' + traceback.format_exc())
@@ -160,7 +147,7 @@ def get_carriers(request):
         try:
             file = read_cache_with_folder_path("get_hotel_carriers")
             if file:
-                res = json.loads(file)
+                res = file
         except Exception as e:
             _logger.error('ERROR get_hotel_carriers file\n' + str(e) + '\n' + traceback.format_exc())
 
@@ -193,7 +180,7 @@ def get_auto_complete(request):
     try:
         file = read_cache_with_folder_path("hotel_cache_data")
         if file:
-            record_cache = json.loads(file)
+            record_cache = file
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):

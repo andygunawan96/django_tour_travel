@@ -1888,7 +1888,7 @@ function hotel_detail(old_cancellation_policy){
             commission += parseInt(hotel_price.rooms[i].commission) *-1;
         }catch(err){}
         text += `<div class="col-lg-12"><hr/></div>`;
-        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review'){
+        if(document.URL.split('/')[document.URL.split('/').length-1] == 'review' && user_login.co_agent_frontend_security.includes('b2c_limitation') == false){
             text+=`<div class="col-lg-12"><div style="text-align:right;"><img src="/static/tt_website_rodextrip/img/bank.png" alt="Bank" style="width:25px; height:25px; cursor:pointer;" onclick="show_repricing();"/></div></div>`;
         }
         try{

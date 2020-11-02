@@ -658,9 +658,9 @@ def get_new_cache(signature):
         }
 
         # cache airline popular
-        file = read_cache_with_folder_path("popular_destination_airline_cache")
+        file = read_cache_with_folder_path("popular_destination_airline_cache", 90911)
         if file:
-            popular_airline = json.loads(file)
+            popular_airline = file
             popular = []
             average = []
             for country in res_destination_airline['result']['response']:
@@ -689,14 +689,14 @@ def get_new_cache(signature):
                         })
         popular = popular + average
 
-        write_cache_with_folder(json.dumps(popular), "airline_destination")
-        file = read_cache_with_folder_path("cache_version")
+        write_cache_with_folder(popular, "airline_destination")
+        file = read_cache_with_folder_path("cache_version", 90911)
         if file:
             cache_version = int(file) + 1
         else:
             cache_version = 1
-        write_cache_with_folder(json.dumps(res), "version" + str(cache_version))
-        write_cache_with_folder(str(cache_version), "cache_version")
+        write_cache_with_folder(res, "version" + str(cache_version))
+        write_cache_with_folder(cache_version, "cache_version")
         logging.getLogger("info_logger").error("DONE GENERATE NEW CACHE!")
         return True
     except Exception as e:
