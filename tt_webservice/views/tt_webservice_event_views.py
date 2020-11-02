@@ -166,8 +166,7 @@ def get_config(request):
             res = util.send_request(url=url + "booking/event", data=data, headers=headers, method='POST', timeout=300)
             try:
                 if res['result']['error_code'] == 0:
-                    res['result']['response']['datetime'] = parse_save_cache(datetime.now())
-                    write_cache_with_folder(json.dumps(res['result']['response']), "event_cache_data")
+                    write_cache_with_folder(res['result']['response'], "event_cache_data")
             except Exception as e:
                 _logger.info(
                     "ERROR GET CACHE FROM EVENT SEARCH AUTOCOMPLETE" + json.dumps(res) + '\n' + str(

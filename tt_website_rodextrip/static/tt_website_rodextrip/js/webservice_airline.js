@@ -538,7 +538,7 @@ function get_carrier_providers(){
        },
        success: function(msg) {
            console.log(msg);
-           provider_list = JSON.parse(msg);
+           provider_list = msg;
            carrier_to_provider();
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {

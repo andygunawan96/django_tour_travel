@@ -303,14 +303,12 @@ def get_carrier_providers(request):
         }
     except Exception as e:
         _logger.error(str(e) + '\n' + traceback.format_exc())
-    date_time = datetime.now()
     file = read_cache_with_folder_path("get_list_provider")
     if not file:
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['response']['datetime'] = parse_save_cache(datetime.now())
-                res = json.dumps(res['result']['response'])
+                res = res['result']['response']
                 write_cache_with_folder(res, "get_list_provider")
                 _logger.info("get_carrier_providers AIRLINE RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:

@@ -878,7 +878,7 @@ def set_payment_partner(request):
         #replace
         else:
             if filename == '':
-                file = read_cache_without_folder_path("payment_partner/" + data[int(request.POST['partner_number'])])
+                file = read_cache_without_folder_path("payment_partner/" + data[int(request.POST['partner_number'])][:-4])
                 for idx, line in enumerate(file.split('\n')):
                     if idx == 3:
                         text = line.split('\n')[0].split('/')
@@ -1075,7 +1075,7 @@ def set_about_us(request):
         else:
             if request.POST['delete_img'] == 'false':
                 if filename == '':
-                    file = read_cache_without_folder_path("about_us/" + data[int(request.POST['paragraph_number'])])
+                    file = read_cache_without_folder_path("about_us/" + data[int(request.POST['paragraph_number'])][:-4])
                     if file:
                         for idx, line in enumerate(file.split('\n')):
                             if idx == 4:

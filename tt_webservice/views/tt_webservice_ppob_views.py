@@ -173,8 +173,7 @@ def get_carrier_providers(request):
         res = util.send_request(url=url + 'content', data=data, headers=headers, method='POST')
         try:
             if res['result']['error_code'] == 0:
-                res['result']['datetime'] = parse_save_cache(datetime.now())
-                write_cache_with_folder(json.dumps(res), "get_ppob_carriers_provider")
+                write_cache_with_folder(res, "get_ppob_carriers_provider")
                 _logger.info("get_carrier_providers BILLS RENEW SUCCESS SIGNATURE " + request.POST['signature'])
             else:
                 _logger.info("get_carrier_providers BILLS ERROR SIGNATURE " + request.POST['signature'])
