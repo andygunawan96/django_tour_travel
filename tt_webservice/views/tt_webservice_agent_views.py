@@ -608,7 +608,7 @@ def get_new_cache(signature):
 
         # check sebelum masukkan ke cache
         try:
-            if res_country_airline['result']['error_code'] == 0:
+            if res_country_airline['result']['error_code'] != 0:
                 _logger.info(
                     "ERROR GET CACHE FROM AIRLINE COUNTRY GATEWAY" + json.dumps(res_country_airline))
 

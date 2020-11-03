@@ -170,7 +170,7 @@ function get_provider_list(type){
        },
        success: function(msg) {
            console.log(msg);
-           provider_list_data = JSON.parse(msg);
+           provider_list_data = msg;
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
             if(XMLHttpRequest.status == 500){
@@ -646,7 +646,7 @@ function ppob_get_booking(data){
                 }else if(msg.result.response.state == 'booked'){
                    try{
                        if(now.diff(hold_date_time, 'minutes')<0)
-                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'bills', signature, msg.result.response.payment_acquirer_number);
+                           check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'ppob', signature, msg.result.response.payment_acquirer_number);
                        get_payment = true;
     //                   get_payment_acq('Issued',msg.result.response.booker.seq_id, msg.result.response.order_number, 'billing',signature,'airline');
                        document.getElementById('voucher_div').style.display = '';
@@ -743,7 +743,7 @@ function ppob_get_booking(data){
                         for(i in msg.result.response.provider_booking){
                             if(msg.result.response.state == 'booked' && printed_hold_date == false){
                                 if(get_payment == false){
-                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'bills', signature, msg.result.response.payment_acquirer_number);
+                                   check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'ppob', signature, msg.result.response.payment_acquirer_number);
                                    get_payment = true;
                                 }
     //                                check_payment_payment_method(msg.result.response.order_number, 'Issued', msg.result.response.booker.seq_id, 'billing', 'airline', signature);
@@ -1001,7 +1001,7 @@ function ppob_get_booking(data){
                                         currency = msg.result.response.passengers[j].sale_service_charges[k][l].currency;
                                     if(l == 'RAC')
                                         rac += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
-                                    if(l == 'ROC' || l == 'TAX')
+                                    if(l == 'ROC' )
                                         roc += msg.result.response.passengers[j].sale_service_charges[k][l].amount;
                                 }
                             }
