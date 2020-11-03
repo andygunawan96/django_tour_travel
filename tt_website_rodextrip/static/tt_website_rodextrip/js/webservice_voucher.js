@@ -55,6 +55,7 @@ function check_voucher(){
     if(document.getElementById('voucher_code').value != ''){
         provider_type_id = window.location.href.split('/')[window.location.href.split('/').length-2 + 5 - window.location.href.split('/').length];
         provider_id = [];
+        passenger_list = [];
         order_number = '';
         if(provider_type_id == 'visa'){
             try{
@@ -85,11 +86,27 @@ function check_voucher(){
                 for(i in airline_get_detail.result.response.provider_bookings){
                     provider_id.push(airline_get_detail.result.response.provider_bookings[i].provider)
                 }
+                for(i in airline_get_detail.result.response.passengers){
+                    passenger_list.push({
+                        'first_name': passengers[i][j].first_name,
+                        'last_name': passengers[i][j].last_name
+                    })
+                }
 
             }catch(err){
                 //review
                 for(i in price_itinerary.price_itinerary_provider)
                     provider_id.push(price_itinerary.price_itinerary_provider[i].provider)
+                for(i in passengers){
+                    if(i == 'adult' || i == 'child' || i == 'infant'){
+                        for(j in passengers[i]){
+                            passenger_list.push({
+                                'first_name': passengers[i][j].first_name,
+                                'last_name': passengers[i][j].last_name
+                            })
+                        }
+                    }
+                }
             }
             try{
                 order_number = airline_get_detail.result.response.order_number;
@@ -145,7 +162,8 @@ function check_voucher(){
                 'provider_type_id': provider_type_id,
                 'provider_id': JSON.stringify(provider_id),
                 'voucher_reference': voucher_reference,
-                'order_number': order_number
+                'order_number': order_number,
+                'passengers': JSON.stringify(passenger_list)
            },
            success: function(msg) {
                 voucher_code = voucher_reference;
