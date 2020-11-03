@@ -124,7 +124,8 @@ def check_voucher(request):
             'date': datetime.now().strftime('%Y-%m-%d'),
             'provider_type': request.POST['provider_type_id'],
             'provider': json.loads(request.POST['provider_id']),
-            'order_number': request.POST['order_number']
+            'order_number': request.POST['order_number'],
+            'passenger_list': json.loads(request.POST['passengers']),
             # 'purchase_amount': 0
         }
     except Exception as e:
