@@ -2498,7 +2498,7 @@ function airline_sell_journeys(){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
+            if(XMLHttpRequest.status == 500 || XMLHttpRequest.status == 0){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -2509,7 +2509,7 @@ function airline_sell_journeys(){
                $('.btn-next').prop('disabled', false);
                $('.loader-rodextrip').fadeOut();
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 
 }
@@ -2550,7 +2550,7 @@ function get_seat_availability(type){
                 })
                 $('.loader-rodextrip').fadeOut();
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -2599,7 +2599,7 @@ function get_post_seat_availability(){
                 })
                 $('.loader-rodextrip').fadeOut();
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 //POST
@@ -2652,7 +2652,7 @@ function get_post_ssr_availability(){
                 })
                 $('.loader-rodextrip').fadeOut();
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -2708,7 +2708,7 @@ function get_seat_map_response(){
                 })
                 $('.loader-rodextrip').fadeOut();
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -2946,7 +2946,7 @@ function get_ssr_availability(type){
                 })
                 $('.loader-rodextrip').fadeOut();
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -2985,7 +2985,7 @@ function get_ff_availability(type){
                 })
                 $('.loader-rodextrip').fadeOut();
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -3049,7 +3049,7 @@ function airline_update_passenger(val){
                 $('.btn-next').removeClass('running');
                 $('.btn-next').prop('disabled', false);
             }
-       },timeout: 60000
+       },timeout: 300000
     });
 }
 
@@ -3460,7 +3460,7 @@ function airline_commit_booking(val){
            }
        },
        error: function(XMLHttpRequest, textStatus, errorThrown) {
-            if(XMLHttpRequest.status == 500){
+            if(XMLHttpRequest.status == 500 || XMLHttpRequest.status == 0){
                 Swal.fire({
                   type: 'error',
                   title: 'Oops!',
@@ -7781,7 +7781,7 @@ function command_cryptic(){
                     })
                     $('.loader-rodextrip').fadeOut();
                 }
-           },timeout: 60000
+           },timeout: 300000
         });
     }else{
         document.getElementById('message').value = '';
