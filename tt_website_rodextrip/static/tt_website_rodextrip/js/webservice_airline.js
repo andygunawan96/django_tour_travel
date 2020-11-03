@@ -99,8 +99,8 @@ function airline_redirect_signup(type){
            try{
                console.log(msg);
                if(msg.result.error_code == 0){
-                   airline_signature = msg.result.response.signature;
-                   signature = msg.result.response.signature;
+                    airline_signature = msg.result.response.signature;
+                    new_login_signature = msg.result.response.signature;
 
                     if(type != 'search'){
                         $.ajax({
@@ -111,7 +111,7 @@ function airline_redirect_signup(type){
                            },
                            data: {
                                'use_cache': true,
-                               'signature': signature
+                               'signature': new_login_signature
                            },
                            success: function(msg) {
                            console.log(msg);
@@ -125,9 +125,10 @@ function airline_redirect_signup(type){
                                            },
                                            data: {
                                               'use_cache': true,
-                                              'signature': signature
+                                              'signature': new_login_signature
                                            },
                                            success: function(resJson) {
+                                                console.log(msg);
                                                 $.ajax({
                                                    type: "POST",
                                                    url: "/webservice/airline",
@@ -135,9 +136,10 @@ function airline_redirect_signup(type){
                                                         'action': 'get_fare_rules',
                                                    },
                                                    data: {
-                                                        'signature': signature
+                                                        'signature': new_login_signature
                                                    },
                                                    success: function(msg) {
+                                                        console.log(msg);
                                                         if(msg.result.error_code == 0){
                                                             if(type != 'sell_journeys'){
                                                                 $.ajax({
@@ -147,7 +149,7 @@ function airline_redirect_signup(type){
                                                                         'action': 'sell_journeys',
                                                                    },
                                                                    data: {
-                                                                        'signature': signature,
+                                                                        'signature': new_login_signature,
                                                                    },
                                                                    success: function(msg) {
                                                                        console.log(msg);
@@ -159,7 +161,7 @@ function airline_redirect_signup(type){
                                                                                     'action': 'get_seat_availability',
                                                                                },
                                                                                data: {
-                                                                                    'signature': signature
+                                                                                    'signature': new_login_signature
                                                                                },
                                                                                success: function(msg) {
                                                                                     console.log(msg);
@@ -170,7 +172,7 @@ function airline_redirect_signup(type){
                                                                                             'action': 'get_ssr_availability',
                                                                                        },
                                                                                        data: {
-                                                                                            'signature': signature
+                                                                                            'signature': new_login_signature
                                                                                        },
                                                                                        success: function(msg) {
                                                                                             console.log(msg);
@@ -185,10 +187,11 @@ function airline_redirect_signup(type){
                                                                                                         'action': 'get_ff_availability',
                                                                                                    },
                                                                                                    data: {
-                                                                                                        'signature': signature
+                                                                                                        'signature': new_login_signature
                                                                                                    },
                                                                                                    success: function(msg) {
                                                                                                         console.log(msg);
+                                                                                                        signature = new_login_signature;
 
                                                                                                    },
                                                                                                    error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -215,6 +218,8 @@ function airline_redirect_signup(type){
                                                                         }
                                                                    },timeout: 60000
                                                                 });
+                                                            }else{
+                                                                signature = new_login_signature;
                                                             }
                                                         }
                                                    },
@@ -231,6 +236,8 @@ function airline_redirect_signup(type){
                                                 }
                                            },timeout: 120000
                                         });
+                                    }else{
+                                        signature = new_login_signature;
                                     }
                                }
                            },
@@ -240,6 +247,8 @@ function airline_redirect_signup(type){
                                 }
                            },timeout: 120000 // sets timeout to 120 seconds
                         });
+                    }else{
+                        signature = new_login_signature;
                     }
                }
            }catch(err){
