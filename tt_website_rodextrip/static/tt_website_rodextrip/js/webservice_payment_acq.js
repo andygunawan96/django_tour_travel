@@ -951,7 +951,7 @@ function set_price(val, type, product_type){
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="force_issued_airline(1);" style="width:100%;">Pay Now<div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="airline_issued('`+airline_get_detail.result.response.order_number+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
-    else if(type == 'bills')
+    else if(type == 'ppob')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="ppob_issued('`+bills_get_detail.result.response.order_number+`');" style="width:100%;">Pay Now <div class="ld ld-ring ld-cycle"></div></button>`;
     else if(type == 'airline_reissue')
         text += `<button type="button" class="btn-next primary-btn hold-seat-booking-train next-loading ld-ext-right" onclick="update_booking_after_sales();" style="width:100%;">Reschedule <div class="ld ld-ring ld-cycle"></div></button>`;
