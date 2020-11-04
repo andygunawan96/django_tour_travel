@@ -88,8 +88,8 @@ function check_voucher(){
                 }
                 for(i in airline_get_detail.result.response.passengers){
                     passenger_list.push({
-                        'first_name': passengers[i][j].first_name,
-                        'last_name': passengers[i][j].last_name
+                        'first_name': airline_get_detail.result.response.passengers[i].first_name,
+                        'last_name': airline_get_detail.result.response.passengers[i].last_name
                     })
                 }
 
@@ -411,7 +411,7 @@ function check_voucher(){
                     document.getElementById('voucher_discount').innerHTML = `
                     <div style="background-color: white; padding: 10px; border: 1px solid rgb(241, 90, 34); margin-top: 15px; position: relative; z-index: 5;"><h4 style="color:#f15a22;">Voucher</h4><hr>
                         <div class="alert alert-danger" role="alert">
-                            <h6>Sorry, Voucher can't be use</h6>
+                            <h6>Sorry, Voucher can't be used</h6>
                         </div>
                         <button class="primary-btn-ticket issued_booking_btn" type="button" style="width:100%; margin-top:15px;" onclick="use_voucher();">
                             Change Voucher Code
