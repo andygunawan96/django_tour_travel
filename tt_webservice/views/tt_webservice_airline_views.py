@@ -129,8 +129,6 @@ def api_models(request):
             res = get_refund_booking(request)
         elif req_data['action'] == 'pre_refund_login':
             res = pre_refund_login(request)
-        elif req_data['action'] == 'send_refund_login':
-            res = send_refund_login(request)
 
         # elif req_data['action'] == 'get_buy_information':
         #     res = get_buy_information(request)
@@ -1885,10 +1883,13 @@ def compute_pax_js(paxs):
 def pre_refund_login(request):
     try:
         provider = []
+        pnr = []
         for provider_bookings in request.session['airline_get_booking_response']['result']['response']['provider_bookings']:
             provider.append(provider_bookings['provider'])
+            pnr.append(provider_bookings['pnr'])
         data = {
-            "provider": provider
+            "provider": provider,
+            "pnr": pnr
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",
@@ -1909,44 +1910,13 @@ def pre_refund_login(request):
         _logger.error(str(e) + '\n' + traceback.format_exc())
     return res
 
-def send_refund_login(request):
-    try:
-        provider = []
-        pnr = []
-        for provider_bookings in request.session['airline_get_booking_response']['result']['response']['provider_bookings']:
-            provider.append(provider_bookings['provider'])
-            pnr.append(provider_bookings['pnr'])
-        data = {
-            "provider": provider,
-            "captcha": json.loads(request.POST['captcha']),
-            "pnr": pnr
-        }
-        headers = {
-            "Accept": "application/json,text/html,application/xml",
-            "Content-Type": "application/json",
-            "action": "send_refund_login",
-            "signature": request.POST['signature'],
-        }
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
-
-    res = util.send_request(url=url + 'booking/airline', data=data, headers=headers, method='POST', timeout=300)
-    try:
-        if res['result']['error_code'] == 0:
-            _logger.info("SUCCESS cancel AIRLINE SIGNATURE " + request.POST['signature'])
-        else:
-            _logger.error("ERROR cancel_airline AIRLINE SIGNATURE " + request.POST['signature'] + ' ' + json.dumps(res))
-    except Exception as e:
-        _logger.error(str(e) + '\n' + traceback.format_exc())
-    return res
-
 def get_refund_booking(request):
-    # nanti ganti ke get_ssr_availability
     try:
         data = {
             'order_number': request.POST['order_number'],
             'passengers': request.POST.get('passengers') and compute_pax_js(request.POST['passengers']) or [],
             'provider_bookings': [],
+            "captcha": json.loads(request.POST['captcha']),
         }
         headers = {
             "Accept": "application/json,text/html,application/xml",

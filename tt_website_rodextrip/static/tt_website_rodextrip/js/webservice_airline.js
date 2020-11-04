@@ -5050,6 +5050,9 @@ function check_refund_btn(){
 }
 
 function check_refund_partial_btn(){
+    try{
+        clearInterval(timeLimitInterval);
+    }catch(err){}
     show_loading();
     please_wait_transaction();
     getToken();
@@ -5060,6 +5063,12 @@ function check_refund_partial_btn(){
         passengers.push($('.refund_pax:checkbox:checked')[index].id);
     });
     //console.log(passengers);
+    captcha = {};
+    if(refund_msg.result.response.length>0){
+        for(i in refund_msg.result.response){
+            captcha[refund_msg.result.response[i].pnr] = document.getElementById('captcha'+parseInt(i+1)).value;
+        }
+    }
     $.ajax({
            type: "POST",
            url: "/webservice/airline",
@@ -5070,6 +5079,7 @@ function check_refund_partial_btn(){
                'order_number': airline_get_detail.result.response.order_number,
                'signature': signature,
                'passengers': JSON.stringify(passengers),
+               'captcha':JSON.stringify(captcha)
            },
            success: function(msg) {
                $("#waitingTransaction").modal('hide');
@@ -5146,6 +5156,9 @@ function check_refund_partial_btn(){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
+                    document.getElementById('captcha').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" id="request_captcha" type="button" onclick="pre_refund_login();" value="Get Capctha">`;
+                    document.getElementById('cancel').hidden = true;
+                    document.getElementById('cancel').innerHTML = '';
                }
            },
            error: function(XMLHttpRequest, textStatus, errorThrown) {
@@ -7841,11 +7854,11 @@ function pre_refund_login(){
                         </div>
                     </div>`;
                     for(i in msg.result.response){
-                        document.getElementById('cancel').innerHTML += `<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response[i]+`"/></center><br/>`;
+                        document.getElementById('cancel').innerHTML += `<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response[i].img+`"/></center><br/>`;
                         document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="text" class="form-control" name="captcha`+parseInt(i+1)+`" id="captcha`+parseInt(i+1)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '">`
                     }
                     document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
-                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="send_refund_login();" value="Check Refund Price Booking">`;
+                    document.getElementById('cancel').innerHTML += `<input class="primary-btn-ticket" style="width:100%;" id="full_refund" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Booking">`;
                     time_limit_captcha = captcha_time;
                     captcha_time_limit_airline();
                 }
@@ -7864,52 +7877,13 @@ function pre_refund_login(){
     });
 }
 
-function send_refund_login(){
-    if(refund_msg.result.response.length>0){
-        captcha = [];
-        for(i in refund_msg.result.response){
-            captcha.push(document.getElementById('captcha'+parseInt(i+1)).value);
-        }
-        $.ajax({
-           type: "POST",
-           url: "/webservice/airline",
-           headers:{
-                'action': 'send_refund_login',
-           },
-           data: {
-                'signature': signature,
-                'captcha': JSON.stringify(captcha)
-           },
-           success: function(msg) {
-               console.log(msg);
-               if(msg.result.error_code ==0){
-                   check_refund_partial_btn();
-               }
-           },
-           error: function(XMLHttpRequest, textStatus, errorThrown) {
-                if(XMLHttpRequest.status == 500){
-                    Swal.fire({
-                      type: 'error',
-                      title: 'Oops!',
-                      html: '<span style="color: red;">Error airline command_cryptic </span>' + errorThrown,
-                    })
-                    $('.loader-rodextrip').fadeOut();
-                }
-           },timeout: 300000
-        });
-    }else{
-        check_refund_partial_btn();
-    }
-}
-
 function captcha_time_limit_airline(){
-    var timeLimitInterval = setInterval(function() {
+    timeLimitInterval = setInterval(function() {
         if(time_limit_captcha!=0){
             time_limit_captcha--;
             document.getElementById('session_time_captcha').innerHTML = ` <i class="fas fa-stopwatch"></i> `;
             if(parseInt(time_limit_captcha/60) % 24 > 0)
                 document.getElementById('session_time_captcha').innerHTML += parseInt(time_limit_captcha/60) % 24 +`m:`;
-            console.log(time_limit_captcha%60);
             document.getElementById('session_time_captcha').innerHTML += (time_limit_captcha%60) +`s`
 
             document.getElementById('elapse_time_captcha').innerHTML = ` <i class="fas fa-clock"></i> `;
