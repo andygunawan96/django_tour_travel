@@ -51,7 +51,7 @@ function get_report_overall(){
     var reportChart = $('#first_chart_report');
     var secondReportChart = $('#second_chart_report');
     var thirdReportChart = $('#third_chart_report');
-    getToken();
+    //getToken();
     $.ajax({
         type: 'POST',
         url: '/webservice/report',
@@ -354,7 +354,7 @@ function get_report_overall(){
             console.log(agent_datalist);
 
             // after document ready then show the input field and all
-            $(document).ready(function(){
+            //$(document).ready(function(){
 
                 $('#provider').append(provider_datalist);
                 $('#agent_type').append(agent_type_datalist);
@@ -365,7 +365,7 @@ function get_report_overall(){
                   if(result.raw_data.result.response.dependencies.is_ho == 1){
                     $('#agent_selector').show();
                   }
-            });
+            //});
         },
         error: function(result){
             console.log("Error");
