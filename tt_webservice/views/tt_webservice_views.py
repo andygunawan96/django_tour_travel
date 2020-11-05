@@ -10,7 +10,7 @@ _logger = logging.getLogger("rodextrip_logger")
 def get_cache_version():
     cache_version = 0
     try:
-        file = read_cache_with_folder_path("cache_version")
+        file = read_cache_with_folder_path("cache_version", 90911)
         if file:
             cache_version = int(file)
     except Exception as e:
@@ -79,7 +79,7 @@ def read_cache_without_folder_path(file_name, time=300):
                 res = json.loads(data)
                 if res.get('data'):
                     delta_time = date_time - parse_load_cache(res['datetime'])
-                    if delta_time.seconds >= time or time != 90911:
+                    if delta_time.seconds >= time or time == 90911:
                         return res['data']
                     else:
                         return False
@@ -101,7 +101,7 @@ def read_cache_with_folder_path(file_name, time=300):
                 res = json.loads(data)
                 if res.get('data'):
                     delta_time = date_time - parse_load_cache(res['datetime'])
-                    if delta_time.seconds >= time or time != 90911:
+                    if delta_time.seconds >= time or time == 90911:
                         return res['data']
                     else:
                         return False

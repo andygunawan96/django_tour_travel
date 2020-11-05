@@ -885,6 +885,8 @@ def get_cache_data(javascript_version):
         file = read_cache_with_folder_path("version" + str(javascript_version), 90911)
         if file:
             response = file
+        else:
+            response = {}
     except Exception as e:
         response = {}
         _logger.error('ERROR version cache file\n' + str(e) + '\n' + traceback.format_exc())
