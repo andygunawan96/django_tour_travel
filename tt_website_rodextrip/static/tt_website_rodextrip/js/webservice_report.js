@@ -1,3 +1,28 @@
+function number_format(number, decimals, dec_point, thousands_sep) {
+// *     example: number_format(1234.56, 2, ',', ' ');
+// *     return: '1 234,56'
+    number = (number + '').replace(',', '').replace(' ', '');
+    var n = !isFinite(+number) ? 0 : +number,
+            prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+            sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+            dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+            s = '',
+            toFixedFix = function (n, prec) {
+                var k = Math.pow(10, prec);
+                return '' + Math.round(n * k) / k;
+            };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
+
 function get_peripherals(card_id, header){
     console.log("LETSGO");
     console.log(header);
@@ -35,7 +60,7 @@ function get_report_overall(){
         },
         data: {
             'signature': signature,
-            'report_of': "overall",
+            'provider_type': "overall",
             'type': "overall"
         },
         success: function(result){
@@ -117,6 +142,14 @@ function get_report_overall(){
                                 labelString: 'Date'
                             }
                         }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, chart){
+                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+                            }
+                        }
                     }
                 }
             }
@@ -165,6 +198,14 @@ function get_report_overall(){
                                 labelString: 'Value'
                             }
                         }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, chart){
+                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+                            }
+                        }
                     }
                 }
             }
@@ -209,6 +250,7 @@ function get_report_overall(){
                     },
                     scales: {
                         yAxes: [{
+                            // config label handler untuk jumlah data
                             type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 							display: true,
 							position: 'left',
@@ -221,6 +263,7 @@ function get_report_overall(){
                                 labelString: '# of data'
                             }
                         },{
+                            // config label handler untuk IDR
                             type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 							display: true,
 							position: 'right',
@@ -229,7 +272,10 @@ function get_report_overall(){
 								drawOnChartArea: false
 							},
                             ticks: {
-                                beginAtZero: true
+                                beginAtZero: true,
+                                callback: function(value, index, values) {
+                                    return 'IDR ' + number_format(value);
+                                }
                             },
                             stack: true,
                             scaleLabel: {
@@ -244,6 +290,14 @@ function get_report_overall(){
                                 labelString: 'Agent'
                             }
                         }]
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, chart){
+                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+                            }
+                        }
                     }
                 }
             }
@@ -258,16 +312,60 @@ function get_report_overall(){
             $('#average_rupiah').html(result.raw_data.result.response.average_rupiah);
 
             // overview section
-            contents = "<h2>Group by Category</h2>";
-            contents += `<table>`;
-            for (key in result.raw_data.result.response.overview){
-                console.log(key);
-                console.log(result.raw_data.result.response.overview[key].provider);
-                contents += `<tr><td>` + result.raw_data.result.response.overview[key].provider + `</td><td>` + result.raw_data.result.response.overview[key].issued + `</td></tr>`;
-            }
-            contents += `</table>`;
+            contents = overview_overall(result.raw_data.result.response.first_overview);
+            $('#first_overview_content').html(contents);
 
-            $('#overview_content').html(contents);
+            // second overview secction
+            second_contents = overview_book_issued(result.raw_data.result.response.second_overview);
+            $('#second_overview_content').html(second_contents);
+
+            /////////////////////////////////
+            // handler of dynamic session
+            /////////////////////////////////
+
+            //provider data
+            var provider_datalist = ``;
+            result.raw_data.result.response.dependencies.provider_type.forEach(function(item, index){
+                provider_datalist += `<option value="overall_`+ item +`">`+ item +`</option>`
+            });
+
+            //sub provider data
+//            var sub_provider_datalist = ``;
+//            result.raw_data.result.response.dependencies.sub_provider.forEach(function(item){
+//                sub_provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`
+//            }
+
+            // agent type
+            var agent_type_datalist = ``;
+            result.raw_data.result.response.dependencies.agent_type.forEach(function(item){
+                agent_type_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`;
+            });
+
+            // proceed with agent data
+            var agent_datalist = ``;
+            result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
+                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+            });
+
+            // for debugging purposes
+//            console.log(agent_datalist);
+//            console.log(agent_type_datalist);
+//            console.log(provider_datalist);
+            console.log(agent_datalist);
+
+            // after document ready then show the input field and all
+            $(document).ready(function(){
+
+                $('#provider').append(provider_datalist);
+                $('#agent_type').append(agent_type_datalist);
+                $('#agent').append(agent_datalist);
+                $('#agent').selectize({
+                      sortField: 'text'
+                  });
+                  if(result.raw_data.result.response.dependencies.is_ho == 1){
+                    $('#agent_selector').show();
+                  }
+            });
         },
         error: function(result){
             console.log("Error");
@@ -326,7 +424,7 @@ $('#report_form').submit(function(evt){
         },
         success: function(result){
             // for debugging purpose
-//            console.log(result);
+            console.log(result);
             //console.log(data.date.start);
 //            $("#get_report_startdate").val(result.start_date);
 //            console.log(data.date.end);
@@ -407,9 +505,17 @@ $('#report_form').submit(function(evt){
             third_chart_object = new Chart(third_ctx, thirdConfig);
             third_chart_object.update();
 
-            // update peripherals
+            // peripherals
             $('#total_rupiah').html(result.raw_data.result.response.total_rupiah);
             $('#average_rupiah').html(result.raw_data.result.response.average_rupiah);
+
+            // overview section
+            contents = overview_overall(result.raw_data.result.response.first_overview);
+            $('#first_overview_content').html(contents);
+
+            // second overview secction
+            second_contents = overview_book_issued(result.raw_data.result.response.second_overview);
+            $('#second_overview_content').html(second_contents);
 
             // enabled button
              $('#update_chart_button').prop('disabled', false);
@@ -463,7 +569,85 @@ function update_chart(button_class, canvas_id, action, report_title, report_of, 
     });
 }
 
+// handler for overview data
+// input is object that has been trim to the exact object needed to print
+// in overall case means
+// return.raw_data.result.response.first_overview
+// why first, this will be the default page (hence first section)
+// will also  be use to name the section(s)
+function overview_overall(data){
+    // declare return variable
+    var content = ``;
 
-//function update_chart(){
-//    console.log("UPDATE UPDATE");
-//}
+    // first section of overview
+    content += `
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Provider</th>
+                            <th># of issued</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+    `;
+
+    // iterate every data
+    for (i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['provider'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+            </tr>
+        `;
+    }
+
+    // close the html tag
+    content += `
+                    </tbody>
+                </table>
+    `;
+
+    // return content
+    return content
+}
+
+// handler for overview data
+// input is object that has been trim to the exact object needed to print
+// in book issued case means
+// return.raw_data.result.response.second_overview
+// second because book issued will always be in tab 2
+// will also  be use to name the section(s)
+function overview_book_issued(data){
+    // declare a return variable
+    var content = ``;
+
+    // first section of overview
+    content += `
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Provider</th>
+                    <th># reservation</th>
+                    <th>book</th>
+                    <th>issued</th>
+                    <th>expired</th>
+                </tr>
+            </thead>
+            <tbody>
+    `;
+
+    // iterate every data
+    for (i in data){
+        content += `
+            <tr>
+                <td>`+ data[i]['provider'] +`</td>
+                <td>`+ data[i]['counter'] +`</td>
+                <td>`+ data[i]['booked'] +`</td>
+                <td>`+ data[i]['issued'] +`</td>
+            </tr>
+        `;
+    }
+
+    // return result
+    return content;
+}
