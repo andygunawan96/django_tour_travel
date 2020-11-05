@@ -66,7 +66,7 @@ function get_report_overall(){
         success: function(result){
             console.log("This one sparks joy");
             console.log(result);
-
+            try{
             $("#get_report_startdate").val(result.start_date);
 //            console.log(data.date.end);
             $("#get_report_enddate").val(result.end_date);
@@ -343,6 +343,7 @@ function get_report_overall(){
 
             // proceed with agent data
             var agent_datalist = ``;
+            console.log(result.raw_data.result.response.dependencies);
             result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
                 agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
             });
@@ -366,6 +367,7 @@ function get_report_overall(){
                     $('#agent_selector').show();
                   }
             });
+            }catch(err){console.log(err);}
         },
         error: function(result){
             console.log("Error");
