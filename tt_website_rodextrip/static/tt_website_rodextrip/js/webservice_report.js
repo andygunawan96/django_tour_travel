@@ -66,7 +66,6 @@ function get_report_overall(){
         success: function(result){
             console.log("This one sparks joy");
             console.log(result);
-            try{
             $("#get_report_startdate").val(result.start_date);
 //            console.log(data.date.end);
             $("#get_report_enddate").val(result.end_date);
@@ -355,8 +354,8 @@ function get_report_overall(){
             console.log(agent_datalist);
 
             // after document ready then show the input field and all
-            $(document).ready(function(){
-                console.log('lala');
+//            $(document).ready(function(){
+//                console.log('lala');
 //                $('#provider').append(provider_datalist);
 //                $('#agent_type').append(agent_type_datalist);
 //                $('#agent').append(agent_datalist);
@@ -366,8 +365,7 @@ function get_report_overall(){
 //                  if(result.raw_data.result.response.dependencies.is_ho == 1){
 //                    $('#agent_selector').show();
 //                  }
-            });
-            }catch(err){console.log(err);}
+//            });
         },
         error: function(result){
             console.log("Error");
