@@ -386,7 +386,7 @@ def get_new_cache(signature):
         res_cache_hotel = util.send_request(url=url + 'booking/hotel', data=data, headers=headers, method='POST', timeout=120)
         try:
             if res_cache_hotel['result']['error_code'] == 0:
-                write_cache_with_folder(res_cache_hotel['result']['response'], "hotel_cache_data")
+                write_cache_with_folder(json.loads(res_cache_hotel['result']['response']), "hotel_cache_data")
         except Exception as e:
             _logger.info("ERROR GET CACHE FROM HOTEL SEARCH AUTOCOMPLETE" + json.dumps(res_cache_hotel) + '\n' + str(
                     e) + '\n' + traceback.format_exc())

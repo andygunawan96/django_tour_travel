@@ -177,7 +177,7 @@ def get_auto_complete(request):
     try:
         file = read_cache_with_folder_path("hotel_cache_data", 90911)
         if file:
-            record_cache = json.loads(file)
+            record_cache = file
 
         record_json = []
         # for rec in filter(lambda x: req['name'].lower() in x['name'].lower(), record_cache):
