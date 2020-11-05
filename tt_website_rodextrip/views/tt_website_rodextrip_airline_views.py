@@ -359,7 +359,7 @@ def passenger(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = read_cache_with_folder_path("get_airline_carriers")
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 carrier = file
 
@@ -463,7 +463,7 @@ def ssr(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = read_cache_with_folder_path("get_airline_carriers")
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 carrier = file
 
@@ -689,7 +689,7 @@ def seat_map(request):
                 if i['phone_code'] not in phone_code:
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
-            file = read_cache_with_folder_path("get_airline_carriers")
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 carrier = file
 
@@ -898,7 +898,7 @@ def seat_map_public(request, signature=-1):
             if i['phone_code'] not in phone_code:
                 phone_code.append(i['phone_code'])
         phone_code = sorted(phone_code)
-        file = read_cache_with_folder_path("get_airline_carriers")
+        file = read_cache_with_folder_path("get_airline_carriers", 90911)
         if file:
             carrier = file
 
@@ -1045,17 +1045,20 @@ def review(request):
                         ff_request = []
                     counter = 0
                     for j in ff_request:
-                        if request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)] != '':
-                            code = ''
-                            for k in j['ff_availability']:
-                                if request.POST['adult_ff_request' + str(i + 1)+'_' + str(counter + 1)] == k['name']:
-                                    code = k['ff_code']
-                                    break
-                            ff_number.append({
-                                "schedule_id": j['schedule_id'],
-                                "ff_number": request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)],
-                                "ff_code": code
-                            })
+                        try:
+                            if request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)] != '':
+                                code = ''
+                                for k in j['ff_availability']:
+                                    if request.POST['adult_ff_request' + str(i + 1)+'_' + str(counter + 1)] == k['name']:
+                                        code = k['ff_code']
+                                        break
+                                ff_number.append({
+                                    "schedule_id": j['schedule_id'],
+                                    "ff_number": request.POST['adult_ff_number' + str(i + 1)+'_' + str(counter + 1)],
+                                    "ff_code": code
+                                })
+                        except Exception as e:
+                            _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
                         counter += 1
                     adult.append({
                         "pax_type": "ADT",
@@ -1147,17 +1150,20 @@ def review(request):
                         ff_request = []
                     counter = 0
                     for j in ff_request:
-                        if request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
-                            code = ''
-                            for k in j['ff_availability']:
-                                if request.POST['child_ff_request' + str(i + 1) + '_' + str(counter + 1)] == k['name']:
-                                    code = k['ff_code']
-                                    break
-                            ff_number.append({
-                                "schedule_id": j['schedule_id'],
-                                "ff_number": request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)],
-                                "ff_code": code
-                            })
+                        try:
+                            if request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)] != '':
+                                code = ''
+                                for k in j['ff_availability']:
+                                    if request.POST['child_ff_request' + str(i + 1) + '_' + str(counter + 1)] == k['name']:
+                                        code = k['ff_code']
+                                        break
+                                ff_number.append({
+                                    "schedule_id": j['schedule_id'],
+                                    "ff_number": request.POST['child_ff_number' + str(i + 1) + '_' + str(counter + 1)],
+                                    "ff_code": code
+                                })
+                        except Exception as e:
+                            _logger.error('FF not found in  POST' + str(e) + '\n' + traceback.format_exc())
                         counter += 1
                     child.append({
                         "pax_type": "CHD",
@@ -1203,7 +1209,7 @@ def review(request):
                     pax['ssr_list'] = []
             else:
                 passenger = request.session['airline_create_passengers']['adult'] + request.session['airline_create_passengers']['child']
-            file = read_cache_with_folder_path("get_airline_carriers")
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 airline_carriers = file
             if translation.LANGUAGE_SESSION_KEY in request.session:
@@ -1363,7 +1369,7 @@ def review_after_sales(request):
             except:
                 additional_price_input = 0
 
-            file = read_cache_with_folder_path("get_airline_carriers")
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 airline_carriers = file
 
@@ -1405,7 +1411,7 @@ def booking(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            file = read_cache_with_folder_path("get_airline_carriers")
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 airline_carriers = file
         except Exception as e:
@@ -1437,7 +1443,7 @@ def refund(request, order_number):
         if 'user_account' not in request.session:
             signin_btc(request)
         try:
-            file = read_cache_with_folder_path("get_airline_carriers")
+            file = read_cache_with_folder_path("get_airline_carriers", 90911)
             if file:
                 airline_carriers = file
         except Exception as e:
