@@ -131,14 +131,25 @@ function set_container_bill(){
                     <div class="input-container-search-ticket btn-group">
                         <div class="form-select" id="default-select">
                             <select id="bpjs_month" name="bpjs_month" class="nice-select-default">`;
-                            print_month = false
+                            print_month = false;
+                            max_count = 12;
                             for(i in month_list){
                                 if(moment().format('MMM') == month_list[i][1]){
                                     print_month = true;
                                     month_counter = 1;
                                 }if(print_month == true){
                                     text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+new Date().getFullYear()+`</option>`;
-                                    month_counter++
+                                    month_counter++;
+                                    max_count--;
+                                }
+                            }
+                            for(i in month_list){
+                                if(max_count != 0){
+                                    text+= `<option value='`+month_counter+`'>`+month_list[i][1]+` `+parseInt(new Date().getFullYear()+1)+`</option>`;
+                                    month_counter++;
+                                    max_count--;
+                                }else{
+                                    break;
                                 }
                             }
                 text+=`

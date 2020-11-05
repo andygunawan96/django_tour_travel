@@ -5342,7 +5342,7 @@ function airline_issued(data){
                    document.getElementById('cancel').hidden = true;
                    document.getElementById('payment_acq').hidden = true;
                    document.getElementById("overlay-div-box").style.display = "none";
-                   $(".issued_booking_btn").remove();
+                   $(".issued_booking_btn").hide(); //kalau error masih keluar button awal remove ivan
                    airline_get_booking(data);
                }else if(msg.result.error_code == 1009){
                    price_arr_repricing = {};
