@@ -53,6 +53,10 @@
 {% endif %}
 {% include 'tt_website_rodextrip/header.html' %}
 <!-- container for "the" form -->
+<div class="datalist" id="agent_datalist">
+
+</div>
+
 <div class="container mt-3 mb-3">
 <div class="card">
     <div class="card-body">
@@ -60,16 +64,8 @@
         <form class="p-3 update_chart" id="report_form" action="/webservice/report">
             {% csrf_token %}
             <input type="hidden" value="get_report" name="action">
-            <select name="report_of" class="form-control mb-3">
-                <option value="overall" selected>Overall</option>
-                <option value="overall_airline">Airline</option>
-                <option value="overall_activity">Activity</option>
-                <option value="overall_event">Event</option>
-                <option value="overall_hotel">Hotel</option>
-                <option value="overall_tour">Tour</option>
-                <option value="overall_train">Train</option>
-                <option value="overall_visa">Visa</option>
-                <option value="overall_offline">Offline</option>
+            <select name="provider_type" id="provider" class="form-control mb-3">
+                <option value="overall" selected>All</option>
             </select>
             <label>Start Date</label>
             <input type="date" name="start_date" id="get_report_startdate">
@@ -80,6 +76,17 @@
                 <option value="date" selected>Date</option>
                 <option value="month">Month</option>
             </select>
+            <div class="form-group" id="agent_selector" style="display:none">
+                <label>Agent Type</label>
+                <select name="agent_type" id="agent_type" placeholder="Select Agent" class="form-control">
+                    <option value="" selected>Select</option>
+                </select>
+                <label>Agent</label>
+                <select name="agent" id="agent" placeholder="Select Agent" class="form-control">
+                    <option value="" selected>Select</option>
+                </select>
+            </div>
+<!--            <input name="agent" list="agent" id="agent">-->
             <button type="submit" id="update_chart_button" style="margin-left:1rem">update</button>
         </form>
     </div>
@@ -147,7 +154,8 @@
 
     </div>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 <script src="{{ static_path }}js/webservice_report.js?version={{javascript_version}}"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 <script>
