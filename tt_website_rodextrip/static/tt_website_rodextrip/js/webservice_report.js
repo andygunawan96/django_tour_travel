@@ -66,294 +66,293 @@ function get_report_overall(){
         success: function(result){
             console.log("This one sparks joy");
             console.log(result);
-            $("#get_report_startdate").val(result.start_date);
-//            console.log(data.date.end);
-            $("#get_report_enddate").val(result.end_date);
-
-            // first graph (issued ratio something)
-            var config = {
-                type: 'bar',
-                data: {
-                    labels: result.raw_data.result.response.first_graph.label,
-                    datasets: [{
-                        label: 'Issued reservation',
-                        stack: 'Stack 0',
-                        backgroundColor: 'orange',
-                        yAxisID: 'y-axis-1',
-                        data: result.raw_data.result.response.first_graph.data
-                    },{
-                        label: 'Revenue',
-                        stack: 'Stack 1',
-                        yAxisID: 'y-axis-2',
-                        backgroundColor: 'green',
-                        data: result.raw_data.result.response.first_graph.data2
-                    },{
-                        label: 'Average',
-                        stack: 'Stack 2',
-                        yAxisID: 'y-axis-2',
-                        backgroundColor: 'blue',
-                        data: result.raw_data.result.response.first_graph.data3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    legend: {
-                        position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text: "Overview Report"
-                    },
-                    scales: {
-                        yAxes: [{
-                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
-							position: 'left',
-							id: 'y-axis-1',
-                            ticks: {
-                                beginAtZero: true
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: '# of data'
-                            }
-                        },{
-                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
-							position: 'right',
-							id: 'y-axis-2',
-							gridLines: {
-								drawOnChartArea: false
-							},
-                            ticks: {
-                                beginAtZero: true
-                            },
-                            stack: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Rupiah'
-                            }
-                        }],
-                        xAxes: [{
-                            stack: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Date'
-                            }
-                        }]
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, chart){
-                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
-                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
-                            }
-                        }
-                    }
-                }
-            }
-            reportChart.data("ChartJs", config);
-            var ctx = reportChart[0].getContext("2d");
-
-            first_chart_object = new Chart(ctx, config);
-
-            // second graph
-            var second_config = {
-                type: 'line',
-                data:{
-                    labels: result.raw_data.result.response.second_graph.label,
-                    datasets: [{
-                        labels: 'Booked',
-					    borderColor: 'red',
-					    data: result.raw_data.result.response.second_graph.data
-                    }, {
-                        labels: 'Issued',
-                        backgroundColor: 'blue',
-					    borderColor: 'blue',
-					    data: result.raw_data.result.response.second_graph.data2
-                    }]
-                },
-                option: {
-                    responsive: true,
-                    legend: {
-                        position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text: "Book-Issued Report"
-                    },
-                    scales: {
-                        xAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Time'
-                            }
-                        }],
-                        yAxes: [{
-                            display: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Value'
-                            }
-                        }]
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, chart){
-                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
-                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
-                            }
-                        }
-                    }
-                }
-            }
-            secondReportChart.data("ChartJs", second_config);
-            var second_ctx = secondReportChart[0].getContext("2d");
-
-            second_chart_object = new Chart(second_ctx, second_config);
-
-            // third graph
-            var third_config = {
-                type: 'bar',
-                data: {
-                    labels: result.raw_data.result.response.third_graph.label,
-                    datasets: [{
-                        label: '# of reservation',
-                        stack: 'Stack 0',
-                        backgroundColor: 'orange',
-                        yAxisID: 'y-axis-1',
-                        data: result.raw_data.result.response.third_graph.data2
-                    },{
-                        label: 'Revenue',
-                        stack: 'Stack 1',
-                        yAxisID: 'y-axis-2',
-                        backgroundColor: 'green',
-                        data: result.raw_data.result.response.third_graph.data
-                    },{
-                        label: 'Average',
-                        stack: 'Stack 2',
-                        yAxisID: 'y-axis-2',
-                        backgroundColor: 'blue',
-                        data: result.raw_data.result.response.third_graph.data3
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    legend: {
-                        position: 'top'
-                    },
-                    title: {
-                        display: true,
-                        text: "Agent Rank Report"
-                    },
-                    scales: {
-                        yAxes: [{
-                            // config label handler untuk jumlah data
-                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
-							position: 'left',
-							id: 'y-axis-1',
-                            ticks: {
-                                beginAtZero: true
-                            },
-                            scaleLabel: {
-                                display: true,
-                                labelString: '# of data'
-                            }
-                        },{
-                            // config label handler untuk IDR
-                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-							display: true,
-							position: 'right',
-							id: 'y-axis-2',
-							gridLines: {
-								drawOnChartArea: false
-							},
-                            ticks: {
-                                beginAtZero: true,
-                                callback: function(value, index, values) {
-                                    return 'IDR ' + number_format(value);
-                                }
-                            },
-                            stack: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Rupiah'
-                            }
-                        }],
-                        xAxes: [{
-                            stack: true,
-                            scaleLabel: {
-                                display: true,
-                                labelString: 'Agent'
-                            }
-                        }]
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem, chart){
-                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
-                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
-                            }
-                        }
-                    }
-                }
-            }
-
-            thirdReportChart.data("ChartJs", third_config);
-            var third_ctx = thirdReportChart[0].getContext("2d");
-
-            third_chart_object = new Chart(third_ctx, third_config);
-
-            // peripherals
-            $('#total_rupiah').html(result.raw_data.result.response.total_rupiah);
-            $('#average_rupiah').html(result.raw_data.result.response.average_rupiah);
-
-            // overview section
-            contents = overview_overall(result.raw_data.result.response.first_overview);
-            $('#first_overview_content').html(contents);
-
-            // second overview secction
-            second_contents = overview_book_issued(result.raw_data.result.response.second_overview);
-            $('#second_overview_content').html(second_contents);
-
-            /////////////////////////////////
-            // handler of dynamic session
-            /////////////////////////////////
-
-            //provider data
-            var provider_datalist = ``;
-            result.raw_data.result.response.dependencies.provider_type.forEach(function(item, index){
-                provider_datalist += `<option value="overall_`+ item +`">`+ item +`</option>`
-            });
-
-            //sub provider data
-//            var sub_provider_datalist = ``;
-//            result.raw_data.result.response.dependencies.sub_provider.forEach(function(item){
-//                sub_provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`
+//            $("#get_report_startdate").val(result.start_date);
+////            console.log(data.date.end);
+//            $("#get_report_enddate").val(result.end_date);
+//
+//            // first graph (issued ratio something)
+//            var config = {
+//                type: 'bar',
+//                data: {
+//                    labels: result.raw_data.result.response.first_graph.label,
+//                    datasets: [{
+//                        label: 'Issued reservation',
+//                        stack: 'Stack 0',
+//                        backgroundColor: 'orange',
+//                        yAxisID: 'y-axis-1',
+//                        data: result.raw_data.result.response.first_graph.data
+//                    },{
+//                        label: 'Revenue',
+//                        stack: 'Stack 1',
+//                        yAxisID: 'y-axis-2',
+//                        backgroundColor: 'green',
+//                        data: result.raw_data.result.response.first_graph.data2
+//                    },{
+//                        label: 'Average',
+//                        stack: 'Stack 2',
+//                        yAxisID: 'y-axis-2',
+//                        backgroundColor: 'blue',
+//                        data: result.raw_data.result.response.first_graph.data3
+//                    }]
+//                },
+//                options: {
+//                    responsive: true,
+//                    legend: {
+//                        position: 'top'
+//                    },
+//                    title: {
+//                        display: true,
+//                        text: "Overview Report"
+//                    },
+//                    scales: {
+//                        yAxes: [{
+//                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+//							display: true,
+//							position: 'left',
+//							id: 'y-axis-1',
+//                            ticks: {
+//                                beginAtZero: true
+//                            },
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: '# of data'
+//                            }
+//                        },{
+//                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+//							display: true,
+//							position: 'right',
+//							id: 'y-axis-2',
+//							gridLines: {
+//								drawOnChartArea: false
+//							},
+//                            ticks: {
+//                                beginAtZero: true
+//                            },
+//                            stack: true,
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: 'Rupiah'
+//                            }
+//                        }],
+//                        xAxes: [{
+//                            stack: true,
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: 'Date'
+//                            }
+//                        }]
+//                    },
+//                    tooltips: {
+//                        callbacks: {
+//                            label: function(tooltipItem, chart){
+//                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+//                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+//                            }
+//                        }
+//                    }
+//                }
 //            }
-
-            // agent type
-            var agent_type_datalist = ``;
-            result.raw_data.result.response.dependencies.agent_type.forEach(function(item){
-                agent_type_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`;
-            });
-
-            // proceed with agent data
-            var agent_datalist = ``;
-            console.log(result.raw_data.result.response.dependencies);
-            result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
-                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
-            });
-
-            // for debugging purposes
-//            console.log(agent_datalist);
-//            console.log(agent_type_datalist);
-//            console.log(provider_datalist);
-            console.log(agent_datalist);
-
-            // after document ready then show the input field and all
+//            reportChart.data("ChartJs", config);
+//            var ctx = reportChart[0].getContext("2d");
+//
+//            first_chart_object = new Chart(ctx, config);
+//
+//            // second graph
+//            var second_config = {
+//                type: 'line',
+//                data:{
+//                    labels: result.raw_data.result.response.second_graph.label,
+//                    datasets: [{
+//                        labels: 'Booked',
+//					    borderColor: 'red',
+//					    data: result.raw_data.result.response.second_graph.data
+//                    }, {
+//                        labels: 'Issued',
+//                        backgroundColor: 'blue',
+//					    borderColor: 'blue',
+//					    data: result.raw_data.result.response.second_graph.data2
+//                    }]
+//                },
+//                option: {
+//                    responsive: true,
+//                    legend: {
+//                        position: 'top'
+//                    },
+//                    title: {
+//                        display: true,
+//                        text: "Book-Issued Report"
+//                    },
+//                    scales: {
+//                        xAxes: [{
+//                            display: true,
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: 'Time'
+//                            }
+//                        }],
+//                        yAxes: [{
+//                            display: true,
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: 'Value'
+//                            }
+//                        }]
+//                    },
+//                    tooltips: {
+//                        callbacks: {
+//                            label: function(tooltipItem, chart){
+//                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+//                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//            secondReportChart.data("ChartJs", second_config);
+//            var second_ctx = secondReportChart[0].getContext("2d");
+//
+//            second_chart_object = new Chart(second_ctx, second_config);
+//
+//            // third graph
+//            var third_config = {
+//                type: 'bar',
+//                data: {
+//                    labels: result.raw_data.result.response.third_graph.label,
+//                    datasets: [{
+//                        label: '# of reservation',
+//                        stack: 'Stack 0',
+//                        backgroundColor: 'orange',
+//                        yAxisID: 'y-axis-1',
+//                        data: result.raw_data.result.response.third_graph.data2
+//                    },{
+//                        label: 'Revenue',
+//                        stack: 'Stack 1',
+//                        yAxisID: 'y-axis-2',
+//                        backgroundColor: 'green',
+//                        data: result.raw_data.result.response.third_graph.data
+//                    },{
+//                        label: 'Average',
+//                        stack: 'Stack 2',
+//                        yAxisID: 'y-axis-2',
+//                        backgroundColor: 'blue',
+//                        data: result.raw_data.result.response.third_graph.data3
+//                    }]
+//                },
+//                options: {
+//                    responsive: true,
+//                    legend: {
+//                        position: 'top'
+//                    },
+//                    title: {
+//                        display: true,
+//                        text: "Agent Rank Report"
+//                    },
+//                    scales: {
+//                        yAxes: [{
+//                            // config label handler untuk jumlah data
+//                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+//							display: true,
+//							position: 'left',
+//							id: 'y-axis-1',
+//                            ticks: {
+//                                beginAtZero: true
+//                            },
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: '# of data'
+//                            }
+//                        },{
+//                            // config label handler untuk IDR
+//                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+//							display: true,
+//							position: 'right',
+//							id: 'y-axis-2',
+//							gridLines: {
+//								drawOnChartArea: false
+//							},
+//                            ticks: {
+//                                beginAtZero: true,
+//                                callback: function(value, index, values) {
+//                                    return 'IDR ' + number_format(value);
+//                                }
+//                            },
+//                            stack: true,
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: 'Rupiah'
+//                            }
+//                        }],
+//                        xAxes: [{
+//                            stack: true,
+//                            scaleLabel: {
+//                                display: true,
+//                                labelString: 'Agent'
+//                            }
+//                        }]
+//                    },
+//                    tooltips: {
+//                        callbacks: {
+//                            label: function(tooltipItem, chart){
+//                                var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label;
+//                                return datasetLabel + ' ' + number_format(tooltipItem.yLabel, 2);
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            thirdReportChart.data("ChartJs", third_config);
+//            var third_ctx = thirdReportChart[0].getContext("2d");
+//
+//            third_chart_object = new Chart(third_ctx, third_config);
+//
+//            // peripherals
+//            $('#total_rupiah').html(result.raw_data.result.response.total_rupiah);
+//            $('#average_rupiah').html(result.raw_data.result.response.average_rupiah);
+//
+//            // overview section
+//            contents = overview_overall(result.raw_data.result.response.first_overview);
+//            $('#first_overview_content').html(contents);
+//
+//            // second overview secction
+//            second_contents = overview_book_issued(result.raw_data.result.response.second_overview);
+//            $('#second_overview_content').html(second_contents);
+//
+//            /////////////////////////////////
+//            // handler of dynamic session
+//            /////////////////////////////////
+//
+//            //provider data
+//            var provider_datalist = ``;
+//            result.raw_data.result.response.dependencies.provider_type.forEach(function(item, index){
+//                provider_datalist += `<option value="overall_`+ item +`">`+ item +`</option>`
+//            });
+//
+//            //sub provider data
+////            var sub_provider_datalist = ``;
+////            result.raw_data.result.response.dependencies.sub_provider.forEach(function(item){
+////                sub_provider_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`
+////            }
+//
+//            // agent type
+//            var agent_type_datalist = ``;
+//            result.raw_data.result.response.dependencies.agent_type.forEach(function(item){
+//                agent_type_datalist += `<option value="`+ item['code'] +`">`+ item['name'] +`</option>`;
+//            });
+//
+//            // proceed with agent data
+//            var agent_datalist = ``;
+//            console.log(result.raw_data.result.response.dependencies);
+//            result.raw_data.result.response.dependencies.agent_list.forEach(function(item){
+//                agent_datalist += `<option value="`+ item['seq_id'] +`">`+ item['name'] +`</option>`;
+//            });
+//
+//            // for debugging purposes
+////            console.log(agent_datalist);
+////            console.log(agent_type_datalist);
+////            console.log(provider_datalist);
+//
+//             after document ready then show the input field and all
 //            $(document).ready(function(){
 //                console.log('lala');
 //                $('#provider').append(provider_datalist);
