@@ -84,7 +84,7 @@ def read_cache_without_folder_path(file_name, time=300):
                     else:
                         return False
                 else:
-                    return res
+                    return False
             except:
                 return data
     except Exception as e:
@@ -106,7 +106,7 @@ def read_cache_with_folder_path(file_name, time=300):
                     else:
                         return False
                 else:
-                    return res
+                    return False
             except:
                 return data
 
