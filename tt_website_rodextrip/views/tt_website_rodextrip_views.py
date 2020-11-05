@@ -641,7 +641,7 @@ def reservation(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            file = read_cache_with_folder_path("get_airline_active_carriers")
+            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
             if file:
                 airline_carriers = file
 
@@ -685,7 +685,7 @@ def highlight_setting(request):
                     phone_code.append(i['phone_code'])
             phone_code = sorted(phone_code)
 
-            file = read_cache_with_folder_path("get_airline_active_carriers")
+            file = read_cache_with_folder_path("get_airline_active_carriers", 90911)
             if file:
                 airline_carriers = file
 
