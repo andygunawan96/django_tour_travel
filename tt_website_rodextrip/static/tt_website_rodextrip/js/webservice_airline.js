@@ -5156,7 +5156,11 @@ function check_refund_partial_btn(){
 
                     $('.hold-seat-booking-train').prop('disabled', false);
                     $('.hold-seat-booking-train').removeClass("running");
-                    document.getElementById('captcha').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" id="request_captcha" type="button" onclick="pre_refund_login();" value="Get Capctha">`;
+                    document.getElementById('captcha').innerHTML = `
+                        <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
+                            Get Capctha
+                            <div class="ld ld-ring ld-cycle"></div>
+                        </button>`;
                     document.getElementById('cancel').hidden = true;
                     document.getElementById('cancel').innerHTML = '';
                }
@@ -7816,6 +7820,7 @@ function cancel_after_sales(){
 }
 
 function pre_refund_login(){
+    document.getElementById('request_captcha').disabled = true;
     $.ajax({
        type: "POST",
        url: "/webservice/airline",
@@ -7827,6 +7832,8 @@ function pre_refund_login(){
        },
        success: function(msg) {
            console.log(msg);
+           document.getElementById('request_captcha').disabled = false;
+           $('#request_captcha').removeClass("running");
            refund_msg = msg;
            if(msg.result.error_code ==0){
                 if(msg.result.response.length == 0){
@@ -7854,7 +7861,7 @@ function pre_refund_login(){
                         </div>
                     </div>`;
                     for(i in msg.result.response){
-                        document.getElementById('cancel').innerHTML += `<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response[i].img+`"/></center><br/>`;
+                        document.getElementById('cancel').innerHTML += msg.result.response[i].pnr+`<center><img style="margin-bottom:5px;" src="data:image/png;base64,`+msg.result.response[i].img+`"/></center><br/>`;
                         document.getElementById('cancel').innerHTML += `<input style="margin-bottom:5px;" type="text" class="form-control" name="captcha`+parseInt(i+1)+`" id="captcha`+parseInt(i+1)+`" placeholder="Captcha " onfocus="this.placeholder = ''" onblur="this.placeholder = 'Captcha '">`
                     }
                     document.getElementById('cancel').innerHTML += `<div id="refund_detail" style="display:none;"></div>`;
@@ -7891,7 +7898,11 @@ function captcha_time_limit_airline(){
                 document.getElementById('elapse_time_captcha').innerHTML += parseInt((captcha_time - time_limit_captcha)/60) % 24 +`m:`;
             document.getElementById('elapse_time_captcha').innerHTML += ((captcha_time - time_limit_captcha)%60) +`s`;
         }else{
-            document.getElementById('captcha').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" id="request_captcha" type="button" onclick="pre_refund_login();" value="Get Capctha">`;
+            document.getElementById('captcha').innerHTML = `
+                <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
+                    Get Capctha
+                    <div class="ld ld-ring ld-cycle"></div>
+                </button>`;
             document.getElementById('cancel').hidden = true;
             document.getElementById('cancel').innerHTML = '';
             clearInterval(timeLimitInterval);
@@ -8027,7 +8038,11 @@ function airline_get_booking_refund(data){
                    if(check_cancel){
                         document.getElementById('captcha').hidden = false;
 //                        document.getElementById('cancel').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" type="button" onclick="check_refund_partial_btn();" value="Check Refund Price Partial"><hr/>`;
-                        document.getElementById('captcha').innerHTML = `<input class="primary-btn-ticket" style="width:100%;" id="request_captcha" type="button" onclick="pre_refund_login();" value="Get Capctha">`;
+                        document.getElementById('captcha').innerHTML = `
+                            <button class="btn-next for-show-website primary-btn next-passenger-train ld-ext-right" id="request_captcha" style="width:100%;" type="button" value="Next" onclick="next_disabled();pre_refund_login();">
+                                Get Capctha
+                                <div class="ld ld-ring ld-cycle"></div>
+                            </button>`;
                    }
                }catch(err){
                 console.log(err);
